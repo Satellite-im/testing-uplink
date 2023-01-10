@@ -2,5 +2,5 @@
 apps/
 node_modules/
 package-lock.json
-eappium.log
+appium.log
 test-results/
