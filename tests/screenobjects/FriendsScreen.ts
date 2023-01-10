@@ -1,31 +1,24 @@
 import AppScreen from "./AppScreen"
 
 const SELECTORS = {
-  ADD_FRIENDS_BUTTON: "~add-friends-button",
   BUTTON_NAV: "~button-nav",
   CHAT_SEARCH_INPUT: "~chat-search-input",
   CHATS_BUTTON: "~chats-button",
   FILES_BUTTON: "~files-button",
   FRIENDS_BUTTON: "~friends-button",
-  MAXIMIZE_WINDOW_BUTTON: "-ios class chain:**/XCUIElementTypeWindow/XCUIElementTypeButton[2]",
+  FRIENDS_LAYOUT: "~friends-layout",
   PRE_RELEASE_INDICATOR: "~pre-release",
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText[`value == \"Pre-release\"`]",
   SETTINGS_BUTTON: "~settings-button",
   SIDEBAR: "~sidebar",
   SIDEBAR_CHILDREN: "~sidebar-children",
   SIDEBAR_SEARCH: "~sidebar-search",
-  SKELETAL_USER: "~skeletal-user",
-  WELCOME_SCREEN: "~welcome-screen",
   WINDOW: "-ios class chain:**/XCUIElementTypeWebView",
 }
 
-class UplinkMainScreen extends AppScreen {
+class FriendsScreen extends AppScreen {
   constructor() {
-    super(SELECTORS.WELCOME_SCREEN)
-  }
-
-  get addFriendsButton() {
-    return $(SELECTORS.ADD_FRIENDS_BUTTON)
+    super(SELECTORS.FRIENDS_LAYOUT)
   }
 
   get buttonNav() {
@@ -40,16 +33,16 @@ class UplinkMainScreen extends AppScreen {
     return $(SELECTORS.CHATS_BUTTON)
   }
 
+  get friendsLayout() {
+    return $(SELECTORS.FRIENDS_LAYOUT)
+  }
+
   get filesButton() {
     return $(SELECTORS.FILES_BUTTON)
   }
 
   get friendsButton() {
     return $(SELECTORS.FRIENDS_BUTTON)
-  }
-
-  get maximizeWindowButton() {
-    return $(SELECTORS.MAXIMIZE_WINDOW_BUTTON)
   }
 
   get prereleaseIndicator() {
@@ -76,33 +69,9 @@ class UplinkMainScreen extends AppScreen {
     return $(SELECTORS.SIDEBAR_SEARCH)
   }
 
-  get skeletalUser() {
-    return $$(SELECTORS.SKELETAL_USER)
-  }
-
-  get welcomeScreen() {
-    return $(SELECTORS.WELCOME_SCREEN)
-  }
-
   get window() {
     return $(SELECTORS.WINDOW)
   }
-
-  async goToFiles() {
-    await (await this.filesButton).click()
-  }
-
-  async goToFriends() {
-    await (await this.friendsButton).click()
-  }
-
-  async goToSettings() {
-    await (await this.settingsButton).click()
-  }
-
-  async maximizeWindow() {
-    await (await this.maximizeWindowButton).click()
-  }
 }
 
-export default new UplinkMainScreen()
+export default new FriendsScreen()
