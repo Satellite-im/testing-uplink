@@ -2,7 +2,7 @@ import CreatePinScreen from "../screenobjects/CreatePinScreen"
 import CreateUserScreen from "../screenobjects/CreateUserScreen"
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen"
 
-describe("Create Pin Screen validations", async () => {
+describe("Create Account Screen Tests", async () => {
   before(async () => {
     // Create an account and go to Main Screen
     await CreatePinScreen.waitForIsShown(true)

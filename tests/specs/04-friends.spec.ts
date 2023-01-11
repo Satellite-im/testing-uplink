@@ -2,7 +2,7 @@ import CreatePinScreen from "../screenobjects/CreatePinScreen"
 import FriendsScreen from "../screenobjects/FriendsScreen"
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen"
 
-describe("Main Screen and Elements are Displayed", async () => {
+describe("Friends Screen Tests", async () => {
   before(async () => {
     await CreatePinScreen.enterPin("1234" + "\n")
     await UplinkMainScreen.maximizeWindow()
@@ -30,8 +30,24 @@ describe("Main Screen and Elements are Displayed", async () => {
     await expect(await FriendsScreen.sidebarSearch).toBeDisplayed()
   })
 
-  it("Go to Friends Screen and validate elements displayed", async() => {
+  it("Go to Friends Screen and validate elements displayed", async () => {
     await expect(await FriendsScreen.friendsLayout).toBeDisplayed()
     await expect(await FriendsScreen.settingsButton).toBeDisplayed()
+  })
+
+  xit("User can type on user search input bar", async () => {
+    
+  })
+
+  xit("Switch to Pending Friends view and validate elements displayed", async () => {
+    
+  })
+
+  xit("Switch to Blocked Friends view and validate elements displayed", async () => {
+    
+  })
+
+  xit("Switch to All Friends view and validate elements displayed", async () => {
+    
   })
 })

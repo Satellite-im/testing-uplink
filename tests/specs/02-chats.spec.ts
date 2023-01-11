@@ -1,7 +1,7 @@
 import CreatePinScreen from "../screenobjects/CreatePinScreen"
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen"
 
-describe("Main Screen and Elements are Displayed", async () => {
+describe("Chats Main Screen Tests", async () => {
   before(async () => {
     await CreatePinScreen.enterPin("1234" + "\n")
     await UplinkMainScreen.waitForIsShown(true)
@@ -33,5 +33,9 @@ describe("Main Screen and Elements are Displayed", async () => {
     await expect(await UplinkMainScreen.addFriendsButton).toBeDisplayed()
     const locator = await (await UplinkMainScreen.welcomeScreen).$('~Add Someone')
     await expect(locator).toHaveTextContaining('Add Someone')
+  })
+
+  xit("Click on add someone redirects to Friends Page", async() => {
+    
   })
 })

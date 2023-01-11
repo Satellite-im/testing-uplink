@@ -2,7 +2,7 @@ import CreatePinScreen from "../screenobjects/CreatePinScreen"
 import FilesScreen from "../screenobjects/FilesScreen"
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen"
 
-describe("Main Screen and Elements are Displayed", async () => {
+describe("Files Screen Tests", async () => {
   before(async () => {
     await CreatePinScreen.enterPin("1234" + "\n")
     await UplinkMainScreen.maximizeWindow()
