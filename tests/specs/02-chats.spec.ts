@@ -3,10 +3,9 @@ import UplinkMainScreen from "../screenobjects/UplinkMainScreen"
 
 describe("Main Screen and Elements are Displayed", async () => {
   before(async () => {
-    // Create an account and go to Main Screen
-    await CreatePinScreen.waitForIsShown(true)
-    await (await CreatePinScreen.pinInput).setValue("1234" + "\n")
+    await CreatePinScreen.enterPin("1234" + "\n")
     await UplinkMainScreen.waitForIsShown(true)
+    await UplinkMainScreen.maximizeWindow()
   })
 
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
@@ -20,6 +19,13 @@ describe("Main Screen and Elements are Displayed", async () => {
     await expect(await UplinkMainScreen.filesButton).toBeDisplayed()
     await expect(await UplinkMainScreen.friendsButton).toBeDisplayed()
     await expect(await UplinkMainScreen.settingsButton).toBeDisplayed()
+  })
+
+  it("Validate Sidebar is displayed in screen", async () => {
+    await expect(await UplinkMainScreen.chatSearchInput).toBeDisplayed()
+    await expect(await UplinkMainScreen.sidebar).toBeDisplayed()
+    await expect(await UplinkMainScreen.sidebarChildren).toBeDisplayed()
+    await expect(await UplinkMainScreen.sidebarSearch).toBeDisplayed()
   })
 
   it("Validate Welcome Screen is displayed", async () => {
