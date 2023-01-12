@@ -1,4 +1,4 @@
-import AppScreen from "./AppScreen"
+import AppScreen from "./AppScreen";
 
 const SELECTORS = {
   ADD_FRIENDS_BUTTON: "~add-friends-button",
@@ -7,9 +7,9 @@ const SELECTORS = {
   CHATS_BUTTON: "~chats-button",
   FILES_BUTTON: "~files-button",
   FRIENDS_BUTTON: "~friends-button",
-  MAXIMIZE_WINDOW_BUTTON: "-ios class chain:**/XCUIElementTypeWindow/XCUIElementTypeButton[2]",
   PRE_RELEASE_INDICATOR: "~pre-release",
-  PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText[`value == \"Pre-release\"`]",
+  PRE_RELEASE_INDICATOR_TEXT:
+    '-ios class chain:**/XCUIElementTypeStaticText[`value == "Pre-release"`]',
   SETTINGS_BUTTON: "~settings-button",
   SIDEBAR: "~sidebar",
   SIDEBAR_CHILDREN: "~sidebar-children",
@@ -17,92 +17,84 @@ const SELECTORS = {
   SKELETAL_USER: "~skeletal-user",
   WELCOME_SCREEN: "~welcome-screen",
   WINDOW: "-ios class chain:**/XCUIElementTypeWebView",
-}
+};
 
 class UplinkMainScreen extends AppScreen {
   constructor() {
-    super(SELECTORS.WELCOME_SCREEN)
+    super(SELECTORS.WELCOME_SCREEN);
   }
 
   get addFriendsButton() {
-    return $(SELECTORS.ADD_FRIENDS_BUTTON)
+    return $(SELECTORS.ADD_FRIENDS_BUTTON);
   }
 
   get buttonNav() {
-    return $(SELECTORS.BUTTON_NAV)
+    return $(SELECTORS.BUTTON_NAV);
   }
 
   get chatSearchInput() {
-    return $(SELECTORS.CHAT_SEARCH_INPUT)
+    return $(SELECTORS.CHAT_SEARCH_INPUT);
   }
 
   get chatsButton() {
-    return $(SELECTORS.CHATS_BUTTON)
+    return $(SELECTORS.CHATS_BUTTON);
   }
 
   get filesButton() {
-    return $(SELECTORS.FILES_BUTTON)
+    return $(SELECTORS.FILES_BUTTON);
   }
 
   get friendsButton() {
-    return $(SELECTORS.FRIENDS_BUTTON)
-  }
-
-  get maximizeWindowButton() {
-    return $(SELECTORS.MAXIMIZE_WINDOW_BUTTON)
+    return $(SELECTORS.FRIENDS_BUTTON);
   }
 
   get prereleaseIndicator() {
-    return $(SELECTORS.PRE_RELEASE_INDICATOR)
+    return $(SELECTORS.PRE_RELEASE_INDICATOR);
   }
 
   get prereleaseIndicatorText() {
-    return $(SELECTORS.PRE_RELEASE_INDICATOR_TEXT)
+    return $(SELECTORS.PRE_RELEASE_INDICATOR_TEXT);
   }
 
   get settingsButton() {
-    return $(SELECTORS.SETTINGS_BUTTON)
+    return $(SELECTORS.SETTINGS_BUTTON);
   }
 
   get sidebar() {
-    return $(SELECTORS.SIDEBAR)
+    return $(SELECTORS.SIDEBAR);
   }
 
   get sidebarChildren() {
-    return $(SELECTORS.SIDEBAR_CHILDREN)
+    return $(SELECTORS.SIDEBAR_CHILDREN);
   }
 
   get sidebarSearch() {
-    return $(SELECTORS.SIDEBAR_SEARCH)
+    return $(SELECTORS.SIDEBAR_SEARCH);
   }
 
   get skeletalUser() {
-    return $$(SELECTORS.SKELETAL_USER)
+    return $$(SELECTORS.SKELETAL_USER);
   }
 
   get welcomeScreen() {
-    return $(SELECTORS.WELCOME_SCREEN)
+    return $(SELECTORS.WELCOME_SCREEN);
   }
 
   get window() {
-    return $(SELECTORS.WINDOW)
+    return $(SELECTORS.WINDOW);
   }
 
   async goToFiles() {
-    await (await this.filesButton).click()
+    await (await this.filesButton).click();
   }
 
   async goToFriends() {
-    await (await this.friendsButton).click()
+    await (await this.friendsButton).click();
   }
 
   async goToSettings() {
-    await (await this.settingsButton).click()
-  }
-
-  async maximizeWindow() {
-    await (await this.maximizeWindowButton).click()
+    await (await this.settingsButton).click();
   }
 }
 
-export default new UplinkMainScreen()
+export default new UplinkMainScreen();

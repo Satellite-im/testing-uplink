@@ -1,4 +1,4 @@
-import { config } from "./wdio.shared.conf"
+import { config } from "./wdio.shared.conf";
 
 //
 // ======
@@ -22,11 +22,11 @@ config.services = (config.services ? config.services : []).concat([
       },
     },
   ],
-])
+]);
 //
 // =====================
 // Server Configurations
 // =====================
 //
 
-export default config
+export default config;

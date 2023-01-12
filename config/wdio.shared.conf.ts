@@ -138,4 +138,4 @@ export const config: WebdriverIO.Config = {
   /**
    * NOTE: No Hooks are used in this project, but feel free to add them if you need them.
    */
-}
+};

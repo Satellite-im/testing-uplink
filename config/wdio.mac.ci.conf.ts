@@ -1,13 +1,13 @@
-const fsp = require("fs").promises
-const mkdirp = require("mkdirp")
+const fsp = require("fs").promises;
+const mkdirp = require("mkdirp");
 
-import config from "./wdio.shared.local.appium.conf"
-import { join } from "path"
+import config from "./wdio.shared.local.appium.conf";
+import { join } from "path";
 
 // ============
 // Specs
 // ============
-config.specs = ["./tests/specs/**/*.spec.ts"]
+config.specs = ["./tests/specs/**/*.spec.ts"];
 
 // ============
 // Capabilities
@@ -26,19 +26,19 @@ config.capabilities = [
     "appium:bundleId": "im.satellite.uplink",
     "appium:newCommandTimeout": 240,
   },
-]
+];
 
 config.afterTest = async function (test, describe, { error }) {
   if (error) {
-    let imageFile = await driver.takeScreenshot()
-    let imageFolder = join(process.cwd(), "./test-results/macos", test.parent)
-    await mkdirp(imageFolder)
+    let imageFile = await driver.takeScreenshot();
+    let imageFolder = join(process.cwd(), "./test-results/macos", test.parent);
+    await mkdirp(imageFolder);
     await fsp.writeFile(
       imageFolder + "/" + test.title + " - Failed.png",
       imageFile,
-      "base64",
-    )
+      "base64"
+    );
   }
-}
+};
 
-exports.config = config
+exports.config = config;

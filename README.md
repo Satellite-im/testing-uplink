@@ -12,17 +12,22 @@ This automation framework is currently based on:
 ## Setting up to run on the local machine
 
 1. First, install all the required dependencies
+
 ```sh
 npm install
 ```
+
 2. Install Appium on a local machine. You can find detailed instructions for this process [here](https://appium.io/docs/en/about-appium/getting-started/)
 3. Add Appium drivers required to execute the tests on the desired platform. For now, the framework only works for macOS
+
 ```sh
 # To Install Appium Mac2 Driver to run the tests on macOS
 appium driver install mac2
 ```
+
 4. Ask the development team to provide the latest .dmg file for macOS testing. Then, install the application manually on your local machine
 5. Once the application is installed, you can run the tests by using the following commands:
+
 ```sh
 # To run the tests under MacOS
 npm run mac.app
