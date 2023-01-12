@@ -3,7 +3,6 @@ import AppScreen from "./AppScreen"
 const SELECTORS = {
   CREATE_ACCOUNT_BUTTON: "~create-account-button",
   INPUT_ERROR: "~input-error",
-  PIN_INPUT: "~pin-input",
   PRE_RELEASE_INDICATOR: "~pre-release",
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText[`value == \"Pre-release\"`]",
   UNLOCK_LAYOUT: "~unlock-layout",
@@ -48,10 +47,6 @@ class CreatePinScreen extends AppScreen {
     return $(SELECTORS.WINDOW)
   }
   
-  async enterPin(pin: string) {
-    await this.pinInput.setValue(pin)
-  }
-
   async enterUsername(username: string) {
     await this.usernameInput.setValue(username)
   }

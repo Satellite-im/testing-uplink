@@ -15,14 +15,21 @@ describe("Create Account Screen Tests", async () => {
 
   it("Validate warning texts are displayed on screen", async () => {
     await expect(await CreatePinScreen.unlockWarningParagraph).toBeDisplayed()
-    await expect(await CreatePinScreen.unlockWarningParagraph).toHaveTextContaining('warning: use a good password')
+    await expect(await CreatePinScreen.unlockWarningParagraph).toHaveTextContaining('Your password is used to encrypt your data. It is never sent to any server. You should use a strong password that you don\'t use anywhere else.')
     await expect(await CreatePinScreen.unlockWarningSpan).toBeDisplayed()
-    await expect(await CreatePinScreen.unlockWarningSpan).toHaveTextContaining('warning: no password recovery')
+    await expect(await CreatePinScreen.unlockWarningSpan).toHaveTextContaining('If you forget this password we cannot help you retrieve it.')
   })
 
-  xit("Enter an empty pin", async () => {
+  it("Create Account button should be disabled if no pin has been entered", async () => {
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr('enabled', 'false')
+  })
+
+  it("Enter an empty pin", async () => {
+    await CreatePinScreen.enterPin("1")
+    await CreatePinScreen.enterPin("")
     await expect(await CreatePinScreen.inputError).toBeDisplayed()
     await expect(await CreatePinScreen.inputError).toHaveTextContaining('Please enter at least 4 characters')
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr('enabled', 'false')
     await CreatePinScreen.clickOnCreateAccount()
   })
 
@@ -30,71 +37,48 @@ describe("Create Account Screen Tests", async () => {
     await CreatePinScreen.enterPin("123")
     await expect(await CreatePinScreen.inputError).toBeDisplayed()
     await expect(await CreatePinScreen.inputError).toHaveTextContaining('Please enter at least 4 characters')
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr('enabled', 'false')
   })
   
   it("Enter a pin with more than 32 characters", async () => {
     await CreatePinScreen.enterPin("12345678901234567890123456789012345")
     await expect(await CreatePinScreen.inputError).toBeDisplayed()
     await expect(await CreatePinScreen.inputError).toHaveTextContaining('Maximum of 32 characters exceeded')
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr('enabled', 'false')
   })
 
   it("Enter a valid pin and continue creating a username", async () => {
     await CreatePinScreen.enterPin("1234")
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr('enabled', 'true')
     await CreatePinScreen.clickOnCreateAccount()
     await CreateUserScreen.waitForIsShown(true)
   })
 
-  xit("Leave empty username and attempt to continue", async () => {
+  it("Leave empty username and attempt to continue", async () => {
+    await CreateUserScreen.enterUsername("1")
     await CreateUserScreen.enterUsername("")
-    await CreateUserScreen.enterPin("1234")
-    await CreateUserScreen.clickOnCreateAccount()
-    await expect(await CreateUserScreen.inputError).toBeDisplayed()
-    await expect(await CreateUserScreen.inputError).toHaveTextContaining('Please enter at least 4 characters')
-  })
-
-  xit("Leave empty pin and attempt to continue", async () => {
-    await CreateUserScreen.enterUsername("1234")
-    await CreateUserScreen.enterPin("1234")
-    await CreateUserScreen.clickOnCreateAccount()
-    await expect(await CreateUserScreen.inputError).toBeDisplayed()
-    await expect(await CreateUserScreen.inputError).toHaveTextContaining('Please enter at least 4 characters')
-  })
-
-  it("Pin with less than 4 characters and attempt to continue", async () => {
-    await CreateUserScreen.enterUsername("1234")
-    await CreateUserScreen.enterPin("12")
-    await CreateUserScreen.clickOnCreateAccount()
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr('enabled', 'false')
     await expect(await CreateUserScreen.inputError).toBeDisplayed()
     await expect(await CreateUserScreen.inputError).toHaveTextContaining('Please enter at least 4 characters')
   })
 
   it("Username with less than 4 characters and attempt to continue", async () => {
     await CreateUserScreen.enterUsername("12")
-    await CreateUserScreen.enterPin("1234")
-    await CreateUserScreen.clickOnCreateAccount()
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr('enabled', 'false')
     await expect(await CreateUserScreen.inputError).toBeDisplayed()
     await expect(await CreateUserScreen.inputError).toHaveTextContaining('Please enter at least 4 characters')
   })
 
-  it("Pin with more than 32 characters and attempt to continue", async () => {
-    await CreateUserScreen.enterUsername("1234")
-    await CreateUserScreen.enterPin("12345678901234567890123456789012345")
-    await CreateUserScreen.clickOnCreateAccount()
-    await expect(await CreateUserScreen.inputError).toBeDisplayed()
-    await expect(await CreateUserScreen.inputError).toHaveTextContaining('Maximum of 32 characters exceeded')
-  })
-
   it("Username with more than 32 characters and attempt to continue", async () => {
     await CreateUserScreen.enterUsername("12345678901234567890123456789012345")
-    await CreateUserScreen.enterPin("1234")
-    await CreateUserScreen.clickOnCreateAccount()
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr('enabled', 'false')
     await expect(await CreateUserScreen.inputError).toBeDisplayed()
     await expect(await CreateUserScreen.inputError).toHaveTextContaining('Maximum of 32 characters exceeded')
   })
 
-  it("Enter valid pin and username to continue", async () => {
+  it("Enter valid username to continue", async () => {
     await CreateUserScreen.enterUsername("test123")
-    await CreateUserScreen.enterPin("1234")
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr('enabled', 'true')
     await CreateUserScreen.clickOnCreateAccount()
     await UplinkMainScreen.waitForIsShown(true)
   })
