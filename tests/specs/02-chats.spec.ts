@@ -1,4 +1,5 @@
 import CreatePinScreen from "../screenobjects/CreatePinScreen";
+import FriendsScreen from "../screenobjects/FriendsScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 
 describe("Chats Main Screen Tests", async () => {
@@ -6,6 +7,20 @@ describe("Chats Main Screen Tests", async () => {
     await CreatePinScreen.enterPin("1234" + "\n");
     await UplinkMainScreen.waitForIsShown(true);
   });
+
+  // Skipping test since the order of displaying for toast notifications is random now
+  xit('Validate and close Toast Notifications', async() => {
+    await expect(await UplinkMainScreen.toastNotifications).toBeExisting()
+    await UplinkMainScreen.validateContentsToastNotification('TITLE2', 'content2')
+    await UplinkMainScreen.validateContentsToastNotification('TITLE1', 'content1')
+    await UplinkMainScreen.closeToastNotification('TITLE2')
+    await UplinkMainScreen.closeToastNotification('TITLE1')
+  })
+
+  it("Validate that Friends Button has a Badge with Requests Pending", async () => {
+    await expect(UplinkMainScreen.buttonBadge).toBeDisplayed()
+    await UplinkMainScreen.validateTextFromButtonBadge('2')
+  })
 
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     await expect(await UplinkMainScreen.prereleaseIndicator).toBeDisplayed();
@@ -38,5 +53,8 @@ describe("Chats Main Screen Tests", async () => {
     await expect(locator).toHaveTextContaining("Add Someone");
   });
 
-  xit("Click on add someone redirects to Friends Page", async () => {});
+  it("Click on add someone redirects to Friends Page", async () => {
+    await (await UplinkMainScreen.addFriendsButton).click()
+    await FriendsScreen.waitForIsShown(true)
+  });
 });

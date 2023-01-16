@@ -36,11 +36,55 @@ describe("Friends Screen Tests", async () => {
     await expect(await FriendsScreen.settingsButton).toBeDisplayed();
   });
 
-  xit("User can type on user search input bar", async () => {});
+  it("User can type on user search input bar", async () => {
+    await (await FriendsScreen.addSomeoneInput).click()
+    await (await FriendsScreen.addSomeoneInput).setValue('Hello')
+    await (expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining('Hello'))
+  });
 
-  xit("Switch to Pending Friends view and validate elements displayed", async () => {});
+  it("Switch to Pending Friends view and validate elements displayed", async () => {
+    await (await FriendsScreen.pendingFriendsButton).click()
+    await (expect(await FriendsScreen.incomingRequestsList).toBeDisplayed())
+    await (expect(await FriendsScreen.outgoingRequestsList).toBeDisplayed())
+  });
 
-  xit("Switch to Blocked Friends view and validate elements displayed", async () => {});
+  it("Switch to Blocked Friends view and validate elements displayed", async () => {
+    await (await FriendsScreen.blockedFriendsButton).click()
+    await (expect(await FriendsScreen.blockedList).toBeDisplayed())
+  });
 
-  xit("Switch to All Friends view and validate elements displayed", async () => {});
+  it("Switch to All Friends view and validate elements displayed", async () => {
+    await (await FriendsScreen.allFriendsButton).click()
+    await (expect(await FriendsScreen.friendsList).toBeDisplayed())
+  });
+
+  xit("Go to Chat with Friend from Friends List", async () => {})
+
+  xit("Unfriend someone from Friends List", async () => {})
+
+  xit("Block someone from Friends List", async () => {})
+
+  xit("Accept incoming friend request", async () => {})
+
+  xit("Deny incoming friend request", async () => {})
+
+  xit("Cancel outgoing friend request", async () => {})
+
+  xit("Unblock someone from blocked friends list", async () => {})
+
+  xit("Context Menu - Chat with Friend", async () => {})
+
+  xit("Context Menu - Call to Friend", async () => {})
+
+  xit("Context Menu - Add Friend to Favorites", async () => {})
+
+  xit("Context Menu - Remove Friend", async () => {})
+
+  xit("Context Menu - Block Friend", async () => {})
+
+  xit("Context Menu - Deny Incoming Request", async () => {})
+
+  xit("Context Menu - Cancel Outgoing Request", async () => {})
+
+  xit("Context Menu - Unblock User", async () => {})
 });
