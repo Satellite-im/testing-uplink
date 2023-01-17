@@ -164,25 +164,16 @@ class FriendsScreen extends AppScreen {
     return $(SELECTORS.WINDOW);
   }
 
-  async getNameFromFriendsList() {
-    const friendInfo = await driver.findElement('accessibility id', 'Friend Info')
-    const friendNameElement = await driver.findElementFromElement(friendInfo.ELEMENT, '-ios class chain', '**/XCUIElementTypeStaticText')
-    const friendName = await (await $(friendNameElement)).getText()
-    return friendName
+  async acceptIncomingRequest(name: string) {
+    const friend = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + name + "']/../../..")
+    const button = await driver.findElementFromElement(friend.ELEMENT, 'accessibility id', 'Accept Friend')
+    await $(button).click()
   }
 
-  async getNameFromOutgoingList() {
-    const friendList = await driver.findElement('accessibility id', 'Outgoing Requests List')
-    const friendNameElement = await driver.findElementFromElement(friendList.ELEMENT, '-ios class chain', '**/XCUIElementTypeGroup[`label == "Friend Info"`]/XCUIElementTypeGroup/XCUIElementTypeStaticText')
-    const friendName = await (await $(friendNameElement)).getText()
-    return friendName
-  }
-
-  async getNameFromIncomingList() {
-    const friendList = await driver.findElement('accessibility id', 'Incoming Requests List')
-    const friendNameElement = await driver.findElementFromElement(friendList.ELEMENT, '-ios class chain', '**/XCUIElementTypeGroup[`label == "Friend Info"`]/XCUIElementTypeGroup/XCUIElementTypeStaticText')
-    const friendName = await (await $(friendNameElement)).getText()
-    return friendName
+  async blockUser(name: string) {
+    const friend = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + name + "']/../../..")
+    const button = await driver.findElementFromElement(friend.ELEMENT, 'accessibility id', 'Block Friend')
+    await $(button).click()
   }
 
   async chatWithFriend(name: string) {
@@ -191,10 +182,29 @@ class FriendsScreen extends AppScreen {
     await $(button).click()
   }
 
-  async unfriendUser(name: string) {
+  async getEntireFriendsList(list: string) {
+    const friendNames = await driver.findElements('xpath', "//*[@label='" + list + "']//*[@label='Friend Info']/*[1]/*[1]")
+    let names = []
+    for (let name of friendNames) {
+      names.push(await (await $(name)).getText())
+    }
+    return names
+  }
+
+  async getUserFromFriendsList(list: string) {
+    const firstUserFromList = await driver.findElement('xpath', "//*[@label='" + list + "']//*[@label='Friend Info']/*[1]/*[1]")
+    const user = await (await $(firstUserFromList)).getText()
+    return user
+  }
+
+  async removeOrDenyFriend(name: string) {
     const friend = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + name + "']/../../..")
     const button = await driver.findElementFromElement(friend.ELEMENT, 'accessibility id', 'Remove or Deny Friend')
     await $(button).click()
+  }
+
+  async findUserInFriendsList(list:string, name: string) {
+    return (await $(list).$('~Friend Info').$("//*[@value='" + name + "']"))
   }
 }
 

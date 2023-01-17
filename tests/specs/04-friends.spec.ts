@@ -59,25 +59,112 @@ describe("Friends Screen Tests", async () => {
   });
 
   it("Go to Chat with Friend from Friends List", async () => {
-    const friendName = await FriendsScreen.getNameFromFriendsList()
+    const friendName = await FriendsScreen.getUserFromFriendsList('Friends List')
     await FriendsScreen.chatWithFriend(friendName)
   })
 
   it("Unfriend someone from Friends List", async () => {
+    // Return to Friends Screen
     await (await $('~friends-button')).click()
-    const friendName = await FriendsScreen.getNameFromFriendsList()
-    await FriendsScreen.unfriendUser(friendName)
+
+    // Get a random user from list and unfriend it
+    const friendName = await FriendsScreen.getUserFromFriendsList('Friends List')
+    await FriendsScreen.removeOrDenyFriend(friendName)
+    
+    // Get current list of All friends and ensure that it does not include the removed user
+    const allFriendsList = await FriendsScreen.getEntireFriendsList('Friends List')   
+    await expect(allFriendsList.includes(friendName)).toEqual(false)
   })
 
-  xit("Block someone from Friends List", async () => {})
+  it("Block someone from Friends List", async () => {
+    // Get a random user from list and block the user
+    const friendName = await FriendsScreen.getUserFromFriendsList('Friends List')
+    await FriendsScreen.blockUser(friendName)
+    
+    // Get current list of All friends and ensure that it does not include the removed user
+    const allFriendsList = await FriendsScreen.getEntireFriendsList('Friends List')   
+    await expect(allFriendsList.includes(friendName)).toEqual(false)
 
-  xit("Accept incoming friend request", async () => {})
+    // Go to Blocked List and validate that user is there now
+    await (await FriendsScreen.blockedFriendsButton).click()
+    const blockedFriendsList = await FriendsScreen.getEntireFriendsList('Blocked List')   
+    await expect(blockedFriendsList.includes(friendName)).toEqual(true)
+  })
 
-  xit("Deny incoming friend request", async () => {})
+  it("Accept incoming friend request", async () => {
+    // Go to Pending Requests Screen
+    await (await FriendsScreen.pendingFriendsButton).click()
 
-  xit("Cancel outgoing friend request", async () => {})
+    // Get a random user from Incoming Pending list and accept the request
+    const friendName = await FriendsScreen.getUserFromFriendsList('Incoming Requests List')
+    await FriendsScreen.acceptIncomingRequest(friendName)
+    
+    // Get the current list of incoming requests and validate that user does not appear there now
+    const incomingRequestsList = await FriendsScreen.getEntireFriendsList('Incoming Requests List')   
+    await expect(incomingRequestsList.includes(friendName)).toEqual(false)
 
-  xit("Unblock someone from blocked friends list", async () => {})
+    // Go to the current list of All friends and ensure that now includes the friend accepted
+    await (await FriendsScreen.allFriendsButton).click()
+    const allFriendsList = await FriendsScreen.getEntireFriendsList('Friends List')   
+    await expect(allFriendsList.includes(friendName)).toEqual(true)
+  })
+
+  it("Deny incoming friend request", async () => {
+    // Go to Pending Requests Screen
+    await (await FriendsScreen.pendingFriendsButton).click()
+
+    // Get a random user from Incoming Pending list and accept the request
+    const friendName = await FriendsScreen.getUserFromFriendsList('Incoming Requests List')
+    await FriendsScreen.removeOrDenyFriend(friendName)
+    
+    // Get the current list of incoming requests and validate that user does not appear there now
+    const incomingRequestsList = await FriendsScreen.getEntireFriendsList('Incoming Requests List')   
+    await expect(incomingRequestsList.includes(friendName)).toEqual(false)
+
+    // Go to the current list of All friends and ensure that denied user is not in friends list
+    await (await FriendsScreen.allFriendsButton).click()
+    const allFriendsList = await FriendsScreen.getEntireFriendsList('Friends List')   
+    await expect(allFriendsList.includes(friendName)).toEqual(false)
+  })
+
+  it("Unfriend/Cancel outgoing friend request", async () => {
+    // Go to Pending Requests Screen
+    await (await FriendsScreen.pendingFriendsButton).click()
+
+    // Get a random user from Incoming Pending list and accept the request
+    const friendName = await FriendsScreen.getUserFromFriendsList('Outgoing Requests List')
+    await FriendsScreen.removeOrDenyFriend(friendName)
+    
+    // Get the current list of incoming requests and validate that user does not appear there now
+    const outgoingRequestsList = await FriendsScreen.getEntireFriendsList('Outgoing Requests List')   
+    await expect(outgoingRequestsList.includes(friendName)).toEqual(false)
+
+    // Go to the current list of All friends and ensure that removed user is not in friends list
+    await (await FriendsScreen.allFriendsButton).click()
+    const allFriendsList = await FriendsScreen.getEntireFriendsList('Friends List')   
+    await expect(allFriendsList.includes(friendName)).toEqual(false)
+  })
+
+  it("Unfriend someone from blocked friends list", async () => {
+    // Go to Blocked Users Screen
+    await (await FriendsScreen.blockedFriendsButton).click()
+
+    // Get a random user from Incoming Pending list and accept the request
+    const friendName = await FriendsScreen.getUserFromFriendsList('Blocked List')
+    await FriendsScreen.removeOrDenyFriend(friendName)
+    
+    // Get the current list of incoming requests and validate that user does not appear there now
+    const blockedList = await FriendsScreen.getEntireFriendsList('Blocked List')   
+    await expect(blockedList.includes(friendName)).toEqual(false)
+
+    // Go to the current list of All friends and ensure that removed user is not in friends list
+    await (await FriendsScreen.allFriendsButton).click()
+    const allFriendsList = await FriendsScreen.getEntireFriendsList('Friends List')   
+    await expect(allFriendsList.includes(friendName)).toEqual(false)
+  })
+
+  // Not existing flow now
+  xit("Remove someone from blocked friends list", async () => {})
 
   xit("Context Menu - Chat with Friend", async () => {})
 
