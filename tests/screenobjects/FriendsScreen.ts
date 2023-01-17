@@ -163,6 +163,39 @@ class FriendsScreen extends AppScreen {
   get window() {
     return $(SELECTORS.WINDOW);
   }
+
+  async getNameFromFriendsList() {
+    const friendInfo = await driver.findElement('accessibility id', 'Friend Info')
+    const friendNameElement = await driver.findElementFromElement(friendInfo.ELEMENT, '-ios class chain', '**/XCUIElementTypeStaticText')
+    const friendName = await (await $(friendNameElement)).getText()
+    return friendName
+  }
+
+  async getNameFromOutgoingList() {
+    const friendList = await driver.findElement('accessibility id', 'Outgoing Requests List')
+    const friendNameElement = await driver.findElementFromElement(friendList.ELEMENT, '-ios class chain', '**/XCUIElementTypeGroup[`label == "Friend Info"`]/XCUIElementTypeGroup/XCUIElementTypeStaticText')
+    const friendName = await (await $(friendNameElement)).getText()
+    return friendName
+  }
+
+  async getNameFromIncomingList() {
+    const friendList = await driver.findElement('accessibility id', 'Incoming Requests List')
+    const friendNameElement = await driver.findElementFromElement(friendList.ELEMENT, '-ios class chain', '**/XCUIElementTypeGroup[`label == "Friend Info"`]/XCUIElementTypeGroup/XCUIElementTypeStaticText')
+    const friendName = await (await $(friendNameElement)).getText()
+    return friendName
+  }
+
+  async chatWithFriend(name: string) {
+    const friend = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + name + "']/../../..")
+    const button = await driver.findElementFromElement(friend.ELEMENT, 'accessibility id', 'Chat With Friend')
+    await $(button).click()
+  }
+
+  async unfriendUser(name: string) {
+    const friend = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + name + "']/../../..")
+    const button = await driver.findElementFromElement(friend.ELEMENT, 'accessibility id', 'Remove or Deny Friend')
+    await $(button).click()
+  }
 }
 
 export default new FriendsScreen();

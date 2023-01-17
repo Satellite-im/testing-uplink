@@ -58,9 +58,16 @@ describe("Friends Screen Tests", async () => {
     await (expect(await FriendsScreen.friendsList).toBeDisplayed())
   });
 
-  xit("Go to Chat with Friend from Friends List", async () => {})
+  it("Go to Chat with Friend from Friends List", async () => {
+    const friendName = await FriendsScreen.getNameFromFriendsList()
+    await FriendsScreen.chatWithFriend(friendName)
+  })
 
-  xit("Unfriend someone from Friends List", async () => {})
+  it("Unfriend someone from Friends List", async () => {
+    await (await $('~friends-button')).click()
+    const friendName = await FriendsScreen.getNameFromFriendsList()
+    await FriendsScreen.unfriendUser(friendName)
+  })
 
   xit("Block someone from Friends List", async () => {})
 
