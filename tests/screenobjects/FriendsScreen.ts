@@ -13,6 +13,10 @@ const SELECTORS = {
   CHAT_SEARCH_INPUT: "~chat-search-input",
   CHAT_WITH_FRIEND_BUTTON: "~Chat With Friend",
   CHATS_BUTTON: "~chats-button",
+  CONTEXT_MENU: "~Context Menu",
+  CONTEXT_MENU_OPTION: "~Context Item",
+  FAVORITES: "~Favorites",
+  FAVORITES_USER_IMAGE: "~User Image",
   FILES_BUTTON: "~files-button",
   FRIEND_INFO: "~Friend Info",
   FRIEND_RECORD: "~Friend",
@@ -86,6 +90,22 @@ class FriendsScreen extends AppScreen {
 
   get chatWithFriendButton() {
     return $(SELECTORS.CHAT_WITH_FRIEND_BUTTON);
+  }
+
+  get contextMenu() {
+    return $(SELECTORS.CONTEXT_MENU);
+  }
+
+  get contextMenuOption() {
+    return $$(SELECTORS.CONTEXT_MENU_OPTION);
+  }
+
+  get favorites() {
+    return $(SELECTORS.FAVORITES);
+  }
+
+  get favoritesUserImage() {
+    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER_IMAGE);
   }
 
   get filesButton() {
@@ -197,14 +217,28 @@ class FriendsScreen extends AppScreen {
     return user
   }
 
+  async getUsersFromFavorites() {
+    const favoriteUsers = await driver.findElements('xpath', "//*[@label='Favorites']//*[@label='User Image']/../../*[2]")
+    let currentFavoriteUsers = []
+    for (let name of favoriteUsers) {
+      currentFavoriteUsers.push(await (await $(name)).getText())
+    }
+    return currentFavoriteUsers
+  }
+
+  async openFriendContextMenu(friend: string) {
+    const friendLocator = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + friend +"']/../../..")
+    const friendBubble = await (await $(friendLocator)).$('~User Image')
+    await driver.executeScript('macos: rightClick', [{
+      elementId: friendBubble
+    }]);
+    await (await this.contextMenu).waitForDisplayed()
+  }
+
   async removeOrDenyFriend(name: string) {
     const friend = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + name + "']/../../..")
     const button = await driver.findElementFromElement(friend.ELEMENT, 'accessibility id', 'Remove or Deny Friend')
     await $(button).click()
-  }
-
-  async findUserInFriendsList(list:string, name: string) {
-    return (await $(list).$('~Friend Info').$("//*[@value='" + name + "']"))
   }
 }
 
