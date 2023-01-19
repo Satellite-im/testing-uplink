@@ -1,3 +1,4 @@
+import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 
@@ -12,7 +13,8 @@ describe("Chats Main Screen Tests", async () => {
   })
 
   it("Validate that Friends Button has a Badge with Requests Pending", async () => {
-    await expect(UplinkMainScreen.buttonBadge).toBeDisplayed()
+    await CreatePinScreen.enterPin("1234");
+    await CreatePinScreen.clickOnCreateAccount();
     await UplinkMainScreen.validateTextFromButtonBadge('2')
   })
 
