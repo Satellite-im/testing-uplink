@@ -1,11 +1,11 @@
 import ChatScreen from "../screenobjects/ChatScreen";
-import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
+import { loginWithNewAccount } from "../helpers/commands"
 
 describe("Friends Screen Tests", async () => {
   before(async () => {
-    await CreatePinScreen.enterPin("1234" + "\n");
+    await loginWithNewAccount('1234', 'test123')
     await UplinkMainScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
   });

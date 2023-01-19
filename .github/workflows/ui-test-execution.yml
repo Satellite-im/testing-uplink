@@ -110,9 +110,6 @@ jobs:
         working-directory: ./appium-tests
         run: npm run mac.ci
       
-      - name: Clear app cache after running appium tests ✅
-        run: rm -r ~/.uplink
-
       - name: Upload Screenshots if tests failed 📷
         uses: actions/upload-artifact@v3
         if: failure()
