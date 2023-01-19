@@ -40,6 +40,7 @@ jobs:
 
       - name: Install Protobuf 💿
         uses: arduino/setup-protoc@v1
+        continue-on-error: true
         with:
           repo-token: ${{env.GITHUB_TOKEN}}
 
