@@ -1,11 +1,14 @@
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
-import { loginWithNewAccount } from "../helpers/commands"
 
 describe("Chats Main Screen Tests", async () => {
   before(async () => {
-    await loginWithNewAccount('1234', 'test123')
+    await UplinkMainScreen.waitForIsShown(true);
   });
+
+  after(async () => {
+    await FriendsScreen.goToMainScreen();
+  })
 
   // Skipping test since the order of displaying for toast notifications is random now
   xit('Validate and close Toast Notifications', async() => {

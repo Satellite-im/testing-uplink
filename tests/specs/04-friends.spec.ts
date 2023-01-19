@@ -1,14 +1,17 @@
 import ChatScreen from "../screenobjects/ChatScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
-import { loginWithNewAccount } from "../helpers/commands"
 
 describe("Friends Screen Tests", async () => {
   before(async () => {
-    await loginWithNewAccount('1234', 'test123')
+    await UplinkMainScreen.waitForIsShown(true);
     await UplinkMainScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
   });
+
+  after(async () => {
+    await FriendsScreen.goToMainScreen();
+  })
 
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     await expect(await FriendsScreen.prereleaseIndicator).toBeDisplayed();

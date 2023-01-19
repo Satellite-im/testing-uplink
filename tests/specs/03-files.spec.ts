@@ -1,13 +1,16 @@
 import FilesScreen from "../screenobjects/FilesScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
-import { loginWithNewAccount } from "../helpers/commands"
 
 describe("Files Screen Tests", async () => {
   before(async () => {
-    await loginWithNewAccount('1234', 'test123')
+    await UplinkMainScreen.waitForIsShown(true);
     await UplinkMainScreen.goToFiles();
     await FilesScreen.waitForIsShown(true);
   });
+
+  after(async () => {
+    await FilesScreen.goToMainScreen();
+  })
 
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     await expect(await FilesScreen.prereleaseIndicator).toBeDisplayed();
