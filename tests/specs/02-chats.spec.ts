@@ -2,14 +2,6 @@ import FriendsScreen from "../screenobjects/FriendsScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 
 describe("Chats Main Screen Tests", async () => {
-  before(async () => {
-    await UplinkMainScreen.waitForIsShown(true);
-  });
-
-  after(async () => {
-    await FriendsScreen.goToMainScreen();
-  })
-
   // Skipping test since the order of displaying for toast notifications is random now
   xit('Validate and close Toast Notifications', async() => {
     await expect(await UplinkMainScreen.toastNotifications).toBeExisting()
@@ -58,5 +50,8 @@ describe("Chats Main Screen Tests", async () => {
   it("Click on add someone redirects to Friends Page", async () => {
     await (await UplinkMainScreen.addFriendsButton).click()
     await FriendsScreen.waitForIsShown(true)
+    
+    // Return to main screen
+    await FriendsScreen.goToMainScreen();
   });
 });
