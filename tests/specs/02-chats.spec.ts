@@ -1,11 +1,10 @@
-import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
+import { loginWithNewAccount } from "../helpers/commands"
 
 describe("Chats Main Screen Tests", async () => {
   before(async () => {
-    await CreatePinScreen.enterPin("1234" + "\n");
-    await UplinkMainScreen.waitForIsShown(true);
+    await loginWithNewAccount('1234', 'test123')
   });
 
   // Skipping test since the order of displaying for toast notifications is random now

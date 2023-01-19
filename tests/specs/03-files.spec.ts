@@ -1,10 +1,10 @@
-import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import FilesScreen from "../screenobjects/FilesScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
+import { loginWithNewAccount } from "../helpers/commands"
 
 describe("Files Screen Tests", async () => {
   before(async () => {
-    await CreatePinScreen.enterPin("1234" + "\n");
+    await loginWithNewAccount('1234', 'test123')
     await UplinkMainScreen.goToFiles();
     await FilesScreen.waitForIsShown(true);
   });
