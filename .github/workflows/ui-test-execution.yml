@@ -106,9 +106,6 @@ jobs:
           chmod +x ./appium-tests/scripts/run_appium_macos_server.sh
           ./appium-tests/scripts/run_appium_macos_server.sh
 
-      - name: Clear app cache before starting appium tests ✅
-        run: rm -r ~/.uplink
-
       - name: Run WebdriverIO tests on MacOS 🧪
         working-directory: ./appium-tests
         run: npm run mac.ci
