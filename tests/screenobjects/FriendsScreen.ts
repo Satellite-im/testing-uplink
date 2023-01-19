@@ -226,6 +226,10 @@ class FriendsScreen extends AppScreen {
     return currentFavoriteUsers
   }
 
+  async goToMainScreen() {
+    await (await this.chatsButton).click();
+  }
+
   async openFriendContextMenu(friend: string) {
     const friendLocator = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + friend +"']/../../..")
     const friendBubble = await (await $(friendLocator)).$('~User Image')

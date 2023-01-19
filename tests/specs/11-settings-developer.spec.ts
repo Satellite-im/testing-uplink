@@ -1,14 +1,17 @@
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 import SettingsMainScreen from "../screenobjects/SettingsMainScreen";
-import { loginWithNewAccount } from "../helpers/commands"
 
 describe("Settings - Developer - Tests", async () => {
   before(async () => {
-    await loginWithNewAccount('1234', 'test123')
+    await UplinkMainScreen.waitForIsShown(true);
     await UplinkMainScreen.goToSettings();
     await SettingsMainScreen.waitForIsShown(true);
     await SettingsMainScreen.goToDeveloperSettings();
   });
+
+  after(async () => {
+    await SettingsMainScreen.goToMainScreen();
+  })
 
   xit("Settings Developer - Assert screen texts", async () => {});
 

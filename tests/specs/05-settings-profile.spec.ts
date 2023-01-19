@@ -1,13 +1,16 @@
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 import SettingsMainScreen from "../screenobjects/SettingsMainScreen";
-import { loginWithNewAccount } from "../helpers/commands"
 
 describe("Settings - Profile - Tests", async () => {
   before(async () => {
-    await loginWithNewAccount('1234', 'test123')
+    await UplinkMainScreen.waitForIsShown(true);
     await UplinkMainScreen.goToSettings();
     await SettingsMainScreen.waitForIsShown(true);
   });
+
+  after(async () => {
+    await SettingsMainScreen.goToMainScreen();
+  })
 
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     await expect(await SettingsMainScreen.prereleaseIndicator).toBeDisplayed();

@@ -153,6 +153,10 @@ class FilesScreen extends AppScreen {
   get window() {
     return $(SELECTORS.WINDOW);
   }
+
+  async goToMainScreen() {
+    await (await this.chatsButton).click();
+  }
 }
 
 export default new FilesScreen();

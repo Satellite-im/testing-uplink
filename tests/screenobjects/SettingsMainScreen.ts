@@ -130,6 +130,10 @@ class SettingsScreen extends AppScreen {
   async goToDeveloperSettings() {
     await (await this.developerButton).click();
   }
+
+  async goToMainScreen() {
+    await (await this.chatsButton).click();
+  }
 }
 
 export default new SettingsScreen();
