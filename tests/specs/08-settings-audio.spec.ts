@@ -1,10 +1,10 @@
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 import SettingsMainScreen from "../screenobjects/SettingsMainScreen";
-import { loginToApp } from "../helpers/commands";
+import { loginWithRandomUser } from "../helpers/commands";
 
 describe("Settings - Audio - Tests", async () => {
   before(async () => {
-    await loginToApp('1234', 'test123');
+    await loginWithRandomUser();
     await UplinkMainScreen.goToSettings();
     await SettingsMainScreen.waitForIsShown(true);
     await SettingsMainScreen.goToAudioSettings();
