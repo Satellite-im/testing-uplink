@@ -42,7 +42,7 @@ config.afterTest = async function (test, describe, { error }) {
   }
 };
 
-config.afterSuite = async function (suite) {
+config.after = async function () {
   await deleteAppCache();
 };
 
