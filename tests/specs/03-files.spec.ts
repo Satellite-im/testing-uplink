@@ -1,12 +1,15 @@
 import FilesScreen from "../screenobjects/FilesScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
+import { loginToApp } from "../helpers/commands";
 
 describe("Files Screen Tests", async () => {
-  it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    // Go to Files Screen
+  before(async () => {
+    await loginToApp('1234', 'test123');
     await UplinkMainScreen.goToFiles();
     await FilesScreen.waitForIsShown(true);
-    
+  });
+
+  it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     await expect(await FilesScreen.prereleaseIndicator).toBeDisplayed();
     await expect(
       await FilesScreen.prereleaseIndicatorText
@@ -48,8 +51,5 @@ describe("Files Screen Tests", async () => {
   it("Validate add folder/file buttons are displayed in screen", async () => {
     await expect(await FilesScreen.addFileButton).toBeDisplayed();
     await expect(await FilesScreen.uploadFileButton).toBeDisplayed();
-
-    //Return to main screen
-    await FilesScreen.goToMainScreen();
   });
 });
