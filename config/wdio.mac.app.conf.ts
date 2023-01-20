@@ -25,9 +25,9 @@ config.capabilities = [
     // @ts-ignore
     "appium:bundleId": "im.satellite.uplink",
     "appium:newCommandTimeout": 240,
-    //"appium:prerun": {
-    //  command: 'do shell script "rm -rf ~/.uplink"',
-    //},
+    "appium:postrun": {
+      command: 'do shell script "rm -rf ~/.uplink"',
+    },
     "appium:noReset": true,
   },
 ];
