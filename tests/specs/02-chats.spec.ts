@@ -1,10 +1,10 @@
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
-import { loginToApp } from "../helpers/commands";
+import { loginWithRandomUser } from "../helpers/commands";
 
 describe("Chats Main Screen Tests", async () => {
   before(async () => {
-    await loginToApp('1234', 'test123');
+    await loginWithRandomUser();
   });
 
   // Skipping test since the order of displaying for toast notifications is random now

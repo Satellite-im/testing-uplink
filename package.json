@@ -21,6 +21,7 @@
     "ios"
   ],
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
     "@wdio/appium-service": "^7.19.5",
