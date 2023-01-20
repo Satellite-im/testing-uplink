@@ -29,3 +29,10 @@ export async function loginToApp(pin: string, username: string) {
   // Ensure Main Screen is displayed
   await UplinkMainScreen.waitForIsShown(true)
 }
+
+export async function deleteAppCache() {
+  const appleScript = 'do shell script "rm -rf ~/.uplink"'
+  await driver.executeScript('macos: appleScript', [{
+    command: appleScript
+  }]);
+}

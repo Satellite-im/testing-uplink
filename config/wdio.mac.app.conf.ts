@@ -3,6 +3,7 @@ const mkdirp = require("mkdirp");
 
 import config from "./wdio.shared.local.appium.conf";
 import { join } from "path";
+import { deleteAppCache } from "../tests/helpers/commands";
 
 // ============
 // Specs
@@ -25,13 +26,6 @@ config.capabilities = [
     // @ts-ignore
     "appium:bundleId": "im.satellite.uplink",
     "appium:newCommandTimeout": 240,
-    "appium:prerun": {
-      command: 'do shell script "rm -rf ~/.uplink"',
-    },
-    "appium:postrun": {
-      command: 'do shell script "rm -rf ~/.uplink"',
-    },
-    "appium:noReset": false,
   },
 ];
 
@@ -46,6 +40,10 @@ config.afterTest = async function (test, describe, { error }) {
       "base64"
     );
   }
+};
+
+config.afterSuite = async function (suite) {
+  await deleteAppCache();
 };
 
 exports.config = config;
