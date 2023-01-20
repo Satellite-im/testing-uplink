@@ -1,9 +1,12 @@
-import CreatePinScreen from "../screenobjects/CreatePinScreen";
-import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
+import { loginToApp } from "../helpers/commands";
 
 describe("Chats Main Screen Tests", async () => {
+  before(async () => {
+    await loginToApp('1234', 'test123');
+  });
+
   // Skipping test since the order of displaying for toast notifications is random now
   xit('Validate and close Toast Notifications', async() => {
     await expect(await UplinkMainScreen.toastNotifications).toBeExisting()
@@ -14,11 +17,6 @@ describe("Chats Main Screen Tests", async () => {
   })
 
   it("Validate that Friends Button has a Badge with Requests Pending", async () => {
-    await CreatePinScreen.enterPin("1234");
-    await CreatePinScreen.clickOnCreateAccount();
-    await CreateUserScreen.enterUsername("test123");
-    await CreateUserScreen.clickOnCreateAccount();
-    await UplinkMainScreen.waitForIsShown(true)
     await UplinkMainScreen.validateTextFromButtonBadge('2')
   })
 
@@ -56,8 +54,5 @@ describe("Chats Main Screen Tests", async () => {
   it("Click on add someone redirects to Friends Page", async () => {
     await (await UplinkMainScreen.addFriendsButton).click()
     await FriendsScreen.waitForIsShown(true)
-    
-    // Return to main screen
-    await FriendsScreen.goToMainScreen();
   });
 });
