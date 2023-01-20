@@ -48,6 +48,9 @@ export async function loginWithRandomUser() {
 }
 
 export async function deleteAppCache() {
+  await driver.executeScript('macos: terminateApp', [{
+    bundleId: 'im.satellite.uplink'
+  }]);
   const appleScript = 'do shell script "rm -rf ~/.uplink"';
   await driver.executeScript('macos: appleScript', [{
     command: appleScript
