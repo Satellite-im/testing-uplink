@@ -26,6 +26,7 @@ config.capabilities = [
     // @ts-ignore
     "appium:bundleId": "im.satellite.uplink",
     "appium:newCommandTimeout": 240,
+    "appium:noReset": true,
   },
 ];
 
@@ -40,10 +41,6 @@ config.afterTest = async function (test, describe, { error }) {
       "base64"
     );
   }
-};
-
-config.after = async function () {
-  await deleteAppCache();
 };
 
 exports.config = config;

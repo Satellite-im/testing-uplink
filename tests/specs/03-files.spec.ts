@@ -1,10 +1,10 @@
 import FilesScreen from "../screenobjects/FilesScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
-import { loginWithRandomUser } from "../helpers/commands";
+import FriendsScreen from "../screenobjects/FriendsScreen";
 
 describe("Files Screen Tests", async () => {
   before(async () => {
-    await loginWithRandomUser();
+    await FriendsScreen.goToMainScreen();
     await UplinkMainScreen.goToFiles();
     await FilesScreen.waitForIsShown(true);
   });
