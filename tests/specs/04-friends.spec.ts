@@ -1,11 +1,11 @@
 import ChatScreen from "../screenobjects/ChatScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
-import { loginWithRandomUser } from "../helpers/commands";
+import FilesScreen from "../screenobjects/FilesScreen";
 
 describe("Friends Screen Tests", async () => {
   before(async () => {
-    await loginWithRandomUser();
+    await FilesScreen.goToMainScreen();
     await UplinkMainScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
   });

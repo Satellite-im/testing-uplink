@@ -1,10 +1,10 @@
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 import SettingsMainScreen from "../screenobjects/SettingsMainScreen";
-import { loginWithRandomUser } from "../helpers/commands";
+import FriendsScreen from "../screenobjects/FriendsScreen";
 
 describe("Settings - Profile - Tests", async () => {
   before(async () => {
-    await loginWithRandomUser();
+    await FriendsScreen.goToMainScreen();
     await UplinkMainScreen.goToSettings();
     await SettingsMainScreen.waitForIsShown(true);
   });
