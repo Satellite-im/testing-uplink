@@ -107,9 +107,6 @@ jobs:
           chmod +x ./appium-tests/scripts/run_appium_macos_server.sh
           ./appium-tests/scripts/run_appium_macos_server.sh
       
-      - name: Remove Uplink data before starting
-        run: rm -rf ~/.uplink
-
       - name: Run WebdriverIO tests on MacOS 🧪
         working-directory: ./appium-tests
         run: npm run mac.ci

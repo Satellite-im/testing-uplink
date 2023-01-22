@@ -3,6 +3,10 @@ import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 import { loginWithRandomUser } from "../helpers/commands";
 
 describe("Chats Main Screen Tests", async () => {
+  before(async () => {
+    await loginWithRandomUser();
+  })
+  
   // Skipping test since the order of displaying for toast notifications is random now
   xit('Validate and close Toast Notifications', async() => {
     await expect(await UplinkMainScreen.toastNotifications).toBeExisting()
