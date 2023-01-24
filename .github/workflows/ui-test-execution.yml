@@ -74,7 +74,7 @@ jobs:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
         with:
-          path: './appium-tests'
+          path: "./appium-tests"
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -106,11 +106,11 @@ jobs:
         run: |
           chmod +x ./appium-tests/scripts/run_appium_macos_server.sh
           ./appium-tests/scripts/run_appium_macos_server.sh
-      
+
       - name: Run WebdriverIO tests on MacOS 🧪
         working-directory: ./appium-tests
         run: npm run mac.ci
-      
+
       - name: Upload Screenshots if tests failed 📷
         uses: actions/upload-artifact@v3
         if: failure()

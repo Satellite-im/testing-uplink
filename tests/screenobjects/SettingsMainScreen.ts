@@ -120,7 +120,7 @@ class SettingsScreen extends AppScreen {
   }
 
   async goToFilesSettings() {
-    await (await this.filesSettingsButton).click()
+    await (await this.filesSettingsButton).click();
   }
 
   async goToExtensionsSettings() {

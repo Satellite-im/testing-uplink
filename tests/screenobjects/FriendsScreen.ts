@@ -185,45 +185,75 @@ class FriendsScreen extends AppScreen {
   }
 
   async acceptIncomingRequest(name: string) {
-    const friend = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + name + "']/../../..")
-    const button = await driver.findElementFromElement(friend.ELEMENT, 'accessibility id', 'Accept Friend')
-    await $(button).click()
+    const friend = await driver.findElement(
+      "xpath",
+      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
+    );
+    const button = await driver.findElementFromElement(
+      friend.ELEMENT,
+      "accessibility id",
+      "Accept Friend"
+    );
+    await $(button).click();
   }
 
   async blockUser(name: string) {
-    const friend = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + name + "']/../../..")
-    const button = await driver.findElementFromElement(friend.ELEMENT, 'accessibility id', 'Block Friend')
-    await $(button).click()
+    const friend = await driver.findElement(
+      "xpath",
+      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
+    );
+    const button = await driver.findElementFromElement(
+      friend.ELEMENT,
+      "accessibility id",
+      "Block Friend"
+    );
+    await $(button).click();
   }
 
   async chatWithFriend(name: string) {
-    const friend = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + name + "']/../../..")
-    const button = await driver.findElementFromElement(friend.ELEMENT, 'accessibility id', 'Chat With Friend')
-    await $(button).click()
+    const friend = await driver.findElement(
+      "xpath",
+      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
+    );
+    const button = await driver.findElementFromElement(
+      friend.ELEMENT,
+      "accessibility id",
+      "Chat With Friend"
+    );
+    await $(button).click();
   }
 
   async getEntireFriendsList(list: string) {
-    const friendNames = await driver.findElements('xpath', "//*[@label='" + list + "']//*[@label='Friend Info']/*[1]/*[1]")
-    let names = []
+    const friendNames = await driver.findElements(
+      "xpath",
+      "//*[@label='" + list + "']//*[@label='Friend Info']/*[1]/*[1]"
+    );
+    let names = [];
     for (let name of friendNames) {
-      names.push(await (await $(name)).getText())
+      names.push(await (await $(name)).getText());
     }
-    return names
+    return names;
   }
 
   async getUserFromFriendsList(list: string) {
-    const firstUserFromList = await driver.findElement('xpath', "//*[@label='" + list + "']//*[@label='Friend Info']/*[1]/*[1]")
-    const user = await (await $(firstUserFromList)).getText()
-    return user
+    const firstUserFromList = await driver.findElement(
+      "xpath",
+      "//*[@label='" + list + "']//*[@label='Friend Info']/*[1]/*[1]"
+    );
+    const user = await (await $(firstUserFromList)).getText();
+    return user;
   }
 
   async getUsersFromFavorites() {
-    const favoriteUsers = await driver.findElements('xpath', "//*[@label='Favorites']//*[@label='User Image']/../../*[2]")
-    let currentFavoriteUsers = []
+    const favoriteUsers = await driver.findElements(
+      "xpath",
+      "//*[@label='Favorites']//*[@label='User Image']/../../*[2]"
+    );
+    let currentFavoriteUsers = [];
     for (let name of favoriteUsers) {
-      currentFavoriteUsers.push(await (await $(name)).getText())
+      currentFavoriteUsers.push(await (await $(name)).getText());
     }
-    return currentFavoriteUsers
+    return currentFavoriteUsers;
   }
 
   async goToMainScreen() {
@@ -231,18 +261,30 @@ class FriendsScreen extends AppScreen {
   }
 
   async openFriendContextMenu(friend: string) {
-    const friendLocator = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + friend +"']/../../..")
-    const friendBubble = await (await $(friendLocator)).$('~User Image')
-    await driver.executeScript('macos: rightClick', [{
-      elementId: friendBubble
-    }]);
-    await (await this.contextMenu).waitForDisplayed()
+    const friendLocator = await driver.findElement(
+      "xpath",
+      "//*[@label='Friend Info']//*[@value='" + friend + "']/../../.."
+    );
+    const friendBubble = await (await $(friendLocator)).$("~User Image");
+    await driver.executeScript("macos: rightClick", [
+      {
+        elementId: friendBubble,
+      },
+    ]);
+    await (await this.contextMenu).waitForDisplayed();
   }
 
   async removeOrDenyFriend(name: string) {
-    const friend = await driver.findElement('xpath', "//*[@label='Friend Info']//*[@value='" + name + "']/../../..")
-    const button = await driver.findElementFromElement(friend.ELEMENT, 'accessibility id', 'Remove or Deny Friend')
-    await $(button).click()
+    const friend = await driver.findElement(
+      "xpath",
+      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
+    );
+    const button = await driver.findElementFromElement(
+      friend.ELEMENT,
+      "accessibility id",
+      "Remove or Deny Friend"
+    );
+    await $(button).click();
   }
 }
 

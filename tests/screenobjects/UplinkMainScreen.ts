@@ -107,23 +107,51 @@ class UplinkMainScreen extends AppScreen {
   }
 
   async closeToastNotification(title: string) {
-    const toast = await driver.findElement('xpath', "//*[@label='Toast Notification']//*[@value='" + title + "']/..")
-    const closeButton = await driver.findElementFromElement(toast.ELEMENT, '-ios class chain', 'XCUIElementTypeButton')
-    await (await $(closeButton)).click()
+    const toast = await driver.findElement(
+      "xpath",
+      "//*[@label='Toast Notification']//*[@value='" + title + "']/.."
+    );
+    const closeButton = await driver.findElementFromElement(
+      toast.ELEMENT,
+      "-ios class chain",
+      "XCUIElementTypeButton"
+    );
+    await (await $(closeButton)).click();
   }
 
-  async validateContentsToastNotification(title: string, expectedSubtitle: string) {
-    const toast = await driver.findElement('xpath', "//*[@label='Toast Notification']//*[@value='" + title + "']/..")
-    const toastSubtitle = await driver.findElementFromElement(toast.ELEMENT, '-ios class chain', '**/XCUIElementTypeGroup/XCUIElementTypeStaticText')
-    const toastTitle = await driver.findElementFromElement(toast.ELEMENT, '-ios class chain', '**/XCUIElementTypeStaticText')
-    await expect(await $(toastSubtitle)).toHaveTextContaining(expectedSubtitle)
-    await expect(await $(toastTitle)).toHaveTextContaining(title)
+  async validateContentsToastNotification(
+    title: string,
+    expectedSubtitle: string
+  ) {
+    const toast = await driver.findElement(
+      "xpath",
+      "//*[@label='Toast Notification']//*[@value='" + title + "']/.."
+    );
+    const toastSubtitle = await driver.findElementFromElement(
+      toast.ELEMENT,
+      "-ios class chain",
+      "**/XCUIElementTypeGroup/XCUIElementTypeStaticText"
+    );
+    const toastTitle = await driver.findElementFromElement(
+      toast.ELEMENT,
+      "-ios class chain",
+      "**/XCUIElementTypeStaticText"
+    );
+    await expect(await $(toastSubtitle)).toHaveTextContaining(expectedSubtitle);
+    await expect(await $(toastTitle)).toHaveTextContaining(title);
   }
 
   async validateTextFromButtonBadge(expectedText: string) {
-    const buttonBadge = await driver.findElement('accessibility id', 'Button Badge')
-    const badgeText = await driver.findElementFromElement(buttonBadge.ELEMENT, '-ios class chain', '*')
-    await expect($(badgeText)).toHaveTextContaining(expectedText)
+    const buttonBadge = await driver.findElement(
+      "accessibility id",
+      "Button Badge"
+    );
+    const badgeText = await driver.findElementFromElement(
+      buttonBadge.ELEMENT,
+      "-ios class chain",
+      "*"
+    );
+    await expect($(badgeText)).toHaveTextContaining(expectedText);
   }
 }
 
