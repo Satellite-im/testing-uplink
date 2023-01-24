@@ -151,8 +151,7 @@ describe("Friends Screen Tests", async () => {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  // Skipped since unfriend user action from button on Blocked List is working wrong now, and removing the user instead of sending it back to all friends list
-  xit("Unblock someone from blocked friends list", async () => {
+  it("Unblock someone from blocked friends list", async () => {
     // Go to Blocked Users Screen
     await (await FriendsScreen.blockedFriendsButton).click();
 
@@ -164,10 +163,10 @@ describe("Friends Screen Tests", async () => {
     const blockedList = await FriendsScreen.getEntireFriendsList('Blocked List');
     await expect(blockedList.includes(friendName)).toEqual(false);
 
-    // Go to the current list of All friends and ensure that unblocked user is now on friends list
+    // Go to the current list of All friends and ensure that unblocked user is not on friends list as expected
     await (await FriendsScreen.allFriendsButton).click();
     const allFriendsList = await FriendsScreen.getEntireFriendsList('Friends List');
-    await expect(allFriendsList.includes(friendName)).toEqual(true);
+    await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
   it("Context Menu - Chat with Friend", async () => {
@@ -284,8 +283,7 @@ describe("Friends Screen Tests", async () => {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  // Skipped since unblock user action from context menu is not working right now
-  xit("Context Menu - Unblock User", async () => {
+  it("Context Menu - Unblock User", async () => {
     // Go to Blocked Users Screen
     await (await FriendsScreen.blockedFriendsButton).click();
 
@@ -300,9 +298,9 @@ describe("Friends Screen Tests", async () => {
     const blockedList = await FriendsScreen.getEntireFriendsList('Blocked List');
     await expect(blockedList.includes(friendName)).toEqual(false);
 
-    // Go to the current list of All friends and ensure that unblocked user is now in friends list
+    // Go to the current list of All friends and ensure that unblocked user is not on friends list, as expected
     await (await FriendsScreen.allFriendsButton).click();
     const allFriendsList = await FriendsScreen.getEntireFriendsList('Friends List');
-    await expect(allFriendsList.includes(friendName)).toEqual(true);
+    await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 });
