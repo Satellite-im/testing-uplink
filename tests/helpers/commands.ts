@@ -1,7 +1,7 @@
 import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
-import { faker } from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
 
 export function customPredicateString(
   elementType: string,
@@ -35,21 +35,23 @@ export async function loginWithRandomUser() {
   const randomPin = await faker.internet.password(4, true);
   const randomUser = await faker.internet.password(12, true);
 
-   // Enter Pin and click on Create Account
-   await CreatePinScreen.enterPin(randomPin);
-   await CreatePinScreen.clickOnCreateAccount();
- 
-   // Enter Username and click on Create Account
-   await CreateUserScreen.enterUsername(randomUser);
-   await CreateUserScreen.clickOnCreateAccount();
- 
-   // Ensure Main Screen is displayed
-   await UplinkMainScreen.waitForIsShown(true);
+  // Enter Pin and click on Create Account
+  await CreatePinScreen.enterPin(randomPin);
+  await CreatePinScreen.clickOnCreateAccount();
+
+  // Enter Username and click on Create Account
+  await CreateUserScreen.enterUsername(randomUser);
+  await CreateUserScreen.clickOnCreateAccount();
+
+  // Ensure Main Screen is displayed
+  await UplinkMainScreen.waitForIsShown(true);
 }
 
 export async function deleteAppCache() {
   const appleScript = 'do shell script "rm -rf ~/.uplink"';
-  await driver.executeScript('macos: appleScript', [{
-    command: appleScript
-  }]);
+  await driver.executeScript("macos: appleScript", [
+    {
+      command: appleScript,
+    },
+  ]);
 }
