@@ -53,3 +53,10 @@ export async function deleteAppCache() {
     command: appleScript
   }]);
 }
+
+export async function hoverOnElement(elementLocator: string) {
+  const elementId = await driver.findElement('accessibility id', elementLocator).elementId;
+  await driver.executeScript('macos: hover', [{
+    elementId: elementId,
+  }]);
+}
