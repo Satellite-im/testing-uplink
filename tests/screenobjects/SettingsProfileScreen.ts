@@ -1,6 +1,5 @@
 import AppScreen from "./AppScreen";
 import { join } from "path";
-import { hoverOnElement } from "../helpers/commands";
 
 const SELECTORS = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
@@ -69,7 +68,7 @@ class SettingsProfileScreen extends AppScreen {
     return $(SELECTORS.FILE_SELECTION_OK_BUTTON);
   }
 
-  get fileSelectionPanel () {
+  get fileSelectionPanel() {
     return $(SELECTORS.FILE_SELECTION_PANEL);
   }
 
@@ -89,24 +88,30 @@ class SettingsProfileScreen extends AppScreen {
     return $(SELECTORS.GENERAL_BUTTON);
   }
 
-  get inputErrors() {
-    return $$(SELECTORS.INPUT_ERROR);
+  get inputError() {
+    return $(SELECTORS.INPUT_ERROR);
   }
 
   get inputErrorOnStatus() {
-    return $$(SELECTORS.INPUT_ERROR).$("//*[value='Maximum of 128 characters exceeded.']");
+    return $(SELECTORS.INPUT_ERROR).$(
+      "//*[@value='Maximum of 128 characters exceeded.']"
+    );
   }
 
   get inputErrorOnUsernameMax() {
-    return $$(SELECTORS.INPUT_ERROR).$("//*[value='Maximum of 32 characters exceeded.']");
+    return $(SELECTORS.INPUT_ERROR).$(
+      "//*[@value='Maximum of 32 characters exceeded.']"
+    );
   }
 
   get inputErrorOnUsernameMin() {
-    return $$(SELECTORS.INPUT_ERROR).$("//*[value='Please enter at least 4 characters.']");
+    return $(SELECTORS.INPUT_ERROR).$(
+      "//*[@value='Please enter at least 4 characters.']"
+    );
   }
 
   get inputErrorOnUsernameSpaces() {
-    return $$(SELECTORS.INPUT_ERROR).$("//*[value='Spaces are not allowed.']");
+    return $(SELECTORS.INPUT_ERROR).$("//*[@value='Spaces are not allowed.']");
   }
 
   get prereleaseIndicator() {
@@ -123,6 +128,10 @@ class SettingsProfileScreen extends AppScreen {
 
   get profileBanner() {
     return $(SELECTORS.PROFILE_BANNER);
+  }
+
+  get profileBannerTooltip() {
+    return $(SELECTORS.PROFILE_BANNER).$('//*[@value="Change banner"]');
   }
 
   get profileButton() {
@@ -174,7 +183,7 @@ class SettingsProfileScreen extends AppScreen {
   }
 
   get statusLabel() {
-    return $(SELECTORS.PROFILE_CONTENT).$("//*[value='STATUS']");
+    return $(SELECTORS.PROFILE_CONTENT).$('(//*[@value="STATUS"])[1]');
   }
 
   get usernameInput() {
@@ -182,7 +191,7 @@ class SettingsProfileScreen extends AppScreen {
   }
 
   get usernameLabel() {
-    return $(SELECTORS.PROFILE_CONTENT).$("//*[value='USERNAME']");
+    return $(SELECTORS.PROFILE_CONTENT).$('(//*[@value="USERNAME"])[1]');
   }
 
   get window() {
@@ -197,43 +206,65 @@ class SettingsProfileScreen extends AppScreen {
     await this.usernameInput.setValue(username);
   }
 
-  async enterUsernameWithSpaces() {
-    await this.usernameInput.click();
-    await driver.execute_script('macos: keys', {
-      'keys': [{
-          'key': 'Space',   
-      }]
-    });
-  }
-
   async goToMainScreen() {
     await (await this.chatsButton).click();
   }
 
   async hoverOnBanner() {
-    await hoverOnElement("//*[label='profile-banner']");
+    // Get elementID of Profile Banner
+    const bannerElementID = await driver.findElement(
+      "accessibility id",
+      "profile-banner"
+    ).elementId;
+
+    // Get X and Y coordinates to hover on from Profile Banner
+    const bannerX = (await $("~profile-banner").getLocation("x")) + 10;
+    const bannerY = (await $("~profile-banner").getLocation("y")) + 10;
+
+    // Hover on X and Y coordinates previously retrieved
+    await driver.executeScript("macos: hover", [
+      {
+        elementId: bannerElementID,
+        x: bannerX,
+        y: bannerY,
+      },
+    ]);
   }
 
   async uploadBannerPicture(relativePath: string) {
+    // Get absolute path from banner picture to upload by joining process.cwd with the relative path passed as argument
     const imagePath = join(process.cwd(), relativePath);
-    await await(this.profileBanner).click();
-    await this.fileSelectionPanel.waitForDisplayed();
-    await this.fileSelectionPanel.setValue(imagePath + "\n");
+
+    // Click on Profile Banner
+    await await this.profileBanner.click();
+
+    // Once that File Selection Panel is available, look for the absolute path of the banner picture and select it
+    await browser.pause(1000);
+    await this.fileSelectionPanel.addValue(imagePath + "\n");
     await this.fileSelectionOKButton.click();
-    await this.fileSelectionPanel.waitForExist({ reverse: true });
+
+    // Validate that profile banner is displayed on screen
     await expect(await this.profileBanner).toBeDisplayed();
   }
 
   async uploadProfilePicture(relativePath: string) {
+    // Get absolute path from profile picture to upload by joining process.cwd with the relative path passed as argument
     const imagePath = join(process.cwd(), relativePath);
-    await await(this.addPictureButton).click();
-    await this.fileSelectionPanel.waitForDisplayed();
-    await this.fileSelectionPanel.setValue(imagePath + "\n");
+
+    // Click on Profile Picture add button
+    await await this.addPictureButton.click();
+
+    // Once that File Selection Panel is available, look for the absolute path of the profile picture and select it
+    await browser.pause(1000);
+    await this.fileSelectionPanel.addValue(imagePath + "\n");
     await this.fileSelectionOKButton.click();
-    await this.fileSelectionPanel.waitForExist({ reverse: true });
-    await await(this.usernameInput).click();
+
+    // Click on username input to move the mouse cursor
+    await await this.usernameInput.click();
+
+    // Validate that profile picture is displayed on screen
     await expect(await this.profilePicture).toBeDisplayed();
-  }  
+  }
 }
 
 export default new SettingsProfileScreen();
