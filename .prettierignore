@@ -1,6 +1,7 @@
 # Ignore test results and system files
 node_modules/
 test-results/
+config/
 .gitignore
 appium.log
 babel.config.js
