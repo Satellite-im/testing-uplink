@@ -2,7 +2,7 @@ name: UI Automated Tests on Windows 🧪
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize, reopened, edited]
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
