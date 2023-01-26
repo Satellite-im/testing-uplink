@@ -8,18 +8,18 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  build-app:
+  windows:
     runs-on: windows-latest
     defaults:
       run:
         shell: bash
-    
-     steps:
+
+    steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
         with:
           repository: Satellite-im/Uplink
-      
+
       - name: Set up cargo cache 🛠️
         uses: actions/cache@v3
         continue-on-error: false
@@ -68,4 +68,3 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: target/debug/Uplink-Win.zip
-
