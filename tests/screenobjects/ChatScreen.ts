@@ -94,19 +94,29 @@ class ChatScreen extends AppScreen {
   }
 
   get sidebarChatsUserImage() {
-    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$(SELECTORS.SIDEBAR_CHATS_USER).$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
+      .$(SELECTORS.SIDEBAR_CHATS_USER)
+      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
   }
 
   get sidebarChatsUserInfo() {
-    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$(SELECTORS.SIDEBAR_CHATS_USER).$$(SELECTORS.SIDEBAR_CHATS_USER_INFO);
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
+      .$(SELECTORS.SIDEBAR_CHATS_USER)
+      .$$(SELECTORS.SIDEBAR_CHATS_USER_INFO);
   }
 
   get sidebarChatsUserName() {
-    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$(SELECTORS.SIDEBAR_CHATS_USER).$$(SELECTORS.SIDEBAR_CHATS_USER_INFO).$(SELECTORS.SIDEBAR_CHATS_USER_NAME);
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
+      .$(SELECTORS.SIDEBAR_CHATS_USER)
+      .$$(SELECTORS.SIDEBAR_CHATS_USER_INFO)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_NAME);
   }
 
   get sidebarChatsUserStatus() {
-    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$(SELECTORS.SIDEBAR_CHATS_USER).$$(SELECTORS.SIDEBAR_CHATS_USER_INFO).$(SELECTORS.SIDEBAR_CHATS_USER_STATUS);
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
+      .$(SELECTORS.SIDEBAR_CHATS_USER)
+      .$$(SELECTORS.SIDEBAR_CHATS_USER_INFO)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS);
   }
 
   get sidebarChildren() {
@@ -166,9 +176,16 @@ class ChatScreen extends AppScreen {
   }
 
   async validateTextFromButtonBadge(expectedText: string) {
-    const buttonBadge = await driver.findElement('accessibility id', 'Button Badge')
-    const badgeText = await driver.findElementFromElement(buttonBadge.ELEMENT, '-ios class chain', '*')
-    await expect($(badgeText)).toHaveTextContaining(expectedText)
+    const buttonBadge = await driver.findElement(
+      "accessibility id",
+      "Button Badge"
+    );
+    const badgeText = await driver.findElementFromElement(
+      buttonBadge.ELEMENT,
+      "-ios class chain",
+      "*"
+    );
+    await expect($(badgeText)).toHaveTextContaining(expectedText);
   }
 }
 
