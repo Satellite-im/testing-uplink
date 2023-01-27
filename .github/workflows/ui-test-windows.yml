@@ -54,21 +54,17 @@ jobs:
       - name: Build resources
         run: cargo build
       
-      - name: Display files on main folder
-        shell: powershell
-        run: Get-ChildItem -Recurse
-
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: Uplink-Windows
           path: |
-            target/release/uplink.exe
+            target/debug/ui.exe
 
       - name: Compress Windows Build
         shell: powershell
         run: |
-          Compress-Archive target/release/uplink.exe target/release/Uplink-Win.zip
+          Compress-Archive target/debug/ui.exe target/debug/Uplink-Win.zip
 
       - name: Copy file to release
         uses: softprops/action-gh-release@v1
