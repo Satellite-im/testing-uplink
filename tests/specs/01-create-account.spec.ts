@@ -74,6 +74,21 @@ describe("Create Account Screen Tests", async () => {
     await (await CreatePinScreen.pinInput).clearValue();
   });
 
+  it("Enter a pin with spaces", async () => {
+    // Enter pin value with spaces
+    const emptySpaces = "    ";
+    await CreatePinScreen.pinInput.addValue(`123${emptySpaces}`);
+    await expect(await CreatePinScreen.inputError).toBeDisplayed();
+    await expect(await CreatePinScreen.inputError).toHaveTextContaining(
+      "Spaces are not allowed."
+    );
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr(
+      "enabled",
+      "false"
+    );
+    await (await CreatePinScreen.pinInput).clearValue();
+  });
+
   it("Enter a valid pin and continue creating a username", async () => {
     await CreatePinScreen.enterPin("1234");
     await expect(await CreatePinScreen.createAccountButton).toHaveAttr(
@@ -118,6 +133,32 @@ describe("Create Account Screen Tests", async () => {
     await expect(await CreateUserScreen.inputError).toBeDisplayed();
     await expect(await CreateUserScreen.inputError).toHaveTextContaining(
       "Maximum of 32 characters exceeded"
+    );
+  });
+
+  it("Username with spaces and attempt to continue", async () => {
+    // Enter pin value with spaces
+    const emptySpaces = "    ";
+    await CreateUserScreen.usernameInput.addValue(`123${emptySpaces}`);
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr(
+      "enabled",
+      "false"
+    );
+    await expect(await CreateUserScreen.inputError).toBeDisplayed();
+    await expect(await CreateUserScreen.inputError).toHaveTextContaining(
+      "Spaces are not allowed."
+    );
+  });
+
+  it("Username with non-alphanumeric characters", async () => {
+    await CreateUserScreen.enterUsername("test...");
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr(
+      "enabled",
+      "false"
+    );
+    await expect(await CreateUserScreen.inputError).toBeDisplayed();
+    await expect(await CreateUserScreen.inputError).toHaveTextContaining(
+      "Only alphanumeric characters are accepted."
     );
   });
 
