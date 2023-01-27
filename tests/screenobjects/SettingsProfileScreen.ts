@@ -1,5 +1,5 @@
 import AppScreen from "./AppScreen";
-import { join } from "path";
+import { selectFileOnMacos } from "../helpers/commands";
 
 const SELECTORS = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
@@ -8,8 +8,6 @@ const SELECTORS = {
   CHATS_BUTTON: "~chats-button",
   DEVELOPER_BUTTON: "~developer-button",
   EXTENSIONS_BUTTTON: "~extensions-button",
-  FILE_SELECTION_OK_BUTTON: "~OKButton",
-  FILE_SELECTION_PANEL: "~open-panel",
   FILES_BUTTON: "~files-button",
   FRIENDS_BUTTON: "~friends-button",
   GENERAL_BUTTON: "~general-button",
@@ -64,14 +62,6 @@ class SettingsProfileScreen extends AppScreen {
     return $(SELECTORS.EXTENSIONS_BUTTTON);
   }
 
-  get fileSelectionOKButton() {
-    return $(SELECTORS.FILE_SELECTION_OK_BUTTON);
-  }
-
-  get fileSelectionPanel() {
-    return $(SELECTORS.FILE_SELECTION_PANEL);
-  }
-
   get filesButton() {
     return $$(SELECTORS.FILES_BUTTON)[0];
   }
@@ -107,6 +97,12 @@ class SettingsProfileScreen extends AppScreen {
   get inputErrorOnUsernameMin() {
     return $(SELECTORS.INPUT_ERROR).$(
       "//*[@value='Please enter at least 4 characters.']"
+    );
+  }
+
+  get inputErrorOnUsernameNotAlphanumeric() {
+    return $(SELECTORS.INPUT_ERROR).$(
+      "//*[@value='Only alphanumeric characters are accepted.']"
     );
   }
 
@@ -232,35 +228,25 @@ class SettingsProfileScreen extends AppScreen {
   }
 
   async uploadBannerPicture(relativePath: string) {
-    // Get absolute path from banner picture to upload by joining process.cwd with the relative path passed as argument
-    const imagePath = join(process.cwd(), relativePath);
-
     // Click on Profile Banner
-    await await this.profileBanner.click();
+    await this.profileBanner.click();
 
-    // Once that File Selection Panel is available, look for the absolute path of the banner picture and select it
-    await browser.pause(1000);
-    await this.fileSelectionPanel.addValue(imagePath + "\n");
-    await this.fileSelectionOKButton.click();
+    // Invoke File Selection Helper Function for MacOS to select the banner image to upload. A similar method will be implemented in the future for Windows
+    await selectFileOnMacos(relativePath);
 
     // Validate that profile banner is displayed on screen
     await expect(await this.profileBanner).toBeDisplayed();
   }
 
   async uploadProfilePicture(relativePath: string) {
-    // Get absolute path from profile picture to upload by joining process.cwd with the relative path passed as argument
-    const imagePath = join(process.cwd(), relativePath);
-
     // Click on Profile Picture add button
     await await this.addPictureButton.click();
 
-    // Once that File Selection Panel is available, look for the absolute path of the profile picture and select it
-    await browser.pause(1000);
-    await this.fileSelectionPanel.addValue(imagePath + "\n");
-    await this.fileSelectionOKButton.click();
+    // Invoke File Selection Helper Function for MacOS to select the profile image to upload. A similar method will be implemented in the future for Windows
+    await selectFileOnMacos(relativePath);
 
     // Click on username input to move the mouse cursor
-    await await this.usernameInput.click();
+    await this.usernameInput.click();
 
     // Validate that profile picture is displayed on screen
     await expect(await this.profilePicture).toBeDisplayed();

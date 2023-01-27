@@ -105,7 +105,8 @@ describe("Settings - Profile - Tests", async () => {
 
   it("Settings Profile - Spaces are not allowed", async () => {
     // Enter username value with spaces
-    await SettingsProfileScreen.enterUsername(" abc ");
+    const emptySpaces = "    ";
+    await SettingsProfileScreen.usernameInput.addValue(`123${emptySpaces}`);
 
     // Validate that error message is displayed
     await expect(
@@ -129,6 +130,19 @@ describe("Settings - Profile - Tests", async () => {
     await expect(
       await SettingsProfileScreen.inputErrorOnUsernameMax
     ).toHaveTextContaining("Maximum of 32 characters exceeded.");
+  });
+
+  it("Settings Profile - Username with non-alphanumeric characters", async () => {
+    // Enter username value with non-alphanumeric characters
+    await SettingsProfileScreen.enterUsername("test...");
+
+    // Validate that error message is displayed
+    await expect(
+      await SettingsProfileScreen.inputErrorOnUsernameNotAlphanumeric
+    ).toBeDisplayed();
+    await expect(
+      await SettingsProfileScreen.inputErrorOnUsernameNotAlphanumeric
+    ).toHaveTextContaining("Only alphanumeric characters are accepted.");
   });
 
   it("Settings Profile - Status with more than 128 characters", async () => {
