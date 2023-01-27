@@ -1,11 +1,11 @@
-import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
+import WelcomeScreen from "../screenobjects/WelcomeScreen";
 import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
 import { loginWithRandomUser } from "../helpers/commands";
 
 describe("Settings - Profile - Tests", async () => {
   before(async () => {
     await loginWithRandomUser();
-    await UplinkMainScreen.goToSettings();
+    await WelcomeScreen.goToSettings();
     await SettingsProfileScreen.waitForIsShown(true);
   });
 

@@ -1,7 +1,6 @@
 import AppScreen from "./AppScreen";
 
 const SELECTORS = {
-  ADD_FRIENDS_BUTTON: "~add-friends-button",
   BUTTON_BADGE: "~Button Badge",
   BUTTON_NAV: "~button-nav",
   CHAT_SEARCH_INPUT: "~chat-search-input",
@@ -17,17 +16,12 @@ const SELECTORS = {
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
   TOAST_NOTIFICATION: "~Toast Notification",
-  WELCOME_SCREEN: "~welcome-screen",
   WINDOW: "-ios class chain:**/XCUIElementTypeWebView",
 };
 
-class UplinkMainScreen extends AppScreen {
+export default class UplinkMainScreen extends AppScreen {
   constructor() {
-    super(SELECTORS.WELCOME_SCREEN);
-  }
-
-  get addFriendsButton() {
-    return $(SELECTORS.ADD_FRIENDS_BUTTON);
+    super(SELECTORS.WINDOW);
   }
 
   get buttonBadge() {
@@ -86,24 +80,8 @@ class UplinkMainScreen extends AppScreen {
     return $$(SELECTORS.TOAST_NOTIFICATION);
   }
 
-  get welcomeScreen() {
-    return $(SELECTORS.WELCOME_SCREEN);
-  }
-
   get window() {
     return $(SELECTORS.WINDOW);
-  }
-
-  async goToFiles() {
-    await (await this.filesButton).click();
-  }
-
-  async goToFriends() {
-    await (await this.friendsButton).click();
-  }
-
-  async goToSettings() {
-    await (await this.settingsButton).click();
   }
 
   async closeToastNotification(title: string) {
@@ -117,6 +95,22 @@ class UplinkMainScreen extends AppScreen {
       "XCUIElementTypeButton"
     );
     await (await $(closeButton)).click();
+  }
+
+  async goToFiles() {
+    await (await this.filesButton).click();
+  }
+
+  async goToFriends() {
+    await (await this.friendsButton).click();
+  }
+
+  async goToMainScreen() {
+    await (await this.chatsButton).click();
+  }
+
+  async goToSettings() {
+    await (await this.settingsButton).click();
   }
 
   async validateContentsToastNotification(
@@ -154,5 +148,3 @@ class UplinkMainScreen extends AppScreen {
     await expect($(badgeText)).toHaveTextContaining(expectedText);
   }
 }
-
-export default new UplinkMainScreen();
