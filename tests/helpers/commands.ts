@@ -3,7 +3,6 @@ import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 import { faker } from "@faker-js/faker";
 import { join } from "path";
-import { parseCommandLine } from "typescript";
 
 export function customPredicateString(
   elementType: string,
