@@ -50,14 +50,14 @@ jobs:
         uses: arduino/setup-protoc@v1
 
       - name: Build resources
-        run: cargo build
+        run: cargo build --release
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
           name: Uplink-Windows
           path: |
-            target/debug/uplink.exe
+            target/release/uplink.exe
 
       - name: Compress Windows Build
         shell: powershell
