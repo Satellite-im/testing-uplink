@@ -1,6 +1,6 @@
 import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
-import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
+import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 describe("Create Account Screen Tests", async () => {
   before(async () => {
@@ -169,6 +169,6 @@ describe("Create Account Screen Tests", async () => {
       "true"
     );
     await CreateUserScreen.clickOnCreateAccount();
-    await UplinkMainScreen.waitForIsShown(true);
+    await WelcomeScreen.waitForIsShown(true);
   });
 });

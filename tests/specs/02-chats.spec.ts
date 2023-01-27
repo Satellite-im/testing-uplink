@@ -1,5 +1,5 @@
 import FriendsScreen from "../screenobjects/FriendsScreen";
-import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
+import WelcomeScreen from "../screenobjects/WelcomeScreen";
 import { loginWithRandomUser } from "../helpers/commands";
 
 describe("Chats Main Screen Tests", async () => {
@@ -9,56 +9,56 @@ describe("Chats Main Screen Tests", async () => {
 
   // Skipping test since the order of displaying for toast notifications is random now
   xit("Validate and close Toast Notifications", async () => {
-    await expect(await UplinkMainScreen.toastNotifications).toBeExisting();
-    await UplinkMainScreen.validateContentsToastNotification(
+    await expect(await WelcomeScreen.toastNotifications).toBeExisting();
+    await WelcomeScreen.validateContentsToastNotification(
       "TITLE2",
       "content2"
     );
-    await UplinkMainScreen.validateContentsToastNotification(
+    await WelcomeScreen.validateContentsToastNotification(
       "TITLE1",
       "content1"
     );
-    await UplinkMainScreen.closeToastNotification("TITLE2");
-    await UplinkMainScreen.closeToastNotification("TITLE1");
+    await WelcomeScreen.closeToastNotification("TITLE2");
+    await WelcomeScreen.closeToastNotification("TITLE1");
   });
 
   it("Validate that Friends Button has a Badge with Requests Pending", async () => {
-    await UplinkMainScreen.validateTextFromButtonBadge("2");
+    await WelcomeScreen.validateTextFromButtonBadge("2");
   });
 
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    await expect(await UplinkMainScreen.prereleaseIndicator).toBeDisplayed();
+    await expect(await WelcomeScreen.prereleaseIndicator).toBeDisplayed();
     await expect(
-      await UplinkMainScreen.prereleaseIndicatorText
+      await WelcomeScreen.prereleaseIndicatorText
     ).toHaveTextContaining("Pre-release");
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await expect(await UplinkMainScreen.buttonNav).toBeDisplayed();
-    await expect(await UplinkMainScreen.chatsButton).toBeDisplayed();
-    await expect(await UplinkMainScreen.filesButton).toBeDisplayed();
-    await expect(await UplinkMainScreen.friendsButton).toBeDisplayed();
-    await expect(await UplinkMainScreen.settingsButton).toBeDisplayed();
+    await expect(await WelcomeScreen.buttonNav).toBeDisplayed();
+    await expect(await WelcomeScreen.chatsButton).toBeDisplayed();
+    await expect(await WelcomeScreen.filesButton).toBeDisplayed();
+    await expect(await WelcomeScreen.friendsButton).toBeDisplayed();
+    await expect(await WelcomeScreen.settingsButton).toBeDisplayed();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await expect(await UplinkMainScreen.chatSearchInput).toBeDisplayed();
-    await expect(await UplinkMainScreen.sidebar).toBeDisplayed();
-    await expect(await UplinkMainScreen.sidebarChildren).toBeDisplayed();
-    await expect(await UplinkMainScreen.sidebarSearch).toBeDisplayed();
+    await expect(await WelcomeScreen.chatSearchInput).toBeDisplayed();
+    await expect(await WelcomeScreen.sidebar).toBeDisplayed();
+    await expect(await WelcomeScreen.sidebarChildren).toBeDisplayed();
+    await expect(await WelcomeScreen.sidebarSearch).toBeDisplayed();
   });
 
   it("Validate Welcome Screen is displayed", async () => {
-    await expect(await UplinkMainScreen.welcomeScreen).toBeDisplayed();
-    await expect(await UplinkMainScreen.addFriendsButton).toBeDisplayed();
+    await expect(await WelcomeScreen.welcomeLayout).toBeDisplayed();
+    await expect(await WelcomeScreen.addFriendsButton).toBeDisplayed();
     const locator = await (
-      await UplinkMainScreen.welcomeScreen
+      await WelcomeScreen.welcomeLayout
     ).$("~Add Someone");
     await expect(locator).toHaveTextContaining("Add Someone");
   });
 
   it("Click on add someone redirects to Friends Page", async () => {
-    await (await UplinkMainScreen.addFriendsButton).click();
+    await (await WelcomeScreen.addFriendsButton).click();
     await FriendsScreen.waitForIsShown(true);
   });
 });
