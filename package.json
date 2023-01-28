@@ -5,6 +5,7 @@
   "scripts": {
     "mac.app": "wdio config/wdio.mac.app.conf.ts",
     "mac.ci": "wdio config/wdio.mac.ci.conf.ts",
+    "windows.ci": "wdio config/wdio.windows.ci.conf.ts",
     "lint": "eslint config tests"
   },
   "repository": {
