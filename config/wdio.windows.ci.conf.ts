@@ -24,8 +24,8 @@ config.capabilities = [
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "./apps/ui.exe"),
     // @ts-ignore
-    "appium:prerun": {
-      command: 'cd /d %USERPROFILE% && rmdir /s /q .uplink',
+    "appium:postrun": {
+      script: 'cd $home; Remove-Item .uplink -Recurse -Force',
     },
   },
 ];
