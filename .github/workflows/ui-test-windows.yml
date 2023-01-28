@@ -40,21 +40,21 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - name: Setup cmake
+      - name: Setup cmake 🛠️
         uses: jwlawson/actions-setup-cmake@v1.13
 
-      - name: Use cmake
+      - name: Use cmake 💿
         run: cmake --version
 
-      - name: Install Protoc
+      - name: Install Protoc 💿
         uses: arduino/setup-protoc@v1
         with:
           repo-token: ${{env.GITHUB_TOKEN}}
 
-      - name: Build resources
+      - name: Build resources 🖥️
         run: cargo build
 
-      - name: Upload Artifact
+      - name: Upload Artifact ⬆️
         uses: actions/upload-artifact@v3
         with:
           name: Uplink-Windows
