@@ -28,9 +28,7 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   get crumbText() {
-    return $(SELECTORS.CRUMB).$(
-      "-ios class chain:**/XCUIElementTypeStaticText[1]"
-    );
+    return $("//*[@label='crumb']/*[1]/*[1]");
   }
 
   get fakeFile1() {
@@ -58,27 +56,19 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   get filesInfoFreeSpaceLabel() {
-    return $(
-      'ios class chain:**/XCUIElementTypeGroup[`label == "files-info"`]/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]'
-    );
+    return $('//*[@label="files-info"]/*[1]/*[1]');
   }
 
   get filesInfoFreeSpaceValue() {
-    return $(
-      'ios class chain:**/XCUIElementTypeGroup[`label == "files-info"`]/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[2]'
-    );
+    return $('//*[@label="files-info"]/*[1]/*[2]');
   }
 
   get filesInfoTotalSpaceLabel() {
-    return $(
-      'ios class chain:**/XCUIElementTypeGroup[`label == "files-info"`]/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText[1]'
-    );
+    return $('//*[@label="files-info"]/*[2]/*[1]');
   }
 
   get filesInfoTotalSpaceValue() {
-    return $(
-      'ios class chain:**/XCUIElementTypeGroup[`label == "files-info"`]/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText[2]'
-    );
+    return $('//*[@label="files-info"]/*[2]/*[2]');
   }
 
   get filesLayout() {

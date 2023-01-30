@@ -8,15 +8,13 @@ const SELECTORS = {
   FILES_BUTTON: "~files-button",
   FRIENDS_BUTTON: "~friends-button",
   PRE_RELEASE_INDICATOR: "~pre-release",
-  PRE_RELEASE_INDICATOR_TEXT:
-    '-ios class chain:**/XCUIElementTypeStaticText[`value == "Pre-release"`]',
   SETTINGS_BUTTON: "~settings-button",
   SIDEBAR: "~sidebar",
   SIDEBAR_CHILDREN: "~sidebar-children",
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
   TOAST_NOTIFICATION: "~Toast Notification",
-  WINDOW: "-ios class chain:**/XCUIElementTypeWebView",
+  WINDOW: '//*[@title="Uplink"]',
 };
 
 export default class UplinkMainScreen extends AppScreen {
@@ -53,7 +51,7 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get prereleaseIndicatorText() {
-    return $(SELECTORS.PRE_RELEASE_INDICATOR_TEXT);
+    return $('//*[@label="pre-release"]/*[1]/*[1]');
   }
 
   get settingsButton() {
@@ -136,15 +134,7 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   async validateTextFromButtonBadge(expectedText: string) {
-    const buttonBadge = await driver.findElement(
-      "accessibility id",
-      "Button Badge"
-    );
-    const badgeText = await driver.findElementFromElement(
-      buttonBadge.ELEMENT,
-      "-ios class chain",
-      "*"
-    );
+    const badgeText = await $('//*[@label="Button Badge"]/*[1]');
     await expect($(badgeText)).toHaveTextContaining(expectedText);
   }
 }

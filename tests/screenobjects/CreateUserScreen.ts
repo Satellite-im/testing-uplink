@@ -17,9 +17,7 @@ class CreatePinScreen extends UplinkMainScreen {
   }
 
   get inputError() {
-    return $(SELECTORS.INPUT_ERROR).$(
-      "-ios class chain:**/XCUIElementTypeStaticText"
-    );
+    return $("//*[@label='input-error']/*[1]");
   }
 
   get unlockLayout() {
