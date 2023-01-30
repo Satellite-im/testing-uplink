@@ -33,6 +33,10 @@ describe("Files Screen Tests", async () => {
 
   it("Validate Files Info is displayed in screen", async () => {
     await expect(await FilesScreen.filesInfo).toBeDisplayed();
+    await expect(await FilesScreen.filesInfoFreeSpaceLabel).toBeDisplayed();
+    await expect(await FilesScreen.filesInfoFreeSpaceValue).toBeDisplayed();
+    await expect(await FilesScreen.filesInfoTotalSpaceLabel).toBeDisplayed();
+    await expect(await FilesScreen.filesInfoTotalSpaceValue).toBeDisplayed();
   });
 
   it("Validate Files Breadcrumbs are displayed in screen", async () => {
