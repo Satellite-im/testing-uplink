@@ -19,9 +19,7 @@ class CreatePinScreen extends UplinkMainScreen {
   }
 
   get inputError() {
-    return $(SELECTORS.INPUT_ERROR).$(
-      "-ios class chain:**/XCUIElementTypeStaticText"
-    );
+    return $("//*[@label='input-error']/*[1]");
   }
 
   get pinInput() {
@@ -33,15 +31,11 @@ class CreatePinScreen extends UplinkMainScreen {
   }
 
   get unlockWarningParagraph() {
-    return $(SELECTORS.UNLOCK_WARNING_PARAGRAPH).$(
-      "-ios class chain:**/XCUIElementTypeStaticText"
-    );
+    return $("//*[@label='unlock-warning-paragraph']/*[1]");
   }
 
   get unlockWarningSpan() {
-    return $(SELECTORS.UNLOCK_WARNING_SPAN).$(
-      "-ios class chain:**/XCUIElementTypeStaticText"
-    );
+    return $("//*[@label='unlock-warning-span']/*[1]");
   }
 
   async enterPin(pin: string) {
