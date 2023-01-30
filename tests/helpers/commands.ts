@@ -1,7 +1,8 @@
 import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
-import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 import { faker } from "@faker-js/faker";
+import { join } from "path";
+import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 export function customPredicateString(
   elementType: string,
@@ -18,19 +19,6 @@ export function getPredicateForTextValueEqual(value: string) {
   return predicateString;
 }
 
-export async function loginToApp(pin: string, username: string) {
-  // Enter Pin and click on Create Account
-  await CreatePinScreen.enterPin(pin);
-  await CreatePinScreen.clickOnCreateAccount();
-
-  // Enter Username and click on Create Account
-  await CreateUserScreen.enterUsername("test123");
-  await CreateUserScreen.clickOnCreateAccount();
-
-  // Ensure Main Screen is displayed
-  await UplinkMainScreen.waitForIsShown(true);
-}
-
 export async function loginWithRandomUser() {
   const randomPin = await faker.internet.password(4, true);
   const randomUser = await faker.internet.password(12, true);
@@ -44,14 +32,38 @@ export async function loginWithRandomUser() {
   await CreateUserScreen.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  await UplinkMainScreen.waitForIsShown(true);
+  await WelcomeScreen.waitForIsShown(true);
 }
 
-export async function deleteAppCache() {
-  const appleScript = 'do shell script "rm -rf ~/.uplink"';
-  await driver.executeScript("macos: appleScript", [
+export async function selectFileOnMacos(relativePath: string) {
+  // Get the filepath to select on browser
+  const filepath = join(process.cwd(), relativePath);
+
+  // Wait for Open Panel to be displayed
+  await $("~open-panel").waitForDisplayed();
+
+  // Open Go To File
+  await driver.executeScript("macos: keys", [
     {
-      command: appleScript,
+      keys: [
+        {
+          key: "/",
+        },
+      ],
     },
   ]);
+
+  //Ensure that Go To File is displayed on screen
+  await $("~GoToWindow").waitForDisplayed();
+
+  // Remove the / and type filepath into go to file section and ensure that it contains the filepath expected
+  await $("~GoToWindow")
+    .$("-ios class chain:**/XCUIElementTypeTextField")
+    .clearValue();
+  await $("~GoToWindow")
+    .$("-ios class chain:**/XCUIElementTypeTextField")
+    .addValue(filepath + "\n");
+
+  // Hit Enter and then click on OK to close open panel
+  await $("~OKButton").click();
 }

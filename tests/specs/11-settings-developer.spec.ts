@@ -1,13 +1,15 @@
-import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
-import SettingsMainScreen from "../screenobjects/SettingsMainScreen";
+import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import SettingsDeveloperScreen from "../screenobjects/SettingsDeveloperScreen";
 import { loginWithRandomUser } from "../helpers/commands";
 
 describe("Settings - Developer - Tests", async () => {
   before(async () => {
     await loginWithRandomUser();
-    await UplinkMainScreen.goToSettings();
-    await SettingsMainScreen.waitForIsShown(true);
-    await SettingsMainScreen.goToDeveloperSettings();
+    await WelcomeScreen.goToSettings();
+    await SettingsProfileScreen.waitForIsShown(true);
+    await SettingsProfileScreen.goToDeveloperSettings();
+    await SettingsDeveloperScreen.waitForIsShown(true);
   });
 
   xit("Settings Developer - Assert screen texts", async () => {});

@@ -1,19 +1,15 @@
-import AppScreen from "./AppScreen";
+import UplinkMainScreen from "./UplinkMainScreen";
 
 const SELECTORS = {
   CREATE_ACCOUNT_BUTTON: "~create-account-button",
   INPUT_ERROR: "~input-error",
   PIN_INPUT: "~pin-input",
-  PRE_RELEASE_INDICATOR: "~pre-release",
-  PRE_RELEASE_INDICATOR_TEXT:
-    '-ios class chain:**/XCUIElementTypeStaticText[`value == "Pre-release"`]',
   UNLOCK_LAYOUT: "~unlock-layout",
   UNLOCK_WARNING_PARAGRAPH: "~unlock-warning-paragraph",
   UNLOCK_WARNING_SPAN: "~unlock-warning-span",
-  WINDOW: "-ios class chain:**/XCUIElementTypeWebView",
 };
 
-class CreatePinScreen extends AppScreen {
+class CreatePinScreen extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.UNLOCK_LAYOUT);
   }
@@ -32,14 +28,6 @@ class CreatePinScreen extends AppScreen {
     return $(SELECTORS.PIN_INPUT);
   }
 
-  get prereleaseIndicator() {
-    return $(SELECTORS.PRE_RELEASE_INDICATOR);
-  }
-
-  get prereleaseIndicatorText() {
-    return $(SELECTORS.PRE_RELEASE_INDICATOR_TEXT);
-  }
-
   get unlockLayout() {
     return $(SELECTORS.UNLOCK_LAYOUT);
   }
@@ -54,10 +42,6 @@ class CreatePinScreen extends AppScreen {
     return $(SELECTORS.UNLOCK_WARNING_SPAN).$(
       "-ios class chain:**/XCUIElementTypeStaticText"
     );
-  }
-
-  get window() {
-    return $(SELECTORS.WINDOW);
   }
 
   async enterPin(pin: string) {

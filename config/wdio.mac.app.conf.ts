@@ -3,7 +3,6 @@ const mkdirp = require("mkdirp");
 
 import config from "./wdio.shared.local.appium.conf";
 import { join } from "path";
-import { deleteAppCache } from "../tests/helpers/commands";
 
 // ============
 // Specs
