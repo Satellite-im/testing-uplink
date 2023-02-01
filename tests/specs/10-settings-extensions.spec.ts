@@ -12,9 +12,44 @@ describe("Settings - Extensions - Tests", async () => {
     await SettingsExtensionsScreen.waitForIsShown(true);
   });
 
-  xit("Settings Extensions - Assert screen texts", async () => {});
+  it("Settings Extensions - Validate texts from Extension Placeholder", async () => {
+    await expect(
+      await SettingsExtensionsScreen.extensionPlaceholderName
+    ).toHaveTextContaining("Placeholder");
 
-  xit("Settings Extensions - Toggle switches to enabled", async () => {});
+    await expect(
+      await SettingsExtensionsScreen.extensionPlaceholderShortDescription
+    ).toHaveTextContaining("NOBODY#1345");
 
-  xit("Settings Extensions - Toggle switches to enabled", async () => {});
+    await expect(
+      await SettingsExtensionsScreen.extensionPlaceholderLongDescription
+    ).toHaveTextContaining(
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+    );
+  });
+
+  // Skipped for now since button does not perform any action
+  xit("Settings Extensions - Open Extensions Folder", async () => {
+    await SettingsExtensionsScreen.clickOnOpenExtensionsFolder();
+  });
+
+  it("Settings Extensions - Change extension placeholder to enabled", async () => {
+    // Click on Switch from Extension Placeholder to activate it
+    await SettingsExtensionsScreen.clickOnExtensionPlaceholderButton();
+
+    // Validate that switch from extension placeholder now has value = '1' (active)
+    await expect(
+      await SettingsExtensionsScreen.extensionPlaceholderControllerValue
+    ).toHaveAttrContaining("value", "1");
+  });
+
+  it("Settings Extensions - Change extension placeholder to disabled", async () => {
+    // Click again on Switch from Extension Placeholder to disable it
+    await SettingsExtensionsScreen.clickOnExtensionPlaceholderButton();
+
+    // Validate that switch from extension placeholder now has value = '0' (disabled)
+    await expect(
+      await SettingsExtensionsScreen.extensionPlaceholderControllerValue
+    ).toHaveAttrContaining("value", "0");
+  });
 });
