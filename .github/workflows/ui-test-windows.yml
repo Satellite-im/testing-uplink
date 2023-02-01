@@ -51,6 +51,12 @@ jobs:
         with:
           repo-token: ${{env.GITHUB_TOKEN}}
 
+      - name: Run cargo update 🌐
+        run: cargo update
+
+      - name: Run cargo clean 🧹
+        run: cargo clean
+
       - name: Build resources 🖥️
         run: cargo build
 
