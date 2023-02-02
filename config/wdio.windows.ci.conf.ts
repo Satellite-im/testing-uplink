@@ -7,7 +7,7 @@ import { join } from "path";
 // ============
 // Specs
 // ============
-config.specs = ["./tests/specs/**/*.spec.ts"];
+config.specs = ["./tests/specs/**/*.windows.spec.ts"];
 
 // ============
 // Capabilities
