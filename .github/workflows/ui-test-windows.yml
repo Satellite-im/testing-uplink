@@ -58,14 +58,18 @@ jobs:
         run: cargo clean
 
       - name: Build resources 🖥️
-        run: cargo build
+        run: cargo build --release
+
+      - name: List files recently created
+        working-directory: target/release
+        run: ls -la
 
       - name: Upload Artifact ⬆️
         uses: actions/upload-artifact@v3
         with:
           name: Uplink-Windows
           path: |
-            target/debug/ui.exe
+            target/release/ui.exe
 
   test-on-windows:
     needs: build-windows
