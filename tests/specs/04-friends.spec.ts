@@ -243,10 +243,11 @@ describe("Friends Screen Tests", async () => {
 
     // Select third option "Favorites" from Context Menu
     await FriendsScreen.contextMenuOption[2].click();
+    await expect(FriendsScreen.favoritesUserImage).toBeDisplayed();
 
     // Get username from Favorites
-    const currentFavorites = await FriendsScreen.getUsersFromFavorites();
     const favoritedUser = friendName.toUpperCase();
+    const currentFavorites = await FriendsScreen.getUsersFromFavorites();
     await expect(currentFavorites.includes(favoritedUser)).toEqual(true);
   });
 

@@ -189,6 +189,14 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   async clickOnSaveLogs() {
     await this.saveLogsControllerButton.click();
   }
+
+  async returnToApp() {
+    await driver.executeScript("macos: launchApp", [
+      {
+        bundleId: "im.satellite.uplink",
+      },
+    ]);
+  }
 }
 
 export default new SettingsDeveloperScreen();

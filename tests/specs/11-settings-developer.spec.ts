@@ -106,10 +106,12 @@ describe("Settings - Developer - Tests", async () => {
 
   it("Settings Developer - Open codebase button", async () => {
     await SettingsDeveloperScreen.clickOnOpenCodebase();
+    await SettingsDeveloperScreen.returnToApp();
   });
 
   it("Settings Developer - Open folder button", async () => {
     await SettingsDeveloperScreen.clickOnOpenCache();
+    await SettingsDeveloperScreen.returnToApp();
   });
 
   // Skipped for now because no action is performed when clicking on the button
@@ -124,5 +126,6 @@ describe("Settings - Developer - Tests", async () => {
 
   it("Settings Developer - Open Debug Logger", async () => {
     await SettingsDeveloperScreen.clickOnDebugLogger();
+    await SettingsDeveloperScreen.returnToApp();
   });
 });
