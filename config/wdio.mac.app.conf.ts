@@ -24,7 +24,7 @@ config.capabilities = [
     "appium:automationName": "mac2",
     // @ts-ignore
     "appium:bundleId": "im.satellite.uplink",
-    "appium:newCommandTimeout": 240,
+    "appium:serverStartupTimeout": 240000,
     "appium:prerun": {
       command: 'do shell script "rm -rf ~/.uplink"',
     },

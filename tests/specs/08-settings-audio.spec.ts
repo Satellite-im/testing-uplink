@@ -12,9 +12,34 @@ describe("Settings - Audio - Tests", async () => {
     await SettingsAudioScreen.waitForIsShown(true);
   });
 
-  xit("Settings Audio - Assert screen texts", async () => {});
+  it("Settings Audio - Assert screen texts", async () => {
+    await expect(
+      await SettingsAudioScreen.callTimerHeader
+    ).toHaveTextContaining("CALL TIMER");
+    await expect(
+      await SettingsAudioScreen.callTimerDescription
+    ).toHaveTextContaining(
+      "When enabled a timer will display when you're in a call showing it's duration."
+    );
+  });
 
-  xit("Settings Audio - Toggle switches to enabled", async () => {});
+  it("Settings Audio - Call Audio switch to enabled", async () => {
+    // Click on Call Timer switch to enable it
+    await SettingsAudioScreen.clickOnCallTimer();
 
-  xit("Settings Audio - Toggle switches to enabled", async () => {});
+    // Validate that toggle switch has now value = '1' (active)
+    await expect(
+      await SettingsAudioScreen.callTimerControllerValue
+    ).toHaveAttrContaining("value", "1");
+  });
+
+  it("Settings Audio - Call Audio  switch to disabled", async () => {
+    // Click again on Call Timer switch to disable this option
+    await SettingsAudioScreen.clickOnCallTimer();
+
+    // Validate that toggle switch has now value = '0' (disabled)
+    await expect(
+      await SettingsAudioScreen.callTimerControllerValue
+    ).toHaveAttrContaining("value", "0");
+  });
 });

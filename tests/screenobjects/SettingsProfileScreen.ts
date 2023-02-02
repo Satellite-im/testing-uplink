@@ -26,32 +26,8 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     return $(SELECTORS.INPUT_ERROR);
   }
 
-  get inputErrorOnStatus() {
-    return $(SELECTORS.INPUT_ERROR).$(
-      "//*[@value='Maximum of 128 characters exceeded.']"
-    );
-  }
-
-  get inputErrorOnUsernameMax() {
-    return $(SELECTORS.INPUT_ERROR).$(
-      "//*[@value='Maximum of 32 characters exceeded.']"
-    );
-  }
-
-  get inputErrorOnUsernameMin() {
-    return $(SELECTORS.INPUT_ERROR).$(
-      "//*[@value='Please enter at least 4 characters.']"
-    );
-  }
-
-  get inputErrorOnUsernameNotAlphanumeric() {
-    return $(SELECTORS.INPUT_ERROR).$(
-      "//*[@value='Only alphanumeric characters are accepted.']"
-    );
-  }
-
-  get inputErrorOnUsernameSpaces() {
-    return $(SELECTORS.INPUT_ERROR).$("//*[@value='Spaces are not allowed.']");
+  get inputErrorMessage() {
+    return $('//*[@label="input-error"]/*[1]');
   }
 
   get profileBanner() {
@@ -94,12 +70,21 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     return $(SELECTORS.PROFILE_CONTENT).$('(//*[@value="USERNAME"])[1]');
   }
 
+  async deleteStatus() {
+    await this.statusInput.click();
+    await this.statusInput.clearValue();
+  }
+
   async enterStatus(status: string) {
-    await this.statusInput.setValue(status);
+    await this.statusInput.click();
+    await this.statusInput.clearValue();
+    await this.statusInput.addValue(status);
   }
 
   async enterUsername(username: string) {
-    await this.usernameInput.setValue(username);
+    await this.usernameInput.click();
+    await this.usernameInput.clearValue();
+    await this.usernameInput.addValue(username);
   }
 
   async hoverOnBanner() {
