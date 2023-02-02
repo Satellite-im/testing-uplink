@@ -44,6 +44,12 @@ jobs:
         with:
           repo-token: ${{env.GITHUB_TOKEN}}
 
+      - name: Run cargo update 🌐
+        run: cargo update
+
+      - name: Run cargo clean 🧹
+        run: cargo clean
+
       - name: Build executable 🖥️
         continue-on-error: true
         run: make dmg
