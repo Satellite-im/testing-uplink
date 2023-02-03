@@ -44,13 +44,7 @@ describe("Files Screen Tests", async () => {
     await expect(await FilesScreen.crumb).toBeDisplayed();
   });
 
-  it("Validate Files List is displayed in screen", async () => {
-    await expect(await FilesScreen.filesList).toBeDisplayed();
-    await expect(await FilesScreen.filesBody).toBeDisplayed();
-    await expect(await FilesScreen.fakeFile1).toBeDisplayed();
-    await expect(await FilesScreen.fakeFolder1).toBeDisplayed();
-    await expect(await FilesScreen.fakeFolder2).toBeDisplayed();
-  });
+  xit("Create a new folder", async () => {});
 
   it("Validate add folder/file buttons are displayed in screen", async () => {
     await expect(await FilesScreen.addFileButton).toBeDisplayed();

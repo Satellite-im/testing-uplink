@@ -1,5 +1,5 @@
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
 import { loginWithRandomUser } from "../helpers/commands";
 
@@ -7,8 +7,8 @@ describe("Settings - Audio - Tests", async () => {
   before(async () => {
     await loginWithRandomUser();
     await WelcomeScreen.goToSettings();
-    await SettingsProfileScreen.waitForIsShown(true);
-    await SettingsProfileScreen.goToAudioSettings();
+    await SettingsGeneralScreen.waitForIsShown(true);
+    await SettingsGeneralScreen.goToAudioSettings();
     await SettingsAudioScreen.waitForIsShown(true);
   });
 
