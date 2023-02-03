@@ -82,7 +82,6 @@ jobs:
         with:
           args: build --build-arg IMAGE=mcr.microsoft.com/windows/servercore:ltsc2019 .
 
-    steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
