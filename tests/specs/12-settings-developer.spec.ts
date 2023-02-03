@@ -1,5 +1,5 @@
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsDeveloperScreen from "../screenobjects/SettingsDeveloperScreen";
 import { loginWithRandomUser } from "../helpers/commands";
 
@@ -7,8 +7,8 @@ describe("Settings - Developer - Tests", async () => {
   before(async () => {
     await loginWithRandomUser();
     await WelcomeScreen.goToSettings();
-    await SettingsProfileScreen.waitForIsShown(true);
-    await SettingsProfileScreen.goToDeveloperSettings();
+    await SettingsGeneralScreen.waitForIsShown(true);
+    await SettingsGeneralScreen.goToDeveloperSettings();
     await SettingsDeveloperScreen.waitForIsShown(true);
   });
 
@@ -30,6 +30,14 @@ describe("Settings - Developer - Tests", async () => {
     await expect(
       await SettingsDeveloperScreen.openCodebaseDescription
     ).toHaveTextContaining("Opens the codebase in your default web browser.");
+
+    // Validate TEST NOTIFICATION section
+    await expect(
+      await SettingsDeveloperScreen.testNotificationHeader
+    ).toHaveTextContaining("TEST NOTIFICATION");
+    await expect(
+      await SettingsDeveloperScreen.testNotificationDescription
+    ).toHaveTextContaining("Sends a test notification");
 
     // Validate OPEN CACHE section
     await expect(
@@ -56,14 +64,6 @@ describe("Settings - Developer - Tests", async () => {
     await expect(
       await SettingsDeveloperScreen.clearCacheDescription
     ).toHaveTextContaining("Reset your account, basically.");
-
-    // Validate DEBUG LOGGER section
-    await expect(
-      await SettingsDeveloperScreen.debugLoggerHeader
-    ).toHaveTextContaining("DEBUG LOGGER");
-    await expect(
-      await SettingsDeveloperScreen.debugLoggerDescription
-    ).toHaveTextContaining("Open new window to see logs when use app.");
 
     // Validate SAVE LOGS IN A FILE section
     await expect(
@@ -109,6 +109,11 @@ describe("Settings - Developer - Tests", async () => {
     await SettingsDeveloperScreen.returnToApp();
   });
 
+  // Skipped because it needs the aria label fixed for test notifications button
+  xit("Settings Developer - Click on Test Notification button", async () => {
+    await SettingsDeveloperScreen.clickOnTestNotifications();
+  });
+
   // Skipped for now because it is failing on CI - Needs research
   xit("Settings Developer - Open folder button", async () => {
     await SettingsDeveloperScreen.clickOnOpenCache();
@@ -123,11 +128,5 @@ describe("Settings - Developer - Tests", async () => {
   // Skipped for now because no action is performed when clicking on the button
   xit("Setings Developer - Clear Cache", async () => {
     await SettingsDeveloperScreen.clickOnClearCache();
-  });
-
-  // Skipped for now because it is failing on CI - Needs research
-  xit("Settings Developer - Open Debug Logger", async () => {
-    await SettingsDeveloperScreen.clickOnDebugLogger();
-    await SettingsDeveloperScreen.returnToApp();
   });
 });
