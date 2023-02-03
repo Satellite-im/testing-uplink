@@ -73,7 +73,14 @@ jobs:
 
   test-on-windows:
     #needs: build-windows
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Docker 🐋
+        uses: docker://docker:19.03.14
+        env:
+          DOCKER_CLI_EXPERIMENTAL: enabled
+        with:
+          args: build --build-arg IMAGE=mcr.microsoft.com/windows/servercore:ltsc2019 .
 
     steps:
       - name: Checkout testing directory 🔖
