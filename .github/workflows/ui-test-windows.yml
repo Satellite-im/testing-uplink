@@ -75,15 +75,15 @@ jobs:
     #needs: build-windows
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
       - name: Set up Docker 🐋
         uses: docker://docker:19.03.14
         env:
           DOCKER_CLI_EXPERIMENTAL: enabled
         with:
           args: build --build-arg IMAGE=mcr.microsoft.com/windows/servercore:ltsc2019 .
-
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
 
       #- name: Download the app 🗳️
       #  uses: actions/download-artifact@v1
