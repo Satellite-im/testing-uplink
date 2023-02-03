@@ -8,88 +8,81 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  #build-windows:
-  #  runs-on: windows-latest
-  #  defaults:
-  #    run:
-  #      shell: bash
+  build-windows:
+    runs-on: windows-2019
+    defaults:
+      run:
+        shell: bash
 
-  #  steps:
-  #    - name: Checkout testing directory 🔖
-  #      uses: actions/checkout@v3
-  #      with:
-  #        repository: Satellite-im/Uplink
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+        with:
+          repository: Satellite-im/Uplink
 
-  #    - name: Set up cargo cache 🛠️
-  #      uses: actions/cache@v3
-  #      continue-on-error: false
-  #      with:
-  #        path: |
-  #          ~/.cargo/bin/
-  #          ~/.cargo/registry/index/
-  #          ~/.cargo/registry/cache/
-  #          ~/.cargo/git/db/
-  #          target/
-  #        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-  #        restore-keys: ${{ runner.os }}-cargo-
+      - name: Set up cargo cache 🛠️
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
 
-  #    - name: Install Rust 💿
-  #      uses: actions-rs/toolchain@v1
-  #      with:
-  #        toolchain: stable
-  #        override: true
-  #        components: rustfmt, clippy
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
 
-  #    - name: Setup cmake 🛠️
-  #      uses: jwlawson/actions-setup-cmake@v1.13
+      - name: Setup cmake 🛠️
+        uses: jwlawson/actions-setup-cmake@v1.13
 
-  #    - name: Use cmake 💿
-  #      run: cmake --version
+      - name: Use cmake 💿
+        run: cmake --version
 
-  #    - name: Install Protoc 💿
-  #      uses: arduino/setup-protoc@v1
-  #      with:
-  #        repo-token: ${{env.GITHUB_TOKEN}}
+      - name: Install Protoc 💿
+        uses: arduino/setup-protoc@v1
+        with:
+          repo-token: ${{env.GITHUB_TOKEN}}
 
-  #    - name: Run cargo update 🌐
-  #      run: cargo update
+      - name: Run cargo update 🌐
+        run: cargo update
 
-  #    - name: Run cargo clean 🧹
-  #      run: cargo clean
+      - name: Run cargo clean 🧹
+        run: cargo clean
 
-  #    - name: Build resources 🖥️
-  #      run: cargo build --release
+      - name: Build resources 🖥️
+        run: cargo build --release
 
-  #    - name: List files recently created
-  #      working-directory: target/release
-  #      run: ls -la
-
-  #    - name: Upload Artifact ⬆️
-  #      uses: actions/upload-artifact@v3
-  #      with:
-  #        name: Uplink-Windows
-  #        path: |
-  #          target/release/ui.exe
+      - name: Upload Artifact ⬆️
+        uses: actions/upload-artifact@v3
+        with:
+          name: Uplink-Windows
+          path: |
+            target/release/ui.exe
 
   test-on-windows:
-    #needs: build-windows
-    runs-on: ubuntu-latest
+    needs: build-windows
+    runs-on: windows-2019
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
-      - name: Set up Docker 🐋
-        uses: docker://docker:19.03.14
-        env:
-          DOCKER_CLI_EXPERIMENTAL: enabled
+      - name: Download the app 🗳️
+        uses: actions/download-artifact@v1
         with:
-          args: build --build-arg IMAGE=mcr.microsoft.com/windows/servercore:ltsc2019 .
+          name: Uplink-Windows
+          path: apps
 
-      #- name: Download the app 🗳️
-      #  uses: actions/download-artifact@v1
-      #  with:
-      #    name: Uplink-Windows
-      #    path: ./appium-tests/apps
+      - name: List files on apps folder
+        working-directory: apps
+        run: ls -la
 
       - name: Install NPM dependencies 📦
         run: npm install
@@ -102,7 +95,6 @@ jobs:
           appium driver list
 
       - name: Run WebdriverIO tests on MacOS 🧪
-        #working-directory: ./appium-tests
         run: npm run windows.ci
 
       - name: Upload Screenshots if tests failed 📷
