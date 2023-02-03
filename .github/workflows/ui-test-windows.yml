@@ -8,93 +8,85 @@ env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: bash
+  #build-windows:
+  #  runs-on: windows-latest
+  #  defaults:
+  #    run:
+  #      shell: bash
 
-    steps:
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
-        with:
-          repository: Satellite-im/Uplink
+  #  steps:
+  #    - name: Checkout testing directory 🔖
+  #      uses: actions/checkout@v3
+  #      with:
+  #        repository: Satellite-im/Uplink
 
-      - name: Set up cargo cache 🛠️
-        uses: actions/cache@v3
-        continue-on-error: false
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-cargo-
+  #    - name: Set up cargo cache 🛠️
+  #      uses: actions/cache@v3
+  #      continue-on-error: false
+  #      with:
+  #        path: |
+  #          ~/.cargo/bin/
+  #          ~/.cargo/registry/index/
+  #          ~/.cargo/registry/cache/
+  #          ~/.cargo/git/db/
+  #          target/
+  #        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+  #        restore-keys: ${{ runner.os }}-cargo-
 
-      - name: Install Rust 💿
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
-          components: rustfmt, clippy
+  #    - name: Install Rust 💿
+  #      uses: actions-rs/toolchain@v1
+  #      with:
+  #        toolchain: stable
+  #        override: true
+  #        components: rustfmt, clippy
 
-      - name: Setup cmake 🛠️
-        uses: jwlawson/actions-setup-cmake@v1.13
+  #    - name: Setup cmake 🛠️
+  #      uses: jwlawson/actions-setup-cmake@v1.13
 
-      - name: Use cmake 💿
-        run: cmake --version
+  #    - name: Use cmake 💿
+  #      run: cmake --version
 
-      - name: Install Protoc 💿
-        uses: arduino/setup-protoc@v1
-        with:
-          repo-token: ${{env.GITHUB_TOKEN}}
+  #    - name: Install Protoc 💿
+  #      uses: arduino/setup-protoc@v1
+  #      with:
+  #        repo-token: ${{env.GITHUB_TOKEN}}
 
-      - name: Run cargo update 🌐
-        run: cargo update
+  #    - name: Run cargo update 🌐
+  #      run: cargo update
 
-      - name: Run cargo clean 🧹
-        run: cargo clean
+  #    - name: Run cargo clean 🧹
+  #      run: cargo clean
 
-      - name: Build resources 🖥️
-        run: cargo build --release
+  #    - name: Build resources 🖥️
+  #      run: cargo build --release
 
-      - name: List files recently created
-        working-directory: target/release
-        run: ls -la
+  #    - name: List files recently created
+  #      working-directory: target/release
+  #      run: ls -la
 
-      - name: Upload Artifact ⬆️
-        uses: actions/upload-artifact@v3
-        with:
-          name: Uplink-Windows
-          path: |
-            target/release/ui.exe
+  #    - name: Upload Artifact ⬆️
+  #      uses: actions/upload-artifact@v3
+  #      with:
+  #        name: Uplink-Windows
+  #        path: |
+  #          target/release/ui.exe
 
   test-on-windows:
-    needs: build-windows
-    runs-on: windows-2019
+    #needs: build-windows
+    runs-on: windows-latest
 
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
-        with:
-          path: "./appium-tests"
 
-      - name: Setup Node.js 🔨
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: Download the app 🗳️
-        uses: actions/download-artifact@v1
-        with:
-          name: Uplink-Windows
-          path: ./appium-tests/apps
+      #- name: Download the app 🗳️
+      #  uses: actions/download-artifact@v1
+      #  with:
+      #    name: Uplink-Windows
+      #    path: ./appium-tests/apps
 
       - name: Install NPM dependencies 📦
-        run: |
-          cd appium-tests && npm install
+        run: npm install
 
       - name: Install and Run Appium Server 💻
         run: |
@@ -104,7 +96,7 @@ jobs:
           appium driver list
 
       - name: Run WebdriverIO tests on MacOS 🧪
-        working-directory: ./appium-tests
+        #working-directory: ./appium-tests
         run: npm run windows.ci
 
       - name: Upload Screenshots if tests failed 📷
@@ -112,14 +104,14 @@ jobs:
         if: failure()
         with:
           name: appium-screenshots
-          path: ./appium-tests/test-results
+          path: ./test-results
 
       - name: Upload Appium Log if tests failed 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: appium-log
-          path: ./appium-tests/appium.log
+          path: ./appium.log
 
       - name: Take screenshot of GH runner if test execution fails 📷
         uses: OrbitalOwen/desktop-screenshot-action@0.1
