@@ -80,6 +80,10 @@ jobs:
           name: Uplink-Windows
           path: apps
 
+      - name: Show files recursively
+        shell: powershell
+        run: Get-ChildItem -Recurse
+
       - name: Install NPM dependencies 📦
         run: npm install
 
