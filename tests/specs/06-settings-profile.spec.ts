@@ -1,4 +1,5 @@
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
 import { loginWithRandomUser } from "../helpers/commands";
 
@@ -6,6 +7,8 @@ describe("Settings - Profile - Tests", async () => {
   before(async () => {
     await loginWithRandomUser();
     await WelcomeScreen.goToSettings();
+    await SettingsGeneralScreen.waitForIsShown(true);
+    await SettingsGeneralScreen.goToProfileSettings();
     await SettingsProfileScreen.waitForIsShown(true);
   });
 

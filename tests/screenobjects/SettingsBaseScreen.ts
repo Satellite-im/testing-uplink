@@ -6,6 +6,7 @@ const SELECTORS = {
   EXTENSIONS_BUTTTON: "~extensions-button",
   FILES_BUTTON: "~files-button",
   GENERAL_BUTTON: "~general-button",
+  NOTIFICATIONS_BUTTON: "~notifications-button",
   PRIVACY_BUTTON: "~privacy-button",
   PROFILE_BUTTON: "~profile-button",
   SETTINGS_LAYOUT: "~settings-layout",
@@ -35,6 +36,10 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
 
   get generalButton() {
     return $(SELECTORS.GENERAL_BUTTON);
+  }
+
+  get notificationsButton() {
+    return $(SELECTORS.NOTIFICATIONS_BUTTON);
   }
 
   get privacyButton() {
@@ -73,6 +78,10 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
     await (await this.generalButton).click();
   }
 
+  async goToNotificationsSettings() {
+    await (await this.notificationsButton).click();
+  }
+
   async goToPrivacySettings() {
     await (await this.privacyButton).click();
   }
@@ -81,5 +90,3 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
     await (await this.profileButton).click();
   }
 }
-
-

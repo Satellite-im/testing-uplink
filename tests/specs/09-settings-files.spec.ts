@@ -1,5 +1,5 @@
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
 import { loginWithRandomUser } from "../helpers/commands";
 
@@ -7,8 +7,8 @@ describe("Settings - Files - Tests", async () => {
   before(async () => {
     await loginWithRandomUser();
     await WelcomeScreen.goToSettings();
-    await SettingsProfileScreen.waitForIsShown(true);
-    await SettingsProfileScreen.goToFilesSettings();
+    await SettingsGeneralScreen.waitForIsShown(true);
+    await SettingsGeneralScreen.goToFilesSettings();
     await SettingsFilesScreen.waitForIsShown(true);
   });
 

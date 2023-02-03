@@ -1,5 +1,5 @@
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsExtensionsScreen from "../screenobjects/SettingsExtensionsScreen";
 import { loginWithRandomUser } from "../helpers/commands";
 
@@ -7,8 +7,8 @@ describe("Settings - Extensions - Tests", async () => {
   before(async () => {
     await loginWithRandomUser();
     await WelcomeScreen.goToSettings();
-    await SettingsProfileScreen.waitForIsShown(true);
-    await SettingsProfileScreen.goToExtensionsSettings();
+    await SettingsGeneralScreen.waitForIsShown(true);
+    await SettingsGeneralScreen.goToExtensionsSettings();
     await SettingsExtensionsScreen.waitForIsShown(true);
   });
 

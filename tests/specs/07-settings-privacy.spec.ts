@@ -1,5 +1,5 @@
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsPrivacyScreen from "../screenobjects/SettingsPrivacyScreen";
 import { loginWithRandomUser } from "../helpers/commands";
 
@@ -7,8 +7,8 @@ describe("Settings - Privacy - Tests", async () => {
   before(async () => {
     await loginWithRandomUser();
     await WelcomeScreen.goToSettings();
-    await SettingsProfileScreen.waitForIsShown(true);
-    await SettingsProfileScreen.goToPrivacySettings();
+    await SettingsGeneralScreen.waitForIsShown(true);
+    await SettingsGeneralScreen.goToPrivacySettings();
     await SettingsPrivacyScreen.waitForIsShown(true);
   });
 

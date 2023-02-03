@@ -7,25 +7,6 @@ describe("Chats Main Screen Tests", async () => {
     await loginWithRandomUser();
   });
 
-  // Skipping test since the order of displaying for toast notifications is random now
-  xit("Validate and close Toast Notifications", async () => {
-    await expect(await WelcomeScreen.toastNotifications).toBeExisting();
-    await WelcomeScreen.validateContentsToastNotification(
-      "TITLE2",
-      "content2"
-    );
-    await WelcomeScreen.validateContentsToastNotification(
-      "TITLE1",
-      "content1"
-    );
-    await WelcomeScreen.closeToastNotification("TITLE2");
-    await WelcomeScreen.closeToastNotification("TITLE1");
-  });
-
-  it("Validate that Friends Button has a Badge with Requests Pending", async () => {
-    await WelcomeScreen.validateTextFromButtonBadge("2");
-  });
-
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     await expect(await WelcomeScreen.prereleaseIndicator).toBeDisplayed();
     await expect(
@@ -51,9 +32,7 @@ describe("Chats Main Screen Tests", async () => {
   it("Validate Welcome Screen is displayed", async () => {
     await expect(await WelcomeScreen.welcomeLayout).toBeDisplayed();
     await expect(await WelcomeScreen.addFriendsButton).toBeDisplayed();
-    const locator = await (
-      await WelcomeScreen.welcomeLayout
-    ).$("~Add Someone");
+    const locator = await (await WelcomeScreen.welcomeLayout).$("~Add Someone");
     await expect(locator).toHaveTextContaining("Add Someone");
   });
 

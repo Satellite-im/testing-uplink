@@ -3,7 +3,6 @@ import SettingsBaseScreen from "./SettingsBaseScreen";
 const SELECTORS = {
   CLEAR_CACHE_BUTTON: "~clear-button",
   COMPRESS_BUTTON: "~compress-button",
-  DEBUG_LOGGER_BUTTON: "~debug-logger-button",
   OPEN_CACHE_FOLDER_BUTTON: "~open-cache-folder-button",
   OPEN_CODEBASE_BUTTON: "~open-codebase-button",
   SETTINGS_CONTROL: "~settings-control",
@@ -11,6 +10,7 @@ const SELECTORS = {
   SETTINGS_INFO: "~settings-info",
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
+  TEST_NOTIFICATIONS_BUTTON: "~test-notifications-button",
 };
 
 class SettingsDeveloperScreen extends SettingsBaseScreen {
@@ -23,13 +23,13 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get clearCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
+    return $$(SELECTORS.SETTINGS_SECTION)[5].$(
       '//*[@label="settings-info"]/*[2]/*[1]'
     );
   }
 
   get clearCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
+    return $$(SELECTORS.SETTINGS_SECTION)[5].$(
       '//*[@label="settings-info"]/*[1]'
     );
   }
@@ -39,29 +39,13 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get compressAndDownloadCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
+    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
       '//*[@label="settings-info"]/*[2]/*[1]'
     );
   }
 
   get compressAndDownloadCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
-  }
-
-  get debugLoggerButton() {
-    return $(SELECTORS.DEBUG_LOGGER_BUTTON);
-  }
-
-  get debugLoggerDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
-  }
-
-  get debugLoggerHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5].$(
+    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
       '//*[@label="settings-info"]/*[1]'
     );
   }
@@ -93,13 +77,13 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get openCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
+    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
       '//*[@label="settings-info"]/*[2]/*[1]'
     );
   }
 
   get openCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
+    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
       '//*[@label="settings-info"]/*[1]'
     );
   }
@@ -162,16 +146,28 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
     return $(SELECTORS.SWITCH_SLIDER);
   }
 
+  get testNotificationButton() {
+    return $(SELECTORS.TEST_NOTIFICATIONS_BUTTON);
+  }
+
+  get testNotificationDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
+      '//*[@label="settings-info"]/*[2]/*[1]'
+    );
+  }
+
+  get testNotificationHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
+      '//*[@label="settings-info"]/*[1]'
+    );
+  }
+
   async clickOnClearCache() {
     await this.clearCacheButton.click();
   }
 
   async clickOnCompressAndDownloadCache() {
     await this.compressAndDownloadCacheButton.click();
-  }
-
-  async clickOnDebugLogger() {
-    await this.debugLoggerButton.click();
   }
 
   async clickOnDeveloperMode() {
@@ -188,6 +184,10 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   async clickOnSaveLogs() {
     await this.saveLogsControllerButton.click();
+  }
+
+  async clickOnTestNotifications() {
+    await this.testNotificationButton.click();
   }
 
   async returnToApp() {
