@@ -80,10 +80,6 @@ jobs:
           name: Uplink-Windows
           path: apps
 
-      - name: List files on apps folder
-        working-directory: apps
-        run: ls -la
-
       - name: Install NPM dependencies 📦
         run: npm install
 
