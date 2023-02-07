@@ -1,18 +1,40 @@
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import FriendsScreen from "../screenobjects/FriendsScreen";
 import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
-import { loginWithRandomUser } from "../helpers/commands";
+import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Settings - Audio - Tests", async () => {
   before(async () => {
     await loginWithRandomUser();
-    await WelcomeScreen.goToSettings();
+    await showMainMenu();
+    await FriendsScreen.goToSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
     await SettingsGeneralScreen.goToAudioSettings();
     await SettingsAudioScreen.waitForIsShown(true);
   });
 
   it("Settings Audio - Assert screen texts", async () => {
+    // Validate texts for Interface Sounds Settings Section
+    await expect(
+      await SettingsAudioScreen.interfaceSoundsHeader
+    ).toHaveTextContaining("INTERFACE SOUNDS");
+    await expect(
+      await SettingsAudioScreen.interfaceSoundsDescription
+    ).toHaveTextContaining(
+      "When enabled, some additional sounds will play when you interact with the app."
+    );
+
+    // Validate texts for Media Sounds Settings Section
+    await expect(
+      await SettingsAudioScreen.mediaSoundsHeader
+    ).toHaveTextContaining("MEDIA SOUNDS");
+    await expect(
+      await SettingsAudioScreen.mediaSoundsDescription
+    ).toHaveTextContaining(
+      "When enabled, media related events such as toggling microphone or headphones and other real time events, will play sounds."
+    );
+
+    // Validate texts for Call Timer Settings Section
     await expect(
       await SettingsAudioScreen.callTimerHeader
     ).toHaveTextContaining("CALL TIMER");
@@ -23,21 +45,37 @@ describe("Settings - Audio - Tests", async () => {
     );
   });
 
-  it("Settings Audio - Call Audio switch to enabled", async () => {
-    // Click on Call Timer switch to enable it
+  it("Settings Audio - Click on slider switches to enable the options", async () => {
+    // Click on the three switch sliders from the Settings Sounds & Audio Screen
+    await SettingsAudioScreen.clickOnInterfaceSounds();
+    await SettingsAudioScreen.clickOnMediaSounds();
     await SettingsAudioScreen.clickOnCallTimer();
 
-    // Validate that toggle switch has now value = '1' (active)
+    // Validate that toggle switches have now value = '1' (active)
+    await expect(
+      await SettingsAudioScreen.interfaceSoundsControllerValue
+    ).toHaveAttrContaining("value", "1");
+    await expect(
+      await SettingsAudioScreen.mediaSoundsControllerValue
+    ).toHaveAttrContaining("value", "1");
     await expect(
       await SettingsAudioScreen.callTimerControllerValue
     ).toHaveAttrContaining("value", "1");
   });
 
-  it("Settings Audio - Call Audio  switch to disabled", async () => {
-    // Click again on Call Timer switch to disable this option
+  it("Settings Audio - Click on slider switches to disable the options", async () => {
+    // Click again on the three switch sliders from the Settings Sounds & Audio Screen
+    await SettingsAudioScreen.clickOnInterfaceSounds();
+    await SettingsAudioScreen.clickOnMediaSounds();
     await SettingsAudioScreen.clickOnCallTimer();
 
-    // Validate that toggle switch has now value = '0' (disabled)
+    // Validate that toggle switches have now value = '0' (disabled)
+    await expect(
+      await SettingsAudioScreen.interfaceSoundsControllerValue
+    ).toHaveAttrContaining("value", "0");
+    await expect(
+      await SettingsAudioScreen.mediaSoundsControllerValue
+    ).toHaveAttrContaining("value", "0");
     await expect(
       await SettingsAudioScreen.callTimerControllerValue
     ).toHaveAttrContaining("value", "0");

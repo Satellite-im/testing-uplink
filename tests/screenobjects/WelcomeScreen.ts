@@ -17,6 +17,10 @@ class WelcomeScreen extends UplinkMainScreen {
   get welcomeLayout() {
     return $(SELECTORS.WELCOME_LAYOUT);
   }
+
+  async clickAddSomeone() {
+    return this.addFriendsButton.click();
+  }
 }
 
 export default new WelcomeScreen();

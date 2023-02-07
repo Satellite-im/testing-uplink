@@ -1,8 +1,9 @@
 import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
+import FriendsScreen from "../screenobjects/FriendsScreen";
+import WelcomeScreen from "../screenobjects/WelcomeScreen";
 import { faker } from "@faker-js/faker";
 import { join } from "path";
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 export function customPredicateString(
   elementType: string,
@@ -30,9 +31,17 @@ export async function loginWithRandomUser() {
   // Enter Username and click on Create Account
   await CreateUserScreen.enterUsername(randomUser);
   await CreateUserScreen.clickOnCreateAccount();
+}
 
+export async function showMainMenu() {
   // Ensure Main Screen is displayed
   await WelcomeScreen.waitForIsShown(true);
+
+  // Click on Add Someone to show Main Menu
+  await WelcomeScreen.clickAddSomeone();
+
+  // Validate Friends Screen is displayed
+  await FriendsScreen.waitForIsShown(true);
 }
 
 export async function selectFileOnMacos(relativePath: string) {

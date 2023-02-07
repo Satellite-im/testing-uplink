@@ -37,7 +37,7 @@ describe("Chats Main Screen Tests", async () => {
   });
 
   it("Click on add someone redirects to Friends Page", async () => {
-    await (await WelcomeScreen.addFriendsButton).click();
+    await WelcomeScreen.clickAddSomeone();
     await FriendsScreen.waitForIsShown(true);
   });
 });
