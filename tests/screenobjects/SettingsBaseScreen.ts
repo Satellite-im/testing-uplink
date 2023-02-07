@@ -1,7 +1,7 @@
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const SELECTORS = {
-  AUDIO_BUTTON: "~audio-button",
+  AUDIO_BUTTON: "~sounds & audio-button",
   DEVELOPER_BUTTON: "~developer-button",
   EXTENSIONS_BUTTTON: "~extensions-button",
   FILES_BUTTON: "~files-button",

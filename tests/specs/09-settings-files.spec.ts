@@ -1,12 +1,13 @@
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import FriendsScreen from "../screenobjects/FriendsScreen";
 import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
-import { loginWithRandomUser } from "../helpers/commands";
+import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Settings - Files - Tests", async () => {
   before(async () => {
     await loginWithRandomUser();
-    await WelcomeScreen.goToSettings();
+    await showMainMenu();
+    await FriendsScreen.goToSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
     await SettingsGeneralScreen.goToFilesSettings();
     await SettingsFilesScreen.waitForIsShown(true);
