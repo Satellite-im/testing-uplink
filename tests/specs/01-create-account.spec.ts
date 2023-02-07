@@ -3,12 +3,10 @@ import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 describe("Create Account Screen Tests", async () => {
-  before(async () => {
+  it("Validate Pre Release Indicator is displayed on Screen", async () => {
     // Create an account and go to Main Screen
     await CreatePinScreen.waitForIsShown(true);
-  });
 
-  it("Validate Pre Release Indicator is displayed on Screen", async () => {
     await expect(await CreatePinScreen.prereleaseIndicator).toBeDisplayed();
     await expect(
       await CreatePinScreen.prereleaseIndicatorText
