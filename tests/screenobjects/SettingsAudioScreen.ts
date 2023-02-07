@@ -14,21 +14,69 @@ class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   get callTimerControllerButton() {
-    return $(SELECTORS.SETTINGS_CONTROL).$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get callTimerControllerValue() {
-    return $(SELECTORS.SETTINGS_CONTROL).$('//*[@label="Switch Slider"]/*[1]');
+    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
+      '//*[@label="Switch Slider"]/*[1]'
+    );
   }
 
   get callTimerDescription() {
-    return $(SELECTORS.SETTINGS_SECTION).$(
+    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
       '//*[@label="settings-info"]/*[2]/*[1]'
     );
   }
 
   get callTimerHeader() {
-    return $(SELECTORS.SETTINGS_SECTION).$('//*[@label="settings-info"]/*[1]');
+    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
+      '//*[@label="settings-info"]/*[1]'
+    );
+  }
+
+  get interfaceSoundsControllerButton() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get interfaceSoundsControllerValue() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
+      '//*[@label="Switch Slider"]/*[1]'
+    );
+  }
+
+  get interfaceSoundsDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
+      '//*[@label="settings-info"]/*[2]/*[1]'
+    );
+  }
+
+  get interfaceSoundsHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
+      '//*[@label="settings-info"]/*[1]'
+    );
+  }
+
+  get mediaSoundsControllerButton() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get mediaSoundsControllerValue() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
+      '//*[@label="Switch Slider"]/*[1]'
+    );
+  }
+
+  get mediaSoundsDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
+      '//*[@label="settings-info"]/*[2]/*[1]'
+    );
+  }
+
+  get mediaSoundsHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
+      '//*[@label="settings-info"]/*[1]'
+    );
   }
 
   get settingsAudio() {
@@ -53,6 +101,14 @@ class SettingsAudioScreen extends SettingsBaseScreen {
 
   async clickOnCallTimer() {
     await this.callTimerControllerButton.click();
+  }
+
+  async clickOnInterfaceSounds() {
+    await this.interfaceSoundsControllerButton.click();
+  }
+
+  async clickOnMediaSounds() {
+    await this.mediaSoundsControllerButton.click();
   }
 }
 
