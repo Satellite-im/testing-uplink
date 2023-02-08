@@ -4,16 +4,15 @@ import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
 import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Settings - Files - Tests", async () => {
-  before(async () => {
+  it("Settings Files - Assert screen texts", async () => {
+    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
     await loginWithRandomUser();
     await showMainMenu();
     await FriendsScreen.goToSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
     await SettingsGeneralScreen.goToFilesSettings();
     await SettingsFilesScreen.waitForIsShown(true);
-  });
 
-  it("Settings Files - Assert screen texts", async () => {
     // Validate LOCAL SYNC settings section texts
     await expect(
       await SettingsFilesScreen.localSyncHeader

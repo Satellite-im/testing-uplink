@@ -4,16 +4,16 @@ import SettingsPrivacyScreen from "../screenobjects/SettingsPrivacyScreen";
 import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Settings - Privacy - Tests", async () => {
-  before(async () => {
+  it("Settings Privacy - Validate header and description texts from settings sections", async () => {
+    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
     await loginWithRandomUser();
     await showMainMenu();
     await FriendsScreen.goToSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
     await SettingsGeneralScreen.goToPrivacySettings();
     await SettingsPrivacyScreen.waitForIsShown(true);
-  });
 
-  it("Settings Privacy - Validate header and description texts from settings sections", async () => {
+    // Start validations
     await expect(
       await SettingsPrivacyScreen.backupPhraseHeader
     ).toHaveTextContaining("BACKUP RECOVERY PHRASE");

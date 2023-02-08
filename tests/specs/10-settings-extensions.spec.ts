@@ -4,16 +4,16 @@ import SettingsExtensionsScreen from "../screenobjects/SettingsExtensionsScreen"
 import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Settings - Extensions - Tests", async () => {
-  before(async () => {
+  it("Settings Extensions - Validate texts from Extension Placeholder", async () => {
+    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
     await loginWithRandomUser();
     await showMainMenu();
     await FriendsScreen.goToSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
     await SettingsGeneralScreen.goToExtensionsSettings();
     await SettingsExtensionsScreen.waitForIsShown(true);
-  });
 
-  it("Settings Extensions - Validate texts from Extension Placeholder", async () => {
+    // Start validations
     await expect(
       await SettingsExtensionsScreen.extensionPlaceholderName
     ).toHaveTextContaining("Placeholder");
