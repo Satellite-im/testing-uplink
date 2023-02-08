@@ -1,23 +1,18 @@
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsDeveloperScreen from "../screenobjects/SettingsDeveloperScreen";
-import {
-  loginWithRandomUser,
-  maximizeWindowOnMac,
-  showMainMenu,
-} from "../helpers/commands";
+import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Settings - Developer - Tests", async () => {
-  before(async () => {
+  it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {
+    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
     await loginWithRandomUser();
     await showMainMenu();
     await FriendsScreen.goToSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
     await SettingsGeneralScreen.goToDeveloperSettings();
     await SettingsDeveloperScreen.waitForIsShown(true);
-  });
 
-  it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {
     // Validate DEVELOPER MODE section
     await expect(
       await SettingsDeveloperScreen.developerModeHeader

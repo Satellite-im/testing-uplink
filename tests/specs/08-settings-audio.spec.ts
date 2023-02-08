@@ -4,16 +4,15 @@ import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
 import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Settings - Audio - Tests", async () => {
-  before(async () => {
+  it("Settings Audio - Assert screen texts", async () => {
+    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
     await loginWithRandomUser();
     await showMainMenu();
     await FriendsScreen.goToSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
     await SettingsGeneralScreen.goToAudioSettings();
     await SettingsAudioScreen.waitForIsShown(true);
-  });
 
-  it("Settings Audio - Assert screen texts", async () => {
     // Validate texts for Interface Sounds Settings Section
     await expect(
       await SettingsAudioScreen.interfaceSoundsHeader

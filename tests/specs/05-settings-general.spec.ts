@@ -3,14 +3,14 @@ import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Settings - General - Tests", async () => {
-  before(async () => {
+  it("Settings General - Validate header and description texts are correct", async () => {
+    // Login with a random user, show main menu and go to Settings Screen
     await loginWithRandomUser();
     await showMainMenu();
     await FriendsScreen.goToSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
-  });
 
-  it("Settings General - Validate header and description texts are correct", async () => {
+    // Start validations
     await expect(
       await SettingsGeneralScreen.uplinkOverlayHeader
     ).toHaveTextContaining("UPLINK OVERLAY");

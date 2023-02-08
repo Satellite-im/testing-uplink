@@ -3,14 +3,14 @@ import FriendsScreen from "../screenobjects/FriendsScreen";
 import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Friends Screen Tests", async () => {
-  before(async () => {
+  it("Validate Pre Release Indicator is displayed and has correct text", async () => {
+    // Login with a random user, show main menu and go to Friends Screen
     await loginWithRandomUser();
     await showMainMenu();
     await FriendsScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
-  });
 
-  it("Validate Pre Release Indicator is displayed and has correct text", async () => {
+    // Validate Pre Release Indicator is displayed
     await expect(await FriendsScreen.prereleaseIndicator).toBeDisplayed();
     await expect(
       await FriendsScreen.prereleaseIndicatorText
