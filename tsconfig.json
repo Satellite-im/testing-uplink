@@ -5,6 +5,7 @@
     "target": "es2019",
     "module": "commonjs",
     "removeComments": true,
+    "resolveJsonModule" : true,
     "noImplicitAny": true,
     "strictPropertyInitialization": true,
     "strictNullChecks": true,

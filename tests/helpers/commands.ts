@@ -1,9 +1,24 @@
+import * as users from "../fixtures/users/testkeys.json";
 import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
 import { faker } from "@faker-js/faker";
+import { homedir } from "os";
 import { join } from "path";
+const extract = require("extract-zip");
+const fs = require("fs").promises;
+
+export async function copyCacheFolder(source: string, target: string) {
+  try {
+    await extract(source, { dir: target });
+    console.log("Extraction of User Datacomplete");
+  } catch (error) {
+    console.error(
+      `Got an error trying to move and extract the file: ${error.message}`
+    );
+  }
+}
 
 export function customPredicateString(
   elementType: string,
@@ -20,6 +35,27 @@ export function getPredicateForTextValueEqual(value: string) {
   return predicateString;
 }
 
+export async function getUserKeys(username: string) {
+  let userkey: string = "";
+  users.forEach((user) => {
+    if (user.username === username) {
+      userkey = user.key;
+    }
+  });
+  return userkey;
+}
+
+export async function loadTestUserData(user: string) {
+  // Move files
+  const source = "./tests/fixtures/users/" + user + "/.uplink.zip";
+  const destination = homedir();
+  const filePath = destination + "/.uplink/state.json";
+  await copyCacheFolder(source, destination);
+
+  // Read file and console log it
+  const data = await fs.readFile(filePath);
+}
+
 export async function loginWithRandomUser() {
   const randomPin = await faker.internet.password(4, true);
   const randomUser = await faker.internet.password(12, true);
@@ -31,6 +67,21 @@ export async function loginWithRandomUser() {
   // Enter Username and click on Create Account
   await CreateUserScreen.enterUsername(randomUser);
   await CreateUserScreen.clickOnCreateAccount();
+}
+
+export async function loginWithTestUser() {
+  // Enter pin for test user
+  await CreatePinScreen.waitForIsShown(true);
+  await CreatePinScreen.enterPin("1234");
+
+  // Ensure Main Screen is displayed
+  await WelcomeScreen.waitForIsShown(true);
+
+  // Click on Add Someone to show Main Menu
+  await WelcomeScreen.clickAddSomeone();
+
+  // Validate Friends Screen is displayed
+  await FriendsScreen.waitForIsShown(true);
 }
 
 export async function showMainMenu() {
