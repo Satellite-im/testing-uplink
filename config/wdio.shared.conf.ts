@@ -123,7 +123,7 @@ export const config: WebdriverIO.Config = {
   ], ['junit', {
     outputDir: './test-report/',
     outputFileFormat: function (options) {
-      return `ui-test-results-${options.capabilities.platformName}.xml`;
+      return `test-results-${options.capabilities.platformName}-${new Date().getTime()}.xml`;
     }
 }]],
   // Options to be passed to Mocha.

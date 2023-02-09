@@ -141,4 +141,5 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
         with:
-          junit_files: "test-report/**/*.xml"
+          files: "test-report/*.xml"
+          report_individual_runs: "true"
