@@ -7,17 +7,34 @@ import { faker } from "@faker-js/faker";
 import { homedir } from "os";
 import { join } from "path";
 const extract = require("extract-zip");
-const fs = require("fs").promises;
+const fsp = require("fs").promises;
 
-export async function copyCacheFolder(source: string, target: string) {
+export async function grabCacheFolder(username: string) {
+  const source = homedir() + "/.uplink";
+  const target = "./tests/fixtures/users/" + username + "/";
   try {
-    await extract(source, { dir: target });
-    console.log("Extraction of User Datacomplete");
+    await fsp.cp(source, target, { recursive: true });
+    console.log("Copied user cache successfully");
   } catch (error) {
     console.error(
-      `Got an error trying to move and extract the file: ${error.message}`
+      `Got an error trying to copy the user cache files: ${error.message}`
     );
   }
+}
+
+export async function createNewUser(username: string) {
+  // Enter pin for test user
+  await CreatePinScreen.waitForIsShown(true);
+  await CreatePinScreen.enterPin("1234");
+  await CreatePinScreen.clickOnCreateAccount();
+
+  // Enter Username and click on Create Account
+  await CreateUserScreen.enterUsername(username);
+  await CreateUserScreen.clickOnCreateAccount();
+
+  // Ensure Main Screen is displayed
+  await WelcomeScreen.waitForIsShown(true);
+  return username;
 }
 
 export function customPredicateString(
@@ -45,15 +62,20 @@ export async function getUserKeys(username: string) {
   return userkey;
 }
 
+export async function updateUserKeys() {}
+
 export async function loadTestUserData(user: string) {
   // Move files
-  const source = "./tests/fixtures/users/" + user + "/.uplink.zip";
-  const destination = homedir();
-  const filePath = destination + "/.uplink/state.json";
-  await copyCacheFolder(source, destination);
-
-  // Read file and console log it
-  const data = await fs.readFile(filePath);
+  const source = "./tests/fixtures/users/" + user;
+  const target = homedir() + "./uplink";
+  try {
+    await fsp.cp(source, target, { recursive: true }, { force: true });
+    console.log("Copied user cache successfully");
+  } catch (error) {
+    console.error(
+      `Got an error trying to copy the user cache files: ${error.message}`
+    );
+  }
 }
 
 export async function loginWithRandomUser() {

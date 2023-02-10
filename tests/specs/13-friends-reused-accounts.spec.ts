@@ -1,16 +1,39 @@
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import {
+  createNewUser,
   getUserKeys,
+  grabCacheFolder,
   loadTestUserData,
   loginWithTestUser,
 } from "../helpers/commands";
 
 describe("Import User A data and send friend request to User B", async () => {
-  before(async () => {
-    await loadTestUserData("UserA");
+  it.only("Create a User A reusable account", async () => {
+    await createNewUser("TestUserA");
+    await grabCacheFolder("TestUserA");
+  });
+
+  it("Create a User B reusable account", async () => {
+    await driver.reset();
+    await createNewUser("TestUserB");
+    await grabCacheFolder("TestUserB");
+  });
+
+  it("Load again User A", async () => {
+    await driver.reset();
+    await loadTestUserData("TestUserA");
+
+    // Login with a test user, show main menu and go to Friends Screen
+    await loginWithTestUser();
+
+    // Wait
+    await browser.pause(300000);
   });
 
   it("User A sends friend request to User B", async () => {
+    await driver.reset();
+    await loadTestUserData("TestUserA");
+
     // Login with a test user, show main menu and go to Friends Screen
     await loginWithTestUser();
     await FriendsScreen.waitForIsShown(true);
