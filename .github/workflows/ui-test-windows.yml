@@ -9,9 +9,7 @@ env:
 
 jobs:
   build-windows:
-    runs-on:
-      group: Default Larger Runners
-      labels: windows-latest-8-cores
+    runs-on: windows-latest
 
     steps:
       - name: Checkout testing directory 🔖
