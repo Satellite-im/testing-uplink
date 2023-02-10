@@ -152,5 +152,4 @@ jobs:
         if: always()
         with:
           junit_files: "junit-results/*.xml"
-          report_individual_runs: "true"
           check_name: "UI Automated Test Results on MacOS"
