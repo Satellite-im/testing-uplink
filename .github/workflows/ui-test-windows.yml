@@ -87,7 +87,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Uplink-Windows
-          path: ./appium-tests/appsapps
+          path: ./appium-tests/apps
 
       - name: Install NPM dependencies 📦
         run: |
