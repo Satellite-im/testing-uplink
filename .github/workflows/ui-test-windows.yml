@@ -9,10 +9,8 @@ env:
 
 jobs:
   build-windows:
-    runs-on: windows-latest
-    defaults:
-      run:
-        shell: bash
+    runs-on:
+      labels: windows-latest-8-cores
 
     steps:
       - name: Checkout testing directory 🔖
@@ -69,7 +67,9 @@ jobs:
 
   test-on-windows:
     needs: build-windows
-    runs-on: windows-latest
+    runs-on:
+      labels: windows-latest-8-cores
+
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
