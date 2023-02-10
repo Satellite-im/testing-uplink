@@ -79,42 +79,32 @@ jobs:
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
-        with:
-          path: "./appium-tests"
-
-      - name: Setup Node.js 🔨
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
 
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
 
       - name: Download the app 🗳️
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: app-macos
-          path: ./appium-tests/apps
+          path: ./apps
 
       - name: Copy DMG to Appium Apps Directory 💿
-        working-directory: ./appium-tests/apps
+        working-directory: ./apps
         run: |
-          ls -la
           unzip Uplink-Mac-Universal.zip
           cp -r ./Uplink.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
 
       - name: Install NPM dependencies 📦
-        run: |
-          cd appium-tests && npm install
+        run: npm install
 
       - name: Install and Run Appium Server 💻
         run: |
-          chmod +x ./appium-tests/scripts/run_appium_macos_server.sh
-          ./appium-tests/scripts/run_appium_macos_server.sh
+          chmod +x ./scripts/run_appium_macos_server.sh
+          ./scripts/run_appium_macos_server.sh
 
       - name: Run WebdriverIO tests on MacOS 🧪
-        working-directory: ./appium-tests
         run: npm run mac.ci
 
       - name: Upload Screenshots if tests failed 📷
@@ -122,14 +112,14 @@ jobs:
         if: failure()
         with:
           name: appium-screenshots
-          path: ./appium-tests/test-results
+          path: ./test-results
 
       - name: Upload Appium Log if tests failed 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: appium-log
-          path: ./appium-tests/appium.log
+          path: ./appium.log
 
       - name: Take screenshot of GH runner if test execution fails 📷
         uses: OrbitalOwen/desktop-screenshot-action@0.1
@@ -137,9 +127,62 @@ jobs:
         with:
           file-name: "desktop.jpg"
 
-      - name: Publish Test Results
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      - name: Publish JUnit reports ⬆️
+        uses: actions/upload-artifact@v3
         if: always()
         with:
-          files: "test-report/*.xml"
+          name: junit-results
+          path: ./test-report/*.xml
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Download JUnit results 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: junit-results
+
+      - name: Publish Test Results 📢
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          junit_files: "junit-results/*.xml"
           report_individual_runs: "true"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set badge color 🎨
+        shell: bash
+        run: |
+          case ${{ fromJSON( steps.test-results.outputs.json ).conclusion }} in
+            success)
+              echo "BADGE_COLOR=31c653" >> $GITHUB_ENV
+              ;;
+            failure)
+              echo "BADGE_COLOR=800000" >> $GITHUB_ENV
+              ;;
+            neutral)
+              echo "BADGE_COLOR=696969" >> $GITHUB_ENV
+              ;;
+          esac
+
+      - name: Create badge 🏷️
+        uses: emibcn/badge-action@d6f51ff11b5c3382b3b88689ae2d6db22d9737d1
+        with:
+          label: UI Tests
+          status: "${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.tests }} tests, ${{ fromJSON( steps.test-results.outputs.json ).formatted.stats.runs }} runs: ${{ fromJSON( steps.test-results.outputs.json ).conclusion }}"
+          color: ${{ env.BADGE_COLOR }}
+          path: badge.svg
+
+      - name: Upload badge to Gist ⬆️
+        if: >
+          github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'dev' ||
+          github.event_name != 'workflow_run' && github.ref == 'refs/heads/dev'
+        uses: andymckay/append-gist-action@1fbfbbce708a39bd45846f0955ed5521f2099c6d
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gistURL: https://gist.githubusercontent.com/{user}/{id}
+          file: badge.svg
