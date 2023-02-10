@@ -145,6 +145,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: junit-results
+          path: ./junit-results
 
       - name: Publish Test Results 📢
         uses: EnricoMi/publish-unit-test-result-action@v2
@@ -152,7 +153,6 @@ jobs:
         with:
           junit_files: "junit-results/*.xml"
           report_individual_runs: "true"
-          github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set badge color 🎨
         shell: bash
