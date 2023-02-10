@@ -75,19 +75,23 @@ jobs:
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
+        with:
+          path: "./appium-tests"
 
-      - name: Enable Developer Mode
-        run: Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
-        shell: powershell
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
 
       - name: Download the app 🗳️
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: Uplink-Windows
-          path: apps
+          path: ./appium-tests/appsapps
 
       - name: Install NPM dependencies 📦
-        run: npm install
+        run: |
+          cd appium-tests && npm install
 
       - name: Install and Run Appium Server 💻
         run: |
@@ -97,6 +101,7 @@ jobs:
           appium driver list
 
       - name: Run WebdriverIO tests on MacOS 🧪
+        working-directory: ./appium-tests
         run: npm run windows.ci
 
       - name: Upload Screenshots if tests failed 📷
@@ -104,14 +109,14 @@ jobs:
         if: failure()
         with:
           name: appium-screenshots
-          path: ./test-results
+          path: ./appium-tests/test-results
 
       - name: Upload Appium Log if tests failed 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: appium-log
-          path: ./appium.log
+          path: ./appium-tests/appium.log
 
       - name: Take screenshot of GH runner if test execution fails 📷
         uses: OrbitalOwen/desktop-screenshot-action@0.1
