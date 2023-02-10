@@ -79,42 +79,32 @@ jobs:
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
-        with:
-          path: "./appium-tests"
-
-      - name: Setup Node.js 🔨
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
 
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
 
       - name: Download the app 🗳️
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3
         with:
           name: app-macos
-          path: ./appium-tests/apps
+          path: ./apps
 
       - name: Copy DMG to Appium Apps Directory 💿
-        working-directory: ./appium-tests/apps
+        working-directory: ./apps
         run: |
-          ls -la
           unzip Uplink-Mac-Universal.zip
           cp -r ./Uplink.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
 
       - name: Install NPM dependencies 📦
-        run: |
-          cd appium-tests && npm install
+        run: npm install
 
       - name: Install and Run Appium Server 💻
         run: |
-          chmod +x ./appium-tests/scripts/run_appium_macos_server.sh
-          ./appium-tests/scripts/run_appium_macos_server.sh
+          chmod +x ./scripts/run_appium_macos_server.sh
+          ./scripts/run_appium_macos_server.sh
 
       - name: Run WebdriverIO tests on MacOS 🧪
-        working-directory: ./appium-tests
         run: npm run mac.ci
 
       - name: Upload Screenshots if tests failed 📷
@@ -122,17 +112,44 @@ jobs:
         if: failure()
         with:
           name: appium-screenshots
-          path: ./appium-tests/test-results
+          path: ./test-results
 
       - name: Upload Appium Log if tests failed 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: appium-log
-          path: ./appium-tests/appium.log
+          path: ./appium.log
 
       - name: Take screenshot of GH runner if test execution fails 📷
         uses: OrbitalOwen/desktop-screenshot-action@0.1
         if: failure()
         with:
           file-name: "desktop.jpg"
+
+      - name: Publish JUnit reports ⬆️
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: junit-results
+          path: ./test-report/*.xml
+
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Download JUnit results 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: junit-results
+          path: ./junit-results
+
+      - name: Publish Test Results 📢
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always()
+        with:
+          junit_files: "junit-results/*.xml"
+          check_name: "UI Automated Test Results on MacOS"

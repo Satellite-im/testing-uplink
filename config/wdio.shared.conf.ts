@@ -120,7 +120,12 @@ export const config: WebdriverIO.Config = {
     {
       showPreface: false,
     },
-  ]],
+  ], ['junit', {
+    outputDir: './test-report/',
+    outputFileFormat: function (options) {
+      return `test-results-${options.capabilities.platformName}-${new Date().getTime()}.xml`;
+    }
+}]],
   // Options to be passed to Mocha.
   mochaOpts: {
     ui: "bdd",
