@@ -1,3 +1,4 @@
+const { execSync } = require("child_process");
 import ChatScreen from "../screenobjects/ChatScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
@@ -38,8 +39,31 @@ describe("Friends Screen Tests", async () => {
     await expect(await FriendsScreen.settingsButton).toBeDisplayed();
   });
 
+  it("User can copy its own ID by clicking on button", async () => {
+    await FriendsScreen.addSomeoneInput.click();
+    let copiedKey: string = "";
+
+    // Click on Copy ID button and grab clipboard value
+    await FriendsScreen.clickOnCopyID().then(() => {
+      copiedKey = execSync("pbpaste", { encoding: "utf8" });
+    });
+
+    // Validate toast notification and close it
+    const toastText = await FriendsScreen.getToastNotificationText();
+    await expect(toastText).toEqual("Copied ID to clipboard!");
+    await FriendsScreen.closeToastNotification();
+    await FriendsScreen.toastNotification.waitForDisplayed({ reverse: true });
+
+    // Paste copied ID into input field
+    await FriendsScreen.enterFriendDidKey(copiedKey);
+    await expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining(
+      copiedKey
+    );
+  });
+
   it("User can type on user search input bar", async () => {
     await (await FriendsScreen.addSomeoneInput).click();
+    await (await FriendsScreen.addSomeoneInput).clearValue();
     await (await FriendsScreen.addSomeoneInput).setValue("Hello");
     await expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining(
       "Hello"
@@ -51,9 +75,6 @@ describe("Friends Screen Tests", async () => {
 
   // Skipped since it needs to be implemented
   xit("Add a friend", async () => {});
-
-  // Skipped for now - Pending to add test steps
-  xit("User can copy its own ID by clicking on button", async () => {});
 
   it("Switch to Pending Friends view and validate elements displayed", async () => {
     await (await FriendsScreen.pendingFriendsButton).click();

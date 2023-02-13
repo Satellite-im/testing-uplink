@@ -1,4 +1,3 @@
-import * as users from "../fixtures/users/testkeys.json";
 import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
@@ -6,12 +5,30 @@ import WelcomeScreen from "../screenobjects/WelcomeScreen";
 import { faker } from "@faker-js/faker";
 import { homedir } from "os";
 import { join } from "path";
-const extract = require("extract-zip");
+const { readFileSync, rmSync, writeFileSync } = require("fs");
 const fsp = require("fs").promises;
+const mkdirp = require("mkdirp");
+
+// Users cache helper functions
+
+export async function deleteCache() {
+  const target = homedir() + "/.uplink";
+  rmSync(target, { recursive: true, force: true });
+}
+
+export async function getUserKey(username: string) {
+  // Read user data and store variable with DID Key from JSON file
+  const source = "./tests/fixtures/users/" + username + "/state.json";
+  const jsonFile = readFileSync(source);
+  const jsonFileParsed = JSON.parse(jsonFile);
+  const didkey = jsonFileParsed.account.identity.identity.did_key;
+  return didkey;
+}
 
 export async function grabCacheFolder(username: string) {
   const source = homedir() + "/.uplink";
-  const target = "./tests/fixtures/users/" + username + "/";
+  const target = "./tests/fixtures/users/" + username;
+  await mkdirp(target);
   try {
     await fsp.cp(source, target, { recursive: true });
     console.log("Copied user cache successfully");
@@ -21,6 +38,41 @@ export async function grabCacheFolder(username: string) {
     );
   }
 }
+
+export async function loadTestUserData(user: string) {
+  // Move files
+  const source = "./tests/fixtures/users/" + user;
+  const target = homedir() + "/.uplink";
+  try {
+    await deleteCache();
+    await fsp.cp(source, target, { recursive: true }, { force: true });
+    console.log("Copied user cache successfully");
+  } catch (error) {
+    console.error(
+      `Got an error trying to copy the user cache files: ${error.message}`
+    );
+  }
+}
+
+export async function saveTestKeys(username: string) {
+  // Read user data and store variable with DID Key from JSON file
+  const source = "./tests/fixtures/users/" + username + "/state.json";
+  const jsonFile = readFileSync(source);
+  const jsonFileParsed = JSON.parse(jsonFile);
+  const didkey = jsonFileParsed.account.identity.identity.did_key;
+
+  // Save JSON file with keys
+  const target = "./tests/fixtures/users/" + username + ".json";
+  const userData = { username: username, key: didkey };
+  try {
+    writeFileSync(target, JSON.stringify(userData, null, 2), "utf8");
+    console.log("Data successfully saved");
+  } catch (error) {
+    console.log("An error has occurred ", error);
+  }
+}
+
+// Login or Create Users Functions
 
 export async function createNewUser(username: string) {
   // Enter pin for test user
@@ -34,48 +86,11 @@ export async function createNewUser(username: string) {
 
   // Ensure Main Screen is displayed
   await WelcomeScreen.waitForIsShown(true);
+
+  // Workaround to ensure that user clicks on Add Someone
+  await WelcomeScreen.clickAddSomeone();
+  await FriendsScreen.waitForIsShown(true);
   return username;
-}
-
-export function customPredicateString(
-  elementType: string,
-  attribute: string,
-  value: string,
-  comparisonOperator: string
-) {
-  const predicateString: string = `-ios predicate string:elementType == ${elementType} AND ${attribute} ${comparisonOperator} '${value}'`;
-  return predicateString;
-}
-
-export function getPredicateForTextValueEqual(value: string) {
-  const predicateString: string = `-ios predicate string:elementType == 48 AND value == '${value}'`;
-  return predicateString;
-}
-
-export async function getUserKeys(username: string) {
-  let userkey: string = "";
-  users.forEach((user) => {
-    if (user.username === username) {
-      userkey = user.key;
-    }
-  });
-  return userkey;
-}
-
-export async function updateUserKeys() {}
-
-export async function loadTestUserData(user: string) {
-  // Move files
-  const source = "./tests/fixtures/users/" + user;
-  const target = homedir() + "./uplink";
-  try {
-    await fsp.cp(source, target, { recursive: true }, { force: true });
-    console.log("Copied user cache successfully");
-  } catch (error) {
-    console.error(
-      `Got an error trying to copy the user cache files: ${error.message}`
-    );
-  }
 }
 
 export async function loginWithRandomUser() {
@@ -116,6 +131,25 @@ export async function showMainMenu() {
   // Validate Friends Screen is displayed
   await FriendsScreen.waitForIsShown(true);
 }
+
+// UI Locators Helper Functions
+
+export function customPredicateString(
+  elementType: string,
+  attribute: string,
+  value: string,
+  comparisonOperator: string
+) {
+  const predicateString: string = `-ios predicate string:elementType == ${elementType} AND ${attribute} ${comparisonOperator} '${value}'`;
+  return predicateString;
+}
+
+export function getPredicateForTextValueEqual(value: string) {
+  const predicateString: string = `-ios predicate string:elementType == 48 AND value == '${value}'`;
+  return predicateString;
+}
+
+// MacOS driver helper functions
 
 export async function selectFileOnMacos(relativePath: string) {
   // Get the filepath to select on browser
