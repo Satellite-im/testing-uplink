@@ -2,8 +2,8 @@ const { execSync } = require("child_process");
 import FriendsScreen from "../../screenobjects/FriendsScreen";
 import {
   createNewUser,
-  deleteCache,
   grabCacheFolder,
+  resetApp,
 } from "../../helpers/commands";
 import SettingsGeneralScreen from "../../screenobjects/SettingsGeneralScreen";
 import SettingsDeveloperScreen from "../../screenobjects/SettingsDeveloperScreen";
@@ -23,8 +23,7 @@ xdescribe("Create Reusable Accounts and Save Data", () => {
   });
 
   it("Create a User B reusable account", async () => {
-    await deleteCache();
-    await driver.reset();
+    await resetApp();
     await createNewUser("TestUserB");
     await FriendsScreen.goToSettings();
     await SettingsGeneralScreen.goToDeveloperSettings();

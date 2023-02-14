@@ -54,6 +54,20 @@ export async function loadTestUserData(user: string) {
   }
 }
 
+export async function resetApp() {
+  await driver.executeScript("macos: terminateApp", [
+    {
+      bundleId: "im.satellite.uplink",
+    },
+  ]);
+  await deleteCache();
+  await driver.executeScript("macos: launchApp", [
+    {
+      bundleId: "im.satellite.uplink",
+    },
+  ]);
+}
+
 export async function saveTestKeys(username: string) {
   // Read user data and store variable with DID Key from JSON file
   const source = "./tests/fixtures/users/" + username + "/state.json";
