@@ -11,6 +11,7 @@ const SELECTORS = {
   CHAT_WITH_FRIEND_BUTTON: "~Chat With Friend",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_OPTION: "~Context Item",
+  COPY_ID_BUTTON: '//*[@label="friends-body"]/*[5]',
   FAVORITES: "~Favorites",
   FAVORITES_USER_IMAGE: "~User Image",
   FRIEND_INFO: "~Friend Info",
@@ -20,9 +21,11 @@ const SELECTORS = {
   FRIENDS_LAYOUT: "~friends-layout",
   FRIENDS_LIST: "~Friends List",
   INCOMING_REQUESTS_LIST: "~Incoming Requests List",
+  INPUT_ERROR: "~input-error",
   OUTGOING_REQUESTS_LIST: "~Outgoing Requests List",
   PENDING_FRIENDS_BUTTON: "~pending-friends-button",
   REMOVE_OR_DENY_FRIEND_BUTTON: "~Remove or Deny Friend",
+  TOAST_NOTIFICATION: "~Toast Notification",
 };
 
 class FriendsScreen extends UplinkMainScreen {
@@ -70,6 +73,10 @@ class FriendsScreen extends UplinkMainScreen {
     return $$(SELECTORS.CONTEXT_MENU_OPTION);
   }
 
+  get copyIdButton() {
+    return $(SELECTORS.COPY_ID_BUTTON);
+  }
+
   get favorites() {
     return $(SELECTORS.FAVORITES);
   }
@@ -106,6 +113,10 @@ class FriendsScreen extends UplinkMainScreen {
     return $(SELECTORS.INCOMING_REQUESTS_LIST);
   }
 
+  get inputError() {
+    return $(SELECTORS.INPUT_ERROR);
+  }
+
   get outgoingRequestsList() {
     return $(SELECTORS.OUTGOING_REQUESTS_LIST);
   }
@@ -116,6 +127,10 @@ class FriendsScreen extends UplinkMainScreen {
 
   get removeOrDenyFriendButton() {
     return $(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON);
+  }
+
+  get toastNotification() {
+    return $(SELECTORS.TOAST_NOTIFICATION);
   }
 
   async acceptIncomingRequest(name: string) {
@@ -157,6 +172,27 @@ class FriendsScreen extends UplinkMainScreen {
     await $(button).click();
   }
 
+  async clickOnAddSomeoneButton() {
+    await this.addSomeoneButton.click();
+  }
+
+  async clickOnCopyID() {
+    await this.copyIdButton.click();
+  }
+
+  async closeToastNotification() {
+    const closeButton = await $("~Toast Notification").$("//*[3]");
+    await closeButton.click();
+  }
+
+  async deleteAddFriendInput() {
+    await this.addSomeoneInput.clearValue();
+  }
+
+  async enterFriendDidKey(didkey: string) {
+    await this.addSomeoneInput.setValue(didkey);
+  }
+
   async getEntireFriendsList(list: string) {
     const friendNames = await driver.findElements(
       "xpath",
@@ -167,6 +203,11 @@ class FriendsScreen extends UplinkMainScreen {
       names.push(await (await $(name)).getText());
     }
     return names;
+  }
+
+  async getToastNotificationText() {
+    const textNotification = await $("~Toast Notification").$("//*[2]/*[1]");
+    return textNotification.getText();
   }
 
   async getUserFromFriendsList(list: string) {
