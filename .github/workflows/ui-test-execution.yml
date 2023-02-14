@@ -135,8 +135,8 @@ jobs:
           path: ./test-report/*.xml
 
   publish:
-    needs: test
     if: ${{ always() }}
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout testing directory 🔖
