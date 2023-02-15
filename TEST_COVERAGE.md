@@ -136,10 +136,10 @@ This document provides a test coverage matrix of the Uplink features that are al
 - [ ] Notification counter should display correct amount of requests on _Friends Page Button_
 - [x] After accepting friend request, the pending request should clear and they should be added to the All Friends list.
 - [x] After denying friend request, the pending request should clear and they should NOT be added to the All Friends list.
-- [x] After cancelling an outgoing friend request, the pending request should clear and they should NOT be added to the All Friends list.
+- [x] After canceling an outgoing friend request, the pending request should clear and they should NOT be added to the All Friends list.
 - [ ] When User clicks _Accept Incoming Request_ in the context menu, request should be accepted and user added to the all friends list.
 - [x] When User clicks _Deny Incoming Request_ in the context menu, request should be denied and user should NOT be added to the all friends list.
-- [x] When User clicks _Cancel Outgoing Request_ in the context menu, outgoing request should be cancelled and removed from the outgoing list.
+- [x] When User clicks _Cancel Outgoing Request_ in the context menu, outgoing request should be canceled and removed from the outgoing list.
 
 **Blocked Friends**
 
