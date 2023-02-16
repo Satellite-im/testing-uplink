@@ -98,6 +98,10 @@ jobs:
           appium driver install --source=npm appium-windows-driver
           appium driver list
 
+      - name: Delete cache folder before starting
+        run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
+        shell: powershell
+
       - name: Run WebdriverIO tests on MacOS 🧪
         working-directory: ./appium-tests
         run: npm run windows.ci
@@ -128,23 +132,3 @@ jobs:
         with:
           name: junit-results
           path: ./test-report/*.xml
-
-  publish:
-    if: ${{ always() }}
-    needs: test-on-windows
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
-
-      - name: Download JUnit results 🗳️
-        uses: actions/download-artifact@v3
-        with:
-          name: junit-results
-          path: ./junit-results
-
-      - name: Publish Test Results 📢
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        with:
-          junit_files: "junit-results/*.xml"
-          check_name: "UI Automated Test Results on Windows"

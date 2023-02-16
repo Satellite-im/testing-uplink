@@ -1,8 +1,11 @@
+import config from "./wdio.shared.local.appium.conf";
+import { homedir } from "os";
+import { join } from "path";
+
+
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
-
-import config from "./wdio.shared.local.appium.conf";
-import { join } from "path";
+const { rmSync } = require("fs");
 
 // ============
 // Specs
@@ -24,7 +27,6 @@ config.capabilities = [
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
-    "appium:postrun": {script: 'Remove-Item -Recurse -Force $home/.uplink'},
   },
 ];
 
@@ -39,6 +41,11 @@ config.afterTest = async function (test, describe, { error }) {
       "base64"
     );
   }
+};
+
+config.afterSession = async function (session) {
+  const target = homedir() + "/.uplink";
+  rmSync(target, { recursive: true, force: true });
 };
 
 exports.config = config;

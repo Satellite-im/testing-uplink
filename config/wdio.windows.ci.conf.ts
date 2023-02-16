@@ -1,8 +1,11 @@
+import config from "./wdio.shared.local.appium.conf";
+import { homedir } from "os";
+import { join } from "path";
+
+
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
-
-import config from "./wdio.shared.local.appium.conf";
-import { join } from "path";
+const { rmSync } = require("fs");
 
 // ============
 // Specs
@@ -17,14 +20,13 @@ config.specs = [join(process.cwd(), "./tests/specs/**/01-create-account.spec.ts"
 config.capabilities = [
   {
     // The defaults you need to have in your config
-    platformName: "windows",
+    "appium:platformName": "windows",
     "appium:deviceName": "WindowsPC",
     // For W3C the appium capabilities need to have an extension prefix
     // http://appium.io/docs/en/writing-running-appium/caps/
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
-    "appium:postrun": {script: 'Remove-Item -Recurse -Force $home/.uplink'},
   },
 ];
 
@@ -39,6 +41,11 @@ config.afterTest = async function (test, describe, { error }) {
       "base64"
     );
   }
+};
+
+config.afterSession = async function (session) {
+  const target = homedir() + "/.uplink";
+  rmSync(target, { recursive: true, force: true });
 };
 
 exports.config = config;
