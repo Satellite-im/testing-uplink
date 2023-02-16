@@ -33,6 +33,16 @@ describe("Settings - Audio - Tests", async () => {
       "When enabled, media related events such as toggling microphone or headphones and other real time events, will play sounds."
     );
 
+    // Validate texts for Message Sounds Settings Section
+    await expect(
+      await SettingsAudioScreen.messageSoundsHeader
+    ).toHaveTextContaining("MESSAGE SOUNDS");
+    await expect(
+      await SettingsAudioScreen.messageSoundsDescription
+    ).toHaveTextContaining(
+      "When enabled you will hear a notification when a new message is received."
+    );
+
     // Validate texts for Call Timer Settings Section
     await expect(
       await SettingsAudioScreen.callTimerHeader
@@ -48,6 +58,7 @@ describe("Settings - Audio - Tests", async () => {
     // Click on the three switch sliders from the Settings Sounds & Audio Screen
     await SettingsAudioScreen.clickOnInterfaceSounds();
     await SettingsAudioScreen.clickOnMediaSounds();
+    await SettingsAudioScreen.clickOnMessageSounds();
     await SettingsAudioScreen.clickOnCallTimer();
 
     // Validate that toggle switches have now value = '1' (active)
@@ -58,6 +69,9 @@ describe("Settings - Audio - Tests", async () => {
       await SettingsAudioScreen.mediaSoundsControllerValue
     ).toHaveAttrContaining("value", "1");
     await expect(
+      await SettingsAudioScreen.messageSoundsControllerValue
+    ).toHaveAttrContaining("value", "1");
+    await expect(
       await SettingsAudioScreen.callTimerControllerValue
     ).toHaveAttrContaining("value", "1");
   });
@@ -66,6 +80,7 @@ describe("Settings - Audio - Tests", async () => {
     // Click again on the three switch sliders from the Settings Sounds & Audio Screen
     await SettingsAudioScreen.clickOnInterfaceSounds();
     await SettingsAudioScreen.clickOnMediaSounds();
+    await SettingsAudioScreen.clickOnMessageSounds();
     await SettingsAudioScreen.clickOnCallTimer();
 
     // Validate that toggle switches have now value = '0' (disabled)
@@ -74,6 +89,9 @@ describe("Settings - Audio - Tests", async () => {
     ).toHaveAttrContaining("value", "0");
     await expect(
       await SettingsAudioScreen.mediaSoundsControllerValue
+    ).toHaveAttrContaining("value", "0");
+    await expect(
+      await SettingsAudioScreen.messageSoundsControllerValue
     ).toHaveAttrContaining("value", "0");
     await expect(
       await SettingsAudioScreen.callTimerControllerValue
