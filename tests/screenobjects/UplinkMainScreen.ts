@@ -31,13 +31,13 @@ const SELECTORS_MACOS = {
   CHATS_BUTTON: "~chats-button",
   FILES_BUTTON: "~files-button",
   FRIENDS_BUTTON: "~friends-button",
-  PRE_RELEASE_INDICATOR_TEXT: "//*[1]/*[1]",
+  PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
   SIDEBAR: "~sidebar",
   SIDEBAR_CHILDREN: "~sidebar-children",
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
-  WINDOW: '//*[@title="Uplink"]',
+  WINDOW: "-ios class chain:**/XCUIElementTypeWindow",
 };
 
 currentOS === "windows"

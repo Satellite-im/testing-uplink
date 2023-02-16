@@ -27,9 +27,7 @@ describe("Create Account Screen Tests", async () => {
   });
 
   it("Create Account button should be disabled if no pin has been entered", async () => {
-    expect(await CreatePinScreen.getStatusOfCreateAccountButton()).toEqual(
-      "False"
-    );
+    await expect(await CreatePinScreen.createAccountButton).not.toExist();
   });
 
   it("Enter an empty pin", async () => {
@@ -39,9 +37,7 @@ describe("Create Account Screen Tests", async () => {
     await expect(await CreatePinScreen.inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
-    expect(await CreatePinScreen.getStatusOfCreateAccountButton()).toEqual(
-      "False"
-    );
+    await expect(await CreatePinScreen.createAccountButton).not.toExist();
   });
 
   it("Enter a pin with less than 4 characters", async () => {
@@ -50,9 +46,7 @@ describe("Create Account Screen Tests", async () => {
     await expect(await CreatePinScreen.inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
-    expect(await CreatePinScreen.getStatusOfCreateAccountButton()).toEqual(
-      "False"
-    );
+    await expect(await CreatePinScreen.createAccountButton).not.toExist();
     await (await CreatePinScreen.pinInput).clearValue();
   });
 
@@ -63,7 +57,7 @@ describe("Create Account Screen Tests", async () => {
       "Maximum of 32 characters exceeded"
     );
     expect(await CreatePinScreen.getStatusOfCreateAccountButton()).toEqual(
-      "False"
+      "false"
     );
     await (await CreatePinScreen.pinInput).clearValue();
   });
@@ -78,7 +72,7 @@ describe("Create Account Screen Tests", async () => {
       "Spaces are not allowed."
     );
     expect(await CreatePinScreen.getStatusOfCreateAccountButton()).toEqual(
-      "False"
+      "false"
     );
     await (await CreatePinScreen.pinInput).clearValue();
   });
@@ -86,7 +80,7 @@ describe("Create Account Screen Tests", async () => {
   it("Enter a valid pin and continue creating a username", async () => {
     await CreatePinScreen.enterPin("1234");
     expect(await CreatePinScreen.getStatusOfCreateAccountButton()).toEqual(
-      "True"
+      "true"
     );
     await CreatePinScreen.clickOnCreateAccount();
     await CreateUserScreen.waitForIsShown(true);
@@ -96,7 +90,7 @@ describe("Create Account Screen Tests", async () => {
     await CreateUserScreen.enterUsername("1");
     await CreateUserScreen.enterUsername("");
     expect(await CreateUserScreen.getStatusOfCreateAccountButton()).toEqual(
-      "False"
+      "false"
     );
     await expect(await CreateUserScreen.inputError).toBeDisplayed();
     await expect(await CreateUserScreen.inputErrorText).toHaveTextContaining(
@@ -107,7 +101,7 @@ describe("Create Account Screen Tests", async () => {
   it("Username with less than 4 characters and attempt to continue", async () => {
     await CreateUserScreen.enterUsername("12");
     expect(await CreateUserScreen.getStatusOfCreateAccountButton()).toEqual(
-      "False"
+      "false"
     );
     await expect(await CreateUserScreen.inputError).toBeDisplayed();
     await expect(await CreateUserScreen.inputErrorText).toHaveTextContaining(
@@ -118,7 +112,7 @@ describe("Create Account Screen Tests", async () => {
   it("Username with more than 32 characters and attempt to continue", async () => {
     await CreateUserScreen.enterUsername("12345678901234567890123456789012345");
     expect(await CreateUserScreen.getStatusOfCreateAccountButton()).toEqual(
-      "False"
+      "false"
     );
     await expect(await CreateUserScreen.inputError).toBeDisplayed();
     await expect(await CreateUserScreen.inputErrorText).toHaveTextContaining(
@@ -132,7 +126,7 @@ describe("Create Account Screen Tests", async () => {
     const emptySpaces = "    ";
     await CreateUserScreen.usernameInput.addValue(`123${emptySpaces}`);
     expect(await CreateUserScreen.getStatusOfCreateAccountButton()).toEqual(
-      "False"
+      "false"
     );
     await expect(await CreateUserScreen.inputError).toBeDisplayed();
     await expect(await CreateUserScreen.inputErrorText).toHaveTextContaining(
@@ -143,7 +137,7 @@ describe("Create Account Screen Tests", async () => {
   it("Username with non-alphanumeric characters", async () => {
     await CreateUserScreen.enterUsername("test...");
     expect(await CreateUserScreen.getStatusOfCreateAccountButton()).toEqual(
-      "False"
+      "false"
     );
     await expect(await CreateUserScreen.inputError).toBeDisplayed();
     await expect(await CreateUserScreen.inputErrorText).toHaveTextContaining(
@@ -154,7 +148,7 @@ describe("Create Account Screen Tests", async () => {
   it("Enter valid username to continue", async () => {
     await CreateUserScreen.enterUsername("test123");
     expect(await CreateUserScreen.getStatusOfCreateAccountButton()).toEqual(
-      "True"
+      "true"
     );
     await CreateUserScreen.clickOnCreateAccount();
     await WelcomeScreen.waitForIsShown(true);

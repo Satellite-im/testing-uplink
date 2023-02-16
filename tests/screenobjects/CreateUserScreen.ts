@@ -17,7 +17,7 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   CREATE_ACCOUNT_BUTTON: "~create-account-button",
   INPUT_ERROR: "~input-error",
-  INPUT_ERROR_TEXT: "//*[1]",
+  INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
 currentOS === "windows"
@@ -59,11 +59,13 @@ class CreatePinScreen extends UplinkMainScreen {
 
   async getStatusOfCreateAccountButton() {
     const currentDriver = await driver.capabilities.automationName;
+    let result;
     if (currentDriver === "windows") {
-      return this.createAccountButton.getAttribute("IsEnabled");
+      result = await this.createAccountButton.getAttribute("IsEnabled");
     } else {
-      return this.createAccountButton.getAttribute("enabled");
+      result = await this.createAccountButton.getAttribute("enabled");
     }
+    return result.toString().toLowerCase();
   }
 }
 
