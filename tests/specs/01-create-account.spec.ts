@@ -27,7 +27,10 @@ describe("Create Account Screen Tests", async () => {
   });
 
   it("Create Account button should be disabled if no pin has been entered", async () => {
-    await expect(await CreatePinScreen.createAccountButton).not.toExist();
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr(
+      "enabled",
+      "false"
+    );
   });
 
   it("Enter an empty pin", async () => {
@@ -37,7 +40,10 @@ describe("Create Account Screen Tests", async () => {
     await expect(await CreatePinScreen.inputError).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
-    await expect(await CreatePinScreen.createAccountButton).not.toExist();
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr(
+      "enabled",
+      "false"
+    );
   });
 
   it("Enter a pin with less than 4 characters", async () => {
@@ -46,7 +52,10 @@ describe("Create Account Screen Tests", async () => {
     await expect(await CreatePinScreen.inputError).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
-    await expect(await CreatePinScreen.createAccountButton).not.toExist();
+    await expect(await CreatePinScreen.createAccountButton).toHaveAttr(
+      "enabled",
+      "false"
+    );
     await (await CreatePinScreen.pinInput).clearValue();
   });
 
