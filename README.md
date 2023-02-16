@@ -6,12 +6,12 @@ Test Automation Framework designed to create UI tests in webdriverIO using Appiu
 
 This automation framework is currently based on:
 
-- **WebdriverIO:** `7.19.7`
+- **WebdriverIO:** `8.2.4`
 - **Appium:** `2.0.0`
 
-## Setting up to run on the local machine
+## Setting up to run on the local machine - MAC OS
 
-1. First, install all the required dependencies
+1. First, install NodeJS and then all the required dependencies
 
 ```sh
 npm install
@@ -23,14 +23,22 @@ npm install
 ```sh
 # To Install Appium Mac2 Driver to run the tests on macOS
 appium driver install mac2
+
+# To Install Appium Windows Driver to run the tests on Windows
+appium driver install --source=npm appium-windows-driver
 ```
 
-4. Ask the development team to provide the latest .dmg file for macOS testing. Then, install the application manually on your local machine
+4. Ask the development team to provide the latest .dmg file for macOS testing or .exe for Windows. On Windows, you can place the application on /apps folder and ensure that the name of the app is ui.exe
 5. Once the application is installed, you can run the tests by using the following commands:
 
 ```sh
 # To run the tests under MacOS
 npm run mac.app
+```
+
+```sh
+# To run the tests under Windows
+npm run windows.app
 ```
 
 ## Configuration files
@@ -56,9 +64,7 @@ If `accessibilityID`'s can't be used, for example, then for Mac2 driver, -ios cl
 
 ## Improvements to be implemented soon
 
-- CI job to run the tests on every PR under GitHub Actions for MacOS - To work on this, we need to have a properly codesigned application
-- For now, to run the tests, we need to manually install the application on our local machine, before running the tests
-- Tests running on Windows - To add these, we need to start adding the windows UI locators for the elements and then modify the tests to run on both platforms
+- Tests running on Windows - Work is in progress and needs to add UI locators for windows. Soon this will be deployed to dev!
 - Tests running on Ubuntu - To add these, we need to start adding the Ubuntu UI locators for the elements and then modify the tests to run on both platforms. Also, there is no official driver for Appium to run tests under Ubuntu. Unfortunately, there is only one third-party driver that we need to validate that it is secure and works correctly before implementing it inside the project
 
 ## Demo Videos
@@ -66,3 +72,7 @@ If `accessibilityID`'s can't be used, for example, then for Mac2 driver, -ios cl
 - Local Execution on MacOS:
 
 https://user-images.githubusercontent.com/35935591/212192292-86782549-da25-4f90-920d-e68fbb877e8d.mov
+
+## Test Coverage Matrix
+
+Right now, we are working hard to match the existing functionalities from Uplink. You can find [here](./TEST_COVERAGE.md) a test coverage matrix with the list of UI tests already implemented (marked with "X") and the ones that will be added soon to the UI testing framework
