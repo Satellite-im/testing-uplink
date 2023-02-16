@@ -1,11 +1,28 @@
 import UplinkMainScreen from "./UplinkMainScreen";
 
-const SELECTORS = {
-  CREATE_ACCOUNT_BUTTON: "~create-account-button",
-  INPUT_ERROR: "~input-error",
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {
   UNLOCK_LAYOUT: "~unlock-layout",
   USERNAME_INPUT: "~username-input",
 };
+
+const SELECTORS_WINDOWS = {
+  CREATE_ACCOUNT_BUTTON: '[name="create-account-button"]',
+  INPUT_ERROR: '[name="input-error"]',
+  INPUT_ERROR_TEXT: "//Text",
+};
+
+const SELECTORS_MACOS = {
+  CREATE_ACCOUNT_BUTTON: "~create-account-button",
+  INPUT_ERROR: "~input-error",
+  INPUT_ERROR_TEXT: "//*[1]",
+};
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class CreatePinScreen extends UplinkMainScreen {
   constructor() {
@@ -17,7 +34,11 @@ class CreatePinScreen extends UplinkMainScreen {
   }
 
   get inputError() {
-    return $("//*[@label='input-error']/*[1]");
+    return $(SELECTORS.INPUT_ERROR);
+  }
+
+  get inputErrorText() {
+    return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get unlockLayout() {
@@ -34,6 +55,15 @@ class CreatePinScreen extends UplinkMainScreen {
 
   async clickOnCreateAccount() {
     await (await this.createAccountButton).click();
+  }
+
+  async getStatusOfCreateAccountButton() {
+    const currentDriver = await driver.capabilities.automationName;
+    if (currentDriver === "windows") {
+      return this.createAccountButton.getAttribute("IsEnabled");
+    } else {
+      return this.createAccountButton.getAttribute("enabled");
+    }
   }
 }
 

@@ -7,7 +7,7 @@ import { join } from "path";
 // ============
 // Specs
 // ============
-config.specs = ["./tests/specs/**/*.spec.ts"];
+config.specs = [join(process.cwd(), "./tests/specs/**/01-create-account.spec.ts")];
 
 // ============
 // Capabilities
@@ -18,15 +18,13 @@ config.capabilities = [
   {
     // The defaults you need to have in your config
     platformName: "windows",
+    "appium:deviceName": "WindowsPC",
     // For W3C the appium capabilities need to have an extension prefix
     // http://appium.io/docs/en/writing-running-appium/caps/
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
-    // @ts-ignore
-    "appium:postrun": {
-      script: 'cd $home; Remove-Item .uplink -Recurse -Force',
-    },
+    "appium:postrun": {script: 'Remove-Item -Recurse -Force $home/.uplink'},
   },
 ];
 

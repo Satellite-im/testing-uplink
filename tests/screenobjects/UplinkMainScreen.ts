@@ -1,21 +1,48 @@
 import AppScreen from "./AppScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {
+  PRE_RELEASE_INDICATOR: "~pre-release",
+  TOAST_NOTIFICATION: "~Toast Notification",
+};
+
+const SELECTORS_WINDOWS = {
+  BUTTON_BADGE: '[name="Button Badge"]',
+  BUTTON_NAV: '[name="button-nav"]',
+  CHAT_SEARCH_INPUT: '[name="chat-search-input"]',
+  CHATS_BUTTON: '[name="chat-button"]',
+  FILES_BUTTON: '[name="files-button"]',
+  FRIENDS_BUTTON: '[name="friends-button"]',
+  PRE_RELEASE_INDICATOR_TEXT: "//*[2]",
+  SETTINGS_BUTTON: '[name=settings-button"]',
+  SIDEBAR: '[name="sidebar"]',
+  SIDEBAR_CHILDREN: "~chats",
+  SIDEBAR_SEARCH: '[name="sidebar-search"]',
+  SKELETAL_USER: '[name="skeletal-user"]',
+  WINDOW: "~main",
+};
+
+const SELECTORS_MACOS = {
   BUTTON_BADGE: "~Button Badge",
   BUTTON_NAV: "~button-nav",
   CHAT_SEARCH_INPUT: "~chat-search-input",
   CHATS_BUTTON: "~chats-button",
   FILES_BUTTON: "~files-button",
   FRIENDS_BUTTON: "~friends-button",
-  PRE_RELEASE_INDICATOR: "~pre-release",
+  PRE_RELEASE_INDICATOR_TEXT: "//*[1]/*[1]",
   SETTINGS_BUTTON: "~settings-button",
   SIDEBAR: "~sidebar",
   SIDEBAR_CHILDREN: "~sidebar-children",
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
-  TOAST_NOTIFICATION: "~Toast Notification",
   WINDOW: '//*[@title="Uplink"]',
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class UplinkMainScreen extends AppScreen {
   constructor() {
@@ -51,7 +78,9 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get prereleaseIndicatorText() {
-    return $('//*[@label="pre-release"]/*[1]/*[1]');
+    return $(SELECTORS.PRE_RELEASE_INDICATOR).$(
+      SELECTORS.PRE_RELEASE_INDICATOR_TEXT
+    );
   }
 
   get settingsButton() {
