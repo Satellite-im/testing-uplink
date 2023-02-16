@@ -104,6 +104,9 @@ jobs:
           chmod +x ./scripts/run_appium_macos_server.sh
           ./scripts/run_appium_macos_server.sh
 
+      - name: Delete Cache Folder if exists
+        run: rm -rf ~/.uplink
+
       - name: Run WebdriverIO tests on MacOS 🧪
         run: npm run mac.ci
 
