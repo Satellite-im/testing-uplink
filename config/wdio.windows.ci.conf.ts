@@ -1,4 +1,4 @@
-import config from "./wdio.shared.local.appium.conf";
+import config from "./wdio.shared.windows.appium.conf";
 import { homedir } from "os";
 import { join } from "path";
 

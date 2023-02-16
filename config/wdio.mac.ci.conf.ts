@@ -2,7 +2,7 @@ const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
 const { rmSync } = require("fs");
 
-import config from "./wdio.shared.local.appium.conf";
+import config from "./wdio.shared.mac.appium.conf";
 import { homedir } from "os";
 import { join } from "path";
 
