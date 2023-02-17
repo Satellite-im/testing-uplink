@@ -11,10 +11,6 @@ export const config: WebdriverIO.Config = {
   // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
   // on a remote machine).
   runner: "local",
-  //host: "localhost",
-  port: 4723,
-  //path: "/wd/hub",
-
   //
   // ==================
   // Specify Test Files
@@ -82,9 +78,9 @@ export const config: WebdriverIO.Config = {
   waitforTimeout: 10000,
   // Default timeout in milliseconds for request
   // if browser driver or grid doesn't send response
-  connectionRetryTimeout: 120000,
+  connectionRetryTimeout: 60000,
   // Default request retries count
-  connectionRetryCount: 3,
+  connectionRetryCount: 2,
   // Test runner services
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
