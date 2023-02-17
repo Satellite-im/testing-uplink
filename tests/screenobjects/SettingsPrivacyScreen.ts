@@ -1,12 +1,23 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {};
+
+const SELECTORS_WINDOWS = {};
+
+const SELECTORS_MACOS = {
   BACKUP_PHRASE_BUTTON: "~clear-theme-button",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_PRIVACY: "~settings-privacy",
   SETTINGS_SECTION: "~settings-section",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class SettingsPrivacyScreen extends SettingsBaseScreen {
   constructor() {

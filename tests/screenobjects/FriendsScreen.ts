@@ -1,6 +1,13 @@
 import UplinkMainScreen from "./UplinkMainScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {};
+
+const SELECTORS_WINDOWS = {};
+
+const SELECTORS_MACOS = {
   ACCEPT_FRIEND_REQUEST_BUTTON: "~Accept Friend",
   ADD_SOMEONE_BUTTON: "~Add Someone Button",
   ADD_SOMEONE_INPUT: "~Add Someone Input",
@@ -27,6 +34,10 @@ const SELECTORS = {
   REMOVE_OR_DENY_FRIEND_BUTTON: "~Remove or Deny Friend",
   TOAST_NOTIFICATION: "~Toast Notification",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class FriendsScreen extends UplinkMainScreen {
   constructor() {

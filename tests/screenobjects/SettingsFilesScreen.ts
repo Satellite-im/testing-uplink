@@ -1,6 +1,13 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {};
+
+const SELECTORS_WINDOWS = {};
+
+const SELECTORS_MACOS = {
   OPEN_SYNC_FOLDER_BUTTON: "~open-sync-folder-button",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_FILES: "~settings-files",
@@ -8,6 +15,10 @@ const SELECTORS = {
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class SettingsFilesScreen extends SettingsBaseScreen {
   constructor() {

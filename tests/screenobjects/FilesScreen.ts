@@ -1,6 +1,13 @@
 import UplinkMainScreen from "./UplinkMainScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {};
+
+const SELECTORS_WINDOWS = {};
+
+const SELECTORS_MACOS = {
   ADD_FOLDER_BUTTON: "~add-folder",
   CRUMB: "~crumb",
   FAKE_FILE_1: "~fake-file-1",
@@ -13,6 +20,10 @@ const SELECTORS = {
   FILES_LIST: "~files-list",
   UPLOAD_FILE_BUTTON: "~upload-file",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class FilesScreen extends UplinkMainScreen {
   constructor() {

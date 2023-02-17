@@ -1,6 +1,13 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {};
+
+const SELECTORS_WINDOWS = {};
+
+const SELECTORS_MACOS = {
   CLEAR_THEME_BUTTON: "~clear-theme-button",
   DROPDOWN_MENU: "~Selector",
   DROPDOWN_OPTION: "~Selector Option",
@@ -10,6 +17,10 @@ const SELECTORS = {
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class SettingsGeneralScreen extends SettingsBaseScreen {
   constructor() {

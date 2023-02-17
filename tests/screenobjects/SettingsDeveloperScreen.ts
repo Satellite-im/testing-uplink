@@ -1,6 +1,13 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {};
+
+const SELECTORS_WINDOWS = {};
+
+const SELECTORS_MACOS = {
   CLEAR_CACHE_BUTTON: "~clear-button",
   COMPRESS_BUTTON: "~compress-button",
   OPEN_CACHE_FOLDER_BUTTON: "~open-cache-folder-button",
@@ -12,6 +19,10 @@ const SELECTORS = {
   SWITCH_SLIDER: "~Switch Slider",
   TEST_NOTIFICATIONS_BUTTON: "~test-notifications-button",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class SettingsDeveloperScreen extends SettingsBaseScreen {
   constructor() {

@@ -1,7 +1,14 @@
 import { selectFileOnMacos } from "../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {};
+
+const SELECTORS_WINDOWS = {};
+
+const SELECTORS_MACOS = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
   INPUT_ERROR: "~input-error",
   PROFILE_BANNER: "~profile-banner",
@@ -12,6 +19,10 @@ const SELECTORS = {
   STATUS_INPUT: "~status-input",
   USERNAME_INPUT: "~username-input",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class SettingsProfileScreen extends SettingsBaseScreen {
   constructor() {

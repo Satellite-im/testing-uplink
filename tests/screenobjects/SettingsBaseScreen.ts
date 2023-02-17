@@ -1,6 +1,13 @@
 import UplinkMainScreen from "./UplinkMainScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {};
+
+const SELECTORS_WINDOWS = {};
+
+const SELECTORS_MACOS = {
   AUDIO_BUTTON: "~sounds & audio-button",
   DEVELOPER_BUTTON: "~developer-button",
   EXTENSIONS_BUTTTON: "~extensions-button",
@@ -12,6 +19,10 @@ const SELECTORS = {
   SETTINGS_LAYOUT: "~settings-layout",
   SETTINGS_SEARCH_INPUT: "~settings-search-input",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsBaseScreen extends UplinkMainScreen {
   constructor() {

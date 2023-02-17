@@ -1,6 +1,13 @@
 import UplinkMainScreen from "./UplinkMainScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {};
+
+const SELECTORS_WINDOWS = {};
+
+const SELECTORS_MACOS = {
   CHAT_LAYOUT: "~chat-layout",
   CHAT_MESSAGE: "~Message",
   SIDEBAR_CHATS_SECTION: "~Chats",
@@ -15,6 +22,10 @@ const SELECTORS = {
   TOPBAR_USER_IMAGE: "~User Image",
   TOPBAR_VIDEOCALL: "~Videocall",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class ChatScreen extends UplinkMainScreen {
   constructor() {
