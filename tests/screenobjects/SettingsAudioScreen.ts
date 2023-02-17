@@ -25,23 +25,23 @@ class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   get callTimerControllerButton() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get callTimerControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
+    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(
       '//*[@label="Switch Slider"]/*[1]'
     );
   }
 
   get callTimerDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
+    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
       '//*[@label="settings-info"]/*[2]/*[1]'
     );
   }
 
   get callTimerHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
+    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
       '//*[@label="settings-info"]/*[1]'
     );
   }
@@ -90,6 +90,28 @@ class SettingsAudioScreen extends SettingsBaseScreen {
     );
   }
 
+  get messageSoundsControllerButton() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get messageSoundsControllerValue() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
+      '//*[@label="Switch Slider"]/*[1]'
+    );
+  }
+
+  get messageSoundsDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
+      '//*[@label="settings-info"]/*[2]/*[1]'
+    );
+  }
+
+  get messageSoundsHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
+      '//*[@label="settings-info"]/*[1]'
+    );
+  }
+
   get settingsAudio() {
     return $(SELECTORS.SETTINGS_AUDIO);
   }
@@ -120,6 +142,10 @@ class SettingsAudioScreen extends SettingsBaseScreen {
 
   async clickOnMediaSounds() {
     await this.mediaSoundsControllerButton.click();
+  }
+
+  async clickOnMessageSounds() {
+    await this.messageSoundsControllerButton.click();
   }
 }
 
