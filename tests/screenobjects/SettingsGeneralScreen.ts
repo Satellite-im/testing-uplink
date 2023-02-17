@@ -3,17 +3,32 @@ import SettingsBaseScreen from "./SettingsBaseScreen";
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON = {
+  SETTINGS_GENERAL: "~settings-general",
+};
 
-const SELECTORS_WINDOWS = {};
+const SELECTORS_WINDOWS = {
+  CLEAR_THEME_BUTTON: '[name="clear-theme-button"]',
+  DROPDOWN_MENU: "//ComboBox",
+  DROPDOWN_OPTION: '[name="Selector Option"]',
+  SETTINGS_CONTROL: '[name="settings-control"]',
+  SETTINGS_CONTROL_CONTROLLER_VALUE: "//CheckBox",
+  SETTINGS_INFO: '[name="settings-info"]',
+  SETTINGS_INFO_DESCRIPTION: "//Text[2]",
+  SETTINGS_INFO_HEADER: "//Text[1]/Text",
+  SETTINGS_SECTION: '[name="settings-section"]',
+  SWITCH_SLIDER: '[name="Switch Slider"]',
+};
 
 const SELECTORS_MACOS = {
   CLEAR_THEME_BUTTON: "~clear-theme-button",
   DROPDOWN_MENU: "~Selector",
   DROPDOWN_OPTION: "~Selector Option",
   SETTINGS_CONTROL: "~settings-control",
-  SETTINGS_GENERAL: "~settings-general",
+  SETTINGS_CONTROL_CONTROLLER_VALUE: "//*[1]",
   SETTINGS_INFO: "~settings-info",
+  SETTINGS_INFO_DESCRIPTION: "//*[2]/*[1]",
+  SETTINGS_INFO_HEADER: "//*[1]",
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
@@ -28,15 +43,15 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get appLanguageDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get appLanguageHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get appLanguageDropdown() {
@@ -72,15 +87,15 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get resetThemeDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get resetThemeHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get splashScreenControllerButton() {
@@ -89,26 +104,26 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
 
   get splashScreenControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      SELECTORS.SETTINGS_CONTROL_CONTROLLER_VALUE
     );
   }
 
   get splashScreenDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get splashScreenHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get themeDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get themeDropdown() {
@@ -116,9 +131,9 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get themeHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get uplinkOverlayControllerButton() {
@@ -127,20 +142,20 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
 
   get uplinkOverlayControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      SELECTORS.SETTINGS_CONTROL_CONTROLLER_VALUE
     );
   }
 
   get uplinkOverlayDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get uplinkOverlayHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get switchSlider() {
@@ -168,15 +183,25 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   async selectAppLanguage(language: string) {
-    await $$("-ios class chain:**/XCUIElementTypePopUpButton")[1].addValue(
-      language + "\n"
-    );
+    const currentDriver = await driver.capabilities.automationName;
+    if (currentDriver === "mac2") {
+      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[1].addValue(
+        language + "\n"
+      );
+    } else if (currentDriver === "windows") {
+      await $$('[name="settings-control"]')[1].addValue(language + "\n");
+    }
   }
 
   async selectTheme(theme: string) {
-    await $$("-ios class chain:**/XCUIElementTypePopUpButton")[0].addValue(
-      theme + "\n"
-    );
+    const currentDriver = await driver.capabilities.automationName;
+    if (currentDriver === "mac2") {
+      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[0].addValue(
+        theme + "\n"
+      );
+    } else if (currentDriver === "windows") {
+      await $$('[name="settings-control"]')[0].addValue(theme + "\n");
+    }
   }
 }
 

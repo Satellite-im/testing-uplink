@@ -3,9 +3,21 @@ import UplinkMainScreen from "./UplinkMainScreen";
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON = {
+  SETTINGS_LAYOUT: "~settings-layout",
+};
 
-const SELECTORS_WINDOWS = {};
+const SELECTORS_WINDOWS = {
+  AUDIO_BUTTON: '[name="sounds & audio-button"]',
+  DEVELOPER_BUTTON: '[name="developer-button"]',
+  EXTENSIONS_BUTTTON: '[name="extensions-button"]',
+  FILES_BUTTON: '[name="files-button"]',
+  GENERAL_BUTTON: '[name="general-button"]',
+  NOTIFICATIONS_BUTTON: '[name="notifications-button"]',
+  PRIVACY_BUTTON: '[name="privacy-button"]',
+  PROFILE_BUTTON: '[name="profile-button"]',
+  SETTINGS_SEARCH_INPUT: '[name="settings-search-input"]',
+};
 
 const SELECTORS_MACOS = {
   AUDIO_BUTTON: "~sounds & audio-button",
@@ -16,7 +28,6 @@ const SELECTORS_MACOS = {
   NOTIFICATIONS_BUTTON: "~notifications-button",
   PRIVACY_BUTTON: "~privacy-button",
   PROFILE_BUTTON: "~profile-button",
-  SETTINGS_LAYOUT: "~settings-layout",
   SETTINGS_SEARCH_INPUT: "~settings-search-input",
 };
 

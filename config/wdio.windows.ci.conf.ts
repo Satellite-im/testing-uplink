@@ -10,7 +10,7 @@ const { rmSync } = require("fs");
 // ============
 // Specs
 // ============
-config.specs = [join(process.cwd(), "./tests/specs/**/01-create-account.spec.ts")];
+config.specs = [join(process.cwd(), "./tests/specs/**/*.spec.ts")];
 
 // ============
 // Capabilities

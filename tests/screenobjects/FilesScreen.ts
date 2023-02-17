@@ -5,17 +5,33 @@ let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
 
-const SELECTORS_WINDOWS = {};
+const SELECTORS_WINDOWS = {
+  ADD_FOLDER_BUTTON: '[name="add-folder"]',
+  CRUMB: '[name="crumb"]',
+  CRUMB_TEXT: "//Text",
+  FILES_BODY: '[name="files-body"]',
+  FILES_BREADCRUMBS: '[name="files-breadcrumbs"]',
+  FILES_INFO: '[name="files-info"]',
+  FILES_INFO_FREE_SPACE_LABEL: "",
+  FILES_INFO_FREE_SPACE_VALUE: "",
+  FILES_INFO_TOTAL_SPACE_LABEL: "",
+  FILES_INFO_TOTAL_SPACE_VALUE: "",
+  FILES_LAYOUT: '[name=files-layout"]',
+  FILES_LIST: '[name="files-list"]',
+  UPLOAD_FILE_BUTTON: '[name="upload-file"]',
+};
 
 const SELECTORS_MACOS = {
   ADD_FOLDER_BUTTON: "~add-folder",
   CRUMB: "~crumb",
-  FAKE_FILE_1: "~fake-file-1",
-  FAKE_FOLDER_1: "~fake-folder-1",
-  FAKE_FOLDER_2: "~fake-folder-2",
+  CRUMB_TEXT: "//*[1]/*[1]",
   FILES_BODY: "~files-body",
   FILES_BREADCRUMBS: "~files-breadcrumbs",
   FILES_INFO: "~files-info",
+  FILES_INFO_FREE_SPACE_LABEL: "//*[1]/*[1]",
+  FILES_INFO_FREE_SPACE_VALUE: "//*[1]/*[2]",
+  FILES_INFO_TOTAL_SPACE_LABEL: "//*[2]/*[1]",
+  FILES_INFO_TOTAL_SPACE_VALUE: "//*[2]/*[2]",
   FILES_LAYOUT: "~files-layout",
   FILES_LIST: "~files-list",
   UPLOAD_FILE_BUTTON: "~upload-file",
@@ -39,19 +55,7 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   get crumbText() {
-    return $("//*[@label='crumb']/*[1]/*[1]");
-  }
-
-  get fakeFile1() {
-    return $(SELECTORS.FAKE_FILE_1);
-  }
-
-  get fakeFolder1() {
-    return $(SELECTORS.FAKE_FOLDER_1);
-  }
-
-  get fakeFolder2() {
-    return $(SELECTORS.FAKE_FOLDER_2);
+    return $$(SELECTORS.CRUMB).$(SELECTORS.CRUMB_TEXT);
   }
 
   get filesBody() {
@@ -67,19 +71,19 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   get filesInfoFreeSpaceLabel() {
-    return $('//*[@label="files-info"]/*[1]/*[1]');
+    return $(SELECTORS.FILES_INFO).$(SELECTORS.FILES_INFO_FREE_SPACE_LABEL);
   }
 
   get filesInfoFreeSpaceValue() {
-    return $('//*[@label="files-info"]/*[1]/*[2]');
+    return $(SELECTORS.FILES_INFO).$(SELECTORS.FILES_INFO_FREE_SPACE_VALUE);
   }
 
   get filesInfoTotalSpaceLabel() {
-    return $('//*[@label="files-info"]/*[2]/*[1]');
+    return $(SELECTORS.FILES_INFO).$(SELECTORS.FILES_INFO_TOTAL_SPACE_LABEL);
   }
 
   get filesInfoTotalSpaceValue() {
-    return $('//*[@label="files-info"]/*[2]/*[2]');
+    return $(SELECTORS.FILES_INFO).$(SELECTORS.FILES_INFO_TOTAL_SPACE_VALUE);
   }
 
   get filesLayout() {

@@ -3,9 +3,36 @@ import UplinkMainScreen from "./UplinkMainScreen";
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON = {
+  FRIENDS_LAYOUT: "~friends-layout",
+};
 
-const SELECTORS_WINDOWS = {};
+const SELECTORS_WINDOWS = {
+  ACCEPT_FRIEND_REQUEST_BUTTON: '[name="Accept Friend"]',
+  ADD_SOMEONE_BUTTON: '[name="Add Someone Button"]',
+  ADD_SOMEONE_INPUT: '[name="Add Someone Input"]',
+  ALL_FRIENDS_BUTTON: '[name="all-friends-button"]',
+  BLOCK_FRIEND_BUTTON: '[name="Block Friend"]',
+  BLOCKED_FRIENDS_BUTTON: '[name="blocked-friends-button"]',
+  BLOCKED_LIST: '[name="Blocked List"]',
+  CHAT_WITH_FRIEND_BUTTON: '[name="Chat With Friend"]',
+  CONTEXT_MENU: '[name="Context Menu"]',
+  CONTEXT_MENU_OPTION: '[name="Context Item"]',
+  COPY_ID_BUTTON: '//*[@name="friends-body"]/Button[2]',
+  FAVORITES: '[name="Favorites"]',
+  FAVORITES_USER_IMAGE: '[name="User Image"]',
+  FRIEND_INFO: '[name="Friend Info"]',
+  FRIEND_RECORD: '[name="Friend"]',
+  FRIENDS_BODY: '[name="friends-body"]',
+  FRIENDS_CONTROLS: '[name="friends-controls"]',
+  FRIENDS_LIST: '[name="Friends List"]',
+  INCOMING_REQUESTS_LIST: '[name="Incoming Requests List"]',
+  INPUT_ERROR: '[name="input-error"]',
+  OUTGOING_REQUESTS_LIST: '[name="Outgoing Requests List"]',
+  PENDING_FRIENDS_BUTTON: '[name="pending-friends-button"]',
+  REMOVE_OR_DENY_FRIEND_BUTTON: '[name="Remove or Deny Friend"]',
+  TOAST_NOTIFICATION: '[name="Toast Notification"]',
+};
 
 const SELECTORS_MACOS = {
   ACCEPT_FRIEND_REQUEST_BUTTON: "~Accept Friend",
@@ -25,7 +52,6 @@ const SELECTORS_MACOS = {
   FRIEND_RECORD: "~Friend",
   FRIENDS_BODY: "~friends-body",
   FRIENDS_CONTROLS: "~friends-controls",
-  FRIENDS_LAYOUT: "~friends-layout",
   FRIENDS_LIST: "~Friends List",
   INCOMING_REQUESTS_LIST: "~Incoming Requests List",
   INPUT_ERROR: "~input-error",
