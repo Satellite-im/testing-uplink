@@ -25,10 +25,12 @@ const SELECTORS_MACOS = {
   DROPDOWN_MENU: "~Selector",
   DROPDOWN_OPTION: "~Selector Option",
   SETTINGS_CONTROL: "~settings-control",
-  SETTINGS_CONTROL_CONTROLLER_VALUE: "//*[1]",
+  SETTINGS_CONTROL_CONTROLLER_VALUE:
+    "-ios class chain:**/XCUIElementTypeCheckBox",
   SETTINGS_INFO: "~settings-info",
-  SETTINGS_INFO_DESCRIPTION: "//*[2]/*[1]",
-  SETTINGS_INFO_HEADER: "//*[1]",
+  SETTINGS_INFO_DESCRIPTION:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };

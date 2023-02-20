@@ -3,13 +3,29 @@ import SettingsBaseScreen from "./SettingsBaseScreen";
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON = {
+  SETTINGS_EXTENSIONS: "~settings-extensions",
+};
 
-const SELECTORS_WINDOWS = {};
+const SELECTORS_WINDOWS = {
+  EXTENSION_PLACEHOLDER_CONTROLLER_VALUE: "",
+  EXTENSION_PLACEHOLDER_NAME: "",
+  EXTENSION_PLACEHOLDER_SHORT_DESCRIPTION: "",
+  EXTENSION_PLACEHOLDER_LONG_DESCRIPTION: "",
+  OPEN_EXTENSIONS_FOLDER_BUTTON: '[name="open-extension-folder-button"]',
+  SWITCH_SLIDER: '[name="Switch Slider"]',
+};
 
 const SELECTORS_MACOS = {
+  EXTENSION_PLACEHOLDER_CONTROLLER_VALUE:
+    "-ios class chain:**/XCUIElementTypeCheckBox",
+  EXTENSION_PLACEHOLDER_NAME:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText",
+  EXTENSION_PLACEHOLDER_LONG_DESCRIPTION:
+    "-ios class chain:**/XCUIElementTypeGroup[3]/XCUIElementTypeStaticText",
+  EXTENSION_PLACEHOLDER_SHORT_DESCRIPTION:
+    "-ios class chain:**/XCUIElementTypeStaticText[1]",
   OPEN_EXTENSIONS_FOLDER_BUTTON: "~open-extension-folder-button",
-  SETTINGS_EXTENSIONS: "~settings-extensions",
   SWITCH_SLIDER: "~Switch Slider",
 };
 
@@ -39,21 +55,27 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   get extensionPlaceholderControllerValue() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS).$(
-      '//*[@label="Switch Slider"]/*[1]'
-    );
+    return $(SELECTORS.SETTINGS_EXTENSIONS)
+      .$(SELECTORS.SWITCH_SLIDER)
+      .$(SELECTORS.EXTENSION_PLACEHOLDER_CONTROLLER_VALUE);
   }
 
   get extensionPlaceholderLongDescription() {
-    return $('//*[@label="settings-extensions"]/*[5]/*[1]');
+    return $(SELECTORS.SETTINGS_EXTENSIONS).$(
+      SELECTORS.EXTENSION_PLACEHOLDER_LONG_DESCRIPTION
+    );
   }
 
   get extensionPlaceholderName() {
-    return $('//*[@label="settings-extensions"]/*[2]/*[1]');
+    return $(SELECTORS.SETTINGS_EXTENSIONS).$(
+      SELECTORS.EXTENSION_PLACEHOLDER_NAME
+    );
   }
 
   get extensionPlaceholderShortDescription() {
-    return $('//*[@label="settings-extensions"]/*[3]');
+    return $(SELECTORS.SETTINGS_EXTENSIONS).$(
+      SELECTORS.EXTENSION_PLACEHOLDER_SHORT_DESCRIPTION
+    );
   }
 
   async clickOnExtensionPlaceholderButton() {

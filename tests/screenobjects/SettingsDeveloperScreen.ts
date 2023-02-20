@@ -29,10 +29,12 @@ const SELECTORS_MACOS = {
   OPEN_CACHE_FOLDER_BUTTON: "~open-cache-folder-button",
   OPEN_CODEBASE_BUTTON: "~open-codebase-button",
   SETTINGS_CONTROL: "~settings-control",
-  SETTINGS_CONTROL_CONTROLLER_VALUE: "//*[1]",
+  SETTINGS_CONTROL_CONTROLLER_VALUE:
+    "-ios class chain:**/XCUIElementTypeCheckBox",
   SETTINGS_INFO: "~settings-info",
-  SETTINGS_INFO_DESCRIPTION: "//*[2]/*[1]",
-  SETTINGS_INFO_HEADER: "//*[1]",
+  SETTINGS_INFO_DESCRIPTION:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
   TEST_NOTIFICATIONS_BUTTON: "~test-notifications-button",

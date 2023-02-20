@@ -24,14 +24,18 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   ADD_FOLDER_BUTTON: "~add-folder",
   CRUMB: "~crumb",
-  CRUMB_TEXT: "//*[1]/*[1]",
+  CRUMB_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   FILES_BODY: "~files-body",
   FILES_BREADCRUMBS: "~files-breadcrumbs",
   FILES_INFO: "~files-info",
-  FILES_INFO_FREE_SPACE_LABEL: "//*[1]/*[1]",
-  FILES_INFO_FREE_SPACE_VALUE: "//*[1]/*[2]",
-  FILES_INFO_TOTAL_SPACE_LABEL: "//*[2]/*[1]",
-  FILES_INFO_TOTAL_SPACE_VALUE: "//*[2]/*[2]",
+  FILES_INFO_FREE_SPACE_LABEL:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]",
+  FILES_INFO_FREE_SPACE_VALUE:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[2]",
+  FILES_INFO_TOTAL_SPACE_LABEL:
+    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText[1]",
+  FILES_INFO_TOTAL_SPACE_VALUE:
+    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText[2]",
   FILES_LAYOUT: "~files-layout",
   FILES_LIST: "~files-list",
   UPLOAD_FILE_BUTTON: "~upload-file",

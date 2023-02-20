@@ -18,7 +18,7 @@ const SELECTORS_WINDOWS = {
   CHAT_WITH_FRIEND_BUTTON: '[name="Chat With Friend"]',
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_OPTION: '[name="Context Item"]',
-  COPY_ID_BUTTON: '//*[@name="friends-body"]/Button[2]',
+  COPY_ID_BUTTON: "//Button[2]",
   FAVORITES: '[name="Favorites"]',
   FAVORITES_USER_IMAGE: '[name="User Image"]',
   FRIEND_INFO: '[name="Friend Info"]',
@@ -45,7 +45,7 @@ const SELECTORS_MACOS = {
   CHAT_WITH_FRIEND_BUTTON: "~Chat With Friend",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_OPTION: "~Context Item",
-  COPY_ID_BUTTON: '//*[@label="friends-body"]/*[5]',
+  COPY_ID_BUTTON: "-ios class chain:**/XCUIElementTypeButton[2]",
   FAVORITES: "~Favorites",
   FAVORITES_USER_IMAGE: "~User Image",
   FRIEND_INFO: "~Friend Info",
@@ -111,7 +111,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   get copyIdButton() {
-    return $(SELECTORS.COPY_ID_BUTTON);
+    return $(SELECTORS.FRIENDS_BODY).$(SELECTORS.COPY_ID_BUTTON);
   }
 
   get favorites() {

@@ -4,20 +4,39 @@ import SettingsBaseScreen from "./SettingsBaseScreen";
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON = {
+  SETTINGS_PROFILE: "~settings-profile",
+};
 
-const SELECTORS_WINDOWS = {};
+const SELECTORS_WINDOWS = {
+  ADD_PICTURE_BUTTON: '[name="add-picture-button"]',
+  INPUT_ERROR: '[name="input-error"]',
+  INPUT_ERROR_MESSAGE: "//Text",
+  PROFILE_BANNER: '[name="profile-banner"]',
+  PROFILE_BANNER_TOOLTIP: "",
+  PROFILE_CONTENT: '[name="profile-content"]',
+  PROFILE_HEADER: '[name="profile-header"]',
+  PROFILE_PICTURE: '[name="profile-picture"]',
+  STATUS_INPUT: '[name="status-input"]',
+  STATUS_LABEL: "//Text[2]",
+  USERNAME_INPUT: '[name="username-input"]',
+  USERNAME_LABEL: "//Text[1]",
+};
 
 const SELECTORS_MACOS = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
   INPUT_ERROR: "~input-error",
+  INPUT_ERROR_MESSAGE: "-ios class chain:**/XCUIElementTypeStaticText",
   PROFILE_BANNER: "~profile-banner",
+  PROFILE_BANNER_TOOLTIP:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   PROFILE_CONTENT: "~profile-content",
   PROFILE_HEADER: "~profile-header",
   PROFILE_PICTURE: "~profile-picture",
-  SETTINGS_PROFILE: "~settings-profile",
   STATUS_INPUT: "~status-input",
+  STATUS_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[2]",
   USERNAME_INPUT: "~username-input",
+  USERNAME_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[1]",
 };
 
 currentOS === "windows"
@@ -38,7 +57,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get inputErrorMessage() {
-    return $('//*[@label="input-error"]/*[1]');
+    return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_MESSAGE);
   }
 
   get profileBanner() {
@@ -46,7 +65,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get profileBannerTooltip() {
-    return $(SELECTORS.PROFILE_BANNER).$('//*[@value="Change banner"]');
+    return $(SELECTORS.PROFILE_BANNER).$(SELECTORS.PROFILE_BANNER_TOOLTIP);
   }
 
   get profileContent() {
@@ -70,7 +89,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get statusLabel() {
-    return $(SELECTORS.PROFILE_CONTENT).$('(//*[@value="STATUS"])[1]');
+    return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.STATUS_LABEL);
   }
 
   get usernameInput() {
@@ -78,7 +97,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get usernameLabel() {
-    return $(SELECTORS.PROFILE_CONTENT).$('(//*[@value="USERNAME"])[1]');
+    return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.USERNAME_LABEL);
   }
 
   async deleteStatus() {
@@ -110,13 +129,18 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     const bannerY = (await $("~profile-banner").getLocation("y")) + 10;
 
     // Hover on X and Y coordinates previously retrieved
-    await driver.executeScript("macos: hover", [
-      {
-        elementId: bannerElementID,
-        x: bannerX,
-        y: bannerY,
-      },
-    ]);
+    const currentDriver = await driver.capabilities.automationName;
+    if (currentDriver === "mac2") {
+      await driver.executeScript("macos: hover", [
+        {
+          elementId: bannerElementID,
+          x: bannerX,
+          y: bannerY,
+        },
+      ]);
+    } else if (currentDriver === "windows") {
+      console.log("Not implemented yet");
+    }
   }
 
   async uploadBannerPicture(relativePath: string) {
@@ -124,10 +148,15 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     await this.profileBanner.click();
 
     // Invoke File Selection Helper Function for MacOS to select the banner image to upload. A similar method will be implemented in the future for Windows
-    await selectFileOnMacos(relativePath);
+    const currentDriver = await driver.capabilities.automationName;
+    if (currentDriver === "mac2") {
+      await selectFileOnMacos(relativePath);
 
-    // Validate that profile banner is displayed on screen
-    await expect(await this.profileBanner).toBeDisplayed();
+      // Validate that profile banner is displayed on screen
+      await expect(await this.profileBanner).toBeDisplayed();
+    } else if (currentDriver === "windows") {
+      console.log("Not implemented yet");
+    }
   }
 
   async uploadProfilePicture(relativePath: string) {
@@ -135,13 +164,18 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     await await this.addPictureButton.click();
 
     // Invoke File Selection Helper Function for MacOS to select the profile image to upload. A similar method will be implemented in the future for Windows
-    await selectFileOnMacos(relativePath);
+    const currentDriver = await driver.capabilities.automationName;
+    if (currentDriver === "mac2") {
+      await selectFileOnMacos(relativePath);
 
-    // Click on username input to move the mouse cursor
-    await this.usernameInput.click();
+      // Click on username input to move the mouse cursor
+      await this.usernameInput.click();
 
-    // Validate that profile picture is displayed on screen
-    await expect(await this.profilePicture).toBeDisplayed();
+      // Validate that profile picture is displayed on screen
+      await expect(await this.profilePicture).toBeDisplayed();
+    } else if (currentDriver === "windows") {
+      console.log("Not implemented yet");
+    }
   }
 }
 
