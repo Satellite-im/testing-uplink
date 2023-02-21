@@ -9,7 +9,7 @@ const SELECTORS = {
   SETTINGS_DEVELOPER: "~settings-developer",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_SECTION: "~settings-section",
-  SWITCH_SLIDER: "~switch-slider",
+  SWITCH_SLIDER: "~Switch Slider",
   TEST_NOTIFICATIONS_BUTTON: "~test-notifications-button",
 };
 
@@ -56,7 +56,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   get developerModeControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      '//*[@label="switch-slider"]/*[1]'
+      '//*[@label="Switch Slider"]/*[1]'
     );
   }
 
@@ -110,7 +110,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   get saveLogsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[6].$(
-      '//*[@label="switch-slider"]/*[1]'
+      '//*[@label="Switch Slider"]/*[1]'
     );
   }
 

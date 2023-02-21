@@ -5,7 +5,7 @@ const SELECTORS = {
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_SECTION: "~settings-section",
-  SWITCH_SLIDER: "~switch-slider",
+  SWITCH_SLIDER: "~Switch Slider",
 };
 
 class SettingsAudioScreen extends SettingsBaseScreen {
@@ -19,7 +19,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
 
   get callTimerControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[3].$(
-      '//*[@label="switch-slider"]/*[1]'
+      '//*[@label="Switch Slider"]/*[1]'
     );
   }
 
@@ -41,7 +41,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
 
   get interfaceSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      '//*[@label="switch-slider"]/*[1]'
+      '//*[@label="Switch Slider"]/*[1]'
     );
   }
 
@@ -63,7 +63,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
 
   get mediaSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
-      '//*[@label="switch-slider"]/*[1]'
+      '//*[@label="Switch Slider"]/*[1]'
     );
   }
 
@@ -85,7 +85,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
 
   get messageSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
-      '//*[@label="switch-slider"]/*[1]'
+      '//*[@label="Switch Slider"]/*[1]'
     );
   }
 
