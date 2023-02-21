@@ -14,6 +14,7 @@
       "webdriverio/async",
       "@wdio/mocha-framework",
       "expect-webdriverio",
+      "@wdio/globals/types",
       "@wdio/sauce-service"
     ]
   },

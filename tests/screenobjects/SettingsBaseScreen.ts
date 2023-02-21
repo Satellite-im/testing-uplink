@@ -111,4 +111,20 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
   async goToProfileSettings() {
     await (await this.profileButton).click();
   }
+
+  async getSwitchSliderValueGlobal(locator: WebdriverIO.Element) {
+    const currentOS = await driver.capabilities.automationName;
+    let result;
+    if (currentOS === "mac2") {
+      result = await $(locator).getAttribute("value");
+    } else if (currentOS === "windows") {
+      result = await $(locator).getAttribute("ToggleState");
+    }
+    if (result === "Off") {
+      result = "0";
+    } else if (result === "On") {
+      result = "1";
+    }
+    return result;
+  }
 }

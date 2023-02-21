@@ -52,13 +52,14 @@ describe("Settings - General - Tests", async () => {
     await SettingsGeneralScreen.clickOnUplinkOverlay();
     await SettingsGeneralScreen.clickOnSplashScreen();
 
-    // Validate that both toggles have now value = '1' (active)
-    await expect(
-      await SettingsGeneralScreen.uplinkOverlayControllerValue
-    ).toHaveAttrContaining("value", "1");
-    await expect(
-      await SettingsGeneralScreen.splashScreenControllerValue
-    ).toHaveAttrContaining("value", "1");
+    // Validate that both toggles have now value = "1" (enabled)
+    const uplinkOverlayValue =
+      await SettingsGeneralScreen.getCurrentSwitchValue("Uplink Overlay");
+    const splashScreenValue = await SettingsGeneralScreen.getCurrentSwitchValue(
+      "Splash Screen"
+    );
+    await expect(uplinkOverlayValue).toEqual("1");
+    await expect(splashScreenValue).toEqual("1");
   });
 
   it("Settings General - Toggle switches to disabled", async () => {
@@ -66,13 +67,14 @@ describe("Settings - General - Tests", async () => {
     await SettingsGeneralScreen.clickOnUplinkOverlay();
     await SettingsGeneralScreen.clickOnSplashScreen();
 
-    // Validate that both toggles have now value = '0' (disabled)
-    await expect(
-      await SettingsGeneralScreen.uplinkOverlayControllerValue
-    ).toHaveAttrContaining("value", "0");
-    await expect(
-      await SettingsGeneralScreen.splashScreenControllerValue
-    ).toHaveAttrContaining("value", "0");
+    // Validate that both toggles have now value = "0" (disabled)
+    const uplinkOverlayValue =
+      await SettingsGeneralScreen.getCurrentSwitchValue("Uplink Overlay");
+    const splashScreenValue = await SettingsGeneralScreen.getCurrentSwitchValue(
+      "Splash Screen"
+    );
+    await expect(uplinkOverlayValue).toEqual("0");
+    await expect(splashScreenValue).toEqual("0");
   });
 
   // Skipped for now since there are no themes to select

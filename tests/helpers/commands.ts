@@ -135,12 +135,28 @@ export async function loginWithTestUser() {
   await FriendsScreen.waitForIsShown(true);
 }
 
+export async function maximizeWindow() {
+  const currentOS = await driver.capabilities.automationName;
+  if (currentOS === "windows") {
+    await $("/Window/TitleBar/Button[2]").click();
+  } else if (currentOS === "mac2") {
+    await $("/Window/TitleBar/Button[2]").click();
+  }
+}
+
 export async function showMainMenu() {
+  // Get current OS
+  const currentOS = await driver.capabilities.automationName;
+
   // Ensure Main Screen is displayed
   await WelcomeScreen.waitForIsShown(true);
 
-  // Click on Add Someone to show Main Menu
-  await WelcomeScreen.clickAddSomeone();
+  // Click on Add Someone to show Main Menu only on MacOS. On Windows, go To Friends
+  if (currentOS === "mac2") {
+    await WelcomeScreen.clickAddSomeone();
+  } else if (currentOS === "windows") {
+    await WelcomeScreen.goToFriends();
+  }
 
   // Validate Friends Screen is displayed
   await FriendsScreen.waitForIsShown(true);

@@ -13,7 +13,7 @@ const SELECTORS_WINDOWS = {
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_MESSAGE: "//Text",
   PROFILE_BANNER: '[name="profile-banner"]',
-  PROFILE_BANNER_TOOLTIP: "",
+  PROFILE_BANNER_TOOLTIP: "//Text",
   PROFILE_CONTENT: '[name="profile-content"]',
   PROFILE_HEADER: '[name="profile-header"]',
   PROFILE_PICTURE: '[name="profile-picture"]',

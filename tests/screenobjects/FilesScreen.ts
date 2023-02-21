@@ -12,12 +12,14 @@ const SELECTORS_WINDOWS = {
   FILES_BODY: '[name="files-body"]',
   FILES_BREADCRUMBS: '[name="files-breadcrumbs"]',
   FILES_INFO: '[name="files-info"]',
-  FILES_INFO_FREE_SPACE_LABEL: "",
-  FILES_INFO_FREE_SPACE_VALUE: "",
-  FILES_INFO_TOTAL_SPACE_LABEL: "",
-  FILES_INFO_TOTAL_SPACE_VALUE: "",
+  FILES_INFO_FREE_SPACE_LABEL: "//Text[1]",
+  FILES_INFO_FREE_SPACE_VALUE: "//Text[2]",
+  FILES_INFO_TOTAL_SPACE_LABEL: "//Text[3]",
+  FILES_INFO_TOTAL_SPACE_VALUE: "//Text[4]",
   FILES_LAYOUT: '[name=files-layout"]',
   FILES_LIST: '[name="files-list"]',
+  SHOW_SIDEBAR: "//Button[1]",
+  TOPBAR: '[name="Topbar"]',
   UPLOAD_FILE_BUTTON: '[name="upload-file"]',
 };
 
@@ -98,8 +100,20 @@ class FilesScreen extends UplinkMainScreen {
     return $(SELECTORS.FILES_LIST);
   }
 
+  get showSidebar() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.SHOW_SIDEBAR);
+  }
+
+  get topbar() {
+    return $(SELECTORS.TOPBAR);
+  }
+
   get uploadFileButton() {
     return $(SELECTORS.UPLOAD_FILE_BUTTON);
+  }
+
+  async clickOnShowSidebar() {
+    await this.showSidebar.click();
   }
 }
 

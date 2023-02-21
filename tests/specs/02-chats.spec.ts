@@ -29,14 +29,26 @@ describe("Chats Main Screen Tests", async () => {
   });
 
   it("Validate Welcome Screen is displayed", async () => {
+    const osDriver = await driver.capabilities.automationName;
     await expect(await WelcomeScreen.welcomeLayout).toBeDisplayed();
-    await expect(await WelcomeScreen.addFriendsButton).toBeDisplayed();
-    const locator = await (await WelcomeScreen.welcomeLayout).$("~Add Someone");
-    await expect(locator).toHaveTextContaining("Add Someone");
+
+    // Execute only on MacOS because Add Someone button is only displayed on MacOS
+    if (osDriver === "mac2") {
+      await expect(await WelcomeScreen.addFriendsButton).toBeDisplayed();
+      const locator = await (
+        await WelcomeScreen.welcomeLayout
+      ).$("~Add Someone");
+      await expect(locator).toHaveTextContaining("Add Someone");
+    }
   });
 
   it("Click on add someone redirects to Friends Page", async () => {
-    await WelcomeScreen.clickAddSomeone();
-    await FriendsScreen.waitForIsShown(true);
+    const osDriver = await driver.capabilities.automationName;
+
+    // Execute only on MacOS because Add Someone button is only displayed on MacOS
+    if (osDriver === "mac2") {
+      await WelcomeScreen.clickAddSomeone();
+      await FriendsScreen.waitForIsShown(true);
+    }
   });
 });

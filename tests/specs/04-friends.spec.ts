@@ -1,13 +1,21 @@
 const { execSync } = require("child_process");
 import ChatScreen from "../screenobjects/ChatScreen";
+import FilesScreen from "../screenobjects/FilesScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
-import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
+import {
+  loginWithRandomUser,
+  maximizeWindow,
+  showMainMenu,
+} from "../helpers/commands";
 
 describe("Friends Screen Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
+    const currentOS = await driver.capabilities.automationName;
+
     // Login with a random user, show main menu and go to Friends Screen
     await loginWithRandomUser();
     await showMainMenu();
+    await maximizeWindow();
     await FriendsScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
 
@@ -39,13 +47,17 @@ describe("Friends Screen Tests", async () => {
     await expect(await FriendsScreen.settingsButton).toBeDisplayed();
   });
 
-  it("User can copy its own ID by clicking on button", async () => {
-    await FriendsScreen.addSomeoneInput.click();
-    let copiedKey: string = "";
-
+  // Skipped for now - Need to automation locator for Copy ID button on Uplink Repo
+  xit("User can copy its own ID by clicking on button", async () => {
     // Click on Copy ID button and grab clipboard value
+    const currentOS = await driver.capabilities.automationName;
     await FriendsScreen.clickOnCopyID().then(() => {
-      copiedKey = execSync("pbpaste", { encoding: "utf8" });
+      if (currentOS === "mac2") {
+        copiedKey = execSync("pbpaste", { encoding: "utf8" });
+      } else if (currentOS === "windows") {
+        copiedKey = execSync("clip", { encoding: "utf8" });
+        console.log("Copied key is: " + copiedKey);
+      }
     });
 
     // Validate toast notification and close it

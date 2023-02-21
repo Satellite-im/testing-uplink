@@ -18,6 +18,13 @@ describe("Files Screen Tests", async () => {
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
+    const currentOS = await driver.capabilities.automationName;
+
+    // Show sidebar on Windows
+    if (currentOS === "windows") {
+      await FilesScreen.clickOnShowSidebar();
+    }
+
     await expect(await FilesScreen.buttonNav).toBeDisplayed();
     await expect(await FilesScreen.chatsButton).toBeDisplayed();
     await expect(await FilesScreen.filesButton).toBeDisplayed();
