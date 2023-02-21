@@ -5,7 +5,7 @@ const SELECTORS = {
   SETTINGS_INFO: "~settings-info",
   SETTINGS_NOTIFICATIONS: "~settings-notifications",
   SETTINGS_SECTION: "~settings-section",
-  SWITCH_SLIDER: "~switch-slider",
+  SWITCH_SLIDER: "~Switch Slider",
 };
 
 class SettingsDeveloperScreen extends SettingsBaseScreen {
