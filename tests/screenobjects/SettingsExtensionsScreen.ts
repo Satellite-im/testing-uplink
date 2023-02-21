@@ -3,7 +3,7 @@ import SettingsBaseScreen from "./SettingsBaseScreen";
 const SELECTORS = {
   OPEN_EXTENSIONS_FOLDER_BUTTON: "~open-extension-folder-button",
   SETTINGS_EXTENSIONS: "~settings-extensions",
-  SWITCH_SLIDER: "~Switch Slider",
+  SWITCH_SLIDER: "~switch-slider",
 };
 
 class SettingsExtensionsScreen extends SettingsBaseScreen {
@@ -29,7 +29,7 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
 
   get extensionPlaceholderControllerValue() {
     return $(SELECTORS.SETTINGS_EXTENSIONS).$(
-      '//*[@label="Switch Slider"]/*[1]'
+      '//*[@label="switch-slider"]/*[1]'
     );
   }
 
