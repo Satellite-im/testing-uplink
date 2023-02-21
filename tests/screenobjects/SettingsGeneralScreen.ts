@@ -8,7 +8,7 @@ const SELECTORS = {
   SETTINGS_GENERAL: "~settings-general",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_SECTION: "~settings-section",
-  SWITCH_SLIDER: "~Switch Slider",
+  SWITCH_SLIDER: "~switch-slider",
 };
 
 class SettingsGeneralScreen extends SettingsBaseScreen {
@@ -78,7 +78,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
 
   get splashScreenControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      '//*[@label="switch-slider"]/*[1]'
     );
   }
 
@@ -116,7 +116,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
 
   get uplinkOverlayControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      '//*[@label="switch-slider"]/*[1]'
     );
   }
 

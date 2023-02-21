@@ -6,7 +6,7 @@ const SELECTORS = {
   SETTINGS_FILES: "~settings-files",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_SECTION: "~settings-section",
-  SWITCH_SLIDER: "~Switch Slider",
+  SWITCH_SLIDER: "~switch-slider",
 };
 
 class SettingsFilesScreen extends SettingsBaseScreen {
@@ -20,7 +20,7 @@ class SettingsFilesScreen extends SettingsBaseScreen {
 
   get localSyncControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      '//*[@label="switch-slider]/*[1]'
     );
   }
 
