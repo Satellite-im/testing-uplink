@@ -32,7 +32,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
-  SWITCH_SLIDER: "~switch-slider",
+  SWITCH_SLIDER: "~Switch Slider",
 };
 
 currentOS === "windows"
