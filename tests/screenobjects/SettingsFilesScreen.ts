@@ -20,7 +20,7 @@ class SettingsFilesScreen extends SettingsBaseScreen {
 
   get localSyncControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      '//*[@label="Switch Slider]/*[1]'
+      '//*[@label="Switch Slider"]/*[1]'
     );
   }
 
