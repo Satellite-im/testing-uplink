@@ -85,10 +85,10 @@ describe("Settings - Developer - Tests", async () => {
 
     // Validate that switches have now value = '1' (active)
     await expect(
-      await SettingsDeveloperScreen.developerModeCheckbox
+      await SettingsDeveloperScreen.developerModeControllerValue
     ).toHaveAttrContaining("value", "1");
     await expect(
-      await SettingsDeveloperScreen.saveLogsCheckbox
+      await SettingsDeveloperScreen.saveLogsControllerValue
     ).toHaveAttrContaining("value", "1");
   });
 
@@ -102,10 +102,10 @@ describe("Settings - Developer - Tests", async () => {
 
     // Validate that switches have now value = '0' (disabled)
     await expect(
-      await SettingsDeveloperScreen.developerModeCheckbox
+      await SettingsDeveloperScreen.developerModeControllerValue
     ).toHaveAttrContaining("value", "0");
     await expect(
-      await SettingsDeveloperScreen.saveLogsCheckbox
+      await SettingsDeveloperScreen.saveLogsControllerValue
     ).toHaveAttrContaining("value", "0");
   });
 

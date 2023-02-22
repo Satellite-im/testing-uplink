@@ -13,6 +13,7 @@ const SELECTORS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
+  SWITCH_SLIDER: "~Switch Slider",
   TEST_NOTIFICATIONS_BUTTON: "~test-notifications-button",
 };
 
@@ -54,6 +55,10 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get developerModeCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get developerModeControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
@@ -104,6 +109,10 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get saveLogsCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[6].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get saveLogsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[6].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );

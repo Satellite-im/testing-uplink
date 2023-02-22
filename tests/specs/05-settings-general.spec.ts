@@ -54,10 +54,10 @@ describe("Settings - General - Tests", async () => {
 
     // Validate that both toggles have now value = '1' (active)
     await expect(
-      await SettingsGeneralScreen.uplinkOverlayCheckbox
+      await SettingsGeneralScreen.uplinkOverlayControllerValue
     ).toHaveAttrContaining("value", "1");
     await expect(
-      await SettingsGeneralScreen.splashScreenCheckbox
+      await SettingsGeneralScreen.splashScreenControllerValue
     ).toHaveAttrContaining("value", "1");
   });
 
@@ -68,10 +68,10 @@ describe("Settings - General - Tests", async () => {
 
     // Validate that both toggles have now value = '0' (disabled)
     await expect(
-      await SettingsGeneralScreen.uplinkOverlayCheckbox
+      await SettingsGeneralScreen.uplinkOverlayControllerValue
     ).toHaveAttrContaining("value", "0");
     await expect(
-      await SettingsGeneralScreen.splashScreenCheckbox
+      await SettingsGeneralScreen.splashScreenControllerValue
     ).toHaveAttrContaining("value", "0");
   });
 

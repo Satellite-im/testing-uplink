@@ -10,6 +10,7 @@ const SELECTORS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
+  SWITCH_SLIDER: "~Switch Slider",
 };
 
 class SettingsExtensionsScreen extends SettingsBaseScreen {
@@ -18,6 +19,10 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   get enableAutomaticallyCheckbox() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get enableAutomaticallyControllerValue() {
     return $$(SELECTORS.SETTINGS_SECTION)[0].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );

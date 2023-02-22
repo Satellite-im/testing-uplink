@@ -31,7 +31,7 @@ describe("Settings - Extensions - Tests", async () => {
 
     // Validate that switch from eEnable Automatically now has value = '1' (active)
     await expect(
-      await SettingsExtensionsScreen.enableAutomaticallyCheckbox
+      await SettingsExtensionsScreen.enableAutomaticallyControllerValue
     ).toHaveAttrContaining("value", "1");
   });
 
@@ -41,7 +41,7 @@ describe("Settings - Extensions - Tests", async () => {
 
     // Validate that switch from Enable Automatically now has value = '0' (disabled)
     await expect(
-      await SettingsExtensionsScreen.enableAutomaticallyCheckbox
+      await SettingsExtensionsScreen.enableAutomaticallyControllerValue
     ).toHaveAttrContaining("value", "0");
   });
 

@@ -12,6 +12,7 @@ const SELECTORS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
+  SWITCH_SLIDER: "~Switch Slider",
 };
 
 class SettingsGeneralScreen extends SettingsBaseScreen {
@@ -56,6 +57,10 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get splashScreenCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get splashScreenControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
@@ -90,6 +95,10 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get uplinkOverlayCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get uplinkOverlayControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );

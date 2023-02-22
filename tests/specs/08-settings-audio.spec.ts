@@ -67,16 +67,16 @@ describe("Settings - Audio - Tests", async () => {
 
     // Validate that toggle switches have now value = '1' (active)
     await expect(
-      await SettingsAudioScreen.interfaceSoundsCheckbox
+      await SettingsAudioScreen.interfaceSoundsControllerValue
     ).toHaveAttrContaining("value", "1");
     await expect(
-      await SettingsAudioScreen.mediaSoundsCheckbox
+      await SettingsAudioScreen.mediaSoundsControllerValue
     ).toHaveAttrContaining("value", "1");
     await expect(
-      await SettingsAudioScreen.messageSoundsCheckbox
+      await SettingsAudioScreen.messageSoundsControllerValue
     ).toHaveAttrContaining("value", "1");
     await expect(
-      await SettingsAudioScreen.callTimerCheckbox
+      await SettingsAudioScreen.callTimerControllerValue
     ).toHaveAttrContaining("value", "1");
   });
 
@@ -89,16 +89,16 @@ describe("Settings - Audio - Tests", async () => {
 
     // Validate that toggle switches have now value = '0' (disabled)
     await expect(
-      await SettingsAudioScreen.interfaceSoundsCheckbox
+      await SettingsAudioScreen.interfaceSoundsControllerValue
     ).toHaveAttrContaining("value", "0");
     await expect(
-      await SettingsAudioScreen.mediaSoundsCheckbox
+      await SettingsAudioScreen.mediaSoundsControllerValue
     ).toHaveAttrContaining("value", "0");
     await expect(
-      await SettingsAudioScreen.messageSoundsCheckbox
+      await SettingsAudioScreen.messageSoundsControllerValue
     ).toHaveAttrContaining("value", "0");
     await expect(
-      await SettingsAudioScreen.callTimerCheckbox
+      await SettingsAudioScreen.callTimerControllerValue
     ).toHaveAttrContaining("value", "0");
   });
 });

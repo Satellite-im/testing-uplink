@@ -9,6 +9,7 @@ const SELECTORS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
+  SWITCH_SLIDER: "~Switch Slider",
 };
 
 class SettingsAudioScreen extends SettingsBaseScreen {
@@ -17,6 +18,10 @@ class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   get callTimerCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get callTimerControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[3].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
@@ -35,6 +40,10 @@ class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   get interfaceSoundsCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get interfaceSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
@@ -53,6 +62,10 @@ class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   get mediaSoundsCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get mediaSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
@@ -71,6 +84,10 @@ class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   get messageSoundsCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get messageSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
