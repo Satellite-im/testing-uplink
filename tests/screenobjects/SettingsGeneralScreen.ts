@@ -5,8 +5,12 @@ const SELECTORS = {
   DROPDOWN_MENU: "~Selector",
   DROPDOWN_OPTION: "~Selector Option",
   SETTINGS_CONTROL: "~settings-control",
+  SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_GENERAL: "~settings-general",
   SETTINGS_INFO: "~settings-info",
+  SETTINGS_INFO_DESCRIPTION:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
@@ -17,15 +21,15 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get appLanguageDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get appLanguageHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get appLanguageDropdown() {
@@ -36,68 +40,48 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
     return $(SELECTORS.CLEAR_THEME_BUTTON);
   }
 
-  get dropdownMenu() {
-    return $(SELECTORS.DROPDOWN_MENU);
-  }
-
-  get dropdownOption() {
-    return $(SELECTORS.DROPDOWN_OPTION);
-  }
-
-  get settingsControl() {
-    return $(SELECTORS.SETTINGS_CONTROL);
-  }
-
   get settingsGeneral() {
     return $(SELECTORS.SETTINGS_GENERAL);
   }
 
-  get settingsInfo() {
-    return $(SELECTORS.SETTINGS_INFO);
-  }
-
-  get settingsSection() {
-    return $(SELECTORS.SETTINGS_SECTION);
-  }
-
   get resetThemeDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get resetThemeHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get splashScreenControllerButton() {
+  get splashScreenCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get splashScreenControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
   get splashScreenDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get splashScreenHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get themeDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get themeDropdown() {
@@ -105,35 +89,31 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get themeHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get uplinkOverlayControllerButton() {
+  get uplinkOverlayCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get uplinkOverlayControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
   get uplinkOverlayDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get uplinkOverlayHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
-  }
-
-  get switchSlider() {
-    return $(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   async clickOnAppLanguageDropdown() {
@@ -145,7 +125,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   async clickOnSplashScreen() {
-    await this.splashScreenControllerButton.click();
+    await this.splashScreenCheckbox.click();
   }
 
   async clickOnThemeDropdown() {
@@ -153,7 +133,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   async clickOnUplinkOverlay() {
-    await this.uplinkOverlayControllerButton.click();
+    await this.uplinkOverlayCheckbox.click();
   }
 
   async selectAppLanguage(language: string) {

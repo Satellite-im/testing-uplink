@@ -6,8 +6,12 @@ const SELECTORS = {
   OPEN_CACHE_FOLDER_BUTTON: "~open-cache-folder-button",
   OPEN_CODEBASE_BUTTON: "~open-codebase-button",
   SETTINGS_CONTROL: "~settings-control",
+  SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_DEVELOPER: "~settings-developer",
   SETTINGS_INFO: "~settings-info",
+  SETTINGS_INFO_DESCRIPTION:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
   TEST_NOTIFICATIONS_BUTTON: "~test-notifications-button",
@@ -23,15 +27,15 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get clearCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[5]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get clearCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[5]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get compressAndDownloadCacheButton() {
@@ -39,37 +43,37 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get compressAndDownloadCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get compressAndDownloadCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get developerModeControllerButton() {
+  get developerModeCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get developerModeControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
   get developerModeDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get developerModeHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get openCacheButton() {
@@ -77,15 +81,15 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get openCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get openCodebaseButton() {
@@ -93,57 +97,41 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get openCodebaseDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openCodebaseHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get saveLogsControllerButton() {
+  get saveLogsCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[6].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get saveLogsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[6].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
   get saveLogsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[6]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get saveLogsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
-  }
-
-  get settingsControl() {
-    return $(SELECTORS.SETTINGS_CONTROL);
-  }
-
-  get settingsInfo() {
-    return $(SELECTORS.SETTINGS_INFO);
-  }
-
-  get settingsSection() {
-    return $(SELECTORS.SETTINGS_SECTION);
+    return $$(SELECTORS.SETTINGS_SECTION)[6]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsDeveloper() {
     return $(SELECTORS.SETTINGS_DEVELOPER);
-  }
-
-  get switchSlider() {
-    return $(SELECTORS.SWITCH_SLIDER);
   }
 
   get testNotificationButton() {
@@ -151,15 +139,15 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get testNotificationDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get testNotificationHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   async clickOnClearCache() {
@@ -171,7 +159,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnDeveloperMode() {
-    await this.developerModeControllerButton.click();
+    await this.developerModeCheckbox.click();
   }
 
   async clickOnOpenCache() {
@@ -183,7 +171,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnSaveLogs() {
-    await this.saveLogsControllerButton.click();
+    await this.saveLogsCheckbox.click();
   }
 
   async clickOnTestNotifications() {

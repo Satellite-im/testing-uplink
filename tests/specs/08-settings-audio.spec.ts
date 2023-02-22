@@ -55,15 +55,16 @@ describe("Settings - Audio - Tests", async () => {
   });
 
   it("Settings Audio - Click on slider switches to enable the options", async () => {
-    // Click on the three switch sliders from the Settings Sounds & Audio Screen
+    // Since Media Sounds and Message Sounds are enabled by default, first we need to click on these checkboxes before starting the test
+    await SettingsAudioScreen.clickOnMediaSounds();
+    await SettingsAudioScreen.clickOnMessageSounds();
+
+    // Click on the four switch sliders from the Settings Sounds & Audio Screen
     await SettingsAudioScreen.clickOnInterfaceSounds();
     await SettingsAudioScreen.clickOnMediaSounds();
     await SettingsAudioScreen.clickOnMessageSounds();
     await SettingsAudioScreen.clickOnCallTimer();
-  });
 
-  // Skipped because it is failing on CI - Needs research
-  xit("Settings Audio - Validate all switch sliders are active now", async () => {
     // Validate that toggle switches have now value = '1' (active)
     await expect(
       await SettingsAudioScreen.interfaceSoundsControllerValue
@@ -80,15 +81,12 @@ describe("Settings - Audio - Tests", async () => {
   });
 
   it("Settings Audio - Click on slider switches to disable the options", async () => {
-    // Click again on the three switch sliders from the Settings Sounds & Audio Screen
+    // Click again on the four switch sliders from the Settings Sounds & Audio Screen
     await SettingsAudioScreen.clickOnInterfaceSounds();
     await SettingsAudioScreen.clickOnMediaSounds();
     await SettingsAudioScreen.clickOnMessageSounds();
     await SettingsAudioScreen.clickOnCallTimer();
-  });
 
-  // Skipped because it is failing on CI - Needs research
-  xit("Settings Audio - Validate all switch sliders are disabled now", async () => {
     // Validate that toggle switches have now value = '0' (disabled)
     await expect(
       await SettingsAudioScreen.interfaceSoundsControllerValue

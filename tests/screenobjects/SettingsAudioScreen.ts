@@ -3,7 +3,11 @@ import SettingsBaseScreen from "./SettingsBaseScreen";
 const SELECTORS = {
   SETTINGS_AUDIO: "~settings-audio",
   SETTINGS_CONTROL: "~settings-control",
+  SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
+  SETTINGS_INFO_DESCRIPTION:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
@@ -13,128 +17,112 @@ class SettingsAudioScreen extends SettingsBaseScreen {
     super(SELECTORS.SETTINGS_AUDIO);
   }
 
-  get callTimerControllerButton() {
+  get callTimerCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get callTimerControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[3].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
   get callTimerDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get callTimerHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get interfaceSoundsControllerButton() {
+  get interfaceSoundsCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get interfaceSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
   get interfaceSoundsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get interfaceSoundsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get mediaSoundsControllerButton() {
+  get mediaSoundsCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get mediaSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
   get mediaSoundsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get mediaSoundsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get messageSoundsControllerButton() {
+  get messageSoundsCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get messageSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
-      '//*[@label="Switch Slider"]/*[1]'
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
   get messageSoundsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
-      '//*[@label="settings-info"]/*[2]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get messageSoundsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(
-      '//*[@label="settings-info"]/*[1]'
-    );
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsAudio() {
     return $(SELECTORS.SETTINGS_AUDIO);
   }
 
-  get settingsControl() {
-    return $(SELECTORS.SETTINGS_CONTROL);
-  }
-
-  get settingsInfo() {
-    return $(SELECTORS.SETTINGS_INFO);
-  }
-
-  get settingsSection() {
-    return $(SELECTORS.SETTINGS_SECTION);
-  }
-
-  get switchSlider() {
-    return $(SELECTORS.SWITCH_SLIDER);
-  }
-
   async clickOnCallTimer() {
-    await this.callTimerControllerButton.click();
+    await this.callTimerCheckbox.click();
   }
 
   async clickOnInterfaceSounds() {
-    await this.interfaceSoundsControllerButton.click();
+    await this.interfaceSoundsCheckbox.click();
   }
 
   async clickOnMediaSounds() {
-    await this.mediaSoundsControllerButton.click();
+    await this.mediaSoundsCheckbox.click();
   }
 
   async clickOnMessageSounds() {
-    await this.messageSoundsControllerButton.click();
+    await this.messageSoundsCheckbox.click();
   }
 }
 
