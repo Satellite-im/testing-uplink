@@ -41,7 +41,7 @@ describe("Settings - Extensions - Tests", async () => {
     // Validate that switch from extension placeholder now has value = '1' (active)
     await expect(
       await SettingsExtensionsScreen.extensionPlaceholderControllerValue
-    ).toHaveAttrContaining("value", "1");
+    ).toHaveAttrContaining("Toggle.ToggleState", "1");
   });
 
   it("Settings Extensions - Change extension placeholder to disabled", async () => {
@@ -51,6 +51,6 @@ describe("Settings - Extensions - Tests", async () => {
     // Validate that switch from extension placeholder now has value = '0' (disabled)
     await expect(
       await SettingsExtensionsScreen.extensionPlaceholderControllerValue
-    ).toHaveAttrContaining("value", "0");
+    ).toHaveAttrContaining("Toggle.ToggleState", "0");
   });
 });

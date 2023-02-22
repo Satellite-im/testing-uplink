@@ -1,4 +1,3 @@
-const { execSync } = require("child_process");
 import ChatScreen from "../screenobjects/ChatScreen";
 import FilesScreen from "../screenobjects/FilesScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
@@ -10,8 +9,6 @@ import {
 
 describe("Friends Screen Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    const currentOS = await driver.capabilities.automationName;
-
     // Login with a random user, show main menu and go to Friends Screen
     await loginWithRandomUser();
     await showMainMenu();
@@ -34,8 +31,7 @@ describe("Friends Screen Tests", async () => {
     await expect(await FriendsScreen.settingsButton).toBeDisplayed();
   });
 
-  // Sidebar is hidden initially and this test will be unskipped once that the issue
-  xit("Validate Sidebar is displayed in screen", async () => {
+  it("Validate Sidebar is displayed in screen", async () => {
     await expect(await FriendsScreen.chatSearchInput).toBeDisplayed();
     await expect(await FriendsScreen.sidebar).toBeDisplayed();
     await expect(await FriendsScreen.sidebarChildren).toBeDisplayed();
@@ -47,18 +43,9 @@ describe("Friends Screen Tests", async () => {
     await expect(await FriendsScreen.settingsButton).toBeDisplayed();
   });
 
-  // Skipped for now - Need to automation locator for Copy ID button on Uplink Repo
-  xit("User can copy its own ID by clicking on button", async () => {
+  it("User can copy its own ID by clicking on button", async () => {
     // Click on Copy ID button and grab clipboard value
-    const currentOS = await driver.capabilities.automationName;
-    await FriendsScreen.clickOnCopyID().then(() => {
-      if (currentOS === "mac2") {
-        copiedKey = execSync("pbpaste", { encoding: "utf8" });
-      } else if (currentOS === "windows") {
-        copiedKey = execSync("clip", { encoding: "utf8" });
-        console.log("Copied key is: " + copiedKey);
-      }
-    });
+    await FriendsScreen.clickOnCopyID();
 
     // Validate toast notification and close it
     const toastText = await FriendsScreen.getToastNotificationText();
@@ -66,10 +53,10 @@ describe("Friends Screen Tests", async () => {
     await FriendsScreen.closeToastNotification();
     await FriendsScreen.toastNotification.waitForDisplayed({ reverse: true });
 
-    // Paste copied ID into input field
-    await FriendsScreen.enterFriendDidKey(copiedKey);
+    // Paste copied ID into input field and assert input is equal to copied value
+    await FriendsScreen.enterCopiedID();
     await expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining(
-      copiedKey
+      "did:key"
     );
   });
 

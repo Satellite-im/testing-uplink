@@ -86,10 +86,10 @@ describe("Settings - Developer - Tests", async () => {
     // Validate that switches have now value = '1' (active)
     await expect(
       await SettingsDeveloperScreen.developerModeControllerValue
-    ).toHaveAttrContaining("value", "1");
+    ).toHaveAttrContaining("Toggle.ToggleState", "1");
     await expect(
       await SettingsDeveloperScreen.saveLogsControllerValue
-    ).toHaveAttrContaining("value", "1");
+    ).toHaveAttrContaining("Toggle.ToggleState", "1");
   });
 
   // Needs rework to add scroll down step to the Save Logs button
@@ -103,10 +103,10 @@ describe("Settings - Developer - Tests", async () => {
     // Validate that switches have now value = '0' (disabled)
     await expect(
       await SettingsDeveloperScreen.developerModeControllerValue
-    ).toHaveAttrContaining("value", "0");
+    ).toHaveAttrContaining("Toggle.ToggleState", "0");
     await expect(
       await SettingsDeveloperScreen.saveLogsControllerValue
-    ).toHaveAttrContaining("value", "0");
+    ).toHaveAttrContaining("Toggle.ToggleState", "0");
   });
 
   it("Settings Developer - Open codebase button", async () => {

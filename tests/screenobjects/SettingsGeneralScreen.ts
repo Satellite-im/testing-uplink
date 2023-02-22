@@ -184,20 +184,6 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
     await this.uplinkOverlayControllerButton.click();
   }
 
-  async getCurrentSwitchValue(element: string) {
-    let sliderResult;
-    if (element === "Uplink Overlay") {
-      sliderResult = await this.getSwitchSliderValueGlobal(
-        this.uplinkOverlayControllerValue
-      );
-    } else if (element === "Splash Screen") {
-      sliderResult = await this.getSwitchSliderValueGlobal(
-        this.splashScreenControllerValue
-      );
-    }
-    return sliderResult;
-  }
-
   async selectAppLanguage(language: string) {
     const currentDriver = await driver.capabilities.automationName;
     if (currentDriver === "mac2") {

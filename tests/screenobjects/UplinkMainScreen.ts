@@ -5,7 +5,6 @@ let SELECTORS = {};
 
 const SELECTORS_COMMON = {
   PRE_RELEASE_INDICATOR: "~pre-release",
-  TOAST_NOTIFICATION: "~Toast Notification",
 };
 
 const SELECTORS_WINDOWS = {
@@ -21,6 +20,7 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_CHILDREN: "~chats",
   SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SKELETAL_USER: '[name="skeletal-user"]',
+  TOAST_NOTIFICATION: '[name="Toast Notification"]',
   WINDOW: "~main",
 };
 
@@ -37,6 +37,7 @@ const SELECTORS_MACOS = {
   SIDEBAR_CHILDREN: "~sidebar-children",
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
+  TOAST_NOTIFICATION: "~Toast Notification",
   WINDOW: "-ios class chain:**/XCUIElementTypeWindow",
 };
 
