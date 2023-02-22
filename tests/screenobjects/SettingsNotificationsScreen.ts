@@ -2,10 +2,13 @@ import SettingsBaseScreen from "./SettingsBaseScreen";
 
 const SELECTORS = {
   SETTINGS_CONTROL: "~settings-control",
+  SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
+  SETTINGS_INFO_DESCRIPTION:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_NOTIFICATIONS: "~settings-notifications",
   SETTINGS_SECTION: "~settings-section",
-  SWITCH_SLIDER: "~Switch Slider",
 };
 
 class SettingsDeveloperScreen extends SettingsBaseScreen {
@@ -13,24 +16,8 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
     super(SELECTORS.SETTINGS_NOTIFICATIONS);
   }
 
-  get settingsControl() {
-    return $(SELECTORS.SETTINGS_CONTROL);
-  }
-
-  get settingsInfo() {
-    return $(SELECTORS.SETTINGS_INFO);
-  }
-
   get settingsNotifications() {
     return $(SELECTORS.SETTINGS_NOTIFICATIONS);
-  }
-
-  get settingsSection() {
-    return $(SELECTORS.SETTINGS_SECTION);
-  }
-
-  get switchSlider() {
-    return $(SELECTORS.SWITCH_SLIDER);
   }
 }
 

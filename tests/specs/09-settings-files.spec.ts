@@ -38,7 +38,7 @@ describe("Settings - Files - Tests", async () => {
 
     // Validate that switch has now value = '1' (active)
     await expect(
-      await SettingsFilesScreen.localSyncControllerValue
+      await SettingsFilesScreen.localSyncCheckbox
     ).toHaveAttrContaining("value", "1");
   });
 
@@ -48,7 +48,7 @@ describe("Settings - Files - Tests", async () => {
 
     // Validate that switch has now value = '0' (disabled)
     await expect(
-      await SettingsFilesScreen.localSyncControllerValue
+      await SettingsFilesScreen.localSyncCheckbox
     ).toHaveAttrContaining("value", "0");
   });
 

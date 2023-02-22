@@ -1,14 +1,38 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
 const SELECTORS = {
-  OPEN_EXTENSIONS_FOLDER_BUTTON: "~open-extension-folder-button",
+  OPEN_EXTENSIONS_FOLDER_BUTTON: "~open-extensions-folder-button",
+  SETTINGS_CONTROL: "~settings-control",
+  SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_EXTENSIONS: "~settings-extensions",
-  SWITCH_SLIDER: "~Switch Slider",
+  SETTINGS_INFO: "~settings-info",
+  SETTINGS_INFO_DESCRIPTION:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
+  SETTINGS_SECTION: "~settings-section",
 };
 
 class SettingsExtensionsScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.SETTINGS_EXTENSIONS);
+  }
+
+  get enableAutomaticallyCheckbox() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
+    );
+  }
+
+  get enableAutomaticallyDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get enableAutomaticallyHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get openExtensionsFolderButton() {
@@ -19,34 +43,8 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
     return $(SELECTORS.SETTINGS_EXTENSIONS);
   }
 
-  get switchSlider() {
-    return $(SELECTORS.SWITCH_SLIDER);
-  }
-
-  get extensionPlaceholderControllerButton() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS).$(SELECTORS.SWITCH_SLIDER);
-  }
-
-  get extensionPlaceholderControllerValue() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS).$(
-      '//*[@label="Switch Slider"]/*[1]'
-    );
-  }
-
-  get extensionPlaceholderLongDescription() {
-    return $('//*[@label="settings-extensions"]/*[5]/*[1]');
-  }
-
-  get extensionPlaceholderName() {
-    return $('//*[@label="settings-extensions"]/*[2]/*[1]');
-  }
-
-  get extensionPlaceholderShortDescription() {
-    return $('//*[@label="settings-extensions"]/*[3]');
-  }
-
-  async clickOnExtensionPlaceholderButton() {
-    await this.extensionPlaceholderControllerButton.click();
+  async clickOnEnableAutomatically() {
+    await this.enableAutomaticallyCheckbox.click();
   }
 
   async clickOnOpenExtensionsFolder() {
