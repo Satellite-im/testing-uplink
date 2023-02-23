@@ -26,7 +26,6 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
-  SWITCH_SLIDER: "~Switch Slider",
 };
 
 currentOS === "windows"
@@ -38,24 +37,8 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
     super(SELECTORS.SETTINGS_NOTIFICATIONS);
   }
 
-  get settingsControl() {
-    return $(SELECTORS.SETTINGS_CONTROL);
-  }
-
-  get settingsInfo() {
-    return $(SELECTORS.SETTINGS_INFO);
-  }
-
   get settingsNotifications() {
     return $(SELECTORS.SETTINGS_NOTIFICATIONS);
-  }
-
-  get settingsSection() {
-    return $(SELECTORS.SETTINGS_SECTION);
-  }
-
-  get switchSlider() {
-    return $(SELECTORS.SWITCH_SLIDER);
   }
 }
 

@@ -66,10 +66,6 @@ class SettingsPrivacyScreen extends SettingsBaseScreen {
     return $(SELECTORS.SETTINGS_PRIVACY);
   }
 
-  get settingsSection() {
-    return $(SELECTORS.SETTINGS_SECTION);
-  }
-
   async clickOnBackupPhrase() {
     await this.backupPhraseButton.click();
   }

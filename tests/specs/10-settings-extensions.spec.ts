@@ -15,42 +15,37 @@ describe("Settings - Extensions - Tests", async () => {
 
     // Start validations
     await expect(
-      await SettingsExtensionsScreen.extensionPlaceholderName
-    ).toHaveTextContaining("Placeholder");
+      await SettingsExtensionsScreen.enableAutomaticallyHeader
+    ).toHaveTextContaining("ENABLE AUTOMATICALLY");
 
     await expect(
-      await SettingsExtensionsScreen.extensionPlaceholderShortDescription
-    ).toHaveTextContaining("NOBODY#1345");
-
-    await expect(
-      await SettingsExtensionsScreen.extensionPlaceholderLongDescription
+      await SettingsExtensionsScreen.enableAutomaticallyDescription
     ).toHaveTextContaining(
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
+      "When turned on, new extensions will automatically be enabled by default."
     );
   });
 
-  // Skipped for now since button does not perform any action
-  xit("Settings Extensions - Open Extensions Folder", async () => {
-    await SettingsExtensionsScreen.clickOnOpenExtensionsFolder();
-  });
+  it("Settings Extensions - Activate the switch slider for Enable Automatically", async () => {
+    // Click on Switch from Enable Automatically to activate it
+    await SettingsExtensionsScreen.clickOnEnableAutomatically();
 
-  it("Settings Extensions - Change extension placeholder to enabled", async () => {
-    // Click on Switch from Extension Placeholder to activate it
-    await SettingsExtensionsScreen.clickOnExtensionPlaceholderButton();
-
-    // Validate that switch from extension placeholder now has value = '1' (active)
+    // Validate that switch from eEnable Automatically now has value = '1' (active)
     await expect(
       await SettingsExtensionsScreen.extensionPlaceholderControllerValue
     ).toHaveAttrContaining("Toggle.ToggleState", "1");
   });
 
-  it("Settings Extensions - Change extension placeholder to disabled", async () => {
-    // Click again on Switch from Extension Placeholder to disable it
-    await SettingsExtensionsScreen.clickOnExtensionPlaceholderButton();
+  it("Settings Extensions - Deactivate the switch slider for Enable Automatically", async () => {
+    // Click again on Switch from Enable Automatically to disable it
+    await SettingsExtensionsScreen.clickOnEnableAutomatically();
 
-    // Validate that switch from extension placeholder now has value = '0' (disabled)
+    // Validate that switch from Enable Automatically now has value = '0' (disabled)
     await expect(
       await SettingsExtensionsScreen.extensionPlaceholderControllerValue
     ).toHaveAttrContaining("Toggle.ToggleState", "0");
+  });
+
+  it("Settings Extensions - Open Extensions Folder", async () => {
+    await SettingsExtensionsScreen.clickOnOpenExtensionsFolder();
   });
 });

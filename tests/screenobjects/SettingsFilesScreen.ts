@@ -40,7 +40,7 @@ class SettingsFilesScreen extends SettingsBaseScreen {
     super(SELECTORS.SETTINGS_FILES);
   }
 
-  get localSyncControllerButton() {
+  get localSyncCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
   }
 
@@ -82,24 +82,8 @@ class SettingsFilesScreen extends SettingsBaseScreen {
     return $(SELECTORS.SETTINGS_FILES);
   }
 
-  get settingsControl() {
-    return $(SELECTORS.SETTINGS_CONTROL);
-  }
-
-  get settingsInfo() {
-    return $(SELECTORS.SETTINGS_INFO);
-  }
-
-  get settingsSection() {
-    return $(SELECTORS.SETTINGS_SECTION);
-  }
-
-  get switchSlider() {
-    return $(SELECTORS.SWITCH_SLIDER);
-  }
-
   async clickOnLocalSync() {
-    await this.localSyncControllerButton.click();
+    await this.localSyncCheckbox.click();
   }
 
   async clickOnOpenSyncFolder() {

@@ -38,20 +38,14 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
     super(SELECTORS.SETTINGS_EXTENSIONS);
   }
 
-  get openExtensionsFolderButton() {
-    return $(SELECTORS.OPEN_EXTENSIONS_FOLDER_BUTTON);
+  get enableAutomaticallyCheckbox() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0].$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get settingsExtensions() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS);
-  }
-
-  get switchSlider() {
-    return $(SELECTORS.SWITCH_SLIDER);
-  }
-
-  get extensionPlaceholderControllerButton() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS).$(SELECTORS.SWITCH_SLIDER);
+  get enableAutomaticallyControllerValue() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
+    );
   }
 
   get extensionPlaceholderControllerValue() {
@@ -78,8 +72,8 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
     );
   }
 
-  async clickOnExtensionPlaceholderButton() {
-    await this.extensionPlaceholderControllerButton.click();
+  async clickOnEnableAutomatically() {
+    await this.enableAutomaticallyCheckbox.click();
   }
 
   async clickOnOpenExtensionsFolder() {

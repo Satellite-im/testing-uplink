@@ -38,7 +38,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
     super(SELECTORS.SETTINGS_AUDIO);
   }
 
-  get callTimerControllerButton() {
+  get callTimerCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SWITCH_SLIDER);
   }
 
@@ -60,7 +60,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get interfaceSoundsControllerButton() {
+  get interfaceSoundsCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
   }
 
@@ -82,7 +82,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get mediaSoundsControllerButton() {
+  get mediaSoundsCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
   }
 
@@ -104,7 +104,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get messageSoundsControllerButton() {
+  get messageSoundsCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
   }
 
@@ -130,36 +130,20 @@ class SettingsAudioScreen extends SettingsBaseScreen {
     return $(SELECTORS.SETTINGS_AUDIO);
   }
 
-  get settingsControl() {
-    return $(SELECTORS.SETTINGS_CONTROL);
-  }
-
-  get settingsInfo() {
-    return $(SELECTORS.SETTINGS_INFO);
-  }
-
-  get settingsSection() {
-    return $(SELECTORS.SETTINGS_SECTION);
-  }
-
-  get switchSlider() {
-    return $(SELECTORS.SWITCH_SLIDER);
-  }
-
   async clickOnCallTimer() {
-    await this.callTimerControllerButton.click();
+    await this.callTimerCheckbox.click();
   }
 
   async clickOnInterfaceSounds() {
-    await this.interfaceSoundsControllerButton.click();
+    await this.interfaceSoundsCheckbox.click();
   }
 
   async clickOnMediaSounds() {
-    await this.mediaSoundsControllerButton.click();
+    await this.mediaSoundsCheckbox.click();
   }
 
   async clickOnMessageSounds() {
-    await this.messageSoundsControllerButton.click();
+    await this.messageSoundsCheckbox.click();
   }
 }
 

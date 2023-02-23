@@ -81,7 +81,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get developerModeControllerButton() {
+  get developerModeCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
   }
 
@@ -135,7 +135,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get saveLogsControllerButton() {
+  get saveLogsCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[6].$(SELECTORS.SWITCH_SLIDER);
   }
 
@@ -173,10 +173,6 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
     return $(SELECTORS.SETTINGS_DEVELOPER);
   }
 
-  get switchSlider() {
-    return $(SELECTORS.SWITCH_SLIDER);
-  }
-
   get testNotificationButton() {
     return $(SELECTORS.TEST_NOTIFICATIONS_BUTTON);
   }
@@ -202,7 +198,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnDeveloperMode() {
-    await this.developerModeControllerButton.click();
+    await this.developerModeCheckbox.click();
   }
 
   async clickOnOpenCache() {
@@ -214,7 +210,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnSaveLogs() {
-    await this.saveLogsControllerButton.click();
+    await this.saveLogsCheckbox.click();
   }
 
   async clickOnTestNotifications() {

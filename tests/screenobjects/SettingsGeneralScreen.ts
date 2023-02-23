@@ -64,28 +64,8 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
     return $(SELECTORS.CLEAR_THEME_BUTTON);
   }
 
-  get dropdownMenu() {
-    return $(SELECTORS.DROPDOWN_MENU);
-  }
-
-  get dropdownOption() {
-    return $(SELECTORS.DROPDOWN_OPTION);
-  }
-
-  get settingsControl() {
-    return $(SELECTORS.SETTINGS_CONTROL);
-  }
-
   get settingsGeneral() {
     return $(SELECTORS.SETTINGS_GENERAL);
-  }
-
-  get settingsInfo() {
-    return $(SELECTORS.SETTINGS_INFO);
-  }
-
-  get settingsSection() {
-    return $(SELECTORS.SETTINGS_SECTION);
   }
 
   get resetThemeDescription() {
@@ -100,7 +80,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get splashScreenControllerButton() {
+  get splashScreenCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
   }
 
@@ -138,7 +118,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get uplinkOverlayControllerButton() {
+  get uplinkOverlayCheckbox() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
   }
 
@@ -173,7 +153,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   async clickOnSplashScreen() {
-    await this.splashScreenControllerButton.click();
+    await this.splashScreenCheckbox.click();
   }
 
   async clickOnThemeDropdown() {
@@ -181,7 +161,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   async clickOnUplinkOverlay() {
-    await this.uplinkOverlayControllerButton.click();
+    await this.uplinkOverlayCheckbox.click();
   }
 
   async selectAppLanguage(language: string) {

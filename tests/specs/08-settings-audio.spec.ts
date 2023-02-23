@@ -55,7 +55,11 @@ describe("Settings - Audio - Tests", async () => {
   });
 
   it("Settings Audio - Click on slider switches to enable the options", async () => {
-    // Click on the three switch sliders from the Settings Sounds & Audio Screen
+    // Since Media Sounds and Message Sounds are enabled by default, first we need to click on these checkboxes before starting the test
+    await SettingsAudioScreen.clickOnMediaSounds();
+    await SettingsAudioScreen.clickOnMessageSounds();
+
+    // Click on the four switch sliders from the Settings Sounds & Audio Screen
     await SettingsAudioScreen.clickOnInterfaceSounds();
 
     // Click twice on Media Sounds Switch Slider since it is enabled by default
@@ -83,7 +87,7 @@ describe("Settings - Audio - Tests", async () => {
   });
 
   it("Settings Audio - Click on slider switches to disable the options", async () => {
-    // Click again on the three switch sliders from the Settings Sounds & Audio Screen
+    // Click again on the four switch sliders from the Settings Sounds & Audio Screen
     await SettingsAudioScreen.clickOnInterfaceSounds();
     await SettingsAudioScreen.clickOnMediaSounds();
     await SettingsAudioScreen.clickOnMessageSounds();
