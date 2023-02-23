@@ -1,18 +1,13 @@
 import ChatScreen from "../screenobjects/ChatScreen";
 import FilesScreen from "../screenobjects/FilesScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
-import {
-  loginWithRandomUser,
-  maximizeWindow,
-  showMainMenu,
-} from "../helpers/commands";
+import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Friends Screen Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     // Login with a random user, show main menu and go to Friends Screen
     await loginWithRandomUser();
     await showMainMenu();
-    await maximizeWindow();
     await FriendsScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
 

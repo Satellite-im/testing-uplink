@@ -17,7 +17,7 @@ const SELECTORS_WINDOWS = {
   PRE_RELEASE_INDICATOR_TEXT: "//*[2]",
   SETTINGS_BUTTON: '[name="settings-button"]',
   SIDEBAR: '[name="sidebar"]',
-  SIDEBAR_CHILDREN: "~chats",
+  SIDEBAR_CHILDREN: '[name="sidebar-children"]',
   SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SKELETAL_USER: '[name="skeletal-user"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',

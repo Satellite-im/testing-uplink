@@ -18,9 +18,9 @@ const SELECTORS_WINDOWS = {
   PROFILE_HEADER: '[name="profile-header"]',
   PROFILE_PICTURE: '[name="profile-picture"]',
   STATUS_INPUT: '[name="status-input"]',
-  STATUS_LABEL: "//Text[2]",
+  STATUS_LABEL: "//Text[2]/Text",
   USERNAME_INPUT: '[name="username-input"]',
-  USERNAME_LABEL: "//Text[1]",
+  USERNAME_LABEL: "//Text[1]/Text",
 };
 
 const SELECTORS_MACOS = {
@@ -125,8 +125,8 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     ).elementId;
 
     // Get X and Y coordinates to hover on from Profile Banner
-    const bannerX = (await $("~profile-banner").getLocation("x")) + 10;
-    const bannerY = (await $("~profile-banner").getLocation("y")) + 10;
+    const bannerX = (await this.profileBanner.getLocation("x")) + 10;
+    const bannerY = (await this.profileBanner.getLocation("y")) + 10;
 
     // Hover on X and Y coordinates previously retrieved
     const currentDriver = await driver.capabilities.automationName;
@@ -139,7 +139,16 @@ class SettingsProfileScreen extends SettingsBaseScreen {
         },
       ]);
     } else if (currentDriver === "windows") {
-      console.log("Not implemented yet");
+      await driver.touchPerform([
+        {
+          element: bannerElementID,
+          action: "moveTo",
+          options: {
+            x: bannerX,
+            y: bannerY,
+          },
+        },
+      ]);
     }
   }
 

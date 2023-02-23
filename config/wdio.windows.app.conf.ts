@@ -43,9 +43,4 @@ config.afterTest = async function (test, describe, { error }) {
   }
 };
 
-config.onWorkerEnd = async function () {
-  const target = homedir() + "/.uplink";
-  rmSync(target, { recursive: true, force: true });
-};
-
 exports.config = config;

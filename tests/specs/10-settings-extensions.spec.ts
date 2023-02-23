@@ -51,7 +51,8 @@ describe("Settings - Extensions - Tests", async () => {
     expect(enableAutomaticallyState).toEqual("0");
   });
 
-  it("Settings Extensions - Open Extensions Folder", async () => {
+  // Skipped since it needs research on how to close external window from Explorer before proceeding with next tests
+  xit("Settings Extensions - Open Extensions Folder", async () => {
     await SettingsExtensionsScreen.clickOnOpenExtensionsFolder();
   });
 });

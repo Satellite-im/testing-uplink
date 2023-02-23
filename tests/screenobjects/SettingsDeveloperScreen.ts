@@ -13,6 +13,7 @@ const SELECTORS_WINDOWS = {
   COMPRESS_BUTTON: '[name="compress-button"]',
   OPEN_CACHE_FOLDER_BUTTON: '[name="open-cache-folder-button"]',
   OPEN_CODEBASE_BUTTON: '[name="open-codebase-button"]',
+  PRINT_STATE_BUTTON: '[name="print-state-button"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',

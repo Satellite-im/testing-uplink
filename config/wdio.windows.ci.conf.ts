@@ -43,9 +43,4 @@ config.afterTest = async function (test, describe, { error }) {
   }
 };
 
-config.afterSession = async function (session) {
-  const target = homedir() + "/.uplink";
-  rmSync(target, { recursive: true, force: true });
-};
-
 exports.config = config;

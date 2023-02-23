@@ -62,7 +62,8 @@ describe("Settings - Profile - Tests", async () => {
     );
   });
 
-  it("Settings Profile - Validate change banner tooltip", async () => {
+  // Skipped for now since it needs research on how to implement hover on Windows Appium Driver
+  xit("Settings Profile - Validate change banner tooltip", async () => {
     // Hover on banner picture
     await SettingsProfileScreen.hoverOnBanner();
 
