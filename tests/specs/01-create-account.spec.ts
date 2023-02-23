@@ -3,7 +3,8 @@ import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 describe("Create Account Screen Tests", async () => {
-  it("Validate Pre Release Indicator is displayed on Screen", async () => {
+  // Skipped since Prerelease indicator is no longer available
+  xit("Validate Pre Release Indicator is displayed on Screen", async () => {
     // Create an account and go to Main Screen
     await CreatePinScreen.waitForIsShown(true);
 

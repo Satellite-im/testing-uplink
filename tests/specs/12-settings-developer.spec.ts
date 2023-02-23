@@ -57,6 +57,14 @@ describe("Settings - Developer - Tests", async () => {
       "For debugging with other developers, you can compress your cache to zip and share it. Don't do this if this is a real account you use."
     );
 
+    // Validate PRINT STATE section
+    await expect(
+      await SettingsDeveloperScreen.printStateHeader
+    ).toHaveTextContaining("PRINT STATE");
+    await expect(
+      await SettingsDeveloperScreen.printStateDescription
+    ).toHaveTextContaining("Display State in the debug logger");
+
     // Validate CLEAR CACHE section
     await expect(
       await SettingsDeveloperScreen.clearCacheHeader
@@ -95,9 +103,7 @@ describe("Settings - Developer - Tests", async () => {
   // Needs rework to add scroll down step to the Save Logs button
   xit("Settings Developer - Disable Developer Mode and Save Logs switches", async () => {
     // Click on DEVELOPER MODE and SAVE LOGS IN FILE switches to disable the options
-
     await SettingsDeveloperScreen.clickOnDeveloperMode();
-
     await SettingsDeveloperScreen.clickOnSaveLogs();
 
     // Validate that switches have now value = '0' (disabled)
@@ -128,6 +134,11 @@ describe("Settings - Developer - Tests", async () => {
   // Skipped for now because no action is performed when clicking on the button
   xit("Setings Developer - Compress & Download Cache", async () => {
     await SettingsDeveloperScreen.clickOnCompressAndDownloadCache();
+  });
+
+  // Skipped for now because no action is performed when clicking on the button
+  xit("Setings Developer - Print State button", async () => {
+    await SettingsDeveloperScreen.clickOnPrintState();
   });
 
   // Skipped for now because no action is performed when clicking on the button
