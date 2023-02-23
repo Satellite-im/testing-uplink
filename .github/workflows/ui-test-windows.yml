@@ -66,9 +66,9 @@ jobs:
 
   test-on-windows:
     needs: build-windows
-    runs-on: windows-latest
-    #  group: Default Larger Runners
-    #  labels: windows-latest-8-cores
+    runs-on:
+      group: Default Larger Runners
+      labels: windows-latest-8-cores
 
     steps:
       - name: Checkout testing directory 🔖

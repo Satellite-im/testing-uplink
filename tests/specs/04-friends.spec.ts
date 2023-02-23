@@ -1,5 +1,4 @@
 import ChatScreen from "../screenobjects/ChatScreen";
-import FilesScreen from "../screenobjects/FilesScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 

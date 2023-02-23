@@ -155,6 +155,7 @@ export async function showMainMenu() {
   if (currentOS === "mac2") {
     await WelcomeScreen.clickAddSomeone();
   } else if (currentOS === "windows") {
+    await maximizeWindow();
     await WelcomeScreen.goToFriends();
   }
 
