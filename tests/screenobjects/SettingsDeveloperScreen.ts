@@ -5,6 +5,7 @@ const SELECTORS = {
   COMPRESS_BUTTON: "~compress-button",
   OPEN_CACHE_FOLDER_BUTTON: "~open-cache-folder-button",
   OPEN_CODEBASE_BUTTON: "~open-codebase-button",
+  PRINT_STATE_BUTTON: "~print-state-button",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_DEVELOPER: "~settings-developer",
@@ -27,13 +28,13 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get clearCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5]
+    return $$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get clearCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5]
+    return $$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -108,24 +109,40 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
+  get printStateButton() {
+    return $(SELECTORS.PRINT_STATE_BUTTON);
+  }
+
+  get printStateDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[5]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get printStateHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[5]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
   get saveLogsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[6].$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_CONTROL)[7].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get saveLogsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[6].$(
+    return $$(SELECTORS.SETTINGS_CONTROL)[7].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
   get saveLogsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6]
+    return $$(SELECTORS.SETTINGS_SECTION)[7]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get saveLogsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6]
+    return $$(SELECTORS.SETTINGS_SECTION)[7]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -168,6 +185,10 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   async clickOnOpenCodebase() {
     await this.openCodebaseButton.click();
+  }
+
+  async clickOnPrintState() {
+    await this.printStateButton.click();
   }
 
   async clickOnSaveLogs() {
