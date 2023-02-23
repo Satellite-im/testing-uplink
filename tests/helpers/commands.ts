@@ -140,7 +140,7 @@ export async function maximizeWindow() {
   if (currentOS === "windows") {
     await $("/Window/TitleBar/Button[2]").click();
   } else if (currentOS === "mac2") {
-    await $("/Window/TitleBar/Button[2]").click();
+    await $("~_XCUI:FullScreenWindow").click();
   }
 }
 
