@@ -14,7 +14,7 @@ const SELECTORS_WINDOWS = {
   OPEN_CACHE_FOLDER_BUTTON: '[name="open-cache-folder-button"]',
   OPEN_CODEBASE_BUTTON: '[name="open-codebase-button"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
-  SETTINGS_CONTROL_CONTROLLER_VALUE: "//CheckBox",
+  SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "//Text[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
@@ -29,8 +29,7 @@ const SELECTORS_MACOS = {
   OPEN_CACHE_FOLDER_BUTTON: "~open-cache-folder-button",
   OPEN_CODEBASE_BUTTON: "~open-codebase-button",
   SETTINGS_CONTROL: "~settings-control",
-  SETTINGS_CONTROL_CONTROLLER_VALUE:
-    "-ios class chain:**/XCUIElementTypeCheckBox",
+  SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -87,7 +86,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   get developerModeControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      SELECTORS.SETTINGS_CONTROL_CONTROLLER_VALUE
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
@@ -141,7 +140,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   get saveLogsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[6].$(
-      SELECTORS.SETTINGS_CONTROL_CONTROLLER_VALUE
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
@@ -155,18 +154,6 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
     return $$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
-  }
-
-  get settingsControl() {
-    return $(SELECTORS.SETTINGS_CONTROL);
-  }
-
-  get settingsInfo() {
-    return $(SELECTORS.SETTINGS_INFO);
-  }
-
-  get settingsSection() {
-    return $(SELECTORS.SETTINGS_SECTION);
   }
 
   get settingsDeveloper() {

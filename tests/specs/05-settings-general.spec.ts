@@ -3,7 +3,7 @@ import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Settings - General - Tests", async () => {
-  it("Settings General - Validate header and description texts are correct", async () => {
+  it.only("Settings General - Validate header and description texts are correct", async () => {
     // Login with a random user, show main menu and go to Settings Screen
     await loginWithRandomUser();
     await showMainMenu();
@@ -53,12 +53,15 @@ describe("Settings - General - Tests", async () => {
     await SettingsGeneralScreen.clickOnSplashScreen();
 
     // Validate that both toggles have now value = "1" (enabled)
-    await expect(
-      SettingsGeneralScreen.uplinkOverlayControllerValue
-    ).toHaveAttributeContaining("Toggle.ToggleState", "1");
-    await expect(
-      SettingsGeneralScreen.splashScreenControllerValue
-    ).toHaveAttributeContaining("Toggle.ToggleState", "1");
+    const uplinkOverlayState = await SettingsGeneralScreen.getToggleState(
+      await SettingsGeneralScreen.uplinkOverlayControllerValue
+    );
+    const splashScreenState = await SettingsGeneralScreen.getToggleState(
+      await SettingsGeneralScreen.splashScreenControllerValue
+    );
+
+    expect(uplinkOverlayState).toEqual("1");
+    expect(splashScreenState).toEqual("1");
   });
 
   it("Settings General - Toggle switches to disabled", async () => {
@@ -67,12 +70,15 @@ describe("Settings - General - Tests", async () => {
     await SettingsGeneralScreen.clickOnSplashScreen();
 
     // Validate that both toggles have now value = "0" (disabled)
-    await expect(
-      SettingsGeneralScreen.uplinkOverlayControllerValue
-    ).toHaveAttributeContaining("Toggle.ToggleState", "0");
-    await expect(
-      SettingsGeneralScreen.splashScreenControllerValue
-    ).toHaveAttributeContaining("Toggle.ToggleState", "0");
+    const uplinkOverlayState = await SettingsGeneralScreen.getToggleState(
+      await SettingsGeneralScreen.uplinkOverlayControllerValue
+    );
+    const splashScreenState = await SettingsGeneralScreen.getToggleState(
+      await SettingsGeneralScreen.splashScreenControllerValue
+    );
+
+    expect(uplinkOverlayState).toEqual("0");
+    expect(splashScreenState).toEqual("0");
   });
 
   // Skipped for now since there are no themes to select

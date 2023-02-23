@@ -10,7 +10,7 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   OPEN_SYNC_FOLDER_BUTTON: '[name="open-sync-folder-button"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
-  SETTINGS_CONTROL_CONTROLLER_VALUE: "//CheckBox",
+  SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "//Text[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
@@ -21,8 +21,7 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   OPEN_SYNC_FOLDER_BUTTON: "~open-sync-folder-button",
   SETTINGS_CONTROL: "~settings-control",
-  SETTINGS_CONTROL_CONTROLLER_VALUE:
-    "-ios class chain:**/XCUIElementTypeCheckBox",
+  SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -46,7 +45,7 @@ class SettingsFilesScreen extends SettingsBaseScreen {
 
   get localSyncControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      SELECTORS.SETTINGS_CONTROL_CONTROLLER_VALUE
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 

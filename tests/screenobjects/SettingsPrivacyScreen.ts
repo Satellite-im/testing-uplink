@@ -10,7 +10,7 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   BACKUP_PHRASE_BUTTON: '[name="clear-theme-button"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
-  SETTINGS_CONTROL_CONTROLLER_VALUE: "//CheckBox",
+  SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "//Text[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
@@ -20,8 +20,7 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   BACKUP_PHRASE_BUTTON: "~clear-theme-button",
   SETTINGS_CONTROL: "~settings-control",
-  SETTINGS_CONTROL_CONTROLLER_VALUE:
-    "-ios class chain:**/XCUIElementTypeCheckBox",
+  SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -52,14 +51,6 @@ class SettingsPrivacyScreen extends SettingsBaseScreen {
     return $(SELECTORS.SETTINGS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
-  }
-
-  get settingsControl() {
-    return $(SELECTORS.SETTINGS_CONTROL);
-  }
-
-  get settingsInfo() {
-    return $(SELECTORS.SETTINGS_INFO);
   }
 
   get settingsPrivacy() {

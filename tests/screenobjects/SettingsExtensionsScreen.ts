@@ -8,24 +8,25 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
-  EXTENSION_PLACEHOLDER_CONTROLLER_VALUE: "//CheckBox",
-  EXTENSION_PLACEHOLDER_NAME: "//Text[1]",
-  EXTENSION_PLACEHOLDER_SHORT_DESCRIPTION: "//Text[2]/Text",
-  EXTENSION_PLACEHOLDER_LONG_DESCRIPTION: "//Text[4]",
-  OPEN_EXTENSIONS_FOLDER_BUTTON: '[name="open-extension-folder-button"]',
+  OPEN_EXTENSIONS_FOLDER_BUTTON: '[name="open-extensions-folder-button"]',
+  SETTINGS_CONTROL: '[name="settings-control"]',
+  SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
+  SETTINGS_INFO: '[name="settings-info"]',
+  SETTINGS_INFO_DESCRIPTION: "//Text[2]",
+  SETTINGS_INFO_HEADER: "//Text[1]/Text",
+  SETTINGS_SECTION: '[name="settings-section"]',
   SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 
 const SELECTORS_MACOS = {
-  EXTENSION_PLACEHOLDER_CONTROLLER_VALUE:
-    "-ios class chain:**/XCUIElementTypeCheckBox",
-  EXTENSION_PLACEHOLDER_NAME:
-    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText",
-  EXTENSION_PLACEHOLDER_LONG_DESCRIPTION:
-    "-ios class chain:**/XCUIElementTypeGroup[3]/XCUIElementTypeStaticText",
-  EXTENSION_PLACEHOLDER_SHORT_DESCRIPTION:
-    "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  OPEN_EXTENSIONS_FOLDER_BUTTON: "~open-extension-folder-button",
+  OPEN_EXTENSIONS_FOLDER_BUTTON: "~open-extensions-folder-button",
+  SETTINGS_CONTROL: "~settings-control",
+  SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
+  SETTINGS_INFO: "~settings-info",
+  SETTINGS_INFO_DESCRIPTION:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
+  SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
 
@@ -48,28 +49,24 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
     );
   }
 
-  get extensionPlaceholderControllerValue() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS)
-      .$(SELECTORS.SWITCH_SLIDER)
-      .$(SELECTORS.EXTENSION_PLACEHOLDER_CONTROLLER_VALUE);
+  get enableAutomaticallyDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get extensionPlaceholderLongDescription() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS).$(
-      SELECTORS.EXTENSION_PLACEHOLDER_LONG_DESCRIPTION
-    );
+  get enableAutomaticallyHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get extensionPlaceholderName() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS).$(
-      SELECTORS.EXTENSION_PLACEHOLDER_NAME
-    );
+  get openExtensionsFolderButton() {
+    return $(SELECTORS.OPEN_EXTENSIONS_FOLDER_BUTTON);
   }
 
-  get extensionPlaceholderShortDescription() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS).$(
-      SELECTORS.EXTENSION_PLACEHOLDER_SHORT_DESCRIPTION
-    );
+  get settingsExtensions() {
+    return $(SELECTORS.SETTINGS_EXTENSIONS);
   }
 
   async clickOnEnableAutomatically() {

@@ -9,7 +9,7 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   SETTINGS_CONTROL: '[name="settings-control"]',
-  SETTINGS_CONTROL_CONTROLLER_VALUE: "//CheckBox",
+  SETTINGS_CONTROL_CHECKBOX: "[name=switch-slider-value]",
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "//Text[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
@@ -19,8 +19,7 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   SETTINGS_CONTROL: "~settings-control",
-  SETTINGS_CONTROL_CONTROLLER_VALUE:
-    "-ios class chain:**/XCUIElementTypeCheckBox",
+  SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -44,7 +43,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
 
   get callTimerControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[3].$(
-      SELECTORS.SETTINGS_CONTROL_CONTROLLER_VALUE
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
@@ -66,7 +65,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
 
   get interfaceSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      SELECTORS.SETTINGS_CONTROL_CONTROLLER_VALUE
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
@@ -88,7 +87,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
 
   get mediaSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
-      SELECTORS.SETTINGS_CONTROL_CONTROLLER_VALUE
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
@@ -110,7 +109,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
 
   get messageSoundsControllerValue() {
     return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
-      SELECTORS.SETTINGS_CONTROL_CONTROLLER_VALUE
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 

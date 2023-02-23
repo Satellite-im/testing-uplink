@@ -61,29 +61,28 @@ describe("Settings - Audio - Tests", async () => {
 
     // Click on the four switch sliders from the Settings Sounds & Audio Screen
     await SettingsAudioScreen.clickOnInterfaceSounds();
-
-    // Click twice on Media Sounds Switch Slider since it is enabled by default
     await SettingsAudioScreen.clickOnMediaSounds();
-    await SettingsAudioScreen.clickOnMediaSounds();
-
-    // Click twice on Message Sounds Switch Slider since it is enabled by default
-    await SettingsAudioScreen.clickOnMessageSounds();
     await SettingsAudioScreen.clickOnMessageSounds();
     await SettingsAudioScreen.clickOnCallTimer();
 
-    // Validate that toggle switches have now value = '1' (active)
-    await expect(
-      SettingsAudioScreen.interfaceSoundsControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "1");
-    await expect(
-      SettingsAudioScreen.mediaSoundsControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "1");
-    await expect(
-      SettingsAudioScreen.messageSoundsControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "1");
-    await expect(
-      SettingsAudioScreen.callTimerControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "1");
+    // Validate that all toggles have now value = "1" (enabled)
+    const interfaceSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await SettingsAudioScreen.interfaceSoundsControllerValue
+    );
+    const mediaSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await SettingsAudioScreen.mediaSoundsControllerValue
+    );
+    const messageSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await SettingsAudioScreen.messageSoundsControllerValue
+    );
+    const callTimerStatus = await SettingsAudioScreen.getToggleState(
+      await SettingsAudioScreen.callTimerControllerValue
+    );
+
+    expect(interfaceSoundsStatus).toEqual("1");
+    expect(mediaSoundsStatus).toEqual("1");
+    expect(messageSoundsStatus).toEqual("1");
+    expect(callTimerStatus).toEqual("1");
   });
 
   it("Settings Audio - Click on slider switches to disable the options", async () => {
@@ -93,18 +92,23 @@ describe("Settings - Audio - Tests", async () => {
     await SettingsAudioScreen.clickOnMessageSounds();
     await SettingsAudioScreen.clickOnCallTimer();
 
-    // Validate that toggle switches have now value = '0' (disabled)
-    await expect(
-      SettingsAudioScreen.interfaceSoundsControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "0");
-    await expect(
-      SettingsAudioScreen.mediaSoundsControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "0");
-    await expect(
-      SettingsAudioScreen.messageSoundsControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "0");
-    await expect(
-      SettingsAudioScreen.callTimerControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "0");
+    // Validate that all toggles have now value = "0" (disabled)
+    const interfaceSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await SettingsAudioScreen.interfaceSoundsControllerValue
+    );
+    const mediaSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await SettingsAudioScreen.mediaSoundsControllerValue
+    );
+    const messageSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await SettingsAudioScreen.messageSoundsControllerValue
+    );
+    const callTimerStatus = await SettingsAudioScreen.getToggleState(
+      await SettingsAudioScreen.callTimerControllerValue
+    );
+
+    expect(interfaceSoundsStatus).toEqual("0");
+    expect(mediaSoundsStatus).toEqual("0");
+    expect(messageSoundsStatus).toEqual("0");
+    expect(callTimerStatus).toEqual("0");
   });
 });

@@ -37,9 +37,11 @@ describe("Settings - Files - Tests", async () => {
     await SettingsFilesScreen.clickOnLocalSync();
 
     // Validate that switch has now value = '1' (active)
-    await expect(
+    const localSyncState = await SettingsFilesScreen.getToggleState(
       await SettingsFilesScreen.localSyncControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "1");
+    );
+
+    expect(localSyncState).toEqual("1");
   });
 
   it("Settings Files - Update LOCAL SYNC switch to disabled", async () => {
@@ -47,9 +49,11 @@ describe("Settings - Files - Tests", async () => {
     await SettingsFilesScreen.clickOnLocalSync();
 
     // Validate that switch has now value = '0' (disabled)
-    await expect(
+    const localSyncState = await SettingsFilesScreen.getToggleState(
       await SettingsFilesScreen.localSyncControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "0");
+    );
+
+    expect(localSyncState).toEqual("0");
   });
 
   // Test skipped for now because button does not perform any action

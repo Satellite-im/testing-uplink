@@ -81,34 +81,43 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
   }
 
   async goToAudioSettings() {
-    await (await this.audioButton).click();
+    await this.audioButton.click();
   }
 
   async goToDeveloperSettings() {
-    await (await this.developerButton).click();
+    await this.developerButton.click();
   }
 
   async goToExtensionsSettings() {
-    await (await this.extensionsButton).click();
+    await this.extensionsButton.click();
   }
 
   async goToFilesSettings() {
-    await (await this.filesSettingsButton).click();
+    await this.filesSettingsButton.click();
   }
 
   async goToGeneralSettings() {
-    await (await this.generalButton).click();
+    await this.generalButton.click();
   }
 
   async goToNotificationsSettings() {
-    await (await this.notificationsButton).click();
+    await this.notificationsButton.click();
   }
 
   async goToPrivacySettings() {
-    await (await this.privacyButton).click();
+    await this.privacyButton.click();
   }
 
   async goToProfileSettings() {
-    await (await this.profileButton).click();
+    await this.profileButton.click();
+  }
+
+  async getToggleState(element: WebdriverIO.Element) {
+    const currentDriver = await driver.capabilities.automationName;
+    if (currentDriver === "mac2") {
+      return await element.getAttribute("value");
+    } else if (currentDriver === "windows") {
+      return await element.getAttribute("Toggle.ToggleState");
+    }
   }
 }

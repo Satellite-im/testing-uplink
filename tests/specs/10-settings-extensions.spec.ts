@@ -29,10 +29,13 @@ describe("Settings - Extensions - Tests", async () => {
     // Click on Switch from Enable Automatically to activate it
     await SettingsExtensionsScreen.clickOnEnableAutomatically();
 
-    // Validate that switch from eEnable Automatically now has value = '1' (active)
-    await expect(
-      await SettingsExtensionsScreen.extensionPlaceholderControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "1");
+    // Validate that switch from Enable Automatically now has value = '1' (active)
+    const enableAutomaticallyState =
+      await SettingsExtensionsScreen.getToggleState(
+        await SettingsExtensionsScreen.enableAutomaticallyControllerValue
+      );
+
+    expect(enableAutomaticallyState).toEqual("1");
   });
 
   it("Settings Extensions - Deactivate the switch slider for Enable Automatically", async () => {
@@ -40,9 +43,12 @@ describe("Settings - Extensions - Tests", async () => {
     await SettingsExtensionsScreen.clickOnEnableAutomatically();
 
     // Validate that switch from Enable Automatically now has value = '0' (disabled)
-    await expect(
-      await SettingsExtensionsScreen.extensionPlaceholderControllerValue
-    ).toHaveAttrContaining("Toggle.ToggleState", "0");
+    const enableAutomaticallyState =
+      await SettingsExtensionsScreen.getToggleState(
+        await SettingsExtensionsScreen.enableAutomaticallyControllerValue
+      );
+
+    expect(enableAutomaticallyState).toEqual("0");
   });
 
   it("Settings Extensions - Open Extensions Folder", async () => {
