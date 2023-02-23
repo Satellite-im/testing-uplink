@@ -27,7 +27,6 @@ config.capabilities = [
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
-    "ms:waitForAppLaunch": 50,
   },
 ];
 
@@ -44,7 +43,7 @@ config.afterTest = async function (test, describe, { error }) {
   }
 };
 
-config.afterSession = async function (session) {
+config.onWorkerEnd = async function () {
   const target = homedir() + "/.uplink";
   rmSync(target, { recursive: true, force: true });
 };
