@@ -1,4 +1,4 @@
-name: UI Automated Tests on MacOS 🧪
+name: MacOS - Build App and Run UI Automated Tests 🧪
 
 on:
   pull_request:
