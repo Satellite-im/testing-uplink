@@ -104,6 +104,13 @@ jobs:
         working-directory: ./appium-tests
         run: npm run windows.ci
 
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          junit_files: "./test-report/*.xml"
+          check_name: "UI Automated Test Results on Windows"
+
       - name: Upload Screenshots if tests failed 📷
         uses: actions/upload-artifact@v3
         if: failure()
