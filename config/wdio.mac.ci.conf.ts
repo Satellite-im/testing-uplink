@@ -25,7 +25,7 @@ config.capabilities = [
     // @ts-ignore
     "appium:bundleId": "im.satellite.uplink",
     "appium:serverStartupTimeout": 240000,
-    "appium:systemPort": 10100,
+    "appium:systemPort": 4723,
   },
 ];
 

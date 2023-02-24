@@ -18,7 +18,7 @@ config.specs = [join(process.cwd(), "./tests/suites/01-UplinkTestSuite.ts")];
 config.capabilities = [
   {
     // The defaults you need to have in your config
-    "appium:platformName": "windows",
+    platformName: "windows",
     "appium:deviceName": "WindowsPC",
     // For W3C the appium capabilities need to have an extension prefix
     // http://appium.io/docs/en/writing-running-appium/caps/
