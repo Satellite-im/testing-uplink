@@ -1,7 +1,7 @@
-import SettingsDeveloperScreen from "../../screenobjects/SettingsDeveloperScreen";
-import SettingsNotificationsScreen from "../../screenobjects/SettingsNotificationsScreen";
+import SettingsDeveloperScreen from "../screenobjects/SettingsDeveloperScreen";
+import SettingsNotificationsScreen from "../screenobjects/SettingsNotificationsScreen";
 
-describe("Settings - Developer - Tests", async () => {
+export default async function settingsDeveloper() {
   it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
     await SettingsNotificationsScreen.goToDeveloperSettings();
@@ -145,4 +145,4 @@ describe("Settings - Developer - Tests", async () => {
   xit("Setings Developer - Clear Cache", async () => {
     await SettingsDeveloperScreen.clickOnClearCache();
   });
-});
+}

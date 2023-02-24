@@ -1,7 +1,7 @@
-import FriendsScreen from "../../screenobjects/FriendsScreen";
-import SettingsGeneralScreen from "../../screenobjects/SettingsGeneralScreen";
+import FriendsScreen from "../screenobjects/FriendsScreen";
+import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 
-describe("Settings - General - Tests", async () => {
+export default async function settingsGeneral() {
   it("Settings General - Validate header and description texts are correct", async () => {
     // Go to Settings Screen
     await FriendsScreen.goToSettings();
@@ -114,4 +114,4 @@ describe("Settings - General - Tests", async () => {
       "Enable the on screen Uplink overlay. This will show active call information, as well as allow you to add custom widgets to your screen."
     );
   });
-});
+}

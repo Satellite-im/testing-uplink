@@ -1,7 +1,7 @@
-import SettingsGeneralScreen from "../../screenobjects/SettingsGeneralScreen";
-import SettingsProfileScreen from "../../screenobjects/SettingsProfileScreen";
+import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
+import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
 
-describe("Settings - Profile - Tests", async () => {
+export default async function settingsProfile() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
     await SettingsGeneralScreen.goToProfileSettings();
@@ -170,4 +170,4 @@ describe("Settings - Profile - Tests", async () => {
 
   // Skipped since we need to implement visual testing to test this button since element is not part of the DOM structure on Appium
   xit("Settings Profile - Status delete button", async () => {});
-});
+}

@@ -1,7 +1,7 @@
-import FriendsScreen from "../../screenobjects/FriendsScreen";
-import WelcomeScreen from "../../screenobjects/WelcomeScreen";
+import FriendsScreen from "../screenobjects/FriendsScreen";
+import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
-describe("Chats Main Screen Tests", async () => {
+export default async function chats() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     await expect(await WelcomeScreen.prereleaseIndicator).toBeDisplayed();
     await expect(
@@ -25,21 +25,15 @@ describe("Chats Main Screen Tests", async () => {
   });
 
   it("Validate Welcome Screen is displayed", async () => {
-    const osDriver = await driver.capabilities.automationName;
     await expect(await WelcomeScreen.welcomeLayout).toBeDisplayed();
-
-    // Execute only on MacOS because Add Someone button is only displayed on MacOS
-    if (osDriver === "mac2") {
-      await expect(await WelcomeScreen.addFriendsButton).toBeDisplayed();
-      const locator = await (
-        await WelcomeScreen.welcomeLayout
-      ).$("~Add Someone");
-      await expect(locator).toHaveTextContaining("Add Someone");
-    }
+    await expect(await WelcomeScreen.addFriendsButton).toBeDisplayed();
+    await expect(await WelcomeScreen.addSomeoneText).toHaveTextContaining(
+      "Add Someone"
+    );
   });
 
   it("Click on add someone redirects to Friends Page", async () => {
     await WelcomeScreen.clickAddSomeone();
     await FriendsScreen.waitForIsShown(true);
   });
-});
+}

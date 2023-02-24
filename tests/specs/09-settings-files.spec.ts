@@ -1,7 +1,7 @@
-import SettingsFilesScreen from "../../screenobjects/SettingsFilesScreen";
-import SettingsAudioScreen from "../../screenobjects/SettingsAudioScreen";
+import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
+import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
 
-describe("Settings - Files - Tests", async () => {
+export default async function settingsFiles() {
   it("Settings Files - Assert screen texts", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
     await SettingsAudioScreen.goToFilesSettings();
@@ -54,4 +54,4 @@ describe("Settings - Files - Tests", async () => {
   xit("Settings Files - Click on Open Sync Folder button", async () => {
     await SettingsFilesScreen.clickOnOpenSyncFolder();
   });
-});
+}

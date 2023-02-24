@@ -1,7 +1,7 @@
-import SettingsExtensionsScreen from "../../screenobjects/SettingsExtensionsScreen";
-import SettingsFilesScreen from "../../screenobjects/SettingsFilesScreen";
+import SettingsExtensionsScreen from "../screenobjects/SettingsExtensionsScreen";
+import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
 
-describe("Settings - Extensions - Tests", async () => {
+export default async function settingsExtensions() {
   it("Settings Extensions - Validate texts from Extension Placeholder", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
     await SettingsFilesScreen.goToExtensionsSettings();
@@ -49,4 +49,4 @@ describe("Settings - Extensions - Tests", async () => {
   xit("Settings Extensions - Open Extensions Folder", async () => {
     await SettingsExtensionsScreen.clickOnOpenExtensionsFolder();
   });
-});
+}

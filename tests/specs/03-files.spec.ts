@@ -1,7 +1,7 @@
-import FilesScreen from "../../screenobjects/FilesScreen";
-import FriendsScreen from "../../screenobjects/FriendsScreen";
+import FilesScreen from "../screenobjects/FilesScreen";
+import FriendsScreen from "../screenobjects/FriendsScreen";
 
-describe("Files Screen Tests", async () => {
+export default async function files() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     // Go to Files Screen
     await FriendsScreen.goToFiles();
@@ -48,4 +48,4 @@ describe("Files Screen Tests", async () => {
     await expect(await FilesScreen.addFileButton).toBeDisplayed();
     await expect(await FilesScreen.uploadFileButton).toBeDisplayed();
   });
-});
+}

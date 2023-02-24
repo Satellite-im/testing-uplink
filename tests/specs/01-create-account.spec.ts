@@ -1,9 +1,9 @@
-import { maximizeWindow } from "../../helpers/commands";
-import CreatePinScreen from "../../screenobjects/CreatePinScreen";
-import CreateUserScreen from "../../screenobjects/CreateUserScreen";
-import WelcomeScreen from "../../screenobjects/WelcomeScreen";
+import { maximizeWindow } from "../helpers/commands";
+import CreatePinScreen from "../screenobjects/CreatePinScreen";
+import CreateUserScreen from "../screenobjects/CreateUserScreen";
+import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
-describe("Create Account Screen Tests", async () => {
+export default async function createAccount() {
   // Skipped since Prerelease indicator is no longer available
   xit("Validate Pre Release Indicator is displayed on Screen", async () => {
     // Create an account and go to Main Screen
@@ -156,4 +156,4 @@ describe("Create Account Screen Tests", async () => {
     await WelcomeScreen.waitForIsShown(true);
     await maximizeWindow();
   });
-});
+}

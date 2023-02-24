@@ -1,8 +1,8 @@
-import ChatScreen from "../../screenobjects/ChatScreen";
-import FilesScreen from "../../screenobjects/FilesScreen";
-import FriendsScreen from "../../screenobjects/FriendsScreen";
+import ChatScreen from "../screenobjects/ChatScreen";
+import FilesScreen from "../screenobjects/FilesScreen";
+import FriendsScreen from "../screenobjects/FriendsScreen";
 
-describe("Friends Screen Tests", async () => {
+export default async function friends() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     // Go to Friends Screen
     await FilesScreen.goToFriends();
@@ -407,4 +407,4 @@ describe("Friends Screen Tests", async () => {
     );
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
-});
+}
