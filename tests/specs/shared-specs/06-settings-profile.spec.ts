@@ -1,5 +1,5 @@
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import SettingsGeneralScreen from "../../screenobjects/SettingsGeneralScreen";
+import SettingsProfileScreen from "../../screenobjects/SettingsProfileScreen";
 
 describe("Settings - Profile - Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {

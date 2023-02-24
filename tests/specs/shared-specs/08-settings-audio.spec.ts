@@ -1,5 +1,5 @@
-import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
-import SettingsPrivacyScreen from "../screenobjects/SettingsPrivacyScreen";
+import SettingsAudioScreen from "../../screenobjects/SettingsAudioScreen";
+import SettingsPrivacyScreen from "../../screenobjects/SettingsPrivacyScreen";
 
 describe("Settings - Audio - Tests", async () => {
   it("Settings Audio - Assert screen texts", async () => {

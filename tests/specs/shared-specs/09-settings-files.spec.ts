@@ -1,5 +1,5 @@
-import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
-import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
+import SettingsFilesScreen from "../../screenobjects/SettingsFilesScreen";
+import SettingsAudioScreen from "../../screenobjects/SettingsAudioScreen";
 
 describe("Settings - Files - Tests", async () => {
   it("Settings Files - Assert screen texts", async () => {

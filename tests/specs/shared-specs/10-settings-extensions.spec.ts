@@ -1,5 +1,5 @@
-import SettingsExtensionsScreen from "../screenobjects/SettingsExtensionsScreen";
-import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
+import SettingsExtensionsScreen from "../../screenobjects/SettingsExtensionsScreen";
+import SettingsFilesScreen from "../../screenobjects/SettingsFilesScreen";
 
 describe("Settings - Extensions - Tests", async () => {
   it("Settings Extensions - Validate texts from Extension Placeholder", async () => {

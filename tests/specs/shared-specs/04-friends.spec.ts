@@ -1,6 +1,6 @@
-import ChatScreen from "../screenobjects/ChatScreen";
-import FilesScreen from "../screenobjects/FilesScreen";
-import FriendsScreen from "../screenobjects/FriendsScreen";
+import ChatScreen from "../../screenobjects/ChatScreen";
+import FilesScreen from "../../screenobjects/FilesScreen";
+import FriendsScreen from "../../screenobjects/FriendsScreen";
 
 describe("Friends Screen Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {

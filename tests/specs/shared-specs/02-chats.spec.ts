@@ -1,5 +1,5 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import FriendsScreen from "../../screenobjects/FriendsScreen";
+import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
 describe("Chats Main Screen Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
@@ -39,14 +39,7 @@ describe("Chats Main Screen Tests", async () => {
   });
 
   it("Click on add someone redirects to Friends Page", async () => {
-    const osDriver = await driver.capabilities.automationName;
-
-    // Execute only on MacOS because Add Someone button is only displayed on MacOS
-    if (osDriver === "mac2") {
-      await WelcomeScreen.clickAddSomeone();
-      await FriendsScreen.waitForIsShown(true);
-    } else if (osDriver === "windows") {
-      await WelcomeScreen.goToFriends();
-    }
+    await WelcomeScreen.clickAddSomeone();
+    await FriendsScreen.waitForIsShown(true);
   });
 });

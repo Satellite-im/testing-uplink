@@ -1,5 +1,5 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
+import FriendsScreen from "../../screenobjects/FriendsScreen";
+import SettingsGeneralScreen from "../../screenobjects/SettingsGeneralScreen";
 
 describe("Settings - General - Tests", async () => {
   it("Settings General - Validate header and description texts are correct", async () => {

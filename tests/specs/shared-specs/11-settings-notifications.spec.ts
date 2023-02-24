@@ -1,5 +1,5 @@
-import SettingsNotificationsScreen from "../screenobjects/SettingsNotificationsScreen";
-import SettingsExtensionsScreen from "../screenobjects/SettingsExtensionsScreen";
+import SettingsNotificationsScreen from "../../screenobjects/SettingsNotificationsScreen";
+import SettingsExtensionsScreen from "../../screenobjects/SettingsExtensionsScreen";
 
 describe("Settings - Notifications - Tests", async () => {
   it("Settings - Notifications - Go To Notifications Settings", async () => {

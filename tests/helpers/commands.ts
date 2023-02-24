@@ -138,7 +138,7 @@ export async function loginWithTestUser() {
 export async function maximizeWindow() {
   const currentOS = await driver.capabilities.automationName;
   if (currentOS === "windows") {
-    await $("/Window/TitleBar/Button[2]").click();
+    await $("//Document/Group/Button[2]").click();
   } else if (currentOS === "mac2") {
     await $("~_XCUI:FullScreenWindow").click();
   }

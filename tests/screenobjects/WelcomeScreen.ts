@@ -3,16 +3,16 @@ import UplinkMainScreen from "./UplinkMainScreen";
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
-const SELECTORS_COMMON = {
-  ADD_FRIENDS_BUTTON: "~add-friends-button",
-};
+const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
-  WELCOME_LAYOUT: "~chat-layout",
+  WELCOME_LAYOUT: '[name="welcome-screen"]',
+  ADD_FRIENDS_BUTTON: '[name="add-friends-button"]',
 };
 
 const SELECTORS_MACOS = {
   WELCOME_LAYOUT: "~welcome-screen",
+  ADD_FRIENDS_BUTTON: "~add-friends-button",
 };
 
 currentOS === "windows"

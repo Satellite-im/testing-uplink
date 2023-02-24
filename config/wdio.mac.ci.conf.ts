@@ -7,7 +7,7 @@ import { join } from "path";
 // ============
 // Specs
 // ============
-config.specs = [join(process.cwd(), "./tests/specs/**/*.spec.ts")];
+config.specs = [join(process.cwd(), "./tests/specs/**/shared-specs/*.spec.ts")];
 
 // ============
 // Capabilities
@@ -25,7 +25,6 @@ config.capabilities = [
     // @ts-ignore
     "appium:bundleId": "im.satellite.uplink",
     "appium:serverStartupTimeout": 240000,
-    "appium:noReset": true,
   },
 ];
 
