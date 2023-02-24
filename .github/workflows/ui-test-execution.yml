@@ -110,6 +110,13 @@ jobs:
       - name: Run WebdriverIO tests on MacOS 🧪
         run: npm run mac.ci
 
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          junit_files: ""./test-report/*.xml"
+          check_name: "UI Automated Test Results on MacOS"
+
       - name: Upload Screenshots if tests failed 📷
         uses: actions/upload-artifact@v3
         if: failure()
@@ -137,22 +144,3 @@ jobs:
           name: junit-results
           path: ./test-report/*.xml
 
-  publish:
-    if: ${{ always() }}
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
-
-      - name: Download JUnit results 🗳️
-        uses: actions/download-artifact@v3
-        with:
-          name: junit-results
-          path: ./junit-results
-
-      - name: Publish Test Results 📢
-        uses: EnricoMi/publish-unit-test-result-action@v2
-        with:
-          junit_files: "junit-results/*.xml"
-          check_name: "UI Automated Test Results on MacOS"
