@@ -1,9 +1,7 @@
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
-const { rmSync } = require("fs");
 
 import config from "./wdio.shared.mac.appium.conf";
-import { homedir } from "os";
 import { join } from "path";
 
 // ============
@@ -27,6 +25,7 @@ config.capabilities = [
     // @ts-ignore
     "appium:bundleId": "im.satellite.uplink",
     "appium:serverStartupTimeout": 240000,
+    "appium:noReset": true,
   },
 ];
 
@@ -41,11 +40,6 @@ config.afterTest = async function (test, describe, { error }) {
       "base64"
     );
   }
-};
-
-config.afterSession = async function (session) {
-  const target = homedir() + "/.uplink";
-  rmSync(target, { recursive: true, force: true });
 };
 
 exports.config = config;

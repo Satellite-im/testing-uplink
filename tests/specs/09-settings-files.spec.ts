@@ -1,16 +1,10 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
-import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
+import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
 
 describe("Settings - Files - Tests", async () => {
   it("Settings Files - Assert screen texts", async () => {
-    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
-    await loginWithRandomUser();
-    await showMainMenu();
-    await FriendsScreen.goToSettings();
-    await SettingsGeneralScreen.waitForIsShown(true);
-    await SettingsGeneralScreen.goToFilesSettings();
+    // Go to Settings Screen and finally select the Settings Screen to validate
+    await SettingsAudioScreen.goToFilesSettings();
     await SettingsFilesScreen.waitForIsShown(true);
 
     // Validate LOCAL SYNC settings section texts

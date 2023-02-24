@@ -1,16 +1,10 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
-import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
+import SettingsPrivacyScreen from "../screenobjects/SettingsPrivacyScreen";
 
 describe("Settings - Audio - Tests", async () => {
   it("Settings Audio - Assert screen texts", async () => {
-    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
-    await loginWithRandomUser();
-    await showMainMenu();
-    await FriendsScreen.goToSettings();
-    await SettingsGeneralScreen.waitForIsShown(true);
-    await SettingsGeneralScreen.goToAudioSettings();
+    // Go to Settings Screen and finally select the Settings Screen to validate
+    await SettingsPrivacyScreen.goToAudioSettings();
     await SettingsAudioScreen.waitForIsShown(true);
 
     // Validate texts for Interface Sounds Settings Section

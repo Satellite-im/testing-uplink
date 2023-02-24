@@ -1,16 +1,10 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsExtensionsScreen from "../screenobjects/SettingsExtensionsScreen";
-import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
+import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
 
 describe("Settings - Extensions - Tests", async () => {
   it("Settings Extensions - Validate texts from Extension Placeholder", async () => {
-    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
-    await loginWithRandomUser();
-    await showMainMenu();
-    await FriendsScreen.goToSettings();
-    await SettingsGeneralScreen.waitForIsShown(true);
-    await SettingsGeneralScreen.goToExtensionsSettings();
+    // Go to Settings Screen and finally select the Settings Screen to validate
+    await SettingsFilesScreen.goToExtensionsSettings();
     await SettingsExtensionsScreen.waitForIsShown(true);
 
     // Start validations

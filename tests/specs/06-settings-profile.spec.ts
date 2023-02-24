@@ -1,15 +1,9 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
 import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
-import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Settings - Profile - Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
-    await loginWithRandomUser();
-    await showMainMenu();
-    await FriendsScreen.goToSettings();
-    await SettingsGeneralScreen.waitForIsShown(true);
+    // Go to Settings Screen and finally select the Settings Screen to validate
     await SettingsGeneralScreen.goToProfileSettings();
     await SettingsProfileScreen.waitForIsShown(true);
 

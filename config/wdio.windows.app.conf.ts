@@ -1,11 +1,9 @@
 import config from "./wdio.shared.windows.appium.conf";
-import { homedir } from "os";
 import { join } from "path";
 
 
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
-const { rmSync } = require("fs");
 
 // ============
 // Specs
@@ -27,6 +25,7 @@ config.capabilities = [
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
+    "appium:noReset": true,
   },
 ];
 

@@ -1,12 +1,8 @@
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
-import { loginWithRandomUser } from "../helpers/commands";
 
 describe("Chats Main Screen Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    //Login with random user before starting the test
-    await loginWithRandomUser();
-
     await expect(await WelcomeScreen.prereleaseIndicator).toBeDisplayed();
     await expect(
       await WelcomeScreen.prereleaseIndicatorText
@@ -49,6 +45,8 @@ describe("Chats Main Screen Tests", async () => {
     if (osDriver === "mac2") {
       await WelcomeScreen.clickAddSomeone();
       await FriendsScreen.waitForIsShown(true);
+    } else if (osDriver === "windows") {
+      await WelcomeScreen.goToFriends();
     }
   });
 });

@@ -1,3 +1,4 @@
+import { maximizeWindow } from "../helpers/commands";
 import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
@@ -153,5 +154,6 @@ describe("Create Account Screen Tests", async () => {
     );
     await CreateUserScreen.clickOnCreateAccount();
     await WelcomeScreen.waitForIsShown(true);
+    await maximizeWindow();
   });
 });

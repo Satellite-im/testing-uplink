@@ -1,12 +1,9 @@
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
-import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
 describe("Settings - General - Tests", async () => {
   it("Settings General - Validate header and description texts are correct", async () => {
-    // Login with a random user, show main menu and go to Settings Screen
-    await loginWithRandomUser();
-    await showMainMenu();
+    // Go to Settings Screen
     await FriendsScreen.goToSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
 

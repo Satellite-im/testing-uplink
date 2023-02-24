@@ -1,16 +1,10 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsDeveloperScreen from "../screenobjects/SettingsDeveloperScreen";
-import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
+import SettingsNotificationsScreen from "../screenobjects/SettingsNotificationsScreen";
 
 describe("Settings - Developer - Tests", async () => {
   it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {
-    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
-    await loginWithRandomUser();
-    await showMainMenu();
-    await FriendsScreen.goToSettings();
-    await SettingsGeneralScreen.waitForIsShown(true);
-    await SettingsGeneralScreen.goToDeveloperSettings();
+    // Go to Settings Screen and finally select the Settings Screen to validate
+    await SettingsNotificationsScreen.goToDeveloperSettings();
     await SettingsDeveloperScreen.waitForIsShown(true);
 
     // Validate DEVELOPER MODE section
