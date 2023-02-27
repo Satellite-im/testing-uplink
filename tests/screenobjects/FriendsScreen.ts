@@ -1,6 +1,44 @@
 import UplinkMainScreen from "./UplinkMainScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+const { exec, execSync } = require("child_process");
+
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {
+  FRIENDS_LAYOUT: "~friends-layout",
+};
+
+const SELECTORS_WINDOWS = {
+  ACCEPT_FRIEND_REQUEST_BUTTON: '[name="Accept Friend"]',
+  ADD_SOMEONE_BUTTON: '[name="Add Someone Button"]',
+  ADD_SOMEONE_INPUT: '[name="Add Someone Input"]',
+  ALL_FRIENDS_BUTTON: '[name="all-friends-button"]',
+  BLOCK_FRIEND_BUTTON: '[name="Block Friend"]',
+  BLOCKED_FRIENDS_BUTTON: '[name="blocked-friends-button"]',
+  BLOCKED_LIST: '[name="Blocked List"]',
+  CHAT_WITH_FRIEND_BUTTON: '[name="Chat With Friend"]',
+  CONTEXT_MENU: '[name="Context Menu"]',
+  CONTEXT_MENU_OPTION: '[name="Context Item"]',
+  COPY_ID_BUTTON: '[name="Copy ID"]',
+  FAVORITES: '[name="Favorites"]',
+  FAVORITES_USER_IMAGE: '[name="User Image"]',
+  FRIEND_INFO: '[name="Friend Info"]',
+  FRIEND_RECORD: '[name="Friend"]',
+  FRIENDS_BODY: '[name="friends-body"]',
+  FRIENDS_CONTROLS: '[name="friends-controls"]',
+  FRIENDS_LIST: '[name="Friends List"]',
+  INCOMING_REQUESTS_LIST: '[name="Incoming Requests List"]',
+  INPUT_ERROR: '[name="input-error"]',
+  OUTGOING_REQUESTS_LIST: '[name="Outgoing Requests List"]',
+  PENDING_FRIENDS_BUTTON: '[name="pending-friends-button"]',
+  REMOVE_OR_DENY_FRIEND_BUTTON: '[name="Remove or Deny Friend"]',
+  TOAST_NOTIFICATION: '[name="Toast Notification"]',
+  TOAST_NOTIFICATION_CLOSE: "//Button/Button",
+  TOAST_NOTIFICATION_TEXT: "//Text[2]",
+};
+
+const SELECTORS_MACOS = {
   ACCEPT_FRIEND_REQUEST_BUTTON: "~Accept Friend",
   ADD_SOMEONE_BUTTON: "~Add Someone Button",
   ADD_SOMEONE_INPUT: "~Add Someone Input",
@@ -11,14 +49,13 @@ const SELECTORS = {
   CHAT_WITH_FRIEND_BUTTON: "~Chat With Friend",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_OPTION: "~Context Item",
-  COPY_ID_BUTTON: '//*[@label="friends-body"]/*[5]',
+  COPY_ID_BUTTON: "~Copy ID",
   FAVORITES: "~Favorites",
   FAVORITES_USER_IMAGE: "~User Image",
   FRIEND_INFO: "~Friend Info",
   FRIEND_RECORD: "~Friend",
   FRIENDS_BODY: "~friends-body",
   FRIENDS_CONTROLS: "~friends-controls",
-  FRIENDS_LAYOUT: "~friends-layout",
   FRIENDS_LIST: "~Friends List",
   INCOMING_REQUESTS_LIST: "~Incoming Requests List",
   INPUT_ERROR: "~input-error",
@@ -26,7 +63,13 @@ const SELECTORS = {
   PENDING_FRIENDS_BUTTON: "~pending-friends-button",
   REMOVE_OR_DENY_FRIEND_BUTTON: "~Remove or Deny Friend",
   TOAST_NOTIFICATION: "~Toast Notification",
+  TOAST_NOTIFICATION_CLOSE: "//*[3]",
+  TOAST_NOTIFICATION_TEXT: "//*[2]/*[1]",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class FriendsScreen extends UplinkMainScreen {
   constructor() {
@@ -74,7 +117,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   get copyIdButton() {
-    return $(SELECTORS.COPY_ID_BUTTON);
+    return $(SELECTORS.FRIENDS_BODY).$(SELECTORS.COPY_ID_BUTTON);
   }
 
   get favorites() {
@@ -133,6 +176,14 @@ class FriendsScreen extends UplinkMainScreen {
     return $(SELECTORS.TOAST_NOTIFICATION);
   }
 
+  get toastNotificationClose() {
+    return $(SELECTORS.TOAST_NOTIFICATION).$(SELECTORS.TOAST_NOTIFICATION_TEXT);
+  }
+
+  get toastNotificationText() {
+    return $(SELECTORS.TOAST_NOTIFICATION).$(SELECTORS.TOAST_NOTIFICATION_TEXT);
+  }
+
   async acceptIncomingRequest(name: string) {
     const friend = await driver.findElement(
       "xpath",
@@ -181,8 +232,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async closeToastNotification() {
-    const closeButton = await $("~Toast Notification").$("//*[3]");
-    await closeButton.click();
+    await this.toastNotificationClose.click();
   }
 
   async deleteAddFriendInput() {
@@ -191,6 +241,24 @@ class FriendsScreen extends UplinkMainScreen {
 
   async enterFriendDidKey(didkey: string) {
     await this.addSomeoneInput.setValue(didkey);
+  }
+
+  async enterCopiedID() {
+    let copiedKey;
+    if ((await this.getCurrentDriver()) === "mac2") {
+      copiedKey = await execSync("pbpaste", { encoding: "utf8" });
+      this.enterFriendDidKey(copiedKey);
+    } else if ((await this.getCurrentDriver()) === "windows") {
+      const powershellCmd = "powershell.exe Get-Clipboard";
+      exec(powershellCmd, (error, stdout, stderr) => {
+        if (error) {
+          console.error(`exec error: ${error}`);
+          return;
+        }
+        copiedKey = stdout.trim();
+        this.enterFriendDidKey(copiedKey);
+      });
+    }
   }
 
   async getEntireFriendsList(list: string) {
@@ -206,8 +274,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getToastNotificationText() {
-    const textNotification = await $("~Toast Notification").$("//*[2]/*[1]");
-    return textNotification.getText();
+    return await this.toastNotificationClose.getText();
   }
 
   async getUserFromFriendsList(list: string) {

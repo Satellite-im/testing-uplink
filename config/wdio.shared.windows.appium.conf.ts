@@ -26,6 +26,6 @@ config.services = (config.services ? config.services : []).concat([
 // Server Configurations
 // =====================
 //
-config.port = 4723;
+config.port = 4724;
 
 export default config;

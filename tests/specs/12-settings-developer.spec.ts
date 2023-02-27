@@ -1,16 +1,10 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsDeveloperScreen from "../screenobjects/SettingsDeveloperScreen";
-import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
+import SettingsNotificationsScreen from "../screenobjects/SettingsNotificationsScreen";
 
-describe("Settings - Developer - Tests", async () => {
+export default async function settingsDeveloper() {
   it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {
-    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
-    await loginWithRandomUser();
-    await showMainMenu();
-    await FriendsScreen.goToSettings();
-    await SettingsGeneralScreen.waitForIsShown(true);
-    await SettingsGeneralScreen.goToDeveloperSettings();
+    // Go to Settings Screen and finally select the Settings Screen to validate
+    await SettingsNotificationsScreen.goToDeveloperSettings();
     await SettingsDeveloperScreen.waitForIsShown(true);
 
     // Validate DEVELOPER MODE section
@@ -84,7 +78,7 @@ describe("Settings - Developer - Tests", async () => {
     );
   });
 
-  // Needs rework to add scroll down step to the Save Logs button
+  // Failing on MacOS because the click is not switching in the correct element position, needs research
   xit("Settings Developer - Enable Developer Mode and Save Logs switches", async () => {
     // Click on DEVELOPER MODE and SAVE LOGS IN FILE switches to activate the options
     await SettingsDeveloperScreen.clickOnDeveloperMode();
@@ -92,27 +86,33 @@ describe("Settings - Developer - Tests", async () => {
     await SettingsDeveloperScreen.clickOnSaveLogs();
 
     // Validate that switches have now value = '1' (active)
-    await expect(
+    const developerModeStatus = await SettingsDeveloperScreen.getToggleState(
       await SettingsDeveloperScreen.developerModeControllerValue
-    ).toHaveAttrContaining("value", "1");
-    await expect(
+    );
+    const saveLogsStatus = await SettingsDeveloperScreen.getToggleState(
       await SettingsDeveloperScreen.saveLogsControllerValue
-    ).toHaveAttrContaining("value", "1");
+    );
+
+    expect(developerModeStatus).toEqual("1");
+    expect(saveLogsStatus).toEqual("1");
   });
 
-  // Needs rework to add scroll down step to the Save Logs button
+  // Failing on MacOS because the click is not switching in the correct element position, needs research
   xit("Settings Developer - Disable Developer Mode and Save Logs switches", async () => {
     // Click on DEVELOPER MODE and SAVE LOGS IN FILE switches to disable the options
     await SettingsDeveloperScreen.clickOnDeveloperMode();
     await SettingsDeveloperScreen.clickOnSaveLogs();
 
     // Validate that switches have now value = '0' (disabled)
-    await expect(
+    const developerModeStatus = await SettingsDeveloperScreen.getToggleState(
       await SettingsDeveloperScreen.developerModeControllerValue
-    ).toHaveAttrContaining("value", "0");
-    await expect(
+    );
+    const saveLogsStatus = await SettingsDeveloperScreen.getToggleState(
       await SettingsDeveloperScreen.saveLogsControllerValue
-    ).toHaveAttrContaining("value", "0");
+    );
+
+    expect(developerModeStatus).toEqual("0");
+    expect(saveLogsStatus).toEqual("0");
   });
 
   it("Settings Developer - Open codebase button", async () => {
@@ -145,4 +145,4 @@ describe("Settings - Developer - Tests", async () => {
   xit("Setings Developer - Clear Cache", async () => {
     await SettingsDeveloperScreen.clickOnClearCache();
   });
-});
+}

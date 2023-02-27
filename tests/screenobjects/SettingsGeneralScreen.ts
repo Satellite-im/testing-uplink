@@ -1,12 +1,32 @@
+import { clickOnSwitchMacOS } from "../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {
+  SETTINGS_GENERAL: "~settings-general",
+};
+
+const SELECTORS_WINDOWS = {
+  CLEAR_THEME_BUTTON: '[name="clear-theme-button"]',
+  DROPDOWN_MENU: "//ComboBox",
+  DROPDOWN_OPTION: '[name="Selector Option"]',
+  SETTINGS_CONTROL: '[name="settings-control"]',
+  SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
+  SETTINGS_INFO: '[name="settings-info"]',
+  SETTINGS_INFO_DESCRIPTION: "//Text[2]",
+  SETTINGS_INFO_HEADER: "//Text[1]/Text",
+  SETTINGS_SECTION: '[name="settings-section"]',
+  SWITCH_SLIDER: '[name="Switch Slider"]',
+};
+
+const SELECTORS_MACOS = {
   CLEAR_THEME_BUTTON: "~clear-theme-button",
   DROPDOWN_MENU: "~Selector",
   DROPDOWN_OPTION: "~Selector Option",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
-  SETTINGS_GENERAL: "~settings-general",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -14,6 +34,10 @@ const SELECTORS = {
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class SettingsGeneralScreen extends SettingsBaseScreen {
   constructor() {
@@ -125,7 +149,11 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   async clickOnSplashScreen() {
-    await this.splashScreenCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.splashScreenCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.splashScreenCheckbox);
+    }
   }
 
   async clickOnThemeDropdown() {
@@ -133,19 +161,31 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   async clickOnUplinkOverlay() {
-    await this.uplinkOverlayCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.uplinkOverlayCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.uplinkOverlayCheckbox);
+    }
   }
 
   async selectAppLanguage(language: string) {
-    await $$("-ios class chain:**/XCUIElementTypePopUpButton")[1].addValue(
-      language + "\n"
-    );
+    if ((await this.getCurrentDriver()) === "mac2") {
+      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[1].addValue(
+        language + "\n"
+      );
+    } else if ((await this.getCurrentDriver()) === "windows") {
+      await $$('[name="settings-control"]')[1].addValue(language + "\n");
+    }
   }
 
   async selectTheme(theme: string) {
-    await $$("-ios class chain:**/XCUIElementTypePopUpButton")[0].addValue(
-      theme + "\n"
-    );
+    if ((await this.getCurrentDriver()) === "mac2") {
+      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[0].addValue(
+        theme + "\n"
+      );
+    } else if ((await this.getCurrentDriver()) === "windows") {
+      await $$('[name="settings-control"]')[0].addValue(theme + "\n");
+    }
   }
 }
 

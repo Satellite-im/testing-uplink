@@ -67,8 +67,6 @@ jobs:
   test-on-windows:
     needs: build-windows
     runs-on: windows-latest
-    #  group: Default Larger Runners
-    #  labels: windows-latest-8-cores
 
     steps:
       - name: Checkout testing directory 🔖
@@ -97,6 +95,7 @@ jobs:
           appium -v
           appium driver install --source=npm appium-windows-driver
           appium driver list
+          appium &>/dev/null &
 
       - name: Delete cache folder before starting
         run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
@@ -105,6 +104,13 @@ jobs:
       - name: Run WebdriverIO tests on MacOS 🧪
         working-directory: ./appium-tests
         run: npm run windows.ci
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          junit_files: "./test-report/*.xml"
+          check_name: "UI Automated Test Results on Windows"
 
       - name: Upload Screenshots if tests failed 📷
         uses: actions/upload-artifact@v3

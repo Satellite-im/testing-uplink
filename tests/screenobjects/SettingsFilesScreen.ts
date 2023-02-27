@@ -1,10 +1,28 @@
+import { clickOnSwitchMacOS } from "../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {
+  SETTINGS_FILES: "~settings-files",
+};
+
+const SELECTORS_WINDOWS = {
+  OPEN_SYNC_FOLDER_BUTTON: '[name="open-sync-folder-button"]',
+  SETTINGS_CONTROL: '[name="settings-control"]',
+  SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
+  SETTINGS_INFO: '[name="settings-info"]',
+  SETTINGS_INFO_DESCRIPTION: "//Text[2]",
+  SETTINGS_INFO_HEADER: "//Text[1]/Text",
+  SETTINGS_SECTION: '[name="settings-section"]',
+  SWITCH_SLIDER: '[name="Switch Slider"]',
+};
+
+const SELECTORS_MACOS = {
   OPEN_SYNC_FOLDER_BUTTON: "~open-sync-folder-button",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
-  SETTINGS_FILES: "~settings-files",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -12,6 +30,10 @@ const SELECTORS = {
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class SettingsFilesScreen extends SettingsBaseScreen {
   constructor() {
@@ -61,7 +83,11 @@ class SettingsFilesScreen extends SettingsBaseScreen {
   }
 
   async clickOnLocalSync() {
-    await this.localSyncCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.localSyncCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.localSyncCheckbox);
+    }
   }
 
   async clickOnOpenSyncFolder() {

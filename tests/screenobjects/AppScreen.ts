@@ -15,4 +15,8 @@ export default class AppScreen {
       reverse: !isShown,
     });
   }
+
+  async getCurrentDriver() {
+    return await driver.capabilities.automationName;
+  }
 }

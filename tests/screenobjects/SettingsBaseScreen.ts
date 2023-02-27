@@ -1,6 +1,25 @@
 import UplinkMainScreen from "./UplinkMainScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {
+  SETTINGS_LAYOUT: "~settings-layout",
+};
+
+const SELECTORS_WINDOWS = {
+  AUDIO_BUTTON: "//Group/Group/Button[4]",
+  DEVELOPER_BUTTON: '[name="developer-button"]',
+  EXTENSIONS_BUTTTON: '[name="extensions-button"]',
+  FILES_BUTTON: '[name="files-button"]',
+  GENERAL_BUTTON: '[name="general-button"]',
+  NOTIFICATIONS_BUTTON: '[name="notifications-button"]',
+  PRIVACY_BUTTON: '[name="privacy-button"]',
+  PROFILE_BUTTON: '[name="profile-button"]',
+  SETTINGS_SEARCH_INPUT: '[name="settings-search-input"]',
+};
+
+const SELECTORS_MACOS = {
   AUDIO_BUTTON: "~sounds & audio-button",
   DEVELOPER_BUTTON: "~developer-button",
   EXTENSIONS_BUTTTON: "~extensions-button",
@@ -9,9 +28,12 @@ const SELECTORS = {
   NOTIFICATIONS_BUTTON: "~notifications-button",
   PRIVACY_BUTTON: "~privacy-button",
   PROFILE_BUTTON: "~profile-button",
-  SETTINGS_LAYOUT: "~settings-layout",
   SETTINGS_SEARCH_INPUT: "~settings-search-input",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsBaseScreen extends UplinkMainScreen {
   constructor() {
@@ -59,34 +81,42 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
   }
 
   async goToAudioSettings() {
-    await (await this.audioButton).click();
+    await this.audioButton.click();
   }
 
   async goToDeveloperSettings() {
-    await (await this.developerButton).click();
+    await this.developerButton.click();
   }
 
   async goToExtensionsSettings() {
-    await (await this.extensionsButton).click();
+    await this.extensionsButton.click();
   }
 
   async goToFilesSettings() {
-    await (await this.filesSettingsButton).click();
+    await this.filesSettingsButton.click();
   }
 
   async goToGeneralSettings() {
-    await (await this.generalButton).click();
+    await this.generalButton.click();
   }
 
   async goToNotificationsSettings() {
-    await (await this.notificationsButton).click();
+    await this.notificationsButton.click();
   }
 
   async goToPrivacySettings() {
-    await (await this.privacyButton).click();
+    await this.privacyButton.click();
   }
 
   async goToProfileSettings() {
-    await (await this.profileButton).click();
+    await this.profileButton.click();
+  }
+
+  async getToggleState(element: WebdriverIO.Element) {
+    if ((await this.getCurrentDriver()) === "mac2") {
+      return await element.getAttribute("value");
+    } else if ((await this.getCurrentDriver()) === "windows") {
+      return await element.getAttribute("Toggle.ToggleState");
+    }
   }
 }

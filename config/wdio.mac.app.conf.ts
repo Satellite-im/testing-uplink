@@ -1,15 +1,13 @@
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
-const { rmSync } = require("fs");
 
 import config from "./wdio.shared.mac.appium.conf";
-import { homedir } from "os";
 import { join } from "path";
 
 // ============
 // Specs
 // ============
-config.specs = [join(process.cwd(), "./tests/specs/**/*.spec.ts")];
+config.specs = [join(process.cwd(), "./tests/suites/01-UplinkTestSuite.ts")];
 
 // ============
 // Capabilities
@@ -41,11 +39,6 @@ config.afterTest = async function (test, describe, { error }) {
       "base64"
     );
   }
-};
-
-config.afterSession = async function (session) {
-  const target = homedir() + "/.uplink";
-  rmSync(target, { recursive: true, force: true });
 };
 
 exports.config = config;

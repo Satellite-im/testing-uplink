@@ -5,22 +5,22 @@ let SELECTORS = {};
 
 const SELECTORS_COMMON = {
   PRE_RELEASE_INDICATOR: "~pre-release",
-  TOAST_NOTIFICATION: "~Toast Notification",
 };
 
 const SELECTORS_WINDOWS = {
   BUTTON_BADGE: '[name="Button Badge"]',
   BUTTON_NAV: '[name="button-nav"]',
   CHAT_SEARCH_INPUT: '[name="chat-search-input"]',
-  CHATS_BUTTON: '[name="chat-button"]',
+  CHATS_BUTTON: '[name="chats-button"]',
   FILES_BUTTON: '[name="files-button"]',
   FRIENDS_BUTTON: '[name="friends-button"]',
   PRE_RELEASE_INDICATOR_TEXT: "//*[2]",
-  SETTINGS_BUTTON: '[name=settings-button"]',
+  SETTINGS_BUTTON: '[name="settings-button"]',
   SIDEBAR: '[name="sidebar"]',
-  SIDEBAR_CHILDREN: "~chats",
+  SIDEBAR_CHILDREN: '[name="sidebar-children"]',
   SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SKELETAL_USER: '[name="skeletal-user"]',
+  TOAST_NOTIFICATION: '[name="Toast Notification"]',
   WINDOW: "~main",
 };
 
@@ -37,6 +37,7 @@ const SELECTORS_MACOS = {
   SIDEBAR_CHILDREN: "~sidebar-children",
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
+  TOAST_NOTIFICATION: "~Toast Notification",
   WINDOW: "-ios class chain:**/XCUIElementTypeWindow",
 };
 

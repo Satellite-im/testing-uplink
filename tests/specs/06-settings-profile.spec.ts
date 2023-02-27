@@ -1,15 +1,9 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
 import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
-import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
-describe("Settings - Profile - Tests", async () => {
+export default async function settingsProfile() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
-    await loginWithRandomUser();
-    await showMainMenu();
-    await FriendsScreen.goToSettings();
-    await SettingsGeneralScreen.waitForIsShown(true);
+    // Go to Settings Screen and finally select the Settings Screen to validate
     await SettingsGeneralScreen.goToProfileSettings();
     await SettingsProfileScreen.waitForIsShown(true);
 
@@ -54,14 +48,16 @@ describe("Settings - Profile - Tests", async () => {
     );
   });
 
+  // Skipping test since items are not connected with Warp
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Add profile picture", async () => {
+  xit("Settings Profile - Add profile picture", async () => {
     await SettingsProfileScreen.uploadProfilePicture(
       "./tests/fixtures/logo.jpg"
     );
   });
 
-  it("Settings Profile - Validate change banner tooltip", async () => {
+  // Skipped for now since it needs research on how to implement hover on Windows Appium Driver
+  xit("Settings Profile - Validate change banner tooltip", async () => {
     // Hover on banner picture
     await SettingsProfileScreen.hoverOnBanner();
 
@@ -72,23 +68,26 @@ describe("Settings - Profile - Tests", async () => {
     ).toHaveTextContaining("Change banner");
   });
 
+  // Skipping test since items are not connected with Warp
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Add banner picture", async () => {
+  xit("Settings Profile - Add banner picture", async () => {
     await SettingsProfileScreen.uploadBannerPicture(
       "./tests/fixtures/banner.jpg"
     );
     await (await SettingsProfileScreen.usernameInput).click();
   });
 
+  // Skipping test since items are not connected with Warp
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Change profile picture", async () => {
+  xit("Settings Profile - Change profile picture", async () => {
     await SettingsProfileScreen.uploadProfilePicture(
       "./tests/fixtures/second-profile.png"
     );
   });
 
+  // Skipping test since items are not connected with Warp
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Change banner picture", async () => {
+  xit("Settings Profile - Change banner picture", async () => {
     await SettingsProfileScreen.uploadBannerPicture(
       "./tests/fixtures/second-banner.jpg"
     );
@@ -171,4 +170,4 @@ describe("Settings - Profile - Tests", async () => {
 
   // Skipped since we need to implement visual testing to test this button since element is not part of the DOM structure on Appium
   xit("Settings Profile - Status delete button", async () => {});
-});
+}

@@ -1,7 +1,24 @@
+import { clickOnSwitchMacOS } from "../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {
   SETTINGS_AUDIO: "~settings-audio",
+};
+
+const SELECTORS_WINDOWS = {
+  SETTINGS_CONTROL: '[name="settings-control"]',
+  SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
+  SETTINGS_INFO: '[name="settings-info"]',
+  SETTINGS_INFO_DESCRIPTION: "//Text[2]",
+  SETTINGS_INFO_HEADER: "//Text[1]/Text",
+  SETTINGS_SECTION: '[name="settings-section"]',
+  SWITCH_SLIDER: '[name="Switch Slider"]',
+};
+
+const SELECTORS_MACOS = {
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
@@ -11,6 +28,10 @@ const SELECTORS = {
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class SettingsAudioScreen extends SettingsBaseScreen {
   constructor() {
@@ -110,19 +131,35 @@ class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   async clickOnCallTimer() {
-    await this.callTimerCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.callTimerCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.callTimerCheckbox);
+    }
   }
 
   async clickOnInterfaceSounds() {
-    await this.interfaceSoundsCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.interfaceSoundsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.interfaceSoundsCheckbox);
+    }
   }
 
   async clickOnMediaSounds() {
-    await this.mediaSoundsCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.mediaSoundsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.mediaSoundsCheckbox);
+    }
   }
 
   async clickOnMessageSounds() {
-    await this.messageSoundsCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.messageSoundsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.messageSoundsCheckbox);
+    }
   }
 }
 

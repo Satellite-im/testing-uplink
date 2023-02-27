@@ -1,16 +1,10 @@
-import FriendsScreen from "../screenobjects/WelcomeScreen";
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
+import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
 import SettingsPrivacyScreen from "../screenobjects/SettingsPrivacyScreen";
-import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
-describe("Settings - Privacy - Tests", async () => {
+export default async function settingsPrivacy() {
   it("Settings Privacy - Validate header and description texts from settings sections", async () => {
-    // Login with a random user, show main menu, go to Settings Screen and finally select the Settings Screen to validate
-    await loginWithRandomUser();
-    await showMainMenu();
-    await FriendsScreen.goToSettings();
-    await SettingsGeneralScreen.waitForIsShown(true);
-    await SettingsGeneralScreen.goToPrivacySettings();
+    // Go to Settings Screen and finally select the Settings Screen to validate
+    await SettingsProfileScreen.goToPrivacySettings();
     await SettingsPrivacyScreen.waitForIsShown(true);
 
     // Start validations
@@ -28,4 +22,4 @@ describe("Settings - Privacy - Tests", async () => {
   xit("Settings Privacy - Click on Backup Phrase", async () => {
     await SettingsPrivacyScreen.clickOnBackupPhrase();
   });
-});
+}

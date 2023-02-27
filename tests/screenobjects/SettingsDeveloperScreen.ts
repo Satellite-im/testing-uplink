@@ -1,6 +1,31 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
+import { join } from "path";
+import { clickOnSwitchMacOS } from "../helpers/commands";
 
-const SELECTORS = {
+const currentOS = driver.capabilities.automationName;
+let SELECTORS = {};
+
+const SELECTORS_COMMON = {
+  SETTINGS_DEVELOPER: "~settings-developer",
+};
+
+const SELECTORS_WINDOWS = {
+  CLEAR_CACHE_BUTTON: '[name="clear-button"]',
+  COMPRESS_BUTTON: '[name="compress-button"]',
+  OPEN_CACHE_FOLDER_BUTTON: '[name="open-cache-folder-button"]',
+  OPEN_CODEBASE_BUTTON: '[name="open-codebase-button"]',
+  PRINT_STATE_BUTTON: '[name="print-state-button"]',
+  SETTINGS_CONTROL: '[name="settings-control"]',
+  SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
+  SETTINGS_INFO: '[name="settings-info"]',
+  SETTINGS_INFO_DESCRIPTION: "//Text[2]",
+  SETTINGS_INFO_HEADER: "//Text[1]/Text",
+  SETTINGS_SECTION: '[name="settings-section"]',
+  SWITCH_SLIDER: '[name="Switch Slider"]',
+  TEST_NOTIFICATIONS_BUTTON: '[name="test-notifications-button"]',
+};
+
+const SELECTORS_MACOS = {
   CLEAR_CACHE_BUTTON: "~clear-button",
   COMPRESS_BUTTON: "~compress-button",
   OPEN_CACHE_FOLDER_BUTTON: "~open-cache-folder-button",
@@ -8,7 +33,6 @@ const SELECTORS = {
   PRINT_STATE_BUTTON: "~print-state-button",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
-  SETTINGS_DEVELOPER: "~settings-developer",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -17,6 +41,10 @@ const SELECTORS = {
   SWITCH_SLIDER: "~Switch Slider",
   TEST_NOTIFICATIONS_BUTTON: "~test-notifications-button",
 };
+
+currentOS === "windows"
+  ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
+  : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 class SettingsDeveloperScreen extends SettingsBaseScreen {
   constructor() {
@@ -176,7 +204,11 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnDeveloperMode() {
-    await this.developerModeCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.developerModeCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.developerModeCheckbox);
+    }
   }
 
   async clickOnOpenCache() {
@@ -192,7 +224,11 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnSaveLogs() {
-    await this.saveLogsCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.saveLogsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.saveLogsCheckbox);
+    }
   }
 
   async clickOnTestNotifications() {
@@ -200,11 +236,19 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async returnToApp() {
-    await driver.executeScript("macos: launchApp", [
-      {
-        bundleId: "im.satellite.uplink",
-      },
-    ]);
+    if ((await this.getCurrentDriver()) === "mac2") {
+      await driver.executeScript("macos: launchApp", [
+        {
+          bundleId: "im.satellite.uplink",
+        },
+      ]);
+    } else if ((await this.getCurrentDriver()) === "windows") {
+      await driver.executeScript("windows: launchApp", [
+        {
+          app: join(process.cwd(), "\\apps\\ui.exe"),
+        },
+      ]);
+    }
   }
 }
 

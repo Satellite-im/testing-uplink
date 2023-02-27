@@ -135,12 +135,29 @@ export async function loginWithTestUser() {
   await FriendsScreen.waitForIsShown(true);
 }
 
+export async function maximizeWindow() {
+  const currentOS = await driver.capabilities.automationName;
+  if (currentOS === "windows") {
+    await $("//Document/Group/Button[2]").click();
+  } else if (currentOS === "mac2") {
+    await $("~_XCUI:FullScreenWindow").click();
+  }
+}
+
 export async function showMainMenu() {
+  // Get current OS
+  const currentOS = await driver.capabilities.automationName;
+
   // Ensure Main Screen is displayed
   await WelcomeScreen.waitForIsShown(true);
 
-  // Click on Add Someone to show Main Menu
-  await WelcomeScreen.clickAddSomeone();
+  // Click on Add Someone to show Main Menu only on MacOS. On Windows, go To Friends
+  if (currentOS === "mac2") {
+    await WelcomeScreen.clickAddSomeone();
+  } else if (currentOS === "windows") {
+    await maximizeWindow();
+    await WelcomeScreen.goToFriends();
+  }
 
   // Validate Friends Screen is displayed
   await FriendsScreen.waitForIsShown(true);
@@ -164,6 +181,19 @@ export function getPredicateForTextValueEqual(value: string) {
 }
 
 // MacOS driver helper functions
+
+export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
+  const locator = await $(element);
+  // First hover on element
+  await driver.executeScript("macos: hover", [
+    {
+      elementId: locator,
+    },
+  ]);
+  // Then click on it
+  await locator.click({ x: 0, y: -5 });
+  return;
+}
 
 export async function selectFileOnMacos(relativePath: string) {
   // Get the filepath to select on browser

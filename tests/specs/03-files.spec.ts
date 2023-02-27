@@ -1,12 +1,9 @@
 import FilesScreen from "../screenobjects/FilesScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
-import { loginWithRandomUser, showMainMenu } from "../helpers/commands";
 
-describe("Files Screen Tests", async () => {
+export default async function files() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    // Login with a random user, show main menu and go to Files Screen
-    await loginWithRandomUser();
-    await showMainMenu();
+    // Go to Files Screen
     await FriendsScreen.goToFiles();
     await FilesScreen.waitForIsShown(true);
 
@@ -51,4 +48,4 @@ describe("Files Screen Tests", async () => {
     await expect(await FilesScreen.addFileButton).toBeDisplayed();
     await expect(await FilesScreen.uploadFileButton).toBeDisplayed();
   });
-});
+}
