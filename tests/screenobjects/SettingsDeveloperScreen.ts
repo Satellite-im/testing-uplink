@@ -1,5 +1,6 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
 import { join } from "path";
+import { clickOnSwitchMacOS } from "../helpers/commands";
 
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
@@ -206,7 +207,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
     if ((await this.getCurrentDriver()) === "windows") {
       await this.developerModeCheckbox.click();
     } else if ((await this.getCurrentDriver()) === "mac2") {
-      await this.developerModeControllerValue.click();
+      await clickOnSwitchMacOS(await this.developerModeCheckbox);
     }
   }
 
@@ -226,7 +227,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
     if ((await this.getCurrentDriver()) === "windows") {
       await this.saveLogsCheckbox.click();
     } else if ((await this.getCurrentDriver()) === "mac2") {
-      await this.saveLogsControllerValue.click();
+      await clickOnSwitchMacOS(await this.saveLogsCheckbox);
     }
   }
 

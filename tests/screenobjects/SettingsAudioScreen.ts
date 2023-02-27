@@ -1,3 +1,4 @@
+import { clickOnSwitchMacOS } from "../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -133,7 +134,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
     if ((await this.getCurrentDriver()) === "windows") {
       await this.callTimerCheckbox.click();
     } else if ((await this.getCurrentDriver()) === "mac2") {
-      await this.callTimerControllerValue.click();
+      await clickOnSwitchMacOS(await this.callTimerCheckbox);
     }
   }
 
@@ -141,7 +142,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
     if ((await this.getCurrentDriver()) === "windows") {
       await this.interfaceSoundsCheckbox.click();
     } else if ((await this.getCurrentDriver()) === "mac2") {
-      await this.interfaceSoundsControllerValue.click();
+      await clickOnSwitchMacOS(await this.interfaceSoundsCheckbox);
     }
   }
 
@@ -149,7 +150,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
     if ((await this.getCurrentDriver()) === "windows") {
       await this.mediaSoundsCheckbox.click();
     } else if ((await this.getCurrentDriver()) === "mac2") {
-      await this.mediaSoundsControllerValue.click();
+      await clickOnSwitchMacOS(await this.mediaSoundsCheckbox);
     }
   }
 
@@ -157,7 +158,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
     if ((await this.getCurrentDriver()) === "windows") {
       await this.messageSoundsCheckbox.click();
     } else if ((await this.getCurrentDriver()) === "mac2") {
-      await this.messageSoundsControllerValue.click();
+      await clickOnSwitchMacOS(await this.messageSoundsCheckbox);
     }
   }
 }

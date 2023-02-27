@@ -1,3 +1,4 @@
+import { clickOnSwitchMacOS } from "../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -151,7 +152,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
     if ((await this.getCurrentDriver()) === "windows") {
       await this.splashScreenCheckbox.click();
     } else if ((await this.getCurrentDriver()) === "mac2") {
-      await this.splashScreenControllerValue.click();
+      await clickOnSwitchMacOS(await this.splashScreenCheckbox);
     }
   }
 
@@ -163,7 +164,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
     if ((await this.getCurrentDriver()) === "windows") {
       await this.uplinkOverlayCheckbox.click();
     } else if ((await this.getCurrentDriver()) === "mac2") {
-      await this.uplinkOverlayControllerValue.click();
+      await clickOnSwitchMacOS(await this.uplinkOverlayCheckbox);
     }
   }
 

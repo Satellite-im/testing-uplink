@@ -1,3 +1,4 @@
+import { clickOnSwitchMacOS } from "../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -85,7 +86,7 @@ class SettingsFilesScreen extends SettingsBaseScreen {
     if ((await this.getCurrentDriver()) === "windows") {
       await this.localSyncCheckbox.click();
     } else if ((await this.getCurrentDriver()) === "mac2") {
-      await this.localSyncControllerValue.click();
+      await clickOnSwitchMacOS(await this.localSyncCheckbox);
     }
   }
 

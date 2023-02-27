@@ -182,6 +182,19 @@ export function getPredicateForTextValueEqual(value: string) {
 
 // MacOS driver helper functions
 
+export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
+  const locator = await $(element);
+  // First hover on element
+  await driver.executeScript("macos: hover", [
+    {
+      elementId: locator,
+    },
+  ]);
+  // Then click on it
+  await locator.click({ x: 0, y: -5 });
+  return;
+}
+
 export async function selectFileOnMacos(relativePath: string) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
