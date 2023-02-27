@@ -244,12 +244,11 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async enterCopiedID() {
-    const currentOS = await driver.capabilities.automationName;
     let copiedKey;
-    if (currentOS === "mac2") {
+    if ((await this.getCurrentDriver()) === "mac2") {
       copiedKey = await execSync("pbpaste", { encoding: "utf8" });
       this.enterFriendDidKey(copiedKey);
-    } else if (currentOS === "windows") {
+    } else if ((await this.getCurrentDriver()) === "windows") {
       const powershellCmd = "powershell.exe Get-Clipboard";
       exec(powershellCmd, (error, stdout, stderr) => {
         if (error) {

@@ -148,7 +148,11 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   async clickOnSplashScreen() {
-    await this.splashScreenCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.splashScreenCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await this.splashScreenControllerValue.click();
+    }
   }
 
   async clickOnThemeDropdown() {
@@ -156,27 +160,29 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   async clickOnUplinkOverlay() {
-    await this.uplinkOverlayCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.uplinkOverlayCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await this.uplinkOverlayControllerValue.click();
+    }
   }
 
   async selectAppLanguage(language: string) {
-    const currentDriver = await driver.capabilities.automationName;
-    if (currentDriver === "mac2") {
+    if ((await this.getCurrentDriver()) === "mac2") {
       await $$("-ios class chain:**/XCUIElementTypePopUpButton")[1].addValue(
         language + "\n"
       );
-    } else if (currentDriver === "windows") {
+    } else if ((await this.getCurrentDriver()) === "windows") {
       await $$('[name="settings-control"]')[1].addValue(language + "\n");
     }
   }
 
   async selectTheme(theme: string) {
-    const currentDriver = await driver.capabilities.automationName;
-    if (currentDriver === "mac2") {
+    if ((await this.getCurrentDriver()) === "mac2") {
       await $$("-ios class chain:**/XCUIElementTypePopUpButton")[0].addValue(
         theme + "\n"
       );
-    } else if (currentDriver === "windows") {
+    } else if ((await this.getCurrentDriver()) === "windows") {
       await $$('[name="settings-control"]')[0].addValue(theme + "\n");
     }
   }

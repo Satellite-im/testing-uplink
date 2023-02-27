@@ -129,8 +129,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     const bannerY = (await this.profileBanner.getLocation("y")) + 10;
 
     // Hover on X and Y coordinates previously retrieved
-    const currentDriver = await driver.capabilities.automationName;
-    if (currentDriver === "mac2") {
+    if ((await this.getCurrentDriver()) === "mac2") {
       await driver.executeScript("macos: hover", [
         {
           elementId: bannerElementID,
@@ -138,7 +137,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
           y: bannerY,
         },
       ]);
-    } else if (currentDriver === "windows") {
+    } else if ((await this.getCurrentDriver()) === "windows") {
       await driver.touchPerform([
         {
           element: bannerElementID,
@@ -157,13 +156,12 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     await this.profileBanner.click();
 
     // Invoke File Selection Helper Function for MacOS to select the banner image to upload. A similar method will be implemented in the future for Windows
-    const currentDriver = await driver.capabilities.automationName;
-    if (currentDriver === "mac2") {
+    if ((await this.getCurrentDriver()) === "mac2") {
       await selectFileOnMacos(relativePath);
 
       // Validate that profile banner is displayed on screen
       await expect(await this.profileBanner).toBeDisplayed();
-    } else if (currentDriver === "windows") {
+    } else if ((await this.getCurrentDriver()) === "windows") {
       console.log("Not implemented yet");
     }
   }
@@ -173,8 +171,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     await await this.addPictureButton.click();
 
     // Invoke File Selection Helper Function for MacOS to select the profile image to upload. A similar method will be implemented in the future for Windows
-    const currentDriver = await driver.capabilities.automationName;
-    if (currentDriver === "mac2") {
+    if ((await this.getCurrentDriver()) === "mac2") {
       await selectFileOnMacos(relativePath);
 
       // Click on username input to move the mouse cursor
@@ -182,7 +179,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
 
       // Validate that profile picture is displayed on screen
       await expect(await this.profilePicture).toBeDisplayed();
-    } else if (currentDriver === "windows") {
+    } else if ((await this.getCurrentDriver()) === "windows") {
       console.log("Not implemented yet");
     }
   }

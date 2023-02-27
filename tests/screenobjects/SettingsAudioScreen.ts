@@ -130,19 +130,35 @@ class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   async clickOnCallTimer() {
-    await this.callTimerCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.callTimerCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await this.callTimerControllerValue.click();
+    }
   }
 
   async clickOnInterfaceSounds() {
-    await this.interfaceSoundsCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.interfaceSoundsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await this.interfaceSoundsControllerValue.click();
+    }
   }
 
   async clickOnMediaSounds() {
-    await this.mediaSoundsCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.mediaSoundsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await this.mediaSoundsControllerValue.click();
+    }
   }
 
   async clickOnMessageSounds() {
-    await this.messageSoundsCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.messageSoundsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await this.messageSoundsControllerValue.click();
+    }
   }
 }
 

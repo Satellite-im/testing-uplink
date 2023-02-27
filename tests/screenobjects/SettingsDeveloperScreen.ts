@@ -203,7 +203,11 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnDeveloperMode() {
-    await this.developerModeCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.developerModeCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await this.developerModeControllerValue.click();
+    }
   }
 
   async clickOnOpenCache() {
@@ -219,7 +223,11 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnSaveLogs() {
-    await this.saveLogsCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.saveLogsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await this.saveLogsControllerValue.click();
+    }
   }
 
   async clickOnTestNotifications() {
@@ -227,14 +235,13 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async returnToApp() {
-    const currentDriver = await driver.capabilities.automationName;
-    if (currentDriver === "mac2") {
+    if ((await this.getCurrentDriver()) === "mac2") {
       await driver.executeScript("macos: launchApp", [
         {
           bundleId: "im.satellite.uplink",
         },
       ]);
-    } else if (currentDriver === "windows") {
+    } else if ((await this.getCurrentDriver()) === "windows") {
       await driver.executeScript("windows: launchApp", [
         {
           app: join(process.cwd(), "\\apps\\ui.exe"),

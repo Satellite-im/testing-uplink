@@ -82,7 +82,11 @@ class SettingsFilesScreen extends SettingsBaseScreen {
   }
 
   async clickOnLocalSync() {
-    await this.localSyncCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.localSyncCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await this.localSyncControllerValue.click();
+    }
   }
 
   async clickOnOpenSyncFolder() {

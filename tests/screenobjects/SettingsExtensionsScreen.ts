@@ -70,7 +70,11 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   async clickOnEnableAutomatically() {
-    await this.enableAutomaticallyCheckbox.click();
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.enableAutomaticallyCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await this.enableAutomaticallyControllerValue.click();
+    }
   }
 
   async clickOnOpenExtensionsFolder() {

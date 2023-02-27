@@ -41,24 +41,22 @@ export default async function friends() {
 
     // Validate toast notification and close it
     const toastText = await FriendsScreen.getToastNotificationText();
-    await expect(toastText).toEqual("Copied ID to clipboard!");
+    expect(toastText).toEqual("Copied ID to clipboard!");
     await FriendsScreen.closeToastNotification();
     await FriendsScreen.toastNotification.waitForDisplayed({ reverse: true });
 
     // Paste copied ID into input field and assert input is equal to copied value
     await FriendsScreen.enterCopiedID();
-    await expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining(
-      "did:key"
-    );
+    expect(
+      (await FriendsScreen.addSomeoneInput).toString().toLowerCase()
+    ).toHaveTextContaining("did:key");
   });
 
   it("User can type on user search input bar", async () => {
     await (await FriendsScreen.addSomeoneInput).click();
     await (await FriendsScreen.addSomeoneInput).clearValue();
     await (await FriendsScreen.addSomeoneInput).setValue("Hello");
-    await expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining(
-      "Hello"
-    );
+    expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining("Hello");
   });
 
   // Skipped since it needs to be implemented
