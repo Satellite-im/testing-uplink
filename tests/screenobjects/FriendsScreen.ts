@@ -24,12 +24,12 @@ const SELECTORS_WINDOWS = {
   FAVORITES: '[name="Favorites"]',
   FAVORITES_USER_IMAGE: '[name="User Image"]',
   FRIEND_INFO: '[name="Friend Info"]',
-  FRIEND_INFO_DID_KEY:
-    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]",
-  FRIEND_INFO_USERNAME:
-    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[2]",
+  FRIEND_INFO_USERNAME: "//Text[1]",
+  FRIEND_INFO_USERCODE: "//Text[2]",
   FRIEND_RECORD: '[name="Friend"]',
   FRIENDS_BODY: '[name="friends-body"]',
+  FRIENDS_BUTTON_BADGE: '[name="Button Badge"]',
+  FRIENDS_BUTTON_BADGE_TEXT: "//Text",
   FRIENDS_CONTROLS: '[name="friends-controls"]',
   FRIENDS_LIST: '[name="Friends List"]',
   INCOMING_REQUESTS_LIST: '[name="Incoming Requests List"]',
@@ -40,6 +40,7 @@ const SELECTORS_WINDOWS = {
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
   TOAST_NOTIFICATION_CLOSE: "//Button/Button",
   TOAST_NOTIFICATION_TEXT: "//Text[2]",
+  TOPBAR: '[name="Topbar"]',
 };
 
 const SELECTORS_MACOS = {
@@ -56,10 +57,12 @@ const SELECTORS_MACOS = {
   COPY_ID_BUTTON: "~Copy ID",
   FAVORITES: "~Favorites",
   FAVORITES_USER_IMAGE: "~User Image",
+  FRIENDS_BUTTON_BADGE: "~Button Badge",
+  FRIENDS_BUTTON_BADGE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   FRIEND_INFO: "~Friend Info",
-  FRIEND_INFO_DID_KEY:
-    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]",
   FRIEND_INFO_USERNAME:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]",
+  FRIEND_INFO_USERCODE:
     "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[2]",
   FRIEND_RECORD: "~Friend",
   FRIENDS_BODY: "~friends-body",
@@ -73,6 +76,7 @@ const SELECTORS_MACOS = {
   TOAST_NOTIFICATION: "~Toast Notification",
   TOAST_NOTIFICATION_CLOSE: "//*[3]",
   TOAST_NOTIFICATION_TEXT: "//*[2]/*[1]",
+  TOPBAR: "~Topbar",
 };
 
 currentOS === "windows"
@@ -98,6 +102,22 @@ class FriendsScreen extends UplinkMainScreen {
 
   get allFriendsButton() {
     return $(SELECTORS.ALL_FRIENDS_BUTTON);
+  }
+
+  get allFriendsFriends() {
+    return $(SELECTORS.FRIENDS_LIST).$$(SELECTORS.FRIEND);
+  }
+
+  get allFriendsFriendsImages() {
+    return $(SELECTORS.FRIENDS_LIST)
+      .$$(SELECTORS.FRIEND)
+      .$$(SELECTORS.FAVORITES_USER_IMAGE);
+  }
+
+  get allFriendsFriendsInfo() {
+    return $(SELECTORS.FRIENDS_LIST)
+      .$$(SELECTORS.FRIEND)
+      .$$(SELECTORS.FRIEND_INFO);
   }
 
   get blockFriendButton() {
@@ -140,12 +160,30 @@ class FriendsScreen extends UplinkMainScreen {
     return $(SELECTORS.FRIEND_INFO);
   }
 
+  get friendInfoUsername() {
+    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_USERNAME);
+  }
+
+  get friendInfoUsercode() {
+    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_USERCODE);
+  }
+
   get friendRecord() {
     return $$(SELECTORS.FRIEND_RECORD);
   }
 
   get friendsBody() {
     return $(SELECTORS.FRIENDS_BODY);
+  }
+
+  get friendsButtonBadge() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.FRIENDS_BUTTON_BADGE);
+  }
+
+  get friendsButtonBadgeText() {
+    return $(SELECTORS.TOPBAR)
+      .$(SELECTORS.FRIENDS_BUTTON_BADGE)
+      .$(SELECTORS.FRIENDS_BUTTON_BADGE_TEXT);
   }
 
   get friendsControls() {
@@ -190,6 +228,10 @@ class FriendsScreen extends UplinkMainScreen {
 
   get toastNotificationText() {
     return $(SELECTORS.TOAST_NOTIFICATION).$(SELECTORS.TOAST_NOTIFICATION_TEXT);
+  }
+
+  get topbar() {
+    return $(SELECTORS.TOPBAR);
   }
 
   async acceptIncomingRequest(name: string) {
@@ -248,6 +290,8 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async enterFriendDidKey(didkey: string) {
+    await (await this.addSomeoneInput).click();
+    await (await this.addSomeoneInput).clearValue();
     await this.addSomeoneInput.setValue(didkey);
   }
 
@@ -273,13 +317,17 @@ class FriendsScreen extends UplinkMainScreen {
     return key.substr(8, 3) + "..." + key.substr(-3);
   }
 
+  async getButtonBadgeText() {
+    return this.buttonBadgeText.getText();
+  }
+
   async getOutgoingList() {
     const friends = await $(SELECTORS.OUTGOING_REQUESTS_LIST).$$(
       SELECTORS.FRIEND_INFO
     );
     let results = [];
     for (let friend of friends) {
-      results.push(await friend.$(SELECTORS.FRIEND_INFO_DID_KEY).getText());
+      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
     }
     return results;
   }
@@ -319,6 +367,18 @@ class FriendsScreen extends UplinkMainScreen {
       currentFavoriteUsers.push(await (await $(name)).getText());
     }
     return currentFavoriteUsers;
+  }
+
+  async goToAllFriendsList() {
+    await (await this.allFriendsButton).click();
+  }
+
+  async goToBlockedList() {
+    await (await this.blockFriendButton).click();
+  }
+
+  async goToPendingFriendsList() {
+    await (await this.pendingFriendsButton).click();
   }
 
   async openFriendContextMenu(friend: string) {

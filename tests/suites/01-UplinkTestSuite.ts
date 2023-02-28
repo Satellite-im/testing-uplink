@@ -15,7 +15,6 @@ describe("Uplink UI Automated Tests", async () => {
   describe("Create Pin and Account Tests", createAccount.bind(this));
   describe("Chats Main Screen Tests", chats.bind(this));
   describe("Files Screen Tests", files.bind(this));
-  describe("Friends Screen Tests", friends.bind(this));
   describe("Settings General Tests", settingsGeneral.bind(this));
   describe("Settings Profile Tests", settingsProfile.bind(this));
   describe("Settings Privacy Tests", settingsPrivacy.bind(this));
@@ -24,4 +23,5 @@ describe("Uplink UI Automated Tests", async () => {
   describe("Settings Extensions Tests", settingsExtensions.bind(this));
   describe("Settings Notifications Tests", settingsNotifications.bind(this));
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
+  describe("Friends Screen Tests", friends.bind(this));
 });

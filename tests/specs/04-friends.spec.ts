@@ -1,11 +1,13 @@
+import { resetAndLoginWithCache } from "../helpers/commands";
 import ChatScreen from "../screenobjects/ChatScreen";
-import FilesScreen from "../screenobjects/FilesScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
+import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 export default async function friends() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     // Go to Friends Screen
-    await FilesScreen.goToFriends();
+    await resetAndLoginWithCache("FriendsTestUser");
+    await WelcomeScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
 
     // Validate Pre Release Indicator is displayed
@@ -53,9 +55,7 @@ export default async function friends() {
   });
 
   it("User can type on user search input bar", async () => {
-    await (await FriendsScreen.addSomeoneInput).click();
-    await (await FriendsScreen.addSomeoneInput).clearValue();
-    await (await FriendsScreen.addSomeoneInput).setValue("Hello");
+    await FriendsScreen.enterFriendDidKey("Hello");
     expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining("Hello");
   });
 
@@ -66,24 +66,24 @@ export default async function friends() {
   xit("Add a friend", async () => {});
 
   // Skipped because it is failing on CI for MacOS - Needs research
-  xit("Switch to Pending Friends view and validate elements displayed", async () => {
-    await (await FriendsScreen.pendingFriendsButton).click();
+  it("Switch to Pending Friends view and validate elements displayed", async () => {
+    await FriendsScreen.goToPendingFriendsList();
     await expect(await FriendsScreen.incomingRequestsList).toBeDisplayed();
     await expect(await FriendsScreen.outgoingRequestsList).toBeDisplayed();
   });
 
   it("Switch to Blocked Friends view and validate elements displayed", async () => {
-    await (await FriendsScreen.blockedFriendsButton).click();
+    await FriendsScreen.goToBlockedList();
     await expect(await FriendsScreen.blockedList).toBeDisplayed();
   });
 
   it("Switch to All Friends view and validate elements displayed", async () => {
-    await (await FriendsScreen.allFriendsButton).click();
+    await FriendsScreen.goToAllFriendsList();
     await expect(await FriendsScreen.friendsList).toBeDisplayed();
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Go to Chat with Friend from Friends List", async () => {
+  it("Go to Chat with Friend from Friends List", async () => {
     const friendName = await FriendsScreen.getUserFromFriendsList(
       "Friends List"
     );
@@ -95,7 +95,7 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Unfriend someone from Friends List", async () => {
+  it("Unfriend someone from Friends List", async () => {
     // Get a random user from list and unfriend it
     const friendName = await FriendsScreen.getUserFromFriendsList(
       "Friends List"
@@ -110,7 +110,7 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Block someone from Friends List", async () => {
+  it("Block someone from Friends List", async () => {
     // Get a random user from list and block the user
     const friendName = await FriendsScreen.getUserFromFriendsList(
       "Friends List"
@@ -124,7 +124,7 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
 
     // Go to Blocked List and validate that user is there now
-    await (await FriendsScreen.blockedFriendsButton).click();
+    await FriendsScreen.goToBlockedList();
     const blockedFriendsList = await FriendsScreen.getEntireFriendsList(
       "Blocked List"
     );
@@ -132,9 +132,9 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Accept incoming friend request", async () => {
+  it("Accept incoming friend request", async () => {
     // Go to Pending Requests Screen
-    await (await FriendsScreen.pendingFriendsButton).click();
+    await FriendsScreen.goToPendingFriendsList();
 
     // Get a random user from Incoming Pending list and accept the request
     const friendName = await FriendsScreen.getUserFromFriendsList(
@@ -149,7 +149,7 @@ export default async function friends() {
     await expect(incomingRequestsList.includes(friendName)).toEqual(false);
 
     // Go to the current list of All friends and ensure that now includes the friend accepted
-    await (await FriendsScreen.allFriendsButton).click();
+    await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getEntireFriendsList(
       "Friends List"
     );
@@ -157,9 +157,9 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Deny incoming friend request", async () => {
+  it("Deny incoming friend request", async () => {
     // Go to Pending Requests Screen
-    await (await FriendsScreen.pendingFriendsButton).click();
+    await FriendsScreen.goToPendingFriendsList();
 
     // Get a random user from Incoming Pending list and accept the request
     const friendName = await FriendsScreen.getUserFromFriendsList(
@@ -174,7 +174,7 @@ export default async function friends() {
     await expect(incomingRequestsList.includes(friendName)).toEqual(false);
 
     // Go to the current list of All friends and ensure that denied user is not in friends list
-    await (await FriendsScreen.allFriendsButton).click();
+    await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getEntireFriendsList(
       "Friends List"
     );
@@ -182,9 +182,9 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Unfriend/Cancel outgoing friend request", async () => {
+  it("Unfriend/Cancel outgoing friend request", async () => {
     // Go to Pending Requests Screen
-    await (await FriendsScreen.pendingFriendsButton).click();
+    await FriendsScreen.goToPendingFriendsList();
 
     // Get a random user from Outgoing Requests list and accept the request
     const friendName = await FriendsScreen.getUserFromFriendsList(
@@ -199,7 +199,7 @@ export default async function friends() {
     await expect(outgoingRequestsList.includes(friendName)).toEqual(false);
 
     // Go to the current list of All friends and ensure that removed user is not in friends list
-    await (await FriendsScreen.allFriendsButton).click();
+    await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getEntireFriendsList(
       "Friends List"
     );
@@ -207,9 +207,9 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Unblock someone from blocked friends list", async () => {
+  it("Unblock someone from blocked friends list", async () => {
     // Go to Blocked Users Screen
-    await (await FriendsScreen.blockedFriendsButton).click();
+    await FriendsScreen.goToBlockedList();
 
     // Get a random user from Blocked list and click on Unblock button
     const friendName = await FriendsScreen.getUserFromFriendsList(
@@ -224,7 +224,7 @@ export default async function friends() {
     await expect(blockedList.includes(friendName)).toEqual(false);
 
     // Go to the current list of All friends and ensure that unblocked user is not on friends list as expected
-    await (await FriendsScreen.allFriendsButton).click();
+    await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getEntireFriendsList(
       "Friends List"
     );
@@ -232,7 +232,7 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Context Menu - Chat with Friend", async () => {
+  it("Context Menu - Chat with Friend", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromFriendsList(
       "Friends List"
@@ -260,7 +260,7 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Context Menu - Add Friend to Favorites", async () => {
+  it("Context Menu - Add Friend to Favorites", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromFriendsList(
       "Friends List"
@@ -278,7 +278,7 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Context Menu - Remove Friend", async () => {
+  it("Context Menu - Remove Friend", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromFriendsList(
       "Friends List"
@@ -296,7 +296,7 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Context Menu - Block Friend", async () => {
+  it("Context Menu - Block Friend", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromFriendsList(
       "Friends List"
@@ -313,7 +313,7 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
 
     // Go to Blocked List and validate that user is there now
-    await (await FriendsScreen.blockedFriendsButton).click();
+    await FriendsScreen.goToBlockedList();
     const blockedFriendsList = await FriendsScreen.getEntireFriendsList(
       "Blocked List"
     );
@@ -321,12 +321,12 @@ export default async function friends() {
   });
 
   // Skipped because flow does not exist - But the logic would be to have this one in the context menu
-  xit("Context Menu - Accept Incoming Request", async () => {});
+  it("Context Menu - Accept Incoming Request", async () => {});
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Context Menu - Deny Incoming Request", async () => {
+  it("Context Menu - Deny Incoming Request", async () => {
     // Go to Pending Requests Screen
-    await (await FriendsScreen.pendingFriendsButton).click();
+    await FriendsScreen.goToPendingFriendsList();
 
     // Get a random user from Incoming Pending list and right click on it to get the context menu
     const friendName = await FriendsScreen.getUserFromFriendsList(
@@ -344,7 +344,7 @@ export default async function friends() {
     await expect(incomingRequestsList.includes(friendName)).toEqual(false);
 
     // Go to the current list of All friends and ensure that denied user is not in friends list
-    await (await FriendsScreen.allFriendsButton).click();
+    await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getEntireFriendsList(
       "Friends List"
     );
@@ -352,9 +352,9 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Context Menu - Cancel Outgoing Request", async () => {
+  it("Context Menu - Cancel Outgoing Request", async () => {
     // Go to Pending Requests Screen
-    await (await FriendsScreen.pendingFriendsButton).click();
+    await FriendsScreen.goToPendingFriendsList();
 
     // Get a random user from Outgoing Requests list and right click on it to get the context menu
     const friendName = await FriendsScreen.getUserFromFriendsList(
@@ -372,7 +372,7 @@ export default async function friends() {
     await expect(outgoingRequestsList.includes(friendName)).toEqual(false);
 
     // Go to the current list of All friends and ensure that removed user is not in friends list
-    await (await FriendsScreen.allFriendsButton).click();
+    await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getEntireFriendsList(
       "Friends List"
     );
@@ -380,9 +380,9 @@ export default async function friends() {
   });
 
   // Skipped since it will be modified to use real users instead of mock users
-  xit("Context Menu - Unblock User", async () => {
+  it("Context Menu - Unblock User", async () => {
     // Go to Blocked Users Screen
-    await (await FriendsScreen.blockedFriendsButton).click();
+    await FriendsScreen.goToBlockedList();
 
     // Get a random user from Blocked list and right click on it to get the context menu
     const friendName = await FriendsScreen.getUserFromFriendsList(
@@ -400,7 +400,7 @@ export default async function friends() {
     await expect(blockedList.includes(friendName)).toEqual(false);
 
     // Go to the current list of All friends and ensure that unblocked user is not on friends list, as expected
-    await (await FriendsScreen.allFriendsButton).click();
+    await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getEntireFriendsList(
       "Friends List"
     );
