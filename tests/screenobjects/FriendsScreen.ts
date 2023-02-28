@@ -24,6 +24,10 @@ const SELECTORS_WINDOWS = {
   FAVORITES: '[name="Favorites"]',
   FAVORITES_USER_IMAGE: '[name="User Image"]',
   FRIEND_INFO: '[name="Friend Info"]',
+  FRIEND_INFO_DID_KEY:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]",
+  FRIEND_INFO_USERNAME:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[2]",
   FRIEND_RECORD: '[name="Friend"]',
   FRIENDS_BODY: '[name="friends-body"]',
   FRIENDS_CONTROLS: '[name="friends-controls"]',
@@ -53,6 +57,10 @@ const SELECTORS_MACOS = {
   FAVORITES: "~Favorites",
   FAVORITES_USER_IMAGE: "~User Image",
   FRIEND_INFO: "~Friend Info",
+  FRIEND_INFO_DID_KEY:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]",
+  FRIEND_INFO_USERNAME:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[2]",
   FRIEND_RECORD: "~Friend",
   FRIENDS_BODY: "~friends-body",
   FRIENDS_CONTROLS: "~friends-controls",
@@ -259,6 +267,21 @@ class FriendsScreen extends UplinkMainScreen {
         this.enterFriendDidKey(copiedKey);
       });
     }
+  }
+
+  async getAbbreviatedDidKey(key: string) {
+    return key.substr(8, 3) + "..." + key.substr(-3);
+  }
+
+  async getOutgoingList() {
+    const friends = await $(SELECTORS.OUTGOING_REQUESTS_LIST).$$(
+      SELECTORS.FRIEND_INFO
+    );
+    let results = [];
+    for (let friend of friends) {
+      results.push(await friend.$(SELECTORS.FRIEND_INFO_DID_KEY).getText());
+    }
+    return results;
   }
 
   async getEntireFriendsList(list: string) {
