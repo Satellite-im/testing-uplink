@@ -15,18 +15,21 @@ const SELECTORS_WINDOWS = {
   ADD_SOMEONE_INPUT: '[name="Add Someone Input"]',
   ALL_FRIENDS_BUTTON: '[name="all-friends-button"]',
   BLOCK_FRIEND_BUTTON: '[name="Block Friend"]',
-  BLOCKED_FRIENDS_BUTTON: '[name="blocked-friends-button"]',
   BLOCKED_LIST: '[name="Blocked List"]',
+  BLOCKED_LIST_BUTTON: '[name="blocked-friends-button"]',
   CHAT_WITH_FRIEND_BUTTON: '[name="Chat With Friend"]',
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_OPTION: '[name="Context Item"]',
   COPY_ID_BUTTON: '[name="Copy ID"]',
   FAVORITES: '[name="Favorites"]',
-  FAVORITES_USER_IMAGE: '[name="User Image"]',
+  FAVORITES_USER: "//Group",
+  FAVORITES_USER_IMAGE: "//Group/Image",
+  FAVORITES_USER_NAME: "//Text/Text",
   FRIEND_INFO: '[name="Friend Info"]',
   FRIEND_INFO_USERNAME: "//Text[1]",
   FRIEND_INFO_USERCODE: "//Text[2]",
   FRIEND_RECORD: '[name="Friend"]',
+  FRIEND_USER_IMAGE: '[name="User Image"]',
   FRIENDS_BODY: '[name="friends-body"]',
   FRIENDS_BUTTON_BADGE: '[name="Button Badge"]',
   FRIENDS_BUTTON_BADGE_TEXT: "//Text",
@@ -49,23 +52,28 @@ const SELECTORS_MACOS = {
   ADD_SOMEONE_INPUT: "~Add Someone Input",
   ALL_FRIENDS_BUTTON: "~all-friends-button",
   BLOCK_FRIEND_BUTTON: "~Block Friend",
-  BLOCKED_FRIENDS_BUTTON: "~blocked-friends-button",
   BLOCKED_LIST: "~Blocked List",
+  BLOCKED_LIST_BUTTON: "~blocked-friends-button",
   CHAT_WITH_FRIEND_BUTTON: "~Chat With Friend",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_OPTION: "~Context Item",
   COPY_ID_BUTTON: "~Copy ID",
   FAVORITES: "~Favorites",
-  FAVORITES_USER_IMAGE: "~User Image",
-  FRIENDS_BUTTON_BADGE: "~Button Badge",
-  FRIENDS_BUTTON_BADGE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  FAVORITES_USER: "-ios class chain:**/XCUIElementTypeGroup",
+  FAVORITES_USER_IMAGE:
+    '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeGroup/XCUIElementTypeGroup[`label == "User Image"`]',
+  FAVORITES_USER_NAME:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   FRIEND_INFO: "~Friend Info",
   FRIEND_INFO_USERNAME:
     "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]",
   FRIEND_INFO_USERCODE:
     "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[2]",
   FRIEND_RECORD: "~Friend",
+  FRIEND_USER_IMAGE: "~User Image",
   FRIENDS_BODY: "~friends-body",
+  FRIENDS_BUTTON_BADGE: "~Button Badge",
+  FRIENDS_BUTTON_BADGE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   FRIENDS_CONTROLS: "~friends-controls",
   FRIENDS_LIST: "~Friends List",
   INCOMING_REQUESTS_LIST: "~Incoming Requests List",
@@ -111,7 +119,7 @@ class FriendsScreen extends UplinkMainScreen {
   get allFriendsFriendsImages() {
     return $(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.FRIEND)
-      .$$(SELECTORS.FAVORITES_USER_IMAGE);
+      .$$(SELECTORS.FRIEND_USER_IMAGE);
   }
 
   get allFriendsFriendsInfo() {
@@ -124,8 +132,8 @@ class FriendsScreen extends UplinkMainScreen {
     return $(SELECTORS.BLOCK_FRIEND_BUTTON);
   }
 
-  get blockedFriendsButton() {
-    return $(SELECTORS.BLOCKED_FRIENDS_BUTTON);
+  get blockedListButton() {
+    return $(SELECTORS.BLOCKED_LIST_BUTTON);
   }
 
   get blockedList() {
@@ -152,8 +160,16 @@ class FriendsScreen extends UplinkMainScreen {
     return $(SELECTORS.FAVORITES);
   }
 
+  get favoriteUsers() {
+    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER);
+  }
+
   get favoritesUserImage() {
     return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER_IMAGE);
+  }
+
+  get favoritesUserName() {
+    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER_NAME);
   }
 
   get friendInfo() {
@@ -168,7 +184,7 @@ class FriendsScreen extends UplinkMainScreen {
     return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_USERCODE);
   }
 
-  get friendRecord() {
+  get friendRecords() {
     return $$(SELECTORS.FRIEND_RECORD);
   }
 
@@ -235,42 +251,20 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async acceptIncomingRequest(name: string) {
-    const friend = await driver.findElement(
-      "xpath",
-      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
-    );
-    const button = await driver.findElementFromElement(
-      friend.ELEMENT,
-      "accessibility id",
-      "Accept Friend"
-    );
-    await $(button).click();
+    const friendToClick = await this.getFriendRecordByName(name);
+    await (
+      await friendToClick.$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON)
+    ).click();
   }
 
   async blockUser(name: string) {
-    const friend = await driver.findElement(
-      "xpath",
-      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
-    );
-    const button = await driver.findElementFromElement(
-      friend.ELEMENT,
-      "accessibility id",
-      "Block Friend"
-    );
-    await $(button).click();
+    const friendToClick = await this.getFriendRecordByName(name);
+    await (await friendToClick.$(SELECTORS.BLOCK_FRIEND_BUTTON)).click();
   }
 
   async chatWithFriend(name: string) {
-    const friend = await driver.findElement(
-      "xpath",
-      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
-    );
-    const button = await driver.findElementFromElement(
-      friend.ELEMENT,
-      "accessibility id",
-      "Chat With Friend"
-    );
-    await $(button).click();
+    const friendToClick = await this.getFriendRecordByName(name);
+    await (await friendToClick.$(SELECTORS.CHAT_WITH_FRIEND_BUTTON)).click();
   }
 
   async clickOnAddSomeoneButton() {
@@ -317,8 +311,55 @@ class FriendsScreen extends UplinkMainScreen {
     return key.substr(8, 3) + "..." + key.substr(-3);
   }
 
+  async getAbbreviatedFavUser(user: string) {
+    return user.substr(0, 4).toUpperCase() + "...";
+  }
+
   async getButtonBadgeText() {
     return this.buttonBadgeText.getText();
+  }
+
+  async getAllFriendsList() {
+    const friends = await $(SELECTORS.FRIENDS_LIST).$$(SELECTORS.FRIEND_INFO);
+    let results = [];
+    for (let friend of friends) {
+      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
+    }
+    return results;
+  }
+
+  async getBlockedList() {
+    const friends = await $(SELECTORS.BLOCKED_LIST).$$(SELECTORS.FRIEND_INFO);
+    let results = [];
+    for (let friend of friends) {
+      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
+    }
+    return results;
+  }
+
+  async getFriendRecordByName(name: string) {
+    const friends = await this.friendRecords;
+    for (let friend of friends) {
+      if (
+        (await friend
+          .$(SELECTORS.FRIEND_INFO)
+          .$(SELECTORS.FRIEND_INFO_USERNAME)
+          .getText()) === name
+      ) {
+        return friend;
+      }
+    }
+  }
+
+  async getIncomingList() {
+    const friends = await $(SELECTORS.INCOMING_REQUESTS_LIST).$$(
+      SELECTORS.FRIEND_INFO
+    );
+    let results = [];
+    for (let friend of friends) {
+      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
+    }
+    return results;
   }
 
   async getOutgoingList() {
@@ -332,36 +373,44 @@ class FriendsScreen extends UplinkMainScreen {
     return results;
   }
 
-  async getEntireFriendsList(list: string) {
-    const friendNames = await driver.findElements(
-      "xpath",
-      "//*[@label='" + list + "']//*[@label='Friend Info']/*[1]/*[1]"
-    );
-    let names = [];
-    for (let name of friendNames) {
-      names.push(await (await $(name)).getText());
-    }
-    return names;
-  }
-
   async getToastNotificationText() {
     return await this.toastNotificationClose.getText();
   }
 
-  async getUserFromFriendsList(list: string) {
-    const firstUserFromList = await driver.findElement(
-      "xpath",
-      "//*[@label='" + list + "']//*[@label='Friend Info']/*[1]/*[1]"
-    );
-    const user = await (await $(firstUserFromList)).getText();
-    return user;
+  async getUserFromAllFriendsList() {
+    const firstUserFromList = await $(SELECTORS.FRIENDS_LIST)
+      .$$(SELECTORS.FRIEND_INFO)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .getText();
+    return firstUserFromList;
+  }
+
+  async getUserFromIncomingList() {
+    const firstUserFromList = await $(SELECTORS.INCOMING_REQUESTS_LIST)
+      .$$(SELECTORS.FRIEND_INFO)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .getText();
+    return firstUserFromList;
+  }
+
+  async getUserFromOutgoingList() {
+    const firstUserFromList = await $(SELECTORS.OUTGOING_REQUESTS_LIST)
+      .$$(SELECTORS.FRIEND_INFO)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .getText();
+    return firstUserFromList;
+  }
+
+  async getUserFromBlockedList() {
+    const firstUserFromList = await $(SELECTORS.BLOCKED_LIST)
+      .$$(SELECTORS.FRIEND_INFO)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .getText();
+    return firstUserFromList;
   }
 
   async getUsersFromFavorites() {
-    const favoriteUsers = await driver.findElements(
-      "xpath",
-      "//*[@label='Favorites']//*[@label='User Image']/../../*[2]"
-    );
+    const favoriteUsers = await this.favoritesUserName;
     let currentFavoriteUsers = [];
     for (let name of favoriteUsers) {
       currentFavoriteUsers.push(await (await $(name)).getText());
@@ -374,38 +423,38 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async goToBlockedList() {
-    await (await this.blockFriendButton).click();
+    await (await this.blockedListButton).click();
   }
 
   async goToPendingFriendsList() {
     await (await this.pendingFriendsButton).click();
   }
 
-  async openFriendContextMenu(friend: string) {
-    const friendLocator = await driver.findElement(
-      "xpath",
-      "//*[@label='Friend Info']//*[@value='" + friend + "']/../../.."
-    );
-    const friendBubble = await (await $(friendLocator)).$("~User Image");
-    await driver.executeScript("macos: rightClick", [
-      {
-        elementId: friendBubble,
-      },
-    ]);
-    await (await this.contextMenu).waitForDisplayed();
+  async openFriendContextMenu(name: string) {
+    const friendToClick = await this.getFriendRecordByName(name);
+    const friendBubble = await friendToClick.$(SELECTORS.FRIEND_USER_IMAGE);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await driver.executeScript("macos: rightClick", [
+        {
+          elementId: friendBubble,
+        },
+      ]);
+      await (await this.contextMenu).waitForDisplayed();
+    } else if (currentDriver === "windows") {
+      await driver.executeScript("macos: rightClick", [
+        {
+          elementId: friendBubble,
+        },
+      ]);
+    }
   }
 
-  async removeOrDenyFriend(name: string) {
-    const friend = await driver.findElement(
-      "xpath",
-      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
-    );
-    const button = await driver.findElementFromElement(
-      friend.ELEMENT,
-      "accessibility id",
-      "Remove or Deny Friend"
-    );
-    await $(button).click();
+  async removeOrCancelUser(name: string) {
+    const friendToClick = await this.getFriendRecordByName(name);
+    await (
+      await friendToClick.$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON)
+    ).click();
   }
 }
 
