@@ -101,8 +101,11 @@ jobs:
 
       - name: Install and Run Appium Server 💻
         run: |
-          chmod +x ./scripts/run_appium_macos_server.sh
-          ./scripts/run_appium_macos_server.sh
+          npm install -g appium@next
+          appium -v
+          appium driver install mac2
+          appium driver list
+          appium &>/dev/null &
 
       - name: Delete Cache Folder if exists
         run: rm -rf ~/.uplink
@@ -136,10 +139,3 @@ jobs:
         if: failure()
         with:
           file-name: "desktop.jpg"
-
-      - name: Publish JUnit reports ⬆️
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: junit-results
-          path: ./test-report/*.xml

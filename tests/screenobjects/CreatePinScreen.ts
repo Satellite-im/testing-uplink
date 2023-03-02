@@ -5,8 +5,6 @@ let SELECTORS = {};
 
 const SELECTORS_COMMON = {
   UNLOCK_LAYOUT: "~unlock-layout",
-  UNLOCK_WARNING_PARAGRAPH_TEXT: "//*[1]",
-  UNLOCK_WARNING_SPAN_TEXT: "//*[1]",
 };
 
 const SELECTORS_WINDOWS = {
@@ -14,8 +12,7 @@ const SELECTORS_WINDOWS = {
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "//Text",
   PIN_INPUT: "~unlock-input",
-  UNLOCK_WARNING_PARAGRAPH: '[name="unlock-warning-paragraph"]',
-  UNLOCK_WARNING_SPAN: '[name="unlock-warning-span"]',
+  UNLOCK_WARNING_PARAGRAPH: "//Text[2]",
 };
 
 const SELECTORS_MACOS = {
@@ -23,8 +20,7 @@ const SELECTORS_MACOS = {
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   PIN_INPUT: "~pin-input",
-  UNLOCK_WARNING_PARAGRAPH: "~unlock-warning-paragraph",
-  UNLOCK_WARNING_SPAN: "~unlock-warning-span",
+  UNLOCK_WARNING_PARAGRAPH: "-ios class chain:**/XCUIElementTypeStaticText[2]",
 };
 
 currentOS === "windows"
@@ -57,23 +53,7 @@ class CreatePinScreen extends UplinkMainScreen {
   }
 
   get unlockWarningParagraph() {
-    return $(SELECTORS.UNLOCK_WARNING_PARAGRAPH);
-  }
-
-  get unlockWarningParagraphText() {
-    return $(SELECTORS.UNLOCK_WARNING_PARAGRAPH).$(
-      SELECTORS.UNLOCK_WARNING_PARAGRAPH_TEXT
-    );
-  }
-
-  get unlockWarningSpan() {
-    return $(SELECTORS.UNLOCK_WARNING_SPAN);
-  }
-
-  get unlockWarningSpanText() {
-    return $(SELECTORS.UNLOCK_WARNING_SPAN).$(
-      SELECTORS.UNLOCK_WARNING_SPAN_TEXT
-    );
+    return $(SELECTORS.UNLOCK_LAYOUT).$(SELECTORS.UNLOCK_WARNING_PARAGRAPH);
   }
 
   async enterPin(pin: string) {
