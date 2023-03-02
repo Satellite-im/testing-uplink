@@ -136,10 +136,3 @@ jobs:
         if: failure()
         with:
           file-name: "desktop.jpg"
-
-      - name: Publish JUnit reports ⬆️
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: junit-results
-          path: ./test-report/*.xml
