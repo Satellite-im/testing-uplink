@@ -47,7 +47,7 @@ const SELECTORS_MACOS = {
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO:
     "-ios class chain:**/XCUIElementTypeGroup[3]/XCUIElementTypeStaticText",
   YOUR_NEW_PROFILE_HEADER_TEXT:
-    "-ios class chain**/XCUIElementTypeStaticText[1]",
+    "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
 };
 
 currentOS === "windows"
