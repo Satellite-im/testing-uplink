@@ -4,32 +4,21 @@ import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 export default async function createAccount() {
-  // Skipped since Prerelease indicator is no longer available
-  xit("Validate Pre Release Indicator is displayed on Screen", async () => {
-    // Create an account and go to Main Screen
-    await CreatePinScreen.waitForIsShown(true);
-
-    await expect(await CreatePinScreen.prereleaseIndicator).toBeDisplayed();
-    await expect(
-      await CreatePinScreen.prereleaseIndicatorText
-    ).toHaveTextContaining("Pre-release");
-  });
-
   it("Validate warning texts are displayed on screen", async () => {
     await expect(await CreatePinScreen.unlockWarningParagraph).toBeDisplayed();
-    expect(
-      await CreatePinScreen.unlockWarningParagraphText
-    ).toHaveTextContaining(
+    expect(await CreatePinScreen.un).toHaveTextContaining(
       "Your password is used to encrypt your data. It is never sent to any server. You should use a strong password that you don't use anywhere else."
     );
-    await expect(await CreatePinScreen.unlockWarningSpan).toBeDisplayed();
-    expect(await CreatePinScreen.unlockWarningSpanText).toHaveTextContaining(
-      "If you forget this password we cannot help you retrieve it."
+    await expect(await CreatePinScreen.unlockWarningParagraph).toBeDisplayed();
+    expect(await CreatePinScreen.unlockWarningParagraph).toHaveTextContaining(
+      "(this is used to encrypt all of the data Uplink stores on your computer when you're not using it so nobody can read your data.)"
     );
   });
 
   it("Create Account button should be disabled if no pin has been entered", async () => {
-    await expect(await CreatePinScreen.createAccountButton).not.toExist();
+    expect(await CreatePinScreen.getStatusOfCreateAccountButton()).toEqual(
+      "false"
+    );
   });
 
   it("Enter an empty pin", async () => {
@@ -39,7 +28,9 @@ export default async function createAccount() {
     await expect(await CreatePinScreen.inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
-    await expect(await CreatePinScreen.createAccountButton).not.toExist();
+    expect(await CreatePinScreen.getStatusOfCreateAccountButton()).toEqual(
+      "false"
+    );
   });
 
   it("Enter a pin with less than 4 characters", async () => {
@@ -48,7 +39,9 @@ export default async function createAccount() {
     await expect(await CreatePinScreen.inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
-    await expect(await CreatePinScreen.createAccountButton).not.toExist();
+    expect(await CreatePinScreen.getStatusOfCreateAccountButton()).toEqual(
+      "false"
+    );
     await (await CreatePinScreen.pinInput).clearValue();
   });
 
