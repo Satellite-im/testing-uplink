@@ -30,6 +30,23 @@ export default async function settingsProfile() {
     await expect(await SettingsProfileScreen.sidebarSearch).toBeDisplayed();
   });
 
+  it("Settings Profile - Assert texts for Your New Profile dialog and dismiss it", async () => {
+    expect(
+      await SettingsProfileScreen.yourNewProfileHeaderText
+    ).toHaveTextContaining("YOUR NEW PROFILE!");
+    expect(
+      await SettingsProfileScreen.yourNewProfileDescriptionTextOne
+    ).toHaveTextContaining(
+      "Tell the world all about yourself, well tell them as much as you can while we're still under construction, at least."
+    );
+    expect(
+      await SettingsProfileScreen.yourNewProfileDescriptionTextTwo
+    ).toHaveTextContaining(
+      "First step, pick out a profile picture and maybe even a banner too!"
+    );
+    await SettingsProfileScreen.clickOnDismissButton();
+  });
+
   it("Settings Profile - Assert screen and placeholder texts", async () => {
     // Assert username and status labels are displayed on screen
     await expect(
