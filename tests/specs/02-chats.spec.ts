@@ -28,7 +28,7 @@ export default async function chats() {
     await expect(await WelcomeScreen.welcomeLayout).toBeDisplayed();
     await expect(await WelcomeScreen.addFriendsButton).toBeDisplayed();
     await expect(await WelcomeScreen.addSomeoneText).toHaveTextContaining(
-      "Add Someone"
+      "Things are better with friends."
     );
   });
 

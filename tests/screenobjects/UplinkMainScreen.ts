@@ -10,11 +10,13 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   BUTTON_BADGE: '[name="Button Badge"]',
   BUTTON_NAV: '[name="button-nav"]',
+  BUTTON_NAV_TOOLTIP: '[name="tooltip"]',
+  BUTTON_NAV_TOOLTIP_TEXT: "//Text",
   CHAT_SEARCH_INPUT: '[name="chat-search-input"]',
   CHATS_BUTTON: '[name="chats-button"]',
   FILES_BUTTON: '[name="files-button"]',
   FRIENDS_BUTTON: '[name="friends-button"]',
-  PRE_RELEASE_INDICATOR_TEXT: "//*[2]",
+  PRE_RELEASE_INDICATOR_TEXT: "//Text",
   SETTINGS_BUTTON: '[name="settings-button"]',
   SIDEBAR: '[name="sidebar"]',
   SIDEBAR_CHILDREN: '[name="sidebar-children"]',
@@ -27,6 +29,9 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   BUTTON_BADGE: "~Button Badge",
   BUTTON_NAV: "~button-nav",
+  BUTTON_NAV_TOOLTIP: "~tooltip",
+  BUTTON_NAV_TOOLTIP_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   CHAT_SEARCH_INPUT: "~chat-search-input",
   CHATS_BUTTON: "~chats-button",
   FILES_BUTTON: "~files-button",
@@ -66,12 +71,42 @@ export default class UplinkMainScreen extends AppScreen {
     return $(SELECTORS.CHATS_BUTTON);
   }
 
+  get chatsButtonTooltip() {
+    return $(SELECTORS.BUTTON_NAV).$$(SELECTORS.TOOLTIP)[0];
+  }
+
+  get chatsButtonTooltipText() {
+    return $(SELECTORS.BUTTON_NAV)
+      .$$(SELECTORS.TOOLTIP)[0]
+      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+  }
+
   get filesButton() {
     return $(SELECTORS.FILES_BUTTON);
   }
 
+  get filesButtonTooltip() {
+    return $(SELECTORS.BUTTON_NAV).$$(SELECTORS.TOOLTIP)[1];
+  }
+
+  get filesButtonTooltipText() {
+    return $(SELECTORS.BUTTON_NAV)
+      .$$(SELECTORS.TOOLTIP)[1]
+      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+  }
+
   get friendsButton() {
     return $(SELECTORS.FRIENDS_BUTTON);
+  }
+
+  get friendsButtonTooltip() {
+    return $(SELECTORS.BUTTON_NAV).$$(SELECTORS.TOOLTIP)[2];
+  }
+
+  get friendsButtonTooltipText() {
+    return $(SELECTORS.BUTTON_NAV)
+      .$$(SELECTORS.TOOLTIP)[2]
+      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get prereleaseIndicator() {
@@ -86,6 +121,16 @@ export default class UplinkMainScreen extends AppScreen {
 
   get settingsButton() {
     return $(SELECTORS.SETTINGS_BUTTON);
+  }
+
+  get settingsButtonTooltip() {
+    return $(SELECTORS.BUTTON_NAV).$$(SELECTORS.TOOLTIP)[3];
+  }
+
+  get settingsButtonTooltipText() {
+    return $(SELECTORS.BUTTON_NAV)
+      .$$(SELECTORS.TOOLTIP)[3]
+      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get sidebar() {

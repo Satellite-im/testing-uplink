@@ -55,7 +55,7 @@ jobs:
         run: cargo clean
 
       - name: Build resources 🖥️
-        run: cargo build --release
+        run: cargo build --package ui --release
 
       - name: Upload Artifact ⬆️
         uses: actions/upload-artifact@v3
@@ -71,8 +71,6 @@ jobs:
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
-        with:
-          path: "./appium-tests"
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -83,11 +81,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Uplink-Windows
-          path: ./appium-tests/apps
+          path: ./apps
 
       - name: Install NPM dependencies 📦
-        run: |
-          cd appium-tests && npm install
+        run: npm install
 
       - name: Install and Run Appium Server 💻
         run: |
@@ -102,7 +99,6 @@ jobs:
         shell: powershell
 
       - name: Run WebdriverIO tests on MacOS 🧪
-        working-directory: ./appium-tests
         run: npm run windows.ci
 
       - name: Publish Test Results
@@ -117,24 +113,17 @@ jobs:
         if: failure()
         with:
           name: appium-screenshots
-          path: ./appium-tests/test-results
+          path: ./test-results
 
       - name: Upload Appium Log if tests failed 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: appium-log
-          path: ./appium-tests/appium.log
+          path: ./appium.log
 
       - name: Take screenshot of GH runner if test execution fails 📷
         uses: OrbitalOwen/desktop-screenshot-action@0.1
         if: failure()
         with:
           file-name: "desktop.jpg"
-
-      - name: Publish JUnit reports ⬆️
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: junit-results
-          path: ./test-report/*.xml
