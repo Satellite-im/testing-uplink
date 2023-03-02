@@ -10,6 +10,7 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   ADD_PICTURE_BUTTON: '[name="add-picture-button"]',
+  DISMISS_BUTTON: "//Button",
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_MESSAGE: "//Text",
   PROFILE_BANNER: '[name="profile-banner"]',
@@ -21,10 +22,14 @@ const SELECTORS_WINDOWS = {
   STATUS_LABEL: "//Text[2]/Text",
   USERNAME_INPUT: '[name="username-input"]',
   USERNAME_LABEL: "//Text[1]/Text",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: "//Text[2]",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO: "//Text[3]",
+  YOUR_NEW_PROFILE_HEADER_TEXT: "//Text[1]/Text",
 };
 
 const SELECTORS_MACOS = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
+  DISMISS_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_MESSAGE: "-ios class chain:**/XCUIElementTypeStaticText",
   PROFILE_BANNER: "~profile-banner",
@@ -37,6 +42,12 @@ const SELECTORS_MACOS = {
   STATUS_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[2]",
   USERNAME_INPUT: "~username-input",
   USERNAME_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[1]",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE:
+    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO:
+    "-ios class chain:**/XCUIElementTypeGroup[3]/XCUIElementTypeStaticText",
+  YOUR_NEW_PROFILE_HEADER_TEXT:
+    "-ios class chain**/XCUIElementTypeStaticText[1]",
 };
 
 currentOS === "windows"
@@ -50,6 +61,10 @@ class SettingsProfileScreen extends SettingsBaseScreen {
 
   get addPictureButton() {
     return $(SELECTORS.ADD_PICTURE_BUTTON);
+  }
+
+  get dismissButton() {
+    return $(SELECTORS.SETTINGS_PROFILE).$(SELECTORS.DISMISS_BUTTON);
   }
 
   get inputError() {
@@ -98,6 +113,28 @@ class SettingsProfileScreen extends SettingsBaseScreen {
 
   get usernameLabel() {
     return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.USERNAME_LABEL);
+  }
+
+  get yourNewProfileDescriptionTextOne() {
+    return $(SELECTORS.SETTINGS_PROFILE).$(
+      SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE
+    );
+  }
+
+  get yourNewProfileDescriptionTextTwo() {
+    return $(SELECTORS.SETTINGS_PROFILE).$(
+      SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO
+    );
+  }
+
+  get yourNewProfileHeaderText() {
+    return $(SELECTORS.SETTINGS_PROFILE).$(
+      SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT
+    );
+  }
+
+  async clickOnDismissButton() {
+    await this.dismissButton.click();
   }
 
   async deleteStatus() {
