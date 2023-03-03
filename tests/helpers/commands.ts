@@ -149,7 +149,7 @@ export async function launchApplication() {
 export async function closeApplication() {
   const currentOS = await driver.capabilities.automationName;
   if (currentOS === "windows") {
-    await $("//Document/Group/Button[3]").click();
+    await $('[name="close-button"]').click();
   } else if (currentOS === "mac2") {
     await $("~_XCUI:CloseWindow").click();
   }
@@ -158,7 +158,7 @@ export async function closeApplication() {
 export async function maximizeWindow() {
   const currentOS = await driver.capabilities.automationName;
   if (currentOS === "windows") {
-    await $("//Document/Group/Button[2]").click();
+    await $('[name="square-button"]').click();
   } else if (currentOS === "mac2") {
     await $("~_XCUI:FullScreenWindow").click();
   }
@@ -167,7 +167,7 @@ export async function maximizeWindow() {
 export async function minimizeWindow() {
   const currentOS = await driver.capabilities.automationName;
   if (currentOS === "windows") {
-    await $("//Document/Group/Button[1]").click();
+    await $('[name="minimize-button"]').click();
   } else if (currentOS === "mac2") {
     await $("~_XCUI:MinimizeWindow").click();
   }

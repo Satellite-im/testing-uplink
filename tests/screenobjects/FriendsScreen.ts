@@ -1,3 +1,4 @@
+import { Key } from "webdriverio";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -284,8 +285,8 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async enterFriendDidKey(didkey: string) {
-    await (await this.addSomeoneInput).click();
-    await (await this.addSomeoneInput).clearValue();
+    await this.addSomeoneInput.click();
+    await this.addSomeoneInput.clearValue();
     await this.addSomeoneInput.setValue(didkey);
   }
 
@@ -293,16 +294,16 @@ class FriendsScreen extends UplinkMainScreen {
     let copiedKey;
     if ((await this.getCurrentDriver()) === "mac2") {
       copiedKey = await execSync("pbpaste", { encoding: "utf8" });
-      this.enterFriendDidKey(copiedKey);
+      return await this.enterFriendDidKey(copiedKey);
     } else if ((await this.getCurrentDriver()) === "windows") {
       const powershellCmd = "powershell.exe Get-Clipboard";
-      exec(powershellCmd, (error, stdout, stderr) => {
+      await exec(powershellCmd, (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);
           return;
         }
         copiedKey = stdout.trim();
-        this.enterFriendDidKey(copiedKey);
+        return this.enterFriendDidKey(copiedKey);
       });
     }
   }
@@ -432,22 +433,22 @@ class FriendsScreen extends UplinkMainScreen {
 
   async openFriendContextMenu(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    const friendBubble = await friendToClick.$(SELECTORS.FRIEND_USER_IMAGE);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
+      const friendBubble = await friendToClick.$(SELECTORS.FRIEND_USER_IMAGE);
       await driver.executeScript("macos: rightClick", [
         {
           elementId: friendBubble,
         },
       ]);
-      await (await this.contextMenu).waitForDisplayed();
     } else if (currentDriver === "windows") {
-      await driver.executeScript("macos: rightClick", [
-        {
-          elementId: friendBubble,
-        },
-      ]);
+      const friendName = await friendToClick.$(SELECTORS.FRIEND_INFO_USERNAME);
+      await friendName.click();
+      await browser.pause(100);
+      await friendName.click();
+      await driver.keys([Key.Shift, "F10"]);
     }
+    await (await this.contextMenu).waitForDisplayed();
   }
 
   async removeOrCancelUser(name: string) {
