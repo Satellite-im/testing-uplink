@@ -4,16 +4,16 @@
       "identity": {
         "username": "TestUserA",
         "short_id": [
-          86,
-          115,
-          78,
-          106,
-          74,
-          77,
-          87,
-          78
+          66,
+          69,
+          68,
+          111,
+          66,
+          120,
+          105,
+          81
         ],
-        "did_key": "did:key:z6Mko99pHpUAq34b6cAJEZLgpqU28NzejLb4TpVtVsNjJMWN",
+        "did_key": "did:key:z6Mkhxw5tmNBzozGdSnuPMwvuCZvszYS9e9tY9KnBEDoBxiQ",
         "graphics": {
           "profile_picture": "",
           "profile_banner": ""
@@ -41,11 +41,11 @@
   },
   "friends": {},
   "settings": {
-    "language": ""
+    "language": "English (USA)"
   },
   "ui": {
     "notifications": {
-      "friends": 4,
+      "friends": 6,
       "messages": 0,
       "settings": 0
     },
@@ -56,8 +56,8 @@
       "focused": true,
       "maximized": false,
       "minimized": false,
-      "width": 1256,
-      "height": 784,
+      "width": 1920,
+      "height": 1020,
       "minimal_view": false
     }
   },
