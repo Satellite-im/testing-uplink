@@ -190,8 +190,7 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  // Test skipped for now since right click cannot be done by Appium Windows Driver and needs research on how to create a workaround to display the context menu on Windows
-  xit("Context Menu - Chat with Friend", async () => {
+  it("Context Menu - Chat with Friend", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
     await FriendsScreen.openFriendContextMenu(friendName);
@@ -214,8 +213,7 @@ export default async function friends() {
     await FriendsScreen.contextMenuOption[1].click();
   });
 
-  // Skipped - Needs research because test is flakky, we will create a separate ticket for this one
-  xit("Context Menu - Add Friend to Favorites", async () => {
+  it("Context Menu - Add Friend to Favorites", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
     await FriendsScreen.openFriendContextMenu(friendName);
@@ -231,8 +229,7 @@ export default async function friends() {
     expect(favoriteBubble).toBeDisplayed();
   });
 
-  // Test skipped for now since right click cannot be done by Appium Windows Driver and needs research on how to create a workaround to display the context menu on Windows
-  xit("Context Menu - Remove Friend", async () => {
+  it("Context Menu - Remove Friend", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
     await FriendsScreen.openFriendContextMenu(friendName);
@@ -245,8 +242,7 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  // Test skipped for now since right click cannot be done by Appium Windows Driver and needs research on how to create a workaround to display the context menu on Windows
-  xit("Context Menu - Block Friend", async () => {
+  it("Context Menu - Block Friend", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
     await FriendsScreen.openFriendContextMenu(friendName);
@@ -264,8 +260,7 @@ export default async function friends() {
     await expect(blockedFriendsList.includes(friendName)).toEqual(true);
   });
 
-  // Test skipped for now since right click cannot be done by Appium Windows Driver and needs research on how to create a workaround to display the context menu on Windows
-  xit("Context Menu - Deny Incoming Request", async () => {
+  it("Context Menu - Deny Incoming Request", async () => {
     // Go to Pending Requests Screen
     await FriendsScreen.goToPendingFriendsList();
 
@@ -286,8 +281,7 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  // Test skipped for now since right click cannot be done by Appium Windows Driver and needs research on how to create a workaround to display the context menu on Windows
-  xit("Context Menu - Cancel Outgoing Request", async () => {
+  it("Context Menu - Cancel Outgoing Request", async () => {
     // Go to Pending Requests Screen
     await FriendsScreen.goToPendingFriendsList();
 
@@ -308,8 +302,7 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  // Test skipped for now since right click cannot be done by Appium Windows Driver and needs research on how to create a workaround to display the context menu on Windows
-  xit("Context Menu - Unblock User", async () => {
+  it("Context Menu - Unblock User", async () => {
     // Go to Blocked Users Screen
     await FriendsScreen.goToBlockedList();
 
