@@ -1,3 +1,4 @@
+import { Key } from "webdriverio";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -15,17 +16,24 @@ const SELECTORS_WINDOWS = {
   ADD_SOMEONE_INPUT: '[name="Add Someone Input"]',
   ALL_FRIENDS_BUTTON: '[name="all-friends-button"]',
   BLOCK_FRIEND_BUTTON: '[name="Block Friend"]',
-  BLOCKED_FRIENDS_BUTTON: '[name="blocked-friends-button"]',
   BLOCKED_LIST: '[name="Blocked List"]',
+  BLOCKED_LIST_BUTTON: '[name="blocked-friends-button"]',
   CHAT_WITH_FRIEND_BUTTON: '[name="Chat With Friend"]',
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_OPTION: '[name="Context Item"]',
   COPY_ID_BUTTON: '[name="Copy ID"]',
   FAVORITES: '[name="Favorites"]',
-  FAVORITES_USER_IMAGE: '[name="User Image"]',
+  FAVORITES_USER: "//Group",
+  FAVORITES_USER_IMAGE: "//Group/Image",
+  FAVORITES_USER_NAME: "//Text/Text",
   FRIEND_INFO: '[name="Friend Info"]',
+  FRIEND_INFO_USERNAME: "//Text[1]",
+  FRIEND_INFO_USERCODE: "//Text[2]",
   FRIEND_RECORD: '[name="Friend"]',
+  FRIEND_USER_IMAGE: '[name="User Image"]',
   FRIENDS_BODY: '[name="friends-body"]',
+  FRIENDS_BUTTON_BADGE: '[name="Button Badge"]',
+  FRIENDS_BUTTON_BADGE_TEXT: "//Text",
   FRIENDS_CONTROLS: '[name="friends-controls"]',
   FRIENDS_LIST: '[name="Friends List"]',
   INCOMING_REQUESTS_LIST: '[name="Incoming Requests List"]',
@@ -36,6 +44,7 @@ const SELECTORS_WINDOWS = {
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
   TOAST_NOTIFICATION_CLOSE: "//Button/Button",
   TOAST_NOTIFICATION_TEXT: "//Text[2]",
+  TOPBAR: '[name="Topbar"]',
 };
 
 const SELECTORS_MACOS = {
@@ -44,17 +53,28 @@ const SELECTORS_MACOS = {
   ADD_SOMEONE_INPUT: "~Add Someone Input",
   ALL_FRIENDS_BUTTON: "~all-friends-button",
   BLOCK_FRIEND_BUTTON: "~Block Friend",
-  BLOCKED_FRIENDS_BUTTON: "~blocked-friends-button",
   BLOCKED_LIST: "~Blocked List",
+  BLOCKED_LIST_BUTTON: "~blocked-friends-button",
   CHAT_WITH_FRIEND_BUTTON: "~Chat With Friend",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_OPTION: "~Context Item",
   COPY_ID_BUTTON: "~Copy ID",
   FAVORITES: "~Favorites",
-  FAVORITES_USER_IMAGE: "~User Image",
+  FAVORITES_USER: "-ios class chain:**/XCUIElementTypeGroup",
+  FAVORITES_USER_IMAGE:
+    '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeGroup/XCUIElementTypeGroup[`label == "User Image"`]',
+  FAVORITES_USER_NAME:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   FRIEND_INFO: "~Friend Info",
+  FRIEND_INFO_USERNAME:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]",
+  FRIEND_INFO_USERCODE:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[2]",
   FRIEND_RECORD: "~Friend",
+  FRIEND_USER_IMAGE: "~User Image",
   FRIENDS_BODY: "~friends-body",
+  FRIENDS_BUTTON_BADGE: "~Button Badge",
+  FRIENDS_BUTTON_BADGE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   FRIENDS_CONTROLS: "~friends-controls",
   FRIENDS_LIST: "~Friends List",
   INCOMING_REQUESTS_LIST: "~Incoming Requests List",
@@ -65,6 +85,7 @@ const SELECTORS_MACOS = {
   TOAST_NOTIFICATION: "~Toast Notification",
   TOAST_NOTIFICATION_CLOSE: "//*[3]",
   TOAST_NOTIFICATION_TEXT: "//*[2]/*[1]",
+  TOPBAR: "~Topbar",
 };
 
 currentOS === "windows"
@@ -92,12 +113,28 @@ class FriendsScreen extends UplinkMainScreen {
     return $(SELECTORS.ALL_FRIENDS_BUTTON);
   }
 
+  get allFriendsFriends() {
+    return $(SELECTORS.FRIENDS_LIST).$$(SELECTORS.FRIEND);
+  }
+
+  get allFriendsFriendsImages() {
+    return $(SELECTORS.FRIENDS_LIST)
+      .$$(SELECTORS.FRIEND)
+      .$$(SELECTORS.FRIEND_USER_IMAGE);
+  }
+
+  get allFriendsFriendsInfo() {
+    return $(SELECTORS.FRIENDS_LIST)
+      .$$(SELECTORS.FRIEND)
+      .$$(SELECTORS.FRIEND_INFO);
+  }
+
   get blockFriendButton() {
     return $(SELECTORS.BLOCK_FRIEND_BUTTON);
   }
 
-  get blockedFriendsButton() {
-    return $(SELECTORS.BLOCKED_FRIENDS_BUTTON);
+  get blockedListButton() {
+    return $(SELECTORS.BLOCKED_LIST_BUTTON);
   }
 
   get blockedList() {
@@ -124,20 +161,46 @@ class FriendsScreen extends UplinkMainScreen {
     return $(SELECTORS.FAVORITES);
   }
 
+  get favoriteUsers() {
+    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER);
+  }
+
   get favoritesUserImage() {
     return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER_IMAGE);
+  }
+
+  get favoritesUserName() {
+    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER_NAME);
   }
 
   get friendInfo() {
     return $(SELECTORS.FRIEND_INFO);
   }
 
-  get friendRecord() {
+  get friendInfoUsername() {
+    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_USERNAME);
+  }
+
+  get friendInfoUsercode() {
+    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_USERCODE);
+  }
+
+  get friendRecords() {
     return $$(SELECTORS.FRIEND_RECORD);
   }
 
   get friendsBody() {
     return $(SELECTORS.FRIENDS_BODY);
+  }
+
+  get friendsButtonBadge() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.FRIENDS_BUTTON_BADGE);
+  }
+
+  get friendsButtonBadgeText() {
+    return $(SELECTORS.TOPBAR)
+      .$(SELECTORS.FRIENDS_BUTTON_BADGE)
+      .$(SELECTORS.FRIENDS_BUTTON_BADGE_TEXT);
   }
 
   get friendsControls() {
@@ -184,43 +247,25 @@ class FriendsScreen extends UplinkMainScreen {
     return $(SELECTORS.TOAST_NOTIFICATION).$(SELECTORS.TOAST_NOTIFICATION_TEXT);
   }
 
+  get topbar() {
+    return $(SELECTORS.TOPBAR);
+  }
+
   async acceptIncomingRequest(name: string) {
-    const friend = await driver.findElement(
-      "xpath",
-      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
-    );
-    const button = await driver.findElementFromElement(
-      friend.ELEMENT,
-      "accessibility id",
-      "Accept Friend"
-    );
-    await $(button).click();
+    const friendToClick = await this.getFriendRecordByName(name);
+    await (
+      await friendToClick.$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON)
+    ).click();
   }
 
   async blockUser(name: string) {
-    const friend = await driver.findElement(
-      "xpath",
-      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
-    );
-    const button = await driver.findElementFromElement(
-      friend.ELEMENT,
-      "accessibility id",
-      "Block Friend"
-    );
-    await $(button).click();
+    const friendToClick = await this.getFriendRecordByName(name);
+    await (await friendToClick.$(SELECTORS.BLOCK_FRIEND_BUTTON)).click();
   }
 
   async chatWithFriend(name: string) {
-    const friend = await driver.findElement(
-      "xpath",
-      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
-    );
-    const button = await driver.findElementFromElement(
-      friend.ELEMENT,
-      "accessibility id",
-      "Chat With Friend"
-    );
-    await $(button).click();
+    const friendToClick = await this.getFriendRecordByName(name);
+    await (await friendToClick.$(SELECTORS.CHAT_WITH_FRIEND_BUTTON)).click();
   }
 
   async clickOnAddSomeoneButton() {
@@ -240,6 +285,8 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async enterFriendDidKey(didkey: string) {
+    await this.addSomeoneInput.click();
+    await this.addSomeoneInput.clearValue();
     await this.addSomeoneInput.setValue(didkey);
   }
 
@@ -247,50 +294,124 @@ class FriendsScreen extends UplinkMainScreen {
     let copiedKey;
     if ((await this.getCurrentDriver()) === "mac2") {
       copiedKey = await execSync("pbpaste", { encoding: "utf8" });
-      this.enterFriendDidKey(copiedKey);
+      return await this.enterFriendDidKey(copiedKey);
     } else if ((await this.getCurrentDriver()) === "windows") {
       const powershellCmd = "powershell.exe Get-Clipboard";
-      exec(powershellCmd, (error, stdout, stderr) => {
+      await exec(powershellCmd, (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);
           return;
         }
         copiedKey = stdout.trim();
-        this.enterFriendDidKey(copiedKey);
+        return this.enterFriendDidKey(copiedKey);
       });
     }
   }
 
-  async getEntireFriendsList(list: string) {
-    const friendNames = await driver.findElements(
-      "xpath",
-      "//*[@label='" + list + "']//*[@label='Friend Info']/*[1]/*[1]"
-    );
-    let names = [];
-    for (let name of friendNames) {
-      names.push(await (await $(name)).getText());
+  async getAbbreviatedDidKey(key: string) {
+    return key.substr(8, 3) + "..." + key.substr(-3);
+  }
+
+  async getAbbreviatedFavUser(user: string) {
+    return user.substr(0, 4).toUpperCase() + "...";
+  }
+
+  async getButtonBadgeText() {
+    return this.buttonBadgeText.getText();
+  }
+
+  async getAllFriendsList() {
+    const friends = await $(SELECTORS.FRIENDS_LIST).$$(SELECTORS.FRIEND_INFO);
+    let results = [];
+    for (let friend of friends) {
+      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
     }
-    return names;
+    return results;
+  }
+
+  async getBlockedList() {
+    const friends = await $(SELECTORS.BLOCKED_LIST).$$(SELECTORS.FRIEND_INFO);
+    let results = [];
+    for (let friend of friends) {
+      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
+    }
+    return results;
+  }
+
+  async getFriendRecordByName(name: string) {
+    const friends = await this.friendRecords;
+    for (let friend of friends) {
+      if (
+        (await friend
+          .$(SELECTORS.FRIEND_INFO)
+          .$(SELECTORS.FRIEND_INFO_USERNAME)
+          .getText()) === name
+      ) {
+        return friend;
+      }
+    }
+  }
+
+  async getIncomingList() {
+    const friends = await $(SELECTORS.INCOMING_REQUESTS_LIST).$$(
+      SELECTORS.FRIEND_INFO
+    );
+    let results = [];
+    for (let friend of friends) {
+      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
+    }
+    return results;
+  }
+
+  async getOutgoingList() {
+    const friends = await $(SELECTORS.OUTGOING_REQUESTS_LIST).$$(
+      SELECTORS.FRIEND_INFO
+    );
+    let results = [];
+    for (let friend of friends) {
+      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
+    }
+    return results;
   }
 
   async getToastNotificationText() {
     return await this.toastNotificationClose.getText();
   }
 
-  async getUserFromFriendsList(list: string) {
-    const firstUserFromList = await driver.findElement(
-      "xpath",
-      "//*[@label='" + list + "']//*[@label='Friend Info']/*[1]/*[1]"
-    );
-    const user = await (await $(firstUserFromList)).getText();
-    return user;
+  async getUserFromAllFriendsList() {
+    const firstUserFromList = await $(SELECTORS.FRIENDS_LIST)
+      .$$(SELECTORS.FRIEND_INFO)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .getText();
+    return firstUserFromList;
+  }
+
+  async getUserFromIncomingList() {
+    const firstUserFromList = await $(SELECTORS.INCOMING_REQUESTS_LIST)
+      .$$(SELECTORS.FRIEND_INFO)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .getText();
+    return firstUserFromList;
+  }
+
+  async getUserFromOutgoingList() {
+    const firstUserFromList = await $(SELECTORS.OUTGOING_REQUESTS_LIST)
+      .$$(SELECTORS.FRIEND_INFO)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .getText();
+    return firstUserFromList;
+  }
+
+  async getUserFromBlockedList() {
+    const firstUserFromList = await $(SELECTORS.BLOCKED_LIST)
+      .$$(SELECTORS.FRIEND_INFO)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .getText();
+    return firstUserFromList;
   }
 
   async getUsersFromFavorites() {
-    const favoriteUsers = await driver.findElements(
-      "xpath",
-      "//*[@label='Favorites']//*[@label='User Image']/../../*[2]"
-    );
+    const favoriteUsers = await this.favoritesUserName;
     let currentFavoriteUsers = [];
     for (let name of favoriteUsers) {
       currentFavoriteUsers.push(await (await $(name)).getText());
@@ -298,31 +419,43 @@ class FriendsScreen extends UplinkMainScreen {
     return currentFavoriteUsers;
   }
 
-  async openFriendContextMenu(friend: string) {
-    const friendLocator = await driver.findElement(
-      "xpath",
-      "//*[@label='Friend Info']//*[@value='" + friend + "']/../../.."
-    );
-    const friendBubble = await (await $(friendLocator)).$("~User Image");
-    await driver.executeScript("macos: rightClick", [
-      {
-        elementId: friendBubble,
-      },
-    ]);
+  async goToAllFriendsList() {
+    await (await this.allFriendsButton).click();
+  }
+
+  async goToBlockedList() {
+    await (await this.blockedListButton).click();
+  }
+
+  async goToPendingFriendsList() {
+    await (await this.pendingFriendsButton).click();
+  }
+
+  async openFriendContextMenu(name: string) {
+    const friendToClick = await this.getFriendRecordByName(name);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      const friendBubble = await friendToClick.$(SELECTORS.FRIEND_USER_IMAGE);
+      await driver.executeScript("macos: rightClick", [
+        {
+          elementId: friendBubble,
+        },
+      ]);
+    } else if (currentDriver === "windows") {
+      const friendName = await friendToClick.$(SELECTORS.FRIEND_INFO_USERNAME);
+      await friendName.click();
+      await browser.pause(100);
+      await friendName.click();
+      await driver.keys([Key.Shift, "F10"]);
+    }
     await (await this.contextMenu).waitForDisplayed();
   }
 
-  async removeOrDenyFriend(name: string) {
-    const friend = await driver.findElement(
-      "xpath",
-      "//*[@label='Friend Info']//*[@value='" + name + "']/../../.."
-    );
-    const button = await driver.findElementFromElement(
-      friend.ELEMENT,
-      "accessibility id",
-      "Remove or Deny Friend"
-    );
-    await $(button).click();
+  async removeOrCancelUser(name: string) {
+    const friendToClick = await this.getFriendRecordByName(name);
+    await (
+      await friendToClick.$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON)
+    ).click();
   }
 }
 

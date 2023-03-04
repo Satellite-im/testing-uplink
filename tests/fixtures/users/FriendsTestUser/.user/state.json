@@ -1,0 +1,96 @@
+{
+  "account": {
+    "identity": {
+      "identity": {
+        "username": "TestUserA",
+        "short_id": [
+          66,
+          69,
+          68,
+          111,
+          66,
+          120,
+          105,
+          81
+        ],
+        "did_key": "did:key:z6Mkhxw5tmNBzozGdSnuPMwvuCZvszYS9e9tY9KnBEDoBxiQ",
+        "graphics": {
+          "profile_picture": "",
+          "profile_banner": ""
+        },
+        "status_message": null,
+        "roles": [],
+        "available_badges": [],
+        "active_badge": {
+          "name": "",
+          "icon": ""
+        }
+      },
+      "status": "offline",
+      "platform": "unknown"
+    }
+  },
+  "route": {
+    "active": ""
+  },
+  "chats": {
+    "all": {},
+    "active": null,
+    "in_sidebar": [],
+    "favorites": []
+  },
+  "friends": {},
+  "settings": {
+    "language": "English (USA)"
+  },
+  "ui": {
+    "notifications": {
+      "friends": 6,
+      "messages": 0,
+      "settings": 0
+    },
+    "theme": null,
+    "enable_overlay": false,
+    "sidebar_hidden": false,
+    "metadata": {
+      "focused": true,
+      "maximized": false,
+      "minimized": false,
+      "width": 1920,
+      "height": 1020,
+      "minimal_view": false
+    }
+  },
+  "configuration": {
+    "general": {
+      "theme": "",
+      "show_splash": false,
+      "enable_overlay": false
+    },
+    "privacy": {
+      "satellite_sync_nodes": false,
+      "safer_file_scanning": false
+    },
+    "audiovideo": {
+      "noise_suppression": false,
+      "call_timer": false,
+      "interface_sounds": false,
+      "message_sounds": true,
+      "media_sounds": true
+    },
+    "extensions": {
+      "enable": false,
+      "enable_automatically": false
+    },
+    "developer": {
+      "developer_mode": false
+    },
+    "notifications": {
+      "enabled": true,
+      "show_app_icon": false,
+      "friends_notifications": true,
+      "messages_notifications": true,
+      "settings_notifications": false
+    }
+  }
+}

@@ -9,6 +9,7 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   BUTTON_BADGE: '[name="Button Badge"]',
+  BUTTON_BADGE_TEXT: "//Text",
   BUTTON_NAV: '[name="button-nav"]',
   BUTTON_NAV_TOOLTIP: '[name="tooltip"]',
   BUTTON_NAV_TOOLTIP_TEXT: "//Text",
@@ -28,6 +29,7 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   BUTTON_BADGE: "~Button Badge",
+  BUTTON_BADGE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   BUTTON_NAV: "~button-nav",
   BUTTON_NAV_TOOLTIP: "~tooltip",
   BUTTON_NAV_TOOLTIP_TEXT:
@@ -57,6 +59,10 @@ export default class UplinkMainScreen extends AppScreen {
 
   get buttonBadge() {
     return $(SELECTORS.BUTTON_BADGE);
+  }
+
+  get buttonBadgeText() {
+    return $(SELECTORS.BUTTON_BADGE).$(SELECTORS.BUTTON_BADGE_TEXT);
   }
 
   get buttonNav() {

@@ -1,7 +1,6 @@
 import createAccount from "../specs/01-create-account.spec";
 import chats from "../specs/02-chats.spec";
 import files from "../specs/03-files.spec";
-import friends from "../specs/04-friends.spec";
 import settingsGeneral from "../specs/05-settings-general.spec";
 import settingsProfile from "../specs/06-settings-profile.spec";
 import settingsPrivacy from "../specs/07-settings-privacy.spec";
@@ -15,7 +14,6 @@ describe("Uplink UI Automated Tests", async () => {
   describe("Create Pin and Account Tests", createAccount.bind(this));
   describe("Chats Main Screen Tests", chats.bind(this));
   describe("Files Screen Tests", files.bind(this));
-  describe("Friends Screen Tests", friends.bind(this));
   describe("Settings General Tests", settingsGeneral.bind(this));
   describe("Settings Profile Tests", settingsProfile.bind(this));
   describe("Settings Privacy Tests", settingsPrivacy.bind(this));

@@ -55,17 +55,17 @@ export async function loadTestUserData(user: string) {
 }
 
 export async function resetApp() {
-  await driver.executeScript("macos: terminateApp", [
-    {
-      bundleId: "im.satellite.uplink",
-    },
-  ]);
+  await closeApplication();
   await deleteCache();
-  await driver.executeScript("macos: launchApp", [
-    {
-      bundleId: "im.satellite.uplink",
-    },
-  ]);
+  await launchApplication();
+}
+
+export async function resetAndLoginWithCache(user: string) {
+  await closeApplication();
+  await deleteCache();
+  await loadTestUserData(user);
+  await launchApplication();
+  await loginWithTestUser();
 }
 
 export async function saveTestKeys(username: string) {
@@ -127,20 +127,49 @@ export async function loginWithTestUser() {
 
   // Ensure Main Screen is displayed
   await WelcomeScreen.waitForIsShown(true);
+}
 
-  // Click on Add Someone to show Main Menu
-  await WelcomeScreen.clickAddSomeone();
+export async function launchApplication() {
+  const currentOS = await driver.capabilities.automationName;
+  if (currentOS === "windows") {
+    await driver.executeScript("windows: launchApp", [
+      {
+        app: join(process.cwd(), "\\apps\\ui.exe"),
+      },
+    ]);
+  } else if (currentOS === "mac2") {
+    await driver.executeScript("macos: launchApp", [
+      {
+        bundleId: "im.satellite.uplink",
+      },
+    ]);
+  }
+}
 
-  // Validate Friends Screen is displayed
-  await FriendsScreen.waitForIsShown(true);
+export async function closeApplication() {
+  const currentOS = await driver.capabilities.automationName;
+  if (currentOS === "windows") {
+    await $('[name="close-button"]').click();
+  } else if (currentOS === "mac2") {
+    await $("~_XCUI:CloseWindow").click();
+  }
 }
 
 export async function maximizeWindow() {
   const currentOS = await driver.capabilities.automationName;
   if (currentOS === "windows") {
-    await $("//Document/Group/Button[2]").click();
+    await $('[name="square-button"]').click();
   } else if (currentOS === "mac2") {
     await $("~_XCUI:FullScreenWindow").click();
+  }
+}
+
+export async function minimizeWindow() {
+  const currentOS = await driver.capabilities.automationName;
+  if (currentOS === "windows") {
+    await $('[name="minimize-button"]').click();
+  } else if (currentOS === "mac2") {
+    await $("~_XCUI:MinimizeWindow").click();
   }
 }
 
