@@ -83,8 +83,9 @@ const SELECTORS_MACOS = {
   PENDING_FRIENDS_BUTTON: "~pending-friends-button",
   REMOVE_OR_DENY_FRIEND_BUTTON: "~Remove or Deny Friend",
   TOAST_NOTIFICATION: "~Toast Notification",
-  TOAST_NOTIFICATION_CLOSE: "//*[3]",
-  TOAST_NOTIFICATION_TEXT: "//*[2]/*[1]",
+  TOAST_NOTIFICATION_CLOSE: "-ios class chain:**/XCUIElementTypeButton",
+  TOAST_NOTIFICATION_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText",
   TOPBAR: "~Topbar",
 };
 
@@ -240,7 +241,9 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   get toastNotificationClose() {
-    return $(SELECTORS.TOAST_NOTIFICATION).$(SELECTORS.TOAST_NOTIFICATION_TEXT);
+    return $(SELECTORS.TOAST_NOTIFICATION).$(
+      SELECTORS.TOAST_NOTIFICATION_CLOSE
+    );
   }
 
   get toastNotificationText() {
@@ -375,7 +378,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getToastNotificationText() {
-    return await this.toastNotificationClose.getText();
+    return await this.toastNotificationText.getText();
   }
 
   async getUserFromAllFriendsList() {

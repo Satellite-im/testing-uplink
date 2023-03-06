@@ -1,6 +1,7 @@
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
+const { writeFileSync } = require("fs");
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -65,6 +66,17 @@ class CreatePinScreen extends UplinkMainScreen {
       result = await this.createAccountButton.getAttribute("enabled");
     }
     return result.toString().toLowerCase();
+  }
+
+  async saveUsername() {
+    const target = "./tests/fixtures/users/username.txt";
+    try {
+      const username = await this.usernameInput.getText();
+      writeFileSync(target, username, "utf8");
+      console.log("Data successfully saved");
+    } catch (error) {
+      console.log("An error has occurred ", error);
+    }
   }
 }
 

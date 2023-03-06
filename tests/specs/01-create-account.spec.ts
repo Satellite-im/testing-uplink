@@ -1,4 +1,4 @@
-import { maximizeWindow } from "../helpers/commands";
+import { maximizeWindow, saveUsername } from "../helpers/commands";
 import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
@@ -142,6 +142,7 @@ export default async function createAccount() {
 
   it("Enter valid username to continue", async () => {
     await CreateUserScreen.enterUsername("test123");
+    await CreateUserScreen.saveUsername();
     expect(await CreateUserScreen.getStatusOfCreateAccountButton()).toEqual(
       "true"
     );

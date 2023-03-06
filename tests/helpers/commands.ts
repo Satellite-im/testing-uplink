@@ -85,6 +85,12 @@ export async function saveTestKeys(username: string) {
     console.log("An error has occurred ", error);
   }
 }
+export async function getCurrentUsername() {
+  // Read user data from txt file
+  const source = "./tests/fixtures/users/username.txt";
+  let username = readFileSync(source, "utf8");
+  return username.toLowerCase();
+}
 
 // Login or Create Users Functions
 

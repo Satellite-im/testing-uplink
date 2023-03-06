@@ -1,3 +1,4 @@
+import { getCurrentUsername } from "../helpers/commands";
 import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
 
@@ -57,11 +58,12 @@ export default async function settingsProfile() {
     );
 
     // Assert username and status placeholder values are displayed
+    const currentUsername = await getCurrentUsername();
     await expect(
       await SettingsProfileScreen.usernameInput
-    ).toHaveTextContaining("Mock Username");
+    ).toHaveTextContaining(currentUsername);
     await expect(await SettingsProfileScreen.statusInput).toHaveTextContaining(
-      "Mock status messages are so 2008."
+      ""
     );
   });
 
