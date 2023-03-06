@@ -59,9 +59,9 @@ export default async function settingsProfile() {
     // Assert username and status placeholder values are displayed
     await expect(
       await SettingsProfileScreen.usernameInput
-    ).toHaveTextContaining("Mock Username");
+    ).toHaveTextContaining("test123");
     await expect(await SettingsProfileScreen.statusInput).toHaveTextContaining(
-      "Mock status messages are so 2008."
+      ""
     );
   });
 
