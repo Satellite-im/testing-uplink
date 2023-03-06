@@ -132,17 +132,17 @@ export default async function settingsDeveloper() {
   });
 
   // Skipped for now because no action is performed when clicking on the button
-  xit("Setings Developer - Compress & Download Cache", async () => {
+  xit("Settings Developer - Compress & Download Cache", async () => {
     await SettingsDeveloperScreen.clickOnCompressAndDownloadCache();
   });
 
   // Skipped for now because no action is performed when clicking on the button
-  xit("Setings Developer - Print State button", async () => {
+  xit("Settings Developer - Print State button", async () => {
     await SettingsDeveloperScreen.clickOnPrintState();
   });
 
   // Skipped for now because no action is performed when clicking on the button
-  xit("Setings Developer - Clear Cache", async () => {
+  xit("Settings Developer - Clear Cache", async () => {
     await SettingsDeveloperScreen.clickOnClearCache();
   });
 }
