@@ -25,7 +25,6 @@ config.capabilities = [
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
-    "appium:systemPort": 4724,
   },
 ];
 

@@ -17,8 +17,6 @@ config.services = (config.services ? config.services : []).concat([
         relaxedSecurity: true,
         // Write the Appium logs to a file in the root of the directory
         log: "./appium.log",
-        address: 'localhost',
-        port: 4723,
       },
     },
   ],
@@ -29,6 +27,6 @@ config.services = (config.services ? config.services : []).concat([
 // =====================
 //
 
-config.port = 10100;
+config.port = 4723;
 
 export default config;
