@@ -10,7 +10,7 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   AUDIO_BUTTON: "//Group/Group/Button[4]",
   DEVELOPER_BUTTON: '[name="developer-button"]',
-  EXTENSIONS_BUTTTON: '[name="extensions-button"]',
+  EXTENSIONS_BUTTON: '[name="extensions-button"]',
   FILES_BUTTON: '[name="files-button"]',
   GENERAL_BUTTON: '[name="general-button"]',
   NOTIFICATIONS_BUTTON: '[name="notifications-button"]',
@@ -22,7 +22,7 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   AUDIO_BUTTON: "~sounds & audio-button",
   DEVELOPER_BUTTON: "~developer-button",
-  EXTENSIONS_BUTTTON: "~extensions-button",
+  EXTENSIONS_BUTTON: "~extensions-button",
   FILES_BUTTON: "~files-button",
   GENERAL_BUTTON: "~general-button",
   NOTIFICATIONS_BUTTON: "~notifications-button",
@@ -49,7 +49,7 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
   }
 
   get extensionsButton() {
-    return $(SELECTORS.EXTENSIONS_BUTTTON);
+    return $(SELECTORS.EXTENSIONS_BUTTON);
   }
 
   get filesSettingsButton() {
