@@ -105,7 +105,6 @@ jobs:
           appium -v
           appium driver install mac2
           appium driver list
-          appium &>/dev/null &
 
       - name: Delete Cache Folder if exists
         run: rm -rf ~/.uplink
