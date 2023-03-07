@@ -194,6 +194,13 @@ class FilesScreen extends UplinkMainScreen {
     await this.showSidebar.click();
   }
 
+  async createFolder(name: string) {
+    await (await this.addFolderButton).click();
+    await (await this.inputFolderFileName).setValue(name + "\n");
+    const newFolder = await $("~" + name);
+    expect(newFolder).toExist();
+  }
+
   async getCurrentFolder() {
     const folders = await this.crumb;
     const treeLength = folders.length - 1;
@@ -207,11 +214,13 @@ class FilesScreen extends UplinkMainScreen {
     return await (await element.$(SELECTORS.FILE_FOLDER_NAME)).getText();
   }
 
-  async createFolder(name: string) {
-    await (await this.addFolderButton).click();
-    await (await this.inputFolderFileName).setValue(name + "\n");
-    const newFolder = await $("~" + name);
-    expect(newFolder).toExist();
+  async getLocatorOfFolderFile(name: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      return await $("~" + name);
+    } else if (currentDriver === "windows") {
+      return await $('[name="' + name + '"]');
+    }
   }
 }
 

@@ -49,14 +49,14 @@ export default async function files() {
 
   it("Create a new folder and enter to it", async () => {
     await FilesScreen.createFolder("testfolder01");
-    const newFolder = await $("~testfolder01");
+    const newFolder = await FilesScreen.getLocatorOfFolderFile("testfolder01");
     expect(newFolder).toExist();
     await newFolder.click();
   });
 
   it("Create a subfolder inside the previous folder craeted and enter into it", async () => {
     await FilesScreen.createFolder("testfolder02");
-    const newFolder = await $("~testfolder02");
+    const newFolder = await FilesScreen.getLocatorOfFolderFile("testfolder02");
     expect(newFolder).toExist();
     await newFolder.click();
   });
