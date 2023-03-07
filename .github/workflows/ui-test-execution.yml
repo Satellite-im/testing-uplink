@@ -1,6 +1,7 @@
 name: MacOS - Build App and Run UI Automated Tests 🧪
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [opened, synchronize, reopened, edited]
 

@@ -1,6 +1,7 @@
 name: UI Automated Tests on Windows 🧪
 
 on:
+  workflow_dispatch:
   pull_request:
     types: [opened, synchronize, reopened, edited]
 
