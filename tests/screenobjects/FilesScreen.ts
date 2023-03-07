@@ -1,4 +1,5 @@
 import UplinkMainScreen from "./UplinkMainScreen";
+import { Key } from "webdriverio";
 
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
@@ -195,9 +196,16 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   async createFolder(name: string) {
+    const currentDriver = await this.getCurrentDriver();
     await (await this.addFolderButton).click();
-    await (await this.inputFolderFileName).setValue(name + "\n");
-    const newFolder = await $("~" + name);
+    let nameAndEnter;
+    if (currentDriver === "mac2") {
+      nameAndEnter = name + "\n";
+    } else if (currentDriver === "windows") {
+      nameAndEnter = name + "\r\n";
+    }
+    await (await this.inputFolderFileName).setValue(nameAndEnter);
+    const newFolder = await this.getLocatorOfFolderFile(name);
     expect(newFolder).toExist();
   }
 
