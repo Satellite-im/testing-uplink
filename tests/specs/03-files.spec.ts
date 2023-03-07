@@ -42,10 +42,34 @@ export default async function files() {
     await expect(await FilesScreen.crumb).toBeDisplayed();
   });
 
-  xit("Create a new folder", async () => {});
-
   it("Validate add folder/file buttons are displayed in screen", async () => {
-    await expect(await FilesScreen.addFileButton).toBeDisplayed();
+    await expect(await FilesScreen.addFolderButton).toBeDisplayed();
     await expect(await FilesScreen.uploadFileButton).toBeDisplayed();
+  });
+
+  it("Create a new folder and enter to it", async () => {
+    await FilesScreen.createFolder("testfolder01");
+    const newFolder = await $("~testfolder01");
+    expect(newFolder).toExist();
+    await newFolder.click();
+  });
+
+  it("Create a subfolder inside the previous folder craeted and enter into it", async () => {
+    await FilesScreen.createFolder("testfolder02");
+    const newFolder = await $("~testfolder02");
+    expect(newFolder).toExist();
+    await newFolder.click();
+  });
+
+  it("Click in the Folder button to take you to the selected folder", async () => {
+    await FilesScreen.clickOnFolderCrumb("testfolder01");
+    const currentFolder = await FilesScreen.getCurrentFolder();
+    expect(currentFolder).toEqual("testfolder01");
+  });
+
+  it("Click in the Home button should take you to Home folder", async () => {
+    await FilesScreen.clickOnHomeFolderCrumb();
+    const currentFolder = await FilesScreen.getCurrentFolder();
+    expect(currentFolder).toEqual("Home");
   });
 }

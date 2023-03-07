@@ -7,11 +7,10 @@ const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   ADD_FOLDER_BUTTON: '[name="add-folder"]',
-  CONTEXT_MENU: "NEED TO ADD FOR WINDOWS",
-  CONTEXT_MENU_OPTION: "NEED TO ADD FOR WINDOWS",
+  CONTEXT_MENU: '[name="Context Menu"]',
+  CONTEXT_MENU_OPTION: '[name="Context Item"]',
   CRUMB: '[name="crumb"]',
   CRUMB_TEXT: "//Text",
-  FILE_NAME: "NEED TO ADD FOR WINDOWS",
   FILES_BODY: '[name="files-body"]',
   FILES_BREADCRUMBS: '[name="files-breadcrumbs"]',
   FILES_INFO: '[name="files-info"]',
@@ -21,11 +20,11 @@ const SELECTORS_WINDOWS = {
   FILES_INFO_TOTAL_SPACE_VALUE: "//Text[4]",
   FILES_LAYOUT: '[name=files-layout"]',
   FILES_LIST: '[name="files-list"]',
-  INPUT_ERROR: "NEED TO ADD FOR WINDOWS",
-  INPUT_ERROR_TEXT: "NEED TO ADD FOR WINDOWS",
-  INPUT_FOLDER_FILE_NAME: "NEED TO ADD FOR WINDOWS",
-  TOOLTIP: "NEED TO ADD FOR WINDOWS",
-  TOOLTIP_TEXT: "NEED TO ADD FOR WINDOWS",
+  INPUT_ERROR: '[name="input-error"]',
+  INPUT_ERROR_TEXT: "//Text",
+  INPUT_FOLDER_FILE_NAME: "//Edit",
+  TOOLTIP: '[name="tooltip"]',
+  TOOLTIP_TEXT: "//Group/Text",
   TOPBAR: '[name="Topbar"]',
   UPLOAD_FILE_BUTTON: '[name="upload-file"]',
 };
@@ -60,6 +59,10 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   TOPBAR: "~Topbar",
   UPLOAD_FILE_BUTTON: "~upload-file",
+  UPLOAD_FILE_INDICATOR_FILENAME:
+    "-ios class chain:**/XCUIElementTypeWebView/XCUIElementTypeGroup[3]/XCUIElementTypeStaticText",
+  UPLOAD_FILE_INDICATOR_PROGRESS:
+    "-ios class chain:**/XCUIElementTypeWebView/XCUIElementTypeGroup[4]/XCUIElementTypeStaticText",
 };
 
 currentOS === "windows"
@@ -163,21 +166,50 @@ class FilesScreen extends UplinkMainScreen {
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
+  get uploadFileIndicatorFilename() {
+    return $(SELECTORS.UPLOAD_FILE_INDICATOR_FILENAME);
+  }
+
+  get uploadFileIndicatorProgress() {
+    return $(SELECTORS.UPLOAD_FILE_INDICATOR_PROGRESS);
+  }
+
+  async clickOnFolderCrumb(folderName: string) {
+    const crumbs = await this.crumb;
+    for (let i = 0; i < crumbs.length; i++) {
+      if (
+        (await (await crumbs[i].$(SELECTORS.CRUMB_TEXT)).getText()) ===
+        folderName
+      ) {
+        await crumbs[i].click();
+      }
+    }
+  }
+
+  async clickOnHomeFolderCrumb() {
+    await $$(SELECTORS.CRUMB)[0].click();
+  }
+
   async clickOnShowSidebar() {
     await this.showSidebar.click();
+  }
+
+  async getCurrentFolder() {
+    const folders = await this.crumb;
+    const treeLength = folders.length - 1;
+    const currentFolderName = await folders[treeLength]
+      .$(SELECTORS.CRUMB_TEXT)
+      .getText();
+    return currentFolderName;
   }
 
   async getFileFolderName(element: WebdriverIO.Element) {
     return await (await element.$(SELECTORS.FILE_FOLDER_NAME)).getText();
   }
 
-  async renameFile() {}
-
-  async renameFolder() {}
-
   async createFolder(name: string) {
     await (await this.addFolderButton).click();
-    await (await this.inputFolderFileName).setValue(name + "/n");
+    await (await this.inputFolderFileName).setValue(name + "\n");
     const newFolder = await $("~" + name);
     expect(newFolder).toExist();
   }
