@@ -22,7 +22,7 @@ const SELECTORS_WINDOWS = {
   FILES_LIST: '[name="files-list"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "//Text",
-  INPUT_FOLDER_FILE_NAME: "//Edit",
+  INPUT_FOLDER_FILE_NAME: "//Group/Edit",
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   TOPBAR: '[name="Topbar"]',
