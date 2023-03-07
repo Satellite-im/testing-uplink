@@ -253,6 +253,27 @@ export default async function friends() {
     await expect(blockedFriendsList.includes(friendName)).toEqual(true);
   });
 
+  it("Context Menu - Accept Incoming Request", async () => {
+    // Go to Pending Requests Screen
+    await FriendsScreen.goToPendingFriendsList();
+
+    // Get a random user from Incoming Pending list and right click on it to get the context menu
+    const friendName = await FriendsScreen.getUserFromIncomingList();
+    await FriendsScreen.openFriendContextMenu(friendName);
+
+    // Select the only option "Accept" from Context Menu
+    await FriendsScreen.contextMenuOption[0].click();
+
+    // Get the current list of incoming requests and validate that user does not appear there now
+    const incomingRequestsList = await FriendsScreen.getIncomingList();
+    await expect(incomingRequestsList.includes(friendName)).toEqual(false);
+
+    // Go to the current list of All friends and ensure that accepted user is now in friends list
+    await FriendsScreen.goToAllFriendsList();
+    const allFriendsList = await FriendsScreen.getAllFriendsList();
+    await expect(allFriendsList.includes(friendName)).toEqual(true);
+  });
+
   it("Context Menu - Deny Incoming Request", async () => {
     // Go to Pending Requests Screen
     await FriendsScreen.goToPendingFriendsList();
@@ -262,7 +283,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select the only option "Deny Request" from Context Menu
-    await FriendsScreen.contextMenuOption[0].click();
+    await FriendsScreen.contextMenuOption[1].click();
 
     // Get the current list of incoming requests and validate that user does not appear there now
     const incomingRequestsList = await FriendsScreen.getIncomingList();
