@@ -1,3 +1,4 @@
+import { selectFileOnMacos } from "../helpers/commands";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -225,6 +226,24 @@ class FilesScreen extends UplinkMainScreen {
       return await $("~" + name);
     } else if (currentDriver === "windows") {
       return await $('[name="' + name + '"]');
+    }
+  }
+
+  async getProgressUploadFilename() {
+    const filename = await (await this.uploadFileIndicatorFilename).getText();
+    return filename;
+  }
+
+  async getProgressUploadPercentage() {
+    const progress = await (await this.uploadFileIndicatorProgress).getText();
+    return progress;
+  }
+
+  async uploadFile(relativePath: string) {
+    const currentDriver = await this.getCurrentDriver();
+    await (await this.uploadFileButton).click();
+    if (currentDriver === "mac2") {
+      await selectFileOnMacos(relativePath);
     }
   }
 }
