@@ -197,6 +197,10 @@ class FilesScreen extends UplinkMainScreen {
     await this.showSidebar.click();
   }
 
+  async clickOnUploadFile() {
+    await this.uploadFileButton.click();
+  }
+
   async createFolder(name: string) {
     const currentDriver = await this.getCurrentDriver();
     await (await this.addFolderButton).click();
@@ -243,11 +247,17 @@ class FilesScreen extends UplinkMainScreen {
 
   async uploadFile(relativePath: string) {
     const currentDriver = await this.getCurrentDriver();
-    await (await this.uploadFileButton).click();
     if (currentDriver === "mac2") {
+      await this.clickOnUploadFile();
       await selectFileOnMacos(relativePath);
     } else if (currentDriver === "windows") {
-      await selectFileOnWindows(relativePath);
+      const uplinkContext = await driver.getWindowHandle();
+      console.log("UplinkContext variable value: " + uplinkContext);
+      console.log(
+        "Logging type of uplinkContext variable: " + typeof uplinkContext
+      );
+      await this.clickOnUploadFile();
+      await selectFileOnWindows(relativePath, uplinkContext);
     }
   }
 }

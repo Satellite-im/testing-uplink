@@ -266,13 +266,17 @@ export async function selectFileOnMacos(relativePath: string) {
 
 // Windows driver helper functions
 
-export async function selectFileOnWindows(relativePath: string) {
+export async function selectFileOnWindows(
+  relativePath: string,
+  uplinkContext: string
+) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
 
   // Switch to Explorer Window
   const windows = await driver.getWindowHandles();
-  await driver.switchToWindow(windows[0]);
+  const explorerWindow = windows.filter((window) => window !== uplinkContext);
+  await driver.switchToWindow(explorerWindow[0]);
 
   // Wait for Open Panel to be displayed
   await $("~TitleBar").waitForDisplayed();
@@ -280,5 +284,6 @@ export async function selectFileOnWindows(relativePath: string) {
   // Type file location and hit enter
   await $("/Window/ComboBox/Edit").clearValue();
   await (await $("/Window/ComboBox/Edit")).setValue(filepath + "\uE007");
+  await driver.switchToWindow(uplinkContext);
   return;
 }
