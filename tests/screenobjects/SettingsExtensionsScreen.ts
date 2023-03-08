@@ -17,7 +17,7 @@ const SELECTORS_WINDOWS = {
   INSTALLED_BUTTON: '[name="installed-button"]',
   OPEN_EXTENSIONS_DESCRIPTION_TEXT: "//Text[2]",
   OPEN_EXTENSIONS_FOLDER_BUTTON: '[name="open-extensions-folder-button"]',
-  OPEN_EXTENSIONS_HEADER_TEXT: "Text[1]/Text",
+  OPEN_EXTENSIONS_HEADER_TEXT: "//Text[1]/Text",
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',

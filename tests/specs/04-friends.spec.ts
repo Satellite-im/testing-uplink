@@ -50,7 +50,6 @@ export default async function friends() {
     // Validate toast notification and close it
     const toastText = await FriendsScreen.getToastNotificationText();
     expect(toastText).toEqual("Copied ID to clipboard!");
-    await FriendsScreen.closeToastNotification();
     await FriendsScreen.toastNotification.waitForDisplayed({ reverse: true });
   });
 
