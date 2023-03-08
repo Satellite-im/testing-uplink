@@ -2,6 +2,7 @@ import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 import { faker } from "@faker-js/faker";
 import { homedir } from "os";
 import { join } from "path";
@@ -261,4 +262,23 @@ export async function selectFileOnMacos(relativePath: string) {
 
   // Hit Enter and then click on OK to close open panel
   await $("~OKButton").click();
+}
+
+// Windows driver helper functions
+
+export async function selectFileOnWindows(relativePath: string) {
+  // Get the filepath to select on browser
+  const filepath = join(process.cwd(), relativePath);
+
+  // Switch to Explorer Window
+  const windows = await driver.getWindowHandles();
+  await driver.switchToWindow(windows[0]);
+
+  // Wait for Open Panel to be displayed
+  await $("~TitleBar").waitForDisplayed();
+
+  // Type file location and hit enter
+  await $("/Window/ComboBox/Edit").clearValue();
+  await (await $("/Window/ComboBox/Edit")).setValue(filepath + "\uE007");
+  return;
 }

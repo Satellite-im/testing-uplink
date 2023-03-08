@@ -1,4 +1,4 @@
-import { selectFileOnMacos } from "../helpers/commands";
+import { selectFileOnMacos, selectFileOnWindows } from "../helpers/commands";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -28,6 +28,8 @@ const SELECTORS_WINDOWS = {
   TOOLTIP_TEXT: "//Group/Text",
   TOPBAR: '[name="Topbar"]',
   UPLOAD_FILE_BUTTON: '[name="upload-file"]',
+  UPLOAD_FILE_INDICATOR_FILENAME: "//Document/Group/Text[1]",
+  UPLOAD_FILE_INDICATOR_PROGRESS: "//Document/Group/Text[2]",
 };
 
 const SELECTORS_MACOS = {
@@ -244,6 +246,8 @@ class FilesScreen extends UplinkMainScreen {
     await (await this.uploadFileButton).click();
     if (currentDriver === "mac2") {
       await selectFileOnMacos(relativePath);
+    } else if (currentDriver === "windows") {
+      await selectFileOnWindows(relativePath);
     }
   }
 }
