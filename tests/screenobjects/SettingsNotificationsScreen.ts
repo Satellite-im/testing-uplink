@@ -9,7 +9,7 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
-  GRANT_PERMISSIONS_BUTTON: "NEED TO ADD FOR WINDOWS",
+  GRANT_PERMISSIONS_BUTTON: '[name="grant-permissions-button"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
@@ -20,7 +20,7 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
-  GRANT_PERMISSIONS_BUTTON: "NEED TO ADD FOR MACOS",
+  GRANT_PERMISSIONS_BUTTON: "~grant-permissions-button",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",

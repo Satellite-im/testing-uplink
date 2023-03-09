@@ -243,11 +243,8 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
         },
       ]);
     } else if ((await this.getCurrentDriver()) === "windows") {
-      await driver.executeScript("windows: launchApp", [
-        {
-          app: join(process.cwd(), "\\apps\\ui.exe"),
-        },
-      ]);
+      const uplinkWindow = await driver.getWindowHandle();
+      await driver.switchToWindow(uplinkWindow);
     }
   }
 }
