@@ -1,10 +1,8 @@
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
 
 export default async function settingsProfile() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    // Go to Settings Screen and finally select the Settings Screen to validate
-    await SettingsGeneralScreen.goToProfileSettings();
+    // Go to Settings Screen and select the Settings Screen to validate
     await SettingsProfileScreen.waitForIsShown(true);
 
     // Start validations

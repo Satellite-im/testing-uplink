@@ -277,7 +277,7 @@ export async function selectFileOnWindows(
   const filepath = join(process.cwd(), relativePath);
 
   // Pause for one second until explorer window is displayed and switch to it
-  await browser.pause(1000);
+  await maximizeWindow();
   const windows = await driver.getWindowHandles();
   let explorerWindow;
   if (windows[0] === uplinkContext) {
@@ -295,5 +295,6 @@ export async function selectFileOnWindows(
   await $("/Window/ComboBox/Edit").clearValue();
   await (await $("/Window/ComboBox/Edit")).setValue(filepath + "\uE007");
   await driver.switchToWindow(uplinkContext);
+  await maximizeWindow();
   return;
 }

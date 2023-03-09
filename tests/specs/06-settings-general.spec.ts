@@ -1,11 +1,9 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
 import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
 import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
 
 export default async function settingsGeneral() {
   it("Settings General - Validate header and description texts are correct", async () => {
     // Go to Settings Screen
-    await FriendsScreen.goToSettings();
     await SettingsProfileScreen.goToGeneralSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
 
