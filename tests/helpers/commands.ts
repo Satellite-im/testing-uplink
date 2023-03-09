@@ -262,6 +262,9 @@ export async function selectFileOnMacos(relativePath: string) {
 
   // Hit Enter and then click on OK to close open panel
   await $("~OKButton").click();
+
+  // Wait until Dialog is closed
+  await $("~open-panel").waitForExist({ reverse: true });
 }
 
 // Windows driver helper functions
@@ -273,10 +276,17 @@ export async function selectFileOnWindows(
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
 
-  // Switch to Explorer Window
+  // Pause for one second until explorer window is displayed and switch to it
+  await browser.pause(1000);
   const windows = await driver.getWindowHandles();
-  const explorerWindow = windows.filter((window) => window !== uplinkContext);
-  await driver.switchToWindow(explorerWindow[0]);
+  let explorerWindow;
+  if (windows[0] === uplinkContext) {
+    explorerWindow = windows[1];
+  } else {
+    explorerWindow = windows[0];
+  }
+
+  await driver.switchToWindow(explorerWindow);
 
   // Wait for Open Panel to be displayed
   await $("~TitleBar").waitForDisplayed();

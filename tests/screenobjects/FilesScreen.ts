@@ -252,10 +252,6 @@ class FilesScreen extends UplinkMainScreen {
       await selectFileOnMacos(relativePath);
     } else if (currentDriver === "windows") {
       const uplinkContext = await driver.getWindowHandle();
-      console.log("UplinkContext variable value: " + uplinkContext);
-      console.log(
-        "Logging type of uplinkContext variable: " + typeof uplinkContext
-      );
       await this.clickOnUploadFile();
       await selectFileOnWindows(relativePath, uplinkContext);
     }
