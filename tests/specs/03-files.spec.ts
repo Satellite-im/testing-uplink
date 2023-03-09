@@ -75,8 +75,8 @@ export default async function files() {
   });
 
   it("Upload file - Click on add file and select file", async () => {
-    // Upload app-macos.zip file
-    await FilesScreen.uploadFile("./tests/fixtures/app-macos.zip");
+    // Upload logo.jpg file
+    await FilesScreen.uploadFile("./tests/fixtures/logo.jpg");
   });
 
   // Skipped since file used for testing it shows the dialog for not enough time needed to validate this modal
@@ -86,7 +86,7 @@ export default async function files() {
     expect(progressText).toHaveTextContaining("% Uploaded");
 
     const fileNameProgress = await FilesScreen.getProgressUploadFilename();
-    expect(fileNameProgress).toHaveTextContaining("app-macos.zip");
+    expect(fileNameProgress).toHaveTextContaining("logo.jpg");
   });
 
   it("Upload file - Progress indicator is closed and file appears on files list", async () => {
@@ -96,7 +96,7 @@ export default async function files() {
     ).waitForExist({ reverse: true });
 
     // Once that progress indicator disappears, validate that file is loaded
-    const newFile = await FilesScreen.getLocatorOfFolderFile("app-macos.zip");
+    const newFile = await FilesScreen.getLocatorOfFolderFile("logo.jpg");
     expect(newFile).toExist();
 
     await FilesScreen.goToSettings();
