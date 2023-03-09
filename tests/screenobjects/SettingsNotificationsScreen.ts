@@ -1,3 +1,4 @@
+import { clickOnSwitchMacOS } from "../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -8,6 +9,7 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  GRANT_PERMISSIONS_BUTTON: "NEED TO ADD FOR WINDOWS",
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
@@ -18,6 +20,7 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  GRANT_PERMISSIONS_BUTTON: "NEED TO ADD FOR MACOS",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
@@ -25,6 +28,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
+  SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 
 currentOS === "windows"
@@ -36,8 +40,148 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
     super(SELECTORS.SETTINGS_NOTIFICATIONS);
   }
 
+  get enabledNotificationsCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get enabledNotificationsControllerValue() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
+    );
+  }
+
+  get enabledNotificationsDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get enabledNotificationsHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get friendsNotificationsCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get friendsNotificationsControllerValue() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
+    );
+  }
+
+  get friendsNotificationsDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get friendsNotificationsHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get grantPermissionsButton() {
+    return $(SELECTORS.GRANT_PERMISSIONS_BUTTON);
+  }
+
+  get grantPermissionsDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get grantPermissionsHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get messagesNotificationsCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get messagesNotificationsControllerValue() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
+    );
+  }
+
+  get messagesNotificationsDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get messagesNotificationsHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get settingsNotificationsCheckbox() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get settingsNotificationsControllerValue() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX
+    );
+  }
+
+  get settingsNotificationsDescription() {
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get settingsNotificationsHeader() {
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
   get settingsNotifications() {
     return $(SELECTORS.SETTINGS_NOTIFICATIONS);
+  }
+
+  async clickOnEnabledNotifications() {
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.enabledNotificationsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.enabledNotificationsCheckbox);
+    }
+  }
+
+  async clickOnFriendsNotifications() {
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.friendsNotificationsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.friendsNotificationsCheckbox);
+    }
+  }
+
+  async clickOnGrantPermissions() {
+    await this.grantPermissionsButton.click();
+  }
+
+  async clickOnMessagesNotifications() {
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.messagesNotificationsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.messagesNotificationsCheckbox);
+    }
+  }
+
+  async clickOnSettingsNotifications() {
+    if ((await this.getCurrentDriver()) === "windows") {
+      await this.settingsNotificationsCheckbox.click();
+    } else if ((await this.getCurrentDriver()) === "mac2") {
+      await clickOnSwitchMacOS(await this.settingsNotificationsCheckbox);
+    }
   }
 }
 
