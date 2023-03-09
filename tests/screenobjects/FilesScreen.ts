@@ -229,7 +229,11 @@ class FilesScreen extends UplinkMainScreen {
   async getLocatorOfFolderFile(name: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      return await $("~" + name);
+      return await (
+        await this.filesList
+      ).$(
+        '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]'
+      );
     } else if (currentDriver === "windows") {
       return await $('[name="' + name + '"]');
     }

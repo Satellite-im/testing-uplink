@@ -1,6 +1,5 @@
 import FilesScreen from "../screenobjects/FilesScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
 
 export default async function files() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
@@ -98,8 +97,5 @@ export default async function files() {
     // Once that progress indicator disappears, validate that file is loaded
     const newFile = await FilesScreen.getLocatorOfFolderFile("logo.jpg");
     expect(newFile).toExist();
-
-    await FilesScreen.goToSettings();
-    await SettingsProfileScreen.waitForIsShown(true);
   });
 }
