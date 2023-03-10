@@ -57,11 +57,10 @@ export default async function createAccount() {
     await (await CreatePinScreen.pinInput).clearValue();
   });
 
-  // Test is failing because webdriverio handles spaces as dots and needs more research to avoid flakiness
-  xit("Enter a pin with spaces", async () => {
+  it("Enter a pin with spaces", async () => {
     // Enter pin value with spaces
-    const emptySpaces = "    ";
-    await CreatePinScreen.pinInput.addValue(`123${emptySpaces}`);
+    await (await CreatePinScreen.pinInput).click();
+    await CreatePinScreen.enterPin("1234" + "             ");
     await expect(await CreatePinScreen.inputError).toBeDisplayed();
     await expect(await CreatePinScreen.inputErrorText).toHaveTextContaining(
       "Spaces are not allowed."
@@ -115,11 +114,10 @@ export default async function createAccount() {
     );
   });
 
-  // Test is failing because webdriverio handles spaces as dots and needs more research to avoid flakiness
-  xit("Username with spaces and attempt to continue", async () => {
+  it("Username with spaces and attempt to continue", async () => {
     // Enter pin value with spaces
-    const emptySpaces = "    ";
-    await CreateUserScreen.usernameInput.addValue(`123${emptySpaces}`);
+    await (await CreateUserScreen.usernameInput).click();
+    await CreateUserScreen.enterUsername("1234" + "             ");
     expect(await CreateUserScreen.getStatusOfCreateAccountButton()).toEqual(
       "false"
     );

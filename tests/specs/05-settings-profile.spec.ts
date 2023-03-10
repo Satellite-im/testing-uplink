@@ -30,7 +30,7 @@ export default async function settingsProfile() {
     await expect(await SettingsProfileScreen.sidebarSearch).toBeDisplayed();
   });
 
-  // It is not present in screen now
+  // It is not present in screen now on MacOS builds
   xit("Settings Profile - Assert texts for Your New Profile dialog and dismiss it", async () => {
     expect(
       await SettingsProfileScreen.yourNewProfileHeaderText
@@ -64,9 +64,8 @@ export default async function settingsProfile() {
     expect(await SettingsProfileScreen.statusInput).toHaveTextContaining("");
   });
 
-  // Skipping test since items are not connected with Warp
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  xit("Settings Profile - Add profile picture", async () => {
+  it("Settings Profile - Add profile picture", async () => {
     await SettingsProfileScreen.uploadProfilePicture(
       "./tests/fixtures/logo.jpg"
     );
@@ -84,26 +83,23 @@ export default async function settingsProfile() {
     ).toHaveTextContaining("Change banner");
   });
 
-  // Skipping test since items are not connected with Warp
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  xit("Settings Profile - Add banner picture", async () => {
+  it("Settings Profile - Add banner picture", async () => {
     await SettingsProfileScreen.uploadBannerPicture(
       "./tests/fixtures/banner.jpg"
     );
     await (await SettingsProfileScreen.usernameInput).click();
   });
 
-  // Skipping test since items are not connected with Warp
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  xit("Settings Profile - Change profile picture", async () => {
+  it("Settings Profile - Change profile picture", async () => {
     await SettingsProfileScreen.uploadProfilePicture(
       "./tests/fixtures/second-profile.png"
     );
   });
 
-  // Skipping test since items are not connected with Warp
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  xit("Settings Profile - Change banner picture", async () => {
+  it("Settings Profile - Change banner picture", async () => {
     await SettingsProfileScreen.uploadBannerPicture(
       "./tests/fixtures/second-banner.jpg"
     );
@@ -139,16 +135,14 @@ export default async function settingsProfile() {
     await SettingsProfileScreen.enterUsername("1234");
   });
 
-  // Test is failing because webdriverio handles spaces as dots and needs more research to avoid flakiness
-  xit("Settings Profile - Spaces are not allowed", async () => {
+  it("Settings Profile - Spaces are not allowed", async () => {
     // Enter username value with spaces
-    await SettingsProfileScreen.enterUsername("1234     ").then(() => {
-      // Validate that error message is displayed
-      expect(SettingsProfileScreen.inputError).toBeDisplayed();
-      expect(SettingsProfileScreen.inputErrorMessage).toHaveTextContaining(
-        "Spaces are not allowed."
-      );
-    });
+    await SettingsProfileScreen.enterUsername("1234" + "             ");
+    // Validate that error message is displayed
+    await expect(await SettingsProfileScreen.inputError).toBeDisplayed();
+    await expect(
+      await SettingsProfileScreen.inputErrorMessage
+    ).toHaveTextContaining("Spaces are not allowed.");
 
     // Clear value from username input, then enter a valid value again
     await SettingsProfileScreen.enterUsername("1234");
@@ -183,7 +177,4 @@ export default async function settingsProfile() {
     // Clear value from username input, then enter a valid value again
     await SettingsProfileScreen.enterUsername("1234");
   });
-
-  // Skipped since we need to implement visual testing to test this button since element is not part of the DOM structure on Appium
-  xit("Settings Profile - Status delete button", async () => {});
 }
