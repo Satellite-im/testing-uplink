@@ -174,7 +174,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
         language + "\n"
       );
     } else if ((await this.getCurrentDriver()) === "windows") {
-      await $$('[name="settings-control"]')[1].addValue(language + "\n");
+      await $$('[name="settings-control"]')[1].addValue(language + "\uE007");
     }
   }
 
@@ -184,7 +184,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
         theme + "\n"
       );
     } else if ((await this.getCurrentDriver()) === "windows") {
-      await $$('[name="settings-control"]')[0].addValue(theme + "\n");
+      await $$('[name="settings-control"]')[0].addValue(theme + "\uE007");
     }
   }
 }
