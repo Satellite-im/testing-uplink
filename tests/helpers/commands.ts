@@ -2,13 +2,13 @@ import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
-import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 import { faker } from "@faker-js/faker";
 import { homedir } from "os";
 import { join } from "path";
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
+const robot = require("robotjs");
 
 // Users cache helper functions
 
@@ -156,7 +156,11 @@ export async function launchApplication() {
 export async function closeApplication() {
   const currentOS = await driver.capabilities.automationName;
   if (currentOS === "windows") {
-    await $('[name="close-button"]').click();
+    await driver.executeScript("windows: closeApp", [
+      {
+        app: join(process.cwd(), "\\apps\\ui.exe"),
+      },
+    ]);
   } else if (currentOS === "mac2") {
     await $("~_XCUI:CloseWindow").click();
   }
@@ -267,7 +271,20 @@ export async function selectFileOnMacos(relativePath: string) {
   await $("~open-panel").waitForExist({ reverse: true });
 }
 
+export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
+  await driver.executeScript("macos: rightClick", [
+    {
+      elementId: locator,
+    },
+  ]);
+}
+
 // Windows driver helper functions
+
+export async function rightClickOnWindows(locator: WebdriverIO.Element) {
+  await driver.touchAction([{ action: "press", element: locator }]);
+  robot.mouseClick("right");
+}
 
 export async function selectFileOnWindows(
   relativePath: string,

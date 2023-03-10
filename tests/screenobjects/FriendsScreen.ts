@@ -1,4 +1,4 @@
-import { Key } from "webdriverio";
+import { rightClickOnMacOS, rightClickOnWindows } from "../helpers/commands";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -324,6 +324,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getAllFriendsList() {
+    await browser.pause(1000);
     const friends = await $(SELECTORS.FRIENDS_LIST).$$(SELECTORS.FRIEND_INFO);
     let results = [];
     for (let friend of friends) {
@@ -333,6 +334,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getBlockedList() {
+    await browser.pause(1000);
     const friends = await $(SELECTORS.BLOCKED_LIST).$$(SELECTORS.FRIEND_INFO);
     let results = [];
     for (let friend of friends) {
@@ -342,6 +344,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getFriendRecordByName(name: string) {
+    await browser.pause(1000);
     const friends = await this.friendRecords;
     for (let friend of friends) {
       if (
@@ -356,6 +359,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getIncomingList() {
+    await browser.pause(1000);
     const friends = await $(SELECTORS.INCOMING_REQUESTS_LIST).$$(
       SELECTORS.FRIEND_INFO
     );
@@ -367,6 +371,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getOutgoingList() {
+    await browser.pause(1000);
     const friends = await $(SELECTORS.OUTGOING_REQUESTS_LIST).$$(
       SELECTORS.FRIEND_INFO
     );
@@ -437,19 +442,11 @@ class FriendsScreen extends UplinkMainScreen {
   async openFriendContextMenu(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
     const currentDriver = await this.getCurrentDriver();
+    const friendBubble = await friendToClick.$(SELECTORS.FRIEND_USER_IMAGE);
     if (currentDriver === "mac2") {
-      const friendBubble = await friendToClick.$(SELECTORS.FRIEND_USER_IMAGE);
-      await driver.executeScript("macos: rightClick", [
-        {
-          elementId: friendBubble,
-        },
-      ]);
+      await rightClickOnMacOS(friendBubble);
     } else if (currentDriver === "windows") {
-      const friendName = await friendToClick.$(SELECTORS.FRIEND_INFO_USERNAME);
-      await friendName.click();
-      await browser.pause(100);
-      await friendName.click();
-      await driver.keys([Key.Shift, "F10"]);
+      await rightClickOnWindows(friendBubble);
     }
     await (await this.contextMenu).waitForDisplayed();
   }
