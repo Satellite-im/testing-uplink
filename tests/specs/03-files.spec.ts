@@ -72,4 +72,30 @@ export default async function files() {
     const currentFolder = await FilesScreen.getCurrentFolder();
     expect(currentFolder).toEqual("Home");
   });
+
+  it("Upload file - Click on add file and select file", async () => {
+    // Upload logo.jpg file
+    await FilesScreen.uploadFile("./tests/fixtures/logo.jpg");
+  });
+
+  // Skipped since file used for testing it shows the dialog for not enough time needed to validate this modal
+  xit("Upload file - Validate progress indicator", async () => {
+    // Validate progress % and filename displayed correctly
+    const progressText = await FilesScreen.getProgressUploadPercentage();
+    expect(progressText).toHaveTextContaining("% Uploaded");
+
+    const fileNameProgress = await FilesScreen.getProgressUploadFilename();
+    expect(fileNameProgress).toHaveTextContaining("logo.jpg");
+  });
+
+  it("Upload file - Progress indicator is closed and file appears on files list", async () => {
+    // Wait until progress indicator disappears
+    await (
+      await FilesScreen.uploadFileIndicatorProgress
+    ).waitForExist({ reverse: true });
+
+    // Once that progress indicator disappears, validate that file is loaded
+    const newFile = await FilesScreen.getLocatorOfFolderFile("logo.jpg");
+    expect(newFile).toExist();
+  });
 }

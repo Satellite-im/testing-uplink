@@ -1,3 +1,4 @@
+import { selectFileOnMacos, selectFileOnWindows } from "../helpers/commands";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -27,6 +28,8 @@ const SELECTORS_WINDOWS = {
   TOOLTIP_TEXT: "//Group/Text",
   TOPBAR: '[name="Topbar"]',
   UPLOAD_FILE_BUTTON: '[name="upload-file"]',
+  UPLOAD_FILE_INDICATOR_FILENAME: "//Document/Group/Text[1]",
+  UPLOAD_FILE_INDICATOR_PROGRESS: "//Document/Group/Text[2]",
 };
 
 const SELECTORS_MACOS = {
@@ -194,6 +197,10 @@ class FilesScreen extends UplinkMainScreen {
     await this.showSidebar.click();
   }
 
+  async clickOnUploadFile() {
+    await this.uploadFileButton.click();
+  }
+
   async createFolder(name: string) {
     const currentDriver = await this.getCurrentDriver();
     await (await this.addFolderButton).click();
@@ -222,9 +229,35 @@ class FilesScreen extends UplinkMainScreen {
   async getLocatorOfFolderFile(name: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      return await $("~" + name);
+      return await (
+        await this.filesList
+      ).$(
+        '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]'
+      );
     } else if (currentDriver === "windows") {
       return await $('[name="' + name + '"]');
+    }
+  }
+
+  async getProgressUploadFilename() {
+    const filename = await (await this.uploadFileIndicatorFilename).getText();
+    return filename;
+  }
+
+  async getProgressUploadPercentage() {
+    const progress = await (await this.uploadFileIndicatorProgress).getText();
+    return progress;
+  }
+
+  async uploadFile(relativePath: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await this.clickOnUploadFile();
+      await selectFileOnMacos(relativePath);
+    } else if (currentDriver === "windows") {
+      const uplinkContext = await driver.getWindowHandle();
+      await this.clickOnUploadFile();
+      await selectFileOnWindows(relativePath, uplinkContext);
     }
   }
 }

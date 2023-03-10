@@ -2,6 +2,7 @@ import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 import { faker } from "@faker-js/faker";
 import { homedir } from "os";
 import { join } from "path";
@@ -261,4 +262,39 @@ export async function selectFileOnMacos(relativePath: string) {
 
   // Hit Enter and then click on OK to close open panel
   await $("~OKButton").click();
+
+  // Wait until Dialog is closed
+  await $("~open-panel").waitForExist({ reverse: true });
+}
+
+// Windows driver helper functions
+
+export async function selectFileOnWindows(
+  relativePath: string,
+  uplinkContext: string
+) {
+  // Get the filepath to select on browser
+  const filepath = join(process.cwd(), relativePath);
+
+  // Pause for one second until explorer window is displayed and switch to it
+  await maximizeWindow();
+  const windows = await driver.getWindowHandles();
+  let explorerWindow;
+  if (windows[0] === uplinkContext) {
+    explorerWindow = windows[1];
+  } else {
+    explorerWindow = windows[0];
+  }
+
+  await driver.switchToWindow(explorerWindow);
+
+  // Wait for Open Panel to be displayed
+  await $("~TitleBar").waitForDisplayed();
+
+  // Type file location and hit enter
+  await $("/Window/ComboBox/Edit").clearValue();
+  await (await $("/Window/ComboBox/Edit")).setValue(filepath + "\uE007");
+  await driver.switchToWindow(uplinkContext);
+  await maximizeWindow();
+  return;
 }
