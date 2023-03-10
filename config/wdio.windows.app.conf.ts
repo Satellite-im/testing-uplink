@@ -25,6 +25,7 @@ config.capabilities = [
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
+    "ms:waitForAppLaunch": 30,
   },
 ];
 
