@@ -54,12 +54,6 @@ export default async function friends() {
     await FriendsScreen.toastNotification.waitForDisplayed({ reverse: true });
   });
 
-  // Skipped since it needs to be implemented
-  xit("User Input Error Message is displayed when input is less than 56 characters", async () => {});
-
-  // Skipped since it needs to be implemented
-  xit("Add a friend", async () => {});
-
   it("Switch to Pending Friends view and validate elements displayed", async () => {
     await FriendsScreen.goToPendingFriendsList();
     await expect(await FriendsScreen.incomingRequestsList).toBeDisplayed();

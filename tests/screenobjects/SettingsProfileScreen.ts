@@ -1,4 +1,4 @@
-import { selectFileOnMacos } from "../helpers/commands";
+import { selectFileOnMacos, selectFileOnWindows } from "../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -189,36 +189,35 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   async uploadBannerPicture(relativePath: string) {
-    // Click on Profile Banner
-    await this.profileBanner.click();
-
-    // Invoke File Selection Helper Function for MacOS to select the banner image to upload. A similar method will be implemented in the future for Windows
-    if ((await this.getCurrentDriver()) === "mac2") {
+    // Invoke File Selection method depending on current OS driver
+    // If Windows driver is running, first retrieve the current context and pass it to file selection function
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await this.profileBanner.click();
       await selectFileOnMacos(relativePath);
-
-      // Validate that profile banner is displayed on screen
-      await expect(await this.profileBanner).toBeDisplayed();
-    } else if ((await this.getCurrentDriver()) === "windows") {
-      console.log("Not implemented yet");
+    } else if (currentDriver === "windows") {
+      const uplinkContext = await driver.getWindowHandle();
+      await this.profileBanner.click();
+      await selectFileOnWindows(relativePath, uplinkContext);
     }
+    // Validate that profile banner is displayed on screen
+    await expect(await this.profileBanner).toBeDisplayed();
   }
 
   async uploadProfilePicture(relativePath: string) {
-    // Click on Profile Picture add button
-    await await this.addPictureButton.click();
-
-    // Invoke File Selection Helper Function for MacOS to select the profile image to upload. A similar method will be implemented in the future for Windows
-    if ((await this.getCurrentDriver()) === "mac2") {
+    // Invoke File Selection method depending on current OS driver
+    // If Windows driver is running, first retrieve the current context and pass it to file selection function
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await this.profilePicture.click();
       await selectFileOnMacos(relativePath);
-
-      // Click on username input to move the mouse cursor
-      await this.usernameInput.click();
-
-      // Validate that profile picture is displayed on screen
-      await expect(await this.profilePicture).toBeDisplayed();
-    } else if ((await this.getCurrentDriver()) === "windows") {
-      console.log("Not implemented yet");
+    } else if (currentDriver === "windows") {
+      const uplinkContext = await driver.getWindowHandle();
+      await this.profilePicture.click();
+      await selectFileOnWindows(relativePath, uplinkContext);
     }
+    // Validate that profile banner is displayed on screen
+    await expect(await this.profilePicture).toBeDisplayed();
   }
 }
 
