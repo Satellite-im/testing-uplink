@@ -134,6 +134,12 @@ export async function loginWithTestUser() {
 
   // Ensure Main Screen is displayed
   await WelcomeScreen.waitForIsShown(true);
+
+  // Only maximize if current driver is windows
+  const currentDriver = await WelcomeScreen.getCurrentDriver();
+  if (currentDriver === "windows") {
+    await maximizeWindow();
+  }
 }
 
 export async function launchApplication() {
