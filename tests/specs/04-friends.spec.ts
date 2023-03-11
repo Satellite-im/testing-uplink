@@ -39,7 +39,9 @@ export default async function friends() {
 
   it("User can type on user search input bar", async () => {
     await FriendsScreen.enterFriendDidKey("Hello");
-    expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining("Hello");
+    await expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining(
+      "Hello"
+    );
     await FriendsScreen.deleteAddFriendInput();
   });
 
@@ -210,8 +212,8 @@ export default async function friends() {
     const favoritedUser = await FriendsScreen.getAbbreviatedFavUser(friendName);
     const currentFavorites = await FriendsScreen.getUsersFromFavorites();
     const favoriteBubble = await FriendsScreen.favoritesUserImage;
-    expect(currentFavorites.includes(favoritedUser)).toEqual(true);
-    expect(favoriteBubble).toBeDisplayed();
+    await expect(currentFavorites.includes(favoritedUser)).toEqual(true);
+    await expect(favoriteBubble).toBeDisplayed();
   });
 
   it("Context Menu - Remove Friend", async () => {
