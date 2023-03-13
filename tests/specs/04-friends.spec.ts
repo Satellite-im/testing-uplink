@@ -176,7 +176,8 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  it("Context Menu - Chat with Friend", async () => {
+  // Skipped for now due to bug #443 on Uplink
+  xit("Context Menu - Chat with Friend", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
     await FriendsScreen.openFriendContextMenu(friendName);
@@ -216,7 +217,8 @@ export default async function friends() {
     await expect(favoriteBubble).toBeDisplayed();
   });
 
-  it("Context Menu - Remove Friend", async () => {
+  // Skipped for now due to bug #443 on Uplink
+  xit("Context Menu - Remove Friend", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
     await FriendsScreen.openFriendContextMenu(friendName);
@@ -229,7 +231,8 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  it("Context Menu - Block Friend", async () => {
+  // Skipped for now due to bug #443 on Uplink
+  xit("Context Menu - Block Friend", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
     await FriendsScreen.openFriendContextMenu(friendName);
@@ -247,7 +250,8 @@ export default async function friends() {
     await expect(blockedFriendsList.includes(friendName)).toEqual(true);
   });
 
-  it("Context Menu - Accept Incoming Request", async () => {
+  // Skipped for now due to bug #443 on Uplink
+  xit("Context Menu - Accept Incoming Request", async () => {
     // Go to Pending Requests Screen
     await FriendsScreen.goToPendingFriendsList();
 
@@ -268,7 +272,8 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(true);
   });
 
-  it("Context Menu - Deny Incoming Request", async () => {
+  // Skipped for now due to bug #443 on Uplink
+  xit("Context Menu - Deny Incoming Request", async () => {
     // Go to Pending Requests Screen
     await FriendsScreen.goToPendingFriendsList();
 
@@ -289,7 +294,8 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  it("Context Menu - Cancel Outgoing Request", async () => {
+  // Skipped for now due to bug #443 on Uplink
+  xit("Context Menu - Cancel Outgoing Request", async () => {
     // Go to Pending Requests Screen
     await FriendsScreen.goToPendingFriendsList();
 
@@ -310,7 +316,8 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  it("Context Menu - Unblock User", async () => {
+  // Skipped for now due to bug #443 on Uplink
+  xit("Context Menu - Unblock User", async () => {
     // Go to Blocked Users Screen
     await FriendsScreen.goToBlockedList();
 
