@@ -1,4 +1,11 @@
-import { selectFileOnMacos, selectFileOnWindows } from "../helpers/commands";
+import {
+  rightClickOnMacOS,
+  rightClickOnWindows,
+  saveFileOnMacOS,
+  saveFileOnWindows,
+  selectFileOnMacos,
+  selectFileOnWindows,
+} from "../helpers/commands";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -89,6 +96,14 @@ class FilesScreen extends UplinkMainScreen {
     return $(SELECTORS.TOPBAR)
       .$$(SELECTORS.TOOLTIP)[0]
       .$(SELECTORS.TOOLTIP_TEXT);
+  }
+
+  get contextMenu() {
+    return $(SELECTORS.CONTEXT_MENU);
+  }
+
+  get contextMenuOption() {
+    return $$(SELECTORS.CONTEXT_MENU_OPTION);
   }
 
   get crumb() {
@@ -213,6 +228,18 @@ class FilesScreen extends UplinkMainScreen {
     expect(newFolder).toExist();
   }
 
+  async downloadFile(filename: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await this.contextMenuOption[1].click();
+      await saveFileOnMacOS(filename);
+    } else if (currentDriver === "windows") {
+      const uplinkContext = await driver.getWindowHandle();
+      await this.contextMenuOption[1].click();
+      await saveFileOnWindows(filename, uplinkContext);
+    }
+  }
+
   async getCurrentFolder() {
     const folders = await this.crumb;
     const treeLength = folders.length - 1;
@@ -224,6 +251,17 @@ class FilesScreen extends UplinkMainScreen {
 
   async getFileFolderName(element: WebdriverIO.Element) {
     return await (await element.$(SELECTORS.FILE_FOLDER_NAME)).getText();
+  }
+
+  async getLocatorOfDeletedElement(name: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      return (
+        '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]'
+      );
+    } else if (currentDriver === "windows") {
+      return '[name="' + name + '"]';
+    }
   }
 
   async getLocatorOfFolderFile(name: string) {
@@ -247,6 +285,28 @@ class FilesScreen extends UplinkMainScreen {
   async getProgressUploadPercentage() {
     const progress = await (await this.uploadFileIndicatorProgress).getText();
     return progress;
+  }
+
+  async openFilesContextMenu(name: string) {
+    const elementToRightClick = await this.getLocatorOfFolderFile(name);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(elementToRightClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(elementToRightClick);
+    }
+    await (await this.contextMenu).waitForDisplayed();
+  }
+
+  async updateNameFileFolder(newName: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await (await this.inputFolderFileName).setValue(newName + "\n");
+    } else if (currentDriver === "windows") {
+      await (await this.inputFolderFileName).setValue(newName + "\uE007");
+    }
+    const newFileFolder = await this.getLocatorOfFolderFile(newName);
+    return newFileFolder;
   }
 
   async uploadFile(relativePath: string) {

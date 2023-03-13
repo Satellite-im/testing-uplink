@@ -241,6 +241,24 @@ export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
   return;
 }
 
+export async function saveFileOnMacOS(filename: string) {
+  // Wait for Save Dialog to be displayed
+  await $("~save-panel").waitForDisplayed();
+
+  // Type the new file name
+  await (await $("~saveAsNameTextField")).setValue(filename);
+
+  // Click on OK Button to save into Downloads folder
+  await $("~OKButton").click();
+
+  // Wait until Save Dialog is closed
+  await $("~save-panel").waitForExist({ reverse: true });
+
+  // Delete file from local files
+  const target = join(process.cwd(), "/tests/fixtures/", filename);
+  rmSync(target, { force: true });
+}
+
 export async function selectFileOnMacos(relativePath: string) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
@@ -290,6 +308,41 @@ export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
 export async function rightClickOnWindows(locator: WebdriverIO.Element) {
   await driver.touchAction([{ action: "press", element: locator }]);
   robot.mouseClick("right");
+}
+
+export async function saveFileOnWindows(
+  filename: string,
+  uplinkContext: string
+) {
+  // Get the filepath to select on browser
+  const filepath = join(process.cwd(), "\\tests\\fixtures\\", filename);
+
+  // Pause for one second until explorer window is displayed and switch to it
+  await maximizeWindow();
+  const windows = await driver.getWindowHandles();
+  let explorerWindow;
+  if (windows[0] === uplinkContext) {
+    explorerWindow = windows[1];
+  } else {
+    explorerWindow = windows[0];
+  }
+
+  await driver.switchToWindow(explorerWindow);
+
+  // Wait for Save Panel to be displayed
+  await $("~TitleBar").waitForDisplayed();
+
+  // Type file location and hit enter
+  await $("/Window/Pane[1]/ComboBox[1]/Edit").clearValue();
+  await (
+    await $("/Window/Pane[1]/ComboBox[1]/Edit")
+  ).setValue(filename + "\uE007");
+  await driver.switchToWindow(uplinkContext);
+  await maximizeWindow();
+
+  // Delete file from local files
+  rmSync(filepath, { force: true });
+  return;
 }
 
 export async function selectFileOnWindows(
