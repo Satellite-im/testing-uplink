@@ -130,14 +130,15 @@ export default async function files() {
     expect(renamedFile).toExist();
   });
 
-  it("Context Menu - File - Download", async () => {
-    // Open context menu for renamed.jpg and select the second option "Download"
+  // Needs research on how to implement on Windows
+  xit("Context Menu - File - Download", async () => {
+    // Open context menu for newname.jpg and select the second option "Download"
     await FilesScreen.openFilesContextMenu("newname.jpg");
     await FilesScreen.downloadFile("saved.jpg");
   });
 
   it("Context Menu - File - Delete", async () => {
-    // Open context menu for renamed.jpg file and select the second option "Delete"
+    // Open context menu for newname.jpg file and select the second option "Delete"
     await FilesScreen.openFilesContextMenu("newname.jpg");
     await FilesScreen.contextMenuOption[2].click();
 

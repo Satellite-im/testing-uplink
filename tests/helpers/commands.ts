@@ -318,7 +318,6 @@ export async function saveFileOnWindows(
   const filepath = join(process.cwd(), "\\tests\\fixtures\\", filename);
 
   // Pause for one second until explorer window is displayed and switch to it
-  await maximizeWindow();
   const windows = await driver.getWindowHandles();
   let explorerWindow;
   if (windows[0] === uplinkContext) {
@@ -337,11 +336,14 @@ export async function saveFileOnWindows(
   await (
     await $("/Window/Pane[1]/ComboBox[1]/Edit")
   ).setValue(filename + "\uE007");
+
+  // Wait for Save Panel not to be displayed
+  await $("~TitleBar").waitForDisplayed({ reverse: true });
+
   await driver.switchToWindow(uplinkContext);
-  await maximizeWindow();
 
   // Delete file from local files
-  rmSync(filepath, { force: true });
+  await rmSync(filepath, { force: true });
   return;
 }
 

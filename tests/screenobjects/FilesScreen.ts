@@ -19,6 +19,7 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU_OPTION: '[name="Context Item"]',
   CRUMB: '[name="crumb"]',
   CRUMB_TEXT: "//Text",
+  FILE_FOLDER_NAME_TEXT: "//Text/Text",
   FILES_BODY: '[name="files-body"]',
   FILES_BREADCRUMBS: '[name="files-breadcrumbs"]',
   FILES_INFO: '[name="files-info"]',
@@ -48,6 +49,8 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[1]",
   FILE_FOLDER_NAME:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
+  FILE_FOLDER_NAME_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   FILES_BODY: "~files-body",
   FILES_BREADCRUMBS: "~files-breadcrumbs",
   FILES_INFO: "~files-info",
@@ -112,6 +115,10 @@ class FilesScreen extends UplinkMainScreen {
 
   get crumbText() {
     return $$(SELECTORS.CRUMB).$(SELECTORS.CRUMB_TEXT);
+  }
+
+  get fileFolderNameText() {
+    return $(SELECTORS.FILE_FOLDER_NAME_TEXT);
   }
 
   get filesBody() {
@@ -288,12 +295,15 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   async openFilesContextMenu(name: string) {
-    const elementToRightClick = await this.getLocatorOfFolderFile(name);
+    const elementLocator = await this.getLocatorOfFolderFile(name);
+    const fileFolderToRightClick = await elementLocator?.$(
+      SELECTORS.FILE_FOLDER_NAME_TEXT
+    );
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await rightClickOnMacOS(elementToRightClick);
+      await rightClickOnMacOS(fileFolderToRightClick);
     } else if (currentDriver === "windows") {
-      await rightClickOnWindows(elementToRightClick);
+      await rightClickOnWindows(fileFolderToRightClick);
     }
     await (await this.contextMenu).waitForDisplayed();
   }
