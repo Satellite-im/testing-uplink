@@ -98,4 +98,54 @@ export default async function files() {
     const newFile = await FilesScreen.getLocatorOfFolderFile("logo.jpg");
     expect(newFile).toExist();
   });
+
+  it("Context Menu - Folder - Rename", async () => {
+    // Open context menu for testfolder01 and select the first option "Rename"
+    await FilesScreen.openFilesContextMenu("testfolder01");
+    await FilesScreen.contextMenuOption[0].click();
+
+    // Set the new name for the folder
+    const renamedFolder = await FilesScreen.updateNameFileFolder("newname");
+    expect(renamedFolder).toExist();
+  });
+
+  it("Context Menu - Folder - Delete", async () => {
+    // Open context menu for newname folder and select the second option "Delete"
+    await FilesScreen.openFilesContextMenu("newname");
+    await FilesScreen.contextMenuOption[1].click();
+
+    // Ensure that folder deleted does not exist anymore
+    const nonExistingFolderLocator =
+      await FilesScreen.getLocatorOfDeletedElement("newname");
+    expect(await $(nonExistingFolderLocator)).not.toExist();
+  });
+
+  it("Context Menu - File - Rename", async () => {
+    // Open context menu for logo.jpg file and select the first option "Rename"
+    await FilesScreen.openFilesContextMenu("logo.jpg");
+    await FilesScreen.contextMenuOption[0].click();
+
+    // Set the new name for the file
+    const renamedFile = await FilesScreen.updateNameFileFolder("newname");
+    expect(renamedFile).toExist();
+  });
+
+  // Needs research on how to implement on Windows
+  xit("Context Menu - File - Download", async () => {
+    // Open context menu for newname.jpg and select the second option "Download"
+    await FilesScreen.openFilesContextMenu("newname.jpg");
+    await FilesScreen.downloadFile("saved.jpg");
+  });
+
+  it("Context Menu - File - Delete", async () => {
+    // Open context menu for newname.jpg file and select the second option "Delete"
+    await FilesScreen.openFilesContextMenu("newname.jpg");
+    await FilesScreen.contextMenuOption[2].click();
+
+    // Ensure that file deleted does not exist anymore
+    const nonExistingFile = await FilesScreen.getLocatorOfDeletedElement(
+      "newname.jpg"
+    );
+    expect(await $(nonExistingFile)).not.toExist();
+  });
 }

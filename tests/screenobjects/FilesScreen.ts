@@ -1,4 +1,11 @@
-import { selectFileOnMacos, selectFileOnWindows } from "../helpers/commands";
+import {
+  rightClickOnMacOS,
+  rightClickOnWindows,
+  saveFileOnMacOS,
+  saveFileOnWindows,
+  selectFileOnMacos,
+  selectFileOnWindows,
+} from "../helpers/commands";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -12,6 +19,7 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU_OPTION: '[name="Context Item"]',
   CRUMB: '[name="crumb"]',
   CRUMB_TEXT: "//Text",
+  FILE_FOLDER_NAME_TEXT: "//Text/Text",
   FILES_BODY: '[name="files-body"]',
   FILES_BREADCRUMBS: '[name="files-breadcrumbs"]',
   FILES_INFO: '[name="files-info"]',
@@ -41,6 +49,8 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[1]",
   FILE_FOLDER_NAME:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
+  FILE_FOLDER_NAME_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   FILES_BODY: "~files-body",
   FILES_BREADCRUMBS: "~files-breadcrumbs",
   FILES_INFO: "~files-info",
@@ -91,12 +101,24 @@ class FilesScreen extends UplinkMainScreen {
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
+  get contextMenu() {
+    return $(SELECTORS.CONTEXT_MENU);
+  }
+
+  get contextMenuOption() {
+    return $$(SELECTORS.CONTEXT_MENU_OPTION);
+  }
+
   get crumb() {
     return $$(SELECTORS.CRUMB);
   }
 
   get crumbText() {
     return $$(SELECTORS.CRUMB).$(SELECTORS.CRUMB_TEXT);
+  }
+
+  get fileFolderNameText() {
+    return $(SELECTORS.FILE_FOLDER_NAME_TEXT);
   }
 
   get filesBody() {
@@ -213,6 +235,18 @@ class FilesScreen extends UplinkMainScreen {
     expect(newFolder).toExist();
   }
 
+  async downloadFile(filename: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await this.contextMenuOption[1].click();
+      await saveFileOnMacOS(filename);
+    } else if (currentDriver === "windows") {
+      const uplinkContext = await driver.getWindowHandle();
+      await this.contextMenuOption[1].click();
+      await saveFileOnWindows(filename, uplinkContext);
+    }
+  }
+
   async getCurrentFolder() {
     const folders = await this.crumb;
     const treeLength = folders.length - 1;
@@ -224,6 +258,17 @@ class FilesScreen extends UplinkMainScreen {
 
   async getFileFolderName(element: WebdriverIO.Element) {
     return await (await element.$(SELECTORS.FILE_FOLDER_NAME)).getText();
+  }
+
+  async getLocatorOfDeletedElement(name: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      return (
+        '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]'
+      );
+    } else if (currentDriver === "windows") {
+      return '[name="' + name + '"]';
+    }
   }
 
   async getLocatorOfFolderFile(name: string) {
@@ -247,6 +292,31 @@ class FilesScreen extends UplinkMainScreen {
   async getProgressUploadPercentage() {
     const progress = await (await this.uploadFileIndicatorProgress).getText();
     return progress;
+  }
+
+  async openFilesContextMenu(name: string) {
+    const elementLocator = await this.getLocatorOfFolderFile(name);
+    const fileFolderToRightClick = await elementLocator?.$(
+      SELECTORS.FILE_FOLDER_NAME_TEXT
+    );
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(fileFolderToRightClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(fileFolderToRightClick);
+    }
+    await (await this.contextMenu).waitForDisplayed();
+  }
+
+  async updateNameFileFolder(newName: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await (await this.inputFolderFileName).setValue(newName + "\n");
+    } else if (currentDriver === "windows") {
+      await (await this.inputFolderFileName).setValue(newName + "\uE007");
+    }
+    const newFileFolder = await this.getLocatorOfFolderFile(newName);
+    return newFileFolder;
   }
 
   async uploadFile(relativePath: string) {
