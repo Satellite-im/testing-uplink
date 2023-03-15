@@ -11,13 +11,18 @@ This automation framework is currently based on:
 
 ## Setting up to run on the local machine - MAC OS
 
-1. First, install NodeJS and then all the required dependencies
+1. First, install NodeJS in your machine. Then, open a shell session and run:
 
 ```sh
 npm install
 ```
 
-2. Install Appium on a local machine. You can find detailed instructions for this process [here](https://appium.io/docs/en/about-appium/getting-started/)
+2. Install Appium on a local machine. You can use NPM for installing the latest version of appium, by running the following shell command:
+
+```sh
+npm install -g appium@next
+```
+
 3. Add Appium drivers required to execute the tests on the desired platform. For now, the framework only works for macOS
 
 ```sh
@@ -28,8 +33,21 @@ appium driver install mac2
 appium driver install --source=npm appium-windows-driver
 ```
 
-4. Ask the development team to provide the latest .dmg file for macOS testing or .exe for Windows. On Windows, you can place the application on /apps folder and ensure that the name of the app is ui.exe
-5. Once the application is installed, you can run the tests by using the following commands:
+4. An additional step that is only required in case that you are going to run the Appium Tests on Windows is to install the WinAppDriver, used by Appium Windows Driver to handle the UI from windows applications and therefore run the tests. You can follow the instructions to install WinAppDriver in the following [link](https://github.com/microsoft/WinAppDriver).
+
+5. To build the Uplink application to test, clone the [Uplink repository](https://github.com/Satellite-im/Uplink) in your local machine and follow the specific OS install requirements listed on the [README](https://github.com/Satellite-im/Uplink/blob/dev/README.md) from Uplink, depending on your current OS.
+
+6. Now that you have Uplink setup and the prerequisites from Uplink installed, you can run the following commands in a shell session:
+
+```sh
+cargo update
+cargo clean
+cargo build --release --package ui
+```
+
+7. Wait until the process is completed and you will find a UI.exe program (for Windows) or Uplink.app (for MacOS) file in "Uplink/target/release/windows" or "Uplink/target/release/macOS". If you are on Windows, you just have to create an "apps" folder inside the main folder of testing-uplink folder and then copy the file UI.exe the "./apps/" folder. Now, if you are testing on MacOS, you have to copy the Uplink.app file into your Applications folder from your OS.
+
+8. Once the application is installed, you can run the tests by using the following commands:
 
 ```sh
 # To run the tests under MacOS
