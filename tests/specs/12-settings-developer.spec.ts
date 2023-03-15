@@ -78,39 +78,48 @@ export default async function settingsDeveloper() {
     );
   });
 
-  it("Settings Developer - Enable Developer Mode and Save Logs switches", async () => {
-    // Click on DEVELOPER MODE and SAVE LOGS IN FILE switches to activate the options
-    await SettingsDeveloperScreen.clickOnDeveloperMode();
-
+  it("Settings Developer - Save Logs switch", async () => {
+    // Click on SAVE LOGS IN FILE switch to activate the option
     await SettingsDeveloperScreen.clickOnSaveLogs();
 
-    // Validate that switches have now value = '1' (active)
-    const developerModeStatus = await SettingsDeveloperScreen.getToggleState(
-      await SettingsDeveloperScreen.developerModeControllerValue
-    );
+    // Validate that switch has now value = '1' (active)
     const saveLogsStatus = await SettingsDeveloperScreen.getToggleState(
       await SettingsDeveloperScreen.saveLogsControllerValue
     );
-
-    expect(developerModeStatus).toEqual("1");
     expect(saveLogsStatus).toEqual("1");
   });
 
-  it("Settings Developer - Disable Developer Mode and Save Logs switches", async () => {
-    // Click on DEVELOPER MODE and SAVE LOGS IN FILE switches to disable the options
-    await SettingsDeveloperScreen.clickOnDeveloperMode();
+  it("Settings Developer - Disable Save Logs switch", async () => {
+    // Click on SAVE LOGS IN FILE switch to disable the option
     await SettingsDeveloperScreen.clickOnSaveLogs();
 
-    // Validate that switches have now value = '0' (disabled)
-    const developerModeStatus = await SettingsDeveloperScreen.getToggleState(
-      await SettingsDeveloperScreen.developerModeControllerValue
-    );
+    // Validate that switch has now value = '0' (disabled)
     const saveLogsStatus = await SettingsDeveloperScreen.getToggleState(
       await SettingsDeveloperScreen.saveLogsControllerValue
     );
-
-    expect(developerModeStatus).toEqual("0");
     expect(saveLogsStatus).toEqual("0");
+  });
+
+  it("Settings Developer - Enable Developer Mode", async () => {
+    // Click on DEVELOPER MODE switch to activate the option
+    await SettingsDeveloperScreen.clickOnDeveloperMode();
+
+    // Validate that switch has now value = '1' (active)
+    const developerModeStatus = await SettingsDeveloperScreen.getToggleState(
+      await SettingsDeveloperScreen.developerModeControllerValue
+    );
+    expect(developerModeStatus).toEqual("1");
+  });
+
+  it("Settings Developer - Disable Developer Mode switch", async () => {
+    // Click on DEVELOPER MODE switch to disable the option
+    await SettingsDeveloperScreen.clickOnDeveloperMode();
+
+    // Validate that switch has now value = '0' (disabled)
+    const developerModeStatus = await SettingsDeveloperScreen.getToggleState(
+      await SettingsDeveloperScreen.developerModeControllerValue
+    );
+    expect(developerModeStatus).toEqual("0");
   });
 
   it("Settings Developer - Open codebase button", async () => {
