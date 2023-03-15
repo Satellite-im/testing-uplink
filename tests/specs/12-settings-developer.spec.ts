@@ -78,8 +78,7 @@ export default async function settingsDeveloper() {
     );
   });
 
-  // Failing on MacOS because the click is not switching in the correct element position, needs research
-  xit("Settings Developer - Enable Developer Mode and Save Logs switches", async () => {
+  it("Settings Developer - Enable Developer Mode and Save Logs switches", async () => {
     // Click on DEVELOPER MODE and SAVE LOGS IN FILE switches to activate the options
     await SettingsDeveloperScreen.clickOnDeveloperMode();
 
@@ -97,8 +96,7 @@ export default async function settingsDeveloper() {
     expect(saveLogsStatus).toEqual("1");
   });
 
-  // Failing on MacOS because the click is not switching in the correct element position, needs research
-  xit("Settings Developer - Disable Developer Mode and Save Logs switches", async () => {
+  it("Settings Developer - Disable Developer Mode and Save Logs switches", async () => {
     // Click on DEVELOPER MODE and SAVE LOGS IN FILE switches to disable the options
     await SettingsDeveloperScreen.clickOnDeveloperMode();
     await SettingsDeveloperScreen.clickOnSaveLogs();
