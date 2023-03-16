@@ -97,7 +97,7 @@ jobs:
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
 
       - name: Install NPM dependencies 📦
-        run: npm install
+        run: npm ci
 
       - name: Install and Run Appium Server 💻
         run: |
@@ -138,3 +138,70 @@ jobs:
         if: failure()
         with:
           file-name: "desktop.jpg"
+
+  chat-test:
+    needs: [test, ui-test-windows-test-on-windows]
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Enable opening app not codesigned 🖥️
+        run: sudo spctl --master-disable
+
+      - name: Download the app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: app-macos
+          path: ./apps
+
+      - name: Copy DMG to Appium Apps Directory 💿
+        working-directory: ./apps
+        run: |
+          unzip Uplink-Mac-Universal.zip
+          cp -r ./Uplink.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+
+      - name: Install NPM dependencies 📦
+        run: npm ci
+
+      - name: Install and Run Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+          appium driver install mac2
+          appium driver list
+
+      - name: Delete Cache Folder if exists
+        run: rm -rf ~/.uplink
+
+      - name: Run WebdriverIO tests on MacOS 🧪
+        run: npm run mac.chat
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          junit_files: "./test-report/*.xml"
+          check_name: "UI Automated Test Results - Chats with User A"
+
+      - name: Upload Screenshots if tests failed 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-screenshots-userA
+          path: ./test-results
+
+      - name: Upload Appium Log if tests failed 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-log-userA
+          path: ./appium.log
+
+      - name: Take screenshot of GH runner if test execution fails 📷
+        uses: OrbitalOwen/desktop-screenshot-action@0.1
+        if: failure()
+        with:
+          file-name: "desktopUserA.jpg"
