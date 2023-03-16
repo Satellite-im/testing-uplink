@@ -23,10 +23,7 @@ jobs:
         continue-on-error: false
         with:
           path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
+            ~/.cargo/
             target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
@@ -83,7 +80,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version-file: ".nvmrc"
+          node-version: 16
           cache: "npm"
 
       - name: Cache NPM dependencies 🔨
@@ -164,7 +161,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version-file: ".nvmrc"
+          node-version: 16
           cache: "npm"
 
       - name: Cache NPM dependencies 📦
@@ -213,7 +210,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version-file: ".nvmrc"
+          node-version: 16
           cache: "npm"
 
       - name: Cache NPM dependencies 📦
