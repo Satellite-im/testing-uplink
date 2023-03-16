@@ -1,4 +1,4 @@
-name: MacOS - Build App and Run UI Automated Tests 🧪
+name: Mac - UI Automated Tests - Build App and Run Tests 🧪
 
 on:
   pull_request:
@@ -205,7 +205,7 @@ jobs:
         run: rm -rf ~/.uplink
 
       - name: Run WebdriverIO tests on MacOS for Chat User A 🧪
-        run: npm run mac.chat --spec tests/specs/13-chats-userA.spec.ts
+        run: npm run mac.chatA
 
   two-users-second:
     needs: build-app
@@ -259,4 +259,4 @@ jobs:
         run: rm -rf ~/.uplink
 
       - name: Run WebdriverIO tests on MacOS for Chat User B 🧪
-        run: npm run mac.chat --spec tests/specs/14-chats-userB.spec.ts
+        run: npm run mac.chatB

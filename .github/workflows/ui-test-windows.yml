@@ -1,4 +1,4 @@
-name: UI Automated Tests on Windows 🧪
+name: Windows - UI Automated Tests - Build App and Run Tests 🧪
 
 on:
   pull_request:
@@ -100,7 +100,7 @@ jobs:
         run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
         shell: powershell
 
-      - name: Run WebdriverIO tests on MacOS 🧪
+      - name: Run WebdriverIO tests on Windows 🧪
         run: npm run windows.ci
 
       - name: Publish Test Results
@@ -172,8 +172,8 @@ jobs:
         run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
         shell: powershell
 
-      - name: Run WebdriverIO tests on MacOS 🧪
-        run: npm run windows.chat --spec tests/specs/13-chats-userA.spec.ts
+      - name: Run WebdriverIO tests on Windows for Chat User A 🧪
+        run: npm run windows.chatB
 
   two-users-second:
     needs: build-windows
@@ -217,5 +217,5 @@ jobs:
         run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
         shell: powershell
 
-      - name: Run WebdriverIO tests on MacOS 🧪
-        run: npm run windows.chat --spec tests/specs/14-chats-userB.spec.ts
+      - name: Run WebdriverIO tests on Windows for Chat User B 🧪
+        run: npm run windows.chatB

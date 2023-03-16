@@ -1,9 +1,8 @@
-import config from "./wdio.shared.windows.appium.conf";
-import { join } from "path";
-
-
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
+
+import config from "./wdio.shared.mac.appium.conf";
+import { join } from "path";
 
 // ============
 // Specs
@@ -18,21 +17,22 @@ config.specs = [join(process.cwd(), "./tests/specs/14-chats-userB.spec.ts")];
 config.capabilities = [
   {
     // The defaults you need to have in your config
-    platformName: "windows",
-    "appium:deviceName": "WindowsPC",
+    platformName: "mac",
     // For W3C the appium capabilities need to have an extension prefix
     // http://appium.io/docs/en/writing-running-appium/caps/
     // This is `appium:` for all Appium Capabilities which can be found here
-    "appium:automationName": "windows",
-    "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
-    "ms:waitForAppLaunch": 30,
+    "appium:automationName": "mac2",
+    // @ts-ignore
+    "appium:bundleId": "im.satellite.uplink",
+    "appium:serverStartupTimeout": 240000,
+    "appium:systemPort": 10102,
   },
 ];
 
 config.afterTest = async function (test, describe, { error }) {
   if (error) {
     let imageFile = await driver.takeScreenshot();
-    let imageFolder = join(process.cwd(), "./test-results/windows", test.parent);
+    let imageFolder = join(process.cwd(), "./test-results/macos", test.parent);
     await mkdirp(imageFolder);
     await fsp.writeFile(
       imageFolder + "/" + test.title + " - Failed.png",
