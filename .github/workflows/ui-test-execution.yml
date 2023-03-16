@@ -169,9 +169,14 @@ jobs:
 
       - name: Cache NPM dependencies 📦
         uses: actions/cache@v3
+        id: cache-appium-userA
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-appium-userA.outputs.cache-hit != 'true'
+        run: npm ci
 
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
@@ -218,9 +223,14 @@ jobs:
 
       - name: Cache NPM dependencies 📦
         uses: actions/cache@v3
+        id: cache-appium-userB
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-appium-userB.outputs.cache-hit != 'true'
+        run: npm ci
 
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
