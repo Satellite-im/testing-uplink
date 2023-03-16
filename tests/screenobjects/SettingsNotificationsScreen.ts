@@ -28,7 +28,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
-  SWITCH_SLIDER: '[name="Switch Slider"]',
+  SWITCH_SLIDER: "~Switch Slider",
 };
 
 currentOS === "windows"
@@ -41,11 +41,11 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get enabledNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get enabledNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
+    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
@@ -63,11 +63,11 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get friendsNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get friendsNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
+    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
@@ -101,11 +101,11 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get messagesNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get messagesNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
+    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
@@ -123,11 +123,11 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get settingsNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_CONTROL)[4].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get settingsNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(
+    return $$(SELECTORS.SETTINGS_CONTROL)[4].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }

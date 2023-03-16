@@ -62,8 +62,7 @@ export default async function settingsExtensions() {
     );
   });
 
-  // Failing on MacOS because the click is not switching in the correct element position, needs research
-  xit("Settings Extensions - Activate the switch slider for Enable Automatically", async () => {
+  it("Settings Extensions - Activate the switch slider for Enable Automatically", async () => {
     // Click on Switch from Enable Automatically to activate it
     await SettingsExtensionsScreen.clickOnEnableAutomatically();
 
@@ -76,8 +75,7 @@ export default async function settingsExtensions() {
     expect(enableAutomaticallyState).toEqual("1");
   });
 
-  // Failing on MacOS because the click is not switching in the correct element position, needs research
-  xit("Settings Extensions - Deactivate the switch slider for Enable Automatically", async () => {
+  it("Settings Extensions - Deactivate the switch slider for Enable Automatically", async () => {
     // Click again on Switch from Enable Automatically to disable it
     await SettingsExtensionsScreen.clickOnEnableAutomatically();
 
