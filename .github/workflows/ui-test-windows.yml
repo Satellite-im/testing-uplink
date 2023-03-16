@@ -120,3 +120,75 @@ jobs:
         if: failure()
         with:
           file-name: "desktop.jpg"
+
+  two-users-first:
+    needs: build-windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Download the app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-Windows
+          path: ./apps
+
+      - name: Install NPM dependencies 📦
+        run: npm ci
+
+      - name: Install and Run Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+          appium driver install --source=npm appium-windows-driver
+          appium driver list
+
+      - name: Delete cache folder before starting
+        run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
+        shell: powershell
+
+      - name: Run WebdriverIO tests on MacOS 🧪
+        run: npm run windows.chat --spec tests/specs/13-chats-userA.spec.ts
+
+  two-users-second:
+    needs: build-windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Download the app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-Windows
+          path: ./apps
+
+      - name: Install NPM dependencies 📦
+        run: npm ci
+
+      - name: Install and Run Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+          appium driver install --source=npm appium-windows-driver
+          appium driver list
+
+      - name: Delete cache folder before starting
+        run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
+        shell: powershell
+
+      - name: Run WebdriverIO tests on MacOS 🧪
+        run: npm run windows.chat --spec tests/specs/14-chats-userB.spec.ts

@@ -138,3 +138,83 @@ jobs:
         if: failure()
         with:
           file-name: "desktop.jpg"
+
+  two-users-first:
+    needs: build-app
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Enable opening app not codesigned 🖥️
+        run: sudo spctl --master-disable
+
+      - name: Download the app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: app-macos
+          path: ./apps
+
+      - name: Copy DMG to Appium Apps Directory 💿
+        working-directory: ./apps
+        run: |
+          unzip Uplink-Mac-Universal.zip
+          cp -r ./Uplink.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+
+      - name: Install NPM dependencies 📦
+        run: npm ci
+
+      - name: Install and Run Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+          appium driver install mac2
+          appium driver list
+
+      - name: Delete Cache Folder if exists
+        run: rm -rf ~/.uplink
+
+      - name: Run WebdriverIO tests on MacOS for Chat User A 🧪
+        run: npm run mac.chat --spec tests/specs/13-chats-userA.spec.ts
+
+  two-users-second:
+    needs: build-app
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Enable opening app not codesigned 🖥️
+        run: sudo spctl --master-disable
+
+      - name: Download the app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: app-macos
+          path: ./apps
+
+      - name: Copy DMG to Appium Apps Directory 💿
+        working-directory: ./apps
+        run: |
+          unzip Uplink-Mac-Universal.zip
+          cp -r ./Uplink.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+
+      - name: Install NPM dependencies 📦
+        run: npm ci
+
+      - name: Install and Run Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+          appium driver install mac2
+          appium driver list
+
+      - name: Delete Cache Folder if exists
+        run: rm -rf ~/.uplink
+
+      - name: Run WebdriverIO tests on MacOS for Chat User B 🧪
+        run: npm run mac.chat --spec tests/specs/14-chats-userB.spec.ts
