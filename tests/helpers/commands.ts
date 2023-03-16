@@ -229,7 +229,23 @@ export function getPredicateForTextValueEqual(value: string) {
 // MacOS driver helper functions
 
 export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
-  await (await $(element).$("~switch-slider-value")).click();
+  const elementLocator = await $(element).$("~switch-slider-value");
+
+  // Get X and Y coordinates to hover on from Profile Banner
+  const bannerX = await elementLocator.getLocation("x");
+  const bannerY = await elementLocator.getLocation("y");
+
+  // Hover on X and Y coordinates previously retrieved
+  await driver.executeScript("macos: hover", [
+    {
+      elementId: elementLocator,
+      x: bannerX,
+      y: bannerY,
+    },
+  ]);
+
+  // Do the click using robotJS
+  await robot.mouseClick();
 }
 
 export async function saveFileOnMacOS(filename: string) {
