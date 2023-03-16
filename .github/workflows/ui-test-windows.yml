@@ -4,12 +4,6 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, edited]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-  properties:
-    branch: ${{ github.head_ref }}
-
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

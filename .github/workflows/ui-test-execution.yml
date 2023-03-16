@@ -1,11 +1,5 @@
 name: MacOS - Build App and Run UI Automated Tests 🧪
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-  properties:
-    branch: ${{ github.head_ref }}
-
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   CARGO_TERM_COLOR: always
