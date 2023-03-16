@@ -22,10 +22,10 @@ jobs:
         continue-on-error: false
         with:
           path: |
-            %USERPROFILE%\.cargo\bin\
-            %USERPROFILE%\.cargo\registry\index\
-            %USERPROFILE%\.cargo\registry\cache\
-            %USERPROFILE%\.cargo\git\db\
+            $HOME\.cargo\bin\
+            $HOME\.cargo\registry\index\
+            $HOME\.cargo\registry\cache\
+            $HOME\.cargo\git\db\
             target\
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
