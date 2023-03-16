@@ -44,8 +44,7 @@ export default async function settingsGeneral() {
     );
   });
 
-  // Failing on MacOS because the click is not switching in the correct element position, needs research
-  xit("Settings General - Toggle switches to enabled", async () => {
+  it("Settings General - Toggle switches to enabled", async () => {
     // Click on Uplink Overlay and Splash Screen to activate toggles and then validate that toggle has now value = "1" (enabled)
     await SettingsGeneralScreen.clickOnUplinkOverlay();
     const uplinkOverlayState = await SettingsGeneralScreen.getToggleState(
@@ -61,8 +60,7 @@ export default async function settingsGeneral() {
     expect(splashScreenState).toEqual("1");
   });
 
-  // Failing on MacOS because the click is not switching in the correct element position, needs research
-  xit("Settings General - Toggle switches to disabled", async () => {
+  it("Settings General - Toggle switches to disabled", async () => {
     // Click on Uplink Overlay to activate toggle and then validate that toggle has now value = "0" (disabled)
     await SettingsGeneralScreen.clickOnUplinkOverlay();
     const uplinkOverlayState = await SettingsGeneralScreen.getToggleState(
