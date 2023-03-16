@@ -1,5 +1,9 @@
 name: MacOS - Build App and Run UI Automated Tests 🧪
 
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   CARGO_TERM_COLOR: always
