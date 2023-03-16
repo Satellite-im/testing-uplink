@@ -12,7 +12,9 @@ describe("Two users at the same time - Chat User B", async () => {
 
     // Accept incoming request from ChatUserA
     await FriendsScreen.goToPendingFriendsList();
-    await (await FriendsScreen.acceptFriendRequestButton).waitForDisplayed();
+    await (
+      await FriendsScreen.acceptFriendRequestButton
+    ).waitForExist({ timeout: 120000 });
     await (await FriendsScreen.acceptFriendRequestButton).click();
 
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA

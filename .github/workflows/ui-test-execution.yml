@@ -80,6 +80,23 @@ jobs:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-appium
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-appium.outputs.cache-hit != 'true'
+        run: npm ci
+
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
 
@@ -95,9 +112,6 @@ jobs:
           unzip Uplink-Mac-Universal.zip
           cp -r ./Uplink.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
-
-      - name: Install NPM dependencies 📦
-        run: npm ci
 
       - name: Install and Run Appium Server 💻
         run: |
@@ -147,6 +161,18 @@ jobs:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Cache NPM dependencies 📦
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
 
@@ -162,9 +188,6 @@ jobs:
           unzip Uplink-Mac-Universal.zip
           cp -r ./Uplink.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
-
-      - name: Install NPM dependencies 📦
-        run: npm ci
 
       - name: Install and Run Appium Server 💻
         run: |
@@ -187,6 +210,18 @@ jobs:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Cache NPM dependencies 📦
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
 
@@ -202,9 +237,6 @@ jobs:
           unzip Uplink-Mac-Universal.zip
           cp -r ./Uplink.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
-
-      - name: Install NPM dependencies 📦
-        run: npm ci
 
       - name: Install and Run Appium Server 💻
         run: |

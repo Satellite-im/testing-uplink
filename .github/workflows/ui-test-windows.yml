@@ -69,16 +69,25 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-appium
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-appium.outputs.cache-hit != 'true'
+        run: npm ci
 
       - name: Download the app 🗳️
         uses: actions/download-artifact@v3
         with:
           name: Uplink-Windows
           path: ./apps
-
-      - name: Install NPM dependencies 📦
-        run: npm ci
 
       - name: Install and Run Appium Server 💻
         run: |
@@ -132,16 +141,20 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Cache NPM dependencies 📦
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
       - name: Download the app 🗳️
         uses: actions/download-artifact@v3
         with:
           name: Uplink-Windows
           path: ./apps
-
-      - name: Install NPM dependencies 📦
-        run: npm ci
 
       - name: Install and Run Appium Server 💻
         run: |
@@ -168,16 +181,20 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Cache NPM dependencies 📦
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
       - name: Download the app 🗳️
         uses: actions/download-artifact@v3
         with:
           name: Uplink-Windows
           path: ./apps
-
-      - name: Install NPM dependencies 📦
-        run: npm ci
 
       - name: Install and Run Appium Server 💻
         run: |
