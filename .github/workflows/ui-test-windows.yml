@@ -78,7 +78,7 @@ jobs:
           path: ./apps
 
       - name: Install NPM dependencies 📦
-        run: npm install
+        run: npm ci
 
       - name: Install and Run Appium Server 💻
         run: |

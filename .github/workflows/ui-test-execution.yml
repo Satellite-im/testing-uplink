@@ -97,7 +97,7 @@ jobs:
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
 
       - name: Install NPM dependencies 📦
-        run: npm install
+        run: npm ci
 
       - name: Install and Run Appium Server 💻
         run: |
