@@ -9,10 +9,9 @@ env:
 
 jobs:
   build:
-    name: Build Uplink App
     strategy:
       matrix:
-        os: ["windows-latest", "macos-latest"]
+        os: [windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -106,11 +105,10 @@ jobs:
             target/release/ui.exe
 
   text-execution:
-    name: UI Automated Tests Execution
     needs: [build]
     strategy:
       matrix:
-        os: ["windows-latest", "macos-latest"]
+        os: [windows-latest, macos-latest]
         include:
           - os: windows-latest
             run: ["npm run windows.ci", "npm run windows.chatA", "npm run windows.chatB"]
