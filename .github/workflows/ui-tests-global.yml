@@ -1,0 +1,207 @@
+name: UI Automated Tests
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    name: Build Uplink App
+    strategy:
+      matrix:
+        os: ["windows-latest", "macos-latest"]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+        with:
+          repository: Satellite-im/Uplink
+
+      - name: Set up cargo cache Windows 🛠️
+        uses: actions/cache@v3
+        if: matrix.os == 'windows-latest'
+        continue-on-error: false
+        with:
+          path: |
+            C:\Users\runneradmin\.cargo\bin\
+            C:\Users\runneradmin\.cargo\registry\index\
+            C:\Users\runneradmin\.cargo\registry\cache\
+            C:\Users\runneradmin\.cargo\git\db\
+            target\
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Set up cargo cache MacOS 🛠️
+        uses: actions/cache@v3
+        if: matrix.os == 'macos-latest'
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - name: Install Protobuf 💿
+        uses: arduino/setup-protoc@v1
+        with:
+          repo-token: ${{env.GITHUB_TOKEN}}
+
+      - name: Run cargo update 🌐
+        run: cargo update
+
+      - name: Run cargo clean 🧹
+        run: cargo clean
+
+      - name: Build executable Windows 🖥️
+        if: matrix.os == 'windows-latest'
+        run: cargo build --package ui --release
+
+      - name: Build executable MacOS 🖥️
+        if: matrix.os == 'macos-latest'
+        continue-on-error: true
+        run: make dmg
+
+      - name: Create ZIP archive MacOS 🗳️
+        if: matrix.os == 'macos-latest'
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent target/release/macos/Uplink.app Uplink-Mac-Universal.zip
+
+      - name: Calculate hashes MacOS 🧮
+        if: matrix.os == 'macos-latest'
+        run: |
+          shasum -a 256 Uplink-Mac-Universal.zip > Uplink-Mac-Universal.zip.sha256.txt
+
+      - name: Upload MacOS Application ⬆️
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v3
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
+        with:
+          name: app-macos
+          path: |
+            Uplink-Mac-Universal.zip
+            Uplink-Mac-Universal.zip.sha256.txt
+
+      - name: Upload Windows Application ⬆️
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v3
+        with:
+          name: Uplink-Windows
+          path: |
+            target/release/ui.exe
+
+  text-execution:
+    name: UI Automated Tests Execution
+    needs: [build]
+    strategy:
+      matrix:
+        os: ["windows-latest", "macos-latest"]
+        include:
+          - os: windows-latest
+            run: ["npm run windows.ci", "npm run windows.chatA", "npm run windows.chatB"]
+        include:
+          - os: macos-latest
+            run: ["npm run mac.ci", "npm run mac.chatA", "npm run mac.chatB"]      
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-appium
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-appium.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Enable opening app not codesigned on MacOS 🖥️
+        if: matrix.os == 'macos-latest'
+        run: sudo spctl --master-disable
+
+      - name: Download the Windows app 🗳️
+        if: matrix.os == 'windows-latest'
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-Windows
+          path: ./apps
+
+      - name: Download the MacOS app 🗳️
+        if: matrix.os == 'macos-latest'
+        uses: actions/download-artifact@v3
+        with:
+          name: app-macos
+          path: ./apps
+
+      - name: MacOS - Copy DMG to Appium Apps Directory 💿
+        if: matrix.os == 'macos-latest'
+        working-directory: ./apps
+        run: |
+          unzip Uplink-Mac-Universal.zip
+          cp -r ./Uplink.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+
+      - name: Install and Run Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+          appium driver install --source=npm appium-windows-driver
+          appium driver list
+
+      - name: Windows - Delete cache folder before starting
+        if: matrix.os == 'windows-latest'
+        run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
+        shell: powershell
+
+      - name: MacOS - Delete Cache Folder if exists
+        if: matrix.os == 'macos-latest'
+        run: rm -rf ~/.uplink
+
+      - name: Run WebdriverIO tests on ${{ matrix.os }} 🧪
+        run: ${{ matrix.run }}
+
+      - name: Publish Test Results on ${{ matrix.os }} for ${{ matrix.run }}
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          junit_files: "./test-report/*.xml"
+          check_name: "UI Automated Test Results on ${{ matrix.os }} for ${{ matrix.run }}"
+
+      - name: Upload Screenshots on ${{ matrix.os }} for ${{ matrix.run }} 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-screenshots-${{ matrix.os }}-${{ matrix.run }}
+          path: ./test-results
+
+      - name: Upload Appium Log on ${{ matrix.os }} for ${{ matrix.run }} 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-log-${{ matrix.os }}-${{ matrix.run }}
+          path: ./appium.log
