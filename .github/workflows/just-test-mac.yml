@@ -12,14 +12,15 @@ jobs:
   test:
     runs-on: macos-latest
     strategy:
-      max-parallel: 1
       fail-fast: false
       matrix:
-        run: [mac.chatA, mac.chatB]
+        node: [18, 16]
         include:
-          - run: mac.chatA
+          - node: 18
+            run: mac.chatA
             user: ChatUserA
-          - run: mac.chatB
+          - node: 16
+            run: mac.chatB
             user: ChatUserB
 
     steps:

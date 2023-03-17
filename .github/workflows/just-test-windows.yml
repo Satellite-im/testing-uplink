@@ -11,14 +11,15 @@ jobs:
   test-on-windows:
     runs-on: windows-latest
     strategy:
-      max-parallel: 1
       fail-fast: false
       matrix:
-        run: [windows.chatA, windows.chatB]
+        node: [18, 16]
         include:
-          - run: windows.chatA
+          - node: 18
+            run: windows.chatA
             user: ChatUserA
-          - run: windows.chatB
+          - node: 16
+            run: windows.chatB
             user: ChatUserB
 
     steps:
@@ -28,7 +29,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: ${{ matrix.node }}
           cache: "npm"
 
       - name: Cache NPM dependencies 🔨
