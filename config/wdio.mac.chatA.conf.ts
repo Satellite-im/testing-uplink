@@ -1,37 +1,8 @@
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
 
-import { config } from "./wdio.shared.conf";
+import config from "./wdio.shared.mac.appium.conf";
 import { join } from "path";
-
-//
-// ======
-// Appium
-// ======
-//
-config.services = (config.services ? config.services : []).concat([
-  [
-    "appium",
-    {
-      // This will use the globally installed version of Appium
-      command: "appium",
-      args: {
-        // This is needed to tell Appium that we can execute local ADB commands
-        // and to automatically download the latest version of ChromeDriver
-        relaxedSecurity: true,
-        // Write the Appium logs to a file in the root of the directory
-        log: "./appium.log",
-        basePath: "/wd/hub",
-        port: 4724,
-      },
-    },
-  ],
-]);
-//
-// =====================
-// Server Configurations
-// =====================
-//
 
 // ============
 // Specs
@@ -54,7 +25,6 @@ config.capabilities = [
     // @ts-ignore
     "appium:bundleId": "im.satellite.uplink",
     "appium:serverStartupTimeout": 240000,
-    "appium:systemPort:": 10101,
   },
 ];
 

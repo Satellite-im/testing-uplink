@@ -1,37 +1,8 @@
-import { config } from "./wdio.shared.conf";
+import config from "./wdio.shared.windows.appium.conf";
 import { join } from "path";
 
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
-
-//
-// ======
-// Appium
-// ======
-//
-config.services = (config.services ? config.services : []).concat([
-  [
-    "appium",
-    {
-      // This will use the globally installed version of Appium
-      command: "appium",
-      args: {
-        // This is needed to tell Appium that we can execute local ADB commands
-        // and to automatically download the latest version of ChromeDriver
-        relaxedSecurity: true,
-        // Write the Appium logs to a file in the root of the directory
-        log: "./appium.log",
-        basePath: "/wd/hub",
-        port: 4727,
-      },
-    },
-  ],
-]);
-//
-// =====================
-// Server Configurations
-// =====================
-//
 
 // ============
 // Specs
@@ -54,7 +25,6 @@ config.capabilities = [
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
     "ms:waitForAppLaunch": 30,
-    "appium:systemPort": 4728,
   },
 ];
 
