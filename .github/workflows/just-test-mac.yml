@@ -64,6 +64,14 @@ jobs:
           rm -rf ~/.uplink
           cp -rf ./tests/fixtures/users/${{ matrix.user }}/ ~/.uplink
 
+      - name: Open Satellite App
+        run: open /Applications/Uplink.app
+
+      - name: Take screenshot of App opened 📷
+        uses: OrbitalOwen/desktop-screenshot-action@0.1
+        with:
+          file-name: "desktop-before-starting-${{ matrix.user }}.jpg"
+
       - name: Run WebdriverIO tests on MacOS 🧪
         run: npm run ${{ matrix.run }}
 
@@ -85,4 +93,4 @@ jobs:
         uses: OrbitalOwen/desktop-screenshot-action@0.1
         if: failure()
         with:
-          file-name: "desktop-${{ matrix.user }}.jpg"
+          file-name: "desktop-after-finishing-${{ matrix.user }}.jpg"
