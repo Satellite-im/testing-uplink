@@ -13,7 +13,12 @@ jobs:
     runs-on: macos-latest
     strategy:
       matrix:
-        run: ["mac.chatA", "mac.chatB"]
+        run: [mac.chatA, mac.chatB]
+        include:
+          - run: mac.chatA
+            user: ChatUserA
+          - run: mac.chatB
+            user: ChatUserB
 
     steps:
       - name: Checkout testing directory 🔖
@@ -53,17 +58,10 @@ jobs:
           appium driver install mac2
           appium driver list
 
-      - name: Copy Cache Data from User A
-        if: matrix.run == "mac.chatA"
+      - name: Copy Cache Data from Chat User
         run: |
           rm -rf ~/.uplink
-          cp -rf ./tests/fixtures/users/ChatUserA/ ~/.uplink
-
-      - name: Copy Cache Data from User A
-        if: matrix.run == "mac.chatB"
-        run: |
-          rm -rf ~/.uplink
-          cp -rf ./tests/fixtures/users/ChatUserB/ ~/.uplink
+          cp -rf ./tests/fixtures/users/${{ matrix.user }}/ ~/.uplink
 
       - name: Run WebdriverIO tests on MacOS 🧪
         run: npm run ${{ matrix.run }}
@@ -72,18 +70,18 @@ jobs:
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-screenshots-${{ matrix.run }}
+          name: appium-screenshots-${{ matrix.user }}
           path: ./test-results
 
       - name: Upload Appium Log 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-log-${{ matrix.run }}
+          name: appium-log-${{ matrix.user }}
           path: ./appium.log
 
       - name: Take screenshot of GH runner if test execution fails 📷
         uses: OrbitalOwen/desktop-screenshot-action@0.1
         if: failure()
         with:
-          file-name: "desktop-${{ matrix.run }}.jpg"
+          file-name: "desktop-${{ matrix.user }}.jpg"
