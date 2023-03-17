@@ -10,6 +10,16 @@ env:
 jobs:
   test-on-windows:
     runs-on: windows-latest
+    strategy:
+      max-parallel: 1
+      fail-fast: false
+      matrix:
+        run: [windows.chatA, windows.chatB]
+        include:
+          - run: windows.chatA
+            user: ChatUserA
+          - run: windows.chatB
+            user: ChatUserB
 
     steps:
       - name: Checkout testing directory 🔖
@@ -32,12 +42,6 @@ jobs:
         if: steps.cache-appium.outputs.cache-hit != 'true'
         run: npm ci
 
-      #- name: Download the app 🗳️
-      #  uses: actions/download-artifact@v3
-      #  with:
-      #    name: Uplink-Windows
-      #    path: ./apps
-
       - name: Install and Run Appium Server 💻
         run: |
           npm install -g appium@next
@@ -50,24 +54,24 @@ jobs:
         shell: powershell
 
       - name: Run WebdriverIO tests on Windows 🧪
-        run: npm run windows.chatB
+        run: npm run ${{ matrix.run }}
 
       - name: Upload Screenshots 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-screenshots-chatB
+          name: appium-screenshots-${{ matrix.run }}
           path: ./test-results
 
       - name: Upload Appium Log 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-log-chatB
+          name: appium-log-${{ matrix.run }}
           path: ./appium.log
 
       - name: Take screenshot of GH runner if test execution fails 📷
         uses: OrbitalOwen/desktop-screenshot-action@0.1
         if: failure()
         with:
-          file-name: "desktop-chatB.jpg"
+          file-name: "desktop-screenshot-${{ matrix.run }}.jpg"

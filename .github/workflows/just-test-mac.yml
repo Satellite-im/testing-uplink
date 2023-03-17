@@ -12,6 +12,7 @@ jobs:
   test:
     runs-on: macos-latest
     strategy:
+      max-parallel: 1
       fail-fast: false
       matrix:
         run: [mac.chatA, mac.chatB]
@@ -59,13 +60,8 @@ jobs:
           appium driver install mac2
           appium driver list
 
-      - name: Copy Cache Data from Chat User
-        run: |
-          rm -rf ~/.uplink
-          cp -rf ./tests/fixtures/users/${{ matrix.user }}/ ~/.uplink
-
-      - name: Open Satellite App
-        run: open /Applications/Uplink.app
+      - name: Delete cache data from application
+        run: rm -rf ~/.uplink
 
       - name: Take screenshot of App opened 📷
         uses: OrbitalOwen/desktop-screenshot-action@0.1
@@ -93,4 +89,4 @@ jobs:
         uses: OrbitalOwen/desktop-screenshot-action@0.1
         if: failure()
         with:
-          file-name: "desktop-after-finishing-${{ matrix.user }}.jpg"
+          file-name: "desktop-screenshot-${{ matrix.user }}.jpg"

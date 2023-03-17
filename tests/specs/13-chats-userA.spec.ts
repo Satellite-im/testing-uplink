@@ -1,4 +1,4 @@
-import { loginWithTestUser } from "../helpers/commands";
+import { resetAndLoginWithCache } from "../helpers/commands";
 import ChatScreen from "../screenobjects/ChatScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
@@ -7,14 +7,14 @@ const userBKey = "did:key:z6MksTuCXHc1uy9DqyPaaWjSXwi2ZUcQkSoVgdLxg8GKPuWW";
 describe("Two users at the same time - Chat User A", async () => {
   it("Load Chat User A account, add Chat User B as friend and then send a message", async () => {
     // Go to Friends Screen
-    await loginWithTestUser();
+    await resetAndLoginWithCache("ChatUserA");
     await WelcomeScreen.goToFriends();
 
     // Go to Friends
     await FriendsScreen.waitForIsShown(true);
 
     // Wait for some time until user B is logged in
-    await browser.pause(300000);
+    await browser.pause(120000);
 
     // Send friend request to user B
     await FriendsScreen.addSomeoneInput.setValue(userBKey);
