@@ -60,7 +60,7 @@ jobs:
           cp -rf ./tests/fixtures/users/ChatUserA/ ~/.uplink
 
       - name: Copy Cache Data from User A
-      if: matrix.run == "mac.chatB"
+        if: matrix.run == "mac.chatB"
         run: |
           rm -rf ~/.uplink
           cp -rf ./tests/fixtures/users/ChatUserB/ ~/.uplink
