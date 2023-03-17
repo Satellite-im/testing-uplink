@@ -33,7 +33,7 @@ config.services = (config.services ? config.services : []).concat([
 // =====================
 //
 
-config.port = 10102;
+config.port = 10100;
 
 // ============
 // Specs
@@ -56,7 +56,6 @@ config.capabilities = [
     // @ts-ignore
     "appium:bundleId": "im.satellite.uplink",
     "appium:serverStartupTimeout": 240000,
-    "appium:systemPort": 10102,
   },
 ];
 
