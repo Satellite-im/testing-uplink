@@ -12,6 +12,7 @@ jobs:
   test:
     runs-on: macos-latest
     strategy:
+      fail-fast: false
       matrix:
         run: [mac.chatA, mac.chatB]
         include:
