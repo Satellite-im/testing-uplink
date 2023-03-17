@@ -14,7 +14,7 @@
   },
   "ui": {
     "notifications": {
-      "friends": 0,
+      "friends": 1,
       "messages": 0,
       "settings": 0
     },
@@ -22,12 +22,15 @@
     "enable_overlay": false,
     "sidebar_hidden": false,
     "metadata": {
-      "focused": true,
+      "focused": false,
       "maximized": false,
       "minimized": false,
-      "width": 950,
-      "height": 600,
+      "width": 1425,
+      "height": 900,
       "minimal_view": false
+    },
+    "extensions": {
+      "enabled": []
     },
     "show_settings_welcome": false
   },
