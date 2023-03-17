@@ -150,9 +150,3 @@ jobs:
         with:
           name: appium-log-${{ matrix.run}}
           path: ./appium.log
-
-      - name: Take screenshot of GH runner if test execution fails 📷
-        uses: OrbitalOwen/desktop-screenshot-action@0.1
-        if: failure()
-        with:
-          file-name: "desktop-${{ matrix.run }}.jpg"
