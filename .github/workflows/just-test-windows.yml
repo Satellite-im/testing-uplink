@@ -13,12 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        run:
-          [
-            "npm run windows.ci",
-            "npm run windows.chatA",
-            "npm run windows.chatB",
-          ]
+        run: ["windows.ci", "windows.chatA", "windows.chatB"]
 
     steps:
       - name: Checkout testing directory 🔖
@@ -59,12 +54,12 @@ jobs:
         shell: powershell
 
       - name: Run WebdriverIO tests on Windows 🧪
-        run: ${{ matrix.run }}
+        run: npm run ${{ matrix.run }}
 
       - name: Publish Test Results
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: |
-          always() && matrix.run == 'npm run windows.ci'
+          always() && matrix.run == 'windows.ci'
         with:
           junit_files: "./test-report/*.xml"
           check_name: "UI Automated Test Results on Windows"
