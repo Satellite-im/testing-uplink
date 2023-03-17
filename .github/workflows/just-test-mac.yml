@@ -11,6 +11,9 @@ env:
 jobs:
   test:
     runs-on: macos-latest
+    strategy:
+      matrix:
+        run: ["mac.chatA", "mac.chatB"]
 
     steps:
       - name: Checkout testing directory 🔖
@@ -36,12 +39,6 @@ jobs:
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
 
-      #- name: Download the app 🗳️
-      #  uses: actions/download-artifact@v3
-      #  with:
-      #    name: app-macos
-      #    path: ./apps
-
       - name: Copy DMG to Appium Apps Directory 💿
         working-directory: ./apps
         run: |
@@ -56,28 +53,37 @@ jobs:
           appium driver install mac2
           appium driver list
 
-      - name: Delete Cache Folder if exists
-        run: rm -rf ~/.uplink
+      - name: Copy Cache Data from User A
+        if: matrix.run == "mac.chatA"
+        run: |
+          rm -rf ~/.uplink
+          cp -rf ./tests/fixtures/users/ChatUserA/ ~/.uplink
+
+      - name: Copy Cache Data from User A
+      if: matrix.run == "mac.chatB"
+        run: |
+          rm -rf ~/.uplink
+          cp -rf ./tests/fixtures/users/ChatUserB/ ~/.uplink
 
       - name: Run WebdriverIO tests on MacOS 🧪
-        run: npm run mac.chatA
+        run: npm run ${{ matrix.run }}
 
       - name: Upload Screenshots 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-screenshots-chatA
+          name: appium-screenshots-${{ matrix.run }}
           path: ./test-results
 
       - name: Upload Appium Log 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-log-chatA
+          name: appium-log-${{ matrix.run }}
           path: ./appium.log
 
       - name: Take screenshot of GH runner if test execution fails 📷
         uses: OrbitalOwen/desktop-screenshot-action@0.1
         if: failure()
         with:
-          file-name: "desktop-chatA.jpg"
+          file-name: "desktop-${{ matrix.run }}.jpg"
