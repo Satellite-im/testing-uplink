@@ -17,16 +17,11 @@ parameters:
 orbs:
   node: circleci/node@4.7
 
-executors:
-  macos:
-    macos:
-      xcode: 14.2.0
-
 jobs:
   test:
+    macos:
+      xcode: 14.2.0
     parameters:
-      os:
-        type: executor
       test:
         type: string
     executor: << parameters.os >>
@@ -76,5 +71,4 @@ workflows:
       - test
           matrix:
             parameters:
-              os: [macos]
               test: ["mac.chatA","mac.chatB"]
