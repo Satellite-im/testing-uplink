@@ -1,21 +1,13 @@
-import {
-  loginWithRandomUser,
-  resetAndLoginWithCache,
-} from "../helpers/commands";
+import { loginWithTestUser } from "../helpers/commands";
 import ChatScreen from "../screenobjects/ChatScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
 const userBKey = "did:key:z6MksTuCXHc1uy9DqyPaaWjSXwi2ZUcQkSoVgdLxg8GKPuWW";
 
 describe("Two users at the same time - Chat User A", async () => {
-  it("Create a random account", async () => {
-    await loginWithRandomUser();
-    await browser.pause(12000);
-  });
-
-  xit("Load Chat User A account, add Chat User B as friend and then send a message", async () => {
+  it("Load Chat User A account, add Chat User B as friend and then send a message", async () => {
     // Go to Friends Screen
-    await resetAndLoginWithCache("ChatUserA");
+    await loginWithTestUser();
     await WelcomeScreen.goToFriends();
 
     // Go to Friends

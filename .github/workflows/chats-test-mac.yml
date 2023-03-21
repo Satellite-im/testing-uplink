@@ -45,7 +45,9 @@ jobs:
           appium driver list
 
       - name: Delete Cache Folder if exists
-        run: rm -rf ~/.uplink
+        run: |
+          rm -rf ~/.uplink
+          cp -r ./tests/fixtures/users/ChatUserA/. ~/.uplink
 
       - name: Run WebdriverIO tests on MacOS 🧪
         run: npm run mac.chatA
@@ -104,7 +106,9 @@ jobs:
           appium driver list
 
       - name: Delete Cache Folder if exists
-        run: rm -rf ~/.uplink
+        run: |
+          rm -rf ~/.uplink
+          cp -r ./tests/fixtures/users/ChatUserB/. ~/.uplink
 
       - name: Run WebdriverIO tests on MacOS 🧪
         run: npm run mac.chatB
