@@ -21,9 +21,6 @@ jobs:
   test:
     macos:
       xcode: 14.2.0
-    parameters:
-      user:
-        type: string
     steps:
       - checkout
       - run:
