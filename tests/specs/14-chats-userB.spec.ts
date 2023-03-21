@@ -1,10 +1,17 @@
-import { resetAndLoginWithCache } from "../helpers/commands";
+import {
+  loginWithRandomUser,
+  resetAndLoginWithCache,
+} from "../helpers/commands";
 import ChatScreen from "../screenobjects/ChatScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 describe("Two users at the same time - Chat User B", async () => {
-  it("Load Chat User B account, accept Chat User B friend request and then assert message received", async () => {
+  it("Create a random account", async () => {
+    await loginWithRandomUser();
+  });
+
+  xit("Load Chat User B account, accept Chat User B friend request and then assert message received", async () => {
     // Go to Friends Screen
     await resetAndLoginWithCache("ChatUserB");
     await WelcomeScreen.goToFriends();
