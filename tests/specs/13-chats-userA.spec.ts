@@ -10,6 +10,7 @@ const userBKey = "did:key:z6MksTuCXHc1uy9DqyPaaWjSXwi2ZUcQkSoVgdLxg8GKPuWW";
 describe("Two users at the same time - Chat User A", async () => {
   it("Create a random account", async () => {
     await loginWithRandomUser();
+    await browser.pause(12000);
   });
 
   xit("Load Chat User A account, add Chat User B as friend and then send a message", async () => {

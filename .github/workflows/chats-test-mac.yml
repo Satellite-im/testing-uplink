@@ -1,0 +1,124 @@
+name: Mac - Both Tests - Build App and Run Tests 🧪
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  testUserA:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-appium-userA
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-appium-userA.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Enable opening app not codesigned 🖥️
+        run: sudo spctl --master-disable
+
+      - name: Copy DMG to Appium Apps Directory 💿
+        working-directory: ./apps
+        run: |
+          cp -r ./Uplink.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+
+      - name: Install and Run Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+          appium driver install mac2
+          appium driver list
+
+      - name: Delete Cache Folder if exists
+        run: rm -rf ~/.uplink
+
+      - name: Run WebdriverIO tests on MacOS 🧪
+        run: npm run mac.chatA
+
+      - name: Upload Screenshots 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-screenshots-chatA
+          path: ./test-results
+
+      - name: Upload Appium Log 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-log-chatA
+          path: ./appium.log
+
+  testUserB:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-appium-userB
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-appium-userB.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Enable opening app not codesigned 🖥️
+        run: sudo spctl --master-disable
+
+      - name: Copy DMG to Appium Apps Directory 💿
+        working-directory: ./apps
+        run: |
+          cp -r ./Uplink.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+
+      - name: Install and Run Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+          appium driver install mac2
+          appium driver list
+
+      - name: Delete Cache Folder if exists
+        run: rm -rf ~/.uplink
+
+      - name: Run WebdriverIO tests on MacOS 🧪
+        run: npm run mac.chatB
+
+      - name: Upload Screenshots 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-screenshots-chatB
+          path: ./test-results
+
+      - name: Upload Appium Log 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-log-chatB
+          path: ./appium.log

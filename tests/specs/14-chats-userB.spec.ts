@@ -9,6 +9,7 @@ import WelcomeScreen from "../screenobjects/WelcomeScreen";
 describe("Two users at the same time - Chat User B", async () => {
   it("Create a random account", async () => {
     await loginWithRandomUser();
+    await browser.pause(12000);
   });
 
   xit("Load Chat User B account, accept Chat User B friend request and then assert message received", async () => {
