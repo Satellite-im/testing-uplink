@@ -22,9 +22,8 @@ jobs:
     macos:
       xcode: 14.2.0
     parameters:
-      test:
+      user:
         type: string
-    executor: << parameters.os >>
     steps:
       - checkout
       - run:
@@ -50,18 +49,18 @@ jobs:
           command: rm -rf ~/.uplink
       - run:
           name: Run WebdriverIO tests on MacOS
-          command: npm run << parameters.test >>
+          command: npm run << parameters.user >>
       - store_test_results:
           path: test-report/*.xml
-          destination: junit-report-<< parameters.test >>
+          destination: junit-report-<< parameters.user >>
           when: always
       - store_artifacts:
           path: test-results
-          destination: appium-screenshots-<< parameters.test >>
+          destination: appium-screenshots-<< parameters.user >>
           when: on_fail
       - store_artifacts:
           path: appium.log
-          destination: appium-log-<< parameters.test >>
+          destination: appium-log-<< parameters.user >>
           when: on_fail
 
 workflows:
@@ -71,4 +70,4 @@ workflows:
       - test
           matrix:
             parameters:
-              test: ["mac.chatA","mac.chatB"]
+              user: ["mac.chatA", "mac.chatB"]
