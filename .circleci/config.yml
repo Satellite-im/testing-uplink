@@ -14,6 +14,9 @@ parameters:
     type: string
     default: ""
 
+orbs:
+  node: circleci/node@4.7
+
 jobs:
   test:
     macos:
@@ -30,7 +33,7 @@ jobs:
             sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
       - run:
           name: Install NPM dependencies
-          command: npm mac.ci
+          command: npm ci
       - run:
           name: Install and Run Appium Server
           command: |
