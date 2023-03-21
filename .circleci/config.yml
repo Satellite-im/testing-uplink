@@ -1,0 +1,106 @@
+# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
+version: 2.1
+
+# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# See: https://circleci.com/docs/2.0/orb-intro/
+orbs:
+  mac-permissions: circleci/macos
+  node: circleci/node@5.1.0
+
+jobs:
+  build:
+    macos:
+      xcode: 14.2.0
+    steps:
+      - run:
+          name: Clone Uplink repo
+          command: git clone https://github.com/Satellite-im/Uplink.git
+      - restore_cache:
+          key: uplink-cache
+      - run:
+          name: Install Rust
+          command: curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+      - run:
+          name: Install Protobuf
+          command: brew install protobuf
+      - run:
+          name: Run cargo update
+          command: cargo update
+      - run:
+          name: Run cargo clean
+          command: cargo clean
+      - run:
+          name: Build executable
+          command: make dmg
+      - run:
+          name: Create ZIP archive
+          command: |
+            mkdir -p apps
+            ditto -c -k --sequesterRsrc --keepParent target/release/macos/Uplink.app > apps/Uplink-Mac-Universal.zip
+      - store_artifacts:
+          path: apps/Uplink-Mac-Universal.zip
+          destination: app-macos
+      - save_cache:
+          key: uplink-cache
+          paths:
+            - "~/.cargo"
+            - "./target"
+      - persist_to_workspace:
+          root: apps
+          paths:
+            - Uplink-Mac-Universal.zip
+
+  test:
+    macos:
+      xcode: 14.2.0
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+
+      - run:
+          name: Enable opening app not codesigned
+          command: sudo spctl --master-disable
+      - run:
+          name: Extract the app
+          command: |
+            unzip apps/Uplink-Mac-Universal.zip
+            cp -r apps/Uplink.app /Applications/
+            sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+      - run:
+          name: Install NPM dependencies
+          command: npm ci
+      - run:
+          name: Install and Run Appium Server
+          command: |
+            npm install -g appium@next
+            appium -v
+            appium driver install mac2
+            appium driver list
+      - run:
+          name: Delete Cache Folder if exists
+          command: rm -rf ~/.uplink
+
+      - run:
+          name: Run WebdriverIO tests on MacOS
+          command: npm run mac.ci
+      - store_test_results:
+          path: test-report/*.xml
+          destination: junit-report
+          when: always
+      - store_artifacts:
+          path: test-results
+          destination: appium-screenshots
+          when: on_fail
+      - store_artifacts:
+          path: appium.log
+          destination: appium-log
+          when: on_fail
+
+workflows:
+  build-and-test:
+    jobs:
+      - build
+      - test:
+        requires:
+          - build
