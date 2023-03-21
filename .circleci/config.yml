@@ -17,10 +17,19 @@ parameters:
 orbs:
   node: circleci/node@4.7
 
-jobs:
-  test:
+executors:
+  macos:
     macos:
       xcode: 14.2.0
+
+jobs:
+  test:
+    parameters:
+      os:
+        type: executor
+      test:
+        type: string
+    executor: << parameters.os >>
     steps:
       - checkout
       - run:
@@ -44,21 +53,20 @@ jobs:
       - run:
           name: Delete Cache Folder if exists
           command: rm -rf ~/.uplink
-
       - run:
           name: Run WebdriverIO tests on MacOS
-          command: npm run mac.ci
+          command: npm run << parameters.test >>
       - store_test_results:
           path: test-report/*.xml
-          destination: junit-report
+          destination: junit-report-<< parameters.test >>
           when: always
       - store_artifacts:
           path: test-results
-          destination: appium-screenshots
+          destination: appium-screenshots-<< parameters.test >>
           when: on_fail
       - store_artifacts:
           path: appium.log
-          destination: appium-log
+          destination: appium-log-<< parameters.test >>
           when: on_fail
 
 workflows:
@@ -66,3 +74,7 @@ workflows:
     when: << pipeline.parameters.GHA_Action >>
     jobs:
       - test
+          matrix:
+            parameters:
+              os: [macos]
+              test: ["mac.chatA","mac.chatB"]
