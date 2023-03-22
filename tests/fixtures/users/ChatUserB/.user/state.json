@@ -22,12 +22,15 @@
     "enable_overlay": false,
     "sidebar_hidden": false,
     "metadata": {
-      "focused": true,
+      "focused": false,
       "maximized": false,
       "minimized": false,
       "width": 950,
       "height": 600,
       "minimal_view": false
+    },
+    "extensions": {
+      "enabled": []
     },
     "show_settings_welcome": false
   },
