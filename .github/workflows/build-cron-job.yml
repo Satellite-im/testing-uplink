@@ -106,8 +106,8 @@ jobs:
   test:
     needs: push-app
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         os: [macos-latest, windows-latest]
         include:
           - os: macos-latest
