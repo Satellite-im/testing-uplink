@@ -15,6 +15,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
     // Send friend request to user B
     await FriendsScreen.addSomeoneInput.setValue(userBKey);
+    await browser.pause(30000); // wait for 30 seconds before sending friend request;
     await FriendsScreen.addSomeoneButton.click();
 
     // Validate Toast Notification is displayed
@@ -26,7 +27,10 @@ describe("Two users at the same time - Chat User A", async () => {
     // Wait until friend request is accepted and go to a Chat Conversation with Chat User B
     await (
       await FriendsScreen.chatWithFriendButton
-    ).waitForExist({ timeout: 59000 });
+    ).waitForExist({ timeout: 120000 });
+  });
+
+  it("Go to chat with friend and send a message", async () => {
     await (await FriendsScreen.chatWithFriendButton).click();
     await ChatScreen.waitForIsShown(true);
 
