@@ -1,0 +1,151 @@
+name: Build App Windows and MacOS 🧪
+
+on:
+  schedule:
+    - cron "0 0,12 * * 1-5"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-mac:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+        with:
+          repository: Satellite-im/Uplink
+
+      - name: Set up cargo cache 🛠️
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+
+      - name: Install Protobuf 💿
+        uses: arduino/setup-protoc@v1
+        continue-on-error: true
+        with:
+          repo-token: ${{env.GITHUB_TOKEN}}
+
+      - name: Run cargo update 🌐
+        run: cargo update
+
+      - name: Run cargo clean 🧹
+        run: cargo clean
+
+      - name: Build executable 🖥️
+        continue-on-error: true
+        run: make dmg
+
+      - name: Create ZIP archive 🗳️
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent target/release/macos/Uplink.app Uplink-Mac-Universal.zip
+
+      - name: Calculate hashes 🧮
+        run: |
+          shasum -a 256 Uplink-Mac-Universal.zip > Uplink-Mac-Universal.zip.sha256.txt
+
+      - name: Upload Artifact ⬆️
+        uses: actions/upload-artifact@v3
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
+        with:
+          name: app-macos
+          path: |
+            Uplink-Mac-Universal.zip
+            Uplink-Mac-Universal.zip.sha256.txt
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+        with:
+          repository: Satellite-im/Uplink
+
+      - name: Set up cargo cache 🛠️
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: |
+            C:\Users\runneradmin\.cargo\bin\
+            C:\Users\runneradmin\.cargo\registry\index\
+            C:\Users\runneradmin\.cargo\registry\cache\
+            C:\Users\runneradmin\.cargo\git\db\
+            target\
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+
+      - name: Install Protoc 💿
+        uses: arduino/setup-protoc@v1
+        with:
+          repo-token: ${{env.GITHUB_TOKEN}}
+
+      - name: Run cargo update 🌐
+        run: cargo update
+
+      - name: Run cargo clean 🧹
+        run: cargo clean
+
+      - name: Build resources 🖥️
+        run: cargo build --package ui --release
+
+      - name: Upload Artifact ⬆️
+        uses: actions/upload-artifact@v3
+        with:
+          name: Uplink-Windows
+          path: |
+            target/release/ui.exe
+
+  push-app:
+    needs: build-mac, build-windows
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Download the MacOS app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: app-macos
+          path: ./apps
+
+      - name: Download the Windows app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-Windows
+          path: ./apps
+
+      - name: Commit and push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Pushing latest builds from Windows and MacOS apps
+          branch: build-app
