@@ -68,6 +68,7 @@ jobs:
 
       - name: Build executable 🖥️
         run: ${{ matrix.build-instruction }}
+        continue-on-error: true
 
       - if: matrix.os == 'macos-latest'
         name: Create ZIP archive 🗳️
