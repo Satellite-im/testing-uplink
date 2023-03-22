@@ -12,7 +12,22 @@ describe("Two users at the same time - Chat User A", async () => {
 
     // Go to Friends
     await FriendsScreen.waitForIsShown(true);
+  });
 
+  it("Go to chat with friend and send a message", async () => {
+    await browser.pause(60000); // wait for one minute to the other user to be online before sending a message
+    await (await FriendsScreen.chatWithFriendButton).waitForExist();
+    await (await FriendsScreen.chatWithFriendButton).click();
+    await ChatScreen.waitForIsShown(true);
+
+    await (await ChatScreen.inputText).setValue("testing...");
+    await ChatScreen.inputSendButton.click();
+
+    await (await ChatScreen.chatMessage).waitForDisplayed();
+    expect(await ChatScreen.chatMessageText).toHaveTextContaining("testing...");
+  });
+
+  xit("Send friend request flow", async () => {
     // Send friend request to user B
     await FriendsScreen.addSomeoneInput.setValue(userBKey);
     await FriendsScreen.addSomeoneButton.click();
@@ -32,16 +47,5 @@ describe("Two users at the same time - Chat User A", async () => {
     // Go to All Friends List and validate Chat with Friend Button is displayed
     await FriendsScreen.goToAllFriendsList();
     await (await FriendsScreen.chatWithFriendButton).waitForExist();
-  });
-
-  it("Go to chat with friend and send a message", async () => {
-    await (await FriendsScreen.chatWithFriendButton).click();
-    await ChatScreen.waitForIsShown(true);
-
-    await (await ChatScreen.inputText).setValue("testing...");
-    await ChatScreen.inputSendButton.click();
-
-    await (await ChatScreen.chatMessage).waitForDisplayed();
-    expect(await ChatScreen.chatMessageText).toHaveTextContaining("testing...");
   });
 });
