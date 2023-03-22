@@ -22,7 +22,7 @@
     "enable_overlay": false,
     "sidebar_hidden": false,
     "metadata": {
-      "focused": false,
+      "focused": true,
       "maximized": false,
       "minimized": false,
       "width": 950,
