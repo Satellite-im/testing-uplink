@@ -41,4 +41,13 @@ config.afterTest = async function (test, describe, { error }) {
   }
 };
 
+config.mochaOpts = {
+  ui: "bdd",
+  /**
+   * NOTE: This has been increased for more stable Appium Native app
+   * tests because they can take a bit longer.
+   */
+  timeout: 300000, // 5min
+},
+
 exports.config = config;
