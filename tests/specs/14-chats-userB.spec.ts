@@ -1,4 +1,4 @@
-import { loginWithTestUser } from "../helpers/commands";
+import { resetAndLoginWithCache } from "../helpers/commands";
 import ChatScreen from "../screenobjects/ChatScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
@@ -6,7 +6,7 @@ import WelcomeScreen from "../screenobjects/WelcomeScreen";
 describe("Two users at the same time - Chat User B", async () => {
   it("Load Chat User B account and accept Chat User B friend request", async () => {
     // Go to Friends Screen
-    await loginWithTestUser();
+    await resetAndLoginWithCache("ChatUserB");
     await WelcomeScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
   });
