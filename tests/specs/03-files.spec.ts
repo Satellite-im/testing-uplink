@@ -54,7 +54,7 @@ export default async function files() {
     await newFolder.click();
   });
 
-  it("Create a subfolder inside the previous folder craeted and enter into it", async () => {
+  it("Create a subfolder inside the previous folder created and enter into it", async () => {
     await FilesScreen.createFolder("testfolder02");
     const newFolder = await FilesScreen.getLocatorOfFolderFile("testfolder02");
     expect(newFolder).toExist();
