@@ -13,9 +13,6 @@ describe("Two users at the same time - Chat User A", async () => {
     // Go to Friends
     await FriendsScreen.waitForIsShown(true);
 
-    // Wait for some time until user B is logged in
-    await browser.pause(90000);
-
     // Send friend request to user B
     await FriendsScreen.addSomeoneInput.setValue(userBKey);
     await FriendsScreen.addSomeoneButton.click();
