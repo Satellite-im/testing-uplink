@@ -24,7 +24,6 @@ jobs:
               ~/.cargo/registry/cache/
               ~/.cargo/git/db/
               target/
-            build-path: target/release/macos/Uplink.app
           - os: windows-latest
             cargo-path: |
               C:\Users\runneradmin\.cargo\bin\
@@ -32,9 +31,7 @@ jobs:
               C:\Users\runneradmin\.cargo\registry\cache\
               C:\Users\runneradmin\.cargo\git\db\
               target\
-            build-path: target\release\ui.exe
     runs-on: ${{ matrix.os }}
-
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
@@ -70,11 +67,33 @@ jobs:
       - name: Build executable 🖥️
         run: cargo build --package ui --release
 
-      - name: Upload Executable ⬆️
+      - if: matrix.os == 'macos-latest'
+        name: Create ZIP archive 🗳️
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent target/release/macos/Uplink.app Uplink-Mac-Universal.zip
+
+      - if: matrix.os == 'macos-latest'
+        name: Calculate hashes 🧮
+        run: |
+          shasum -a 256 Uplink-Mac-Universal.zip > Uplink-Mac-Universal.zip.sha256.txt
+
+      - if: matrix.os == 'macos-latest'
+        name: Upload Artifact ⬆️
+        uses: actions/upload-artifact@v3
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
+        with:
+          name: Uplink-macos-latest
+          path: |
+            Uplink-Mac-Universal.zip
+            Uplink-Mac-Universal.zip.sha256.txt
+
+      - if: matrix.os == 'windows-latest'
+        name: Upload Executable ⬆️
         uses: actions/upload-artifact@v3
         with:
-          name: Uplink-${{ matrix.os }}
-          path: ${{ matrix.build-path }}
+          name: Uplink-windows-latest
+          path: target\release\ui.exe
 
   push-app:
     needs: build-app
@@ -111,21 +130,15 @@ jobs:
         os: [macos-latest, windows-latest]
         include:
           - os: macos-latest
-            master-disable: sudo spctl --master-disable
-            copy-app: |
-              cp -r ./Uplink.app /Applications/
-              sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
             appium-driver: |
               appium driver install mac2
               appium driver list
-            delete-cache-mac: rm -rf ~/.uplink
             npm-test: mac.ci
             os-name: MacOS
           - os: windows-latest
             appium-driver: |
               appium driver install --source=npm appium-windows-driver
               appium driver list
-            delete-cache-windows: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
             npm-test: windows.ci
             os-name: Windows
     runs-on: ${{ matrix.os }}
@@ -133,9 +146,9 @@ jobs:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
-      - if: ${{ matrix.master-disable }}
+      - if: matrix.os == 'macos-latest'
         name: Enable opening app not codesigned 🖥️
-        run: ${{ matrix.master-disable }}
+        run: sudo spctl --master-disable
 
       - name: Download the app 🗳️
         uses: actions/download-artifact@v3
@@ -143,10 +156,13 @@ jobs:
           name: app-macos
           path: ./apps
 
-      - if: ${{ matrix.copy-app }}
+      - if: matrix.os == 'macos-latest'
         name: Copy DMG to Appium Apps Directory 💿
         working-directory: ./apps
-        run: ${{ matrix.copy-app }}
+        run: |
+          unzip Uplink-Mac-Universal.zip
+          cp -r ./Uplink.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
 
       - name: Install NPM dependencies 📦
         run: npm ci
@@ -159,13 +175,13 @@ jobs:
       - name: Install Appium Driver 💻
         run: ${{ matrix.appium-driver }}
 
-      - if: ${{ matrix.delete-cache-mac }}
+      - if: matrix.os == 'macos-latest'
         name: Delete Cache Folder if exists - Mac
-        run: ${{ matrix.delete-cache-mac }}
+        run: rm -rf ~/.uplink
 
-      - if: ${{ matrix.delete-cache-windows }}
+      - if: matrix.os == 'windows-latest'
         name: Delete Cache Folder if exists - Winbdows
-        run: ${{ matrix.delete-cache-windows }}
+        run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
         shell: powershell
 
       - name: Run WebdriverIO tests 🧪
