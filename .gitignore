@@ -5,6 +5,5 @@ package-lock.json
 appium.log
 test-report/
 test-results/
-tests/fixtures/users/
 tests/fixtures/newname.jpg
 
