@@ -26,7 +26,7 @@ describe("Two users at the same time - Chat User A", async () => {
     // Wait until friend request is accepted and go to a Chat Conversation with Chat User B
     await (
       await FriendsScreen.chatWithFriendButton
-    ).waitForExist({ timeout: 30000 });
+    ).waitForExist({ timeout: 59000 });
     await (await FriendsScreen.chatWithFriendButton).click();
     await ChatScreen.waitForIsShown(true);
 
