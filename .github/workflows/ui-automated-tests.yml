@@ -1,0 +1,85 @@
+name: UI Tests on Windows and MacOS 🧪
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+        include:
+          - os: macos-latest
+            appium-driver: |
+              appium driver install mac2
+              appium driver list
+            npm-test: mac.ci
+            os-name: MacOS
+          - os: windows-latest
+            appium-driver: |
+              appium driver install --source=npm appium-windows-driver
+              appium driver list
+            npm-test: windows.ci
+            os-name: Windows
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - if: matrix.os == 'macos-latest'
+        name: Enable opening app not codesigned 🖥️
+        run: sudo spctl --master-disable
+
+      - if: matrix.os == 'macos-latest'
+        name: Copy DMG to Appium Apps Directory 💿
+        working-directory: ./apps
+        run: |
+          unzip Uplink-Mac-Universal.zip
+          cp -r ./Uplink.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+
+      - name: Install NPM dependencies 📦
+        run: npm ci
+
+      - name: Install Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+
+      - name: Install Appium Driver 💻
+        run: ${{ matrix.appium-driver }}
+
+      - if: matrix.os == 'macos-latest'
+        name: Delete Cache Folder if exists - Mac
+        run: rm -rf ~/.uplink
+
+      - if: matrix.os == 'windows-latest'
+        name: Delete Cache Folder if exists - Winbdows
+        run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
+        shell: powershell
+
+      - name: Run WebdriverIO tests 🧪
+        run: npm run ${{ matrix.npm-test }}
+
+      - name: Publish Test Results for ${{ matrix.os-name }}
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          junit_files: "./test-report/*.xml"
+          check_name: "UI Automated Test Results on ${{ matrix.os-name}}"
+
+      - name: Upload Screenshots for ${{ matrix.os-name }} 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-screenshots-${{ matrix.os-name }}
+          path: ./test-results
+
+      - name: Upload Appium Log for ${{ matrix.os-name }} 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-log-${{ matrix.os-name }}
+          path: ./appium.log

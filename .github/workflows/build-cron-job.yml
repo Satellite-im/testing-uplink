@@ -1,0 +1,130 @@
+name: Build App Windows and MacOS 🧪
+
+on:
+  schedule:
+    - cron: "0 0/6 * * 1-5"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-app:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+        include:
+          - os: macos-latest
+            cargo-path: |
+              ~/.cargo/bin/
+              ~/.cargo/registry/index/
+              ~/.cargo/registry/cache/
+              ~/.cargo/git/db/
+              target/
+            build-instruction: make app
+          - os: windows-latest
+            cargo-path: |
+              C:\Users\runneradmin\.cargo\bin\
+              C:\Users\runneradmin\.cargo\registry\index\
+              C:\Users\runneradmin\.cargo\registry\cache\
+              C:\Users\runneradmin\.cargo\git\db\
+              target\
+            build-instruction: cargo build --package ui --release
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+        with:
+          repository: Satellite-im/Uplink
+
+      - name: Set up cargo cache 🛠️
+        uses: actions/cache@v3
+        continue-on-error: false
+        with:
+          path: ${{ matrix.cargo-path }}
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+
+      - name: Install Protobuf 💿
+        uses: arduino/setup-protoc@v1
+        with:
+          repo-token: ${{env.GITHUB_TOKEN}}
+
+      - name: Run cargo update 🌐
+        run: cargo update
+
+      - name: Run cargo clean 🧹
+        run: cargo clean
+
+      - name: Build executable 🖥️
+        run: ${{ matrix.build-instruction }}
+        continue-on-error: true
+
+      - if: matrix.os == 'macos-latest'
+        name: Create ZIP archive 🗳️
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent target/release/macos/Uplink.app Uplink-Mac-Universal.zip
+
+      - if: matrix.os == 'macos-latest'
+        name: Calculate hashes 🧮
+        run: |
+          shasum -a 256 Uplink-Mac-Universal.zip > Uplink-Mac-Universal.zip.sha256.txt
+
+      - if: matrix.os == 'macos-latest'
+        name: Upload Artifact ⬆️
+        uses: actions/upload-artifact@v3
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
+        with:
+          name: Uplink-macos-latest
+          path: |
+            Uplink-Mac-Universal.zip
+            Uplink-Mac-Universal.zip.sha256.txt
+
+      - if: matrix.os == 'windows-latest'
+        name: Upload Executable ⬆️
+        uses: actions/upload-artifact@v3
+        with:
+          name: Uplink-windows-latest
+          path: target\release\ui.exe
+
+  push-app:
+    needs: build-app
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT }}
+
+      - name: Delete contents from apps folder 🧹
+        run: rm -rf ./apps
+
+      - name: Download the MacOS app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-macos-latest
+          path: ./apps
+
+      - name: Download the Windows app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-windows-latest
+          path: ./apps
+
+      - name: Commit and push changes ⬆️
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "chore(appium): automated push of latests Uplinks builds"
+          push_options: "--force"
