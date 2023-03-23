@@ -22,7 +22,7 @@ describe("Two users at the same time - Chat User B", async () => {
     await (await ChatScreen.inputText).setValue(paragraph);
     await (await ChatScreen.inputText).clearValue();
 
-    await (await ChatScreen.chatMessage).waitForDisplayed({ timeout: 60000 });
+    await (await ChatScreen.chatMessage).waitForDisplayed({ timeout: 180000 });
     expect(await ChatScreen.chatMessageText).toHaveTextContaining("testing...");
   });
 

@@ -24,9 +24,18 @@ config.capabilities = [
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
-    "ms:waitForAppLaunch": 30,
+    "ms:waitForAppLaunch": 40,
   },
 ];
+
+config.mochaOpts = {
+  ui: "bdd",
+  /**
+   * NOTE: This has been increased for more stable Appium Native app
+   * tests because they can take a bit longer.
+   */
+  timeout: 300000, // 5min
+},
 
 config.afterTest = async function (test, describe, { error }) {
   if (error) {

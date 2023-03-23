@@ -77,6 +77,7 @@ export default async function friends() {
     //Validate Chat Screen is displayed and go back to Friends Screen
     await ChatScreen.waitForIsShown(true);
     await ChatScreen.goToFriends();
+    await FriendsScreen.waitForIsShown(true);
   });
 
   it("Unfriend someone from Friends List", async () => {
@@ -187,6 +188,7 @@ export default async function friends() {
 
     // Go back to Friends Screen
     await ChatScreen.goToFriends();
+    await FriendsScreen.waitForIsShown(true);
   });
 
   // Skipped since it will be modified to use real users instead of mock users
