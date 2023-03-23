@@ -29,13 +29,13 @@ jobs:
 
       - name: Cache NPM dependencies 🔨
         uses: actions/cache@v3
-        id: cache-appium-${{ matrix.user }}
+        id: cache-appium
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
       - name: Install NPM dependencies 📦
-        if: steps.cache-appium-${{ matrix.user }}.outputs.cache-hit != 'true'
+        if: steps.cache-appium.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Enable opening app not codesigned 🖥️
