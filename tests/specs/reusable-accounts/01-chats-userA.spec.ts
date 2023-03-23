@@ -19,7 +19,7 @@ describe("Two users at the same time - Chat User A", async () => {
     await (await FriendsScreen.chatWithFriendButton).click();
     await ChatScreen.waitForIsShown(true);
 
-    const paragraph = await faker.lorem.words(10);
+    const paragraph = await faker.lorem.words(30);
     await (await ChatScreen.inputText).setValue(paragraph);
     await (await ChatScreen.inputText).clearValue();
 
@@ -28,6 +28,8 @@ describe("Two users at the same time - Chat User A", async () => {
 
     await (await ChatScreen.chatMessage).waitForDisplayed();
     expect(await ChatScreen.chatMessageText).toHaveTextContaining("testing...");
+
+    await browser.pause(30000);
   });
 
   xit("Send friend request flow", async () => {
