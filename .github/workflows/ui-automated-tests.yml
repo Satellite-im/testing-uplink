@@ -1,4 +1,4 @@
-name: Build App Windows and MacOS 🧪
+name: UI Tests on Windows and MacOS 🧪
 
 on:
   pull_request:
