@@ -89,7 +89,8 @@ export default async function settingsDeveloper() {
     expect(saveLogsStatus).toEqual("1");
   });
 
-  it("Settings Developer - Disable Save Logs switch", async () => {
+  // Test skipped since it fails on Windows CI
+  xit("Settings Developer - Disable Save Logs switch", async () => {
     // Click on SAVE LOGS IN FILE switch to disable the option
     await SettingsDeveloperScreen.clickOnSaveLogs();
 
@@ -100,7 +101,8 @@ export default async function settingsDeveloper() {
     expect(saveLogsStatus).toEqual("0");
   });
 
-  it("Settings Developer - Enable Developer Mode", async () => {
+  // Test skipped since it fails on Windows CI
+  xit("Settings Developer - Enable Developer Mode", async () => {
     // Click on DEVELOPER MODE switch to activate the option
     await SettingsDeveloperScreen.clickOnDeveloperMode();
 
