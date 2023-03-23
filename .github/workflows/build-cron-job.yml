@@ -107,6 +107,8 @@ jobs:
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
+        with:
+          ref: dev
 
       - name: Download the MacOS app 🗳️
         uses: actions/download-artifact@v3
