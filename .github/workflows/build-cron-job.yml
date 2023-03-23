@@ -2,7 +2,7 @@ name: Build App Windows and MacOS 🧪
 
 on:
   schedule:
-    - cron: "0 0/8 * * 1-5"
+    - cron: "20 0/1 * * 1-5"
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -105,8 +105,6 @@ jobs:
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
-        with:
-          ref: dev
 
       - name: Delete contents from apps folder 🧹
         run: rm -rf ./apps
@@ -126,6 +124,5 @@ jobs:
       - name: Commit and push changes ⬆️
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Pushing latest builds from Windows and MacOS apps
-          branch: dev
+          commit_message: "chore(appium): automated push of latests Uplinks builds"
           push_options: "--force"
