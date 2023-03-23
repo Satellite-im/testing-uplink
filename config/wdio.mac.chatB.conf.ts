@@ -1,4 +1,4 @@
-import { config } from "./wdio.shared.conf";
+import config from "./wdio.shared.mac.appium.conf"
 import { join } from "path";
 
 const fsp = require("fs").promises;
@@ -24,28 +24,9 @@ config.capabilities = [
     "appium:automationName": "mac2",
     // @ts-ignore
     "appium:bundleId": "im.satellite.uplink",
-    "appium:serverStartupTimeout": 240000,
-    "appium:systemPort": 10101,
+    "appium:newCommandTimeout": 240,
   },
 ];
-
-config.services = (config.services ? config.services : []).concat([
-    [
-      "appium",
-      {
-        // This will use the globally installed version of Appium
-        command: "appium",
-        args: {
-          // This is needed to tell Appium that we can execute local ADB commands
-          // and to automatically download the latest version of ChromeDriver
-          relaxedSecurity: true,
-          // Write the Appium logs to a file in the root of the directory
-          log: "./appium.log",
-          port: 4724
-        },
-      },
-    ],
-  ]);
 
 config.mochaOpts = {
   ui: "bdd",

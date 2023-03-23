@@ -14,7 +14,7 @@ describe("Two users at the same time - Chat User A", async () => {
   });
 
   it("Go to chat with friend and send a message", async () => {
-    await browser.pause(60000); // wait for one minute to the other user to be online before sending a message
+    await browser.pause(59000); // wait for one minute to the other user to be online before sending a message
     await (await FriendsScreen.chatWithFriendButton).waitForExist();
     await (await FriendsScreen.chatWithFriendButton).click();
     await ChatScreen.waitForIsShown(true);
