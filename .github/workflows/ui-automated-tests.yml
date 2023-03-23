@@ -99,6 +99,7 @@ jobs:
           path: ./appium.log
 
   test-chats:
+    if: ${{ always() }}
     needs: test
     runs-on: macos-latest
     strategy:
