@@ -1,4 +1,5 @@
 import { loginWithTestUser } from "../../helpers/commands";
+import { faker } from "@faker-js/faker";
 import ChatScreen from "../../screenobjects/ChatScreen";
 import FriendsScreen from "../../screenobjects/FriendsScreen";
 import WelcomeScreen from "../../screenobjects/WelcomeScreen";
@@ -14,10 +15,13 @@ describe("Two users at the same time - Chat User A", async () => {
   });
 
   it("Go to chat with friend and send a message", async () => {
-    await browser.pause(59000); // wait for one minute to the other user to be online before sending a message
     await (await FriendsScreen.chatWithFriendButton).waitForExist();
     await (await FriendsScreen.chatWithFriendButton).click();
     await ChatScreen.waitForIsShown(true);
+
+    const paragraph = await faker.lorem.words(10);
+    await (await ChatScreen.inputText).setValue(paragraph);
+    await (await ChatScreen.inputText).clearValue();
 
     await (await ChatScreen.inputText).setValue("testing...");
     await ChatScreen.inputSendButton.click();
