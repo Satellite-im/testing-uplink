@@ -124,6 +124,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Pushing latest builds from Windows and MacOS apps
+          branch: dev
 
   test:
     needs: push-app
@@ -156,7 +157,7 @@ jobs:
       - name: Download the app 🗳️
         uses: actions/download-artifact@v3
         with:
-          name: app-macos
+          name: Uplink-${{ matrix.os }}
           path: ./apps
 
       - if: matrix.os == 'macos-latest'
