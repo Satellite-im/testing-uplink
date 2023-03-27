@@ -3,6 +3,10 @@ name: UI Tests on Windows and MacOS 🧪
 on:
   pull_request:
     types: [opened, synchronize, reopened, edited]
+  workflow_run:
+    workflows: [Build App Windows and MacOS 🧪]
+    types:
+      - completed
 
 jobs:
   test:
