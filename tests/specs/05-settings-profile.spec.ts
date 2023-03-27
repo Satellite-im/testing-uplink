@@ -30,8 +30,7 @@ export default async function settingsProfile() {
     await expect(await SettingsProfileScreen.sidebarSearch).toBeDisplayed();
   });
 
-  // It is not present in screen now on MacOS builds
-  xit("Settings Profile - Assert texts for Your New Profile dialog and dismiss it", async () => {
+  it("Settings Profile - Assert texts for Your New Profile dialog and dismiss it", async () => {
     expect(
       await SettingsProfileScreen.yourNewProfileHeaderText
     ).toHaveTextContaining("YOUR NEW PROFILE!");

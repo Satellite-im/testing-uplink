@@ -8,6 +8,10 @@ on:
     types:
       - completed
 
+concurrency:
+  group: test-on-pr-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     strategy:
