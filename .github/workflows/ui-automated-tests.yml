@@ -9,7 +9,7 @@ on:
       - completed
 
 concurrency:
-  group: test-on-pr-${{ github.head_ref }}
+  group: test-${{ github.workflow }}-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
