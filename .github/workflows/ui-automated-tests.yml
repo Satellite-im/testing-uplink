@@ -4,6 +4,10 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, edited]
 
+concurrency:
+  group: test-on-pr-${{ github.head_ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     strategy:
