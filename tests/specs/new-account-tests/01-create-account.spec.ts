@@ -1,9 +1,9 @@
-import { maximizeWindow } from "../helpers/commands";
-import CreatePinScreen from "../screenobjects/CreatePinScreen";
-import CreateUserScreen from "../screenobjects/CreateUserScreen";
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import { maximizeWindow } from "../../helpers/commands";
+import CreatePinScreen from "../../screenobjects/CreatePinScreen";
+import CreateUserScreen from "../../screenobjects/CreateUserScreen";
+import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-export default async function createAccount() {
+describe("Create Pin and Account Tests", async () => {
   it("Validate warning texts are displayed on screen", async () => {
     await expect(await CreatePinScreen.unlockWarningParagraph).toBeDisplayed();
     expect(await CreatePinScreen.un).toHaveTextContaining(
@@ -145,10 +145,5 @@ export default async function createAccount() {
     );
     await CreateUserScreen.clickOnCreateAccount();
     await WelcomeScreen.waitForIsShown(true);
-    // Only maximize if current driver is windows
-    const currentDriver = await WelcomeScreen.getCurrentDriver();
-    if (currentDriver === "windows") {
-      await maximizeWindow();
-    }
   });
-}
+});

@@ -1,10 +1,15 @@
-import SettingsExtensionsScreen from "../screenobjects/SettingsExtensionsScreen";
-import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
+import { loginWithTestUser } from "../../helpers/commands";
+import SettingsExtensionsScreen from "../../screenobjects/SettingsExtensionsScreen";
+import SettingsProfileScreen from "../../screenobjects/SettingsProfileScreen";
+import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-export default async function settingsExtensions() {
+describe("Settings Extensions Tests", async () => {
   it("Settings Extensions - Validate that buttons are displayed in front", async () => {
+    await loginWithTestUser();
+    await WelcomeScreen.goToSettings();
+
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await SettingsFilesScreen.goToExtensionsSettings();
+    await SettingsProfileScreen.goToExtensionsSettings();
     await SettingsExtensionsScreen.waitForIsShown(true);
 
     // Validate that the three buttons are displayed on top of the screen
@@ -92,4 +97,4 @@ export default async function settingsExtensions() {
   xit("Settings Extensions - Open Extensions Folder", async () => {
     await SettingsExtensionsScreen.clickOnOpenExtensionsFolder();
   });
-}
+});

@@ -1,10 +1,15 @@
-import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
-import SettingsPrivacyScreen from "../screenobjects/SettingsPrivacyScreen";
+import { loginWithTestUser } from "../../helpers/commands";
+import SettingsAudioScreen from "../../screenobjects/SettingsAudioScreen";
+import SettingsProfileScreen from "../../screenobjects/SettingsProfileScreen";
+import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-export default async function settingsAudio() {
+describe("Settings Audio Tests", async () => {
   it("Settings Audio - Assert screen texts", async () => {
+    await loginWithTestUser();
+    await WelcomeScreen.goToSettings();
+
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await SettingsPrivacyScreen.goToAudioSettings();
+    await SettingsProfileScreen.goToAudioSettings();
     await SettingsAudioScreen.waitForIsShown(true);
 
     // Validate texts for Interface Sounds Settings Section
@@ -105,4 +110,4 @@ export default async function settingsAudio() {
     expect(messageSoundsStatus).toEqual("0");
     expect(callTimerStatus).toEqual("0");
   });
-}
+});

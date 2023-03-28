@@ -1,10 +1,15 @@
-import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
-import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
+import SettingsFilesScreen from "../../screenobjects/SettingsFilesScreen";
+import { loginWithTestUser } from "../../helpers/commands";
+import WelcomeScreen from "../../screenobjects/WelcomeScreen";
+import SettingsProfileScreen from "../../screenobjects/SettingsProfileScreen";
 
-export default async function settingsFiles() {
+describe("Settings Files Tests", async () => {
   it("Settings Files - Assert screen texts", async () => {
+    await loginWithTestUser();
+    await WelcomeScreen.goToSettings();
+
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await SettingsAudioScreen.goToFilesSettings();
+    await SettingsProfileScreen.goToFilesSettings();
     await SettingsFilesScreen.waitForIsShown(true);
 
     // Validate LOCAL SYNC settings section texts
@@ -54,4 +59,4 @@ export default async function settingsFiles() {
   xit("Settings Files - Click on Open Sync Folder button", async () => {
     await SettingsFilesScreen.clickOnOpenSyncFolder();
   });
-}
+});

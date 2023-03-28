@@ -1,9 +1,9 @@
-import { resetAndLoginWithCache } from "../helpers/commands";
-import ChatScreen from "../screenobjects/ChatScreen";
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import { resetAndLoginWithCache } from "../../helpers/commands";
+import ChatScreen from "../../screenobjects/ChatScreen";
+import FriendsScreen from "../../screenobjects/FriendsScreen";
+import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-export default async function friends() {
+describe("Friends Screen Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     // Go to Friends Screen
     await resetAndLoginWithCache("FriendsTestUser");
@@ -332,4 +332,4 @@ export default async function friends() {
     const allFriendsList = await FriendsScreen.getAllFriendsList();
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
-}
+});

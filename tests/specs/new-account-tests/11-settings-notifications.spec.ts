@@ -1,10 +1,15 @@
-import SettingsNotificationsScreen from "../screenobjects/SettingsNotificationsScreen";
-import SettingsExtensionsScreen from "../screenobjects/SettingsExtensionsScreen";
+import SettingsNotificationsScreen from "../../screenobjects/SettingsNotificationsScreen";
+import { loginWithTestUser } from "../../helpers/commands";
+import WelcomeScreen from "../../screenobjects/WelcomeScreen";
+import SettingsProfileScreen from "../../screenobjects/SettingsProfileScreen";
 
-export default async function settingsNotifications() {
+describe("Settings Notifications Tests", async () => {
   it("Settings - Notifications - Go To Notifications Settings", async () => {
+    await loginWithTestUser();
+    await WelcomeScreen.goToSettings();
+
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await SettingsExtensionsScreen.goToNotificationsSettings();
+    await SettingsProfileScreen.goToNotificationsSettings();
     await SettingsNotificationsScreen.waitForIsShown(true);
   });
 
@@ -204,4 +209,4 @@ export default async function settingsNotifications() {
     );
     expect(settingsState).toEqual("1");
   });
-}
+});

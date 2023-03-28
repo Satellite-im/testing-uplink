@@ -1,8 +1,10 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import { loginWithTestUser } from "../../helpers/commands";
+import FriendsScreen from "../../screenobjects/FriendsScreen";
+import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-export default async function chats() {
+describe("Chats Main Screen Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
+    await loginWithTestUser();
     await expect(await WelcomeScreen.prereleaseIndicator).toBeDisplayed();
     await expect(
       await WelcomeScreen.prereleaseIndicatorText
@@ -36,4 +38,4 @@ export default async function chats() {
     await WelcomeScreen.clickAddSomeone();
     await FriendsScreen.waitForIsShown(true);
   });
-}
+});

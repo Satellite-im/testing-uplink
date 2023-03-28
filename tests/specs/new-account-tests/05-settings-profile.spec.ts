@@ -1,10 +1,13 @@
-import FilesScreen from "../screenobjects/FilesScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import { loginWithTestUser } from "../../helpers/commands";
+import SettingsProfileScreen from "../../screenobjects/SettingsProfileScreen";
+import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-export default async function settingsProfile() {
+describe("Settings Profile Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
+    await loginWithTestUser();
+
     // Go to Settings Screen and select the Settings Screen to validate
-    await FilesScreen.goToSettings();
+    await WelcomeScreen.goToSettings();
     await SettingsProfileScreen.waitForIsShown(true);
 
     // Start validations
@@ -177,4 +180,4 @@ export default async function settingsProfile() {
     // Clear value from username input, then enter a valid value again
     await SettingsProfileScreen.enterUsername("1234");
   });
-}
+});

@@ -7,7 +7,7 @@ import { join } from "path";
 // ============
 // Specs
 // ============
-config.specs = [join(process.cwd(), "./tests/suites/*.ts")];
+config.specs = [join(process.cwd(), "./tests/specs/new-account-tests/*.spec.ts")];
 
 // ============
 // Capabilities

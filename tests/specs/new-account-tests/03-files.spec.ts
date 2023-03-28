@@ -1,10 +1,13 @@
-import FilesScreen from "../screenobjects/FilesScreen";
-import FriendsScreen from "../screenobjects/FriendsScreen";
+import { loginWithTestUser } from "../../helpers/commands";
+import FilesScreen from "../../screenobjects/FilesScreen";
+import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-export default async function files() {
+describe("Files Screen Tests", async () => {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
+    await loginWithTestUser();
+    await WelcomeScreen.goToFiles();
+
     // Go to Files Screen
-    await FriendsScreen.goToFiles();
     await FilesScreen.waitForIsShown(true);
 
     // Validate Pre Release Indicator
@@ -148,4 +151,4 @@ export default async function files() {
     );
     expect(await $(nonExistingFile)).not.toExist();
   });
-}
+});

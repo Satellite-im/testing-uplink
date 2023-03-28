@@ -8,7 +8,7 @@ const mkdirp = require("mkdirp");
 // ============
 // Specs
 // ============
-config.specs = [join(process.cwd(), "./tests/suites/*.ts")];
+config.specs = [join(process.cwd(), "./tests/specs/new-account-tests/*.spec.ts")];
 
 // ============
 // Capabilities
@@ -25,7 +25,6 @@ config.capabilities = [
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
-    "ms:waitForAppLaunch": 30,
   },
 ];
 

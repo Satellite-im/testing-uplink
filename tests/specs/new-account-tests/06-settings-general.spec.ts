@@ -1,8 +1,13 @@
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import { loginWithTestUser } from "../../helpers/commands";
+import SettingsGeneralScreen from "../../screenobjects/SettingsGeneralScreen";
+import SettingsProfileScreen from "../../screenobjects/SettingsProfileScreen";
+import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-export default async function settingsGeneral() {
+describe("Settings General Tests", async () => {
   it("Settings General - Validate header and description texts are correct", async () => {
+    await loginWithTestUser();
+    await WelcomeScreen.goToSettings();
+
     // Go to Settings Screen
     await SettingsProfileScreen.goToGeneralSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
@@ -112,4 +117,4 @@ export default async function settingsGeneral() {
       "Enable the on screen Uplink overlay. This will show active call information, as well as allow you to add custom widgets to your screen."
     );
   });
-}
+});

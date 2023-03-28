@@ -125,6 +125,14 @@ export async function loginWithRandomUser() {
   // Enter Username and click on Create Account
   await CreateUserScreen.enterUsername(randomUser);
   await CreateUserScreen.clickOnCreateAccount();
+
+  // Wait for Welcome Screen to be displayed
+  await WelcomeScreen.waitForIsShown(true);
+  // Only maximize if current driver is windows
+  const currentDriver = await WelcomeScreen.getCurrentDriver();
+  if (currentDriver === "windows") {
+    await maximizeWindow();
+  }
 }
 
 export async function loginWithTestUser() {
