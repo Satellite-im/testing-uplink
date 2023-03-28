@@ -133,6 +133,11 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     );
   }
 
+  async clickOnAddPictureButton() {
+    await (await this.addPictureButton).click();
+    await browser.pause(1000);
+  }
+
   async clickOnDismissButton() {
     await this.dismissButton.click();
   }
@@ -192,14 +197,13 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     // Invoke File Selection method depending on current OS driver
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
-      await this.profileBanner.click();
+    await this.profileBanner.click();
+    if (currentDriver === "mac2") {  
       await selectFileOnMacos(relativePath);
     } else if (currentDriver === "windows") {
-      const uplinkContext = await driver.getWindowHandle();
-      await this.profileBanner.click();
-      await selectFileOnWindows(relativePath, uplinkContext);
+      await selectFileOnWindows(relativePath);
     }
+
     // Validate that profile banner is displayed on screen
     await expect(await this.profileBanner).toBeDisplayed();
   }
@@ -208,14 +212,13 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     // Invoke File Selection method depending on current OS driver
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
+    await this.clickOnAddPictureButton();
     if (currentDriver === "mac2") {
-      await this.profilePicture.click();
       await selectFileOnMacos(relativePath);
     } else if (currentDriver === "windows") {
-      const uplinkContext = await driver.getWindowHandle();
-      await this.profilePicture.click();
-      await selectFileOnWindows(relativePath, uplinkContext);
+      await selectFileOnWindows(relativePath);
     }
+
     // Validate that profile banner is displayed on screen
     await expect(await this.profilePicture).toBeDisplayed();
   }
