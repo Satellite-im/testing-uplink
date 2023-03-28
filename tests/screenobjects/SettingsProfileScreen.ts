@@ -188,6 +188,11 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     }
   }
 
+  async waitForToastNotificationClosed() {
+    const toast = await $(SELECTORS.TOAST_NOTIFICATIONS);
+    await toast.waitForDisplayed({ reverse: true });
+  }
+
   async uploadBannerPicture(relativePath: string) {
     // Invoke File Selection method depending on current OS driver
     // If Windows driver is running, first retrieve the current context and pass it to file selection function

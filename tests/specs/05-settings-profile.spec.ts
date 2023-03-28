@@ -68,6 +68,9 @@ export default async function settingsProfile() {
     await SettingsProfileScreen.uploadProfilePicture(
       "./tests/fixtures/logo.jpg"
     );
+
+    // Wait for toast notification to be closed
+    await SettingsProfileScreen.waitForToastNotificationClosed();
   });
 
   // Skipped for now since it needs research on how to implement hover on Windows Appium Driver
@@ -87,6 +90,11 @@ export default async function settingsProfile() {
     await SettingsProfileScreen.uploadBannerPicture(
       "./tests/fixtures/banner.jpg"
     );
+
+    // Wait for toast notification to be closed
+    await SettingsProfileScreen.waitForToastNotificationClosed();
+
+    // Click on username input
     await (await SettingsProfileScreen.usernameInput).click();
   });
 
@@ -95,6 +103,9 @@ export default async function settingsProfile() {
     await SettingsProfileScreen.uploadProfilePicture(
       "./tests/fixtures/second-profile.png"
     );
+
+    // Wait for toast notification to be closed
+    await SettingsProfileScreen.waitForToastNotificationClosed();
   });
 
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
@@ -102,6 +113,9 @@ export default async function settingsProfile() {
     await SettingsProfileScreen.uploadBannerPicture(
       "./tests/fixtures/second-banner.jpg"
     );
+
+    // Wait for toast notification to be closed
+    await SettingsProfileScreen.waitForToastNotificationClosed();
   });
 
   it("Settings Profile - Status with more than 128 characters", async () => {
@@ -115,6 +129,9 @@ export default async function settingsProfile() {
         "Maximum of 128 characters exceeded."
       );
     });
+
+    // Wait for toast notification to be closed
+    await SettingsProfileScreen.waitForToastNotificationClosed();
 
     // Clear value from status input
     await SettingsProfileScreen.deleteStatus();
