@@ -103,10 +103,10 @@ export const config: WebdriverIO.Config = {
   specFileRetries: 0,
   //
   // Delay in seconds between the spec file retry attempts
-  // specFileRetriesDelay: 0,
+  //specFileRetriesDelay: 10,
   //
   // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
-  // specFileRetriesDeferred: false,
+  //specFileRetriesDeferred: false,
   //
   // Test reporter for stdout.
   // The only one supported by default is 'dot'

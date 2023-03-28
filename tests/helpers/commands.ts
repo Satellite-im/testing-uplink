@@ -352,30 +352,11 @@ export async function saveFileOnWindows(
 
 export async function selectFileOnWindows(
   relativePath: string,
-  uplinkContext: string
 ) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
 
-  // Pause for one second until explorer window is displayed and switch to it
-  await maximizeWindow();
-  const windows = await driver.getWindowHandles();
-  let explorerWindow;
-  if (windows[0] === uplinkContext) {
-    explorerWindow = windows[1];
-  } else {
-    explorerWindow = windows[0];
-  }
-
-  await driver.switchToWindow(explorerWindow);
-
-  // Wait for Open Panel to be displayed
-  await $("~TitleBar").waitForDisplayed();
-
-  // Type file location and hit enter
-  await $("/Window/ComboBox/Edit").clearValue();
-  await (await $("/Window/ComboBox/Edit")).setValue(filepath + "\uE007");
-  await driver.switchToWindow(uplinkContext);
-  await maximizeWindow();
-  return;
+  await robot.typeString(filepath);
+  await robot.keyTap("enter");
+  await browser.pause(1000);
 }
