@@ -20,16 +20,43 @@ describe("Two users at the same time - Chat User A", async () => {
     await ChatScreen.waitForIsShown(true);
 
     const paragraph = await faker.lorem.words(30);
-    await (await ChatScreen.inputText).setValue(paragraph);
-    await (await ChatScreen.inputText).clearValue();
+    await ChatScreen.typeMessageOnInput(paragraph);
+    await ChatScreen.clearInputBar();
 
-    await (await ChatScreen.inputText).setValue("testing...");
-    await ChatScreen.inputSendButton.click();
+    await ChatScreen.typeMessageOnInput("testing...");
+    await ChatScreen.clickOnSendMessage();
 
-    await (await ChatScreen.chatMessage).waitForDisplayed();
-    expect(await ChatScreen.chatMessageText).toHaveTextContaining("testing...");
-
+    const textFromMessage = await ChatScreen.getLastMessageSentText();
+    await expect(textFromMessage).toEqual("testing...");
     await browser.pause(30000);
+  });
+
+  it("Validate Chat Message sent contents", async () => {
+    //Any message you sent yourself should appear within a colored message bubble
+    const lastMessage = await ChatScreen.getLastMessageSentLocator();
+    await expect(lastMessage).toBeDisplayed();
+  });
+
+  it("Validate Chat Message displays timestamp", async () => {
+    //Timestamp should be displayed when you send a message
+    const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
+    await expect(timeAgo).toEqual("now");
+  });
+
+  it("Validate Chat Message displays username who sent it", async () => {
+    // ChatUserA username should be above of the messages group
+    const sender = await ChatScreen.getLastMessageSentUsername();
+    await expect(sender).toEqual("ChatUserA");
+  });
+
+  it("Validate Chat Message Group displays username picture and online indicator", async () => {
+    //Your user image should be displayed next to the message
+    const userImage = await ChatScreen.getLastGroupWrapImage();
+    await expect(userImage).toExist();
+
+    //Online indicator of your user should be displayed next to the image
+    const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
+    await expect(onlineIndicator).toExist();
   });
 
   xit("Send friend request flow", async () => {

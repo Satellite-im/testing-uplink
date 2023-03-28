@@ -22,10 +22,6 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_OPTION: '[name="Context Item"]',
   COPY_ID_BUTTON: '[name="Copy ID"]',
-  FAVORITES: '[name="Favorites"]',
-  FAVORITES_USER: "//Group",
-  FAVORITES_USER_IMAGE: "//Group/Image",
-  FAVORITES_USER_NAME: "//Text/Text",
   FRIEND_INFO: '[name="Friend Info"]',
   FRIEND_INFO_USERNAME: "//Text[1]",
   FRIEND_INFO_USERCODE: "//Text[2]",
@@ -59,12 +55,6 @@ const SELECTORS_MACOS = {
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_OPTION: "~Context Item",
   COPY_ID_BUTTON: "~Copy ID",
-  FAVORITES: "~Favorites",
-  FAVORITES_USER: "-ios class chain:**/XCUIElementTypeGroup",
-  FAVORITES_USER_IMAGE:
-    '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeGroup/XCUIElementTypeGroup[`label == "User Image"`]',
-  FAVORITES_USER_NAME:
-    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   FRIEND_INFO: "~Friend Info",
   FRIEND_INFO_USERNAME:
     "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]",
@@ -156,22 +146,6 @@ class FriendsScreen extends UplinkMainScreen {
 
   get copyIdButton() {
     return $(SELECTORS.FRIENDS_BODY).$(SELECTORS.COPY_ID_BUTTON);
-  }
-
-  get favorites() {
-    return $(SELECTORS.FAVORITES);
-  }
-
-  get favoriteUsers() {
-    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER);
-  }
-
-  get favoritesUserImage() {
-    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER_IMAGE);
-  }
-
-  get favoritesUserName() {
-    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER_NAME);
   }
 
   get friendInfo() {
@@ -416,15 +390,6 @@ class FriendsScreen extends UplinkMainScreen {
       .$(SELECTORS.FRIEND_INFO_USERNAME)
       .getText();
     return firstUserFromList;
-  }
-
-  async getUsersFromFavorites() {
-    const favoriteUsers = await this.favoritesUserName;
-    let currentFavoriteUsers = [];
-    for (let name of favoriteUsers) {
-      currentFavoriteUsers.push(await (await $(name)).getText());
-    }
-    return currentFavoriteUsers;
   }
 
   async goToAllFriendsList() {
