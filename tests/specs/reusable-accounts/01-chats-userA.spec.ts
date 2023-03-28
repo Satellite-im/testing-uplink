@@ -36,12 +36,6 @@ describe("Two users at the same time - Chat User A", async () => {
     await expect(lastMessage).toBeDisplayed();
   });
 
-  it("Validate Chat Message displays timestamp", async () => {
-    //Timestamp should be displayed when you send a message
-    const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toContain("now");
-  });
-
   it("Validate Chat Message displays username who sent it", async () => {
     // ChatUserA username should be above of the messages group
     const sender = await ChatScreen.getLastMessageSentUsername();
@@ -56,6 +50,12 @@ describe("Two users at the same time - Chat User A", async () => {
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
     await expect(onlineIndicator).toExist();
+  });
+
+  it("Validate Chat Message displays timestamp", async () => {
+    //Timestamp should be displayed when you send a message
+    const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
+    await expect(timeAgo).toContain("seconds ago");
 
     // At the end of testing, wait for 30 seconds before ending session
     await browser.pause(30000);

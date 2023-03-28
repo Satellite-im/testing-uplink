@@ -33,12 +33,6 @@ describe("Two users at the same time - Chat User B", async () => {
     await expect(lastMessage).toBeDisplayed();
   });
 
-  it("Validate Chat Message received displays timestamp", async () => {
-    //Timestamp should be displayed when you send a message
-    const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toContain("seconds ago");
-  });
-
   it("Validate Chat Message received displays username who sent it", async () => {
     // ChatUserA username should be above of the messages group
     const sender = await ChatScreen.getLastMessageReceivedUsername();
@@ -53,5 +47,11 @@ describe("Two users at the same time - Chat User B", async () => {
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
     await expect(onlineIndicator).toExist();
+  });
+
+  it("Validate Chat Message received displays timestamp", async () => {
+    //Timestamp should be displayed when you send a message
+    const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
+    await expect(timeAgo).toContain("seconds ago");
   });
 });
