@@ -321,13 +321,11 @@ class FilesScreen extends UplinkMainScreen {
 
   async uploadFile(relativePath: string) {
     const currentDriver = await this.getCurrentDriver();
+    await this.clickOnUploadFile();
     if (currentDriver === "mac2") {
-      await this.clickOnUploadFile();
       await selectFileOnMacos(relativePath);
     } else if (currentDriver === "windows") {
-      const uplinkContext = await driver.getWindowHandle();
-      await this.clickOnUploadFile();
-      await selectFileOnWindows(relativePath, uplinkContext);
+      await selectFileOnWindows(relativePath);
     }
   }
 }

@@ -63,8 +63,8 @@ export default async function settingsProfile() {
     expect(await SettingsProfileScreen.statusInput).toHaveTextContaining("");
   });
 
-  // Skipped due to failure in CI - Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  xit("Settings Profile - Add profile picture", async () => {
+  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
+  it("Settings Profile - Add profile picture", async () => {
     await SettingsProfileScreen.uploadProfilePicture(
       "./tests/fixtures/logo.jpg"
     );
@@ -82,23 +82,24 @@ export default async function settingsProfile() {
     ).toHaveTextContaining("Change banner");
   });
 
-  // Skipped due to failure in CI - Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  xit("Settings Profile - Add banner picture", async () => {
+  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
+  it("Settings Profile - Add banner picture", async () => {
     await SettingsProfileScreen.uploadBannerPicture(
       "./tests/fixtures/banner.jpg"
     );
+
     await (await SettingsProfileScreen.usernameInput).click();
   });
 
-  // Skipped due to failure in CI - Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  xit("Settings Profile - Change profile picture", async () => {
+  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
+  it("Settings Profile - Change profile picture", async () => {
     await SettingsProfileScreen.uploadProfilePicture(
       "./tests/fixtures/second-profile.png"
     );
   });
 
-  // Skipped due to failure in CI - Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  xit("Settings Profile - Change banner picture", async () => {
+  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
+  it("Settings Profile - Change banner picture", async () => {
     await SettingsProfileScreen.uploadBannerPicture(
       "./tests/fixtures/second-banner.jpg"
     );
@@ -118,7 +119,7 @@ export default async function settingsProfile() {
     // Clear value from status input
     await SettingsProfileScreen.deleteStatus();
   });
-
+  
   it("Settings Profile - Username with less than 4 characters", async () => {
     // Enter username value with less than 4 characters
     await SettingsProfileScreen.enterUsername("123");
@@ -132,8 +133,7 @@ export default async function settingsProfile() {
     await SettingsProfileScreen.enterUsername("Test123");
   });
 
-  // Skipped test because due to there is an issue when entering spaces that its treating this value as a PIN
-  xit("Settings Profile - Spaces are not allowed", async () => {
+  it("Settings Profile - Username - Spaces are not allowed", async () => {
     // Enter username value with spaces
     await SettingsProfileScreen.enterUsername("1234" + "             ");
     // Validate that error message is displayed
