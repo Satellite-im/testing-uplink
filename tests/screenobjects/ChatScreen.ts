@@ -82,7 +82,7 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get chatMessage() {
-    return $$(SELECTORS.MESSAGE_GROUP).$$(SELECTORS.CHAT_MESSAGE);
+    return $(SELECTORS.CHAT_MESSAGE);
   }
 
   get chatMessageGroupReceived() {
@@ -294,19 +294,46 @@ class ChatScreen extends UplinkMainScreen {
 
   // Messages Received Methods
 
-  async getLastMessageReceivedText() {
+  async getLastReceivedGroup() {
     const messageGroupsReceived = await this.chatMessageGroupReceived;
     const lastGroupIndex = (await messageGroupsReceived.length) - 1;
-    const messagesInGroup = await $$(SELECTORS.CHAT_MESSAGE_GROUP_REMOTE)[
-      lastGroupIndex
-    ].$$(SELECTORS.CHAT_MESSAGE);
+    const lastGroupLocator = await messageGroupsReceived[lastGroupIndex];
+    return lastGroupLocator;
+  }
+
+  async getLastMessageReceivedLocator() {
+    const lastReceivedGroup = await this.getLastReceivedGroup();
+    const messagesInGroup = await lastReceivedGroup.$$(SELECTORS.CHAT_MESSAGE);
     const lastMessageIndex = (await messagesInGroup.length) - 1;
-    const lastMessageText = await $$(SELECTORS.CHAT_MESSAGE_GROUP_REMOTE)
-      [lastGroupIndex].$$(SELECTORS.CHAT_MESSAGE)
-      [lastMessageIndex].$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+    const lastMessageLocator = await messagesInGroup[lastMessageIndex];
+    return lastMessageLocator;
+  }
+
+  async getLastMessageReceivedText() {
+    const lastMessage = await this.getLastMessageReceivedLocator();
+    const lastMessageText = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE)
       .getText();
     return lastMessageText;
+  }
+
+  async getLastMessageReceivedTimeAgo() {
+    const lastGroupReceived = await this.getLastReceivedGroup();
+    const timeAgoText = await lastGroupReceived
+      .$(SELECTORS.CHAT_MESSAGE_TIME_AGO)
+      .$(SELECTORS.CHAT_MESSAGE_TIME_AGO_TEXT)
+      .getText();
+    return timeAgoText;
+  }
+
+  async getLastMessageReceivedUsername() {
+    const lastGroupReceived = await this.getLastReceivedGroup();
+    const sender = await lastGroupReceived
+      .$(SELECTORS.CHAT_MESSAGE_SENDER)
+      .$(SELECTORS.CHAT_MESSAGE_SENDER_VALUE)
+      .getText();
+    return sender;
   }
 
   // Messages Sent Methods

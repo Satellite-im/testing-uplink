@@ -350,9 +350,7 @@ export async function saveFileOnWindows(
   return;
 }
 
-export async function selectFileOnWindows(
-  relativePath: string,
-) {
+export async function selectFileOnWindows(relativePath: string) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
 

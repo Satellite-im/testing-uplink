@@ -28,7 +28,6 @@ describe("Two users at the same time - Chat User A", async () => {
 
     const textFromMessage = await ChatScreen.getLastMessageSentText();
     await expect(textFromMessage).toEqual("testing...");
-    await browser.pause(30000);
   });
 
   it("Validate Chat Message sent contents", async () => {
@@ -40,7 +39,7 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Validate Chat Message displays timestamp", async () => {
     //Timestamp should be displayed when you send a message
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toEqual("now");
+    await expect(timeAgo).toContain("seconds ago");
   });
 
   it("Validate Chat Message displays username who sent it", async () => {
@@ -57,27 +56,8 @@ describe("Two users at the same time - Chat User A", async () => {
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
     await expect(onlineIndicator).toExist();
-  });
 
-  xit("Send friend request flow", async () => {
-    // Send friend request to user B
-    //await FriendsScreen.addSomeoneInput.setValue(userBKey);
-    await FriendsScreen.addSomeoneButton.click();
-
-    // Validate Toast Notification is displayed
-    await (await FriendsScreen.toastNotification).waitForDisplayed();
-    await (
-      await FriendsScreen.toastNotification
-    ).waitForDisplayed({ reverse: true });
-
-    // Wait until friend request is accepted and go to a Chat Conversation with Chat User B
-    await FriendsScreen.goToPendingFriendsList();
-    await (
-      await FriendsScreen.removeOrDenyFriendButton
-    ).waitForExist({ reverse: true, timeout: 180000 });
-
-    // Go to All Friends List and validate Chat with Friend Button is displayed
-    await FriendsScreen.goToAllFriendsList();
-    await (await FriendsScreen.chatWithFriendButton).waitForExist();
+    // At the end of testing, wait for 30 seconds before ending session
+    await browser.pause(30000);
   });
 });
