@@ -108,13 +108,12 @@ export default async function settingsProfile() {
     // Enter status value with more than 128 characters
     await SettingsProfileScreen.enterStatus(
       "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
-    ).then(() => {
-      // Validate that error message is displayed
-      expect(SettingsProfileScreen.inputError).toBeDisplayed();
-      expect(SettingsProfileScreen.inputErrorMessage).toHaveTextContaining(
-        "Maximum of 128 characters exceeded."
-      );
-    });
+    );
+
+    await expect(SettingsProfileScreen.inputError).toBeDisplayed();
+    await expect(SettingsProfileScreen.inputErrorMessage).toHaveTextContaining(
+      "Maximum of 128 characters exceeded."
+    );
 
     // Clear value from status input
     await SettingsProfileScreen.deleteStatus();
@@ -122,16 +121,15 @@ export default async function settingsProfile() {
 
   it("Settings Profile - Username with less than 4 characters", async () => {
     // Enter username value with less than 4 characters
-    await SettingsProfileScreen.enterUsername("123").then(() => {
-      // Validate that error message is displayed
-      expect(SettingsProfileScreen.inputError).toBeDisplayed();
-      expect(SettingsProfileScreen.inputErrorMessage).toHaveTextContaining(
-        "Please enter at least 4 characters."
-      );
-    });
+    await SettingsProfileScreen.enterUsername("123");
+    // Validate that error message is displayed
+    await expect(SettingsProfileScreen.inputError).toBeDisplayed();
+    await expect(SettingsProfileScreen.inputErrorMessage).toHaveTextContaining(
+      "Please enter at least 4 characters."
+    );
 
     // Clear value from username input, then enter a valid value again
-    await SettingsProfileScreen.enterUsername("1234");
+    await SettingsProfileScreen.enterUsername("Test123");
   });
 
   // Skipped test because due to there is an issue when entering spaces that its treating this value as a PIN
@@ -145,36 +143,34 @@ export default async function settingsProfile() {
     ).toHaveTextContaining("Spaces are not allowed.");
 
     // Clear value from username input, then enter a valid value again
-    await SettingsProfileScreen.enterUsername("1234");
+    await SettingsProfileScreen.enterUsername("Test123");
   });
 
   it("Settings Profile - Username with non-alphanumeric characters", async () => {
     // Enter username value with non-alphanumeric characters
-    await SettingsProfileScreen.enterUsername("test&^%*%#$").then(() => {
-      // Validate that error message is displayed
-      expect(SettingsProfileScreen.inputError).toBeDisplayed();
-      expect(SettingsProfileScreen.inputErrorMessage).toHaveTextContaining(
-        "Only alphanumeric characters are accepted."
-      );
-    });
+    await SettingsProfileScreen.enterUsername("test&^%*%#$");
+    // Validate that error message is displayed
+    await expect(SettingsProfileScreen.inputError).toBeDisplayed();
+    await expect(SettingsProfileScreen.inputErrorMessage).toHaveTextContaining(
+      "Only alphanumeric characters are accepted."
+    );
 
     // Clear value from username input, then enter a valid value again
-    await SettingsProfileScreen.enterUsername("1234");
+    await SettingsProfileScreen.enterUsername("Test123");
   });
 
   it("Settings Profile - Username with more than 32 characters", async () => {
     // Enter username value with more than 32 characters
     await SettingsProfileScreen.enterUsername(
       "12345678901234567890123456789012345"
-    ).then(() => {
-      // Validate that error message is displayed
-      expect(SettingsProfileScreen.inputError).toBeDisplayed();
-      expect(SettingsProfileScreen.inputErrorMessage).toHaveTextContaining(
-        "Maximum of 32 characters exceeded."
-      );
-    });
+    );
+    // Validate that error message is displayed
+    await expect(SettingsProfileScreen.inputError).toBeDisplayed();
+    await expect(SettingsProfileScreen.inputErrorMessage).toHaveTextContaining(
+      "Maximum of 32 characters exceeded."
+    );
 
     // Clear value from username input, then enter a valid value again
-    await SettingsProfileScreen.enterUsername("1234");
+    await SettingsProfileScreen.enterUsername("Test123");
   });
 }
