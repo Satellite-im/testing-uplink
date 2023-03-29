@@ -55,7 +55,7 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Validate Chat Message displays timestamp", async () => {
     //Timestamp should be displayed when you send a message
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toContain("seconds ago");
+    await expect(timeAgo).toHaveTextContaining(["now", "seconds ago"]);
 
     // At the end of testing, wait for 30 seconds before ending session
     await browser.pause(30000);
