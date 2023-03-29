@@ -318,7 +318,7 @@ export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
 // Windows driver helper functions
 
 export async function hoverOnWindows(locator: WebdriverIO.Element) {
-  await driver.touchAction([{ action: "press", element: locator }]);
+  await driver.moveToElement(locator.elementId);
 }
 
 export async function rightClickOnWindows(locator: WebdriverIO.Element) {
