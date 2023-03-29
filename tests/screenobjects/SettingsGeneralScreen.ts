@@ -45,19 +45,19 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get appLanguageDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get appLanguageHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get appLanguageDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(SELECTORS.DROPDOWN_MENU);
+    return $$(SELECTORS.SETTINGS_SECTION)[3].$(SELECTORS.DROPDOWN_MENU);
   }
 
   get clearThemeButton() {
@@ -69,51 +69,29 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get resetThemeDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get resetThemeHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
-      .$(SELECTORS.SETTINGS_INFO)
-      .$(SELECTORS.SETTINGS_INFO_HEADER);
-  }
-
-  get splashScreenCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
-  }
-
-  get splashScreenControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
-  }
-
-  get splashScreenDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
-      .$(SELECTORS.SETTINGS_INFO)
-      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
-  }
-
-  get splashScreenHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get themeDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get themeDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(SELECTORS.DROPDOWN_MENU);
+    return $$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.DROPDOWN_MENU);
   }
 
   get themeHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -146,14 +124,6 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
 
   async clickOnResetTheme() {
     await this.clearThemeButton.click();
-  }
-
-  async clickOnSplashScreen() {
-    if ((await this.getCurrentDriver()) === "windows") {
-      await this.splashScreenCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.splashScreenCheckbox);
-    }
   }
 
   async clickOnThemeDropdown() {
