@@ -9,8 +9,9 @@ import settingsFiles from "../specs/09-settings-files.spec";
 import settingsExtensions from "../specs/10-settings-extensions.spec";
 import settingsNotifications from "../specs/11-settings-notifications.spec";
 import settingsDeveloper from "../specs/12-settings-developer.spec";
+import { deleteCache } from "../helpers/commands";
 
-describe("Uplink UI Automated Tests", async () => {
+describe("Uplink UI Automated Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));
   describe("Chats Main Screen Tests", chats.bind(this));
   describe("Files Screen Tests", files.bind(this));
@@ -22,4 +23,8 @@ describe("Uplink UI Automated Tests", async () => {
   describe("Settings Extensions Tests", settingsExtensions.bind(this));
   describe("Settings Notifications Tests", settingsNotifications.bind(this));
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
+
+  after(function () {
+    deleteCache();
+  });
 });
