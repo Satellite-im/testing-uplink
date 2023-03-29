@@ -50,8 +50,14 @@ describe("Two users at the same time - Chat User B", async () => {
   });
 
   it("Validate Chat Message received displays timestamp", async () => {
+    // Type a long message and do not send it
+    await ChatScreen.typeMessageOnInput(
+      "this is a looooong message that will not be send"
+    );
+    await ChatScreen.clearInputBar();
+
     //Timestamp should be displayed when you send a message
     const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toHaveTextContaining(["now", "seconds ago"]);
+    await expect(timeAgo).toHaveTextContaining("seconds ago");
   });
 });
