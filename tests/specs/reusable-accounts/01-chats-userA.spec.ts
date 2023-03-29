@@ -61,7 +61,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toHaveTextContaining("seconds ago");
+    await expect(timeAgo).toContain("seconds ago");
 
     // At the end of testing, wait for 30 seconds before ending session
     await browser.pause(30000);
