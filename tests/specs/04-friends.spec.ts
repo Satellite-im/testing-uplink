@@ -76,6 +76,8 @@ export default async function friends() {
 
     //Validate Chat Screen is displayed and go back to Friends Screen
     await ChatScreen.waitForIsShown(true);
+    await ChatScreen.typeMessageOnInput("testing...");
+    await ChatScreen.clearInputBar();
     await ChatScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
   });
@@ -185,6 +187,8 @@ export default async function friends() {
     // Select first option "Chat" from Context Menu and validate Chat is displayed
     await FriendsScreen.contextMenuOption[0].click();
     await ChatScreen.waitForIsShown(true);
+    await ChatScreen.typeMessageOnInput("testing...");
+    await ChatScreen.clearInputBar();
 
     // Go back to Friends Screen
     await ChatScreen.goToFriends();

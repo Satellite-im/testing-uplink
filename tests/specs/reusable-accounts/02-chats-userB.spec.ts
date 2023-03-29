@@ -23,20 +23,41 @@ describe("Two users at the same time - Chat User B", async () => {
     await (await ChatScreen.inputText).clearValue();
 
     await (await ChatScreen.chatMessage).waitForDisplayed({ timeout: 180000 });
-    expect(await ChatScreen.chatMessageText).toHaveTextContaining("testing...");
+    const textFromMessage = await ChatScreen.getLastMessageReceivedText();
+    await expect(textFromMessage).toEqual("testing...");
   });
 
-  xit("Accept friend request from Chat User A flow", async () => {
-    // Accept incoming request from ChatUserA
-    await FriendsScreen.goToPendingFriendsList();
-    await (
-      await FriendsScreen.acceptFriendRequestButton
-    ).waitForExist({ timeout: 180000 });
-    await (await FriendsScreen.acceptFriendRequestButton).click();
+  it("Validate Chat Message received contents", async () => {
+    //Any message you sent yourself should appear within a colored message bubble
+    const lastMessage = await ChatScreen.getLastMessageReceivedLocator();
+    await expect(lastMessage).toBeDisplayed();
+  });
 
-    // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-    await FriendsScreen.goToAllFriendsList();
-    await (await FriendsScreen.chatWithFriendButton).click();
-    await ChatScreen.waitForIsShown(true);
+  it("Validate Chat Message received displays username who sent it", async () => {
+    // ChatUserA username should be above of the messages group
+    const sender = await ChatScreen.getLastMessageReceivedUsername();
+    await expect(sender).toEqual("ChatUserA");
+  });
+
+  it("Validate Chat Message Group from remote user displays username picture and online indicator", async () => {
+    //Your user image should be displayed next to the message
+    const userImage = await ChatScreen.getLastGroupWrapImage();
+    await expect(userImage).toExist();
+
+    //Online indicator of your user should be displayed next to the image
+    const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
+    await expect(onlineIndicator).toExist();
+  });
+
+  it("Validate Chat Message received displays timestamp", async () => {
+    // Type a long message and do not send it
+    await ChatScreen.typeMessageOnInput(
+      "this is a looooong message that will not be send"
+    );
+    await ChatScreen.clearInputBar();
+
+    //Timestamp should be displayed when you send a message
+    const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
+    await expect(timeAgo).toContain("ago");
   });
 });
