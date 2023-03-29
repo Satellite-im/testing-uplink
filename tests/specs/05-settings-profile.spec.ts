@@ -70,15 +70,14 @@ export default async function settingsProfile() {
     );
   });
 
-  // Skipped for now since it needs research on how to implement hover on Windows Appium Driver
-  xit("Settings Profile - Validate change banner tooltip", async () => {
+  it("Settings Profile - Validate change banner tooltip", async () => {
     // Hover on banner picture
     await SettingsProfileScreen.hoverOnBanner();
 
     // Validate that change banner tooltip is displayed
-    await expect(SettingsProfileScreen.profileBannerTooltip).toBeDisplayed();
-    await expect(
-      SettingsProfileScreen.profileBannerTooltip
+    expect(await SettingsProfileScreen.profileBannerTooltip).toBeDisplayed();
+    expect(
+      await SettingsProfileScreen.profileBannerTooltip
     ).toHaveTextContaining("Change banner");
   });
 
@@ -119,7 +118,7 @@ export default async function settingsProfile() {
     // Clear value from status input
     await SettingsProfileScreen.deleteStatus();
   });
-  
+
   it("Settings Profile - Username with less than 4 characters", async () => {
     // Enter username value with less than 4 characters
     await SettingsProfileScreen.enterUsername("123");

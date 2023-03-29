@@ -380,6 +380,20 @@ class ChatScreen extends UplinkMainScreen {
     return sender;
   }
 
+  // Hovering methods
+
+  async hoverOnFavoritesButton() {
+    await this.hoverOnElement(await this.topbarAddToFavorites);
+  }
+
+  async hoverOnSendButton() {
+    await this.hoverOnElement(await this.sendMessageButton);
+  }
+
+  async hoverOnUploadButton() {
+    await this.hoverOnElement(await this.uploadButton);
+  }
+
   async typeMessageOnInput(text: string) {
     await (await this.inputText).setValue(text);
   }

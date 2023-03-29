@@ -244,6 +244,15 @@ export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
   ]);
 }
 
+export async function hoverOnMacOS(locator: WebdriverIO.Element) {
+  // Hover on X and Y coordinates previously retrieved
+  await driver.executeScript("macos: hover", [
+    {
+      elementId: locator,
+    },
+  ]);
+}
+
 export async function saveFileOnMacOS(filename: string) {
   // Wait for Save Dialog to be displayed
   await $("~save-panel").waitForDisplayed();
@@ -307,6 +316,10 @@ export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
 }
 
 // Windows driver helper functions
+
+export async function hoverOnWindows(locator: WebdriverIO.Element) {
+  await driver.touchAction([{ action: "press", element: locator }]);
+}
 
 export async function rightClickOnWindows(locator: WebdriverIO.Element) {
   await driver.touchAction([{ action: "press", element: locator }]);

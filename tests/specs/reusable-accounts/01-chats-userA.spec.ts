@@ -66,4 +66,25 @@ describe("Two users at the same time - Chat User A", async () => {
     // At the end of testing, wait for 30 seconds before ending session
     await browser.pause(30000);
   });
+
+  it("Validate Chat Screen tooltips are displayed", async () => {
+    // Validate Favorites button tooltip
+    await ChatScreen.hoverOnFavoritesButton();
+    expect(await ChatScreen.topbarAddToFavoritesTooltip).toBeDisplayed();
+    expect(
+      await ChatScreen.topbarAddToFavoritesTooltipText
+    ).toHaveTextContaining("Add to Favorites");
+
+    // Validate Upload button tooltip
+    await ChatScreen.hoverOnUploadButton();
+    expect(await ChatScreen.uploadTooltip).toBeDisplayed();
+    expect(await ChatScreen.uploadTooltipText).toHaveTextContaining("Upload");
+
+    // Validate Send button tooltip
+    await ChatScreen.hoverOnSendButton();
+    expect(await ChatScreen.sendMessageTooltip).toBeDisplayed();
+    expect(await ChatScreen.sendMessageTooltipText).toHaveTextContaining(
+      "Send"
+    );
+  });
 });

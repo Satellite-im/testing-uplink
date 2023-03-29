@@ -328,6 +328,16 @@ class FilesScreen extends UplinkMainScreen {
       await selectFileOnWindows(relativePath);
     }
   }
+
+  // Hovering methods
+
+  async hoverOnNewFolderButton() {
+    await this.hoverOnElement(await this.addFolderButton);
+  }
+
+  async hoverOnUploadButton() {
+    await this.hoverOnElement(await this.uploadFileButton);
+  }
 }
 
 export default new FilesScreen();
