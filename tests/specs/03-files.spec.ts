@@ -47,6 +47,22 @@ export default async function files() {
     await expect(await FilesScreen.uploadFileButton).toBeDisplayed();
   });
 
+  it("Validate tooltips for add folder/file buttons are displayed", async () => {
+    // Validate New Folder button tooltip
+    await FilesScreen.hoverOnNewFolderButton();
+    expect(await FilesScreen.addFolderTooltip).toBeDisplayed();
+    expect(await FilesScreen.addFolderTooltipText).toHaveTextContaining(
+      "New Folder"
+    );
+
+    // Validate Upload button tooltip
+    await FilesScreen.hoverOnUploadButton();
+    expect(await FilesScreen.uploadFileTooltip).toBeDisplayed();
+    expect(await FilesScreen.uploadFileTooltipText).toHaveTextContaining(
+      "Upload"
+    );
+  });
+
   it("Create a new folder and enter to it", async () => {
     await FilesScreen.createFolder("testfolder01");
     const newFolder = await FilesScreen.getLocatorOfFolderFile("testfolder01");

@@ -1,4 +1,9 @@
-import { selectFileOnMacos, selectFileOnWindows } from "../helpers/commands";
+import {
+  hoverOnMacOS,
+  hoverOnWindows,
+  selectFileOnMacos,
+  selectFileOnWindows,
+} from "../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -160,36 +165,11 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   async hoverOnBanner() {
-    // Get elementID of Profile Banner
-    const bannerElementID = await driver.findElement(
-      "accessibility id",
-      "profile-banner"
-    ).elementId;
-
-    // Get X and Y coordinates to hover on from Profile Banner
-    const bannerX = (await this.profileBanner.getLocation("x")) + 10;
-    const bannerY = (await this.profileBanner.getLocation("y")) + 10;
-
-    // Hover on X and Y coordinates previously retrieved
+    const bannerLocator = await this.profileBanner;
     if ((await this.getCurrentDriver()) === "mac2") {
-      await driver.executeScript("macos: hover", [
-        {
-          elementId: bannerElementID,
-          x: bannerX,
-          y: bannerY,
-        },
-      ]);
+      await hoverOnMacOS(bannerLocator);
     } else if ((await this.getCurrentDriver()) === "windows") {
-      await driver.touchPerform([
-        {
-          element: bannerElementID,
-          action: "moveTo",
-          options: {
-            x: bannerX,
-            y: bannerY,
-          },
-        },
-      ]);
+      await hoverOnWindows(bannerLocator);
     }
   }
 
@@ -198,7 +178,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
     await this.profileBanner.click();
-    if (currentDriver === "mac2") {  
+    if (currentDriver === "mac2") {
       await selectFileOnMacos(relativePath);
     } else if (currentDriver === "windows") {
       await selectFileOnWindows(relativePath);

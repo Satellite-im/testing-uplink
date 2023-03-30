@@ -32,6 +32,36 @@ export default async function chats() {
     );
   });
 
+  it("Validate Main Nav Bar buttons tooltips are displayed", async () => {
+    // Validate Chats button tooltip
+    await WelcomeScreen.hoverOnChatsButton();
+    expect(await WelcomeScreen.chatsButtonTooltip).toBeDisplayed();
+    expect(await WelcomeScreen.chatsButtonTooltipText).toHaveTextContaining(
+      "Chats"
+    );
+
+    // Validate Files button tooltip
+    await WelcomeScreen.hoverOnFilesButton();
+    expect(await WelcomeScreen.filesButtonTooltip).toBeDisplayed();
+    expect(await WelcomeScreen.filesButtonTooltipText).toHaveTextContaining(
+      "Files"
+    );
+
+    // Validate Friends button tooltip
+    await WelcomeScreen.hoverOnFriendsButton();
+    expect(await WelcomeScreen.friendsButtonTooltip).toBeDisplayed();
+    expect(await WelcomeScreen.friendsButtonTooltipText).toHaveTextContaining(
+      "Friends"
+    );
+
+    // Validate Settings button tooltip
+    await WelcomeScreen.hoverOnSettingsButton();
+    expect(await WelcomeScreen.settingsButtonTooltip).toBeDisplayed();
+    expect(await WelcomeScreen.settingsButtonTooltipText).toHaveTextContaining(
+      "Settings"
+    );
+  });
+
   it("Click on add someone redirects to Friends Page", async () => {
     await WelcomeScreen.clickAddSomeone();
     await FriendsScreen.waitForIsShown(true);

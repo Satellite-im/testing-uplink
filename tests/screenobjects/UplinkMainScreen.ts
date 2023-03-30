@@ -1,3 +1,4 @@
+import { hoverOnMacOS, hoverOnWindows } from "../helpers/commands";
 import AppScreen from "./AppScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -44,6 +45,8 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SKELETAL_USER: '[name="skeletal-user"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
+  TOOLTIP: '[name="tooltip"]',
+  TOOLTIP_TEXT: "//Group/Text",
   WINDOW: "~main",
 };
 
@@ -89,6 +92,9 @@ const SELECTORS_MACOS = {
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
   TOAST_NOTIFICATION: "~Toast Notification",
+  TOOLTIP: "~tooltip",
+  TOOLTIP_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   WINDOW: "-ios class chain:**/XCUIElementTypeWindow",
 };
 
@@ -373,5 +379,31 @@ export default class UplinkMainScreen extends AppScreen {
   async validateTextFromButtonBadge(expectedText: string) {
     const badgeText = await $('//*[@label="Button Badge"]/*[1]');
     await expect($(badgeText)).toHaveTextContaining(expectedText);
+  }
+
+  // Hovering methods
+
+  async hoverOnElement(element: WebdriverIO.Element) {
+    if ((await this.getCurrentDriver()) === "mac2") {
+      await hoverOnMacOS(element);
+    } else if ((await this.getCurrentDriver()) === "windows") {
+      await hoverOnWindows(element);
+    }
+  }
+
+  async hoverOnChatsButton() {
+    await this.hoverOnElement(await this.chatsButton);
+  }
+
+  async hoverOnFilesButton() {
+    await this.hoverOnElement(await this.filesButton);
+  }
+
+  async hoverOnFriendsButton() {
+    await this.hoverOnElement(await this.friendsButton);
+  }
+
+  async hoverOnSettingsButton() {
+    await this.hoverOnElement(await this.settingsButton);
   }
 }
