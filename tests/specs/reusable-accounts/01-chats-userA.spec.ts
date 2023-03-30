@@ -19,7 +19,7 @@ describe("Two users at the same time - Chat User A", async () => {
     await (await FriendsScreen.chatWithFriendButton).click();
     await ChatScreen.waitForIsShown(true);
 
-    const paragraph = await faker.lorem.words(30);
+    const paragraph = faker.lorem.words(30);
     await ChatScreen.typeMessageOnInput(paragraph);
     await ChatScreen.clearInputBar();
 
@@ -27,32 +27,26 @@ describe("Two users at the same time - Chat User A", async () => {
     await ChatScreen.clickOnSendMessage();
 
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    await expect(textFromMessage).toEqual("testing...");
+    expect(textFromMessage).toEqual("testing...");
   });
 
   it("Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
     const lastMessage = await ChatScreen.getLastMessageSentLocator();
-    await expect(lastMessage).toBeDisplayed();
-  });
-
-  it("Validate Chat Message displays username who sent it", async () => {
-    // ChatUserA username should be above of the messages group
-    const sender = await ChatScreen.getLastMessageSentUsername();
-    await expect(sender).toEqual("ChatUserA");
+    expect(lastMessage).toBeDisplayed();
   });
 
   it("Validate Chat Message Group displays username picture and online indicator", async () => {
     //Your user image should be displayed next to the message
     const userImage = await ChatScreen.getLastGroupWrapImage();
-    await expect(userImage).toExist();
+    expect(userImage).toExist();
 
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
-    await expect(onlineIndicator).toExist();
+    expect(onlineIndicator).toExist();
   });
 
-  it("Validate Chat Message displays timestamp", async () => {
+  it("Validate Chat Message displays timestamp and user who sent it", async () => {
     // Type a long message and do not send it
     await ChatScreen.typeMessageOnInput(
       "this is a looooong message that will not be send"
@@ -61,7 +55,8 @@ describe("Two users at the same time - Chat User A", async () => {
 
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toContain("seconds ago");
+    expect(timeAgo).toContain("seconds ago");
+    expect(timeAgo).toContain("ChatUserA");
 
     // At the end of testing, wait for 30 seconds before ending session
     await browser.pause(30000);

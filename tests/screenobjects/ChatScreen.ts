@@ -13,8 +13,6 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_GROUP_SENT: '[name="message-group"]',
   CHAT_MESSAGE_GROUP_WRAP: '[name="message-group-wrap"]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
-  CHAT_MESSAGE_SENDER: '[name="sender"]',
-  CHAT_MESSAGE_SENDER_VALUE: "//Text",
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
   CHAT_MESSAGE_TEXT_VALUE: "//Text",
   CHAT_MESSAGE_TIME_AGO: '[name="time-ago"]',
@@ -43,8 +41,6 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_GROUP_SENT: "~message-group",
   CHAT_MESSAGE_GROUP_WRAP: "~message-group-wrap",
   CHAT_MESSAGE_REPLY: "~message-reply",
-  CHAT_MESSAGE_SENDER: "~sender",
-  CHAT_MESSAGE_SENDER_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
   CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TIME_AGO: "~time-ago",
@@ -99,16 +95,6 @@ class ChatScreen extends UplinkMainScreen {
 
   get chatMessageReply() {
     return $(SELECTORS.MESSAGE_GROUP).$(SELECTORS.CHAT_MESSAGE_REPLY);
-  }
-
-  get chatMessageSender() {
-    return $$(SELECTORS.MESSAGE_GROUP).$(SELECTORS.CHAT_MESSAGE_SENDER);
-  }
-
-  get chatMessageSenderValue() {
-    return $$(SELECTORS.MESSAGE_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_SENDER)
-      .$(SELECTORS.CHAT_MESSAGE_SENDER_VALUE);
   }
 
   get chatMessageTextValue() {
@@ -327,15 +313,6 @@ class ChatScreen extends UplinkMainScreen {
     return timeAgoText;
   }
 
-  async getLastMessageReceivedUsername() {
-    const lastGroupReceived = await this.getLastReceivedGroup();
-    const sender = await lastGroupReceived
-      .$(SELECTORS.CHAT_MESSAGE_SENDER)
-      .$(SELECTORS.CHAT_MESSAGE_SENDER_VALUE)
-      .getText();
-    return sender;
-  }
-
   // Messages Sent Methods
 
   async getLastSentGroup() {
@@ -369,15 +346,6 @@ class ChatScreen extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_TIME_AGO_TEXT)
       .getText();
     return timeAgoText;
-  }
-
-  async getLastMessageSentUsername() {
-    const lastGroupSent = await this.getLastSentGroup();
-    const sender = await lastGroupSent
-      .$(SELECTORS.CHAT_MESSAGE_SENDER)
-      .$(SELECTORS.CHAT_MESSAGE_SENDER_VALUE)
-      .getText();
-    return sender;
   }
 
   // Hovering methods
