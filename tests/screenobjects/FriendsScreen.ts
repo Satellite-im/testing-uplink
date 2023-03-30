@@ -40,6 +40,8 @@ const SELECTORS_WINDOWS = {
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
   TOAST_NOTIFICATION_CLOSE: "//Button/Button",
   TOAST_NOTIFICATION_TEXT: "//Text[2]",
+  TOOLTIP: '[name="tooltip"]',
+  TOOLTIP_TEXT: "//Group/Text",
   TOPBAR: '[name="Topbar"]',
 };
 
@@ -76,6 +78,9 @@ const SELECTORS_MACOS = {
   TOAST_NOTIFICATION_CLOSE: "-ios class chain:**/XCUIElementTypeButton",
   TOAST_NOTIFICATION_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText",
+  TOOLTIP: "~tooltip",
+  TOOLTIP_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   TOPBAR: "~Topbar",
 };
 
@@ -392,6 +397,18 @@ class FriendsScreen extends UplinkMainScreen {
     return firstUserFromList;
   }
 
+  async getUserTooltip(username: string, tooltipNumber: number) {
+    const userLocator = await this.getFriendRecordByName(username);
+    return await userLocator.$$(SELECTORS.TOOLTIP)[tooltipNumber];
+  }
+
+  async getUserTooltipText(username: string, tooltipNumber: number) {
+    const userLocator = await this.getFriendRecordByName(username);
+    return await userLocator
+      .$$(SELECTORS.TOOLTIP)
+      [tooltipNumber].$(SELECTORS.TOOLTIP_TEXT);
+  }
+
   async goToAllFriendsList() {
     await (await this.allFriendsButton).click();
   }
@@ -402,6 +419,22 @@ class FriendsScreen extends UplinkMainScreen {
 
   async goToPendingFriendsList() {
     await (await this.pendingFriendsButton).click();
+  }
+
+  async hoverOnBlockButton(username: string) {
+    const userLocator = await this.getFriendRecordByName(username);
+    const secondButtonLocator = await userLocator.$(
+      SELECTORS.BLOCK_FRIEND_BUTTON
+    );
+    await this.hoverOnElement(secondButtonLocator);
+  }
+
+  async hoverOnUnfriendDenyUnblockButton(username: string) {
+    const userLocator = await this.getFriendRecordByName(username);
+    const firstButtonLocator = await userLocator.$(
+      SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON
+    );
+    await this.hoverOnElement(firstButtonLocator);
   }
 
   async openFriendContextMenu(name: string) {
