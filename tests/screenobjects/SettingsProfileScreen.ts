@@ -30,6 +30,8 @@ const SELECTORS_WINDOWS = {
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
   TOAST_NOTIFICATION_CLOSE: "//Button/Button",
   TOAST_NOTIFICATION_TEXT: "//Text[2]",
+  TOOLTIP: '[name="tooltip"]',
+  TOOLTIP_TEXT: "//Group/Text",
   USERNAME_INPUT: '[name="username-input"]',
   USERNAME_LABEL: "//Text[1]/Text",
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: "//Text[2]",
@@ -55,6 +57,9 @@ const SELECTORS_MACOS = {
   TOAST_NOTIFICATION_CLOSE: "-ios class chain:**/XCUIElementTypeButton",
   TOAST_NOTIFICATION_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText",
+  TOOLTIP: "~tooltip",
+  TOOLTIP_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   USERNAME_INPUT: "~username-input",
   USERNAME_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE:
@@ -80,6 +85,14 @@ class SettingsProfileScreen extends SettingsBaseScreen {
 
   get copyIDButton() {
     return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.COPY_ID_BUTTON);
+  }
+
+  get copyIDTooltip() {
+    return $(SELECTORS.TOOLTIP);
+  }
+
+  get copyIDTooltipText() {
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get dismissButton() {
@@ -223,6 +236,10 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     } else if ((await this.getCurrentDriver()) === "windows") {
       await hoverOnWindows(bannerLocator);
     }
+  }
+
+  async hoverOnCopyID() {
+    await this.hoverOnElement(await this.copyIDButton);
   }
 
   async pasteUserKeyInStatus() {

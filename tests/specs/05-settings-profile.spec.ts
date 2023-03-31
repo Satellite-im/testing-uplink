@@ -63,6 +63,15 @@ export default async function settingsProfile() {
     expect(await SettingsProfileScreen.statusInput).toHaveTextContaining("");
   });
 
+  it("Settings Profile - Validate Copy ID button tooltip", async () => {
+    // Validate Copy ID button tooltip
+    await SettingsProfileScreen.hoverOnCopyID();
+    expect(await SettingsProfileScreen.copyIDTooltip).toBeDisplayed();
+    expect(await SettingsProfileScreen.copyIDTooltipText).toHaveTextContaining(
+      "Copy ID"
+    );
+  });
+
   it("Settings Profile - Click On Copy ID Button", async () => {
     // Click on Copy ID button and assert Toast Notification is displayed
     await SettingsProfileScreen.clickOnCopyIDButton();
