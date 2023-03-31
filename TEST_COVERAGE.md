@@ -18,7 +18,7 @@ This document provides a test coverage matrix of the Uplink features that are al
 - [x] Shows error if User tries to enter with less than 4 characters.
 - [x] Shows error if User enters incorrect PIN.
 - [x] Shows error if User attempts to proceed with empty PIN.
-- [ ] Shows error if User enters a PIN with spaces
+- [x] Shows error if User enters a PIN with spaces
 - [x] Display some indication of success when the user enters a valid PIN - Create Account button enabled.
 - [x] Validate warning texts displayed in the screen alerting the user about the importance of the PIN
 
@@ -30,7 +30,7 @@ This document provides a test coverage matrix of the Uplink features that are al
 - [x] Shows error if User enters Username that is more than 32 characters.
 - [x] Shows error if User attempts to proceed with empty username.
 - [x] Shows error if User enters a Username with non-alphanumberic characters
-- [ ] Shows error if User enters a username with spaces
+- [x] Shows error if User enters a username with spaces
 - [x] Displays some indication of success when the user enters a valid username.
 - [x] Welcome Screen is displayed after entering valid pin and username
 
@@ -51,23 +51,23 @@ This document provides a test coverage matrix of the Uplink features that are al
 
 **Current Chat**
 
-- [ ] Any message you sent yourself should appear within a colored message bubble.
-- [ ] Any message received should appear with a grey message bubble.
+- [x] Any message you sent yourself should appear within a colored message bubble.
+- [x] Any message received should appear with a grey message bubble.
 - [ ] The chat that you are in should be highlighted in the Sidebar.
-- [ ] User Profile Pic should appear next to their Message and be up to date.
-- [ ] Username should appear above each message or bulk of messages sent or received.
-- [ ] Clicking the _Heart_ should add the friend to your _Favorites_.
+- [x] User Profile Pic should appear next to their Message and be up to date.
+- [x] Username should appear above each message or bulk of messages sent or received.
+- [x] Clicking the _Heart_ should add the friend to your _Favorites_.
 - [ ] Currect chat should be displayed at top of the list in Sidebar.
-- [ ] Timestamps should update in chat, and sidebar. (now, then goes by minutes-hours-days)
+- [x] Timestamps should update in chat, and sidebar. (now, then goes by minutes-hours-days)
 - [ ] Clicking _Phone_ icon should open call modal.
 - [ ] Chat should close if User blocks friend they are in current chat with.
 - [ ] Typing indicator appears (if user has that extension toggled on).
 - [ ] Usernames are both displayed in call modal.
 - [ ] Friends Username/Profile Pic/Status should be displayed at top of active chat.
-- [ ] Tooltip should appear for _Call_ button.
-- [ ] Tooltip should appear for _Video_ button.
-- [ ] Tooltip should appear for _Upload_ button.
-- [ ] Tooltip should appear for _Favorites_ button.
+- [x] Tooltip should appear for _Call_ button.
+- [x] Tooltip should appear for _Video_ button.
+- [x] Tooltip should appear for _Upload_ button.
+- [x] Tooltip should appear for _Favorites_ button.
 - [ ] User can reply to a message by right+clicking and selecting in context menu.
 - [ ] User can react to a message by right+clicking and selecting in context menu.
 - [ ] User should enter chat at the bottom with most recent messages.
@@ -91,16 +91,16 @@ This document provides a test coverage matrix of the Uplink features that are al
 - [x] Clicking Copy Code should copy User's did key
 - [x] There should be an input field for us to paste a did key or user#short_id.
 - [ ] Friends are ordered alphabetically.
-- [ ] Profile picture should be present next to Username if friend has one.
+- [x] Profile picture should be present next to Username if friend has one.
 - [ ] Profile Picture should update if a friend changes it.
 - [ ] Online/Offline status should update when friends log in or off.
-- [ ] Tooltip should appear when hovering cursor over _Unfriend_.
-- [ ] Tooltip should appear when hovering cursor over _Block_.
-- [ ] Tooltip should appear when hovering cursor over _All Friends_.
-- [ ] Tooltip should appear when hovering cursor over _Pending_.
-- [ ] Tooltip should appear when hovering cursor over _Blocked_.
-- [ ] Tooltip should appear when hovering cursor over _Add_.
-- [ ] Tooltip should appear when hovering cursor over _Chat_.
+- [x] Tooltip should appear when hovering cursor over _Unfriend_.
+- [x] Tooltip should appear when hovering cursor over _Block_.
+- [x] Tooltip should appear when hovering cursor over _All Friends_.
+- [x] Tooltip should appear when hovering cursor over _Pending_.
+- [x] Tooltip should appear when hovering cursor over _Blocked_.
+- [x] Tooltip should appear when hovering cursor over _Add_.
+- [x] Tooltip should appear when hovering cursor over _Chat_.
 - [x] Clicking _Chat_ should navigate User to active chat with that friend.
 - [ ] Friend Status should appear underneath username.
 - [x] Clicking _Unfriend_ should remove that person from your friends list.
@@ -137,7 +137,7 @@ This document provides a test coverage matrix of the Uplink features that are al
 - [x] After accepting friend request, the pending request should clear and they should be added to the All Friends list.
 - [x] After denying friend request, the pending request should clear and they should NOT be added to the All Friends list.
 - [x] After canceling an outgoing friend request, the pending request should clear and they should NOT be added to the All Friends list.
-- [ ] When User clicks _Accept Incoming Request_ in the context menu, request should be accepted and user added to the all friends list.
+- [x] When User clicks _Accept Incoming Request_ in the context menu, request should be accepted and user added to the all friends list.
 - [x] When User clicks _Deny Incoming Request_ in the context menu, request should be denied and user should NOT be added to the all friends list.
 - [x] When User clicks _Cancel Outgoing Request_ in the context menu, outgoing request should be canceled and removed from the outgoing list.
 
@@ -149,16 +149,16 @@ This document provides a test coverage matrix of the Uplink features that are al
 
 ### Files
 
-- [ ] Icon should open the Upload File Modal.
-- [ ] Preview should be shown for Uploaded Files.
+- [x] Icon should open the Upload File Modal.
+- [x] Preview should be shown for Uploaded Files.
 - [ ] Folder should highlight when User is drag+dropping a file into it.
 - [ ] Folder should also be highlighted when User hovers cursor over it.
 - [ ] Upload % should show when User is uploading Files
-- [ ] Clicking the _Home_ button in Directory should take you to Files Home page.
-- [ ] When User clicks New Folder typing indicator should appear and User can start typing without clicking into textbox first.
-- [ ] Right clicking folder should open Context Menu with option to rename or delete.
+- [x] Clicking the _Home_ button in Directory should take you to Files Home page.
+- [x] When User clicks New Folder typing indicator should appear and User can start typing without clicking into textbox first.
+- [x] Right clicking folder should open Context Menu with option to rename or delete.
 - [ ] Scrollbar should appear when any Files are rendered off screen.
-- [ ] Files Directory should show updated Folders name if Folder has been renamed.
+- [x] Files Directory should show updated Folders name if Folder has been renamed.
 - [ ] File Uploading should stop as soon as User hits _Cancel_.
 - [ ] Size of file should show underneath preview.
 - [ ] Amount of items/size of uploaded files should show underneath the Folder.
@@ -180,7 +180,7 @@ This document provides a test coverage matrix of the Uplink features that are al
 - [x] Clicking _Edit_ should display input fields for Username and Status.
 - [x] Error message should appear when User tries to type a username longer than 32 characters.
 - [x] Error message should appear when user attempts to save a username with less than 4 characters.
-- [ ] Error message should appear when user attempts to save a username with spaces.
+- [x] Error message should appear when user attempts to save a username with spaces.
 - [x] Error message should appear when user attempts to save a username with non-alphanumeric characters.
 - [x] Error message should appear when User tries to type a status message longer than 128 characters.
 - [x] Assert placeholder texts are displayed right now on input fields
@@ -224,14 +224,14 @@ This document provides a test coverage matrix of the Uplink features that are al
 
 **Notifications**
 
-- [ ] User should be able to grant permissions to receive notifications - non functional yet
-- [ ] User should be able to enable notifications for incoming calls and messages
-- [ ] If switch slider of enable notifications for incoming calls and messages is disabled, then the friends, messages and settings notifications switches are disabled
-- [ ] If switch slider of enable notifications for incoming calls and messages is enabled, then the friends, messages and settings notifications switches are not blocked
-- [ ] User can enable notifications for friend requests
-- [ ] User can enable notifications for new messages
-- [ ] User can enable notifications for updates and important alerts
-- [ ] Text descriptions from settings section should be displayed - Right now only placeholders
+- [x] User should be able to grant permissions to receive notifications - non functional yet
+- [x] User should be able to enable notifications for incoming calls and messages
+- [x] If switch slider of enable notifications for incoming calls and messages is disabled, then the friends, messages and settings notifications switches are disabled
+- [x] If switch slider of enable notifications for incoming calls and messages is enabled, then the friends, messages and settings notifications switches are not blocked
+- [x] User can enable notifications for friend requests
+- [x] User can enable notifications for new messages
+- [x] User can enable notifications for updates and important alerts
+- [x] Text descriptions from settings section should be displayed - Right now only placeholders
 
 **Developer**
 
@@ -242,7 +242,7 @@ This document provides a test coverage matrix of the Uplink features that are al
 - [ ] Clicking _Open Cache_ should open the .Cache folder within Uplink.
 - [ ] Clicking _Compress & Download Cache_ should compress the Users .Cache into a zip file.
 - [ ] User can clear .Cache by clicking _Clear Cache_
-- [ ] Logs should save in a file when User toggles on _Save Logs In A File_
+- [x] Logs should save in a file when User toggles on _Save Logs In A File_
 - [x] Chat Sidebar should not appear when User is in Settings
 - [ ] Dev tools should appear in top right corner when toggled on.
 - [ ] Clicking Mobile dev tool should resize window to replicate a Mobile device.
@@ -265,9 +265,9 @@ This document provides a test coverage matrix of the Uplink features that are al
 - [ ] User can clear unread messages by right+clicking to open context menu.
 - [ ] User can call a friend by right+clicking to open context menu.
 - [ ] User can hide chat by right+clicking to open context menu.
-- [ ] Tooltip should appear when hovering cursor over _Chat Page_ icon.
-- [ ] Tooltip should appear when hovering cursor over _Files Page_ icon.
-- [ ] Tooltip should appear when hovering cursor over _Friends Page_ icon.
-- [ ] Tooltip should appear when hovering cursor over _Settings Page_ icon.
+- [x] Tooltip should appear when hovering cursor over _Chat Page_ icon.
+- [x] Tooltip should appear when hovering cursor over _Files Page_ icon.
+- [x] Tooltip should appear when hovering cursor over _Friends Page_ icon.
+- [x] Tooltip should appear when hovering cursor over _Settings Page_ icon.
 - [ ] User can search within Settings by clicking into Settings Search Bar.
 - [ ] Call controls should appear in Sidebar when User enters a call.
