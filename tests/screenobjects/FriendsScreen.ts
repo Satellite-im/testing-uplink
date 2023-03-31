@@ -1,8 +1,12 @@
-import { rightClickOnMacOS, rightClickOnWindows } from "../helpers/commands";
+import {
+  getClipboardMacOS,
+  rightClickOnMacOS,
+  rightClickOnWindows,
+} from "../helpers/commands";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
-const { exec, execSync } = require("child_process");
+const robot = require("robotjs");
 
 let SELECTORS = {};
 
@@ -273,20 +277,16 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async enterCopiedID() {
-    let copiedKey;
+    // Assuming that user already clicked on Copy ID button
+    // If driver is macos, then get clipboard and pass it to enterStatus function
     if ((await this.getCurrentDriver()) === "mac2") {
-      copiedKey = await execSync("pbpaste", { encoding: "utf8" });
-      return await this.enterFriendDidKey(copiedKey);
+      const userKey = await getClipboardMacOS();
+      await this.enterFriendDidKey(userKey);
     } else if ((await this.getCurrentDriver()) === "windows") {
-      const powershellCmd = "powershell.exe Get-Clipboard";
-      await exec(powershellCmd, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`exec error: ${error}`);
-          return;
-        }
-        copiedKey = stdout.trim();
-        return this.enterFriendDidKey(copiedKey);
-      });
+      // If driver is windows, then click on status input to place cursor there and simulate a control + v
+      await this.copyIdButton.click();
+      await this.addSomeoneInput.clearValue();
+      await robot.keyTap("v", ["control"]);
     }
   }
 
