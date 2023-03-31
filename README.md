@@ -1,6 +1,14 @@
 # Uplink - UI Test Automation Framework
 
+Tests running on Github Actions
+
 Test Automation Framework designed to create UI tests in webdriverIO using Appium for Uplink app on macOS now, and Windows/Linux Uplink apps in the future
+
+Tests running using Github Actions:
+
+<p align="left">
+    <a href="https://github.com/Satellite-im/testing-uplink/actions"><img src="https://github.com/Satellite-im/testing-uplink/actions/workflows/ui-automated-tests.yml/badge.svg" /></a>
+</p>
 
 ## Based on
 
