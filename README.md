@@ -1,8 +1,6 @@
 # Uplink - UI Test Automation Framework
 
-Tests running on Github Actions
-
-Test Automation Framework designed to create UI tests in webdriverIO using Appium for Uplink app on macOS now, and Windows/Linux Uplink apps in the future
+Test Automation Framework designed to run UI/E2E tests in Uplink Applications using Appium and WebdriverIO. Tests can run now in MacOS and Windows and we would like to implement the same tests to run against Linux/Ubuntu builds in the future.
 
 Tests running using Github Actions:
 
@@ -78,9 +76,9 @@ Please check the [`wdio.shared.conf.ts`](./config/wdio.shared.conf.ts)-file for 
 a different value has been selected in comparison to the default values WebdriverIO provides.
 
 Since we do not have Appium installed as part of this package we are going to use the globally installed version of Appium. This is
-configured in [`wdio.shared.local.appium.conf.ts`](./config/wdio.shared.local.appium.conf.ts).
+configured in [`wdio.shared.mac.appium.conf.ts`](./config/wdio.shared.mac.appium.conf.ts) for MacOS and [`wdio.shared.windows.appium.conf.ts`](./config/wdio.shared.windows.appium.conf.ts)
 
-Finally, since there will be a GitHub action setup to run the Appium tests on macOS, there will be one configuration file used to run these tests on CI. This will be configured in [`wdio.macos.ci.conf.ts`](./config/wdio.macos.ci.conf.ts).
+Finally, since we have a GitHub Action setup to run the Appium tests on macOS and Windows, there are two configuration files used to run these tests on CI. Configuration for running MacOS tests on CI is setup in [`wdio.mac.ci.conf.ts`](./config/wdio.mac.ci.conf.ts) and for running Windows tests on CI setup is located in [`wdio.windows.ci.conf.ts`](./config/wdio.windows.ci.conf.ts).
 
 ## Locator strategy for native apps
 
@@ -90,7 +88,6 @@ If `accessibilityID`'s can't be used, for example, then for Mac2 driver, -ios cl
 
 ## Improvements to be implemented soon
 
-- Tests running on Windows - Work is in progress and needs to add UI locators for windows. Soon this will be deployed to dev!
 - Tests running on Ubuntu - To add these, we need to start adding the Ubuntu UI locators for the elements and then modify the tests to run on both platforms. Also, there is no official driver for Appium to run tests under Ubuntu. Unfortunately, there is only one third-party driver that we need to validate that it is secure and works correctly before implementing it inside the project
 
 ## Demo Videos
