@@ -6,6 +6,7 @@ import { faker } from "@faker-js/faker";
 import { homedir } from "os";
 import { join } from "path";
 const { readFileSync, rmSync, writeFileSync } = require("fs");
+const { exec, execSync } = require("child_process");
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
 const robot = require("robotjs");
@@ -242,6 +243,11 @@ export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
       y: elementY,
     },
   ]);
+}
+
+export async function getClipboardMacOS() {
+  const clipboard = await execSync("pbpaste", { encoding: "utf8" });
+  return clipboard;
 }
 
 export async function hoverOnMacOS(locator: WebdriverIO.Element) {

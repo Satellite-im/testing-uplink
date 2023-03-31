@@ -63,6 +63,50 @@ export default async function settingsProfile() {
     expect(await SettingsProfileScreen.statusInput).toHaveTextContaining("");
   });
 
+  it("Settings Profile - Validate Copy ID button tooltip", async () => {
+    // Validate Copy ID button tooltip
+    await SettingsProfileScreen.hoverOnCopyID();
+    expect(await SettingsProfileScreen.copyIDTooltip).toBeDisplayed();
+    expect(await SettingsProfileScreen.copyIDTooltipText).toHaveTextContaining(
+      "Copy ID"
+    );
+  });
+
+  it("Settings Profile - Click On Copy ID Button", async () => {
+    // Click on Copy ID button and assert Toast Notification is displayed
+    await SettingsProfileScreen.clickOnCopyIDButton();
+    expect(
+      await SettingsProfileScreen.toastNotificationText
+    ).toHaveTextContaining("Copied ID to clipboard!");
+
+    // Wait for toast notification to be closed
+    await SettingsProfileScreen.waitUntilNotificationIsClosed();
+  });
+
+  it("Settings Profile - Copied ID can be placed on any text field", async () => {
+    // Paste copied DID Key into Status Input
+    await SettingsProfileScreen.pasteUserKeyInStatus();
+
+    // Ensure that value placed in Status is the did key from the user
+    expect(
+      await SettingsProfileScreen.getStatusInputText()
+    ).toHaveTextContaining("did:key:");
+  });
+
+  it("Settings Profile - Copy ID button contains the last characters from user did key", async () => {
+    // Get expected Short DID Key from DID Key value pasted in Status field
+    const userDidKey = await SettingsProfileScreen.getStatusInputText();
+    const shortDidKey = await SettingsProfileScreen.getShortDidKey(userDidKey);
+
+    // Ensure that the last 9 digits from Did:Key matches with the button text
+    expect(
+      await SettingsProfileScreen.getCopyIDButtonText()
+    ).toHaveTextContaining(shortDidKey);
+
+    // Clear value from status input
+    await SettingsProfileScreen.deleteStatus();
+  });
+
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
   it("Settings Profile - Add profile picture", async () => {
     await SettingsProfileScreen.uploadProfilePicture(
