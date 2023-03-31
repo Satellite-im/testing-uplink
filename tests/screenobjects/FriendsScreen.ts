@@ -1,4 +1,8 @@
-import { rightClickOnMacOS, rightClickOnWindows } from "../helpers/commands";
+import {
+  getClipboard,
+  rightClickOnMacOS,
+  rightClickOnWindows,
+} from "../helpers/commands";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -273,21 +277,8 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async enterCopiedID() {
-    let copiedKey;
-    if ((await this.getCurrentDriver()) === "mac2") {
-      copiedKey = await execSync("pbpaste", { encoding: "utf8" });
-      return await this.enterFriendDidKey(copiedKey);
-    } else if ((await this.getCurrentDriver()) === "windows") {
-      const powershellCmd = "powershell.exe Get-Clipboard";
-      await exec(powershellCmd, (error, stdout, stderr) => {
-        if (error) {
-          console.error(`exec error: ${error}`);
-          return;
-        }
-        copiedKey = stdout.trim();
-        return this.enterFriendDidKey(copiedKey);
-      });
-    }
+    const clipboard = await getClipboard();
+    await this.enterFriendDidKey(clipboard);
   }
 
   async getAbbreviatedDidKey(key: string) {

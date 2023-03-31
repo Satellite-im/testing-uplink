@@ -1,4 +1,5 @@
 import {
+  getClipboard,
   hoverOnMacOS,
   hoverOnWindows,
   selectFileOnMacos,
@@ -15,6 +16,7 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   ADD_PICTURE_BUTTON: '[name="add-picture-button"]',
+  COPY_ID_BUTTON: "//Button",
   DISMISS_BUTTON: "//Button",
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_MESSAGE: "//Text",
@@ -25,6 +27,9 @@ const SELECTORS_WINDOWS = {
   PROFILE_PICTURE: '[name="profile-picture"]',
   STATUS_INPUT: '[name="status-input"]',
   STATUS_LABEL: "//Text[2]/Text",
+  TOAST_NOTIFICATION: '[name="Toast Notification"]',
+  TOAST_NOTIFICATION_CLOSE: "//Button/Button",
+  TOAST_NOTIFICATION_TEXT: "//Text[2]",
   USERNAME_INPUT: '[name="username-input"]',
   USERNAME_LABEL: "//Text[1]/Text",
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: "//Text[2]",
@@ -34,6 +39,7 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
+  COPY_ID_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
   DISMISS_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_MESSAGE: "-ios class chain:**/XCUIElementTypeStaticText",
@@ -45,6 +51,10 @@ const SELECTORS_MACOS = {
   PROFILE_PICTURE: "~profile-picture",
   STATUS_INPUT: "~status-input",
   STATUS_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[2]",
+  TOAST_NOTIFICATION: "~Toast Notification",
+  TOAST_NOTIFICATION_CLOSE: "-ios class chain:**/XCUIElementTypeButton",
+  TOAST_NOTIFICATION_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText",
   USERNAME_INPUT: "~username-input",
   USERNAME_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE:
@@ -66,6 +76,10 @@ class SettingsProfileScreen extends SettingsBaseScreen {
 
   get addPictureButton() {
     return $(SELECTORS.ADD_PICTURE_BUTTON);
+  }
+
+  get copyIDButton() {
+    return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.COPY_ID_BUTTON);
   }
 
   get dismissButton() {
@@ -112,6 +126,20 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.STATUS_LABEL);
   }
 
+  get toastNotification() {
+    return $(SELECTORS.TOAST_NOTIFICATION);
+  }
+
+  get toastNotificationClose() {
+    return $(SELECTORS.TOAST_NOTIFICATION).$(
+      SELECTORS.TOAST_NOTIFICATION_CLOSE
+    );
+  }
+
+  get toastNotificationText() {
+    return $(SELECTORS.TOAST_NOTIFICATION).$(SELECTORS.TOAST_NOTIFICATION_TEXT);
+  }
+
   get usernameInput() {
     return $(SELECTORS.USERNAME_INPUT);
   }
@@ -143,8 +171,16 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     await browser.pause(1000);
   }
 
+  async clickOnCopyIDButton() {
+    await this.copyIDButton.click();
+  }
+
   async clickOnDismissButton() {
     await this.dismissButton.click();
+  }
+
+  async closeToastNotification() {
+    await this.toastNotificationClose.click();
   }
 
   async deleteStatus() {
@@ -164,6 +200,22 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     await this.usernameInput.addValue(username);
   }
 
+  async getCopyIDButtonText() {
+    return (await this.copyIDButton).getText();
+  }
+
+  async getShortDidKey(didKey: string) {
+    return didKey.substr(-9);
+  }
+
+  async getStatusInputText() {
+    return (await this.statusInput).getText();
+  }
+
+  async getToastNotificationText() {
+    return await this.toastNotificationText.getText();
+  }
+
   async hoverOnBanner() {
     const bannerLocator = await this.profileBanner;
     if ((await this.getCurrentDriver()) === "mac2") {
@@ -171,6 +223,11 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     } else if ((await this.getCurrentDriver()) === "windows") {
       await hoverOnWindows(bannerLocator);
     }
+  }
+
+  async pasteUserKeyInStatus() {
+    const userKey = await getClipboard();
+    await this.enterStatus(userKey);
   }
 
   async uploadBannerPicture(relativePath: string) {
@@ -201,6 +258,12 @@ class SettingsProfileScreen extends SettingsBaseScreen {
 
     // Validate that profile banner is displayed on screen
     await expect(await this.profilePicture).toBeDisplayed();
+  }
+
+  async waitUntilNotificationIsClosed() {
+    await this.toastNotification.waitForDisplayed({
+      reverse: true,
+    });
   }
 }
 

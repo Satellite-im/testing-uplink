@@ -6,6 +6,7 @@ import { faker } from "@faker-js/faker";
 import { homedir } from "os";
 import { join } from "path";
 const { readFileSync, rmSync, writeFileSync } = require("fs");
+const { exec, execSync } = require("child_process");
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
 const robot = require("robotjs");
@@ -370,4 +371,24 @@ export async function selectFileOnWindows(relativePath: string) {
   await robot.typeString(filepath);
   await robot.keyTap("enter");
   await browser.pause(1000);
+}
+
+// Both OS operations
+
+export async function getClipboard() {
+  const currentOS = await driver.capabilities.automationName;
+  let clipboard;
+  if (currentOS === "mac2") {
+    clipboard = await execSync("pbpaste", { encoding: "utf8" });
+  } else if (currentOS === "windows") {
+    const powershellCmd = "powershell.exe Get-Clipboard";
+    await exec(powershellCmd, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`exec error: ${error}`);
+        return;
+      }
+      clipboard = stdout.trim();
+    });
+  }
+  return clipboard;
 }
