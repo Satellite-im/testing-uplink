@@ -245,6 +245,11 @@ export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
   ]);
 }
 
+export async function getClipboardMacOS() {
+  const clipboard = await execSync("pbpaste", { encoding: "utf8" });
+  return clipboard;
+}
+
 export async function hoverOnMacOS(locator: WebdriverIO.Element) {
   // Hover on X and Y coordinates previously retrieved
   await driver.executeScript("macos: hover", [
@@ -371,24 +376,4 @@ export async function selectFileOnWindows(relativePath: string) {
   await robot.typeString(filepath);
   await robot.keyTap("enter");
   await browser.pause(1000);
-}
-
-// Both OS operations
-
-export async function getClipboard() {
-  const currentOS = await driver.capabilities.automationName;
-  let clipboard;
-  if (currentOS === "mac2") {
-    clipboard = await execSync("pbpaste", { encoding: "utf8" });
-  } else if (currentOS === "windows") {
-    const powershellCmd = "powershell.exe Get-Clipboard";
-    await exec(powershellCmd, (error, stdout, stderr) => {
-      if (error) {
-        console.error(`exec error: ${error}`);
-        return;
-      }
-      clipboard = stdout.trim();
-    });
-  }
-  return clipboard;
 }

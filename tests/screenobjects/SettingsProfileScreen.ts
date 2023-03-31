@@ -1,5 +1,5 @@
 import {
-  getClipboard,
+  getClipboardMacOS,
   hoverOnMacOS,
   hoverOnWindows,
   selectFileOnMacos,
@@ -8,6 +8,7 @@ import {
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
 const currentOS = driver.capabilities.automationName;
+const robot = require("robotjs");
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -243,8 +244,17 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   async pasteUserKeyInStatus() {
-    const userKey = await getClipboard();
-    await this.enterStatus(userKey);
+    // Assuming that user already clicked on Copy ID button
+    // If driver is macos, then get clipboard and pass it to enterStatus function
+    if ((await this.getCurrentDriver()) === "mac2") {
+      const userKey = await getClipboardMacOS();
+      await this.enterStatus(userKey);
+    } else if ((await this.getCurrentDriver()) === "windows") {
+      // If driver is windows, then click on status input to place cursor there and simulate a control + v
+      await this.statusInput.click();
+      await this.statusInput.clearValue();
+      await robot.keyTap("v", ["control"]);
+    }
   }
 
   async uploadBannerPicture(relativePath: string) {
