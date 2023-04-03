@@ -94,7 +94,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Uplink-windows-latest
-          path: target\release\ui.exe
+          path: target\release\uplink.exe
 
   push-app:
     needs: build-app

@@ -23,7 +23,7 @@ config.capabilities = [
     // http://appium.io/docs/en/writing-running-appium/caps/
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "windows",
-    "appium:app": join(process.cwd(), "\\apps\\ui.exe"),
+    "appium:app": join(process.cwd(), "\\apps\\uplink.exe"),
     "ms:waitForAppLaunch": 40,
   },
 ];
