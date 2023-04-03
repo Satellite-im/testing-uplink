@@ -6,7 +6,7 @@ import { faker } from "@faker-js/faker";
 import { homedir } from "os";
 import { join } from "path";
 const { readFileSync, rmSync, writeFileSync } = require("fs");
-const { exec, execSync } = require("child_process");
+const { execSync } = require("child_process");
 const fsp = require("fs").promises;
 const mkdirp = require("mkdirp");
 const robot = require("robotjs");

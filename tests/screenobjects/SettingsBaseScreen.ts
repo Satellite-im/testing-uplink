@@ -8,6 +8,8 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  ABOUT_BUTTON: '[name="about-button"]',
+  ACCESSIBILITY_BUTTON: '[name="accessibility-button"]',
   AUDIO_BUTTON: "//Group/Group/Button[4]",
   DEVELOPER_BUTTON: '[name="developer-button"]',
   EXTENSIONS_BUTTON: '[name="extensions-button"]',
@@ -20,6 +22,8 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  ABOUT_BUTTON: "~about-button",
+  ACCESSIBILITY_BUTTON: "~accessibility-button",
   AUDIO_BUTTON: "~sounds & audio-button",
   DEVELOPER_BUTTON: "~developer-button",
   EXTENSIONS_BUTTON: "~extensions-button",
@@ -38,6 +42,14 @@ currentOS === "windows"
 export default class SettingsBaseScreen extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.SETTINGS_LAYOUT);
+  }
+
+  get aboutButton() {
+    return $(SELECTORS.ABOUT_BUTTON);
+  }
+
+  get accessibilityButton() {
+    return $(SELECTORS.ACCESSIBILITY_BUTTON);
   }
 
   get audioButton() {
@@ -78,6 +90,14 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
 
   get settingsSearchInput() {
     return $(SELECTORS.SETTINGS_SEARCH_INPUT);
+  }
+
+  async goToAboutSettings() {
+    await this.aboutButton.click();
+  }
+
+  async goToAccessibilitySettings() {
+    await this.accessibilityButton.click();
   }
 
   async goToAudioSettings() {
