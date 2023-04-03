@@ -1,5 +1,4 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
-import { join } from "path";
 import { clickOnSwitchMacOS } from "../helpers/commands";
 
 const currentOS = driver.capabilities.automationName;
@@ -13,7 +12,6 @@ const SELECTORS_WINDOWS = {
   CLEAR_CACHE_BUTTON: '[name="clear-button"]',
   COMPRESS_BUTTON: '[name="compress-button"]',
   OPEN_CACHE_FOLDER_BUTTON: '[name="open-cache-folder-button"]',
-  OPEN_CODEBASE_BUTTON: '[name="open-codebase-button"]',
   PRINT_STATE_BUTTON: '[name="print-state-button"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
@@ -29,7 +27,6 @@ const SELECTORS_MACOS = {
   CLEAR_CACHE_BUTTON: "~clear-button",
   COMPRESS_BUTTON: "~compress-button",
   OPEN_CACHE_FOLDER_BUTTON: "~open-cache-folder-button",
-  OPEN_CODEBASE_BUTTON: "~open-codebase-button",
   PRINT_STATE_BUTTON: "~print-state-button",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
@@ -56,13 +53,13 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get clearCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6]
+    return $$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get clearCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6]
+    return $$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -72,13 +69,13 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get compressAndDownloadCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get compressAndDownloadCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -110,29 +107,13 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get openCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
-      .$(SELECTORS.SETTINGS_INFO)
-      .$(SELECTORS.SETTINGS_INFO_HEADER);
-  }
-
-  get openCodebaseButton() {
-    return $(SELECTORS.OPEN_CODEBASE_BUTTON);
-  }
-
-  get openCodebaseDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
-      .$(SELECTORS.SETTINGS_INFO)
-      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
-  }
-
-  get openCodebaseHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -142,35 +123,35 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get printStateDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get printStateHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get saveLogsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[7].$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_CONTROL)[6].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get saveLogsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[7].$(
+    return $$(SELECTORS.SETTINGS_CONTROL)[6].$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX
     );
   }
 
   get saveLogsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[7]
+    return $$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get saveLogsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[7]
+    return $$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -184,13 +165,13 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get testNotificationDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get testNotificationHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -213,10 +194,6 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   async clickOnOpenCache() {
     await this.openCacheButton.click();
-  }
-
-  async clickOnOpenCodebase() {
-    await this.openCodebaseButton.click();
   }
 
   async clickOnPrintState() {

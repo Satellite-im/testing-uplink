@@ -9,6 +9,8 @@ import settingsFiles from "../specs/09-settings-files.spec";
 import settingsExtensions from "../specs/10-settings-extensions.spec";
 import settingsNotifications from "../specs/11-settings-notifications.spec";
 import settingsDeveloper from "../specs/12-settings-developer.spec";
+import settingsAccessibility from "../specs/13-settings-accessibility.spec";
+import settingsAbout from "../specs/14-settings-about.spec";
 import { deleteCache } from "../helpers/commands";
 
 describe("Uplink UI Automated Tests", function () {
@@ -21,8 +23,10 @@ describe("Uplink UI Automated Tests", function () {
   describe("Settings Audio Tests", settingsAudio.bind(this));
   describe("Settings Files Tests", settingsFiles.bind(this));
   describe("Settings Extensions Tests", settingsExtensions.bind(this));
+  describe("Settings Accessibility Tests", settingsAccessibility.bind(this));
   describe("Settings Notifications Tests", settingsNotifications.bind(this));
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
+  describe("Settings About Tests", settingsAbout.bind(this));
 
   after(function () {
     deleteCache();

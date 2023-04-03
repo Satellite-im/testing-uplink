@@ -5,9 +5,9 @@ import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 export default async function createAccount() {
   it("Validate warning texts are displayed on screen", async () => {
-    await expect(await CreatePinScreen.unlockWarningParagraph).toBeDisplayed();
-    expect(await CreatePinScreen.un).toHaveTextContaining(
-      "Your password is used to encrypt your data. It is never sent to any server. You should use a strong password that you don't use anywhere else."
+    await expect(await CreatePinScreen.unlockWarningHeader).toBeDisplayed();
+    expect(await CreatePinScreen.unlockWarningHeader).toHaveTextContaining(
+      "LET'S CHOOSE YOUR PASSWORD"
     );
     await expect(await CreatePinScreen.unlockWarningParagraph).toBeDisplayed();
     expect(await CreatePinScreen.unlockWarningParagraph).toHaveTextContaining(
@@ -145,10 +145,8 @@ export default async function createAccount() {
     );
     await CreateUserScreen.clickOnCreateAccount();
     await WelcomeScreen.waitForIsShown(true);
-    // Only maximize if current driver is windows
-    const currentDriver = await WelcomeScreen.getCurrentDriver();
-    if (currentDriver === "windows") {
-      await maximizeWindow();
-    }
+
+    // Maximize Window on Execution
+    await maximizeWindow();
   });
 }

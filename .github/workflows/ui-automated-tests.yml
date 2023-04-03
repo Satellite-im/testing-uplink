@@ -7,6 +7,7 @@ on:
     workflows: [Build App Windows and MacOS 🧪]
     types:
       - completed
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -45,6 +46,7 @@ jobs:
         working-directory: ./apps
         run: |
           unzip Uplink-Mac-Universal.zip
+          perl -i -pe 's/>ui</>uplink</g' ./Uplink.app/Contents/Info.plist
           cp -r ./Uplink.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
 
@@ -148,6 +150,7 @@ jobs:
         working-directory: ./apps
         run: |
           unzip Uplink-Mac-Universal.zip
+          perl -i -pe 's/>ui</>uplink</g' ./Uplink.app/Contents/Info.plist
           cp -r ./Uplink.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
 

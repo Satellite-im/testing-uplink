@@ -17,14 +17,6 @@ export default async function settingsDeveloper() {
       "Enabling developer mode adds logging and displays helpful debug information on the UI."
     );
 
-    // Validate OPEN CODEBASE section
-    await expect(
-      await SettingsDeveloperScreen.openCodebaseHeader
-    ).toHaveTextContaining("OPEN CODEBASE");
-    await expect(
-      await SettingsDeveloperScreen.openCodebaseDescription
-    ).toHaveTextContaining("Opens the codebase in your default web browser.");
-
     // Validate TEST NOTIFICATION section
     await expect(
       await SettingsDeveloperScreen.testNotificationHeader
@@ -122,12 +114,6 @@ export default async function settingsDeveloper() {
       await SettingsDeveloperScreen.developerModeControllerValue
     );
     expect(developerModeStatus).toEqual("0");
-  });
-
-  // Skipped since it needs research on how to fix return to app command
-  xit("Settings Developer - Open codebase button", async () => {
-    await SettingsDeveloperScreen.clickOnOpenCodebase();
-    await SettingsDeveloperScreen.returnToApp();
   });
 
   // Skipped because it needs the aria label fixed for test notifications button
