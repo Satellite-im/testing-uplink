@@ -22,6 +22,12 @@ export default async function settingsGeneral() {
     await expect(
       await SettingsGeneralScreen.themeDescription
     ).toHaveTextContaining("Change the theme of the app.");
+    await expect(await SettingsGeneralScreen.fontHeader).toHaveTextContaining(
+      "FONT"
+    );
+    await expect(
+      await SettingsGeneralScreen.fontDescription
+    ).toHaveTextContaining("Change the font of the app.");
     await expect(
       await SettingsGeneralScreen.resetThemeHeader
     ).toHaveTextContaining("RESET THEME");
@@ -58,6 +64,12 @@ export default async function settingsGeneral() {
   xit("Settings General - Change theme dropdown selection", async () => {
     await SettingsGeneralScreen.clickOnThemeDropdown();
     await SettingsGeneralScreen.selectTheme("Default");
+  });
+
+  // Skipped for now since there are no fonts to select
+  xit("Settings General - Change font dropdown selection", async () => {
+    await SettingsGeneralScreen.clickOnFontDropdown();
+    await SettingsGeneralScreen.selectFont("Default");
   });
 
   // Skipped for now since button does not perform any action
