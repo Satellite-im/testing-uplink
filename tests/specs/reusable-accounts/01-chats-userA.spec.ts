@@ -57,9 +57,6 @@ describe("Two users at the same time - Chat User A", async () => {
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
     expect(timeAgo).toContain("seconds ago");
     expect(timeAgo).toContain("ChatUserA");
-
-    // At the end of testing, wait for 30 seconds before ending session
-    await browser.pause(30000);
   });
 
   it("Validate Chat Screen tooltips are displayed", async () => {
@@ -81,5 +78,34 @@ describe("Two users at the same time - Chat User A", async () => {
     expect(await ChatScreen.sendMessageTooltipText).toHaveTextContaining(
       "Send"
     );
+  });
+
+  it("Chats - Add user with active chat to Favorites", async () => {
+    // Add user to favorites
+    await ChatScreen.addToFavorites();
+    await (await ChatScreen.favorites).waitForDisplayed();
+
+    // Favorites Sidebar should be displayed
+    expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
+    expect(await ChatScreen.favoritesUserIndicatorOnline).toBeDisplayed();
+    expect(await ChatScreen.favoritesUserName).toHaveTextContaining(
+      "CHATUS..."
+    );
+  });
+
+  it("Chats - Remove user with active chat from Favorites", async () => {
+    // Remove user from favorites
+    await ChatScreen.addToFavorites();
+    await (await ChatScreen.favorites).waitForDisplayed({ reverse: true });
+  });
+
+  it("Chats - Topbar information", async () => {
+    // Validate user image, username and online indicator are displayed on Chat Topbar
+    expect(await ChatScreen.topbarUserImage).toBeDisplayed();
+    expect(await ChatScreen.topbarUserName).toHaveTextContaining("ChatUserB");
+    expect(await ChatScreen.topbarIndicatorOnline).toBeDisplayed();
+
+    // At the end of testing, wait for 30 seconds before ending session
+    await browser.pause(30000);
   });
 });
