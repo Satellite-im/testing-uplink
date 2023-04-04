@@ -92,6 +92,7 @@ jobs:
         if: always()
         with:
           junit_files: "./test-report/*.xml"
+          compare_to_earlier_commit: false
           check_name: "UI Automated Test Results on ${{ matrix.os-name}}"
 
       - name: Upload Screenshots for ${{ matrix.os-name }} 📷
