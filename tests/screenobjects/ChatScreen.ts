@@ -29,7 +29,12 @@ const SELECTORS_WINDOWS = {
   TOPBAR: '[name="Topbar"]',
   TOPBAR_ADD_TO_FAVORITES: '[name="Favorites"]',
   TOPBAR_CALL: '[name="Call"]',
+  TOPBAR_INDICATOR_OFFLINE: '[name="indicator-offline"]',
+  TOPBAR_INDICATOR_ONLINE: '[name="indicator-online"]',
+  TOPBAR_REMOVE_FROM_FAVORITES: '[name="Remove from Favorites"]',
   TOPBAR_USER_IMAGE: '[name="User Image"]',
+  TOPBAR_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
+  TOPBAR_USER_INFO: '[name="user-info"]',
   TOPBAR_USER_NAME: "//Text",
   TOPBAR_VIDEOCALL: '[name="Videocall"]',
   UPLOAD_BUTTON: '[name="upload-button"]',
@@ -58,7 +63,12 @@ const SELECTORS_MACOS = {
   TOPBAR: "~Topbar",
   TOPBAR_ADD_TO_FAVORITES: "~Favorites",
   TOPBAR_CALL: "~Call",
+  TOPBAR_INDICATOR_OFFLINE: "~indicator-offline",
+  TOPBAR_INDICATOR_ONLINE: "~indicator-online",
+  TOPBAR_REMOVE_FROM_FAVORITES: "~Remove from Favorites",
   TOPBAR_USER_IMAGE: "~User Image",
+  TOPBAR_USER_IMAGE_WRAP: "~user-image-wrap",
+  TOPBAR_USER_INFO: "~user-info",
   TOPBAR_USER_NAME: "-ios class chain:**/XCUIElementTypeStaticText",
   TOPBAR_VIDEOCALL: "~Videocall",
   UPLOAD_BUTTON: "~upload-button",
@@ -195,8 +205,28 @@ class ChatScreen extends UplinkMainScreen {
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
+  get topbarIndicatorOffline() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_OFFLINE);
+  }
+
+  get topbarIndicatorOnline() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_ONLINE);
+  }
+
+  get topbarRemoveFromFavorites() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_REMOVE_FROM_FAVORITES);
+  }
+
   get topbarUserImage() {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE);
+  }
+
+  get topbarUserImageWrap() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE_WRAP);
+  }
+
+  get topbarUserInfo() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_INFO);
   }
 
   get topbarUserName() {
@@ -232,6 +262,14 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   // Input Bar Methods
+
+  async addToFavorites() {
+    await this.topbarAddToFavorites.click();
+  }
+
+  async removeFromFavorites() {
+    await this.topbarRemoveFromFavorites.click();
+  }
 
   async clearInputBar() {
     await (await this.inputText).clearValue();

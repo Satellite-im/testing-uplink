@@ -138,37 +138,49 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get favorites() {
-    return $(SELECTORS.FAVORITES);
+    return $(SELECTORS.SIDEBAR).$(SELECTORS.FAVORITES);
   }
 
   get favoritesHeader() {
-    return $(SELECTORS.FAVORITES).$(SELECTORS.FAVORITES_HEADER);
+    return $(SELECTORS.SIDEBAR)
+      .$(SELECTORS.FAVORITES)
+      .$(SELECTORS.FAVORITES_HEADER);
   }
 
   get favoriteUsers() {
-    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER);
+    return $(SELECTORS.SIDEBAR)
+      .$(SELECTORS.FAVORITES)
+      .$$(SELECTORS.FAVORITES_USER);
   }
 
   get favoritesUserImage() {
-    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER_IMAGE);
+    return $(SELECTORS.SIDEBAR)
+      .$(SELECTORS.FAVORITES)
+      .$$(SELECTORS.FAVORITES_USER_IMAGE);
   }
 
   get favoritesUserImageWrap() {
-    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER_IMAGE_WRAP);
+    return $(SELECTORS.SIDEBAR)
+      .$(SELECTORS.FAVORITES)
+      .$$(SELECTORS.FAVORITES_USER_IMAGE_WRAP);
   }
 
   get favoritesUserIndicatorOffline() {
-    return $(SELECTORS.FAVORITES).$$(
-      SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE
-    );
+    return $(SELECTORS.SIDEBAR)
+      .$(SELECTORS.FAVORITES)
+      .$(SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE);
   }
 
   get favoritesUserIndicatorOnline() {
-    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
+    return $(SELECTORS.SIDEBAR)
+      .$(SELECTORS.FAVORITES)
+      .$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
   }
 
   get favoritesUserName() {
-    return $(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER_NAME);
+    return $(SELECTORS.SIDEBAR)
+      .$(SELECTORS.FAVORITES)
+      .$(SELECTORS.FAVORITES_USER_NAME);
   }
 
   get filesButton() {
