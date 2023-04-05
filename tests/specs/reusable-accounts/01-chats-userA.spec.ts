@@ -22,7 +22,7 @@ describe("Two users at the same time - Chat User A", async () => {
     // Wait until Chat User B is online
     await (
       await ChatScreen.topbarIndicatorOnline
-    ).waitForDisplayed({ timeout: 180000 });
+    ).waitForDisplayed({ timeout: 240000 });
   });
 
   it("Chats - Send a message to the other user", async () => {

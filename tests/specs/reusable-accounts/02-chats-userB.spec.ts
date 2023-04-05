@@ -12,7 +12,7 @@ describe("Two users at the same time - Chat User B", async () => {
     await FriendsScreen.waitForIsShown(true);
   });
 
-  it("Assert message received from Chat User A", async () => {
+  it("Wait until the other user is online", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await (await FriendsScreen.chatWithFriendButton).waitForExist();
     await (await FriendsScreen.chatWithFriendButton).click();
@@ -21,7 +21,7 @@ describe("Two users at the same time - Chat User B", async () => {
     // Wait until Chat User A is online
     await (
       await ChatScreen.topbarIndicatorOnline
-    ).waitForDisplayed({ timeout: 180000 });
+    ).waitForDisplayed({ timeout: 240000 });
   });
 
   it("Assert message received from Chat User A", async () => {
