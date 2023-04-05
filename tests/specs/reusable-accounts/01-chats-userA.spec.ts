@@ -14,20 +14,30 @@ describe("Two users at the same time - Chat User A", async () => {
     await FriendsScreen.waitForIsShown(true);
   });
 
-  it("Go to chat with friend and send a message", async () => {
+  it("Go to chat with friend and wait until user is online", async () => {
     await (await FriendsScreen.chatWithFriendButton).waitForExist();
     await (await FriendsScreen.chatWithFriendButton).click();
     await ChatScreen.waitForIsShown(true);
 
-    const paragraph = faker.lorem.words(30);
-    await ChatScreen.typeMessageOnInput(paragraph);
-    await ChatScreen.clearInputBar();
+    // Wait until Chat User B is online
+    await (
+      await ChatScreen.topbarIndicatorOnline
+    ).waitForDisplayed({ timeout: 180000 });
+  });
 
+  it("Chats - Send a message to the other user", async () => {
     await ChatScreen.typeMessageOnInput("testing...");
     await ChatScreen.clickOnSendMessage();
 
     const textFromMessage = await ChatScreen.getLastMessageSentText();
     expect(textFromMessage).toEqual("testing...");
+  });
+
+  it("Validate Chat Message displays timestamp and user who sent it", async () => {
+    //Timestamp from last message sent should be displayed
+    const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
+    expect(timeAgo).toContain("now");
+    expect(timeAgo).toContain("ChatUserA");
   });
 
   it("Validate Chat Message sent contents", async () => {
@@ -44,19 +54,6 @@ describe("Two users at the same time - Chat User A", async () => {
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
     expect(onlineIndicator).toExist();
-  });
-
-  it("Validate Chat Message displays timestamp and user who sent it", async () => {
-    // Type a long message and do not send it
-    await ChatScreen.typeMessageOnInput(
-      "this is a looooong message that will not be send"
-    );
-    await ChatScreen.clearInputBar();
-
-    //Timestamp from last message sent should be displayed
-    const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    expect(timeAgo).toContain("seconds ago");
-    expect(timeAgo).toContain("ChatUserA");
   });
 
   it("Validate Chat Screen tooltips are displayed", async () => {
@@ -95,7 +92,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Chats - Remove user with active chat from Favorites", async () => {
     // Remove user from favorites
-    await ChatScreen.addToFavorites();
+    await ChatScreen.removeFromFavorites();
     await (await ChatScreen.favorites).waitForDisplayed({ reverse: true });
   });
 

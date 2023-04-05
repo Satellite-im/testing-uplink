@@ -18,11 +18,14 @@ describe("Two users at the same time - Chat User B", async () => {
     await (await FriendsScreen.chatWithFriendButton).click();
     await ChatScreen.waitForIsShown(true);
 
-    const paragraph = faker.lorem.words(30);
-    await (await ChatScreen.inputText).setValue(paragraph);
-    await (await ChatScreen.inputText).clearValue();
+    // Wait until Chat User A is online
+    await (
+      await ChatScreen.topbarIndicatorOnline
+    ).waitForDisplayed({ timeout: 180000 });
+  });
 
-    await (await ChatScreen.chatMessage).waitForDisplayed({ timeout: 180000 });
+  it("Assert message received from Chat User A", async () => {
+    await (await ChatScreen.chatMessage).waitForDisplayed({ timeout: 30000 });
     const textFromMessage = await ChatScreen.getLastMessageReceivedText();
     expect(textFromMessage).toEqual("testing...");
   });
@@ -54,5 +57,8 @@ describe("Two users at the same time - Chat User B", async () => {
     const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
     expect(timeAgo).toContain("ago");
     expect(timeAgo).toContain("ChatUserA");
+
+    // Pause for 30 seconds before finishing execution
+    await browser.pause(30000);
   });
 });

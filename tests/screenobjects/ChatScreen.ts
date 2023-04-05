@@ -31,6 +31,7 @@ const SELECTORS_WINDOWS = {
   TOPBAR_CALL: '[name="Call"]',
   TOPBAR_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   TOPBAR_INDICATOR_ONLINE: '[name="indicator-online"]',
+  TOPBAR_REMOVE_FROM_FAVORITES: '[name="Remove from Favorites"]',
   TOPBAR_USER_IMAGE: '[name="User Image"]',
   TOPBAR_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   TOPBAR_USER_INFO: '[name="user-info"]',
@@ -64,6 +65,7 @@ const SELECTORS_MACOS = {
   TOPBAR_CALL: "~Call",
   TOPBAR_INDICATOR_OFFLINE: "~indicator-offline",
   TOPBAR_INDICATOR_ONLINE: "~indicator-online",
+  TOPBAR_REMOVE_FROM_FAVORITES: "~Remove from Favorites",
   TOPBAR_USER_IMAGE: "~User Image",
   TOPBAR_USER_IMAGE_WRAP: "~user-image-wrap",
   TOPBAR_USER_INFO: "~user-info",
@@ -211,6 +213,10 @@ class ChatScreen extends UplinkMainScreen {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_ONLINE);
   }
 
+  get topbarRemoveFromFavorites() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_REMOVE_FROM_FAVORITES);
+  }
+
   get topbarUserImage() {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE);
   }
@@ -259,6 +265,10 @@ class ChatScreen extends UplinkMainScreen {
 
   async addToFavorites() {
     await this.topbarAddToFavorites.click();
+  }
+
+  async removeFromFavorites() {
+    await this.topbarRemoveFromFavorites.click();
   }
 
   async clearInputBar() {
