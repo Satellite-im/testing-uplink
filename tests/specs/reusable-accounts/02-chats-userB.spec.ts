@@ -48,14 +48,13 @@ describe("Two users at the same time - Chat User B", async () => {
 
   it("Validate Chat Message received displays timestamp and user who sent it", async () => {
     // Type a long message and do not send it
-    await ChatScreen.typeMessageOnInput(
-      "this is a looooong message that will not be send"
-    );
+    const paragraph = faker.lorem.words(15);
+    await ChatScreen.typeMessageOnInput(paragraph);
     await ChatScreen.clearInputBar();
 
     //Timestamp should be displayed when you send a message
     const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
-    expect(timeAgo).toContain("now");
+    expect(timeAgo).toContain("seconds ago");
     expect(timeAgo).toContain("ChatUserA");
 
     // Pause for 30 seconds before finishing execution

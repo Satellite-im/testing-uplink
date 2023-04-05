@@ -129,7 +129,7 @@ export default async function friends() {
     await expect(blockedFriendsList.includes(friendName)).toEqual(true);
   });
 
-  it("Validate tooltips for Deny Request/Unfriend buttons are displayed", async () => {
+  it("Validate tooltip for Deny Request button is displayed", async () => {
     // Go to Pending Requests Screen
     await FriendsScreen.goToPendingFriendsList();
 
@@ -141,7 +141,9 @@ export default async function friends() {
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(friendName);
     expect(denyTooltip).toBeDisplayed();
     expect(denyTooltipText).toHaveTextContaining("Deny Request");
+  });
 
+  it("Validate tooltip for Unfriend button is displayed", async () => {
     // Validate Unfriend button tooltip from Outgoing List
     const outgoingFriendName = await FriendsScreen.getUserFromOutgoingList();
     const unfriendTooltip = await FriendsScreen.getUserTooltip(
