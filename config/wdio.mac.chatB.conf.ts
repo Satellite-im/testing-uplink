@@ -37,6 +37,9 @@ config.mochaOpts = {
   timeout: 300000, // 5min
 },
 
+// Change spec file retries to zero
+config.specFileRetries = 0;
+
 config.afterTest = async function (test, describe, { error }) {
   if (error) {
     let imageFile = await driver.takeScreenshot();

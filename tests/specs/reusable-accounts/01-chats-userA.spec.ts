@@ -36,8 +36,10 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    expect(timeAgo).toContain("now");
-    expect(timeAgo).toContain("ChatUserA");
+    expect(timeAgo).toHaveTextContaining(
+      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    );
+    expect(timeAgo).toHaveTextContaining("ChatUserA");
   });
 
   it("Validate Chat Message sent contents", async () => {
