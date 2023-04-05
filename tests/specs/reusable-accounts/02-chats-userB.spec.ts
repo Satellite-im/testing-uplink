@@ -55,7 +55,7 @@ describe("Two users at the same time - Chat User B", async () => {
 
     //Timestamp should be displayed when you send a message
     const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
-    expect(timeAgo).toContain("ago");
+    expect(timeAgo).toContain("now");
     expect(timeAgo).toContain("ChatUserA");
 
     // Pause for 30 seconds before finishing execution
