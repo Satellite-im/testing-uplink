@@ -58,6 +58,37 @@ describe("Two users at the same time - Chat User A", async () => {
     expect(onlineIndicator).toExist();
   });
 
+  it("Receive Reply - Validate reply message group reply and message replied", async () => {
+    // Validate message replied appears smaller above your reply
+    expect(await ChatScreen.chatMessageReply).toBeDisplayed();
+    expect(await ChatScreen.chatMessageReplyText).toHaveTextContaining(
+      "testing..."
+    );
+
+    // Validate reply message sent appears as last message
+    const textFromMessage = await ChatScreen.getLastMessageReceivedText();
+    expect(textFromMessage).toEqual("this is a reply");
+  });
+
+  it("Receive Reply - Validate reply message group contains timestamp", async () => {
+    //Timestamp from last message sent should be displayed
+    const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
+    expect(timeAgo).toHaveTextContaining(
+      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    );
+    expect(timeAgo).toHaveTextContaining("ChatUserB");
+  });
+
+  it("Receive Reply - Validate reply message group contains user image and online indicator", async () => {
+    //Your user image should be displayed next to the message
+    const userImage = await ChatScreen.getLastGroupWrapImage();
+    expect(userImage).toExist();
+
+    //Online indicator of your user should be displayed next to the image
+    const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
+    expect(onlineIndicator).toExist();
+  });
+
   it("Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
     await ChatScreen.hoverOnFavoritesButton();
@@ -103,8 +134,10 @@ describe("Two users at the same time - Chat User A", async () => {
     expect(await ChatScreen.topbarUserImage).toBeDisplayed();
     expect(await ChatScreen.topbarUserName).toHaveTextContaining("ChatUserB");
     expect(await ChatScreen.topbarIndicatorOnline).toBeDisplayed();
+  });
 
-    // At the end of testing, wait for 30 seconds before ending session
+  after(async () => {
+    // Pause for 30 seconds before finishing execution
     await browser.pause(30000);
   });
 });
