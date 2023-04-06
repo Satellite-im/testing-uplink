@@ -104,10 +104,12 @@ describe("Two users at the same time - Chat User A", async () => {
     expect(await ChatScreen.topbarIndicatorOnline).toBeDisplayed();
   });
 
-  it("Receive Reply - Validate reply message group reply and message replied", async () => {
+  it("Receive Reply - Validate reply message is received from remote user", async () => {
     // Wait until reply is received
     await ChatScreen.waitUntilReplyIsReceived();
+  });
 
+  it("Receive Reply - Validate reply message contents", async () => {
     // Validate message replied appears smaller above your reply
     const replyReceived = await ChatScreen.getLastReplyReceived();
     const replyReceivedText = await ChatScreen.getLastReplyReceivedText();
