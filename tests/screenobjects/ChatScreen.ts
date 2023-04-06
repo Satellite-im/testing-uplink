@@ -1,3 +1,4 @@
+import { rightClickOnMacOS, rightClickOnWindows } from "../helpers/commands";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -13,6 +14,7 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_GROUP_SENT: '[name="message-group"]',
   CHAT_MESSAGE_GROUP_WRAP: '[name="message-group-wrap"]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
+  CHAT_MESSAGE_REPLY_TEXT: "//Group/Text",
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
   CHAT_MESSAGE_TEXT_VALUE: "//Text",
   CHAT_MESSAGE_TIME_AGO: '[name="time-ago"]',
@@ -21,8 +23,17 @@ const SELECTORS_WINDOWS = {
   CHAT_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   CHAT_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   CHAT_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
+  CONTEXT_MENU: '[name="Context Menu"]',
+  CONTEXT_MENU_OPTION: '[name="Context Item"]',
   INPUT_GROUP: '[name="input-group"]',
   INPUT_TEXT: "//Edit",
+  REPLY_POPUP_CLOSE_BUTTON: "//Button[1]",
+  REPLY_POPUP_HEADER: "//Text[1]/Text",
+  REPLY_POPUP_INDICATOR_OFFLINE: '[name="indicator-offline"]',
+  REPLY_POPUP_INDICATOR_ONLINE: '[name="indicator-online"]',
+  REPLY_POPUP_TEXT_TO_REPLY: "//Text[2]",
+  REPLY_POPUP_USER_IMAGE: '[name="User Image"]',
+  REPLY_POPUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   SEND_MESSAGE_BUTTON: '[name="send-message-button"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
@@ -46,6 +57,8 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_GROUP_SENT: "~message-group",
   CHAT_MESSAGE_GROUP_WRAP: "~message-group-wrap",
   CHAT_MESSAGE_REPLY: "~message-reply",
+  CHAT_MESSAGE_REPLY_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
   CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TIME_AGO: "~time-ago",
@@ -54,8 +67,18 @@ const SELECTORS_MACOS = {
   CHAT_USER_IMAGE_WRAP: "~user-image-wrap",
   CHAT_USER_INDICATOR_OFFLINE: "~indicator-offline",
   CHAT_USER_INDICATOR_ONLINE: "~indicator-online",
+  CONTEXT_MENU: "~Context Menu",
+  CONTEXT_MENU_OPTION: "~Context Item",
   INPUT_GROUP: "~input-group",
   INPUT_TEXT: "-ios class chain:**/XCUIElementTypeTextView",
+  REPLY_POPUP_CLOSE_BUTTON: "-ios class chain:**/XCUIElementTypeButton[1]",
+  REPLY_POPUP_HEADER:
+    "-ios class chain:**/XCUIElementTypeStaticText[1]/XCUIElementTypeStaticText",
+  REPLY_POPUP_INDICATOR_OFFLINE: "~indicator-offline",
+  REPLY_POPUP_INDICATOR_ONLINE: "~indicator-online",
+  REPLY_POPUP_TEXT_TO_REPLY: "-ios class chain:**/XCUIElementTypeStaticText[2]",
+  REPLY_POPUP_USER_IMAGE: "~User Image",
+  REPLY_POPUP_USER_IMAGE_WRAP: "~user-image-wrap",
   SEND_MESSAGE_BUTTON: "~send-message-button",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
@@ -104,7 +127,11 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get chatMessageReply() {
-    return $(SELECTORS.MESSAGE_GROUP).$(SELECTORS.CHAT_MESSAGE_REPLY);
+    return $(SELECTORS.CHAT_MESSAGE_REPLY);
+  }
+
+  get chatMessageReplyText() {
+    return $(SELECTORS.CHAT_MESSAGE_REPLY).$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
   }
 
   get chatMessageTextValue() {
@@ -149,6 +176,14 @@ class ChatScreen extends UplinkMainScreen {
       .$(SELECTORS.CHAT_USER_INDICATOR_ONLINE);
   }
 
+  get contextMenu() {
+    return $(SELECTORS.CONTEXT_MENU);
+  }
+
+  get contextMenuOption() {
+    return $$(SELECTORS.CONTEXT_MENU_OPTION);
+  }
+
   get inputGroup() {
     return $(SELECTORS.INPUT_GROUP);
   }
@@ -157,6 +192,28 @@ class ChatScreen extends UplinkMainScreen {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.INPUT_GROUP)
       .$(SELECTORS.INPUT_TEXT);
+  }
+
+  get replyPopUpCloseButton() {
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+  }
+  get replyPopUpHeader() {
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+  }
+  get replyPopUpIndicatorOffline() {
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+  }
+  get replyPopUpIndicatorOnline() {
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+  }
+  get replyPopUpTextToReply() {
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+  }
+  get replyPopUpUserImage() {
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+  }
+  get replyPopUpUserImageWrap() {
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
   }
 
   get sendMessageButton() {
@@ -261,7 +318,7 @@ class ChatScreen extends UplinkMainScreen {
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  // Input Bar Methods
+  // Top Bar Methods
 
   async addToFavorites() {
     await this.topbarAddToFavorites.click();
@@ -270,6 +327,8 @@ class ChatScreen extends UplinkMainScreen {
   async removeFromFavorites() {
     await this.topbarRemoveFromFavorites.click();
   }
+
+  // Input Bar Methods
 
   async clearInputBar() {
     await (await this.inputText).clearValue();
@@ -351,6 +410,23 @@ class ChatScreen extends UplinkMainScreen {
     return timeAgoText;
   }
 
+  async getLastReplyReceived() {
+    const lastGroupReceived = await this.getLastReceivedGroup();
+    const lastReplyReceived = await lastGroupReceived.$(
+      SELECTORS.CHAT_MESSAGE_REPLY
+    );
+    return lastReplyReceived;
+  }
+
+  async getLastReplyReceivedText() {
+    const lastGroupReceived = await this.getLastReceivedGroup();
+    const lastReplyReceivedText = await lastGroupReceived
+      .$(SELECTORS.CHAT_MESSAGE_REPLY)
+      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
+      .getText();
+    return lastReplyReceivedText;
+  }
+
   // Messages Sent Methods
 
   async getLastSentGroup() {
@@ -386,6 +462,38 @@ class ChatScreen extends UplinkMainScreen {
     return timeAgoText;
   }
 
+  async getLastReplySent() {
+    const lastGroupSent = await this.getLastSentGroup();
+    const lastReplySent = await lastGroupSent.$(SELECTORS.CHAT_MESSAGE_REPLY);
+    return lastReplySent;
+  }
+
+  async getLastReplySentText() {
+    const lastGroupSent = await this.getLastSentGroup();
+    const lastReplySentText = await lastGroupSent
+      .$(SELECTORS.CHAT_MESSAGE_REPLY)
+      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
+      .getText();
+    return lastReplySentText;
+  }
+
+  // Context Menu Functions
+
+  async openContextMenuOnReceivedMessage() {
+    const messageToClick = await this.getLastMessageReceivedLocator();
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(messageToClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(messageToClick);
+    }
+    await (await this.contextMenu).waitForDisplayed();
+  }
+
+  async selectContextOption(option: number) {
+    await this.contextMenuOption[option].click();
+  }
+
   // Hovering methods
 
   async hoverOnFavoritesButton() {
@@ -402,6 +510,16 @@ class ChatScreen extends UplinkMainScreen {
 
   async typeMessageOnInput(text: string) {
     await (await this.inputText).setValue(text);
+  }
+
+  // Reply Modal methods
+
+  async closeReplyModal() {
+    await this.replyPopUpCloseButton.click();
+  }
+
+  async waitForReplyModalToNotExist() {
+    (await this.replyPopUpCloseButton).waitForExist({ reverse: true });
   }
 }
 

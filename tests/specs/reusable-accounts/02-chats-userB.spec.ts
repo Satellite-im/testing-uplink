@@ -1,5 +1,4 @@
 import { loginWithTestUser } from "../../helpers/commands";
-import { faker } from "@faker-js/faker";
 import ChatScreen from "../../screenobjects/ChatScreen";
 import FriendsScreen from "../../screenobjects/FriendsScreen";
 import WelcomeScreen from "../../screenobjects/WelcomeScreen";
@@ -53,7 +52,70 @@ describe("Two users at the same time - Chat User B", async () => {
       /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     expect(timeAgo).toHaveTextContaining("ChatUserA");
+  });
 
+  it("Reply popup - Validate contents and close it", async () => {
+    await ChatScreen.openContextMenuOnReceivedMessage();
+    await ChatScreen.selectContextOption(0);
+
+    // Validate contents of Reply Pop Up
+    expect(await ChatScreen.replyPopUpCloseButton).toBeDisplayed();
+    expect(await ChatScreen.replyPopUpHeader).toHaveTextContaining(
+      "REPLYING TO:"
+    );
+    expect(await ChatScreen.replyPopUpIndicatorOnline).toBeDisplayed();
+    expect(await ChatScreen.replyPopUpTextToReply).toHaveTextContaining(
+      "testing..."
+    );
+    expect(await ChatScreen.replyPopUpUserImage).toBeDisplayed();
+
+    await ChatScreen.closeReplyModal();
+    await ChatScreen.waitForReplyModalToNotExist();
+  });
+
+  it("Reply - Reply to a message", async () => {
+    await ChatScreen.openContextMenuOnReceivedMessage();
+    await ChatScreen.selectContextOption(0);
+
+    // Type a reply and sent it
+    await (await ChatScreen.replyPopUpHeader).waitForDisplayed();
+    await ChatScreen.typeMessageOnInput("this is a reply");
+    await ChatScreen.clickOnSendMessage();
+    await ChatScreen.waitForReplyModalToNotExist();
+  });
+
+  it("Send Reply - Validate reply message group reply and message replied", async () => {
+    // Validate message replied appears smaller above your reply
+    const replySent = await ChatScreen.getLastReplySent();
+    const replySentText = await ChatScreen.getLastReplySentText();
+    expect(replySent).toBeDisplayed();
+    expect(replySentText).toHaveTextContaining("testing...");
+
+    // Validate reply message sent appears as last message
+    const textFromMessage = await ChatScreen.getLastMessageSentText();
+    expect(textFromMessage).toEqual("this is a reply");
+  });
+
+  it("Send Reply - Validate reply message group contains timestamp", async () => {
+    //Timestamp from last message sent should be displayed
+    const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
+    expect(timeAgo).toHaveTextContaining(
+      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    );
+    expect(timeAgo).toHaveTextContaining("ChatUserB");
+  });
+
+  it("Send Reply - Validate reply message group contains user image and online indicator", async () => {
+    //Your user image should be displayed next to the message
+    const userImage = await ChatScreen.getLastGroupWrapImage();
+    expect(userImage).toExist();
+
+    //Online indicator of your user should be displayed next to the image
+    const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
+    expect(onlineIndicator).toExist();
+  });
+
+  after(async () => {
     // Pause for 30 seconds before finishing execution
     await browser.pause(30000);
   });
