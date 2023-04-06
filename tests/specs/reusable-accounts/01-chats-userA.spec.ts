@@ -1,5 +1,4 @@
 import { loginWithTestUser } from "../../helpers/commands";
-import { faker } from "@faker-js/faker";
 import ChatScreen from "../../screenobjects/ChatScreen";
 import FriendsScreen from "../../screenobjects/FriendsScreen";
 import WelcomeScreen from "../../screenobjects/WelcomeScreen";
@@ -58,37 +57,6 @@ describe("Two users at the same time - Chat User A", async () => {
     expect(onlineIndicator).toExist();
   });
 
-  it("Receive Reply - Validate reply message group reply and message replied", async () => {
-    // Validate message replied appears smaller above your reply
-    expect(await ChatScreen.chatMessageReply).toBeDisplayed();
-    expect(await ChatScreen.chatMessageReplyText).toHaveTextContaining(
-      "testing..."
-    );
-
-    // Validate reply message sent appears as last message
-    const textFromMessage = await ChatScreen.getLastMessageReceivedText();
-    expect(textFromMessage).toEqual("this is a reply");
-  });
-
-  it("Receive Reply - Validate reply message group contains timestamp", async () => {
-    //Timestamp from last message sent should be displayed
-    const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
-    expect(timeAgo).toHaveTextContaining(
-      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
-    );
-    expect(timeAgo).toHaveTextContaining("ChatUserB");
-  });
-
-  it("Receive Reply - Validate reply message group contains user image and online indicator", async () => {
-    //Your user image should be displayed next to the message
-    const userImage = await ChatScreen.getLastGroupWrapImage();
-    expect(userImage).toExist();
-
-    //Online indicator of your user should be displayed next to the image
-    const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
-    expect(onlineIndicator).toExist();
-  });
-
   it("Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
     await ChatScreen.hoverOnFavoritesButton();
@@ -134,6 +102,40 @@ describe("Two users at the same time - Chat User A", async () => {
     expect(await ChatScreen.topbarUserImage).toBeDisplayed();
     expect(await ChatScreen.topbarUserName).toHaveTextContaining("ChatUserB");
     expect(await ChatScreen.topbarIndicatorOnline).toBeDisplayed();
+  });
+
+  it("Receive Reply - Validate reply message group reply and message replied", async () => {
+    // Wait until reply is received
+    await ChatScreen.waitUntilReplyIsReceived();
+
+    // Validate message replied appears smaller above your reply
+    const replyReceived = await ChatScreen.getLastReplyReceived();
+    const replyReceivedText = await ChatScreen.getLastReplyReceivedText();
+    expect(replyReceived).toBeDisplayed();
+    expect(replyReceivedText).toHaveTextContaining("testing...");
+
+    // Validate reply message sent appears as last message
+    const textFromMessage = await ChatScreen.getLastMessageReceivedText();
+    expect(textFromMessage).toEqual("this is a reply");
+  });
+
+  it("Receive Reply - Validate reply message group contains timestamp", async () => {
+    //Timestamp from last message sent should be displayed
+    const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
+    expect(timeAgo).toHaveTextContaining(
+      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    );
+    expect(timeAgo).toHaveTextContaining("ChatUserB");
+  });
+
+  it("Receive Reply - Validate reply message group contains user image and online indicator", async () => {
+    //Your user image should be displayed next to the message
+    const userImage = await ChatScreen.getLastGroupWrapImage();
+    expect(userImage).toExist();
+
+    //Online indicator of your user should be displayed next to the image
+    const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
+    expect(onlineIndicator).toExist();
   });
 
   after(async () => {

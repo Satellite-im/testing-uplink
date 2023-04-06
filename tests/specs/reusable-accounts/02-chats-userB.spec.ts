@@ -1,5 +1,4 @@
 import { loginWithTestUser } from "../../helpers/commands";
-import { faker } from "@faker-js/faker";
 import ChatScreen from "../../screenobjects/ChatScreen";
 import FriendsScreen from "../../screenobjects/FriendsScreen";
 import WelcomeScreen from "../../screenobjects/WelcomeScreen";
@@ -71,7 +70,7 @@ describe("Two users at the same time - Chat User B", async () => {
     expect(await ChatScreen.replyPopUpUserImage).toBeDisplayed();
 
     await ChatScreen.closeReplyModal();
-    await ChatScreen.replyPopUpHeader.waitForDisplayed({ reverse: true });
+    await ChatScreen.waitForReplyModalToNotExist();
   });
 
   it("Reply - Reply to a message", async () => {
@@ -82,15 +81,15 @@ describe("Two users at the same time - Chat User B", async () => {
     await (await ChatScreen.replyPopUpHeader).waitForDisplayed();
     await ChatScreen.typeMessageOnInput("this is a reply");
     await ChatScreen.clickOnSendMessage();
-    await ChatScreen.replyPopUpHeader.waitForDisplayed({ reverse: true });
+    await ChatScreen.waitForReplyModalToNotExist();
   });
 
   it("Send Reply - Validate reply message group reply and message replied", async () => {
     // Validate message replied appears smaller above your reply
-    expect(await ChatScreen.chatMessageReply).toBeDisplayed();
-    expect(await ChatScreen.chatMessageReplyText).toHaveTextContaining(
-      "testing..."
-    );
+    const replySent = await ChatScreen.getLastReplySent();
+    const replySentText = await ChatScreen.getLastReplySentText();
+    expect(replySent).toBeDisplayed();
+    expect(replySentText).toHaveTextContaining("testing...");
 
     // Validate reply message sent appears as last message
     const textFromMessage = await ChatScreen.getLastMessageSentText();

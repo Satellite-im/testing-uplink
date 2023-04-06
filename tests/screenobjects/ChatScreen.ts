@@ -127,7 +127,7 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get chatMessageReply() {
-    return $(SELECTORS.MESSAGE_GROUP).$(SELECTORS.CHAT_MESSAGE_REPLY);
+    return $(SELECTORS.CHAT_MESSAGE_REPLY);
   }
 
   get chatMessageReplyText() {
@@ -318,7 +318,7 @@ class ChatScreen extends UplinkMainScreen {
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  // Input Bar Methods
+  // Top Bar Methods
 
   async addToFavorites() {
     await this.topbarAddToFavorites.click();
@@ -327,6 +327,8 @@ class ChatScreen extends UplinkMainScreen {
   async removeFromFavorites() {
     await this.topbarRemoveFromFavorites.click();
   }
+
+  // Input Bar Methods
 
   async clearInputBar() {
     await (await this.inputText).clearValue();
@@ -338,10 +340,6 @@ class ChatScreen extends UplinkMainScreen {
 
   async clickOnUploadFile() {
     await this.uploadButton.click();
-  }
-
-  async closeReplyModal() {
-    await this.replyPopUpCloseButton.click();
   }
 
   // Message Group Wraps Methods
@@ -412,19 +410,21 @@ class ChatScreen extends UplinkMainScreen {
     return timeAgoText;
   }
 
-  async openContextMenuOnReceivedMessage() {
-    const messageToClick = await this.getLastMessageReceivedLocator();
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
-      await rightClickOnMacOS(messageToClick);
-    } else if (currentDriver === "windows") {
-      await rightClickOnWindows(messageToClick);
-    }
-    await (await this.contextMenu).waitForDisplayed();
+  async getLastReplyReceived() {
+    const lastGroupReceived = await this.getLastReceivedGroup();
+    const lastReplyReceived = await lastGroupReceived.$(
+      SELECTORS.CHAT_MESSAGE_REPLY
+    );
+    return lastReplyReceived;
   }
 
-  async selectContextOption(option: number) {
-    await this.contextMenuOption[option].click();
+  async getLastReplyReceivedText() {
+    const lastGroupReceived = await this.getLastReceivedGroup();
+    const lastReplyReceivedText = await lastGroupReceived
+      .$(SELECTORS.CHAT_MESSAGE_REPLY)
+      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
+      .getText();
+    return lastReplyReceivedText;
   }
 
   // Messages Sent Methods
@@ -462,6 +462,38 @@ class ChatScreen extends UplinkMainScreen {
     return timeAgoText;
   }
 
+  async getLastReplySent() {
+    const lastGroupSent = await this.getLastSentGroup();
+    const lastReplySent = await lastGroupSent.$(SELECTORS.CHAT_MESSAGE_REPLY);
+    return lastReplySent;
+  }
+
+  async getLastReplySentText() {
+    const lastGroupSent = await this.getLastSentGroup();
+    const lastReplySentText = await lastGroupSent
+      .$(SELECTORS.CHAT_MESSAGE_REPLY)
+      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
+      .getText();
+    return lastReplySentText;
+  }
+
+  // Context Menu Functions
+
+  async openContextMenuOnReceivedMessage() {
+    const messageToClick = await this.getLastMessageReceivedLocator();
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(messageToClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(messageToClick);
+    }
+    await (await this.contextMenu).waitForDisplayed();
+  }
+
+  async selectContextOption(option: number) {
+    await this.contextMenuOption[option].click();
+  }
+
   // Hovering methods
 
   async hoverOnFavoritesButton() {
@@ -478,6 +510,20 @@ class ChatScreen extends UplinkMainScreen {
 
   async typeMessageOnInput(text: string) {
     await (await this.inputText).setValue(text);
+  }
+
+  // Reply Modal methods
+
+  async closeReplyModal() {
+    await this.replyPopUpCloseButton.click();
+  }
+
+  async waitForReplyModalToNotExist() {
+    (await this.replyPopUpCloseButton).waitForExist({ reverse: true });
+  }
+
+  async waitUntilReplyIsReceived() {
+    (await this.chatMessageReply).waitForExist({ timeout: 180000 });
   }
 }
 
