@@ -42,6 +42,10 @@ jobs:
         run: sudo spctl --master-disable
 
       - if: matrix.os == 'macos-latest'
+        name: Remove all notifications before starting tests 🖥️
+        run: killall NotificationCenter
+
+      - if: matrix.os == 'macos-latest'
         name: Copy DMG to Appium Apps Directory 💿
         working-directory: ./apps
         run: |
@@ -99,6 +103,7 @@ jobs:
         if: always()
         with:
           junit_files: "./test-report/*.xml"
+          job_summary: false
           compare_to_earlier_commit: false
           check_name: "UI Automated Test Results on ${{ matrix.os-name}}"
 
@@ -159,6 +164,9 @@ jobs:
 
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
+
+      - name: Remove all notifications before starting tests 🖥️
+        run: killall NotificationCenter
 
       - name: Copy DMG to Appium Apps Directory 💿
         working-directory: ./apps
