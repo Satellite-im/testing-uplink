@@ -521,10 +521,6 @@ class ChatScreen extends UplinkMainScreen {
   async waitForReplyModalToNotExist() {
     (await this.replyPopUpCloseButton).waitForExist({ reverse: true });
   }
-
-  async waitUntilReplyIsReceived() {
-    (await this.chatMessageReply).waitForExist({ timeout: 180000 });
-  }
 }
 
 export default new ChatScreen();

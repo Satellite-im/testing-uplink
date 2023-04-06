@@ -106,7 +106,9 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Receive Reply - Validate reply message is received from remote user", async () => {
     // Wait until reply is received
-    await ChatScreen.waitUntilReplyIsReceived();
+    await (
+      await ChatScreen.chatMessageReply
+    ).waitForDisplayed({ timeout: 180000 });
   });
 
   it("Receive Reply - Validate reply message contents", async () => {
