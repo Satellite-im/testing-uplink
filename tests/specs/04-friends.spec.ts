@@ -307,7 +307,7 @@ export default async function friends() {
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
     await FriendsScreen.openFriendContextMenu(friendName);
 
-    // Select last option "Favorites" from Context Menu
+    // Select last option "Block" from Context Menu
     await FriendsScreen.contextMenuOption[2].click();
 
     // Get current list of All friends and ensure that it does not include the blocked user
