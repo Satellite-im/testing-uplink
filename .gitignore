@@ -5,4 +5,3 @@ appium.log
 test-report/
 test-results/
 tests/fixtures/newname.jpg
-tests/fixtures/users/

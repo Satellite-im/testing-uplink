@@ -11,6 +11,7 @@ import settingsNotifications from "../specs/11-settings-notifications.spec";
 import settingsDeveloper from "../specs/12-settings-developer.spec";
 import settingsAccessibility from "../specs/13-settings-accessibility.spec";
 import settingsAbout from "../specs/14-settings-about.spec";
+import createReusableAccounts from "../specs/15-create-reusable-accounts.spec";
 import { deleteCache } from "../helpers/commands";
 
 describe("Uplink UI Automated Tests", function () {
@@ -27,6 +28,10 @@ describe("Uplink UI Automated Tests", function () {
   describe("Settings Notifications Tests", settingsNotifications.bind(this));
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Settings About Tests", settingsAbout.bind(this));
+  describe(
+    "Create Reusable Accounts on MacOS",
+    createReusableAccounts.bind(this)
+  );
 
   after(function () {
     deleteCache();

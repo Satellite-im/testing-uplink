@@ -70,13 +70,7 @@ export async function resetAndLoginWithCache(user: string) {
   await loginWithTestUser();
 }
 
-export async function saveTestKeys(username: string) {
-  // Read user data and store variable with DID Key from JSON file
-  const source = "./tests/fixtures/users/" + username + "/state.json";
-  const jsonFile = readFileSync(source);
-  const jsonFileParsed = JSON.parse(jsonFile);
-  const didkey = jsonFileParsed.account.identity.identity.did_key;
-
+export async function saveTestKeys(username: string, didkey: string) {
   // Save JSON file with keys
   const target = "./tests/fixtures/users/" + username + ".json";
   const userData = { username: username, key: didkey };
@@ -87,6 +81,7 @@ export async function saveTestKeys(username: string) {
     console.log("An error has occurred ", error);
   }
 }
+
 export async function getCurrentUsername() {
   // Read user data from txt file
   const source = "./tests/fixtures/users/username.txt";
