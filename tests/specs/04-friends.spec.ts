@@ -262,31 +262,32 @@ export default async function friends() {
     await FriendsScreen.waitForIsShown(true);
   });
 
-  // Skipped since it will be modified to use real users instead of mock users
-  xit("Context Menu - Call to Friend", async () => {
+  it("Context Menu - Add Friend to Favorites", async () => {
     // Open Context Menu from first user listed in Friends List
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
     await FriendsScreen.openFriendContextMenu(friendName);
 
-    // Select second option "Call" from Context Menu
+    // Select second option "Favorites" from Context Menu
     await FriendsScreen.contextMenuOption[1].click();
-  });
-
-  // Test skipped because it fails on CI - Needs research
-  xit("Context Menu - Add Friend to Favorites", async () => {
-    // Open Context Menu from first user listed in Friends List
-    const friendName = await FriendsScreen.getUserFromAllFriendsList();
-    await FriendsScreen.openFriendContextMenu(friendName);
-
-    // Select third option "Favorites" from Context Menu
-    await FriendsScreen.contextMenuOption[2].click();
 
     // Validate that username and user image bubble is now displayed on Favorites Sidebar
-    const favoritedUser = await FriendsScreen.getAbbreviatedFavUser(friendName);
-    const currentFavorites = await FriendsScreen.getUsersFromFavorites();
-    const favoriteBubble = await FriendsScreen.favoritesUserImage;
-    await expect(currentFavorites.includes(favoritedUser)).toEqual(true);
-    await expect(favoriteBubble).toBeDisplayed();
+    await (await FriendsScreen.favorites).waitForDisplayed();
+    // Favorites Sidebar should be displayed
+    expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
+    expect(await ChatScreen.favoritesUserIndicatorOffline).toBeDisplayed();
+    expect(await ChatScreen.favoritesUserName).toHaveTextContaining("TEST...");
+  });
+
+  it("Context Menu - Remove Friend from Favorites", async () => {
+    // Open Context Menu from first user listed in Friends List
+    const friendName = await FriendsScreen.getUserFromAllFriendsList();
+    await FriendsScreen.openFriendContextMenu(friendName);
+
+    // Select second option "Remove from Favorites" from Context Menu
+    await FriendsScreen.contextMenuOption[1].click();
+
+    // Validate that favorites is hidden now
+    await (await FriendsScreen.favorites).waitForDisplayed({ reverse: true });
   });
 
   it("Context Menu - Remove Friend", async () => {
@@ -295,7 +296,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select fourth option "Remove" from Context Menu
-    await FriendsScreen.contextMenuOption[3].click();
+    await FriendsScreen.contextMenuOption[2].click();
 
     // Get current list of All friends and ensure user was removed from list
     const allFriendsList = await FriendsScreen.getAllFriendsList();
@@ -308,7 +309,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select last option "Favorites" from Context Menu
-    await FriendsScreen.contextMenuOption[3].click();
+    await FriendsScreen.contextMenuOption[2].click();
 
     // Get current list of All friends and ensure that it does not include the blocked user
     const allFriendsList = await FriendsScreen.getAllFriendsList();
