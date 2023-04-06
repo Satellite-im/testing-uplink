@@ -91,6 +91,13 @@ jobs:
       - name: Run WebdriverIO tests 🧪
         run: npm run ${{ matrix.npm-test }}
 
+      - if: matrix.os == 'macos-latest'
+        name: Upload accounts created during test run for MacOS
+        uses: actions/upload-artifact@v3
+        with:
+          name: appium-users
+          path: ./tests/fixtures/users
+
       - name: Publish Test Results for ${{ matrix.os-name }}
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
@@ -131,6 +138,12 @@ jobs:
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
+
+      - name: Download the appium users 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: appium-users
+          path: ./tests/fixtures/users
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -191,3 +204,8 @@ jobs:
         with:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
+
+      - name: Delete temporary artifacts of users created
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: appium-users
