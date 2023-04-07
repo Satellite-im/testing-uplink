@@ -38,7 +38,7 @@ export default async function settingsGeneral() {
       await SettingsGeneralScreen.fontScalingHeader
     ).toHaveTextContaining("FONT SCALING");
     await expect(
-      await SettingsGeneralScreen.fontScalingValue
+      await SettingsGeneralScreen.fontScalingDescription
     ).toHaveTextContaining("Scale the font size up or down to your liking.");
 
     // APP LANGUAGE
