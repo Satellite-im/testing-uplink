@@ -18,6 +18,10 @@ const SELECTORS_WINDOWS = {
   SETTINGS_INFO_DESCRIPTION: "//Text[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
   SETTINGS_SECTION: '[name="settings-section"]',
+  SLIDE_SELECTOR: '[name="slide-selector"]',
+  SLIDE_SELECTOR_BUTTON_MINUS: "//Button[1]",
+  SLIDE_SELECTOR_BUTTON_PLUS: "//Button[2]",
+  SLIDE_SELECTOR_VALUE: "//Text",
   SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 
@@ -32,6 +36,10 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
+  SLIDE_SELECTOR: "~slide-selector",
+  SLIDE_SELECTOR_BUTTON_MINUS: "-ios class chain:**/XCUIElementTypeButton[1]",
+  SLIDE_SELECTOR_BUTTON_PLUS: "-ios class chain:**/XCUIElementTypeButton[2]",
+  SLIDE_SELECTOR_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   SWITCH_SLIDER: "~Switch Slider",
 };
 
@@ -60,10 +68,6 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
     return $$(SELECTORS.SETTINGS_SECTION)[4].$(SELECTORS.DROPDOWN_MENU);
   }
 
-  get clearThemeButton() {
-    return $(SELECTORS.CLEAR_THEME_BUTTON);
-  }
-
   get fontDescription() {
     return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
@@ -80,20 +84,54 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
     return $$(SELECTORS.SETTINGS_SECTION)[2].$(SELECTORS.DROPDOWN_MENU);
   }
 
-  get settingsGeneral() {
-    return $(SELECTORS.SETTINGS_GENERAL);
-  }
-
-  get resetThemeDescription() {
+  get fontScalingDescription() {
     return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get resetThemeHeader() {
+  get fontScalingHeader() {
     return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get fontScalingButtonMinus() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[3]
+      .$(SELECTORS.SLIDE_SELECTOR)
+      .$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
+  }
+
+  get fontScalingButtonPlus() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[3]
+      .$(SELECTORS.SLIDE_SELECTOR)
+      .$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
+  }
+
+  get fontScalingValue() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[3]
+      .$(SELECTORS.SLIDE_SELECTOR)
+      .$(SELECTORS.SLIDE_SELECTOR_VALUE);
+  }
+
+  get settingsGeneral() {
+    return $(SELECTORS.SETTINGS_GENERAL);
+  }
+
+  get slideSelector() {
+    return $(SELECTORS.SLIDE_SELECTOR);
+  }
+
+  get slideSelectorButtonMinus() {
+    return $(SELECTORS.SLIDE_SELECTOR).$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
+  }
+
+  get slideSelectorButtonPlus() {
+    return $(SELECTORS.SLIDE_SELECTOR).$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
+  }
+
+  get slideSelectorValue() {
+    return $(SELECTORS.SLIDE_SELECTOR).$(SELECTORS.SLIDE_SELECTOR_VALUE);
   }
 
   get themeDescription() {
@@ -142,10 +180,6 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
     await this.fontDropdown.click();
   }
 
-  async clickOnResetTheme() {
-    await this.clearThemeButton.click();
-  }
-
   async clickOnThemeDropdown() {
     await this.themeDropdown.click();
   }
@@ -156,6 +190,18 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
     } else if ((await this.getCurrentDriver()) === "mac2") {
       await clickOnSwitchMacOS(await this.uplinkOverlayCheckbox);
     }
+  }
+
+  async decreaseFontScale() {
+    await this.fontScalingButtonMinus.click();
+  }
+
+  async getFontScaleValue() {
+    await this.fontScalingValue.getText();
+  }
+
+  async increaseFontScale() {
+    await this.fontScalingButtonPlus.click();
   }
 
   async selectAppLanguage(language: string) {

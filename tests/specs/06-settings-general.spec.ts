@@ -7,7 +7,7 @@ export default async function settingsGeneral() {
     await SettingsProfileScreen.goToGeneralSettings();
     await SettingsGeneralScreen.waitForIsShown(true);
 
-    // Start validations
+    // UPLINK OVERLAY
     await expect(
       await SettingsGeneralScreen.uplinkOverlayHeader
     ).toHaveTextContaining("UPLINK OVERLAY");
@@ -16,24 +16,32 @@ export default async function settingsGeneral() {
     ).toHaveTextContaining(
       "Enable the on screen Uplink overlay. This will show active call information, as well as allow you to add custom widgets to your screen."
     );
+
+    // THEME
     await expect(await SettingsGeneralScreen.themeHeader).toHaveTextContaining(
       "THEME"
     );
     await expect(
       await SettingsGeneralScreen.themeDescription
     ).toHaveTextContaining("Change the theme of the app.");
+
+    // FONT
     await expect(await SettingsGeneralScreen.fontHeader).toHaveTextContaining(
       "FONT"
     );
     await expect(
       await SettingsGeneralScreen.fontDescription
     ).toHaveTextContaining("Change the font of the app.");
+
+    // FONT SCALING
     await expect(
-      await SettingsGeneralScreen.resetThemeHeader
-    ).toHaveTextContaining("RESET THEME");
+      await SettingsGeneralScreen.fontScalingHeader
+    ).toHaveTextContaining("FONT SCALING");
     await expect(
-      await SettingsGeneralScreen.resetThemeDescription
-    ).toHaveTextContaining("Reset the theme to the default.");
+      await SettingsGeneralScreen.fontScalingValue
+    ).toHaveTextContaining("Scale the font size up or down to your liking.");
+
+    // APP LANGUAGE
     await expect(
       await SettingsGeneralScreen.appLanguageHeader
     ).toHaveTextContaining("APP LANGUAGE");
@@ -70,11 +78,6 @@ export default async function settingsGeneral() {
   xit("Settings General - Change font dropdown selection", async () => {
     await SettingsGeneralScreen.clickOnFontDropdown();
     await SettingsGeneralScreen.selectFont("Default");
-  });
-
-  // Skipped for now since button does not perform any action
-  xit("Settings General - Clear theme button", async () => {
-    await SettingsGeneralScreen.clickOnResetTheme();
   });
 
   it("Settings General - Change language", async () => {
