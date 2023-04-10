@@ -17,6 +17,14 @@ export default async function settingsGeneral() {
       "Enable the on screen Uplink overlay. This will show active call information, as well as allow you to add custom widgets to your screen."
     );
 
+    // APP LANGUAGE
+    await expect(
+      await SettingsGeneralScreen.appLanguageHeader
+    ).toHaveTextContaining("APP LANGUAGE");
+    await expect(await SettingsGeneralScreen.appLanguageDescription).toHaveText(
+      "Change Language"
+    );
+
     // THEME
     await expect(await SettingsGeneralScreen.themeHeader).toHaveTextContaining(
       "THEME"
@@ -40,14 +48,6 @@ export default async function settingsGeneral() {
     await expect(
       await SettingsGeneralScreen.fontScalingDescription
     ).toHaveTextContaining("Scale the font size up or down to your liking.");
-
-    // APP LANGUAGE
-    await expect(
-      await SettingsGeneralScreen.appLanguageHeader
-    ).toHaveTextContaining("APP LANGUAGE");
-    await expect(await SettingsGeneralScreen.appLanguageDescription).toHaveText(
-      "Change Language"
-    );
   });
 
   it("Settings General - Toggle switches to enabled", async () => {
