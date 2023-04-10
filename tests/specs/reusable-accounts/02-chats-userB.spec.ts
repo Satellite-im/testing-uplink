@@ -115,6 +115,22 @@ describe("Two users at the same time - Chat User B", async () => {
     expect(onlineIndicator).toExist();
   });
 
+  it("Validate that second message was edited and third message was deleted", async () => {
+    await ChatScreen.waitForReceivingMessage("message two");
+    await ChatScreen.waitForReceivingMessage("message three");
+
+    // Reply to user before validating that prior messages were edited/deleted
+    await ChatScreen.typeMessageOnInput("Got your messages!");
+    await ChatScreen.clickOnSendMessage();
+  });
+
+  it("Validate that second message was edited and third message was deleted", async () => {
+    await ChatScreen.waitForReceivingMessage("message edited...");
+    const numberOfMessagesInGroup =
+      await ChatScreen.getNumberOfMessagesInLastReceivedGroup();
+    expect(numberOfMessagesInGroup).toEqual(1);
+  });
+
   after(async () => {
     // Pause for 30 seconds before finishing execution
     await browser.pause(30000);
