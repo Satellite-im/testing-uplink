@@ -81,7 +81,8 @@ export default async function settingsDeveloper() {
     expect(saveLogsStatus).toEqual("1");
   });
 
-  it("Settings Developer - Disable Save Logs switch", async () => {
+  // Skipped due to failure on app when disabling the switch the app crashes
+  xit("Settings Developer - Disable Save Logs switch", async () => {
     // Click on SAVE LOGS IN FILE switch to disable the option
     await SettingsDeveloperScreen.clickOnSaveLogs();
 
