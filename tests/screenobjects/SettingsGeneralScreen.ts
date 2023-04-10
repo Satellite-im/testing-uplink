@@ -53,63 +53,63 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get appLanguageDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get appLanguageHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get appLanguageDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(SELECTORS.DROPDOWN_MENU);
+    return $$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.DROPDOWN_MENU);
   }
 
   get fontDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(SELECTORS.DROPDOWN_MENU);
+    return $$(SELECTORS.SETTINGS_SECTION)[3].$(SELECTORS.DROPDOWN_MENU);
   }
 
   get fontScalingDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontScalingHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontScalingButtonMinus() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[3]
+    return $$(SELECTORS.SETTINGS_CONTROL)[4]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
   }
 
   get fontScalingButtonPlus() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[3]
+    return $$(SELECTORS.SETTINGS_CONTROL)[4]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
   }
 
   get fontScalingValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[3]
+    return $$(SELECTORS.SETTINGS_CONTROL)[4]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE);
   }
@@ -135,17 +135,17 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get themeDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get themeDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.DROPDOWN_MENU);
+    return $$(SELECTORS.SETTINGS_SECTION)[2].$(SELECTORS.DROPDOWN_MENU);
   }
 
   get themeHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -206,31 +206,31 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
 
   async selectAppLanguage(language: string) {
     if ((await this.getCurrentDriver()) === "mac2") {
-      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[2].addValue(
+      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[0].addValue(
         language + "\n"
       );
     } else if ((await this.getCurrentDriver()) === "windows") {
-      await $$('[name="settings-control"]')[2].addValue(language + "\uE007");
+      await $$('[name="settings-control"]')[0].addValue(language + "\uE007");
     }
   }
 
   async selectFont(font: string) {
     if ((await this.getCurrentDriver()) === "mac2") {
-      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[1].addValue(
+      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[2].addValue(
         font + "\n"
       );
     } else if ((await this.getCurrentDriver()) === "windows") {
-      await $$('[name="settings-control"]')[1].addValue(font + "\uE007");
+      await $$('[name="settings-control"]')[2].addValue(font + "\uE007");
     }
   }
 
   async selectTheme(theme: string) {
     if ((await this.getCurrentDriver()) === "mac2") {
-      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[0].addValue(
+      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[1].addValue(
         theme + "\n"
       );
     } else if ((await this.getCurrentDriver()) === "windows") {
-      await $$('[name="settings-control"]')[0].addValue(theme + "\uE007");
+      await $$('[name="settings-control"]')[1].addValue(theme + "\uE007");
     }
   }
 }
