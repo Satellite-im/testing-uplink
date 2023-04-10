@@ -23,7 +23,7 @@ export default async function settingsExtensions() {
     expect(
       await SettingsExtensionsScreen.installedAlertText
     ).toHaveTextContaining(
-      "Extensions are compiled and downloaded from our server(s). For added security you can compile extensions from source and place in the `extensions` folder."
+      "Extensions are pre-compiled on external hardware. For added security you can compile extensions from source and place in the `extensions` folder."
     );
     expect(
       await SettingsExtensionsScreen.extensionsSearchHeader
