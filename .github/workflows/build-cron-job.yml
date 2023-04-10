@@ -59,6 +59,10 @@ jobs:
         with:
           repo-token: ${{env.GITHUB_TOKEN}}
 
+      - name: Patch Makefile to remove --production-mode flag 🌐
+        run: |
+          perl -i -pe 's/--production-mode//g' Makefile
+
       - name: Run cargo update 🌐
         run: cargo update
 
