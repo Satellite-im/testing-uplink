@@ -1,6 +1,7 @@
 import createAccount from "../specs/01-create-account.spec";
 import chats from "../specs/02-chats.spec";
 import files from "../specs/03-files.spec";
+import friends from "../specs/04-friends.spec";
 import settingsProfile from "../specs/05-settings-profile.spec";
 import settingsGeneral from "../specs/06-settings-general.spec";
 import settingsPrivacy from "../specs/07-settings-privacy.spec";
@@ -27,6 +28,7 @@ describe("Uplink UI Automated Tests", function () {
   describe("Settings Notifications Tests", settingsNotifications.bind(this));
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Settings About Tests", settingsAbout.bind(this));
+  describe("Friends Screen Tests", friends.bind(this));
 
   after(function () {
     deleteCache();
