@@ -31,7 +31,7 @@ jobs:
               C:\Users\runneradmin\.cargo\registry\cache\
               C:\Users\runneradmin\.cargo\git\db\
               target\
-            build-instruction: cargo build --release
+            build-instruction: cargo build --package uplink -F production_mode
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout testing directory 🔖
