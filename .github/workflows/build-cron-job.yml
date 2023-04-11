@@ -23,7 +23,7 @@ jobs:
               ~/.cargo/registry/cache/
               ~/.cargo/git/db/
               target/
-            build-instruction: make app
+            build-instruction: make dmg
           - os: windows-latest
             cargo-path: |
               C:\Users\runneradmin\.cargo\bin\
