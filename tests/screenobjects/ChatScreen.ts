@@ -342,6 +342,15 @@ class ChatScreen extends UplinkMainScreen {
     await this.uploadButton.click();
   }
 
+  async typeOnEditMessageInput(editedMessage: string) {
+    const messageLocator = await this.getLastMessageSentLocator();
+    const messageEditableInput = await messageLocator.$(SELECTORS.INPUT_TEXT);
+    const currentDriver = await this.getCurrentDriver();
+    let enterValue;
+    currentDriver === "windows" ? (enterValue = "\uE007") : (enterValue = "\n");
+    await messageEditableInput.setValue(editedMessage + enterValue);
+  }
+
   // Message Group Wraps Methods
 
   async getLastGroupWrap() {
@@ -384,6 +393,12 @@ class ChatScreen extends UplinkMainScreen {
     return lastGroupLocator;
   }
 
+  async getNumberOfMessagesInLastReceivedGroup() {
+    const lastReceivedGroup = await this.getLastReceivedGroup();
+    const messagesInGroup = await lastReceivedGroup.$$(SELECTORS.CHAT_MESSAGE);
+    return messagesInGroup.length;
+  }
+
   async getLastMessageReceivedLocator() {
     const lastReceivedGroup = await this.getLastReceivedGroup();
     const messagesInGroup = await lastReceivedGroup.$$(SELECTORS.CHAT_MESSAGE);
@@ -398,6 +413,14 @@ class ChatScreen extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE)
       .getText();
+    return lastMessageText;
+  }
+
+  async getLastMessageReceivedTextLocator() {
+    const lastMessage = await this.getLastMessageReceivedLocator();
+    const lastMessageText = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return lastMessageText;
   }
 
@@ -425,6 +448,22 @@ class ChatScreen extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
       .getText();
     return lastReplyReceivedText;
+  }
+
+  async waitForReceivingMessage(
+    expectedMessage: string,
+    timeout: number = 30000
+  ) {
+    // Get locator of message
+    const lastMessageText = await this.getLastMessageReceivedTextLocator();
+
+    // Wait until text from last message is equal to expected message
+    await lastMessageText.waitUntil(
+      async function () {
+        return (await lastMessageText.getText()) === expectedMessage;
+      },
+      { timeout: timeout }
+    );
   }
 
   // Messages Sent Methods
@@ -481,6 +520,17 @@ class ChatScreen extends UplinkMainScreen {
 
   async openContextMenuOnReceivedMessage() {
     const messageToClick = await this.getLastMessageReceivedLocator();
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(messageToClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(messageToClick);
+    }
+    await (await this.contextMenu).waitForDisplayed();
+  }
+
+  async openContextMenuOnSentMessage() {
+    const messageToClick = await this.getLastMessageSentLocator();
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
       await rightClickOnMacOS(messageToClick);

@@ -64,7 +64,7 @@ export const config: WebdriverIO.Config = {
   //
   // If you only want to run your tests until a specific amount of tests have failed use
   // bail (default is 0 - don't bail, run all tests).
-  bail: 1,
+  bail: 0,
   // Set a base URL in order to shorten url command calls. If your `url` parameter starts
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
@@ -119,7 +119,7 @@ export const config: WebdriverIO.Config = {
   ], ['junit', {
     outputDir: './test-report/',
     outputFileFormat: function (options) {
-      return `test-results-${options.capabilities.platformName}-${new Date().getTime()}.xml`;
+      return `test-results-${options.capabilities.platformName}-${options.cid}.xml`;
     }
 }]],
   // Options to be passed to Mocha.

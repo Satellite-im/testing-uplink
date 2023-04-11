@@ -115,6 +115,18 @@ describe("Two users at the same time - Chat User B", async () => {
     expect(onlineIndicator).toExist();
   });
 
+  it("Validate that second message was edited", async () => {
+    // Validate that last message is "message edited..."
+    await ChatScreen.waitForReceivingMessage("message edited...", 180000);
+  });
+
+  it("Validate that only deleted message is no longer in conversation", async () => {
+    // Ensure that last received group only contains one message, the edited one
+    const numberOfMessagesInGroup =
+      await ChatScreen.getNumberOfMessagesInLastReceivedGroup();
+    expect(numberOfMessagesInGroup).toEqual(1);
+  });
+
   after(async () => {
     // Pause for 30 seconds before finishing execution
     await browser.pause(30000);

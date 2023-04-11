@@ -142,6 +142,36 @@ describe("Two users at the same time - Chat User A", async () => {
     expect(onlineIndicator).toExist();
   });
 
+  it("Send two more messages to Chat User B", async () => {
+    // Send two messages to Chat User B
+    await ChatScreen.typeMessageOnInput("message two");
+    await ChatScreen.clickOnSendMessage();
+
+    await ChatScreen.typeMessageOnInput("message three");
+    await ChatScreen.clickOnSendMessage();
+  });
+
+  it("Context Menu - Delete Message", async () => {
+    // Open context menu on last message sent and select option with index = 3 (delete)
+    await ChatScreen.openContextMenuOnSentMessage();
+    await ChatScreen.selectContextOption(3);
+
+    // Validate that last message was deleted and therefore the last message displayed is "message two"
+    const textFromMessage = await ChatScreen.getLastMessageSentText();
+    expect(textFromMessage).toEqual("message two");
+  });
+
+  it("Context Menu - Edit Message", async () => {
+    // Open context menu on last message sent, select option with index = 2 (edit) and type a new message
+    await ChatScreen.openContextMenuOnSentMessage();
+    await ChatScreen.selectContextOption(2);
+    await ChatScreen.typeOnEditMessageInput("message edited...");
+
+    // Validate message edited contents is shown on Chat Screen
+    const textFromMessage = await ChatScreen.getLastMessageSentText();
+    expect(textFromMessage).toEqual("message edited...");
+  });
+
   after(async () => {
     // Pause for 30 seconds before finishing execution
     await browser.pause(30000);
