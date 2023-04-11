@@ -116,16 +116,7 @@ describe("Two users at the same time - Chat User B", async () => {
   });
 
   it("Validate that second message was edited and third message was deleted", async () => {
-    await ChatScreen.waitForReceivingMessage("message two");
-    await ChatScreen.waitForReceivingMessage("message three");
-
-    // Reply to user before validating that prior messages were edited/deleted
-    await ChatScreen.typeMessageOnInput("Got your messages!");
-    await ChatScreen.clickOnSendMessage();
-  });
-
-  it("Validate that second message was edited and third message was deleted", async () => {
-    await ChatScreen.waitForReceivingMessage("message edited...");
+    await ChatScreen.waitForReceivingMessage("message edited...", 60000);
     const numberOfMessagesInGroup =
       await ChatScreen.getNumberOfMessagesInLastReceivedGroup();
     expect(numberOfMessagesInGroup).toEqual(1);

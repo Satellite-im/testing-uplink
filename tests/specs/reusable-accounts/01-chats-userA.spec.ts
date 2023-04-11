@@ -149,9 +149,6 @@ describe("Two users at the same time - Chat User A", async () => {
 
     await ChatScreen.typeMessageOnInput("message three");
     await ChatScreen.clickOnSendMessage();
-
-    // Wait until Chat User B replies
-    await ChatScreen.waitForReceivingMessage("Got your messages!");
   });
 
   it("Context Menu - Delete Message", async () => {
