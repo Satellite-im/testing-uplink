@@ -205,7 +205,7 @@ describe("Two users at the same time - Chat User A", async () => {
     expect(textFromMessage).toEqual("message edited...");
   });
 
-  it("Context Menu - User cannot send empty messages", async () => {
+  it("Message Input - User cannot send empty messages", async () => {
     // Ensure that input bar is empty and click on send message button
     await ChatScreen.clearInputBar();
     await ChatScreen.clearInputBar();
@@ -222,7 +222,7 @@ describe("Two users at the same time - Chat User A", async () => {
     expect(latestMessage).toEqual("message edited...");
   });
 
-  it("Context Menu - User can type up to 1024 chars on input bar", async () => {
+  it("Message Input - User can type up to 1024 chars on input bar", async () => {
     // Generate a random text with 1024 chars
     const longText = await ChatScreen.generateRandomText();
     // Type long text with 1024 chars on input bar and attempt to add 4 more chars (efgh)
