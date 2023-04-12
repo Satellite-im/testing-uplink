@@ -1,3 +1,4 @@
+import { faker } from "@faker-js/faker";
 import { rightClickOnMacOS, rightClickOnWindows } from "../helpers/commands";
 import UplinkMainScreen from "./UplinkMainScreen";
 
@@ -334,12 +335,37 @@ class ChatScreen extends UplinkMainScreen {
     await (await this.inputText).clearValue();
   }
 
+  async clickOnInputBar() {
+    await (await this.inputText).click();
+  }
+
   async clickOnSendMessage() {
     await this.sendMessageButton.click();
   }
 
   async clickOnUploadFile() {
     await this.uploadButton.click();
+  }
+
+  async generateRandomText() {
+    // Get a random word of 9 chars and add it a space
+    const wordToRepeat = faker.lorem.word(9) + " ";
+    // Then repeat the same word for 102 times (1020 chars)
+    let longParagraph = wordToRepeat.repeat(102);
+    // Now, add 4 more chars, to have 1024 chars
+    longParagraph += "abcd";
+    return longParagraph;
+  }
+
+  async pressEnterKeyOnInputBar() {
+    const currentDriver = await this.getCurrentDriver();
+    let enterValue;
+    currentDriver === "windows" ? (enterValue = "\uE007") : (enterValue = "\n");
+    await (await this.inputText).setValue(enterValue);
+  }
+
+  async typeMessageOnInput(text: string) {
+    await (await this.inputText).setValue(text);
   }
 
   async typeOnEditMessageInput(editedMessage: string) {
@@ -546,6 +572,10 @@ class ChatScreen extends UplinkMainScreen {
 
   // Hovering methods
 
+  async hoverOnCallButton() {
+    await this.hoverOnElement(await this.topbarCall);
+  }
+
   async hoverOnFavoritesButton() {
     await this.hoverOnElement(await this.topbarAddToFavorites);
   }
@@ -558,8 +588,8 @@ class ChatScreen extends UplinkMainScreen {
     await this.hoverOnElement(await this.uploadButton);
   }
 
-  async typeMessageOnInput(text: string) {
-    await (await this.inputText).setValue(text);
+  async hoverOnVideocallButton() {
+    await this.hoverOnElement(await this.topbarVideocall);
   }
 
   // Reply Modal methods

@@ -57,6 +57,22 @@ describe("Two users at the same time - Chat User A", async () => {
     expect(onlineIndicator).toExist();
   });
 
+  it("Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
+    // Validate Call button tooltip contains "Coming soon"
+    await ChatScreen.hoverOnCallButton();
+    expect(await ChatScreen.topbarCallTooltip).toBeDisplayed();
+    expect(await ChatScreen.topbarCallTooltipText).toHaveTextContaining(
+      "Coming soon"
+    );
+
+    // Validate Videocall button tooltip contains "Coming soon"
+    await ChatScreen.hoverOnVideocallButton();
+    expect(await ChatScreen.topbarVideocallTooltip).toBeDisplayed();
+    expect(await ChatScreen.topbarVideocallTooltipText).toHaveTextContaining(
+      "Coming soon"
+    );
+  });
+
   it("Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
     await ChatScreen.hoverOnFavoritesButton();
@@ -170,6 +186,37 @@ describe("Two users at the same time - Chat User A", async () => {
     // Validate message edited contents is shown on Chat Screen
     const textFromMessage = await ChatScreen.getLastMessageSentText();
     expect(textFromMessage).toEqual("message edited...");
+  });
+
+  it("Context Menu - User cannot send empty messages", async () => {
+    // Ensure that input bar is empty and click on send message button
+    await ChatScreen.clearInputBar();
+    await ChatScreen.clearInputBar();
+    await ChatScreen.clickOnInputBar();
+    await ChatScreen.clickOnSendMessage();
+
+    // Ensure that input bar is empty and press Enter Key
+    await ChatScreen.clearInputBar();
+    await ChatScreen.clickOnInputBar();
+    await ChatScreen.pressEnterKeyOnInputBar();
+
+    // Validate latest message sent displayed on Chat Conversation is still "message edited..."
+    const latestMessage = await ChatScreen.getLastMessageSentText();
+    expect(latestMessage).toEqual("message edited...");
+  });
+
+  it("Context Menu - User can type up to 1024 chars on input bar", async () => {
+    // Generate a random text with 1024 chars
+    const longText = await ChatScreen.generateRandomText();
+    // Type long text with 1024 chars on input bar and attempt to add 4 more chars (efgh)
+    await ChatScreen.typeMessageOnInput(longText + "efgh");
+
+    // Ensure that latest chars were not added to input bar, since the max number of chars has been reached
+    // Input bar text should be equal to long text with 1024 chars
+    await expect(ChatScreen.inputText).toHaveText(longText);
+
+    // Clear input bar to finish test
+    await ChatScreen.clearInputBar();
   });
 
   after(async () => {
