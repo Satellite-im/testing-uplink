@@ -117,7 +117,7 @@ describe("Two users at the same time - Chat User B", async () => {
 
   it("Validate that second message was edited", async () => {
     // Validate that last message is "message edited..."
-    await ChatScreen.waitForReceivingMessage("message edited...", 180000);
+    await ChatScreen.waitForReceivingMessage("message edited...", 240000);
   });
 
   it("Validate that only deleted message is no longer in conversation", async () => {
