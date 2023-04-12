@@ -209,6 +209,7 @@ jobs:
           path: ./appium.log
 
       - name: Delete Chat Users Accounts
+        if: always()
         uses: geekyeggo/delete-artifact@v2
         with:
           name: appium-test-accounts

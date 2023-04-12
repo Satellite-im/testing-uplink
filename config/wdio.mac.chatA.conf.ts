@@ -34,7 +34,7 @@ config.mochaOpts = {
    * NOTE: This has been increased for more stable Appium Native app
    * tests because they can take a bit longer.
    */
-  timeout: 300000, // 5min
+  timeout: 420000, // 5min
 },
 
 // Change spec file retries to zero
