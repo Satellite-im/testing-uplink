@@ -8,7 +8,7 @@ const mkdirp = require("mkdirp");
 // ============
 // Specs
 // ============
-config.specs = [join(process.cwd(), "./tests/suites/*.ts")];
+config.specs = [join(process.cwd(), "./tests/suites/*.suite.ts")];
 
 // ============
 // Capabilities

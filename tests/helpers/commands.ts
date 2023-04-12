@@ -18,15 +18,6 @@ export async function deleteCache() {
   rmSync(target, { recursive: true, force: true });
 }
 
-export async function getUserKey(username: string) {
-  // Read user data and store variable with DID Key from JSON file
-  const source = "./tests/fixtures/users/" + username + "/state.json";
-  const jsonFile = readFileSync(source);
-  const jsonFileParsed = JSON.parse(jsonFile);
-  const didkey = jsonFileParsed.account.identity.identity.did_key;
-  return didkey;
-}
-
 export async function grabCacheFolder(username: string) {
   const source = homedir() + "/.uplink";
   const target = "./tests/fixtures/users/" + username;
@@ -56,18 +47,15 @@ export async function loadTestUserData(user: string) {
   }
 }
 
-export async function resetApp() {
-  await closeApplication();
-  await deleteCache();
-  await launchApplication();
-}
+// DidKeys and username handling functions
 
-export async function resetAndLoginWithCache(user: string) {
-  await closeApplication();
-  await deleteCache();
-  await loadTestUserData(user);
-  await launchApplication();
-  await loginWithTestUser();
+export async function getUserKey(username: string) {
+  // Read user data and store variable with DID Key from JSON file
+  const source = "./tests/fixtures/users/" + username + ".json";
+  const jsonFile = readFileSync(source);
+  const jsonFileParsed = JSON.parse(jsonFile);
+  const didkey = jsonFileParsed.key;
+  return didkey;
 }
 
 export async function saveTestKeys(username: string, didkey: string) {
@@ -80,13 +68,6 @@ export async function saveTestKeys(username: string, didkey: string) {
   } catch (error) {
     console.log("An error has occurred ", error);
   }
-}
-
-export async function getCurrentUsername() {
-  // Read user data from txt file
-  const source = "./tests/fixtures/users/username.txt";
-  let username = readFileSync(source, "utf8");
-  return username.toLowerCase();
 }
 
 // Login or Create Users Functions
@@ -138,6 +119,22 @@ export async function loginWithTestUser() {
   }
 }
 
+export async function resetApp() {
+  await closeApplication();
+  await deleteCache();
+  await launchApplication();
+}
+
+export async function resetAndLoginWithCache(user: string) {
+  await closeApplication();
+  await deleteCache();
+  await loadTestUserData(user);
+  await launchApplication();
+  await loginWithTestUser();
+}
+
+// Application Manage Functions
+
 export async function launchApplication() {
   const currentOS = await driver.capabilities.automationName;
   if (currentOS === "windows") {
@@ -185,43 +182,6 @@ export async function minimizeWindow() {
     await $("~_XCUI:MinimizeWindow").click();
   }
 }
-
-export async function showMainMenu() {
-  // Get current OS
-  const currentOS = await driver.capabilities.automationName;
-
-  // Ensure Main Screen is displayed
-  await WelcomeScreen.waitForIsShown(true);
-
-  // Click on Add Someone to show Main Menu only on MacOS. On Windows, go To Friends
-  if (currentOS === "mac2") {
-    await WelcomeScreen.clickAddSomeone();
-  } else if (currentOS === "windows") {
-    await maximizeWindow();
-    await WelcomeScreen.goToFriends();
-  }
-
-  // Validate Friends Screen is displayed
-  await FriendsScreen.waitForIsShown(true);
-}
-
-// UI Locators Helper Functions
-
-export function customPredicateString(
-  elementType: string,
-  attribute: string,
-  value: string,
-  comparisonOperator: string
-) {
-  const predicateString: string = `-ios predicate string:elementType == ${elementType} AND ${attribute} ${comparisonOperator} '${value}'`;
-  return predicateString;
-}
-
-export function getPredicateForTextValueEqual(value: string) {
-  const predicateString: string = `-ios predicate string:elementType == 48 AND value == '${value}'`;
-  return predicateString;
-}
-
 // MacOS driver helper functions
 
 export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {

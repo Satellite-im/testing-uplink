@@ -455,6 +455,22 @@ class FriendsScreen extends UplinkMainScreen {
       await friendToClick.$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON)
     ).click();
   }
+
+  async waitUntilFriendRequestIsReceived() {
+    await (
+      await this.acceptFriendRequestButton
+    ).waitForExist({ timeout: 180000 });
+  }
+
+  async waitUntilNotificationIsClosed() {
+    await this.toastNotification.waitForDisplayed({
+      reverse: true,
+    });
+  }
+
+  async waitUntilUserAcceptedFriendRequest() {
+    await (await this.chatWithFriendButton).waitForExist({ timeout: 180000 });
+  }
 }
 
 export default new FriendsScreen();
