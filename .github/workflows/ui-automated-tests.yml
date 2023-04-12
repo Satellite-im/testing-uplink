@@ -114,6 +114,13 @@ jobs:
           name: appium-log-${{ matrix.os-name }}
           path: ./appium.log
 
+      - if: matrix.os == 'macos-latest'
+        name: Upload Test User Accounts Created 📷
+        uses: actions/upload-artifact@v3
+        with:
+          name: appium-test-accounts
+          path: ./tests/fixtures/users/
+
   test-chats:
     if: ${{ always() }}
     needs: test
@@ -131,6 +138,16 @@ jobs:
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
+
+      - name: Delete Test Account Data from Repo
+        working-directory: ./tests/fixtures
+        run: rm -rf ./users/
+
+      - name: Download Test User Accounts 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: appium-test-accounts
+          path: ./tests/fixtures/users/
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -190,3 +207,8 @@ jobs:
         with:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
+
+      - name: Delete Chat Users Accounts
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: appium-test-accounts
