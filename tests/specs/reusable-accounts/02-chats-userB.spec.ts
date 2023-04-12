@@ -4,11 +4,21 @@ import FriendsScreen from "../../screenobjects/FriendsScreen";
 import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
 describe("Two users at the same time - Chat User B", async () => {
-  it("Load Chat User B account and accept Chat User B friend request", async () => {
+  it("Load Chat User B account and go to Friends Screen", async () => {
     // Go to Friends Screen
     await loginWithTestUser();
     await WelcomeScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
+  });
+
+  it("Accept Friend Request received from Chat User A", async () => {
+    // Go to pending requests list, wait for receiving the friend request and accept it
+    await FriendsScreen.goToPendingFriendsList();
+    await FriendsScreen.waitUntilFriendRequestIsReceived();
+    await FriendsScreen.acceptIncomingRequest("ChatUserA");
+
+    // Return to Friends List
+    await FriendsScreen.goToAllFriendsList();
   });
 
   it("Wait until the other user is online", async () => {
