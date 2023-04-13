@@ -17,6 +17,14 @@ const SELECTORS_WINDOWS = {
   BUTTON_NAV_TOOLTIP_TEXT: "//Text",
   CHAT_SEARCH_INPUT: '[name="chat-search-input"]',
   CHATS_BUTTON: '[name="chats-button"]',
+  CREATE_GROUP_CHAT_CREATE_DM_BUTTON: "//Button",
+  CREATE_GROUP_CHAT_FRIEND_CONTAINER: '[name="Friend Container"]',
+  CREATE_GROUP_CHAT_SECTION: '[name="Create Group"]',
+  CREATE_GROUP_CHAT_USER_IMAGE: '[name="User Image"]',
+  CREATE_GROUP_CHAT_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
+  CREATE_GROUP_CHAT_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
+  CREATE_GROUP_CHAT_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
+  CREATE_GROUP_CHAT_USER_NAME: "//Text",
   FAVORITES: '[name="Favorites"]',
   FAVORITES_HEADER: "//Text/Text",
   FAVORITES_USER: "//Group",
@@ -42,6 +50,7 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_CHATS_USER_STATUS: '[name="User Status"]',
   SIDEBAR_CHATS_USER_STATUS_VALUE: "//Text",
   SIDEBAR_CHILDREN: '[name="sidebar-children"]',
+  SIDEBAR_CREATE_GROUP_CHAT_BUTTON: "//Button/Button/Image",
   SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SKELETAL_USER: '[name="skeletal-user"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
@@ -59,6 +68,16 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   CHAT_SEARCH_INPUT: "~chat-search-input",
   CHATS_BUTTON: "~chats-button",
+  CREATE_GROUP_CHAT_CREATE_DM_BUTTON:
+    "-ios class chain:**/XCUIElementTypeButton",
+  CREATE_GROUP_CHAT_FRIEND_CONTAINER: "~Friend Container",
+  CREATE_GROUP_CHAT_SECTION: "~Create Group",
+  CREATE_GROUP_CHAT_USER_IMAGE: "~User Image",
+  CREATE_GROUP_CHAT_USER_IMAGE_WRAP: "~user-image-wrap",
+  CREATE_GROUP_CHAT_USER_INDICATOR_OFFLINE: "~indicator-offline",
+  CREATE_GROUP_CHAT_USER_INDICATOR_ONLINE: "~indicator-online",
+  CREATE_GROUP_CHAT_USER_NAME:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   FAVORITES: "~Favorites",
   FAVORITES_HEADER:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
@@ -89,6 +108,7 @@ const SELECTORS_MACOS = {
   SIDEBAR_CHATS_USER_STATUS_VALUE:
     "-ios class chain:**/XCUIElementTypeStaticText",
   SIDEBAR_CHILDREN: "~sidebar-children",
+  SIDEBAR_CREATE_GROUP_CHAT_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
   TOAST_NOTIFICATION: "~Toast Notification",
@@ -135,6 +155,58 @@ export default class UplinkMainScreen extends AppScreen {
     return $(SELECTORS.BUTTON_NAV)
       .$$(SELECTORS.TOOLTIP)[0]
       .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+  }
+
+  get createGroupChatSection() {
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION);
+  }
+
+  get createGroupChatCreateDMButton() {
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION).$(
+      SELECTORS.CREATE_GROUP_CHAT_CREATE_DM_BUTTON
+    );
+  }
+
+  get createGroupChatSearchInput() {
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION).$(
+      SELECTORS.CHAT_SEARCH_INPUT
+    );
+  }
+
+  get createGroupChatFriendContainer() {
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION).$(
+      SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER
+    );
+  }
+
+  get createGroupChatUserImage() {
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
+      .$(SELECTORS.CREATE_GROUP_CHAT_USER_IMAGE);
+  }
+
+  get createGroupChatUserImageWrap() {
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
+      .$(SELECTORS.CREATE_GROUP_CHAT_USER_IMAGE_WRAP);
+  }
+
+  get createGroupChatUserIndicatorOffline() {
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
+      .$(SELECTORS.CREATE_GROUP_CHAT_USER_INDICATOR_OFFLINE);
+  }
+
+  get createGroupChatUserIndicatorOnline() {
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
+      .$(SELECTORS.CREATE_GROUP_CHAT_USER_INDICATOR_ONLINE);
+  }
+
+  get createGroupChatUserName() {
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
+      .$(SELECTORS.CREATE_GROUP_CHAT_USER_NAME);
   }
 
   get favorites() {
@@ -310,6 +382,22 @@ export default class UplinkMainScreen extends AppScreen {
 
   get sidebarChildren() {
     return $(SELECTORS.SIDEBAR_CHILDREN);
+  }
+
+  get sidebarCreateGroupChat() {
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$(
+      SELECTORS.SIDEBAR_CREATE_GROUP_CHAT_BUTTON
+    );
+  }
+
+  get sidebarCreateGroupChatTooltip() {
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$(SELECTORS.TOOLTIP);
+  }
+
+  get sidebarCreateGroupChatTooltipText() {
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get sidebarSearch() {
