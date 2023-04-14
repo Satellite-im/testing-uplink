@@ -69,14 +69,15 @@ describe("Two users at the same time - Chat User B", async () => {
     await ChatScreen.selectContextOption(0);
 
     // Validate contents of Reply Pop Up
+    expect(await ChatScreen.replyPopUp).toBeDisplayed();
     expect(await ChatScreen.replyPopUpCloseButton).toBeDisplayed();
     expect(await ChatScreen.replyPopUpHeader).toHaveTextContaining(
       "REPLYING TO:"
     );
     expect(await ChatScreen.replyPopUpIndicatorOnline).toBeDisplayed();
-    expect(await ChatScreen.replyPopUpTextToReply).toHaveTextContaining(
-      "testing..."
-    );
+    expect(
+      await ChatScreen.replyPopUpRemoteTextToReplyValue
+    ).toHaveTextContaining("testing...");
     expect(await ChatScreen.replyPopUpUserImage).toBeDisplayed();
 
     await ChatScreen.closeReplyModal();
@@ -88,7 +89,7 @@ describe("Two users at the same time - Chat User B", async () => {
     await ChatScreen.selectContextOption(0);
 
     // Type a reply and sent it
-    await (await ChatScreen.replyPopUpHeader).waitForDisplayed();
+    await (await ChatScreen.replyPopUp).waitForDisplayed();
     await ChatScreen.typeMessageOnInput("this is a reply");
     await ChatScreen.clickOnSendMessage();
     await ChatScreen.waitForReplyModalToNotExist();

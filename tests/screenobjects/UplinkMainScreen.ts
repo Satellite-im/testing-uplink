@@ -10,6 +10,7 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  BACK_BUTTON: '[name="back-button"]',
   BUTTON_BADGE: '[name="Button Badge"]',
   BUTTON_BADGE_TEXT: "//Text",
   BUTTON_NAV: '[name="button-nav"]',
@@ -17,14 +18,15 @@ const SELECTORS_WINDOWS = {
   BUTTON_NAV_TOOLTIP_TEXT: "//Text",
   CHAT_SEARCH_INPUT: '[name="chat-search-input"]',
   CHATS_BUTTON: '[name="chats-button"]',
-  CREATE_GROUP_CHAT_CREATE_DM_BUTTON: "//Button",
+  CREATE_GROUP_CHAT_CREATE_DM_BUTTON: '[name="create-dm-button"]',
   CREATE_GROUP_CHAT_FRIEND_CONTAINER: '[name="Friend Container"]',
   CREATE_GROUP_CHAT_SECTION: '[name="Create Group"]',
   CREATE_GROUP_CHAT_USER_IMAGE: '[name="User Image"]',
   CREATE_GROUP_CHAT_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   CREATE_GROUP_CHAT_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   CREATE_GROUP_CHAT_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
-  CREATE_GROUP_CHAT_USER_NAME: "//Text",
+  CREATE_GROUP_CHAT_USER_NAME: '[name="friend-name"]',
+  CREATE_GROUP_CHAT_USER_NAME_TEXT: "//Text",
   FAVORITES: '[name="Favorites"]',
   FAVORITES_HEADER: "//Text/Text",
   FAVORITES_USER: "//Group",
@@ -35,6 +37,7 @@ const SELECTORS_WINDOWS = {
   FAVORITES_USER_NAME: "//Text/Text",
   FILES_BUTTON: '[name="files-button"]',
   FRIENDS_BUTTON: '[name="friends-button"]',
+  HAMBURGER_BUTTON: '[name="hamburger-button"]',
   PRE_RELEASE_INDICATOR_TEXT: "//Text",
   SETTINGS_BUTTON: '[name="settings-button"]',
   SIDEBAR: '[name="sidebar"]',
@@ -50,7 +53,9 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_CHATS_USER_STATUS: '[name="User Status"]',
   SIDEBAR_CHATS_USER_STATUS_VALUE: "//Text",
   SIDEBAR_CHILDREN: '[name="sidebar-children"]',
-  SIDEBAR_CREATE_GROUP_CHAT_BUTTON: "//Button/Button/Image",
+  SIDEBAR_CREATE_GROUP_CHAT_BUTTON: '[name="create-group-chat"]',
+  SIDEBAR_GROUP_CHAT_IMAGE: '[name="user-image-group-wrap"]',
+  SIDEBAR_GROUP_CHAT_PLUS_SOME: '[name="plus-some"]',
   SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SKELETAL_USER: '[name="skeletal-user"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
@@ -62,6 +67,7 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  BACK_BUTTON: "~back-button",
   BUTTON_BADGE: "~Button Badge",
   BUTTON_BADGE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   BUTTON_NAV: "~button-nav",
@@ -70,16 +76,16 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   CHAT_SEARCH_INPUT: "~chat-search-input",
   CHATS_BUTTON: "~chats-button",
-  CREATE_GROUP_CHAT_CREATE_DM_BUTTON:
-    "-ios class chain:**/XCUIElementTypeButton",
+  CREATE_GROUP_CHAT_CREATE_DM_BUTTON: "~create-dm-button",
   CREATE_GROUP_CHAT_FRIEND_CONTAINER: "~Friend Container",
   CREATE_GROUP_CHAT_SECTION: "~Create Group",
   CREATE_GROUP_CHAT_USER_IMAGE: "~User Image",
   CREATE_GROUP_CHAT_USER_IMAGE_WRAP: "~user-image-wrap",
   CREATE_GROUP_CHAT_USER_INDICATOR_OFFLINE: "~indicator-offline",
   CREATE_GROUP_CHAT_USER_INDICATOR_ONLINE: "~indicator-online",
-  CREATE_GROUP_CHAT_USER_NAME:
-    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  CREATE_GROUP_CHAT_USER_NAME: "~friend-name",
+  CREATE_GROUP_CHAT_USER_NAME_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText",
   FAVORITES: "~Favorites",
   FAVORITES_HEADER:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
@@ -92,6 +98,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   FILES_BUTTON: "~files-button",
   FRIENDS_BUTTON: "~friends-button",
+  HAMBURGER_BUTTON: "~hamburger-button",
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
   SIDEBAR: "~sidebar",
@@ -110,7 +117,9 @@ const SELECTORS_MACOS = {
   SIDEBAR_CHATS_USER_STATUS_VALUE:
     "-ios class chain:**/XCUIElementTypeStaticText",
   SIDEBAR_CHILDREN: "~sidebar-children",
-  SIDEBAR_CREATE_GROUP_CHAT_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
+  SIDEBAR_CREATE_GROUP_CHAT_BUTTON: "~create-group-chat",
+  SIDEBAR_GROUP_CHAT_IMAGE: "~user-image-group-wrap",
+  SIDEBAR_GROUP_CHAT_PLUS_SOME: "~plus-some",
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
   TOAST_NOTIFICATION: "~Toast Notification",
@@ -129,6 +138,10 @@ currentOS === "windows"
 export default class UplinkMainScreen extends AppScreen {
   constructor() {
     super(SELECTORS.WINDOW);
+  }
+
+  get backButton() {
+    return $(SELECTORS.BACK_BUTTON);
   }
 
   get buttonBadge() {
@@ -213,6 +226,13 @@ export default class UplinkMainScreen extends AppScreen {
       .$(SELECTORS.CREATE_GROUP_CHAT_USER_NAME);
   }
 
+  get createGroupChatUserNameText() {
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
+      .$(SELECTORS.CREATE_GROUP_CHAT_USER_NAME)
+      .$(SELECTORS.CREATE_GROUP_CHAT_USER_NAME_TEXT);
+  }
+
   get favorites() {
     return $(SELECTORS.SIDEBAR).$(SELECTORS.FAVORITES);
   }
@@ -285,6 +305,10 @@ export default class UplinkMainScreen extends AppScreen {
     return $(SELECTORS.BUTTON_NAV)
       .$$(SELECTORS.TOOLTIP)[2]
       .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+  }
+
+  get hamburgerButton() {
+    return $(SELECTORS.HAMBURGER_BUTTON);
   }
 
   get prereleaseIndicator() {
@@ -404,6 +428,40 @@ export default class UplinkMainScreen extends AppScreen {
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
+  get sidebarGroupChatImage() {
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE);
+  }
+
+  get sidebarGroupChatPlusSome() {
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE).$(
+      SELECTORS.SIDEBAR_GROUP_CHAT_PLUS_SOME
+    );
+  }
+
+  get sidebarGroupChatUserImages() {
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
+      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
+  }
+
+  get sidebarGroupChatUserImageWraps() {
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE).$$(
+      SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP
+    );
+  }
+
+  get sidebarGroupChatUserIndicatorOffline() {
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
+      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
+  }
+
+  get sidebarGroupChatsUserIndicatorOnline() {
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
+      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
+  }
+
   get sidebarSearch() {
     return $(SELECTORS.SIDEBAR_SEARCH);
   }
@@ -428,6 +486,16 @@ export default class UplinkMainScreen extends AppScreen {
     return $(SELECTORS.WINDOW);
   }
 
+  // Clicking on common elements methods
+
+  async clickOnBackButton() {
+    (await this.backButton).click();
+  }
+
+  async clickOnHamburgerButton() {
+    (await this.hamburgerButton).click();
+  }
+
   async clickOnPreReleaseIndicator() {
     (await this.prereleaseIndicator).click();
   }
@@ -435,6 +503,8 @@ export default class UplinkMainScreen extends AppScreen {
   async clickOnUpdateAvailable() {
     (await this.updateAvailable).click();
   }
+
+  // Toast Notifications methods
 
   async closeToastNotification(title: string) {
     const toast = await driver.findElement(
@@ -447,31 +517,6 @@ export default class UplinkMainScreen extends AppScreen {
       "XCUIElementTypeButton"
     );
     await (await $(closeButton)).click();
-  }
-
-  async getUsersFromFavorites() {
-    const favoriteUsers = await this.favoritesUserName;
-    let currentFavoriteUsers = [];
-    for (let name of favoriteUsers) {
-      currentFavoriteUsers.push(await (await $(name)).getText());
-    }
-    return currentFavoriteUsers;
-  }
-
-  async goToFiles() {
-    await (await this.filesButton).click();
-  }
-
-  async goToFriends() {
-    await (await this.friendsButton).click();
-  }
-
-  async goToMainScreen() {
-    await (await this.chatsButton).click();
-  }
-
-  async goToSettings() {
-    await (await this.settingsButton).click();
   }
 
   async validateContentsToastNotification(
@@ -495,6 +540,37 @@ export default class UplinkMainScreen extends AppScreen {
     await expect(await $(toastSubtitle)).toHaveTextContaining(expectedSubtitle);
     await expect(await $(toastTitle)).toHaveTextContaining(title);
   }
+
+  // Favorites methods
+
+  async getUsersFromFavorites() {
+    const favoriteUsers = await this.favoritesUserName;
+    let currentFavoriteUsers = [];
+    for (let name of favoriteUsers) {
+      currentFavoriteUsers.push(await (await $(name)).getText());
+    }
+    return currentFavoriteUsers;
+  }
+
+  // NavBar methods
+
+  async goToFiles() {
+    await (await this.filesButton).click();
+  }
+
+  async goToFriends() {
+    await (await this.friendsButton).click();
+  }
+
+  async goToMainScreen() {
+    await (await this.chatsButton).click();
+  }
+
+  async goToSettings() {
+    await (await this.settingsButton).click();
+  }
+
+  // Button Badges methods
 
   async validateTextFromButtonBadge(expectedText: string) {
     const badgeText = await $('//*[@label="Button Badge"]/*[1]');
