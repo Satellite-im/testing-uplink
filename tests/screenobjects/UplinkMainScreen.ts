@@ -47,6 +47,8 @@ const SELECTORS_WINDOWS = {
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
+  UPDATE_AVAILABLE: '[name="update-available"]',
+  UPDATE_AVAILABLE_TEXT: "//Text",
   WINDOW: "~main",
 };
 
@@ -95,6 +97,8 @@ const SELECTORS_MACOS = {
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  UPDATE_AVAILABLE: "~update-available",
+  UPDATE_AVAILABLE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   WINDOW: "-ios class chain:**/XCUIElementTypeWindow",
 };
 
@@ -324,8 +328,24 @@ export default class UplinkMainScreen extends AppScreen {
     return $$(SELECTORS.TOAST_NOTIFICATION);
   }
 
+  get updateAvailable() {
+    return $(SELECTORS.UPDATE_AVAILABLE);
+  }
+
+  get updateAvailableText() {
+    return $(SELECTORS.UPDATE_AVAILABLE).$(SELECTORS.UPDATE_AVAILABLE_TEXT);
+  }
+
   get window() {
     return $(SELECTORS.WINDOW);
+  }
+
+  async clickOnPreReleaseIndicator() {
+    (await this.prereleaseIndicator).click();
+  }
+
+  async clickOnUpdateAvailable() {
+    (await this.updateAvailable).click();
   }
 
   async closeToastNotification(title: string) {

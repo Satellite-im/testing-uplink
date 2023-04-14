@@ -8,12 +8,14 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   ADD_FRIENDS_BUTTON: '[name="add-friends-button"]',
   ADD_SOMEONE_TEXT: "//Text",
+  WELCOME_IMAGE: "//Image",
   WELCOME_LAYOUT: "~welcome",
 };
 
 const SELECTORS_MACOS = {
   ADD_FRIENDS_BUTTON: "~add-friends-button",
   ADD_SOMEONE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  WELCOME_IMAGE: "-ios class chain:**/XCUIElementTypeImage",
   WELCOME_LAYOUT: "~welcome-screen",
 };
 
@@ -32,6 +34,10 @@ class WelcomeScreen extends UplinkMainScreen {
 
   get addSomeoneText() {
     return $(SELECTORS.WELCOME_LAYOUT).$(SELECTORS.ADD_SOMEONE_TEXT);
+  }
+
+  get welcomeImage() {
+    return $(SELECTORS.WELCOME_LAYOUT).$(SELECTORS.WELCOME_IMAGE);
   }
 
   get welcomeLayout() {
