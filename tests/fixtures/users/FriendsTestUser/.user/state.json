@@ -1,35 +1,4 @@
 {
-  "account": {
-    "identity": {
-      "identity": {
-        "username": "TestUserA",
-        "short_id": [
-          66,
-          69,
-          68,
-          111,
-          66,
-          120,
-          105,
-          81
-        ],
-        "did_key": "did:key:z6Mkhxw5tmNBzozGdSnuPMwvuCZvszYS9e9tY9KnBEDoBxiQ",
-        "graphics": {
-          "profile_picture": "",
-          "profile_banner": ""
-        },
-        "status_message": null,
-        "roles": [],
-        "available_badges": [],
-        "active_badge": {
-          "name": "",
-          "icon": ""
-        }
-      },
-      "status": "offline",
-      "platform": "unknown"
-    }
-  },
   "route": {
     "active": ""
   },
@@ -40,30 +9,41 @@
     "favorites": []
   },
   "friends": {},
+  "scope_ids": {},
   "settings": {
-    "language": "English (USA)"
+    "language": "English (USA)",
+    "update_available": "v0.0.1",
+    "update_dismissed": null,
+    "font_scale": 0.75
   },
   "ui": {
     "notifications": {
-      "friends": 6,
+      "friends": 5,
       "messages": 0,
-      "settings": 0
+      "settings": 1
     },
     "theme": null,
+    "font": null,
     "enable_overlay": false,
+    "active_welcome": false,
     "sidebar_hidden": false,
     "metadata": {
       "focused": true,
       "maximized": false,
       "minimized": false,
-      "width": 1920,
-      "height": 1020,
       "minimal_view": false
-    }
+    },
+    "extensions": {
+      "enabled": []
+    },
+    "show_settings_welcome": false,
+    "cached_username": "ChatUserA"
   },
   "configuration": {
     "general": {
+      "dyslexia_support": false,
       "theme": "",
+      "font": null,
       "show_splash": false,
       "enable_overlay": false
     },
