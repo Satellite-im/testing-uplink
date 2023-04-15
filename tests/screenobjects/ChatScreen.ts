@@ -694,12 +694,11 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   async typeOnEditMessageInput(editedMessage: string) {
-    const messageLocator = await this.getLastMessageSentLocator();
-    const messageEditableInput = await messageLocator.$(SELECTORS.INPUT_TEXT);
+    const messageEditableInput = await $$(SELECTORS.INPUT_TEXT)[1];
     const currentDriver = await this.getCurrentDriver();
     let enterValue;
     currentDriver === "windows" ? (enterValue = "\uE007") : (enterValue = "\n");
-    await messageEditableInput.setValue(editedMessage + enterValue);
+    await messageEditableInput?.setValue(editedMessage + enterValue);
   }
 
   // Message Group Wraps Methods
