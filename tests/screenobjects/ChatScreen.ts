@@ -698,6 +698,7 @@ class ChatScreen extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let enterValue;
     currentDriver === "windows" ? (enterValue = "\uE007") : (enterValue = "\n");
+    await browser.pause(1000);
     await messageEditableInput?.setValue(editedMessage + enterValue);
   }
 

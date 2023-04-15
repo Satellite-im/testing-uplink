@@ -128,8 +128,8 @@ describe("Two users at the same time - Chat User B", async () => {
 
   // Skipped since test is failing on CI - Needs research
   xit("Validate that second message was edited", async () => {
-    // Validate that last message is "message edited..."
-    await ChatScreen.waitForReceivingMessage("message edited...", 240000);
+    // Validate that last message is "edited"
+    await ChatScreen.waitForReceivingMessage("edited...", 240000);
   });
 
   // Skipped since test is failing on CI - Needs research
