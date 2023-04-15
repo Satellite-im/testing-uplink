@@ -11,6 +11,15 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   CHAT_MESSAGE: '[name="Message"]',
+  CHAT_MESSAGE_FILE_BUTTON: '[name="attachment-button"]',
+  CHAT_MESSAGE_FILE_EMBED: '[name="file-embed"]',
+  CHAT_MESSAGE_FILE_EMBED_REMOTE: '[name="file-embed-remote"]',
+  CHAT_MESSAGE_FILE_ICON: '[name="file-icon"]',
+  CHAT_MESSAGE_FILE_INFO: '[name="file-info"]',
+  CHAT_MESSAGE_FILE_META: '[name="file-meta"]',
+  CHAT_MESSAGE_FILE_META_TEXT: "//Text",
+  CHAT_MESSAGE_FILE_NAME: '[name="file-name"]',
+  CHAT_MESSAGE_FILE_NAME_TEXT: "//Text",
   CHAT_MESSAGE_GROUP_REMOTE: '[name="message-group-remote"]',
   CHAT_MESSAGE_GROUP_SENT: '[name="message-group"]',
   CHAT_MESSAGE_GROUP_WRAP: '[name="message-group-wrap"]',
@@ -24,17 +33,41 @@ const SELECTORS_WINDOWS = {
   CHAT_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   CHAT_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   CHAT_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
+  COMPOSE_ATTACHMENTS: '[name="compose-attachments"]',
+  COMPOSE_ATTACHMENTS_BUTTON: '[name="attachment-button"]',
+  COMPOSE_ATTACHMENTS_FILE_EMBED: '[name="file-embed"]',
+  COMPOSE_ATTACHMENTS_FILE_ICON: '[name="file-icon"]',
+  COMPOSE_ATTACHMENTS_FILE_INFO: '[name="file-info"]',
+  COMPOSE_ATTACHMENTS_FILE_META: '[name="file-meta"]',
+  COMPOSE_ATTACHMENTS_FILE_NAME: '[name="file-name"]',
+  COMPOSE_ATTACHMENTS_FILE_NAME_TEXT: "//Text",
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_OPTION: '[name="Context Item"]',
   INPUT_GROUP: '[name="input-group"]',
   INPUT_TEXT: "//Edit",
-  REPLY_POPUP_CLOSE_BUTTON: "//Button[1]",
+  QUICK_PROFILE: '[name="Context Menu"]',
+  QUICK_PROFILE_BANNER_IMAGE: '[name="banner-image"]',
+  QUICK_PROFILE_BUTTON: '[name="Context Item"]',
+  QUICK_PROFILE_IDENTITY_HEADER: '[name="identity-header"]',
+  QUICK_PROFILE_INDICATOR_OFFLINE: '[name="indicator-offline"]',
+  QUICK_PROFILE_INDICATOR_ONLINE: '[name="indicator-online"]',
+  QUICK_PROFILE_USER_IMAGE: '[name="profile-image"]',
+  QUICK_PROFILE_USER_NAME: '[name="profile-name"]',
+  QUICK_PROFILE_USER_NAME_VALUE: '[name="profile-name-value"]',
+  QUICK_PROFILE_USER_NAME_VALUE_TEXT: "//Text",
+  REPLY_POPUP: '[name="inline-reply"]',
+  REPLY_POPUP_CLOSE_BUTTON: '[name="close-reply"]',
+  REPLY_POPUP_CONTENT: '[name="content"]',
   REPLY_POPUP_HEADER: "//Text[1]/Text",
   REPLY_POPUP_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   REPLY_POPUP_INDICATOR_ONLINE: '[name="indicator-online"]',
-  REPLY_POPUP_TEXT_TO_REPLY: "//Text[2]",
+  REPLY_POPUP_LOCAL_TEXT_TO_REPLY: '[name="reply-text-message"]',
+  REPLY_POPUP_LOCAL_TEXT_TO_REPLY_VALUE: "//Text",
+  REPLY_POPUP_REMOTE_TEXT_TO_REPLY: '[name="reply-text-message-remote"]',
+  REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE: "//Text",
   REPLY_POPUP_USER_IMAGE: '[name="User Image"]',
   REPLY_POPUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
+  SECURED_MESSAGES_INDICATOR: "//Group[3]/Group/Text",
   SEND_MESSAGE_BUTTON: '[name="send-message-button"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
@@ -54,6 +87,15 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   CHAT_MESSAGE: "~Message",
+  CHAT_MESSAGE_FILE_BUTTON: "~attachment-button",
+  CHAT_MESSAGE_FILE_EMBED: "~file-embed",
+  CHAT_MESSAGE_FILE_EMBED_REMOTE: "~file-embed-remote",
+  CHAT_MESSAGE_FILE_ICON: "~file-icon",
+  CHAT_MESSAGE_FILE_INFO: "~file-info",
+  CHAT_MESSAGE_FILE_META: "~file-meta",
+  CHAT_MESSAGE_FILE_META_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_FILE_NAME: "~file-name",
+  CHAT_MESSAGE_FILE_NAME_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_GROUP_REMOTE: "~message-group-remote",
   CHAT_MESSAGE_GROUP_SENT: "~message-group",
   CHAT_MESSAGE_GROUP_WRAP: "~message-group-wrap",
@@ -68,18 +110,47 @@ const SELECTORS_MACOS = {
   CHAT_USER_IMAGE_WRAP: "~user-image-wrap",
   CHAT_USER_INDICATOR_OFFLINE: "~indicator-offline",
   CHAT_USER_INDICATOR_ONLINE: "~indicator-online",
+  COMPOSE_ATTACHMENTS: "~compose-attachments",
+  COMPOSE_ATTACHMENTS_BUTTON: "~attachment-button",
+  COMPOSE_ATTACHMENTS_FILE_EMBED: "~file-embed",
+  COMPOSE_ATTACHMENTS_FILE_ICON: "~file-icon",
+  COMPOSE_ATTACHMENTS_FILE_INFO: "~file-info",
+  COMPOSE_ATTACHMENTS_FILE_META: "~file-meta",
+  COMPOSE_ATTACHMENTS_FILE_NAME: "~file-name",
+  COMPOSE_ATTACHMENTS_FILE_NAME_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_OPTION: "~Context Item",
   INPUT_GROUP: "~input-group",
   INPUT_TEXT: "-ios class chain:**/XCUIElementTypeTextView",
-  REPLY_POPUP_CLOSE_BUTTON: "-ios class chain:**/XCUIElementTypeButton[1]",
+  QUICK_PROFILE: "~Context Menu",
+  QUICK_PROFILE_BANNER_IMAGE: "~banner-image",
+  QUICK_PROFILE_BUTTON: "~Context Item",
+  QUICK_PROFILE_IDENTITY_HEADER: "~identity-header",
+  QUICK_PROFILE_INDICATOR_ONLINE: "~indicator-online",
+  QUICK_PROFILE_INDICATOR_OFFLINE: "~indicator-offline",
+  QUICK_PROFILE_USER_IMAGE: "~profile-image",
+  QUICK_PROFILE_USER_NAME: "~profile-name",
+  QUICK_PROFILE_USER_NAME_VALUE: "~profile-name-value",
+  QUICK_PROFILE_USER_NAME_VALUE_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText",
+  REPLY_POPUP: "~inline-reply",
+  REPLY_POPUP_CLOSE_BUTTON: "~close-reply",
+  REPLY_POPUP_CONTENT: "~content",
   REPLY_POPUP_HEADER:
     "-ios class chain:**/XCUIElementTypeStaticText[1]/XCUIElementTypeStaticText",
   REPLY_POPUP_INDICATOR_OFFLINE: "~indicator-offline",
   REPLY_POPUP_INDICATOR_ONLINE: "~indicator-online",
-  REPLY_POPUP_TEXT_TO_REPLY: "-ios class chain:**/XCUIElementTypeStaticText[2]",
+  REPLY_POPUP_LOCAL_TEXT_TO_REPLY: "~reply-text-message",
+  REPLY_POPUP_LOCAL_TEXT_TO_REPLY_VALUE:
+    "-ios class chain:**/XCUIElementTypeStaticText",
+  REPLY_POPUP_REMOTE_TEXT_TO_REPLY: "~reply-text-message-remote",
+  REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE:
+    "-ios class chain:**/XCUIElementTypeStaticText",
   REPLY_POPUP_USER_IMAGE: "~User Image",
   REPLY_POPUP_USER_IMAGE_WRAP: "~user-image-wrap",
+  SECURED_MESSAGES_INDICATOR:
+    "**/XCUIElementTypeGroup[3]/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SEND_MESSAGE_BUTTON: "~send-message-button",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
@@ -113,6 +184,104 @@ class ChatScreen extends UplinkMainScreen {
 
   get chatMessage() {
     return $(SELECTORS.CHAT_MESSAGE);
+  }
+
+  get chatMessageFileButtonLocal() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
+  }
+
+  get chatMessageFileButtonRemote() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
+  }
+
+  get chatMessageFileEmbedLocal() {
+    return $(SELECTORS.CHAT_MESSAGE).$(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
+  }
+
+  get chatMessageFileEmbedRemote() {
+    return $(SELECTORS.CHAT_MESSAGE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE
+    );
+  }
+
+  get chatMessageFileIconLocal() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
+  }
+
+  get chatMessageFileIconRemote() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
+  }
+
+  get chatMessageFileInfoLocal() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_INFO);
+  }
+
+  get chatMessageFileInfoRemote() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_INFO);
+  }
+
+  get chatMessageFileMetaLocal() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META);
+  }
+
+  get chatMessageFileMetaRemote() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META);
+  }
+
+  get chatMessageFileMetaTextLocal() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
+  }
+
+  get chatMessageFileMetaTextRemote() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
+  }
+
+  get chatMessageFileNameLocal() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME);
+  }
+
+  get chatMessageFileNameRemote() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME);
+  }
+
+  get chatMessageFileNameTextLocal() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
+  }
+
+  get chatMessageFileNameTextRemote() {
+    return $(SELECTORS.CHAT_MESSAGE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
 
   get chatMessageGroupReceived() {
@@ -177,6 +346,53 @@ class ChatScreen extends UplinkMainScreen {
       .$(SELECTORS.CHAT_USER_INDICATOR_ONLINE);
   }
 
+  get composeAttachments() {
+    return $(SELECTORS.COMPOSE_ATTACHMENTS);
+  }
+
+  get composeAttachmentsButton() {
+    return $(SELECTORS.COMPOSE_ATTACHMENTS).$(
+      SELECTORS.COMPOSE_ATTACHMENTS_BUTTON
+    );
+  }
+
+  get composeAttachmentsFileEmbed() {
+    return $(SELECTORS.COMPOSE_ATTACHMENTS).$(
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED
+    );
+  }
+
+  get composeAttachmentsFileIcon() {
+    return $(SELECTORS.COMPOSE_ATTACHMENTS)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_ICON);
+  }
+
+  get composeAttachmentsFileInfo() {
+    return $(SELECTORS.COMPOSE_ATTACHMENTS)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_INFO);
+  }
+
+  get composeAttachmentsFileMeta() {
+    return $(SELECTORS.COMPOSE_ATTACHMENTS)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_META);
+  }
+
+  get composeAttachmentsFileName() {
+    return $(SELECTORS.COMPOSE_ATTACHMENTS)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME);
+  }
+
+  get composeAttachmentsFileNameText() {
+    return $(SELECTORS.COMPOSE_ATTACHMENTS)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME_TEXT);
+  }
+
   get contextMenu() {
     return $(SELECTORS.CONTEXT_MENU);
   }
@@ -195,26 +411,135 @@ class ChatScreen extends UplinkMainScreen {
       .$(SELECTORS.INPUT_TEXT);
   }
 
+  get quickProfile() {
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.QUICK_PROFILE);
+  }
+
+  get quickProfileBannerImage() {
+    return $(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_BANNER_IMAGE);
+  }
+
+  get quickProfileBlockUser() {
+    return $(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$$(SELECTORS.QUICK_PROFILE_BUTTON)[1];
+  }
+
+  get quickProfileEditProfile() {
+    return $(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_BUTTON);
+  }
+
+  get quickProfileIdentityHeader() {
+    return $(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_IDENTITY_HEADER);
+  }
+
+  get quickProfileIndicatorOffline() {
+    return $(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_INDICATOR_OFFLINE);
+  }
+
+  get quickProfileIndicatorOnline() {
+    return $(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_INDICATOR_ONLINE);
+  }
+
+  get quickProfileRemoveFriend() {
+    return $(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$$(SELECTORS.QUICK_PROFILE_BUTTON)[0];
+  }
+
+  get quickProfileUserImage() {
+    return $(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_USER_IMAGE);
+  }
+
+  get quickProfileUserName() {
+    return $(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_USER_NAME);
+  }
+
+  get quickProfileUserNameValue() {
+    return $(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE);
+  }
+
+  get quickProfileUserNameValueText() {
+    return $(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE)
+      .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE_TEXT);
+  }
+
+  get replyPopUp() {
+    return $(SELECTORS.REPLY_POPUP);
+  }
+
   get replyPopUpCloseButton() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
   }
+
+  get replyPopUpContent() {
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_CONTENT);
+  }
+
   get replyPopUpHeader() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_HEADER);
   }
+
   get replyPopUpIndicatorOffline() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_INDICATOR_OFFLINE);
   }
+
   get replyPopUpIndicatorOnline() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_INDICATOR_ONLINE);
   }
-  get replyPopUpTextToReply() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+
+  get replyPopUpLocalTextToReply() {
+    return $(SELECTORS.REPLY_POPUP).$(
+      SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY
+    );
   }
+
+  get replyPopUpLocalTextToReplyValue() {
+    return $(SELECTORS.REPLY_POPUP).$(
+      SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY_VALUE
+    );
+  }
+
+  get replyPopUpRemoteTextToReply() {
+    return $(SELECTORS.REPLY_POPUP).$(
+      SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY
+    );
+  }
+
+  get replyPopUpRemoteTextToReplyValue() {
+    return $(SELECTORS.REPLY_POPUP).$(
+      SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE
+    );
+  }
+
   get replyPopUpUserImage() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_USER_IMAGE);
   }
+
   get replyPopUpUserImageWrap() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_USER_IMAGE_WRAP);
+  }
+
+  get securedMessagesIndicator() {
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.SECURED_MESSAGES_INDICATOR);
   }
 
   get sendMessageButton() {
@@ -599,7 +924,7 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   async waitForReplyModalToNotExist() {
-    (await this.replyPopUpCloseButton).waitForExist({ reverse: true });
+    (await this.replyPopUp).waitForExist({ reverse: true });
   }
 }
 

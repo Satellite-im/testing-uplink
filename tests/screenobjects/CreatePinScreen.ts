@@ -12,6 +12,7 @@ const SELECTORS_WINDOWS = {
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "//Text",
   PIN_INPUT: "~unlock-input",
+  UNLOCK_IMAGE: "//Image[1]",
   UNLOCK_WARNING_HEADER: "//Text[1]/Text",
   UNLOCK_WARNING_PARAGRAPH: "//Text[2]",
 };
@@ -21,6 +22,7 @@ const SELECTORS_MACOS = {
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   PIN_INPUT: "~pin-input",
+  UNLOCK_IMAGE: "-ios class chain:**/XCUIElementTypeImage",
   UNLOCK_WARNING_HEADER:
     "-ios class chain:**/XCUIElementTypeStaticText[1]/XCUIElementTypeStaticText",
   UNLOCK_WARNING_PARAGRAPH: "-ios class chain:**/XCUIElementTypeStaticText[2]",
@@ -53,6 +55,10 @@ class CreatePinScreen extends UplinkMainScreen {
 
   get unlockLayout() {
     return $(SELECTORS.UNLOCK_LAYOUT);
+  }
+
+  get unlockImage() {
+    return $(SELECTORS.UNLOCK_LAYOUT).$(SELECTORS.UNLOCK_IMAGE);
   }
 
   get unlockWarningHeader() {
