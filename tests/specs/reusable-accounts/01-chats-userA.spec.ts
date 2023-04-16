@@ -198,11 +198,11 @@ describe("Two users at the same time - Chat User A", async () => {
     // Open context menu on last message sent, select option with index = 2 (edit) and type a new message
     await ChatScreen.openContextMenuOnSentMessage();
     await ChatScreen.selectContextOption(2);
-    await ChatScreen.typeOnEditMessageInput("message edited...");
+    await ChatScreen.typeOnEditMessageInput("edited...");
 
     // Validate message edited contents is shown on Chat Screen
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toEqual("message edited...");
+    expect(textFromMessage).toEqual("edited...");
   });
 
   it("Message Input - User cannot send empty messages", async () => {
@@ -217,9 +217,9 @@ describe("Two users at the same time - Chat User A", async () => {
     await ChatScreen.clickOnInputBar();
     await ChatScreen.pressEnterKeyOnInputBar();
 
-    // Validate latest message sent displayed on Chat Conversation is still "message edited..."
+    // Validate latest message sent displayed on Chat Conversation is still "edited..."
     const latestMessage = await ChatScreen.getLastMessageSentText();
-    expect(latestMessage).toEqual("message edited...");
+    expect(latestMessage).toEqual("edited...");
   });
 
   // Skipping test failing on CI due to slowness on driver typing 1024 characters
