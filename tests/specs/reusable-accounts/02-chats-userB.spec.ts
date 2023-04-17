@@ -9,6 +9,10 @@ describe("Two users at the same time - Chat User B", async () => {
     await loginWithTestUser();
     await WelcomeScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
+
+    // Go to the current list of All friends and then open a Chat conversation with ChatUserA
+    await (await FriendsScreen.chatWithFriendButton).waitForExist();
+    await (await FriendsScreen.chatWithFriendButton).click();
   });
 
   it("Accept Friend Request received from Chat User A", async () => {
@@ -126,18 +130,51 @@ describe("Two users at the same time - Chat User B", async () => {
     expect(onlineIndicator).toExist();
   });
 
-  // Skipped since test is failing on CI - Needs research
-  xit("Validate that second message was edited", async () => {
+  it("Validate that second message was edited", async () => {
     // Validate that last message is "edited"
     await ChatScreen.waitForReceivingMessage("edited...", 240000);
   });
 
-  // Skipped since test is failing on CI - Needs research
-  xit("Validate that only deleted message is no longer in conversation", async () => {
+  it("Validate that only deleted message is no longer in conversation", async () => {
     // Ensure that last received group only contains one message, the edited one
     const numberOfMessagesInGroup =
       await ChatScreen.getNumberOfMessagesInLastReceivedGroup();
     expect(numberOfMessagesInGroup).toEqual(1);
+  });
+
+  it("Chats - Validate message with attachments is received", async () => {
+    await ChatScreen.waitForReceivingMessage("message with attachment", 180000);
+  });
+
+  it("Chats - Received Message with Attachment - Text Message contents", async () => {
+    // Validate text from message containing attachment
+    const textFromMessage = await ChatScreen.getLastMessageReceivedText();
+    expect(textFromMessage).toEqual("message with attachment");
+  });
+
+  it("Chats - Received Message with Attachment - File Metadata", async () => {
+    // Validate file metadata is displayed correctly on last chat message sent
+    const fileMeta = await ChatScreen.getLastMessageReceivedFileMeta();
+    expect(fileMeta).toHaveTextContaining("7.75 kB");
+  });
+
+  it("Chats - Received Message with Attachment - File Name", async () => {
+    // Validate filename is displayed correctly on last chat message sent
+    const fileName = await ChatScreen.getLastMessageReceivedFileName();
+    expect(fileName).toHaveTextContaining("logo.jpg");
+  });
+
+  it("Chats - Received Message with Attachment - File Icon", async () => {
+    // Validate file icon is displayed correctly on last chat message sent
+    const fileIcon = await ChatScreen.getLastMessageReceivedFileIcon();
+    expect(fileIcon).toBeDisplayed();
+  });
+
+  it("Chats - Received Message with Attachment - Download Button", async () => {
+    // Validate file download button is displayed correctly on last chat message sent
+    const fileDownloadButton =
+      await ChatScreen.getLastMessageReceivedDownloadButton();
+    expect(fileDownloadButton).toBeDisplayed();
   });
 
   after(async () => {

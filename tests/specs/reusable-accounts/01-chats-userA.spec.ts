@@ -237,6 +237,78 @@ describe("Two users at the same time - Chat User A", async () => {
     await ChatScreen.clearInputBar();
   });
 
+  it("Chats - Validate compose attachments contents", async () => {
+    // Click on upload button and attach a file to compose attachment
+    await ChatScreen.uploadFile("./tests/fixtures/logo.jpg");
+
+    // Get the full path of file selected
+    const expectedPath = await ChatScreen.getFilePath(
+      "./tests/fixtures/logo.jpg"
+    );
+
+    // Validate contents on Compose Attachments are displayed
+    expect(await ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
+    expect(await ChatScreen.composeAttachmentsFileIcon).toBeDisplayed();
+    expect(await ChatScreen.composeAttachmentsFileInfo).toBeDisplayed();
+
+    expect(
+      await ChatScreen.composeAttachmentsFileNameText
+    ).toHaveTextContaining(expectedPath);
+  });
+
+  it("Chats - Delete attachment before sending the message", async () => {
+    // Click on upload button and attach a file to compose attachment
+    await ChatScreen.deleteFileOnComposeAttachment();
+
+    // Validate contents on Compose Attachments are displayed
+    await (
+      await ChatScreen.composeAttachmentsFileEmbed
+    ).waitForExist({ reverse: true });
+  });
+
+  it("Chats - Select a file and send message with attachment", async () => {
+    // Click on upload button and attach a file to compose attachment
+    await ChatScreen.uploadFile("./tests/fixtures/logo.jpg");
+
+    // Validate contents on Compose Attachments are displayed
+    expect(await ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
+
+    // Type a text message and send it
+    await ChatScreen.typeMessageOnInput("message with attachment");
+    await ChatScreen.clickOnSendMessage();
+  });
+
+  it("Chats - Message Sent With Attachment - Text contents", async () => {
+    // Validate text from message containing attachment
+    const textFromMessage = await ChatScreen.getLastMessageSentText();
+    expect(textFromMessage).toEqual("message with attachment");
+  });
+
+  it("Chats - Message Sent With Attachment - File Meta Data", async () => {
+    // Validate file metadata is displayed correctly on last chat message sent
+    const fileMeta = await ChatScreen.getLastMessageSentFileMeta();
+    expect(fileMeta).toHaveTextContaining("7.75 kB");
+  });
+
+  it("Chats - Message Sent With Attachment - File Name", async () => {
+    // Validate filename is displayed correctly on last chat message sent
+    const fileName = await ChatScreen.getLastMessageSentFileName();
+    expect(fileName).toHaveTextContaining("logo.jpg");
+  });
+
+  it("Chats - Message Sent With Attachment - File Icon", async () => {
+    // Validate file icon is displayed correctly on last chat message sent
+    const fileIcon = await ChatScreen.getLastMessageSentFileIcon();
+    expect(fileIcon).toBeDisplayed();
+  });
+
+  it("Chats - Message Sent With Attachment - Download Button", async () => {
+    // Validate file download button is displayed correctly on last chat message sent
+    const fileDownloadButton =
+      await ChatScreen.getLastMessageSentDownloadButton();
+    expect(fileDownloadButton).toBeDisplayed();
+  });
+
   after(async () => {
     // Pause for 30 seconds before finishing execution
     await browser.pause(30000);
