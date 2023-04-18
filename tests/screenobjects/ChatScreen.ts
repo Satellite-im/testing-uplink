@@ -868,6 +868,24 @@ class ChatScreen extends UplinkMainScreen {
     return lastReplyReceivedText;
   }
 
+  async waitForMessageToBeDeleted(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await $(
+        '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[@value="' +
+          expectedMessage +
+          '"]'
+      ).waitForExist({ timeout: timeoutMsg, reverse: true });
+    } else if (currentDriver === "windows") {
+      await $(
+        '//Group[@Name="message-text"]/Text[@Name="' + expectedMessage + '"]'
+      ).waitForExist({ timeout: timeoutMsg, reverse: true });
+    }
+  }
+
   async waitForReceivingMessage(
     expectedMessage: string,
     timeoutMsg: number = 30000

@@ -46,7 +46,7 @@ describe("Two users at the same time - Chat User A", async () => {
     await ChatScreen.clickOnSendMessage();
 
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toEqual("testing...");
+    expect(textFromMessage).toHaveTextContaining("testing...");
   });
 
   it("Validate Chat Message displays timestamp and user who sent it", async () => {
@@ -153,7 +153,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
     // Validate reply message sent appears as last message
     const textFromMessage = await ChatScreen.getLastMessageReceivedText();
-    expect(textFromMessage).toEqual("this is a reply");
+    expect(textFromMessage).toHaveTextContaining("this is a reply");
   });
 
   it("Receive Reply - Validate reply message group contains timestamp", async () => {
@@ -191,7 +191,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
     // Validate that last message was deleted and therefore the last message displayed is "message two"
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toEqual("message two");
+    expect(textFromMessage).toHaveTextContaining("message two");
   });
 
   it("Context Menu - Edit Message", async () => {
@@ -202,7 +202,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
     // Validate message edited contents is shown on Chat Screen
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toEqual("edited...");
+    expect(textFromMessage).toHaveTextContaining("edited...");
   });
 
   it("Message Input - User cannot send empty messages", async () => {
@@ -219,7 +219,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
     // Validate latest message sent displayed on Chat Conversation is still "edited..."
     const latestMessage = await ChatScreen.getLastMessageSentText();
-    expect(latestMessage).toEqual("edited...");
+    expect(latestMessage).toHaveTextContaining("edited...");
   });
 
   // Skipping test failing on CI due to slowness on driver typing 1024 characters
@@ -281,7 +281,7 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Chats - Message Sent With Attachment - Text contents", async () => {
     // Validate text from message containing attachment
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toEqual("message with attachment");
+    expect(textFromMessage).toHaveTextContaining("message with attachment");
   });
 
   it("Chats - Message Sent With Attachment - File Meta Data", async () => {

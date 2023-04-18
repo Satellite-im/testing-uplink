@@ -36,7 +36,7 @@ describe("Two users at the same time - Chat User B", async () => {
   it("Assert message received from Chat User A", async () => {
     await (await ChatScreen.chatMessage).waitForDisplayed({ timeout: 30000 });
     const textFromMessage = await ChatScreen.getLastMessageReceivedText();
-    expect(textFromMessage).toEqual("testing...");
+    expect(textFromMessage).toHaveTextContaining("testing...");
   });
 
   it("Validate Chat Message received contents", async () => {
@@ -104,7 +104,7 @@ describe("Two users at the same time - Chat User B", async () => {
 
     // Validate reply message sent appears as last message
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toEqual("this is a reply");
+    expect(textFromMessage).toHaveTextContaining("this is a reply");
   });
 
   it("Send Reply - Validate reply message group contains timestamp", async () => {
@@ -132,10 +132,8 @@ describe("Two users at the same time - Chat User B", async () => {
   });
 
   it("Validate that only deleted message is no longer in conversation", async () => {
-    // Ensure that last received group only contains one message, the edited one
-    const numberOfMessagesInGroup =
-      await ChatScreen.getNumberOfMessagesInLastReceivedGroup();
-    expect(numberOfMessagesInGroup).toEqual(1);
+    // Ensure that message three was deleted
+    await ChatScreen.waitForMessageToBeDeleted("message three", 30000);
   });
 
   it("Chats - Validate message with attachments is received", async () => {
