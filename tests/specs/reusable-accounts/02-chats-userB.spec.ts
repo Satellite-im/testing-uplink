@@ -9,10 +9,6 @@ describe("Two users at the same time - Chat User B", async () => {
     await loginWithTestUser();
     await WelcomeScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
-
-    // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-    await (await FriendsScreen.chatWithFriendButton).waitForExist();
-    await (await FriendsScreen.chatWithFriendButton).click();
   });
 
   it("Accept Friend Request received from Chat User A", async () => {

@@ -865,7 +865,6 @@ class ChatScreen extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_REPLY)
       .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
       .getText();
-    CHAT_MESSAGE_TEXT_VALUE;
     return lastReplyReceivedText;
   }
 
