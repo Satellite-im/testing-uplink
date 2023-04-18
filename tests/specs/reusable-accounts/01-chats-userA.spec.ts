@@ -74,62 +74,6 @@ describe("Two users at the same time - Chat User A", async () => {
     expect(onlineIndicator).toExist();
   });
 
-  it("Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
-    // Validate Call button tooltip contains "Coming soon"
-    await ChatScreen.hoverOnCallButton();
-    expect(await ChatScreen.topbarCallTooltip).toBeDisplayed();
-    expect(await ChatScreen.topbarCallTooltipText).toHaveTextContaining(
-      "Coming soon"
-    );
-
-    // Validate Videocall button tooltip contains "Coming soon"
-    await ChatScreen.hoverOnVideocallButton();
-    expect(await ChatScreen.topbarVideocallTooltip).toBeDisplayed();
-    expect(await ChatScreen.topbarVideocallTooltipText).toHaveTextContaining(
-      "Coming soon"
-    );
-  });
-
-  it("Validate Chat Screen tooltips are displayed", async () => {
-    // Validate Favorites button tooltip
-    await ChatScreen.hoverOnFavoritesButton();
-    expect(await ChatScreen.topbarAddToFavoritesTooltip).toBeDisplayed();
-    expect(
-      await ChatScreen.topbarAddToFavoritesTooltipText
-    ).toHaveTextContaining("Add to Favorites");
-
-    // Validate Upload button tooltip
-    await ChatScreen.hoverOnUploadButton();
-    expect(await ChatScreen.uploadTooltip).toBeDisplayed();
-    expect(await ChatScreen.uploadTooltipText).toHaveTextContaining("Upload");
-
-    // Validate Send button tooltip
-    await ChatScreen.hoverOnSendButton();
-    expect(await ChatScreen.sendMessageTooltip).toBeDisplayed();
-    expect(await ChatScreen.sendMessageTooltipText).toHaveTextContaining(
-      "Send"
-    );
-  });
-
-  it("Chats - Add user with active chat to Favorites", async () => {
-    // Add user to favorites
-    await ChatScreen.addToFavorites();
-    await (await ChatScreen.favorites).waitForDisplayed();
-
-    // Favorites Sidebar should be displayed
-    expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
-    expect(await ChatScreen.favoritesUserIndicatorOnline).toBeDisplayed();
-    expect(await ChatScreen.favoritesUserName).toHaveTextContaining(
-      "CHATUS..."
-    );
-  });
-
-  it("Chats - Remove user with active chat from Favorites", async () => {
-    // Remove user from favorites
-    await ChatScreen.removeFromFavorites();
-    await (await ChatScreen.favorites).waitForDisplayed({ reverse: true });
-  });
-
   it("Chats - Topbar information", async () => {
     // Validate user image, username and online indicator are displayed on Chat Topbar
     expect(await ChatScreen.topbarUserImage).toBeDisplayed();
@@ -307,6 +251,62 @@ describe("Two users at the same time - Chat User A", async () => {
     const fileDownloadButton =
       await ChatScreen.getLastMessageSentDownloadButton();
     expect(fileDownloadButton).toBeDisplayed();
+  });
+
+  it("Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
+    // Validate Call button tooltip contains "Coming soon"
+    await ChatScreen.hoverOnCallButton();
+    expect(await ChatScreen.topbarCallTooltip).toBeDisplayed();
+    expect(await ChatScreen.topbarCallTooltipText).toHaveTextContaining(
+      "Coming soon"
+    );
+
+    // Validate Videocall button tooltip contains "Coming soon"
+    await ChatScreen.hoverOnVideocallButton();
+    expect(await ChatScreen.topbarVideocallTooltip).toBeDisplayed();
+    expect(await ChatScreen.topbarVideocallTooltipText).toHaveTextContaining(
+      "Coming soon"
+    );
+  });
+
+  it("Validate Chat Screen tooltips are displayed", async () => {
+    // Validate Favorites button tooltip
+    await ChatScreen.hoverOnFavoritesButton();
+    expect(await ChatScreen.topbarAddToFavoritesTooltip).toBeDisplayed();
+    expect(
+      await ChatScreen.topbarAddToFavoritesTooltipText
+    ).toHaveTextContaining("Add to Favorites");
+
+    // Validate Upload button tooltip
+    await ChatScreen.hoverOnUploadButton();
+    expect(await ChatScreen.uploadTooltip).toBeDisplayed();
+    expect(await ChatScreen.uploadTooltipText).toHaveTextContaining("Upload");
+
+    // Validate Send button tooltip
+    await ChatScreen.hoverOnSendButton();
+    expect(await ChatScreen.sendMessageTooltip).toBeDisplayed();
+    expect(await ChatScreen.sendMessageTooltipText).toHaveTextContaining(
+      "Send"
+    );
+  });
+
+  it("Chats - Add user with active chat to Favorites", async () => {
+    // Add user to favorites
+    await ChatScreen.addToFavorites();
+    await (await ChatScreen.favorites).waitForDisplayed();
+
+    // Favorites Sidebar should be displayed
+    expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
+    expect(await ChatScreen.favoritesUserIndicatorOnline).toBeDisplayed();
+    expect(await ChatScreen.favoritesUserName).toHaveTextContaining(
+      "CHATUS..."
+    );
+  });
+
+  it("Chats - Remove user with active chat from Favorites", async () => {
+    // Remove user from favorites
+    await ChatScreen.removeFromFavorites();
+    await (await ChatScreen.favorites).waitForDisplayed({ reverse: true });
   });
 
   after(async () => {

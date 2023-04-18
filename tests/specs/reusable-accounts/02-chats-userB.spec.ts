@@ -143,7 +143,7 @@ describe("Two users at the same time - Chat User B", async () => {
   it("Chats - Received Message with Attachment - Text Message contents", async () => {
     // Validate text from message containing attachment
     const textFromMessage = await ChatScreen.getLastMessageReceivedText();
-    expect(textFromMessage).toEqual("message with attachment");
+    expect(textFromMessage).toHaveTextContaining("message with attachment");
   });
 
   it("Chats - Received Message with Attachment - File Metadata", async () => {
