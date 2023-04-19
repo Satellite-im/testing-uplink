@@ -196,19 +196,19 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get chatMessageFileButtonLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_BUTTON
+    );
   }
 
   get chatMessageFileButtonRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_BUTTON
+    );
   }
 
   get chatMessageFileEmbedLocal() {
-    return $(SELECTORS.CHAT_MESSAGE).$(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
   }
 
   get chatMessageFileEmbedRemote() {
@@ -216,77 +216,73 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get chatMessageFileIconLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_ICON
+    );
   }
 
   get chatMessageFileIconRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_ICON
+    );
   }
 
   get chatMessageFileInfoLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_INFO);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_INFO
+    );
   }
 
   get chatMessageFileInfoRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_INFO);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_INFO
+    );
   }
 
   get chatMessageFileMetaLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_META);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_META
+    );
   }
 
   get chatMessageFileMetaRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_META);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_META
+    );
   }
 
   get chatMessageFileMetaTextLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
   }
 
   get chatMessageFileMetaTextRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
   }
 
   get chatMessageFileNameLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_NAME
+    );
   }
 
   get chatMessageFileNameRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_NAME
+    );
   }
 
   get chatMessageFileNameTextLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
 
   get chatMessageFileNameTextRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
@@ -834,8 +830,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastMessage = await this.getLastMessageReceivedLocator();
     const lastMessageText = await lastMessage
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return lastMessageText;
   }
 
@@ -851,8 +846,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastGroupReceived = await this.getLastReceivedGroup();
     const timeAgoText = await lastGroupReceived
       .$(SELECTORS.CHAT_MESSAGE_TIME_AGO)
-      .$(SELECTORS.CHAT_MESSAGE_TIME_AGO_TEXT)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_TIME_AGO_TEXT);
     return timeAgoText;
   }
 
@@ -868,8 +862,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastGroupReceived = await this.getLastReceivedGroup();
     const lastReplyReceivedText = await lastGroupReceived
       .$(SELECTORS.CHAT_MESSAGE_REPLY)
-      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
     return lastReplyReceivedText;
   }
 
@@ -977,8 +970,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastMessage = await this.getLastMessageSentLocator();
     const lastMessageText = await lastMessage
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return lastMessageText;
   }
 
@@ -986,8 +978,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastGroupSent = await this.getLastSentGroup();
     const timeAgoText = await lastGroupSent
       .$(SELECTORS.CHAT_MESSAGE_TIME_AGO)
-      .$(SELECTORS.CHAT_MESSAGE_TIME_AGO_TEXT)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_TIME_AGO_TEXT);
     return timeAgoText;
   }
 
@@ -1001,8 +992,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastGroupSent = await this.getLastSentGroup();
     const lastReplySentText = await lastGroupSent
       .$(SELECTORS.CHAT_MESSAGE_REPLY)
-      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
     return lastReplySentText;
   }
 
