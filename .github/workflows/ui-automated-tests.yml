@@ -1,4 +1,4 @@
-name: UI Tests on Windows and MacOS 🧪
+name: UI Automated Tests
 
 on:
   pull_request:

@@ -1,23 +1,11 @@
-name: Add Test Results Label to PR
+name: Add Test Results Label
 
 on:
   workflow_run:
-    workflows: [UI Tests on Windows and MacOS 🧪]
-    types:
-      - completed
+    workflows: [UI Automated Tests]
+    types: [completed]
 
 jobs:
-  remove-label:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    steps:
-      - name: Remove Failed Tests Label
-        uses: buildsville/add-remove-label@v2.0.0
-        with:
-          token: ${{secrets.GITHUB_TOKEN}}
-          labels: Failed Automation Test
-          type: remove
-
   add-label:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
@@ -28,6 +16,8 @@ jobs:
         with:
           label: "Failed Automation Test"
           commit: ${{ github.event.workflow_run.head_commit.id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Remove label
         if: ${{ github.event.workflow_run.conclusion == 'success' && steps.check-label.outputs.label_exists == 'true' }}
