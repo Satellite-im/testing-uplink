@@ -209,9 +209,7 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get chatMessageFileEmbedRemote() {
-    return $(SELECTORS.CHAT_MESSAGE).$(
-      SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE
-    );
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE);
   }
 
   get chatMessageFileIconLocal() {
@@ -894,17 +892,21 @@ class ChatScreen extends UplinkMainScreen {
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $(
-        '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
-          expectedMessage +
-          '")]'
-      ).waitForDisplayed({ timeout: timeoutMsg });
+      await $$(SELECTORS.CHAT_MESSAGE)
+        .$(
+          '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForDisplayed({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
-      await $(
-        '//Group[@Name="message-text"]/Text[contains(@Name, "' +
-          expectedMessage +
-          '")]'
-      ).waitForDisplayed({ timeout: timeoutMsg });
+      await $$(SELECTORS.CHAT_MESSAGE)
+        .$(
+          '//Group[@Name="message-text"]/Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForDisplayed({ timeout: timeoutMsg });
     }
   }
 
