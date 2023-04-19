@@ -1,5 +1,11 @@
 import { faker } from "@faker-js/faker";
-import { rightClickOnMacOS, rightClickOnWindows } from "../helpers/commands";
+import {
+  rightClickOnMacOS,
+  rightClickOnWindows,
+  selectFileOnMacos,
+  selectFileOnWindows,
+} from "../helpers/commands";
+import { join } from "path";
 import UplinkMainScreen from "./UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -203,9 +209,7 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get chatMessageFileEmbedRemote() {
-    return $(SELECTORS.CHAT_MESSAGE).$(
-      SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE
-    );
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE);
   }
 
   get chatMessageFileIconLocal() {
@@ -672,6 +676,10 @@ class ChatScreen extends UplinkMainScreen {
     await this.uploadButton.click();
   }
 
+  async deleteFileOnComposeAttachment() {
+    (await this.composeAttachmentsButton).click();
+  }
+
   async generateRandomText() {
     // Get a random word of 9 chars and add it a space
     const wordToRepeat = faker.lorem.word(9) + " ";
@@ -680,6 +688,10 @@ class ChatScreen extends UplinkMainScreen {
     // Now, add 4 more chars, to have 1024 chars
     longParagraph += "abcd";
     return longParagraph;
+  }
+
+  async getFilePath(relativePath: string) {
+    return join(process.cwd(), relativePath);
   }
 
   async pressEnterKeyOnInputBar() {
@@ -698,8 +710,21 @@ class ChatScreen extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let enterValue;
     currentDriver === "windows" ? (enterValue = "\uE007") : (enterValue = "\n");
-    await browser.pause(1000);
+    await messageEditableInput?.clearValue();
     await messageEditableInput?.setValue(editedMessage + enterValue);
+  }
+
+  async uploadFile(relativePath: string) {
+    const currentDriver = await this.getCurrentDriver();
+    await this.clickOnUploadFile();
+    if (currentDriver === "mac2") {
+      await selectFileOnMacos(relativePath);
+    } else if (currentDriver === "windows") {
+      await selectFileOnWindows(relativePath);
+    }
+
+    // Validate that profile banner is displayed on screen
+    expect(await this.composeAttachmentsFileEmbed).toBeDisplayed();
   }
 
   // Message Group Wraps Methods
@@ -758,6 +783,46 @@ class ChatScreen extends UplinkMainScreen {
     return lastMessageLocator;
   }
 
+  async getLastMessageReceivedDownloadButton() {
+    const lastMessage = await this.getLastMessageReceivedLocator();
+    const getLastMessageDownloadButton = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_BUTTON
+    );
+    return getLastMessageDownloadButton;
+  }
+
+  async getLastMessageReceivedFileEmbed() {
+    const lastMessage = await this.getLastMessageReceivedLocator();
+    const lastMessageFileEmbed = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_EMBED
+    );
+    return lastMessageFileEmbed;
+  }
+
+  async getLastMessageReceivedFileIcon() {
+    const lastMessage = await this.getLastMessageReceivedLocator();
+    const lastMessageFileIcon = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_ICON
+    );
+    return lastMessageFileIcon;
+  }
+
+  async getLastMessageReceivedFileMeta() {
+    const lastMessage = await this.getLastMessageReceivedLocator();
+    const lastMessageFileMeta = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_META
+    );
+    return lastMessageFileMeta;
+  }
+
+  async getLastMessageReceivedFileName() {
+    const lastMessage = await this.getLastMessageReceivedLocator();
+    const lastMessageFileName = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT
+    );
+    return lastMessageFileName;
+  }
+
   async getLastMessageReceivedText() {
     const lastMessage = await this.getLastMessageReceivedLocator();
     const lastMessageText = await lastMessage
@@ -801,29 +866,96 @@ class ChatScreen extends UplinkMainScreen {
     return lastReplyReceivedText;
   }
 
+  async waitForMessageToBeDeleted(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await $(
+        '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]'
+      ).waitForExist({ timeout: timeoutMsg, reverse: true });
+    } else if (currentDriver === "windows") {
+      await $(
+        '//Group[@Name="message-text"]/Text[contains(@Name, "' +
+          expectedMessage +
+          '")]'
+      ).waitForExist({ timeout: timeoutMsg, reverse: true });
+    }
+  }
+
   async waitForReceivingMessage(
     expectedMessage: string,
-    timeout: number = 30000
+    timeoutMsg: number = 30000
   ) {
-    // Get locator of message
-    const lastMessageText = await this.getLastMessageReceivedTextLocator();
-
-    // Wait until text from last message is equal to expected message
-    await lastMessageText.waitUntil(
-      async function () {
-        return (await lastMessageText.getText()) === expectedMessage;
-      },
-      { timeout: timeout }
-    );
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await $$(SELECTORS.CHAT_MESSAGE)
+        .$(
+          '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForDisplayed({ timeout: timeoutMsg });
+    } else if (currentDriver === "windows") {
+      await $$(SELECTORS.CHAT_MESSAGE)
+        .$(
+          '//Group[@Name="message-text"]/Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForDisplayed({ timeout: timeoutMsg });
+    }
   }
 
   // Messages Sent Methods
-
   async getLastSentGroup() {
     const messageGroupsSent = await this.chatMessageGroupSent;
     const lastGroupIndex = (await messageGroupsSent.length) - 1;
     const lastGroupLocator = await messageGroupsSent[lastGroupIndex];
     return lastGroupLocator;
+  }
+
+  async getLastMessageSentDownloadButton() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const getLastMessageSentDownloadButton = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_BUTTON
+    );
+    return getLastMessageSentDownloadButton;
+  }
+
+  async getLastMessageSentFileEmbed() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const lastMessageFileEmbed = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_EMBED
+    );
+    return lastMessageFileEmbed;
+  }
+
+  async getLastMessageSentFileIcon() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const lastMessageFileIcon = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_ICON
+    );
+    return lastMessageFileIcon;
+  }
+
+  async getLastMessageSentFileMeta() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const lastMessageFileMeta = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_META
+    );
+    return lastMessageFileMeta;
+  }
+
+  async getLastMessageSentFileName() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const lastMessageFileName = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT
+    );
+    return lastMessageFileName;
   }
 
   async getLastMessageSentLocator() {

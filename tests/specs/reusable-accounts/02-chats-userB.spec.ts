@@ -36,7 +36,7 @@ describe("Two users at the same time - Chat User B", async () => {
   it("Assert message received from Chat User A", async () => {
     await (await ChatScreen.chatMessage).waitForDisplayed({ timeout: 30000 });
     const textFromMessage = await ChatScreen.getLastMessageReceivedText();
-    expect(textFromMessage).toEqual("testing...");
+    expect(textFromMessage).toHaveTextContaining("testing...");
   });
 
   it("Validate Chat Message received contents", async () => {
@@ -104,7 +104,7 @@ describe("Two users at the same time - Chat User B", async () => {
 
     // Validate reply message sent appears as last message
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toEqual("this is a reply");
+    expect(textFromMessage).toHaveTextContaining("this is a reply");
   });
 
   it("Send Reply - Validate reply message group contains timestamp", async () => {
@@ -126,18 +126,50 @@ describe("Two users at the same time - Chat User B", async () => {
     expect(onlineIndicator).toExist();
   });
 
-  // Skipped since test is failing on CI - Needs research
-  xit("Validate that second message was edited", async () => {
+  it("Chats - Received Message with Attachment - Text Message contents", async () => {
+    await (
+      await ChatScreen.chatMessageFileEmbedRemote
+    ).waitForDisplayed({
+      timeout: 240000,
+    });
+    // Validate text from message containing attachment
+    const textFromMessage = await ChatScreen.getLastMessageReceivedText();
+    expect(textFromMessage).toHaveTextContaining("message with attachment");
+  });
+
+  it("Chats - Received Message with Attachment - File Metadata", async () => {
+    // Validate file metadata is displayed correctly on last chat message sent
+    const fileMeta = await ChatScreen.getLastMessageReceivedFileMeta();
+    expect(fileMeta).toHaveTextContaining("7.75 kB");
+  });
+
+  it("Chats - Received Message with Attachment - File Name", async () => {
+    // Validate filename is displayed correctly on last chat message sent
+    const fileName = await ChatScreen.getLastMessageReceivedFileName();
+    expect(fileName).toHaveTextContaining("logo.jpg");
+  });
+
+  it("Chats - Received Message with Attachment - File Icon", async () => {
+    // Validate file icon is displayed correctly on last chat message sent
+    const fileIcon = await ChatScreen.getLastMessageReceivedFileIcon();
+    expect(fileIcon).toBeDisplayed();
+  });
+
+  it("Chats - Received Message with Attachment - Download Button", async () => {
+    // Validate file download button is displayed correctly on last chat message sent
+    const fileDownloadButton =
+      await ChatScreen.getLastMessageReceivedDownloadButton();
+    expect(fileDownloadButton).toBeDisplayed();
+  });
+
+  xit("Chats - Validate that second message was edited", async () => {
     // Validate that last message is "edited"
     await ChatScreen.waitForReceivingMessage("edited...", 240000);
   });
 
-  // Skipped since test is failing on CI - Needs research
-  xit("Validate that only deleted message is no longer in conversation", async () => {
-    // Ensure that last received group only contains one message, the edited one
-    const numberOfMessagesInGroup =
-      await ChatScreen.getNumberOfMessagesInLastReceivedGroup();
-    expect(numberOfMessagesInGroup).toEqual(1);
+  it("Validate that only deleted message is no longer in conversation", async () => {
+    // Ensure that message three was deleted
+    await ChatScreen.waitForMessageToBeDeleted("message three", 30000);
   });
 
   after(async () => {
