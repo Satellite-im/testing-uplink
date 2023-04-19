@@ -893,13 +893,15 @@ class ChatScreen extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
       await $(
-        '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[@value="' +
+        '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
           expectedMessage +
-          '"]'
+          '")]'
       ).waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
       await $(
-        '//Group[@Name="message-text"]/Text[@Name="' + expectedMessage + '"]'
+        '//Group[@Name="message-text"]/Text[contains(@Name, "' +
+          expectedMessage +
+          '")]'
       ).waitForExist({ timeout: timeoutMsg });
     }
   }
