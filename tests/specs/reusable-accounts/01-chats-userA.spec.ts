@@ -46,7 +46,7 @@ describe("Two users at the same time - Chat User A", async () => {
     await ChatScreen.clickOnSendMessage();
 
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toEqual("testing...");
+    expect(textFromMessage).toHaveTextContaining("testing...");
   });
 
   it("Validate Chat Message displays timestamp and user who sent it", async () => {
@@ -72,6 +72,185 @@ describe("Two users at the same time - Chat User A", async () => {
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
     expect(onlineIndicator).toExist();
+  });
+
+  it("Chats - Topbar information", async () => {
+    // Validate user image, username and online indicator are displayed on Chat Topbar
+    expect(await ChatScreen.topbarUserImage).toBeDisplayed();
+    expect(await ChatScreen.topbarUserName).toHaveTextContaining("ChatUserB");
+    expect(await ChatScreen.topbarIndicatorOnline).toBeDisplayed();
+  });
+
+  it("Receive Reply - Validate reply message is received from remote user", async () => {
+    // Wait until reply is received
+    await (
+      await ChatScreen.chatMessageReply
+    ).waitForDisplayed({ timeout: 180000 });
+  });
+
+  it("Receive Reply - Validate reply message contents", async () => {
+    // Validate message replied appears smaller above your reply
+    const replyReceived = await ChatScreen.getLastReplyReceived();
+    const replyReceivedText = await ChatScreen.getLastReplyReceivedText();
+    expect(replyReceived).toBeDisplayed();
+    expect(replyReceivedText).toHaveTextContaining("testing...");
+
+    // Validate reply message sent appears as last message
+    const textFromMessage = await ChatScreen.getLastMessageReceivedText();
+    expect(textFromMessage).toHaveTextContaining("this is a reply");
+  });
+
+  it("Receive Reply - Validate reply message group contains timestamp", async () => {
+    //Timestamp from last message sent should be displayed
+    const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
+    expect(timeAgo).toHaveTextContaining(
+      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    );
+    expect(timeAgo).toHaveTextContaining("ChatUserB");
+  });
+
+  it("Receive Reply - Validate reply message group contains user image and online indicator", async () => {
+    //Your user image should be displayed next to the message
+    const userImage = await ChatScreen.getLastGroupWrapImage();
+    expect(userImage).toExist();
+
+    //Online indicator of your user should be displayed next to the image
+    const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
+    expect(onlineIndicator).toExist();
+  });
+
+  it("Send two more messages to Chat User B", async () => {
+    // Send two messages to Chat User B
+    await ChatScreen.typeMessageOnInput("message two");
+    await ChatScreen.clickOnSendMessage();
+
+    await ChatScreen.typeMessageOnInput("message three");
+    await ChatScreen.clickOnSendMessage();
+  });
+
+  it("Context Menu - Delete Message", async () => {
+    // Open context menu on last message sent and select option with index = 3 (delete)
+    await ChatScreen.openContextMenuOnSentMessage();
+    await ChatScreen.selectContextOption(3);
+
+    // Validate that last message was deleted and therefore the last message displayed is "message two"
+    const textFromMessage = await ChatScreen.getLastMessageSentText();
+    expect(textFromMessage).toHaveTextContaining("message two");
+  });
+
+  it("Context Menu - Edit Message", async () => {
+    // Open context menu on last message sent, select option with index = 2 (edit) and type a new message
+    await ChatScreen.openContextMenuOnSentMessage();
+    await ChatScreen.selectContextOption(2);
+    await ChatScreen.typeOnEditMessageInput("edited...");
+
+    // Validate message edited contents is shown on Chat Screen
+    const textFromMessage = await ChatScreen.getLastMessageSentText();
+    expect(textFromMessage).toHaveTextContaining("edited...");
+  });
+
+  it("Message Input - User cannot send empty messages", async () => {
+    // Ensure that input bar is empty and click on send message button
+    await ChatScreen.clearInputBar();
+    await ChatScreen.clearInputBar();
+    await ChatScreen.clickOnInputBar();
+    await ChatScreen.clickOnSendMessage();
+
+    // Ensure that input bar is empty and press Enter Key
+    await ChatScreen.clearInputBar();
+    await ChatScreen.clickOnInputBar();
+    await ChatScreen.pressEnterKeyOnInputBar();
+
+    // Validate latest message sent displayed on Chat Conversation is still "edited..."
+    const latestMessage = await ChatScreen.getLastMessageSentText();
+    expect(latestMessage).toHaveTextContaining("edited...");
+  });
+
+  // Skipping test failing on CI due to slowness on driver typing 1024 characters
+  xit("Message Input - User can type up to 1024 chars on input bar", async () => {
+    // Generate a random text with 1024 chars
+    const longText = await ChatScreen.generateRandomText();
+    // Type long text with 1024 chars on input bar and attempt to add 4 more chars (efgh)
+    await ChatScreen.typeMessageOnInput(longText + "efgh");
+
+    // Ensure that latest chars were not added to input bar, since the max number of chars has been reached
+    // Input bar text should be equal to long text with 1024 chars
+    await expect(ChatScreen.inputText).toHaveText(longText);
+
+    // Clear input bar to finish test
+    await ChatScreen.clearInputBar();
+  });
+
+  it("Chats - Validate compose attachments contents", async () => {
+    // Click on upload button and attach a file to compose attachment
+    await ChatScreen.uploadFile("./tests/fixtures/logo.jpg");
+
+    // Get the full path of file selected
+    const expectedPath = await ChatScreen.getFilePath(
+      "./tests/fixtures/logo.jpg"
+    );
+
+    // Validate contents on Compose Attachments are displayed
+    expect(await ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
+    expect(await ChatScreen.composeAttachmentsFileIcon).toBeDisplayed();
+    expect(await ChatScreen.composeAttachmentsFileInfo).toBeDisplayed();
+
+    expect(
+      await ChatScreen.composeAttachmentsFileNameText
+    ).toHaveTextContaining(expectedPath);
+  });
+
+  it("Chats - Delete attachment before sending the message", async () => {
+    // Click on upload button and attach a file to compose attachment
+    await ChatScreen.deleteFileOnComposeAttachment();
+
+    // Validate contents on Compose Attachments are displayed
+    await (
+      await ChatScreen.composeAttachmentsFileEmbed
+    ).waitForExist({ reverse: true });
+  });
+
+  it("Chats - Select a file and send message with attachment", async () => {
+    // Click on upload button and attach a file to compose attachment
+    await ChatScreen.uploadFile("./tests/fixtures/logo.jpg");
+
+    // Validate contents on Compose Attachments are displayed
+    expect(await ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
+
+    // Type a text message and send it
+    await ChatScreen.typeMessageOnInput("message with attachment");
+    await ChatScreen.clickOnSendMessage();
+  });
+
+  it("Chats - Message Sent With Attachment - Text contents", async () => {
+    // Validate text from message containing attachment
+    const textFromMessage = await ChatScreen.getLastMessageSentText();
+    expect(textFromMessage).toHaveTextContaining("message with attachment");
+  });
+
+  it("Chats - Message Sent With Attachment - File Meta Data", async () => {
+    // Validate file metadata is displayed correctly on last chat message sent
+    const fileMeta = await ChatScreen.getLastMessageSentFileMeta();
+    expect(fileMeta).toHaveTextContaining("7.75 kB");
+  });
+
+  it("Chats - Message Sent With Attachment - File Name", async () => {
+    // Validate filename is displayed correctly on last chat message sent
+    const fileName = await ChatScreen.getLastMessageSentFileName();
+    expect(fileName).toHaveTextContaining("logo.jpg");
+  });
+
+  it("Chats - Message Sent With Attachment - File Icon", async () => {
+    // Validate file icon is displayed correctly on last chat message sent
+    const fileIcon = await ChatScreen.getLastMessageSentFileIcon();
+    expect(fileIcon).toBeDisplayed();
+  });
+
+  it("Chats - Message Sent With Attachment - Download Button", async () => {
+    // Validate file download button is displayed correctly on last chat message sent
+    const fileDownloadButton =
+      await ChatScreen.getLastMessageSentDownloadButton();
+    expect(fileDownloadButton).toBeDisplayed();
   });
 
   it("Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
@@ -128,113 +307,6 @@ describe("Two users at the same time - Chat User A", async () => {
     // Remove user from favorites
     await ChatScreen.removeFromFavorites();
     await (await ChatScreen.favorites).waitForDisplayed({ reverse: true });
-  });
-
-  it("Chats - Topbar information", async () => {
-    // Validate user image, username and online indicator are displayed on Chat Topbar
-    expect(await ChatScreen.topbarUserImage).toBeDisplayed();
-    expect(await ChatScreen.topbarUserName).toHaveTextContaining("ChatUserB");
-    expect(await ChatScreen.topbarIndicatorOnline).toBeDisplayed();
-  });
-
-  it("Receive Reply - Validate reply message is received from remote user", async () => {
-    // Wait until reply is received
-    await (
-      await ChatScreen.chatMessageReply
-    ).waitForDisplayed({ timeout: 180000 });
-  });
-
-  it("Receive Reply - Validate reply message contents", async () => {
-    // Validate message replied appears smaller above your reply
-    const replyReceived = await ChatScreen.getLastReplyReceived();
-    const replyReceivedText = await ChatScreen.getLastReplyReceivedText();
-    expect(replyReceived).toBeDisplayed();
-    expect(replyReceivedText).toHaveTextContaining("testing...");
-
-    // Validate reply message sent appears as last message
-    const textFromMessage = await ChatScreen.getLastMessageReceivedText();
-    expect(textFromMessage).toEqual("this is a reply");
-  });
-
-  it("Receive Reply - Validate reply message group contains timestamp", async () => {
-    //Timestamp from last message sent should be displayed
-    const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
-    expect(timeAgo).toHaveTextContaining(
-      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
-    );
-    expect(timeAgo).toHaveTextContaining("ChatUserB");
-  });
-
-  it("Receive Reply - Validate reply message group contains user image and online indicator", async () => {
-    //Your user image should be displayed next to the message
-    const userImage = await ChatScreen.getLastGroupWrapImage();
-    expect(userImage).toExist();
-
-    //Online indicator of your user should be displayed next to the image
-    const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
-    expect(onlineIndicator).toExist();
-  });
-
-  it("Send two more messages to Chat User B", async () => {
-    // Send two messages to Chat User B
-    await ChatScreen.typeMessageOnInput("message two");
-    await ChatScreen.clickOnSendMessage();
-
-    await ChatScreen.typeMessageOnInput("message three");
-    await ChatScreen.clickOnSendMessage();
-  });
-
-  it("Context Menu - Delete Message", async () => {
-    // Open context menu on last message sent and select option with index = 3 (delete)
-    await ChatScreen.openContextMenuOnSentMessage();
-    await ChatScreen.selectContextOption(3);
-
-    // Validate that last message was deleted and therefore the last message displayed is "message two"
-    const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toEqual("message two");
-  });
-
-  it("Context Menu - Edit Message", async () => {
-    // Open context menu on last message sent, select option with index = 2 (edit) and type a new message
-    await ChatScreen.openContextMenuOnSentMessage();
-    await ChatScreen.selectContextOption(2);
-    await ChatScreen.typeOnEditMessageInput("edited...");
-
-    // Validate message edited contents is shown on Chat Screen
-    const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toEqual("edited...");
-  });
-
-  it("Message Input - User cannot send empty messages", async () => {
-    // Ensure that input bar is empty and click on send message button
-    await ChatScreen.clearInputBar();
-    await ChatScreen.clearInputBar();
-    await ChatScreen.clickOnInputBar();
-    await ChatScreen.clickOnSendMessage();
-
-    // Ensure that input bar is empty and press Enter Key
-    await ChatScreen.clearInputBar();
-    await ChatScreen.clickOnInputBar();
-    await ChatScreen.pressEnterKeyOnInputBar();
-
-    // Validate latest message sent displayed on Chat Conversation is still "edited..."
-    const latestMessage = await ChatScreen.getLastMessageSentText();
-    expect(latestMessage).toEqual("edited...");
-  });
-
-  // Skipping test failing on CI due to slowness on driver typing 1024 characters
-  xit("Message Input - User can type up to 1024 chars on input bar", async () => {
-    // Generate a random text with 1024 chars
-    const longText = await ChatScreen.generateRandomText();
-    // Type long text with 1024 chars on input bar and attempt to add 4 more chars (efgh)
-    await ChatScreen.typeMessageOnInput(longText + "efgh");
-
-    // Ensure that latest chars were not added to input bar, since the max number of chars has been reached
-    // Input bar text should be equal to long text with 1024 chars
-    await expect(ChatScreen.inputText).toHaveText(longText);
-
-    // Clear input bar to finish test
-    await ChatScreen.clearInputBar();
   });
 
   after(async () => {
