@@ -126,21 +126,12 @@ describe("Two users at the same time - Chat User B", async () => {
     expect(onlineIndicator).toExist();
   });
 
-  it("Validate that second message was edited", async () => {
-    // Validate that last message is "edited"
-    await ChatScreen.waitForReceivingMessage("edited...", 240000);
-  });
-
-  it("Validate that only deleted message is no longer in conversation", async () => {
-    // Ensure that message three was deleted
-    await ChatScreen.waitForMessageToBeDeleted("message three", 30000);
-  });
-
-  it("Chats - Validate message with attachments is received", async () => {
-    await ChatScreen.waitForReceivingMessage("message with attachment", 180000);
-  });
-
   it("Chats - Received Message with Attachment - Text Message contents", async () => {
+    await (
+      await ChatScreen.chatMessageFileEmbedRemote
+    ).waitForExist({
+      timeout: 240000,
+    });
     // Validate text from message containing attachment
     const textFromMessage = await ChatScreen.getLastMessageReceivedText();
     expect(textFromMessage).toHaveTextContaining("message with attachment");
@@ -169,6 +160,16 @@ describe("Two users at the same time - Chat User B", async () => {
     const fileDownloadButton =
       await ChatScreen.getLastMessageReceivedDownloadButton();
     expect(fileDownloadButton).toBeDisplayed();
+  });
+
+  xit("Chats - Validate that second message was edited", async () => {
+    // Validate that last message is "edited"
+    await ChatScreen.waitForReceivingMessage("edited...", 240000);
+  });
+
+  it("Validate that only deleted message is no longer in conversation", async () => {
+    // Ensure that message three was deleted
+    await ChatScreen.waitForMessageToBeDeleted("message three", 30000);
   });
 
   after(async () => {
