@@ -213,29 +213,3 @@ jobs:
         uses: geekyeggo/delete-artifact@v2
         with:
           name: appium-test-accounts
-
-  add-tests-results-label:
-    name: Add Test Results Label
-    if: ${{ always() }}
-    runs-on: ubuntu-latest
-    needs: test-chats
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
-
-      - name: Add label to PR if test execution failed
-        if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-        uses: christianvuerings/add-labels@v1
-        with:
-          labels: |
-            Failed Automation Test
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Remove label to PR if test execution is successful
-        if: ${{ github.event.workflow_run.conclusion == 'success' }}
-        uses: buildsville/add-remove-label@v2.0.0
-        with:
-          token: ${{secrets.GITHUB_TOKEN}}
-          labels: Failed Automation Test
-          type: remove
