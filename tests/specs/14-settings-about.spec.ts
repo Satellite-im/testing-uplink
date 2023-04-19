@@ -26,7 +26,7 @@ export default async function settingsAbout() {
     // Validate the header and description texts from Settings Section - About - Open Website
     await expect(
       await SettingsAboutScreen.openWebsiteHeader
-    ).toHaveTextContaining("OPEN WEBSITEEEE");
+    ).toHaveTextContaining("OPEN WEBSITE");
     await expect(
       await SettingsAboutScreen.openWebsiteDescription
     ).toHaveTextContaining("Opens our website in your default web browser.");
