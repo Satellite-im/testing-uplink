@@ -1,0 +1,36 @@
+name: Add Test Results Label
+
+on:
+  workflow_run:
+    workflows: [UI Tests on Windows and MacOS 🧪]
+    types: [completed]
+
+jobs:
+  add-label:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Check if label already exists
+        id: check-label
+        uses: peter-evans/check-label@v2.2.0
+        with:
+          label: "Failed Automation Test"
+          commit: ${{ github.event.workflow_run.head_commit.id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove label
+        if: ${{ github.event.workflow_run.conclusion == 'success' && steps.check-label.outputs.label_exists == 'true' }}
+        uses: peter-evans/remove-labels@v2.0.0
+        with:
+          labels: "Failed Automation Test"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Add Failed Tests Label
+        if: ${{ github.event.workflow_run.conclusion == 'failure' && steps.check-label.outputs.label_exists != 'true'
+        uses: peter-evans/add-labels@v2.2.0
+        with:
+          labels: "Failed Automation Test"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
