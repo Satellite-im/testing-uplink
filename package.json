@@ -9,6 +9,7 @@
     "mac.chatB": "wdio config/wdio.mac.chatB.conf.ts",
     "windows.app": "wdio config/wdio.windows.app.conf.ts",
     "windows.ci": "wdio config/wdio.windows.ci.conf.ts",
+    "windows.chatX": "wdio config/wdio.windows.chatA.conf.ts",
     "lint": "eslint config tests"
   },
   "repository": {
