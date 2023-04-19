@@ -19,9 +19,9 @@ describe("Two users at the same time - Chat User A", async () => {
     await FriendsScreen.enterFriendDidKey(friendDidKey);
     await FriendsScreen.clickOnAddSomeoneButton();
 
-    expect(await FriendsScreen.toastNotificationText).toHaveTextContaining(
-      "Friend Request Sent!"
-    );
+    await expect(
+      await FriendsScreen.toastNotificationText
+    ).toHaveTextContaining("Friend Request Sent!");
 
     // Wait for toast notification to be closed
     await FriendsScreen.waitUntilNotificationIsClosed();
@@ -41,44 +41,53 @@ describe("Two users at the same time - Chat User A", async () => {
     ).waitForDisplayed({ timeout: 240000 });
   });
 
+  it("Chats - Validate Messages secured text displayed on top of conversation", async () => {
+    (await ChatScreen.encryptedMessagesText).waitForDisplayed();
+    await expect(await ChatScreen.encryptedMessagesText).toHaveTextContaining(
+      "Messages secured by local E2E encryption."
+    );
+  });
+
   it("Chats - Send a message to the other user", async () => {
     await ChatScreen.typeMessageOnInput("testing...");
     await ChatScreen.clickOnSendMessage();
 
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toHaveTextContaining("testing...");
+    await expect(textFromMessage).toHaveTextContaining("testing...");
   });
 
   it("Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    expect(timeAgo).toHaveTextContaining(
+    await expect(timeAgo).toHaveTextContaining(
       /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
-    expect(timeAgo).toHaveTextContaining("ChatUserA");
+    await expect(timeAgo).toHaveTextContaining("ChatUserA");
   });
 
   it("Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
     const lastMessage = await ChatScreen.getLastMessageSentLocator();
-    expect(lastMessage).toBeDisplayed();
+    await expect(lastMessage).toBeDisplayed();
   });
 
   it("Validate Chat Message Group displays username picture and online indicator", async () => {
     //Your user image should be displayed next to the message
     const userImage = await ChatScreen.getLastGroupWrapImage();
-    expect(userImage).toExist();
+    await expect(userImage).toExist();
 
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
-    expect(onlineIndicator).toExist();
+    await expect(onlineIndicator).toExist();
   });
 
   it("Chats - Topbar information", async () => {
     // Validate user image, username and online indicator are displayed on Chat Topbar
-    expect(await ChatScreen.topbarUserImage).toBeDisplayed();
-    expect(await ChatScreen.topbarUserName).toHaveTextContaining("ChatUserB");
-    expect(await ChatScreen.topbarIndicatorOnline).toBeDisplayed();
+    await expect(await ChatScreen.topbarUserImage).toBeDisplayed();
+    await expect(await ChatScreen.topbarUserName).toHaveTextContaining(
+      "ChatUserB"
+    );
+    await expect(await ChatScreen.topbarIndicatorOnline).toBeDisplayed();
   });
 
   it("Receive Reply - Validate reply message is received from remote user", async () => {
@@ -92,31 +101,31 @@ describe("Two users at the same time - Chat User A", async () => {
     // Validate message replied appears smaller above your reply
     const replyReceived = await ChatScreen.getLastReplyReceived();
     const replyReceivedText = await ChatScreen.getLastReplyReceivedText();
-    expect(replyReceived).toBeDisplayed();
-    expect(replyReceivedText).toHaveTextContaining("testing...");
+    await expect(replyReceived).toBeDisplayed();
+    await expect(replyReceivedText).toHaveTextContaining("testing...");
 
     // Validate reply message sent appears as last message
     const textFromMessage = await ChatScreen.getLastMessageReceivedText();
-    expect(textFromMessage).toHaveTextContaining("this is a reply");
+    await expect(textFromMessage).toHaveTextContaining("this is a reply");
   });
 
   it("Receive Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
-    expect(timeAgo).toHaveTextContaining(
+    await expect(timeAgo).toHaveTextContaining(
       /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
-    expect(timeAgo).toHaveTextContaining("ChatUserB");
+    await expect(timeAgo).toHaveTextContaining("ChatUserB");
   });
 
   it("Receive Reply - Validate reply message group contains user image and online indicator", async () => {
     //Your user image should be displayed next to the message
     const userImage = await ChatScreen.getLastGroupWrapImage();
-    expect(userImage).toExist();
+    await expect(userImage).toExist();
 
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
-    expect(onlineIndicator).toExist();
+    await expect(onlineIndicator).toExist();
   });
 
   it("Send two more messages to Chat User B", async () => {
@@ -135,7 +144,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
     // Validate that last message was deleted and therefore the last message displayed is "message two"
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toHaveTextContaining("message two");
+    await expect(textFromMessage).toHaveTextContaining("message two");
   });
 
   it("Context Menu - Edit Message", async () => {
@@ -146,7 +155,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
     // Validate message edited contents is shown on Chat Screen
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toHaveTextContaining("edited...");
+    await expect(textFromMessage).toHaveTextContaining("edited...");
   });
 
   it("Message Input - User cannot send empty messages", async () => {
@@ -163,7 +172,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
     // Validate latest message sent displayed on Chat Conversation is still "edited..."
     const latestMessage = await ChatScreen.getLastMessageSentText();
-    expect(latestMessage).toHaveTextContaining("edited...");
+    await expect(latestMessage).toHaveTextContaining("edited...");
   });
 
   // Skipping test failing on CI due to slowness on driver typing 1024 characters
@@ -191,11 +200,11 @@ describe("Two users at the same time - Chat User A", async () => {
     );
 
     // Validate contents on Compose Attachments are displayed
-    expect(await ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
-    expect(await ChatScreen.composeAttachmentsFileIcon).toBeDisplayed();
-    expect(await ChatScreen.composeAttachmentsFileInfo).toBeDisplayed();
+    await expect(await ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
+    await expect(await ChatScreen.composeAttachmentsFileIcon).toBeDisplayed();
+    await expect(await ChatScreen.composeAttachmentsFileInfo).toBeDisplayed();
 
-    expect(
+    await expect(
       await ChatScreen.composeAttachmentsFileNameText
     ).toHaveTextContaining(expectedPath);
   });
@@ -215,7 +224,7 @@ describe("Two users at the same time - Chat User A", async () => {
     await ChatScreen.uploadFile("./tests/fixtures/logo.jpg");
 
     // Validate contents on Compose Attachments are displayed
-    expect(await ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
+    await expect(await ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
 
     // Type a text message and send it
     await ChatScreen.typeMessageOnInput("message with attachment");
@@ -225,67 +234,71 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Chats - Message Sent With Attachment - Text contents", async () => {
     // Validate text from message containing attachment
     const textFromMessage = await ChatScreen.getLastMessageSentText();
-    expect(textFromMessage).toHaveTextContaining("message with attachment");
+    await expect(textFromMessage).toHaveTextContaining(
+      "message with attachment"
+    );
   });
 
   it("Chats - Message Sent With Attachment - File Meta Data", async () => {
     // Validate file metadata is displayed correctly on last chat message sent
     const fileMeta = await ChatScreen.getLastMessageSentFileMeta();
-    expect(fileMeta).toHaveTextContaining("7.75 kB");
+    await expect(fileMeta).toHaveTextContaining("7.75 kB");
   });
 
   it("Chats - Message Sent With Attachment - File Name", async () => {
     // Validate filename is displayed correctly on last chat message sent
     const fileName = await ChatScreen.getLastMessageSentFileName();
-    expect(fileName).toHaveTextContaining("logo.jpg");
+    await expect(fileName).toHaveTextContaining("logo.jpg");
   });
 
   it("Chats - Message Sent With Attachment - File Icon", async () => {
     // Validate file icon is displayed correctly on last chat message sent
     const fileIcon = await ChatScreen.getLastMessageSentFileIcon();
-    expect(fileIcon).toBeDisplayed();
+    await expect(fileIcon).toBeDisplayed();
   });
 
   it("Chats - Message Sent With Attachment - Download Button", async () => {
     // Validate file download button is displayed correctly on last chat message sent
     const fileDownloadButton =
       await ChatScreen.getLastMessageSentDownloadButton();
-    expect(fileDownloadButton).toBeDisplayed();
+    await expect(fileDownloadButton).toBeDisplayed();
   });
 
   it("Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
     // Validate Call button tooltip contains "Coming soon"
     await ChatScreen.hoverOnCallButton();
-    expect(await ChatScreen.topbarCallTooltip).toBeDisplayed();
-    expect(await ChatScreen.topbarCallTooltipText).toHaveTextContaining(
+    await expect(await ChatScreen.topbarCallTooltip).toBeDisplayed();
+    await expect(await ChatScreen.topbarCallTooltipText).toHaveTextContaining(
       "Coming soon"
     );
 
     // Validate Videocall button tooltip contains "Coming soon"
     await ChatScreen.hoverOnVideocallButton();
-    expect(await ChatScreen.topbarVideocallTooltip).toBeDisplayed();
-    expect(await ChatScreen.topbarVideocallTooltipText).toHaveTextContaining(
-      "Coming soon"
-    );
+    await expect(await ChatScreen.topbarVideocallTooltip).toBeDisplayed();
+    await expect(
+      await ChatScreen.topbarVideocallTooltipText
+    ).toHaveTextContaining("Coming soon");
   });
 
   it("Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
     await ChatScreen.hoverOnFavoritesButton();
-    expect(await ChatScreen.topbarAddToFavoritesTooltip).toBeDisplayed();
-    expect(
+    await expect(await ChatScreen.topbarAddToFavoritesTooltip).toBeDisplayed();
+    await expect(
       await ChatScreen.topbarAddToFavoritesTooltipText
     ).toHaveTextContaining("Add to Favorites");
 
     // Validate Upload button tooltip
     await ChatScreen.hoverOnUploadButton();
-    expect(await ChatScreen.uploadTooltip).toBeDisplayed();
-    expect(await ChatScreen.uploadTooltipText).toHaveTextContaining("Upload");
+    await expect(await ChatScreen.uploadTooltip).toBeDisplayed();
+    await expect(await ChatScreen.uploadTooltipText).toHaveTextContaining(
+      "Upload"
+    );
 
     // Validate Send button tooltip
     await ChatScreen.hoverOnSendButton();
-    expect(await ChatScreen.sendMessageTooltip).toBeDisplayed();
-    expect(await ChatScreen.sendMessageTooltipText).toHaveTextContaining(
+    await expect(await ChatScreen.sendMessageTooltip).toBeDisplayed();
+    await expect(await ChatScreen.sendMessageTooltipText).toHaveTextContaining(
       "Send"
     );
   });
@@ -296,9 +309,9 @@ describe("Two users at the same time - Chat User A", async () => {
     await (await ChatScreen.favorites).waitForDisplayed();
 
     // Favorites Sidebar should be displayed
-    expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
-    expect(await ChatScreen.favoritesUserIndicatorOnline).toBeDisplayed();
-    expect(await ChatScreen.favoritesUserName).toHaveTextContaining(
+    await expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
+    await expect(await ChatScreen.favoritesUserIndicatorOnline).toBeDisplayed();
+    await expect(await ChatScreen.favoritesUserName).toHaveTextContaining(
       "CHATUS..."
     );
   });
