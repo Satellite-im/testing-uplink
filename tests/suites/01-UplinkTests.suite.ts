@@ -13,7 +13,7 @@ import settingsAccessibility from "../specs/13-settings-accessibility.spec";
 import settingsAbout from "../specs/14-settings-about.spec";
 import { deleteCache } from "../helpers/commands";
 
-xdescribe("Uplink UI Automated Tests", function () {
+describe("Uplink UI Automated Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));
   describe("Chats Main Screen Tests", chats.bind(this));
   describe("Files Screen Tests", files.bind(this));
