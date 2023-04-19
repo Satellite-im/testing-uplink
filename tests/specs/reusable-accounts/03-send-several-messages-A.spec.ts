@@ -94,11 +94,9 @@ describe("Two users at the same time - Chat User A", async () => {
   }
 
   it("Open a Chat conversation with First Group", async () => {
-    await ChatScreen.goToFriends();
-    await FriendsScreen.waitForIsShown(true);
     const locator =
       '//XCUIElementTypeGroup[@label="Chats"]//XCUIElementTypeGroup[@label="Username"]';
-    await $$(locator)[5].click();
+    await $$(locator)[6].click();
     await ChatScreen.waitForIsShown(true);
   });
 
