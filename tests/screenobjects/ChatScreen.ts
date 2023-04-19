@@ -49,6 +49,7 @@ const SELECTORS_WINDOWS = {
   COMPOSE_ATTACHMENTS_FILE_NAME_TEXT: "//Text",
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_OPTION: '[name="Context Item"]',
+  ENCRYPTED_MESSAGES_TEXT: "//Group[3]/Group/Text",
   INPUT_GROUP: '[name="input-group"]',
   INPUT_TEXT: "//Edit",
   QUICK_PROFILE: '[name="Context Menu"]',
@@ -127,6 +128,8 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeStaticText",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_OPTION: "~Context Item",
+  ENCRYPTED_MESSAGES_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup[3]/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   INPUT_GROUP: "~input-group",
   INPUT_TEXT: "-ios class chain:**/XCUIElementTypeTextView",
   QUICK_PROFILE: "~Context Menu",
@@ -403,6 +406,10 @@ class ChatScreen extends UplinkMainScreen {
 
   get contextMenuOption() {
     return $$(SELECTORS.CONTEXT_MENU_OPTION);
+  }
+
+  get encryptedMessagesText() {
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.ENCRYPTED_MESSAGES_TEXT);
   }
 
   get inputGroup() {
