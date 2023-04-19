@@ -898,13 +898,13 @@ class ChatScreen extends UplinkMainScreen {
         '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
           expectedMessage +
           '")]'
-      ).waitForExist({ timeout: timeoutMsg });
+      ).waitForDisplayed({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
       await $(
         '//Group[@Name="message-text"]/Text[contains(@Name, "' +
           expectedMessage +
           '")]'
-      ).waitForExist({ timeout: timeoutMsg });
+      ).waitForDisplayed({ timeout: timeoutMsg });
     }
   }
 

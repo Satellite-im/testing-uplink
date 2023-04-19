@@ -129,7 +129,7 @@ describe("Two users at the same time - Chat User B", async () => {
   it("Chats - Received Message with Attachment - Text Message contents", async () => {
     await (
       await ChatScreen.chatMessageFileEmbedRemote
-    ).waitForExist({
+    ).waitForDisplayed({
       timeout: 240000,
     });
     // Validate text from message containing attachment
