@@ -8,7 +8,6 @@ on:
 jobs:
   add-label:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
       - name: Check if label already exists
         id: check-label
@@ -28,7 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add Failed Tests Label
-        if: ${{ github.event.workflow_run.conclusion == 'failure' && steps.check-label.outputs.label_exists != 'true'
+        if: ${{ github.event.workflow_run.conclusion == 'failure' && steps.check-label.outputs.label_exists != 'true' }}
         uses: peter-evans/add-labels@v2.2.0
         with:
           labels: "Failed Automation Test"
