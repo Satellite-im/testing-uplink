@@ -38,7 +38,7 @@ config.mochaOpts = {
 },
 
 // Change spec file retries to zero
-config.specFileRetries = 1;
+config.specFileRetries = 0;
 
 config.afterTest = async function (test, describe, { error }) {
   if (error) {
