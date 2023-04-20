@@ -213,7 +213,41 @@ jobs:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
 
-      - name: Delete Chat Users Accounts
+  labeler:
+    needs: [test, test-chats]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if tests failed
+        run: |
+          if [ "$(curl -s -H "Authorization: Bearer ${{secrets.GITHUB_TOKEN}}" \
+                  https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs \
+                  | jq '.jobs[].conclusion' | grep -Fx -e failure -e cancelled -e timed_out)" ]; then
+            echo "Tests failed"
+            echo "::set-output name=failed::true"
+          else
+            echo "Tests passed"
+            echo "::set-output name=failed::false"
+          fi
+        id: check-tests
+
+      - if: ${{ steps.check-tests.outputs.failed == 'true' }}
+        name: Add label
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          labels: "Failed Automated Tests"
+          type: add
+
+      - if: ${{ steps.check-tests.outputs.failed == 'false' }}
+        name: Remove label
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          labels: "Failed Automated Tests"
+          type: remove
+      
+      - if: ${{ steps.check-tests.outputs.failed == 'false' }}
+        name: Delete Chat Users Accounts
         if: always()
         uses: geekyeggo/delete-artifact@v2
         with:
