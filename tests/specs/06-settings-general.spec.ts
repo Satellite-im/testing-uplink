@@ -56,7 +56,7 @@ export default async function settingsGeneral() {
     const uplinkOverlayState = await SettingsGeneralScreen.getToggleState(
       await SettingsGeneralScreen.uplinkOverlayControllerValue
     );
-    expect(uplinkOverlayState).toEqual("1");
+    await expect(uplinkOverlayState).toEqual("1");
   });
 
   it("Settings General - Toggle switches to disabled", async () => {
@@ -65,7 +65,7 @@ export default async function settingsGeneral() {
     const uplinkOverlayState = await SettingsGeneralScreen.getToggleState(
       await SettingsGeneralScreen.uplinkOverlayControllerValue
     );
-    expect(uplinkOverlayState).toEqual("0");
+    await expect(uplinkOverlayState).toEqual("0");
   });
 
   // Skipped for now since there are no themes to select

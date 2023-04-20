@@ -35,7 +35,7 @@ export default async function settingsFiles() {
       await SettingsFilesScreen.localSyncControllerValue
     );
 
-    expect(localSyncState).toEqual("1");
+    await expect(localSyncState).toEqual("1");
   });
 
   it("Settings Files - Update LOCAL SYNC switch to disabled", async () => {
@@ -47,7 +47,7 @@ export default async function settingsFiles() {
       await SettingsFilesScreen.localSyncControllerValue
     );
 
-    expect(localSyncState).toEqual("0");
+    await expect(localSyncState).toEqual("0");
   });
 
   // Test skipped for now because button does not perform any action

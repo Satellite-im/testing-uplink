@@ -73,10 +73,10 @@ export default async function settingsAudio() {
       await SettingsAudioScreen.callTimerControllerValue
     );
 
-    expect(interfaceSoundsStatus).toEqual("1");
-    expect(mediaSoundsStatus).toEqual("1");
-    expect(messageSoundsStatus).toEqual("1");
-    expect(callTimerStatus).toEqual("1");
+    await expect(interfaceSoundsStatus).toEqual("1");
+    await expect(mediaSoundsStatus).toEqual("1");
+    await expect(messageSoundsStatus).toEqual("1");
+    await expect(callTimerStatus).toEqual("1");
   });
 
   it("Settings Audio - Click on slider switches to disable the options", async () => {
@@ -100,9 +100,9 @@ export default async function settingsAudio() {
       await SettingsAudioScreen.callTimerControllerValue
     );
 
-    expect(interfaceSoundsStatus).toEqual("0");
-    expect(mediaSoundsStatus).toEqual("0");
-    expect(messageSoundsStatus).toEqual("0");
-    expect(callTimerStatus).toEqual("0");
+    await expect(interfaceSoundsStatus).toEqual("0");
+    await expect(mediaSoundsStatus).toEqual("0");
+    await expect(messageSoundsStatus).toEqual("0");
+    await expect(callTimerStatus).toEqual("0");
   });
 }

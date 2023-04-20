@@ -31,15 +31,15 @@ export default async function settingsProfile() {
   });
 
   it("Settings Profile - Assert texts for Your New Profile dialog and dismiss it", async () => {
-    expect(
+    await expect(
       await SettingsProfileScreen.yourNewProfileHeaderText
     ).toHaveTextContaining("YOUR NEW PROFILE!");
-    expect(
+    await expect(
       await SettingsProfileScreen.yourNewProfileDescriptionTextOne
     ).toHaveTextContaining(
-      "Tell the world all about yourself, well tell them as much as you can while we're still under construction, at least."
+      "Tell the world all about yourself, well.. tell them as much as you can while we're still under construction, at least."
     );
-    expect(
+    await expect(
       await SettingsProfileScreen.yourNewProfileDescriptionTextTwo
     ).toHaveTextContaining(
       "First step, pick out a profile picture and maybe even a banner too!"
@@ -57,25 +57,27 @@ export default async function settingsProfile() {
     );
 
     // Assert username and status placeholder values are displayed
-    expect(await SettingsProfileScreen.usernameInput).toHaveTextContaining(
-      "Test123"
+    await expect(
+      await SettingsProfileScreen.usernameInput
+    ).toHaveTextContaining("Test123");
+    await expect(await SettingsProfileScreen.statusInput).toHaveTextContaining(
+      ""
     );
-    expect(await SettingsProfileScreen.statusInput).toHaveTextContaining("");
   });
 
   it("Settings Profile - Validate Copy ID button tooltip", async () => {
     // Validate Copy ID button tooltip
     await SettingsProfileScreen.hoverOnCopyID();
-    expect(await SettingsProfileScreen.copyIDTooltip).toBeDisplayed();
-    expect(await SettingsProfileScreen.copyIDTooltipText).toHaveTextContaining(
-      "Copy ID"
-    );
+    await expect(await SettingsProfileScreen.copyIDTooltip).toBeDisplayed();
+    await expect(
+      await SettingsProfileScreen.copyIDTooltipText
+    ).toHaveTextContaining("Copy ID");
   });
 
   it("Settings Profile - Click On Copy ID Button", async () => {
     // Click on Copy ID button and assert Toast Notification is displayed
     await SettingsProfileScreen.clickOnCopyIDButton();
-    expect(
+    await expect(
       await SettingsProfileScreen.toastNotificationText
     ).toHaveTextContaining("Copied ID to clipboard!");
 
@@ -88,18 +90,18 @@ export default async function settingsProfile() {
     await SettingsProfileScreen.pasteUserKeyInStatus();
 
     // Ensure that value placed in Status is the did key from the user
-    expect(
+    await expect(
       await SettingsProfileScreen.getStatusInputText()
     ).toHaveTextContaining("did:key:");
   });
 
   it("Settings Profile - Copy ID button contains the last characters from user did key", async () => {
     // Get expected Short DID Key from DID Key value pasted in Status field
-    const userDidKey = await SettingsProfileScreen.getStatusInputText();
+    const userDidKey = await SettingsProfileScreen.getStatusInputValue();
     const shortDidKey = await SettingsProfileScreen.getShortDidKey(userDidKey);
 
     // Ensure that the last 9 digits from Did:Key matches with the button text
-    expect(
+    await expect(
       await SettingsProfileScreen.getCopyIDButtonText()
     ).toHaveTextContaining(shortDidKey);
 
@@ -119,8 +121,10 @@ export default async function settingsProfile() {
     await SettingsProfileScreen.hoverOnBanner();
 
     // Validate that change banner tooltip is displayed
-    expect(await SettingsProfileScreen.profileBannerTooltip).toBeDisplayed();
-    expect(
+    await expect(
+      await SettingsProfileScreen.profileBannerTooltip
+    ).toBeDisplayed();
+    await expect(
       await SettingsProfileScreen.profileBannerTooltip
     ).toHaveTextContaining("Change banner");
   });

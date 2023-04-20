@@ -727,7 +727,7 @@ class ChatScreen extends UplinkMainScreen {
     }
 
     // Validate that profile banner is displayed on screen
-    expect(await this.composeAttachmentsFileEmbed).toBeDisplayed();
+    await expect(await this.composeAttachmentsFileEmbed).toBeDisplayed();
   }
 
   // Message Group Wraps Methods

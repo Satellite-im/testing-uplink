@@ -35,31 +35,31 @@ export default async function chats() {
   it("Validate Main Nav Bar buttons tooltips are displayed", async () => {
     // Validate Chats button tooltip
     await WelcomeScreen.hoverOnChatsButton();
-    expect(await WelcomeScreen.chatsButtonTooltip).toBeDisplayed();
-    expect(await WelcomeScreen.chatsButtonTooltipText).toHaveTextContaining(
-      "Chats"
-    );
+    await expect(await WelcomeScreen.chatsButtonTooltip).toBeDisplayed();
+    await expect(
+      await WelcomeScreen.chatsButtonTooltipText
+    ).toHaveTextContaining("Chats");
 
     // Validate Files button tooltip
     await WelcomeScreen.hoverOnFilesButton();
-    expect(await WelcomeScreen.filesButtonTooltip).toBeDisplayed();
-    expect(await WelcomeScreen.filesButtonTooltipText).toHaveTextContaining(
-      "Files"
-    );
+    await expect(await WelcomeScreen.filesButtonTooltip).toBeDisplayed();
+    await expect(
+      await WelcomeScreen.filesButtonTooltipText
+    ).toHaveTextContaining("Files");
 
     // Validate Friends button tooltip
     await WelcomeScreen.hoverOnFriendsButton();
-    expect(await WelcomeScreen.friendsButtonTooltip).toBeDisplayed();
-    expect(await WelcomeScreen.friendsButtonTooltipText).toHaveTextContaining(
-      "Friends"
-    );
+    await expect(await WelcomeScreen.friendsButtonTooltip).toBeDisplayed();
+    await expect(
+      await WelcomeScreen.friendsButtonTooltipText
+    ).toHaveTextContaining("Friends");
 
     // Validate Settings button tooltip
     await WelcomeScreen.hoverOnSettingsButton();
-    expect(await WelcomeScreen.settingsButtonTooltip).toBeDisplayed();
-    expect(await WelcomeScreen.settingsButtonTooltipText).toHaveTextContaining(
-      "Settings"
-    );
+    await expect(await WelcomeScreen.settingsButtonTooltip).toBeDisplayed();
+    await expect(
+      await WelcomeScreen.settingsButtonTooltipText
+    ).toHaveTextContaining("Settings");
   });
 
   it("Click on add someone redirects to Friends Page", async () => {

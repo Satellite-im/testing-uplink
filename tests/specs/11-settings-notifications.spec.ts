@@ -50,7 +50,7 @@ export default async function settingsNotifications() {
     const settingsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.settingsNotificationsControllerValue
     );
-    expect(settingsState).toEqual("1");
+    await expect(settingsState).toEqual("1");
   });
 
   it("Settings Notifications - Disable all notifications by switching ENABLED toggle to off", async () => {
@@ -59,25 +59,25 @@ export default async function settingsNotifications() {
     const enabledState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.enabledNotificationsControllerValue
     );
-    expect(enabledState).toEqual("0");
+    await expect(enabledState).toEqual("0");
 
     // Validate that toggle switch for FRIENDS has now value = "0" (disabled)
     const friendsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.friendsNotificationsControllerValue
     );
-    expect(friendsState).toEqual("0");
+    await expect(friendsState).toEqual("0");
 
     // Validate that toggle switch for MESSAGES has now value = "0" (disabled)
     const messagesState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.messagesNotificationsControllerValue
     );
-    expect(messagesState).toEqual("0");
+    await expect(messagesState).toEqual("0");
 
     // Validate that toggle switch for SETTINGS has now value = "0" (disabled)
     const settingsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.settingsNotificationsControllerValue
     );
-    expect(settingsState).toEqual("0");
+    await expect(settingsState).toEqual("0");
   });
 
   it("Settings Notifications - Enable again all notifications by switching ENABLED toggle to on", async () => {
@@ -86,25 +86,25 @@ export default async function settingsNotifications() {
     const enabledState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.enabledNotificationsControllerValue
     );
-    expect(enabledState).toEqual("1");
+    await expect(enabledState).toEqual("1");
 
     // Validate that toggle switch for FRIENDS has now value = "1" (enabled)
     const friendsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.friendsNotificationsControllerValue
     );
-    expect(friendsState).toEqual("1");
+    await expect(friendsState).toEqual("1");
 
     // Validate that toggle switch for MESSAGES has now value = "1" (enabled)
     const messagesState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.messagesNotificationsControllerValue
     );
-    expect(messagesState).toEqual("1");
+    await expect(messagesState).toEqual("1");
 
     // Validate that toggle switch for SETTINGS has now value = "1" (enabled)
     const settingsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.settingsNotificationsControllerValue
     );
-    expect(settingsState).toEqual("1");
+    await expect(settingsState).toEqual("1");
   });
 
   it("Settings Notifications - Enable only FRIENDS notifications", async () => {
@@ -120,25 +120,25 @@ export default async function settingsNotifications() {
     const enabledState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.enabledNotificationsControllerValue
     );
-    expect(enabledState).toEqual("1");
+    await expect(enabledState).toEqual("1");
 
     // Validate that toggle switch for FRIENDS has now value = 1" (enabled)
     const friendsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.friendsNotificationsControllerValue
     );
-    expect(friendsState).toEqual("1");
+    await expect(friendsState).toEqual("1");
 
     // Validate that toggle switch for MESSAGES still has value = "0" (disabled)
     const messagesState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.messagesNotificationsControllerValue
     );
-    expect(messagesState).toEqual("0");
+    await expect(messagesState).toEqual("0");
 
     // Validate that toggle switch for SETTINGS still has value = "0" (disabled)
     const settingsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.settingsNotificationsControllerValue
     );
-    expect(settingsState).toEqual("0");
+    await expect(settingsState).toEqual("0");
   });
 
   it("Settings Notifications - Enable only MESSAGES notifications", async () => {
@@ -152,25 +152,25 @@ export default async function settingsNotifications() {
     const enabledState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.enabledNotificationsControllerValue
     );
-    expect(enabledState).toEqual("1");
+    await expect(enabledState).toEqual("1");
 
     // Validate that toggle switch for FRIENDS now has value = "0" (disabled)
     const friendsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.friendsNotificationsControllerValue
     );
-    expect(friendsState).toEqual("0");
+    await expect(friendsState).toEqual("0");
 
     // Validate that toggle switch for MESSAGES has now value = 1" (enabled)
     const messagesState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.messagesNotificationsControllerValue
     );
-    expect(messagesState).toEqual("1");
+    await expect(messagesState).toEqual("1");
 
     // Validate that toggle switch for SETTINGS still has value = "0" (disabled)
     const settingsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.settingsNotificationsControllerValue
     );
-    expect(settingsState).toEqual("0");
+    await expect(settingsState).toEqual("0");
   });
 
   it("Settings Notifications - Enable only SETTINGS notifications", async () => {
@@ -184,24 +184,24 @@ export default async function settingsNotifications() {
     const enabledState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.enabledNotificationsControllerValue
     );
-    expect(enabledState).toEqual("1");
+    await expect(enabledState).toEqual("1");
 
     // Validate that toggle switch for FRIENDS still has value = "0" (disabled)
     const friendsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.friendsNotificationsControllerValue
     );
-    expect(friendsState).toEqual("0");
+    await expect(friendsState).toEqual("0");
 
     // Validate that toggle switch for MESSAGES still has value = "0" (disabled)
     const messagesState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.messagesNotificationsControllerValue
     );
-    expect(messagesState).toEqual("0");
+    await expect(messagesState).toEqual("0");
 
     // Validate that toggle switch for SETTINGS now has value = "1" (enabled)
     const settingsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.settingsNotificationsControllerValue
     );
-    expect(settingsState).toEqual("1");
+    await expect(settingsState).toEqual("1");
   });
 }

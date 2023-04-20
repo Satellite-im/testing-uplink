@@ -8,9 +8,11 @@ export default async function settingsExtensions() {
     await SettingsExtensionsScreen.waitForIsShown(true);
 
     // Validate that the three buttons are displayed on top of the screen
-    expect(await SettingsExtensionsScreen.installedButton).toBeDisplayed();
-    expect(await SettingsExtensionsScreen.exploreButton).toBeDisplayed();
-    expect(
+    await expect(
+      await SettingsExtensionsScreen.installedButton
+    ).toBeDisplayed();
+    await expect(await SettingsExtensionsScreen.exploreButton).toBeDisplayed();
+    await expect(
       await SettingsExtensionsScreen.extensionsSettingsButton
     ).toBeDisplayed();
   });
@@ -20,18 +22,18 @@ export default async function settingsExtensions() {
     await SettingsExtensionsScreen.clickOnExploreButton();
 
     // Validate warning message, search extensions header and input are displayed
-    expect(
+    await expect(
       await SettingsExtensionsScreen.installedAlertText
     ).toHaveTextContaining(
       "Extensions are pre-compiled on external hardware. For added security you can compile extensions from source and place in the `extensions` folder."
     );
-    expect(
+    await expect(
       await SettingsExtensionsScreen.extensionsSearchHeader
     ).toHaveTextContaining("SEARCH EXTENSIONS");
-    expect(
+    await expect(
       await SettingsExtensionsScreen.extensionsSearchInput
     ).toBeDisplayed();
-    expect(
+    await expect(
       await SettingsExtensionsScreen.extensionsSearchInput
     ).toHaveAttrContaining(
       "placeholderValue",
@@ -44,18 +46,18 @@ export default async function settingsExtensions() {
     await SettingsExtensionsScreen.clickOnExtensionsSettingsButton();
 
     // Assert contents from screen
-    expect(
+    await expect(
       await SettingsExtensionsScreen.openExtensionsHeaderText
     ).toHaveTextContaining("OPEN EXTENSIONS FOLDER");
-    expect(
+    await expect(
       await SettingsExtensionsScreen.openExtensionsDescriptionText
     ).toHaveTextContaining(
       "Open the local directory containing your installed extensions."
     );
-    expect(
+    await expect(
       await SettingsExtensionsScreen.enableAutomaticallyHeader
     ).toHaveTextContaining("ENABLE AUTOMATICALLY");
-    expect(
+    await expect(
       await SettingsExtensionsScreen.enableAutomaticallyDescription
     ).toHaveTextContaining(
       "When turned on, new extensions will automatically be enabled by default."
@@ -72,7 +74,7 @@ export default async function settingsExtensions() {
         await SettingsExtensionsScreen.enableAutomaticallyControllerValue
       );
 
-    expect(enableAutomaticallyState).toEqual("1");
+    await expect(enableAutomaticallyState).toEqual("1");
   });
 
   it("Settings Extensions - Deactivate the switch slider for Enable Automatically", async () => {
@@ -85,7 +87,7 @@ export default async function settingsExtensions() {
         await SettingsExtensionsScreen.enableAutomaticallyControllerValue
       );
 
-    expect(enableAutomaticallyState).toEqual("0");
+    await expect(enableAutomaticallyState).toEqual("0");
   });
 
   // Skipped since it needs research on how to close external window from Explorer before proceeding with next tests

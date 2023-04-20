@@ -315,7 +315,7 @@ export async function saveFileOnWindows(
   ).setValue(filename + "\uE007");
 
   // Wait for Save Panel not to be displayed
-  await $("~TitleBar").waitForDisplayed({ reverse: true });
+  await $("~TitleBar").waitForExist({ reverse: true });
 
   await driver.switchToWindow(uplinkContext);
 
