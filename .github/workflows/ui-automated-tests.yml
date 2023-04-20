@@ -232,23 +232,22 @@ jobs:
 
       - if: ${{ steps.check-tests.outputs.failed == 'true' }}
         name: Add label
-        uses: buildsville/add-remove-label@v2.0.0
+        uses: actions-ecosystem/action-add-labels@v1
         with:
-          token: ${{secrets.GITHUB_TOKEN}}
-          labels: "Failed Automated Tests"
-          type: add
+          labels: "Failed Automation Test"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - if: ${{ steps.check-tests.outputs.failed == 'false' }}
         name: Remove label
-        uses: buildsville/add-remove-label@v2.0.0
+        uses: actions-ecosystem/action-remove-labels@v1
         with:
-          token: ${{secrets.GITHUB_TOKEN}}
-          labels: "Failed Automated Tests"
-          type: remove
-      
+          labels: "Failed Automation Test"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - if: ${{ steps.check-tests.outputs.failed == 'false' }}
         name: Delete Chat Users Accounts
-        if: always()
         uses: geekyeggo/delete-artifact@v2
         with:
           name: appium-test-accounts
