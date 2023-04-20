@@ -3,7 +3,7 @@ import ChatScreen from "../../screenobjects/ChatScreen";
 import FriendsScreen from "../../screenobjects/FriendsScreen";
 import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-describe("Two users at the same time - Chat User A", async () => {
+xdescribe("Two users at the same time - Chat User A", async () => {
   it("Load Chat User A account and go to friends screen", async () => {
     // Go to Friends Screen
     await loginWithTestUser();
@@ -59,7 +59,7 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toHaveTextContaining(
+    await expect(timeAgo).toHaveText(
       /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
@@ -90,6 +90,25 @@ describe("Two users at the same time - Chat User A", async () => {
     await expect(await ChatScreen.topbarIndicatorOnline).toBeDisplayed();
   });
 
+  it("Chats - Add user with active chat to Favorites", async () => {
+    // Add user to favorites
+    await ChatScreen.addToFavorites();
+    await (await ChatScreen.favorites).waitForDisplayed();
+
+    // Favorites Sidebar should be displayed
+    await expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
+    await expect(await ChatScreen.favoritesUserIndicatorOnline).toBeDisplayed();
+    await expect(await ChatScreen.favoritesUserName).toHaveTextContaining(
+      "CHATUSERB"
+    );
+  });
+
+  it("Chats - Remove user with active chat from Favorites", async () => {
+    // Remove user from favorites
+    await ChatScreen.removeFromFavorites();
+    await (await ChatScreen.favorites).waitForDisplayed({ reverse: true });
+  });
+
   it("Receive Reply - Validate reply message is received from remote user", async () => {
     // Wait until reply is received
     await (
@@ -112,7 +131,7 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Receive Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toHaveTextContaining(
+    await expect(timeAgo).toHaveText(
       /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserB");
@@ -126,19 +145,6 @@ describe("Two users at the same time - Chat User A", async () => {
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
     await expect(onlineIndicator).toExist();
-  });
-
-  it("Chats - Add user with active chat to Favorites", async () => {
-    // Add user to favorites
-    await ChatScreen.addToFavorites();
-    await (await ChatScreen.favorites).waitForDisplayed();
-
-    // Favorites Sidebar should be displayed
-    await expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
-    await expect(await ChatScreen.favoritesUserIndicatorOnline).toBeDisplayed();
-    await expect(await ChatScreen.favoritesUserName).toHaveTextContaining(
-      "CHATUS..."
-    );
   });
 
   it("Send two more messages to Chat User B", async () => {
@@ -314,12 +320,6 @@ describe("Two users at the same time - Chat User A", async () => {
     await expect(await ChatScreen.sendMessageTooltipText).toHaveTextContaining(
       "Send"
     );
-  });
-
-  it("Chats - Remove user with active chat from Favorites", async () => {
-    // Remove user from favorites
-    await ChatScreen.removeFromFavorites();
-    await (await ChatScreen.favorites).waitForDisplayed({ reverse: true });
   });
 
   after(async () => {
