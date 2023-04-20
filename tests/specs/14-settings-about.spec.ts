@@ -13,7 +13,7 @@ export default async function settingsAbout() {
     );
     await expect(
       await SettingsAboutScreen.aboutDescription
-    ).toHaveTextContaining("uplink");
+    ).toHaveTextContaining("uplinkZZZ");
 
     // Validate the header and description texts from Settings Section - About - Version
     await expect(await SettingsAboutScreen.versionHeader).toHaveTextContaining(

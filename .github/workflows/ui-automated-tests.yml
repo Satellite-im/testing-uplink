@@ -215,9 +215,10 @@ jobs:
 
   labeler:
     needs: [test, test-chats]
-    strategy:
-      fail-fast: false
+    if: always()
     runs-on: ubuntu-latest
+    outputs:
+      result: ${{ steps.check-tests.outputs.failed }}
     steps:
       - name: Check if tests failed
         run: |
@@ -225,14 +226,14 @@ jobs:
                   https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs \
                   | jq '.jobs[].conclusion' | grep -Fx -e failure -e cancelled -e timed_out)" ]; then
             echo "Tests failed"
-            echo "::set-output name=failed::true"
+            echo "failed=true" >> "$GITHUB_OUTPUT"
           else
             echo "Tests passed"
-            echo "::set-output name=failed::false"
+            echo "failed=false" >> "$GITHUB_OUTPUT"
           fi
         id: check-tests
 
-      - if: ${{ steps.check-tests.outputs.failed == 'true' }}
+      - if: ${{ steps.check-tests.outputs.result == 'true' }}
         name: Add label
         uses: actions-ecosystem/action-add-labels@v1
         with:
@@ -240,7 +241,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: ${{ steps.check-tests.outputs.failed == 'false' }}
+      - if: ${{ steps.check-tests.outputs.result == 'false' }}
         name: Remove label
         uses: actions-ecosystem/action-remove-labels@v1
         with:
@@ -248,7 +249,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: ${{ steps.check-tests.outputs.failed == 'false' }}
+      - if: ${{ steps.check-tests.outputs.result == 'false' }}
         name: Delete Chat Users Accounts
         uses: geekyeggo/delete-artifact@v2
         with:
