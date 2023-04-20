@@ -65,7 +65,7 @@ const SELECTORS_WINDOWS = {
   REPLY_POPUP: '[name="inline-reply"]',
   REPLY_POPUP_CLOSE_BUTTON: '[name="close-reply"]',
   REPLY_POPUP_CONTENT: '[name="content"]',
-  REPLY_POPUP_HEADER: "//Text[1]/Text",
+  REPLY_POPUP_HEADER: "//Text/Text",
   REPLY_POPUP_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   REPLY_POPUP_INDICATOR_ONLINE: '[name="indicator-online"]',
   REPLY_POPUP_LOCAL_TEXT_TO_REPLY: '[name="reply-text-message"]',
@@ -147,7 +147,7 @@ const SELECTORS_MACOS = {
   REPLY_POPUP_CLOSE_BUTTON: "~close-reply",
   REPLY_POPUP_CONTENT: "~content",
   REPLY_POPUP_HEADER:
-    "-ios class chain:**/XCUIElementTypeStaticText[1]/XCUIElementTypeStaticText",
+    "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   REPLY_POPUP_INDICATOR_OFFLINE: "~indicator-offline",
   REPLY_POPUP_INDICATOR_ONLINE: "~indicator-online",
   REPLY_POPUP_LOCAL_TEXT_TO_REPLY: "~reply-text-message",
@@ -196,19 +196,19 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get chatMessageFileButtonLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_BUTTON
+    );
   }
 
   get chatMessageFileButtonRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_BUTTON
+    );
   }
 
   get chatMessageFileEmbedLocal() {
-    return $(SELECTORS.CHAT_MESSAGE).$(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
   }
 
   get chatMessageFileEmbedRemote() {
@@ -216,77 +216,73 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get chatMessageFileIconLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_ICON
+    );
   }
 
   get chatMessageFileIconRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_ICON
+    );
   }
 
   get chatMessageFileInfoLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_INFO);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_INFO
+    );
   }
 
   get chatMessageFileInfoRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_INFO);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_INFO
+    );
   }
 
   get chatMessageFileMetaLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_META);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_META
+    );
   }
 
   get chatMessageFileMetaRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_META);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_META
+    );
   }
 
   get chatMessageFileMetaTextLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
   }
 
   get chatMessageFileMetaTextRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
   }
 
   get chatMessageFileNameLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_NAME
+    );
   }
 
   get chatMessageFileNameRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_NAME
+    );
   }
 
   get chatMessageFileNameTextLocal() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
 
   get chatMessageFileNameTextRemote() {
-    return $(SELECTORS.CHAT_MESSAGE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
@@ -816,17 +812,17 @@ class ChatScreen extends UplinkMainScreen {
 
   async getLastMessageReceivedFileMeta() {
     const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageFileMeta = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_META
-    );
+    const lastMessageFileMeta = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
     return lastMessageFileMeta;
   }
 
   async getLastMessageReceivedFileName() {
     const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageFileName = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT
-    );
+    const lastMessageFileName = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
     return lastMessageFileName;
   }
 
@@ -951,17 +947,17 @@ class ChatScreen extends UplinkMainScreen {
 
   async getLastMessageSentFileMeta() {
     const lastMessage = await this.getLastMessageSentLocator();
-    const lastMessageFileMeta = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_META
-    );
+    const lastMessageFileMeta = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
     return lastMessageFileMeta;
   }
 
   async getLastMessageSentFileName() {
     const lastMessage = await this.getLastMessageSentLocator();
-    const lastMessageFileName = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT
-    );
+    const lastMessageFileName = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
     return lastMessageFileName;
   }
 

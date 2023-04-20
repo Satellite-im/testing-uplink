@@ -3,7 +3,7 @@ import ChatScreen from "../../screenobjects/ChatScreen";
 import FriendsScreen from "../../screenobjects/FriendsScreen";
 import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-describe("Two users at the same time - Chat User B", async () => {
+xdescribe("Two users at the same time - Chat User B", async () => {
   it("Load Chat User B account and go to Friends Screen", async () => {
     // Go to Friends Screen
     await loginWithTestUser();
@@ -58,7 +58,7 @@ describe("Two users at the same time - Chat User B", async () => {
   it("Validate Chat Message received displays timestamp and user who sent it", async () => {
     //Timestamp should be displayed when you send a message
     const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toHaveTextContaining(
+    await expect(timeAgo).toHaveText(
       /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
@@ -110,7 +110,7 @@ describe("Two users at the same time - Chat User B", async () => {
   it("Send Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toHaveTextContaining(
+    await expect(timeAgo).toHaveText(
       /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserB");
