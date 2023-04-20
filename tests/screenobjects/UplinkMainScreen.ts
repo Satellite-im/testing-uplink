@@ -34,7 +34,7 @@ const SELECTORS_WINDOWS = {
   FAVORITES_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   FAVORITES_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FAVORITES_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
-  FAVORITES_USER_NAME: "//Text/Text",
+  FAVORITES_USER_NAME: "//Text[2]/Text",
   FILES_BUTTON: '[name="files-button"]',
   FRIENDS_BUTTON: '[name="friends-button"]',
   HAMBURGER_BUTTON: '[name="hamburger-button"]',

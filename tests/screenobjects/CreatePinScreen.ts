@@ -13,7 +13,7 @@ const SELECTORS_WINDOWS = {
   INPUT_ERROR_TEXT: "//Text",
   PIN_INPUT: "~unlock-input",
   UNLOCK_IMAGE: "//Image[1]",
-  UNLOCK_WARNING_HEADER: "//Text[1]/Text",
+  UNLOCK_WARNING_HEADER: "//Text[1]",
   UNLOCK_WARNING_PARAGRAPH: "//Text[2]",
 };
 
@@ -23,8 +23,7 @@ const SELECTORS_MACOS = {
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   PIN_INPUT: "~pin-input",
   UNLOCK_IMAGE: "-ios class chain:**/XCUIElementTypeImage",
-  UNLOCK_WARNING_HEADER:
-    "-ios class chain:**/XCUIElementTypeStaticText[1]/XCUIElementTypeStaticText",
+  UNLOCK_WARNING_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   UNLOCK_WARNING_PARAGRAPH: "-ios class chain:**/XCUIElementTypeStaticText[2]",
 };
 

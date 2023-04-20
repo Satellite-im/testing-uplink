@@ -13,7 +13,7 @@ const SELECTORS_WINDOWS = {
   EXTENSIONS_SEARCH_HEADER: "//Text[2]/Text",
   EXTENSIONS_SEARCH_INPUT: '[name="extensions-search-input"]',
   EXTENSIONS_SETTINGS_BUTTON: '[name="settings-button"]',
-  INSTALLED_ALERT_TEXT: "//Text[1]",
+  INSTALLED_ALERT_TEXT: '//Group[name="settings-extensions"]/Text[1]',
   INSTALLED_BUTTON: '[name="installed-button"]',
   OPEN_EXTENSIONS_DESCRIPTION_TEXT: "//Text[2]",
   OPEN_EXTENSIONS_FOLDER_BUTTON: '[name="open-extensions-folder-button"]',
@@ -32,7 +32,8 @@ const SELECTORS_MACOS = {
   EXTENSIONS_SEARCH_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[2]",
   EXTENSIONS_SEARCH_INPUT: "~extensions-search-input",
   EXTENSIONS_SETTINGS_BUTTON: "~settings-button",
-  INSTALLED_ALERT_TEXT: "-ios class chain:**/XCUIElementTypeStaticText[1]",
+  INSTALLED_ALERT_TEXT:
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-extensions"`]/XCUIElementTypeStaticText[1]',
   INSTALLED_BUTTON: "~installed-button",
   OPEN_EXTENSIONS_DESCRIPTION_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -101,7 +102,7 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   get installedAlertText() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS).$(SELECTORS.INSTALLED_ALERT_TEXT);
+    return $(SELECTORS.INSTALLED_ALERT_TEXT);
   }
 
   get installedButton() {

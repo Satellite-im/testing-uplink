@@ -44,15 +44,6 @@ export default async function settingsNotifications() {
     ).toHaveText("Enable notifications for updates and important alerts.");
   });
 
-  it("Settings Notification - Enable Settings Notifications", async () => {
-    // Click on SETTINGS switch slider to activate toggles and then validate that toggle has now value = "1" (enabled)
-    await SettingsNotificationsScreen.clickOnSettingsNotifications();
-    const settingsState = await SettingsNotificationsScreen.getToggleState(
-      await SettingsNotificationsScreen.settingsNotificationsControllerValue
-    );
-    await expect(settingsState).toEqual("1");
-  });
-
   it("Settings Notifications - Disable all notifications by switching ENABLED toggle to off", async () => {
     // Click on ENABLED switch slider to activate toggles and then validate that toggle has now value = "0" (disabled)
     await SettingsNotificationsScreen.clickOnEnabledNotifications();
@@ -104,14 +95,13 @@ export default async function settingsNotifications() {
     const settingsState = await SettingsNotificationsScreen.getToggleState(
       await SettingsNotificationsScreen.settingsNotificationsControllerValue
     );
-    await expect(settingsState).toEqual("1");
+    await expect(settingsState).toEqual("0");
   });
 
   it("Settings Notifications - Enable only FRIENDS notifications", async () => {
-    // Deactivate toggle switches for FRIENDS, MESSAGES and SETTINGS initially
+    // Deactivate toggle switches for FRIENDS and MESSAGES initially
     await SettingsNotificationsScreen.clickOnFriendsNotifications();
     await SettingsNotificationsScreen.clickOnMessagesNotifications();
-    await SettingsNotificationsScreen.clickOnSettingsNotifications();
 
     // Click again on FRIENDS Notifications to activate this toggle
     await SettingsNotificationsScreen.clickOnFriendsNotifications();

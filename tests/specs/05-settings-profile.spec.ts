@@ -30,7 +30,7 @@ export default async function settingsProfile() {
     await expect(await SettingsProfileScreen.sidebarSearch).toBeDisplayed();
   });
 
-  it("Settings Profile - Assert texts for Your New Profile dialog and dismiss it", async () => {
+  it("Settings Profile - Assert texts for Your New Profile dialog", async () => {
     await expect(
       await SettingsProfileScreen.yourNewProfileHeaderText
     ).toHaveTextContaining("YOUR NEW PROFILE!");
@@ -44,7 +44,15 @@ export default async function settingsProfile() {
     ).toHaveTextContaining(
       "First step, pick out a profile picture and maybe even a banner too!"
     );
+  });
+
+  it("Settings Profile - Dismiss Your New Profile dialog", async () => {
     await SettingsProfileScreen.clickOnDismissButton();
+    await (
+      await SettingsProfileScreen.yourNewProfileHeaderText
+    ).waitForExist({
+      reverse: true,
+    });
   });
 
   it("Settings Profile - Assert screen and placeholder texts", async () => {
