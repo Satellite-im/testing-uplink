@@ -128,6 +128,19 @@ describe("Two users at the same time - Chat User A", async () => {
     await expect(onlineIndicator).toExist();
   });
 
+  it("Chats - Add user with active chat to Favorites", async () => {
+    // Add user to favorites
+    await ChatScreen.addToFavorites();
+    await (await ChatScreen.favorites).waitForDisplayed();
+
+    // Favorites Sidebar should be displayed
+    await expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
+    await expect(await ChatScreen.favoritesUserIndicatorOnline).toBeDisplayed();
+    await expect(await ChatScreen.favoritesUserName).toHaveTextContaining(
+      "CHATUS..."
+    );
+  });
+
   it("Send two more messages to Chat User B", async () => {
     // Send two messages to Chat User B
     await ChatScreen.typeMessageOnInput("message two");
@@ -300,19 +313,6 @@ describe("Two users at the same time - Chat User A", async () => {
     await expect(await ChatScreen.sendMessageTooltip).toBeDisplayed();
     await expect(await ChatScreen.sendMessageTooltipText).toHaveTextContaining(
       "Send"
-    );
-  });
-
-  it("Chats - Add user with active chat to Favorites", async () => {
-    // Add user to favorites
-    await ChatScreen.addToFavorites();
-    await (await ChatScreen.favorites).waitForDisplayed();
-
-    // Favorites Sidebar should be displayed
-    await expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
-    await expect(await ChatScreen.favoritesUserIndicatorOnline).toBeDisplayed();
-    await expect(await ChatScreen.favoritesUserName).toHaveTextContaining(
-      "CHATUS..."
     );
   });
 
