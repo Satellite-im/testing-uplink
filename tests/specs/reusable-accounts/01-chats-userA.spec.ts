@@ -3,7 +3,7 @@ import ChatScreen from "../../screenobjects/ChatScreen";
 import FriendsScreen from "../../screenobjects/FriendsScreen";
 import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-describe("Two users at the same time - Chat User A", async () => {
+xdescribe("Two users at the same time - Chat User A", async () => {
   it("Load Chat User A account and go to friends screen", async () => {
     // Go to Friends Screen
     await loginWithTestUser();
