@@ -65,7 +65,7 @@ const SELECTORS_WINDOWS = {
   REPLY_POPUP: '[name="inline-reply"]',
   REPLY_POPUP_CLOSE_BUTTON: '[name="close-reply"]',
   REPLY_POPUP_CONTENT: '[name="content"]',
-  REPLY_POPUP_HEADER: "//Text[1]/Text",
+  REPLY_POPUP_HEADER: "//Text/Text",
   REPLY_POPUP_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   REPLY_POPUP_INDICATOR_ONLINE: '[name="indicator-online"]',
   REPLY_POPUP_LOCAL_TEXT_TO_REPLY: '[name="reply-text-message"]',
@@ -147,7 +147,7 @@ const SELECTORS_MACOS = {
   REPLY_POPUP_CLOSE_BUTTON: "~close-reply",
   REPLY_POPUP_CONTENT: "~content",
   REPLY_POPUP_HEADER:
-    "-ios class chain:**/XCUIElementTypeStaticText[1]/XCUIElementTypeStaticText",
+    "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   REPLY_POPUP_INDICATOR_OFFLINE: "~indicator-offline",
   REPLY_POPUP_INDICATOR_ONLINE: "~indicator-online",
   REPLY_POPUP_LOCAL_TEXT_TO_REPLY: "~reply-text-message",
@@ -816,17 +816,17 @@ class ChatScreen extends UplinkMainScreen {
 
   async getLastMessageReceivedFileMeta() {
     const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageFileMeta = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_META
-    );
+    const lastMessageFileMeta = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
     return lastMessageFileMeta;
   }
 
   async getLastMessageReceivedFileName() {
     const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageFileName = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT
-    );
+    const lastMessageFileName = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
     return lastMessageFileName;
   }
 
@@ -951,17 +951,17 @@ class ChatScreen extends UplinkMainScreen {
 
   async getLastMessageSentFileMeta() {
     const lastMessage = await this.getLastMessageSentLocator();
-    const lastMessageFileMeta = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_META
-    );
+    const lastMessageFileMeta = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
     return lastMessageFileMeta;
   }
 
   async getLastMessageSentFileName() {
     const lastMessage = await this.getLastMessageSentLocator();
-    const lastMessageFileName = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT
-    );
+    const lastMessageFileName = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
     return lastMessageFileName;
   }
 
