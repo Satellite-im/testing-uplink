@@ -18,7 +18,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, windows-latest-8-cores]
+        os: [macos-latest, windows-latest]
         include:
           - os: macos-latest
             appium-driver: |
@@ -26,19 +26,18 @@ jobs:
               appium driver list
             npm-test: mac.ci
             os-name: MacOS
-          - os: windows-latest-8-cores
+          - os: windows-latest
             appium-driver: |
               appium driver install --source=npm appium-windows-driver
               appium driver list
             npm-test: windows.ci
             os-name: Windows
-    runs-on:
-      labels: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
-      - if: matrix.os == 'windows-latest-8-cores'
+      - if: matrix.os == 'windows-latest'
         name: Change resolution on Windows Runner
         run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
         shell: powershell
@@ -88,7 +87,7 @@ jobs:
         name: Delete Cache Folder if exists - Mac
         run: rm -rf ~/.uplink
 
-      - if: matrix.os == 'windows-latest-8-cores'
+      - if: matrix.os == 'windows-latest'
         name: Delete Cache Folder if exists - Winbdows
         run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
         shell: powershell
