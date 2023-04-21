@@ -554,12 +554,12 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get sendMessageTooltip() {
-    return $(SELECTORS.CHAT_LAYOUT).$$(SELECTORS.TOOLTIP)[1];
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.TOOLTIP);
   }
 
   get sendMessageTooltipText() {
     return $(SELECTORS.CHAT_LAYOUT)
-      .$$(SELECTORS.TOOLTIP)[1]
+      .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
@@ -572,13 +572,11 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get topbarAddToFavoritesTooltip() {
-    return $(SELECTORS.TOPBAR).$$(SELECTORS.TOOLTIP)[0];
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get topbarAddToFavoritesTooltipText() {
-    return $(SELECTORS.TOPBAR)
-      .$$(SELECTORS.TOOLTIP)[0]
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarCall() {
@@ -586,13 +584,11 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get topbarCallTooltip() {
-    return $(SELECTORS.TOPBAR).$$(SELECTORS.TOOLTIP)[1];
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get topbarCallTooltipText() {
-    return $(SELECTORS.TOPBAR)
-      .$$(SELECTORS.TOOLTIP)[1]
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarIndicatorOffline() {
@@ -628,13 +624,11 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get topbarVideocallTooltip() {
-    return $(SELECTORS.TOPBAR).$$(SELECTORS.TOOLTIP)[2];
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get topbarVideocallTooltipText() {
-    return $(SELECTORS.TOPBAR)
-      .$$(SELECTORS.TOOLTIP)[2]
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get uploadButton() {
@@ -642,12 +636,12 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get uploadTooltip() {
-    return $(SELECTORS.CHAT_LAYOUT).$$(SELECTORS.TOOLTIP)[0];
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.TOOLTIP);
   }
 
   get uploadTooltipText() {
     return $(SELECTORS.CHAT_LAYOUT)
-      .$$(SELECTORS.TOOLTIP)[0]
+      .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 

@@ -3,7 +3,7 @@ import ChatScreen from "../../screenobjects/ChatScreen";
 import FriendsScreen from "../../screenobjects/FriendsScreen";
 import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-xdescribe("Two users at the same time - Chat User B", async () => {
+describe("Two users at the same time - Chat User B", async () => {
   it("Load Chat User B account and go to Friends Screen", async () => {
     // Go to Friends Screen
     await loginWithTestUser();
@@ -164,7 +164,7 @@ xdescribe("Two users at the same time - Chat User B", async () => {
     await expect(fileDownloadButton).toBeDisplayed();
   });
 
-  xit("Chats - Validate that second message was edited", async () => {
+  it("Chats - Validate that second message was edited", async () => {
     // Validate that last message is "edited"
     await ChatScreen.waitForReceivingMessage("edited...", 240000);
   });

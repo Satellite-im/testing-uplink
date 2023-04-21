@@ -3,7 +3,7 @@ import ChatScreen from "../../screenobjects/ChatScreen";
 import FriendsScreen from "../../screenobjects/FriendsScreen";
 import WelcomeScreen from "../../screenobjects/WelcomeScreen";
 
-xdescribe("Two users at the same time - Chat User A", async () => {
+describe("Two users at the same time - Chat User A", async () => {
   it("Load Chat User A account and go to friends screen", async () => {
     // Go to Friends Screen
     await loginWithTestUser();
@@ -194,8 +194,7 @@ xdescribe("Two users at the same time - Chat User A", async () => {
     await expect(latestMessage).toHaveTextContaining("edited...");
   });
 
-  // Skipping test failing on CI due to slowness on driver typing 1024 characters
-  xit("Message Input - User can type up to 1024 chars on input bar", async () => {
+  it("Message Input - User can type up to 1024 chars on input bar", async () => {
     // Generate a random text with 1024 chars
     const longText = await ChatScreen.generateRandomText();
     // Type long text with 1024 chars on input bar and attempt to add 4 more chars (efgh)
