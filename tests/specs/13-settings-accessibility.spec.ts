@@ -27,7 +27,7 @@ export default async function settingsAccessibility() {
       await SettingsAccessibilityScreen.openDyslexicControllerValue
     );
 
-    expect(openDyslexicStatus).toEqual("1");
+    await expect(openDyslexicStatus).toEqual("1");
   });
 
   it("Settings Audio - Click on slider switches to disable the options", async () => {
@@ -39,6 +39,6 @@ export default async function settingsAccessibility() {
       await SettingsAccessibilityScreen.openDyslexicControllerValue
     );
 
-    expect(openDyslexicStatus).toEqual("0");
+    await expect(openDyslexicStatus).toEqual("0");
   });
 }

@@ -18,7 +18,7 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   ADD_PICTURE_BUTTON: '[name="add-picture-button"]',
   COPY_ID_BUTTON: "//Button",
-  DISMISS_BUTTON: "//Button",
+  DISMISS_BUTTON: '[name="Dismiss"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_MESSAGE: "//Text",
   PROFILE_BANNER: '[name="profile-banner"]',
@@ -43,7 +43,8 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
   COPY_ID_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
-  DISMISS_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
+  DISMISS_BUTTON:
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-profile"`]/XCUIElementTypeButton',
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_MESSAGE: "-ios class chain:**/XCUIElementTypeStaticText",
   PROFILE_BANNER: "~profile-banner",
@@ -66,7 +67,7 @@ const SELECTORS_MACOS = {
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE:
     "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText",
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO:
-    "-ios class chain:**/XCUIElementTypeGroup[3]/XCUIElementTypeStaticText",
+    '-ios class chain:**/XCUIElementTypeStaticText[`value == "First step, pick out a profile picture and maybe even a banner too!"`]',
   YOUR_NEW_PROFILE_HEADER_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
 };
@@ -89,15 +90,17 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get copyIDTooltip() {
-    return $(SELECTORS.TOOLTIP);
+    return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.TOOLTIP);
   }
 
   get copyIDTooltipText() {
-    return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.PROFILE_CONTENT)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get dismissButton() {
-    return $(SELECTORS.SETTINGS_PROFILE).$(SELECTORS.DISMISS_BUTTON);
+    return $(SELECTORS.DISMISS_BUTTON);
   }
 
   get inputError() {
@@ -215,15 +218,21 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   async getCopyIDButtonText() {
-    return (await this.copyIDButton).getText();
+    return await this.copyIDButton;
   }
 
   async getShortDidKey(didKey: string) {
-    return didKey.substr(-9);
+    const userKey = didKey;
+    const abbreviatedUserKey = "#" + userKey.slice(-8);
+    return abbreviatedUserKey;
   }
 
   async getStatusInputText() {
-    return (await this.statusInput).getText();
+    return await this.statusInput;
+  }
+
+  async getStatusInputValue() {
+    return await (await this.statusInput).getText();
   }
 
   async getToastNotificationText() {

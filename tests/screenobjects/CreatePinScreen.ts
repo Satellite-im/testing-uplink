@@ -23,9 +23,9 @@ const SELECTORS_MACOS = {
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   PIN_INPUT: "~pin-input",
   UNLOCK_IMAGE: "-ios class chain:**/XCUIElementTypeImage",
-  UNLOCK_WARNING_HEADER:
-    "-ios class chain:**/XCUIElementTypeStaticText[1]/XCUIElementTypeStaticText",
-  UNLOCK_WARNING_PARAGRAPH: "-ios class chain:**/XCUIElementTypeStaticText[2]",
+  UNLOCK_WARNING_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
+  UNLOCK_WARNING_PARAGRAPH:
+    '//XCUIElementTypeStaticText[contains(@value, "this is used to encrypt")]',
 };
 
 currentOS === "windows"

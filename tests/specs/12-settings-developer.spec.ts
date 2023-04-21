@@ -78,7 +78,7 @@ export default async function settingsDeveloper() {
     const saveLogsStatus = await SettingsDeveloperScreen.getToggleState(
       await SettingsDeveloperScreen.saveLogsControllerValue
     );
-    expect(saveLogsStatus).toEqual("1");
+    await expect(saveLogsStatus).toEqual("1");
   });
 
   // Skipped due to failure on app when disabling the switch the app crashes
@@ -90,7 +90,7 @@ export default async function settingsDeveloper() {
     const saveLogsStatus = await SettingsDeveloperScreen.getToggleState(
       await SettingsDeveloperScreen.saveLogsControllerValue
     );
-    expect(saveLogsStatus).toEqual("0");
+    await expect(saveLogsStatus).toEqual("0");
   });
 
   // Test skipped since it fails on Windows CI
@@ -102,7 +102,7 @@ export default async function settingsDeveloper() {
     const developerModeStatus = await SettingsDeveloperScreen.getToggleState(
       await SettingsDeveloperScreen.developerModeControllerValue
     );
-    expect(developerModeStatus).toEqual("1");
+    await expect(developerModeStatus).toEqual("1");
   });
 
   // Test skipped since it fails on Windows CI
@@ -114,7 +114,7 @@ export default async function settingsDeveloper() {
     const developerModeStatus = await SettingsDeveloperScreen.getToggleState(
       await SettingsDeveloperScreen.developerModeControllerValue
     );
-    expect(developerModeStatus).toEqual("0");
+    await expect(developerModeStatus).toEqual("0");
   });
 
   // Skipped because it needs the aria label fixed for test notifications button
@@ -129,7 +129,7 @@ export default async function settingsDeveloper() {
   });
 
   // Skipped for now because no action is performed when clicking on the button
-  xit("Settings Developer - Compress & Download Cache", async () => {
+  xit("Settings Developer - Compress and Download Cache", async () => {
     await SettingsDeveloperScreen.clickOnCompressAndDownloadCache();
   });
 
