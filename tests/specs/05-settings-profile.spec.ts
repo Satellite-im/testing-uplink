@@ -76,7 +76,7 @@ export default async function settingsProfile() {
   it("Settings Profile - Validate Copy ID button tooltip", async () => {
     // Validate Copy ID button tooltip
     await SettingsProfileScreen.hoverOnCopyID();
-    await expect(await SettingsProfileScreen.copyIDTooltip).toBeDisplayed();
+    await (await SettingsProfileScreen.copyIDTooltip).waitForDisplayed();
     await expect(
       await SettingsProfileScreen.copyIDTooltipText
     ).toHaveTextContaining("Copy ID");
@@ -129,9 +129,7 @@ export default async function settingsProfile() {
     await SettingsProfileScreen.hoverOnBanner();
 
     // Validate that change banner tooltip is displayed
-    await expect(
-      await SettingsProfileScreen.profileBannerTooltip
-    ).toBeDisplayed();
+    await (await SettingsProfileScreen.profileBannerTooltip).waitForDisplayed();
     await expect(
       await SettingsProfileScreen.profileBannerTooltip
     ).toHaveTextContaining("Change banner");

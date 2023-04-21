@@ -10,10 +10,11 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   EXPLORE_BUTTON: '[name="explore-button"]',
-  EXTENSIONS_SEARCH_HEADER: "//Text[2]/Text",
+  EXTENSIONS_SEARCH_HEADER: '//Text[@Name="SEARCH EXTENSIONS"]',
   EXTENSIONS_SEARCH_INPUT: '[name="extensions-search-input"]',
   EXTENSIONS_SETTINGS_BUTTON: '[name="settings-button"]',
-  INSTALLED_ALERT_TEXT: "//Text[1]",
+  INSTALLED_ALERT_TEXT:
+    '//Text[contains(@Name, "Extensions are pre-compiled")]',
   INSTALLED_BUTTON: '[name="installed-button"]',
   OPEN_EXTENSIONS_DESCRIPTION_TEXT: "//Text[2]",
   OPEN_EXTENSIONS_FOLDER_BUTTON: '[name="open-extensions-folder-button"]',
@@ -29,10 +30,12 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   EXPLORE_BUTTON: "~explore-button",
-  EXTENSIONS_SEARCH_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[2]",
+  EXTENSIONS_SEARCH_HEADER:
+    '**/XCUIElementTypeStaticText[`value == "SEARCH EXTENSIONS"`][2]',
   EXTENSIONS_SEARCH_INPUT: "~extensions-search-input",
   EXTENSIONS_SETTINGS_BUTTON: "~settings-button",
-  INSTALLED_ALERT_TEXT: "-ios class chain:**/XCUIElementTypeStaticText[1]",
+  INSTALLED_ALERT_TEXT:
+    '-ios class chain:**/XCUIElementTypeStaticText[`value == "Extensions are pre-compiled on external hardware. For added security you can compile extensions from source and place in the `extensions` folder."`]',
   INSTALLED_BUTTON: "~installed-button",
   OPEN_EXTENSIONS_DESCRIPTION_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -85,9 +88,7 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   get extensionsSearchHeader() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS).$(
-      SELECTORS.EXTENSIONS_SEARCH_HEADER
-    );
+    return $(SELECTORS.EXTENSIONS_SEARCH_HEADER);
   }
 
   get extensionsSearchInput() {
@@ -101,7 +102,7 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   get installedAlertText() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS).$(SELECTORS.INSTALLED_ALERT_TEXT);
+    return $(SELECTORS.INSTALLED_ALERT_TEXT);
   }
 
   get installedButton() {

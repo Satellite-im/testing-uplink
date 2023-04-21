@@ -94,7 +94,7 @@ export default async function friends() {
     );
 
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(friendName);
-    await expect(unfriendTooltip).toBeDisplayed();
+    await unfriendTooltip?.waitForDisplayed();
     await expect(unfriendTooltipText).toHaveTextContaining("Unfriend");
 
     // Validate Block button tooltip
@@ -105,7 +105,7 @@ export default async function friends() {
     );
 
     await FriendsScreen.hoverOnBlockButton(friendName);
-    await expect(blockTooltip).toBeDisplayed();
+    await blockTooltip?.waitForDisplayed();
     await expect(blockTooltipText).toHaveTextContaining("Block");
   });
 
@@ -147,7 +147,7 @@ export default async function friends() {
     );
 
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(friendName);
-    await expect(denyTooltip).toBeDisplayed();
+    await denyTooltip?.waitForDisplayed();
     await expect(denyTooltipText).toHaveTextContaining("Deny Request");
   });
 
@@ -164,7 +164,7 @@ export default async function friends() {
     );
 
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(outgoingFriendName);
-    await expect(unfriendTooltip).toBeDisplayed();
+    await unfriendTooltip?.waitForDisplayed();
     await expect(unfriendTooltipText).toHaveTextContaining("Unfriend");
   });
 
@@ -232,7 +232,7 @@ export default async function friends() {
     );
 
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(friendName);
-    await expect(unblockTooltip).toBeDisplayed();
+    await unblockTooltip?.waitForDisplayed();
     await expect(unblockTooltipText).toHaveTextContaining("Unblock");
   });
 

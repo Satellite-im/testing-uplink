@@ -67,7 +67,7 @@ const SELECTORS_MACOS = {
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE:
     "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText",
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO:
-    "-ios class chain:**/XCUIElementTypeGroup[3]/XCUIElementTypeStaticText",
+    '-ios class chain:**/XCUIElementTypeStaticText[`value == "First step, pick out a profile picture and maybe even a banner too!"`]',
   YOUR_NEW_PROFILE_HEADER_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
 };

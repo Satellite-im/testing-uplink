@@ -1,3 +1,4 @@
+import { waitForDisplayed } from "webdriverio/build/commands/element";
 import FilesScreen from "../screenobjects/FilesScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 
@@ -50,14 +51,14 @@ export default async function files() {
   it("Validate tooltips for add folder/file buttons are displayed", async () => {
     // Validate New Folder button tooltip
     await FilesScreen.hoverOnNewFolderButton();
-    await expect(await FilesScreen.addFolderTooltip).toBeDisplayed();
+    await FilesScreen.addFolderTooltip.waitForDisplayed();
     await expect(await FilesScreen.addFolderTooltipText).toHaveTextContaining(
       "New Folder"
     );
 
     // Validate Upload button tooltip
     await FilesScreen.hoverOnUploadButton();
-    await expect(await FilesScreen.uploadFileTooltip).toBeDisplayed();
+    await FilesScreen.uploadFileTooltip.waitForDisplayed();
     await expect(await FilesScreen.uploadFileTooltipText).toHaveTextContaining(
       "Upload"
     );

@@ -24,7 +24,7 @@ const SELECTORS_MACOS = {
   PIN_INPUT: "~pin-input",
   UNLOCK_IMAGE: "-ios class chain:**/XCUIElementTypeImage",
   UNLOCK_WARNING_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  UNLOCK_WARNING_PARAGRAPH: "-ios class chain:**/XCUIElementTypeStaticText[2]",
+  UNLOCK_WARNING_PARAGRAPH: "-ios class chain:**/XCUIElementTypeStaticText[3]",
 };
 
 currentOS === "windows"
