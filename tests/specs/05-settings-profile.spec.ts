@@ -49,7 +49,7 @@ export default async function settingsProfile() {
   it("Settings Profile - Dismiss Your New Profile dialog", async () => {
     await SettingsProfileScreen.clickOnDismissButton();
     await (
-      await SettingsProfileScreen.yourNewProfileHeaderText
+      await SettingsProfileScreen.dismissButton
     ).waitForExist({
       reverse: true,
     });

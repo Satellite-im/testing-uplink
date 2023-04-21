@@ -15,7 +15,7 @@ const robot = require("robotjs");
 
 export async function deleteCache() {
   const target = homedir() + "/.uplink";
-  rmSync(target, { recursive: true, force: true });
+  await rmSync(target, { recursive: true, force: true });
 }
 
 export async function grabCacheFolder(username: string) {
@@ -88,7 +88,6 @@ export async function createNewUser(username: string) {
   // Workaround to ensure that user clicks on Add Someone
   await WelcomeScreen.clickAddSomeone();
   await FriendsScreen.waitForIsShown(true);
-  return username;
 }
 
 export async function loginWithRandomUser() {

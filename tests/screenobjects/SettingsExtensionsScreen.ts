@@ -151,6 +151,18 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
   async clickOnOpenExtensionsFolder() {
     await this.openExtensionsFolderButton.click();
   }
+
+  async getPlaceholderFromExtensionsInput() {
+    let result;
+    if ((await this.getCurrentDriver()) === "windows") {
+      result = await this.extensionsSearchInput.getAttribute("HelpText");
+    } else {
+      result = await this.extensionsSearchInput.getAttribute(
+        "placeholderValue"
+      );
+    }
+    return result.toString();
+  }
 }
 
 export default new SettingsExtensionsScreen();

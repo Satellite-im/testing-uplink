@@ -34,11 +34,8 @@ export default async function settingsExtensions() {
       await SettingsExtensionsScreen.extensionsSearchInput
     ).toBeDisplayed();
     await expect(
-      await SettingsExtensionsScreen.extensionsSearchInput
-    ).toHaveAttrContaining(
-      "placeholderValue",
-      "Extension name or description."
-    );
+      await SettingsExtensionsScreen.getPlaceholderFromExtensionsInput()
+    ).toEqual("Extension name or description.");
   });
 
   it("Settings Extensions - Go to Settings panel and assert contents", async () => {
