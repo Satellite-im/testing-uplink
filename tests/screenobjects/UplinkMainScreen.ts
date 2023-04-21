@@ -165,12 +165,12 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get chatsButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$$(SELECTORS.TOOLTIP)[0];
+    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
   }
 
   get chatsButtonTooltipText() {
     return $(SELECTORS.BUTTON_NAV)
-      .$$(SELECTORS.TOOLTIP)[0]
+      .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
@@ -284,12 +284,12 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get filesButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$$(SELECTORS.TOOLTIP)[1];
+    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
   }
 
   get filesButtonTooltipText() {
     return $(SELECTORS.BUTTON_NAV)
-      .$$(SELECTORS.TOOLTIP)[1]
+      .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
@@ -298,12 +298,12 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get friendsButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$$(SELECTORS.TOOLTIP)[2];
+    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
   }
 
   get friendsButtonTooltipText() {
     return $(SELECTORS.BUTTON_NAV)
-      .$$(SELECTORS.TOOLTIP)[2]
+      .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
@@ -326,12 +326,12 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get settingsButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$$(SELECTORS.TOOLTIP)[3];
+    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
   }
 
   get settingsButtonTooltipText() {
     return $(SELECTORS.BUTTON_NAV)
-      .$$(SELECTORS.TOOLTIP)[3]
+      .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 

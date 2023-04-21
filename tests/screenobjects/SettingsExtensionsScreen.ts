@@ -31,11 +31,11 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   EXPLORE_BUTTON: "~explore-button",
   EXTENSIONS_SEARCH_HEADER:
-    '**/XCUIElementTypeStaticText[`value == "SEARCH EXTENSIONS"`][2]',
+    '-ios class chain:**/XCUIElementTypeStaticText[`value == "SEARCH EXTENSIONS"`][2]',
   EXTENSIONS_SEARCH_INPUT: "~extensions-search-input",
   EXTENSIONS_SETTINGS_BUTTON: "~settings-button",
   INSTALLED_ALERT_TEXT:
-    '-ios class chain:**/XCUIElementTypeStaticText[`value == "Extensions are pre-compiled on external hardware. For added security you can compile extensions from source and place in the `extensions` folder."`]',
+    '//XCUIElementTypeStaticText[contains(@value, "Extensions are pre-compiled")]',
   INSTALLED_BUTTON: "~installed-button",
   OPEN_EXTENSIONS_DESCRIPTION_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",

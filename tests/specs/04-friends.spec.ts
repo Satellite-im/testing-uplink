@@ -84,28 +84,18 @@ export default async function friends() {
     await FriendsScreen.waitForIsShown(true);
   });
 
-  it("Validate tooltips for Unfriend/Block buttons are displayed", async () => {
+  it("Validate tooltips for Unfriend and Block buttons are displayed", async () => {
     // Validate Unfriend button tooltip
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
-    const unfriendTooltip = await FriendsScreen.getUserTooltip(friendName, 0);
-    const unfriendTooltipText = await FriendsScreen.getUserTooltipText(
-      friendName,
-      0
-    );
-
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(friendName);
-    await unfriendTooltip?.waitForDisplayed();
+    const unfriendTooltipText = await FriendsScreen.getUserTooltipText(
+      friendName
+    );
     await expect(unfriendTooltipText).toHaveTextContaining("Unfriend");
 
     // Validate Block button tooltip
-    const blockTooltip = await FriendsScreen.getUserTooltip(friendName, 1);
-    const blockTooltipText = await FriendsScreen.getUserTooltipText(
-      friendName,
-      1
-    );
-
     await FriendsScreen.hoverOnBlockButton(friendName);
-    await blockTooltip?.waitForDisplayed();
+    const blockTooltipText = await FriendsScreen.getUserTooltipText(friendName);
     await expect(blockTooltipText).toHaveTextContaining("Block");
   });
 
@@ -140,31 +130,18 @@ export default async function friends() {
 
     // Validate Deny Request button tooltip from Incoming List
     const friendName = await FriendsScreen.getUserFromIncomingList();
-    const denyTooltip = await FriendsScreen.getUserTooltip(friendName, 0);
-    const denyTooltipText = await FriendsScreen.getUserTooltipText(
-      friendName,
-      0
-    );
-
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(friendName);
-    await denyTooltip?.waitForDisplayed();
+    const denyTooltipText = await FriendsScreen.getUserTooltipText(friendName);
     await expect(denyTooltipText).toHaveTextContaining("Deny Request");
   });
 
   it("Validate tooltip for Unfriend button is displayed", async () => {
     // Validate Unfriend button tooltip from Outgoing List
     const outgoingFriendName = await FriendsScreen.getUserFromOutgoingList();
-    const unfriendTooltip = await FriendsScreen.getUserTooltip(
-      outgoingFriendName,
-      0
-    );
-    const unfriendTooltipText = await FriendsScreen.getUserTooltipText(
-      outgoingFriendName,
-      0
-    );
-
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(outgoingFriendName);
-    await unfriendTooltip?.waitForDisplayed();
+    const unfriendTooltipText = await FriendsScreen.getUserTooltipText(
+      outgoingFriendName
+    );
     await expect(unfriendTooltipText).toHaveTextContaining("Unfriend");
   });
 
@@ -225,14 +202,10 @@ export default async function friends() {
 
     // Validate Deny Request button tooltip from Incoming List
     const friendName = await FriendsScreen.getUserFromBlockedList();
-    const unblockTooltip = await FriendsScreen.getUserTooltip(friendName, 0);
-    const unblockTooltipText = await FriendsScreen.getUserTooltipText(
-      friendName,
-      0
-    );
-
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(friendName);
-    await unblockTooltip?.waitForDisplayed();
+    const unblockTooltipText = await FriendsScreen.getUserTooltipText(
+      friendName
+    );
     await expect(unblockTooltipText).toHaveTextContaining("Unblock");
   });
 

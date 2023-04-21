@@ -92,13 +92,11 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   get addFolderTooltip() {
-    return $(SELECTORS.TOPBAR).$$(SELECTORS.TOOLTIP)[0];
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get addFolderTooltipText() {
-    return $(SELECTORS.TOPBAR)
-      .$$(SELECTORS.TOOLTIP)[0]
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get contextMenu() {
@@ -182,13 +180,11 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   get uploadFileTooltip() {
-    return $(SELECTORS.TOPBAR).$$(SELECTORS.TOOLTIP)[1];
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get uploadFileTooltipText() {
-    return $(SELECTORS.TOPBAR)
-      .$$(SELECTORS.TOOLTIP)[1]
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get uploadFileIndicatorFilename() {

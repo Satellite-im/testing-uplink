@@ -43,22 +43,20 @@ export default async function files() {
     await expect(await FilesScreen.crumb).toBeDisplayed();
   });
 
-  it("Validate add folder/file buttons are displayed in screen", async () => {
+  it("Validate add folder and file buttons are displayed in screen", async () => {
     await expect(await FilesScreen.addFolderButton).toBeDisplayed();
     await expect(await FilesScreen.uploadFileButton).toBeDisplayed();
   });
 
-  it("Validate tooltips for add folder/file buttons are displayed", async () => {
+  it("Validate tooltips for add folder or file buttons are displayed", async () => {
     // Validate New Folder button tooltip
     await FilesScreen.hoverOnNewFolderButton();
-    await FilesScreen.addFolderTooltip.waitForDisplayed();
     await expect(await FilesScreen.addFolderTooltipText).toHaveTextContaining(
       "New Folder"
     );
 
     // Validate Upload button tooltip
     await FilesScreen.hoverOnUploadButton();
-    await FilesScreen.uploadFileTooltip.waitForDisplayed();
     await expect(await FilesScreen.uploadFileTooltipText).toHaveTextContaining(
       "Upload"
     );

@@ -129,7 +129,7 @@ export default async function settingsDeveloper() {
   });
 
   // Skipped for now because no action is performed when clicking on the button
-  xit("Settings Developer - Compress & Download Cache", async () => {
+  xit("Settings Developer - Compress and Download Cache", async () => {
     await SettingsDeveloperScreen.clickOnCompressAndDownloadCache();
   });
 
