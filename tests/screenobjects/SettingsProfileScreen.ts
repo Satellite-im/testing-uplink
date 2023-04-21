@@ -18,7 +18,7 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   ADD_PICTURE_BUTTON: '[name="add-picture-button"]',
   COPY_ID_BUTTON: "//Button",
-  DISMISS_BUTTON: '//Group[name="settings-profile"]/Button',
+  DISMISS_BUTTON: '[name="Dismiss"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_MESSAGE: "//Text",
   PROFILE_BANNER: '[name="profile-banner"]',

@@ -13,7 +13,7 @@ const SELECTORS_WINDOWS = {
   INPUT_ERROR_TEXT: "//Text",
   PIN_INPUT: "~unlock-input",
   UNLOCK_IMAGE: "//Image[1]",
-  UNLOCK_WARNING_HEADER: "//Text[1]",
+  UNLOCK_WARNING_HEADER: "//Text[1]/Text",
   UNLOCK_WARNING_PARAGRAPH: "//Text[2]",
 };
 
