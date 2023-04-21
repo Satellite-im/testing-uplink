@@ -397,16 +397,14 @@ class FriendsScreen extends UplinkMainScreen {
     return firstUserFromList;
   }
 
-  async getUserTooltip(username: string, tooltipNumber: number) {
+  async getUserTooltip(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    return await userLocator.$$(SELECTORS.TOOLTIP)[tooltipNumber];
+    return await userLocator.$(SELECTORS.TOOLTIP);
   }
 
-  async getUserTooltipText(username: string, tooltipNumber: number) {
+  async getUserTooltipText(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    return await userLocator
-      .$$(SELECTORS.TOOLTIP)
-      [tooltipNumber].$(SELECTORS.TOOLTIP_TEXT);
+    return await userLocator.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   async goToAllFriendsList() {

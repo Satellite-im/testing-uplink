@@ -1,3 +1,4 @@
+import { waitForDisplayed } from "webdriverio/build/commands/element";
 import FilesScreen from "../screenobjects/FilesScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 
@@ -42,23 +43,21 @@ export default async function files() {
     await expect(await FilesScreen.crumb).toBeDisplayed();
   });
 
-  it("Validate add folder/file buttons are displayed in screen", async () => {
+  it("Validate add folder and file buttons are displayed in screen", async () => {
     await expect(await FilesScreen.addFolderButton).toBeDisplayed();
     await expect(await FilesScreen.uploadFileButton).toBeDisplayed();
   });
 
-  it("Validate tooltips for add folder/file buttons are displayed", async () => {
+  it("Validate tooltips for add folder or file buttons are displayed", async () => {
     // Validate New Folder button tooltip
     await FilesScreen.hoverOnNewFolderButton();
-    expect(await FilesScreen.addFolderTooltip).toBeDisplayed();
-    expect(await FilesScreen.addFolderTooltipText).toHaveTextContaining(
+    await expect(await FilesScreen.addFolderTooltipText).toHaveTextContaining(
       "New Folder"
     );
 
     // Validate Upload button tooltip
     await FilesScreen.hoverOnUploadButton();
-    expect(await FilesScreen.uploadFileTooltip).toBeDisplayed();
-    expect(await FilesScreen.uploadFileTooltipText).toHaveTextContaining(
+    await expect(await FilesScreen.uploadFileTooltipText).toHaveTextContaining(
       "Upload"
     );
   });
@@ -66,27 +65,27 @@ export default async function files() {
   it("Create a new folder and enter to it", async () => {
     await FilesScreen.createFolder("testfolder01");
     const newFolder = await FilesScreen.getLocatorOfFolderFile("testfolder01");
-    expect(newFolder).toExist();
+    await expect(newFolder).toExist();
     await newFolder.click();
   });
 
   it("Create a subfolder inside the previous folder created and enter into it", async () => {
     await FilesScreen.createFolder("testfolder02");
     const newFolder = await FilesScreen.getLocatorOfFolderFile("testfolder02");
-    expect(newFolder).toExist();
+    await expect(newFolder).toExist();
     await newFolder.click();
   });
 
   it("Click in the Folder button to take you to the selected folder", async () => {
     await FilesScreen.clickOnFolderCrumb("testfolder01");
     const currentFolder = await FilesScreen.getCurrentFolder();
-    expect(currentFolder).toEqual("testfolder01");
+    await expect(currentFolder).toEqual("testfolder01");
   });
 
   it("Click in the Home button should take you to Home folder", async () => {
     await FilesScreen.clickOnHomeFolderCrumb();
     const currentFolder = await FilesScreen.getCurrentFolder();
-    expect(currentFolder).toEqual("Home");
+    await expect(currentFolder).toEqual("Home");
   });
 
   it("Upload file - Click on add file and select file", async () => {
@@ -98,10 +97,10 @@ export default async function files() {
   xit("Upload file - Validate progress indicator", async () => {
     // Validate progress % and filename displayed correctly
     const progressText = await FilesScreen.getProgressUploadPercentage();
-    expect(progressText).toHaveTextContaining("% Uploaded");
+    await expect(progressText).toHaveTextContaining("% Uploaded");
 
     const fileNameProgress = await FilesScreen.getProgressUploadFilename();
-    expect(fileNameProgress).toHaveTextContaining("logo.jpg");
+    await expect(fileNameProgress).toHaveTextContaining("logo.jpg");
   });
 
   it("Upload file - Progress indicator is closed and file appears on files list", async () => {
@@ -112,7 +111,7 @@ export default async function files() {
 
     // Once that progress indicator disappears, validate that file is loaded
     const newFile = await FilesScreen.getLocatorOfFolderFile("logo.jpg");
-    expect(newFile).toExist();
+    await expect(newFile).toExist();
   });
 
   it("Context Menu - Folder - Rename", async () => {
@@ -122,7 +121,7 @@ export default async function files() {
 
     // Set the new name for the folder
     const renamedFolder = await FilesScreen.updateNameFileFolder("newname");
-    expect(renamedFolder).toExist();
+    await expect(renamedFolder).toExist();
   });
 
   it("Context Menu - Folder - Delete", async () => {
@@ -133,7 +132,7 @@ export default async function files() {
     // Ensure that folder deleted does not exist anymore
     const nonExistingFolderLocator =
       await FilesScreen.getLocatorOfDeletedElement("newname");
-    expect(await $(nonExistingFolderLocator)).not.toExist();
+    await expect(await $(nonExistingFolderLocator)).not.toExist();
   });
 
   it("Context Menu - File - Rename", async () => {
@@ -142,8 +141,11 @@ export default async function files() {
     await FilesScreen.contextMenuOption[0].click();
 
     // Set the new name for the file
-    const renamedFile = await FilesScreen.updateNameFileFolder("newname");
-    expect(renamedFile).toExist();
+    const renamedFile = await FilesScreen.updateNameFileFolder(
+      "newname",
+      ".jpg"
+    );
+    await expect(renamedFile).toExist();
   });
 
   // Needs research on how to implement on Windows
@@ -162,6 +164,6 @@ export default async function files() {
     const nonExistingFile = await FilesScreen.getLocatorOfDeletedElement(
       "newname.jpg"
     );
-    expect(await $(nonExistingFile)).not.toExist();
+    await expect(await $(nonExistingFile)).not.toExist();
   });
 }

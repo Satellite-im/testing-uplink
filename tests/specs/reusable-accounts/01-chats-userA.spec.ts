@@ -106,7 +106,7 @@ xdescribe("Two users at the same time - Chat User A", async () => {
   it("Chats - Remove user with active chat from Favorites", async () => {
     // Remove user from favorites
     await ChatScreen.removeFromFavorites();
-    await (await ChatScreen.favorites).waitForDisplayed({ reverse: true });
+    await (await ChatScreen.favorites).waitForExist({ reverse: true });
   });
 
   it("Receive Reply - Validate reply message is received from remote user", async () => {
@@ -286,14 +286,14 @@ xdescribe("Two users at the same time - Chat User A", async () => {
   it("Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
     // Validate Call button tooltip contains "Coming soon"
     await ChatScreen.hoverOnCallButton();
-    await expect(await ChatScreen.topbarCallTooltip).toBeDisplayed();
+    await ChatScreen.topbarCallTooltip.waitForDisplayed();
     await expect(await ChatScreen.topbarCallTooltipText).toHaveTextContaining(
       "Coming soon"
     );
 
     // Validate Videocall button tooltip contains "Coming soon"
     await ChatScreen.hoverOnVideocallButton();
-    await expect(await ChatScreen.topbarVideocallTooltip).toBeDisplayed();
+    await ChatScreen.topbarVideocallTooltip.waitForDisplayed();
     await expect(
       await ChatScreen.topbarVideocallTooltipText
     ).toHaveTextContaining("Coming soon");
@@ -302,21 +302,21 @@ xdescribe("Two users at the same time - Chat User A", async () => {
   it("Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
     await ChatScreen.hoverOnFavoritesButton();
-    await expect(await ChatScreen.topbarAddToFavoritesTooltip).toBeDisplayed();
+    await ChatScreen.topbarAddToFavoritesTooltip.waitForDisplayed();
     await expect(
       await ChatScreen.topbarAddToFavoritesTooltipText
     ).toHaveTextContaining("Add to Favorites");
 
     // Validate Upload button tooltip
     await ChatScreen.hoverOnUploadButton();
-    await expect(await ChatScreen.uploadTooltip).toBeDisplayed();
+    await ChatScreen.uploadTooltip.waitForDisplayed();
     await expect(await ChatScreen.uploadTooltipText).toHaveTextContaining(
       "Upload"
     );
 
     // Validate Send button tooltip
     await ChatScreen.hoverOnSendButton();
-    await expect(await ChatScreen.sendMessageTooltip).toBeDisplayed();
+    await ChatScreen.sendMessageTooltip.waitForDisplayed();
     await expect(await ChatScreen.sendMessageTooltipText).toHaveTextContaining(
       "Send"
     );

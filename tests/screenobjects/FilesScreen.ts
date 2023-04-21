@@ -92,13 +92,11 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   get addFolderTooltip() {
-    return $(SELECTORS.TOPBAR).$$(SELECTORS.TOOLTIP)[0];
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get addFolderTooltipText() {
-    return $(SELECTORS.TOPBAR)
-      .$$(SELECTORS.TOOLTIP)[0]
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get contextMenu() {
@@ -182,13 +180,11 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   get uploadFileTooltip() {
-    return $(SELECTORS.TOPBAR).$$(SELECTORS.TOOLTIP)[1];
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get uploadFileTooltipText() {
-    return $(SELECTORS.TOPBAR)
-      .$$(SELECTORS.TOOLTIP)[1]
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get uploadFileIndicatorFilename() {
@@ -232,7 +228,7 @@ class FilesScreen extends UplinkMainScreen {
       await (await this.inputFolderFileName).setValue(name + "\uE007");
     }
     const newFolder = await this.getLocatorOfFolderFile(name);
-    expect(newFolder).toExist();
+    await expect(newFolder).toExist();
   }
 
   async downloadFile(filename: string) {
@@ -308,14 +304,16 @@ class FilesScreen extends UplinkMainScreen {
     await (await this.contextMenu).waitForDisplayed();
   }
 
-  async updateNameFileFolder(newName: string) {
+  async updateNameFileFolder(newName: string, extension: string = "") {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
       await (await this.inputFolderFileName).setValue(newName + "\n");
     } else if (currentDriver === "windows") {
       await (await this.inputFolderFileName).setValue(newName + "\uE007");
     }
-    const newFileFolder = await this.getLocatorOfFolderFile(newName);
+    const newFileFolder = await this.getLocatorOfFolderFile(
+      newName + extension
+    );
     return newFileFolder;
   }
 

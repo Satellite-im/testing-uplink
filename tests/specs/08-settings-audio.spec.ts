@@ -48,11 +48,13 @@ export default async function settingsAudio() {
     );
   });
 
-  it("Settings Audio - Click on slider switches to enable the options", async () => {
+  it("Settings Audio - Disable switches enabled by default", async () => {
     // Since Media Sounds and Message Sounds are enabled by default, first we need to click on these checkboxes before starting the test
     await SettingsAudioScreen.clickOnMediaSounds();
     await SettingsAudioScreen.clickOnMessageSounds();
+  });
 
+  it("Settings Audio - Click on slider switches to enable the options", async () => {
     // Click on the four switch sliders from the Settings Sounds & Audio Screen
     await SettingsAudioScreen.clickOnInterfaceSounds();
     await SettingsAudioScreen.clickOnMediaSounds();
@@ -73,10 +75,10 @@ export default async function settingsAudio() {
       await SettingsAudioScreen.callTimerControllerValue
     );
 
-    expect(interfaceSoundsStatus).toEqual("1");
-    expect(mediaSoundsStatus).toEqual("1");
-    expect(messageSoundsStatus).toEqual("1");
-    expect(callTimerStatus).toEqual("1");
+    await expect(interfaceSoundsStatus).toEqual("1");
+    await expect(mediaSoundsStatus).toEqual("1");
+    await expect(messageSoundsStatus).toEqual("1");
+    await expect(callTimerStatus).toEqual("1");
   });
 
   it("Settings Audio - Click on slider switches to disable the options", async () => {
@@ -100,9 +102,9 @@ export default async function settingsAudio() {
       await SettingsAudioScreen.callTimerControllerValue
     );
 
-    expect(interfaceSoundsStatus).toEqual("0");
-    expect(mediaSoundsStatus).toEqual("0");
-    expect(messageSoundsStatus).toEqual("0");
-    expect(callTimerStatus).toEqual("0");
+    await expect(interfaceSoundsStatus).toEqual("0");
+    await expect(mediaSoundsStatus).toEqual("0");
+    await expect(messageSoundsStatus).toEqual("0");
+    await expect(callTimerStatus).toEqual("0");
   });
 }
