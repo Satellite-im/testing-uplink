@@ -22,7 +22,7 @@ export default async function settingsGeneral() {
       await SettingsGeneralScreen.appLanguageHeader
     ).toHaveTextContaining("APP LANGUAGE");
     await expect(await SettingsGeneralScreen.appLanguageDescription).toHaveText(
-      "Change Language"
+      "Change Language."
     );
 
     // THEME
