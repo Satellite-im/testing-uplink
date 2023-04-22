@@ -886,7 +886,7 @@ class ChatScreen extends UplinkMainScreen {
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $$(SELECTORS.CHAT_MESSAGE)
+      await $(SELECTORS.CHAT_MESSAGE)
         .$(
           '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
@@ -894,7 +894,7 @@ class ChatScreen extends UplinkMainScreen {
         )
         .waitForDisplayed({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
-      await $$(SELECTORS.CHAT_MESSAGE)
+      await $(SELECTORS.CHAT_MESSAGE)
         .$(
           '//Group[@Name="message-text"]/Text[contains(@Name, "' +
             expectedMessage +

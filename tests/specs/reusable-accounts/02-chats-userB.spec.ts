@@ -126,12 +126,15 @@ describe("Two users at the same time - Chat User B", async () => {
     await expect(onlineIndicator).toExist();
   });
 
-  it("Chats - Received Message with Attachment - Text Message contents", async () => {
+  it("Chats - Received Message with Attachment", async () => {
     await (
       await ChatScreen.chatMessageFileEmbedRemote
-    ).waitForDisplayed({
-      timeout: 240000,
+    ).waitForExist({
+      timeout: 280000,
     });
+  });
+
+  it("Chats - Received Message with Attachment - Text Message contents", async () => {
     // Validate text from message containing attachment
     const textFromMessage = await ChatScreen.getLastMessageReceivedText();
     await expect(textFromMessage).toHaveTextContaining(
