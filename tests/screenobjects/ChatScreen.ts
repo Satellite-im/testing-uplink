@@ -520,9 +520,9 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get replyPopUpLocalTextToReplyValue() {
-    return $(SELECTORS.REPLY_POPUP).$(
-      SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY_VALUE
-    );
+    return $(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY)
+      .$(SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY_VALUE);
   }
 
   get replyPopUpRemoteTextToReply() {
@@ -532,9 +532,9 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   get replyPopUpRemoteTextToReplyValue() {
-    return $(SELECTORS.REPLY_POPUP).$(
-      SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE
-    );
+    return $(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY)
+      .$(SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE);
   }
 
   get replyPopUpUserImage() {

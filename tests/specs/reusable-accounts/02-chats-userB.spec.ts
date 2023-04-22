@@ -59,7 +59,7 @@ describe("Two users at the same time - Chat User B", async () => {
     //Timestamp should be displayed when you send a message
     const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
     await expect(timeAgo).toHaveText(
-      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+      /^ChatUserA - (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
   });
@@ -111,7 +111,7 @@ describe("Two users at the same time - Chat User B", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
-      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+      /^ChatUserB - (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserB");
   });

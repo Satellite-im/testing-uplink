@@ -44,7 +44,7 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Chats - Validate Messages secured text displayed on top of conversation", async () => {
     (await ChatScreen.encryptedMessagesText).waitForDisplayed();
     await expect(await ChatScreen.encryptedMessagesText).toHaveTextContaining(
-      "Messages secured by local E2E encryption."
+      "Messages are secured by end-to-end encryption and sent over a peer-to-peer network."
     );
   });
 
@@ -59,8 +59,8 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toHaveTextContaining(
-      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    await expect(timeAgo).toHaveText(
+      /^ChatUserA - (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
   });
@@ -131,8 +131,8 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Receive Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toHaveTextContaining(
-      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    await expect(timeAgo).toHaveText(
+      /^ChatUserB - (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserB");
   });
@@ -285,14 +285,12 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
     // Validate Call button tooltip contains "Coming soon"
     await ChatScreen.hoverOnCallButton();
-    await ChatScreen.topbarCallTooltip.waitForDisplayed();
     await expect(await ChatScreen.topbarCallTooltipText).toHaveTextContaining(
       "Coming soon"
     );
 
     // Validate Videocall button tooltip contains "Coming soon"
     await ChatScreen.hoverOnVideocallButton();
-    await ChatScreen.topbarVideocallTooltip.waitForDisplayed();
     await expect(
       await ChatScreen.topbarVideocallTooltipText
     ).toHaveTextContaining("Coming soon");
@@ -301,21 +299,18 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
     await ChatScreen.hoverOnFavoritesButton();
-    await ChatScreen.topbarAddToFavoritesTooltip.waitForDisplayed();
     await expect(
       await ChatScreen.topbarAddToFavoritesTooltipText
     ).toHaveTextContaining("Add to Favorites");
 
     // Validate Upload button tooltip
     await ChatScreen.hoverOnUploadButton();
-    await ChatScreen.uploadTooltip.waitForDisplayed();
     await expect(await ChatScreen.uploadTooltipText).toHaveTextContaining(
       "Upload"
     );
 
     // Validate Send button tooltip
     await ChatScreen.hoverOnSendButton();
-    await ChatScreen.sendMessageTooltip.waitForDisplayed();
     await expect(await ChatScreen.sendMessageTooltipText).toHaveTextContaining(
       "Send"
     );
