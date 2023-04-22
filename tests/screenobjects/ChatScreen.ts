@@ -824,8 +824,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastMessage = await this.getLastMessageReceivedLocator();
     const lastMessageText = await lastMessage
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return lastMessageText;
   }
 
@@ -841,8 +840,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastGroupReceived = await this.getLastReceivedGroup();
     const timeAgoText = await lastGroupReceived
       .$(SELECTORS.CHAT_MESSAGE_TIME_AGO)
-      .$(SELECTORS.CHAT_MESSAGE_TIME_AGO_TEXT)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_TIME_AGO_TEXT);
     return timeAgoText;
   }
 
@@ -858,8 +856,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastGroupReceived = await this.getLastReceivedGroup();
     const lastReplyReceivedText = await lastGroupReceived
       .$(SELECTORS.CHAT_MESSAGE_REPLY)
-      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
     return lastReplyReceivedText;
   }
 
@@ -967,8 +964,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastMessage = await this.getLastMessageSentLocator();
     const lastMessageText = await lastMessage
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return lastMessageText;
   }
 
@@ -976,8 +972,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastGroupSent = await this.getLastSentGroup();
     const timeAgoText = await lastGroupSent
       .$(SELECTORS.CHAT_MESSAGE_TIME_AGO)
-      .$(SELECTORS.CHAT_MESSAGE_TIME_AGO_TEXT)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_TIME_AGO_TEXT);
     return timeAgoText;
   }
 
@@ -991,8 +986,7 @@ class ChatScreen extends UplinkMainScreen {
     const lastGroupSent = await this.getLastSentGroup();
     const lastReplySentText = await lastGroupSent
       .$(SELECTORS.CHAT_MESSAGE_REPLY)
-      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
     return lastReplySentText;
   }
 

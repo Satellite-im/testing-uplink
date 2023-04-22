@@ -27,7 +27,7 @@ export default async function createReusableAccounts() {
     const didkey = await SettingsProfileScreen.getStatusInputText();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey);
+    await saveTestKeys(username, await didkey.getText());
     await grabCacheFolder(username);
     await resetApp();
   });
@@ -50,7 +50,7 @@ export default async function createReusableAccounts() {
     const didkey = await SettingsProfileScreen.getStatusInputText();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey);
+    await saveTestKeys(username, await didkey.getText());
     await grabCacheFolder(username);
   });
 }

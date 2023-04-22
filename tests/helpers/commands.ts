@@ -52,8 +52,8 @@ export async function loadTestUserData(user: string) {
 export async function getUserKey(username: string) {
   // Read user data and store variable with DID Key from JSON file
   const source = "./tests/fixtures/users/" + username + ".json";
-  const jsonFile = readFileSync(source);
-  const jsonFileParsed = JSON.parse(jsonFile);
+  const jsonFile = await readFileSync(source);
+  const jsonFileParsed = await JSON.parse(jsonFile);
   const didkey = jsonFileParsed.key;
   return didkey;
 }

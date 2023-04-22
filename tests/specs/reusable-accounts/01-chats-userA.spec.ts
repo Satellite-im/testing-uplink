@@ -59,7 +59,7 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toHaveText(
+    await expect(timeAgo).toHaveTextContaining(
       /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
@@ -131,7 +131,7 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Receive Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toHaveText(
+    await expect(timeAgo).toHaveTextContaining(
       /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserB");
