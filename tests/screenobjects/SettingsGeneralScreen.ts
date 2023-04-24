@@ -184,6 +184,14 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
     await this.themeDropdown.click();
   }
 
+  async clickOnFontScalingMinus() {
+    (await this.fontScalingButtonMinus).click();
+  }
+
+  async clickOnFontScalingPlus() {
+    (await this.fontScalingButtonPlus).click();
+  }
+
   async clickOnUplinkOverlay() {
     if ((await this.getCurrentDriver()) === "windows") {
       await this.uplinkOverlayCheckbox.click();
