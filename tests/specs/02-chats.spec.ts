@@ -1,4 +1,6 @@
 import FriendsScreen from "../screenobjects/FriendsScreen";
+import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
+import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 export default async function chats() {
@@ -56,6 +58,19 @@ export default async function chats() {
     await expect(
       await WelcomeScreen.settingsButtonTooltipText
     ).toHaveTextContaining("Settings");
+  });
+
+  it("Reduce font size before continuing execution", async () => {
+    // Go to Settings and then to General Settings
+    await WelcomeScreen.goToSettings();
+    await SettingsProfileScreen.waitForIsShown();
+    await SettingsProfileScreen.goToGeneralSettings();
+    await SettingsGeneralScreen.waitForIsShown();
+
+    // Reduce the font size and return to Welcome Screen
+    await SettingsGeneralScreen.clickOnFontScalingMinus();
+    await SettingsGeneralScreen.goToMainScreen();
+    await WelcomeScreen.waitForIsShown();
   });
 
   it("Click on add someone redirects to Friends Page", async () => {
