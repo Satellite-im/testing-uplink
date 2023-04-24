@@ -33,6 +33,8 @@ jobs:
             npm-test: windows.ci
             os-name: Windows
     runs-on: ${{ matrix.os }}
+    outputs:
+      results-test: ${{ steps.results.outputs.result }}
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
@@ -126,10 +128,22 @@ jobs:
           name: appium-test-accounts
           path: ./tests/fixtures/users/
 
+      - if: failure()
+        name: Add results from job to output
+        id: results
+        run: echo "result=failed" >> "$GITHUB_OUTPUT"
+
+      - if: success()
+        name: Add results from job to output
+        id: results
+        run: echo "result=passed" >> "$GITHUB_OUTPUT"
+
   test-chats:
     if: ${{ always() }}
     needs: test
     runs-on: macos-latest
+    outputs:
+      results-test-chats: ${{ steps.results.outputs.result }}
     strategy:
       fail-fast: false
       matrix:
@@ -213,27 +227,22 @@ jobs:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
 
+      - if: failure()
+        name: Add results from job to output
+        id: results
+        run: echo "result=failed" >> "$GITHUB_OUTPUT"
+
+      - if: success()
+        name: Add results from job to output
+        id: results
+        run: echo "result=passed" >> "$GITHUB_OUTPUT"
+
   labeler:
     needs: [test, test-chats]
     if: always()
     runs-on: ubuntu-latest
-    outputs:
-      result: ${{ steps.check-tests.outputs.failed }}
     steps:
-      - name: Check if tests failed
-        run: |
-          if [ "$(curl -s -H "Authorization: Bearer ${{secrets.GITHUB_TOKEN}}" \
-                  https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/jobs \
-                  | jq '.jobs[].conclusion' | grep -Fx -e failure -e cancelled -e timed_out)" ]; then
-            echo "Tests failed"
-            echo "failed=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "Tests passed"
-            echo "failed=false" >> "$GITHUB_OUTPUT"
-          fi
-        id: check-tests
-
-      - if: ${{ steps.check-tests.outputs.result == 'true' }}
+      - if: ${{ needs.test.outputs.result == 'failed' }} || ${{ needs.test-chats.outputs.result == 'failed' }}
         name: Add label
         uses: actions-ecosystem/action-add-labels@v1
         with:
@@ -241,7 +250,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: ${{ steps.check-tests.outputs.result == 'false' }}
+      - if: ${{ needs.test.outputs.result == 'passed' }} && ${{ needs.test-chats.outputs.result == 'passed' }}
         name: Remove label
         uses: actions-ecosystem/action-remove-labels@v1
         with:
@@ -249,7 +258,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: ${{ steps.check-tests.outputs.result == 'false' }}
+      - if: ${{ needs.test-chats.outputs.result == 'passed' }}
         name: Delete Chat Users Accounts
         uses: geekyeggo/delete-artifact@v2
         with:
