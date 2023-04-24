@@ -83,7 +83,7 @@ export default async function settingsGeneral() {
   it("Settings General - Change language", async () => {
     // Open Language Picker and select Español México
     await SettingsGeneralScreen.clickOnAppLanguageDropdown();
-    await SettingsGeneralScreen.selectAppLanguage("Español (México)");
+    await SettingsGeneralScreen.selectAppLanguage("Español");
 
     // Validate that language was changed to Español (México)
     await expect(
@@ -96,7 +96,7 @@ export default async function settingsGeneral() {
   it("Settings General - Switch back language to EN-US", async () => {
     // Open Language Picker and select Español México
     await SettingsGeneralScreen.clickOnAppLanguageDropdown();
-    await SettingsGeneralScreen.selectAppLanguage("English (USA)");
+    await SettingsGeneralScreen.selectAppLanguage("English");
 
     // Validate that language was changed back to English (USA)
     await expect(
