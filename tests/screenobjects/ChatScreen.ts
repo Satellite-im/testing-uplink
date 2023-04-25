@@ -49,7 +49,7 @@ const SELECTORS_WINDOWS = {
   COMPOSE_ATTACHMENTS_FILE_NAME_TEXT: "//Text",
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_OPTION: '[name="Context Item"]',
-  ENCRYPTED_MESSAGES_TEXT: "//Group[3]/Group/Text",
+  ENCRYPTED_MESSAGES_TEXT: '//Text[contains(@Name, "Messages are secured")]',
   INPUT_GROUP: '[name="input-group"]',
   INPUT_TEXT: "//Edit",
   QUICK_PROFILE: '[name="Context Menu"]',
@@ -74,7 +74,6 @@ const SELECTORS_WINDOWS = {
   REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE: "//Text",
   REPLY_POPUP_USER_IMAGE: '[name="User Image"]',
   REPLY_POPUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
-  SECURED_MESSAGES_INDICATOR: '//Text[contains(@Name, "Messages are secured")]',
   SEND_MESSAGE_BUTTON: '[name="send-message-button"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
@@ -129,7 +128,7 @@ const SELECTORS_MACOS = {
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_OPTION: "~Context Item",
   ENCRYPTED_MESSAGES_TEXT:
-    "-ios class chain:**/XCUIElementTypeGroup[3]/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+    '//XCUIElementTypeStaticText[contains(@value, "Messages are secured")]',
   INPUT_GROUP: "~input-group",
   INPUT_TEXT: "-ios class chain:**/XCUIElementTypeTextView",
   QUICK_PROFILE: "~Context Menu",
@@ -158,8 +157,6 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeStaticText",
   REPLY_POPUP_USER_IMAGE: "~User Image",
   REPLY_POPUP_USER_IMAGE_WRAP: "~user-image-wrap",
-  SECURED_MESSAGES_INDICATOR:
-    '//XCUIElementTypeStaticText[contains(@value, "Messages are secured")]',
   SEND_MESSAGE_BUTTON: "~send-message-button",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
@@ -545,10 +542,6 @@ class ChatScreen extends UplinkMainScreen {
     return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_USER_IMAGE_WRAP);
   }
 
-  get securedMessagesIndicator() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.SECURED_MESSAGES_INDICATOR);
-  }
-
   get sendMessageButton() {
     return $(SELECTORS.SEND_MESSAGE_BUTTON);
   }
@@ -727,9 +720,15 @@ class ChatScreen extends UplinkMainScreen {
   // Message Group Wraps Methods
 
   async getLastGroupWrap() {
-    const messageGroupWraps = await this.chatMessageGroupWrap;
-    const lastGroupWrapIndex = (await messageGroupWraps.length) - 1;
-    const lastGroupWrap = await messageGroupWraps[lastGroupWrapIndex];
+    const currentDriver = await this.getCurrentDriver();
+    let lastGroupWrap;
+    if (currentDriver === "mac2") {
+      lastGroupWrap = await $(
+        '(//XCUIElementTypeGroup[@label="message-group-wrap"])[last()]'
+      );
+    } else if (currentDriver === "windows") {
+      lastGroupWrap = await $('(//Group[@name="message-group-wrap"])[last()]');
+    }
     return lastGroupWrap;
   }
 
@@ -760,9 +759,17 @@ class ChatScreen extends UplinkMainScreen {
   // Messages Received Methods
 
   async getLastReceivedGroup() {
-    const messageGroupsReceived = await this.chatMessageGroupReceived;
-    const lastGroupIndex = (await messageGroupsReceived.length) - 1;
-    const lastGroupLocator = await messageGroupsReceived[lastGroupIndex];
+    const currentDriver = await this.getCurrentDriver();
+    let lastGroupLocator;
+    if (currentDriver === "mac2") {
+      lastGroupLocator = await $(
+        '(//XCUIElementTypeGroup[@label="message-group-remote"])[last()]'
+      );
+    } else if (currentDriver === "windows") {
+      lastGroupLocator = await $(
+        '(//Group[@name="message-group-remote"])[last()]'
+      );
+    }
     return lastGroupLocator;
   }
 
@@ -773,11 +780,19 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   async getLastMessageReceivedLocator() {
+    const currentDriver = await this.getCurrentDriver();
     const lastReceivedGroup = await this.getLastReceivedGroup();
-    const messagesInGroup = await lastReceivedGroup.$$(SELECTORS.CHAT_MESSAGE);
-    const lastMessageIndex = (await messagesInGroup.length) - 1;
-    const lastMessageLocator = await messagesInGroup[lastMessageIndex];
-    return lastMessageLocator;
+    let lastMessageInGroup;
+    if (currentDriver === "mac2") {
+      lastMessageInGroup = await lastReceivedGroup?.$(
+        '(//XCUIElementTypeGroup[@label="Message"])[last()]'
+      );
+    } else if (currentDriver === "windows") {
+      lastMessageInGroup = await lastReceivedGroup?.$(
+        '(//Group[@name="Message"])[last()]'
+      );
+    }
+    return lastMessageInGroup;
   }
 
   async getLastMessageReceivedDownloadButton() {
@@ -910,9 +925,15 @@ class ChatScreen extends UplinkMainScreen {
 
   // Messages Sent Methods
   async getLastSentGroup() {
-    const messageGroupsSent = await this.chatMessageGroupSent;
-    const lastGroupIndex = (await messageGroupsSent.length) - 1;
-    const lastGroupLocator = await messageGroupsSent[lastGroupIndex];
+    const currentDriver = await this.getCurrentDriver();
+    let lastGroupLocator;
+    if (currentDriver === "mac2") {
+      lastGroupLocator = await $(
+        '(//XCUIElementTypeGroup[@label="message-group"])[last()]'
+      );
+    } else if (currentDriver === "windows") {
+      lastGroupLocator = await $('(//Group[@name="message-group"])[last()]');
+    }
     return lastGroupLocator;
   }
 
@@ -957,11 +978,19 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   async getLastMessageSentLocator() {
+    const currentDriver = await this.getCurrentDriver();
     const lastSentGroup = await this.getLastSentGroup();
-    const messagesInGroup = await lastSentGroup.$$(SELECTORS.CHAT_MESSAGE);
-    const lastMessageIndex = (await messagesInGroup.length) - 1;
-    const lastMessageLocator = await messagesInGroup[lastMessageIndex];
-    return lastMessageLocator;
+    let lastSentMessage;
+    if (currentDriver === "mac2") {
+      lastSentMessage = await lastSentGroup?.$(
+        '(//XCUIElementTypeGroup[@label="Message"])[last()]'
+      );
+    } else if (currentDriver === "windows") {
+      lastSentMessage = await lastSentGroup?.$(
+        '(//Group[@name="Message"])[last()]'
+      );
+    }
+    return lastSentMessage;
   }
 
   async getLastMessageSentText() {
@@ -1038,6 +1067,10 @@ class ChatScreen extends UplinkMainScreen {
 
   async hoverOnUploadButton() {
     await this.hoverOnElement(await this.uploadButton);
+  }
+
+  async hoverOnUsernameTopbar() {
+    await this.hoverOnElement(await this.topbarUserName);
   }
 
   async hoverOnVideocallButton() {

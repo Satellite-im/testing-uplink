@@ -107,6 +107,8 @@ describe("Two users at the same time - Chat User A", async () => {
     // Remove user from favorites
     await ChatScreen.removeFromFavorites();
     await (await ChatScreen.favorites).waitForExist({ reverse: true });
+
+    await ChatScreen.hoverOnUsernameTopbar();
   });
 
   it("Receive Reply - Validate reply message is received from remote user", async () => {
