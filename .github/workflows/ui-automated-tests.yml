@@ -33,6 +33,9 @@ jobs:
             npm-test: windows.ci
             os-name: Windows
     runs-on: ${{ matrix.os }}
+    outputs:
+      results-macos: ${{ steps.get-macos-results.outputs.results }}
+      results-windows: ${{ steps.get-windows-results.outputs.results }}
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
@@ -93,6 +96,7 @@ jobs:
         shell: powershell
 
       - name: Run WebdriverIO tests 🧪
+        id: run-tests
         run: npm run ${{ matrix.npm-test }}
 
       - name: Publish Test Results for ${{ matrix.os-name }}
@@ -126,10 +130,21 @@ jobs:
           name: appium-test-accounts
           path: ./tests/fixtures/users/
 
+      - if: matrix.os == 'macos-latest'
+        id: get-macos-results
+        run: echo "results=${{ steps.run-tests.outcome }}" >> "$GITHUB_OUTPUT"
+
+      - if: matrix.os == 'windows-latest'
+        id: get-windows-results
+        run: echo "results=${{ steps.run-tests.outcome }}" >> "$GITHUB_OUTPUT"
+
   test-chats:
     if: ${{ always() }}
     needs: test
     runs-on: macos-latest
+    outputs:
+      results-chat-a: ${{ steps.get-chat-a-results.outputs.results }}
+      results-chat-b: ${{ steps.get-chat-b-results.outputs.results }}
     strategy:
       fail-fast: false
       matrix:
@@ -213,12 +228,20 @@ jobs:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
 
+      - if: matrix.user == 'ChatUserA' && always()
+        id: get-chat-a-results
+        run: echo "results=${{ steps.run-tests.outcome }}" >> "$GITHUB_OUTPUT"
+
+      - if: matrix.user == 'ChatUserB' && always()
+        id: get-chat-b-results
+        run: echo "results=${{ steps.run-tests.outcome }}" >> "$GITHUB_OUTPUT"
+
   labeler:
     needs: [test, test-chats]
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - if: ${{ needs.test.result == 'failure' }} || ${{ needs.test-chats.result == 'failure' }}
+      - if: ${{ needs.test.outputs.results-macos != 'success' }} || ${{ needs.test.outputs.results-windows != 'success' }} || ${{ needs.test-chats.outputs.results-chat-a != 'success' }} || ${{ needs.test-chats.outputs.results-chat-b != 'success' }}
         name: Add label
         uses: actions-ecosystem/action-add-labels@v1
         with:
@@ -226,7 +249,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: ${{ needs.test.result == 'success' }} && ${{ needs.test-chats.result == 'success' }}
+      - if: ${{ needs.test.outputs.results-macos == 'success' }} && ${{ needs.test.outputs.results-windows == 'success' }} && ${{ needs.test-chats.outputs.results-chat-a == 'success' }} && ${{ needs.test-chats.outputs.results-chat-b == 'success' }}
         name: Remove label
         uses: actions-ecosystem/action-remove-labels@v1
         with:
@@ -234,7 +257,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - if: ${{ needs.test-chats.result == 'success' }}
+      - if: ${{ needs.test-chats.outputs.results-chat-a == 'success' }} && ${{ needs.test-chats.outputs.results-chat-b == 'success' }}
         name: Delete Chat Users Accounts
         uses: geekyeggo/delete-artifact@v2
         with:
