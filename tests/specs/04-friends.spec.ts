@@ -42,18 +42,70 @@ export default async function friends() {
     await expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining(
       "Hello"
     );
+  });
+
+  it("Add Friend Input - Error is displayed when number of chars provided is less than expected", async () => {
+    await expect(await FriendsScreen.inputErrorText).toHaveTextContaining(
+      "Please enter at least 9 characters."
+    );
     await FriendsScreen.deleteAddFriendInput();
   });
+
+  it("Add Friend Input - Error is displayed when non-alphanumeric chars are provided", async () => {
+    await FriendsScreen.enterFriendDidKey("%%%%%%%%%%");
+    await expect(await FriendsScreen.inputErrorText).toHaveTextContaining(
+      "Only alphanumeric characters are accepted."
+    );
+    await FriendsScreen.deleteAddFriendInput();
+  });
+
+  it("Add Friend Input - Error is displayed when spaces are provided", async () => {
+    await FriendsScreen.enterFriendDidKey("123456789             ");
+    await expect(await FriendsScreen.inputErrorText).toHaveTextContaining(
+      "Spaces are not allowed."
+    );
+    await FriendsScreen.deleteAddFriendInput();
+  });
+
+  xit("Add Friend Input - Green indicator should appear when a did pasted is valid", async () => {});
 
   it("User can copy its own ID by clicking on button", async () => {
     // Click on Copy ID button and grab clipboard value
     await FriendsScreen.clickOnCopyID();
 
-    // Toast Notification is automatically closed quickly before validations are completed
-    // wait for toast notification to disappear
-    await (
-      await FriendsScreen.toastNotification
-    ).waitForExist({ reverse: true });
+    // Validate contents of Toast Notification and wait for it to disappear
+    await expect(
+      await FriendsScreen.toastNotificationText
+    ).toHaveTextContaining("Copied ID to clipboard!");
+    await FriendsScreen.waitUntilNotificationIsClosed();
+  });
+
+  it("Add Friend Input - Error is displayed when the user tries to add themselves", async () => {
+    // Paste copied DID Key into Add Someone Input
+    await FriendsScreen.pasteUserKeyInAddSomeone();
+
+    // Click on Add Someone Button
+    await FriendsScreen.clickOnAddSomeoneButton();
+
+    // Validate contents of Toast Notification and wait for it to disappear
+    await expect(
+      await FriendsScreen.toastNotificationText
+    ).toHaveTextContaining("Can't add yourself, silly!");
+    await FriendsScreen.waitUntilNotificationIsClosed();
+  });
+
+  it("Add Friend Input - Error is displayed when number of chars provided is greater than expected", async () => {
+    // Paste copied DID Key into Add Someone Input
+    await FriendsScreen.pasteUserKeyInAddSomeone();
+
+    // Add two more character to add someone input
+    await FriendsScreen.enterFriendDidKey(
+      "did:key:12345678901234567890123456789012345678901234567890"
+    );
+    await expect(await FriendsScreen.inputErrorText).toHaveTextContaining(
+      "Maximum of 56 characters exceeded."
+    );
+    await FriendsScreen.deleteAddFriendInput();
   });
 
   it("Switch to Pending Friends view and validate elements displayed", async () => {

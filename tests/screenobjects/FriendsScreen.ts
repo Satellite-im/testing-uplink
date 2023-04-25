@@ -38,6 +38,7 @@ const SELECTORS_WINDOWS = {
   FRIENDS_LIST: '[name="Friends List"]',
   INCOMING_REQUESTS_LIST: '[name="Incoming Requests List"]',
   INPUT_ERROR: '[name="input-error"]',
+  INPUT_ERROR_TEXT: "//Text",
   OUTGOING_REQUESTS_LIST: '[name="Outgoing Requests List"]',
   PENDING_FRIENDS_BUTTON: '[name="pending-friends-button"]',
   REMOVE_OR_DENY_FRIEND_BUTTON: '[name="Remove or Deny Friend"]',
@@ -75,6 +76,7 @@ const SELECTORS_MACOS = {
   FRIENDS_LIST: "~Friends List",
   INCOMING_REQUESTS_LIST: "~Incoming Requests List",
   INPUT_ERROR: "~input-error",
+  INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   OUTGOING_REQUESTS_LIST: "~Outgoing Requests List",
   PENDING_FRIENDS_BUTTON: "~pending-friends-button",
   REMOVE_OR_DENY_FRIEND_BUTTON: "~Remove or Deny Friend",
@@ -205,6 +207,10 @@ class FriendsScreen extends UplinkMainScreen {
 
   get inputError() {
     return $(SELECTORS.INPUT_ERROR);
+  }
+
+  get inputErrorText() {
+    return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get outgoingRequestsList() {
@@ -349,6 +355,10 @@ class FriendsScreen extends UplinkMainScreen {
     return results;
   }
 
+  async getInputErrorText() {
+    await (await this.inputErrorText).getText();
+  }
+
   async getOutgoingList() {
     await browser.pause(1000);
     const friends = await $(SELECTORS.OUTGOING_REQUESTS_LIST).$$(
@@ -445,6 +455,20 @@ class FriendsScreen extends UplinkMainScreen {
       await rightClickOnWindows(friendBubble);
     }
     await (await this.contextMenu).waitForDisplayed();
+  }
+
+  async pasteUserKeyInAddSomeone() {
+    // Assuming that user already clicked on Copy ID button
+    // If driver is macos, then get clipboard and pass it to enterStatus function
+    if ((await this.getCurrentDriver()) === "mac2") {
+      const userKey = await getClipboardMacOS();
+      await this.enterFriendDidKey(userKey);
+    } else if ((await this.getCurrentDriver()) === "windows") {
+      // If driver is windows, then click on status input to place cursor there and simulate a control + v
+      await this.addSomeoneInput.click();
+      await this.addSomeoneInput.clearValue();
+      await robot.keyTap("v", ["control"]);
+    }
   }
 
   async removeOrCancelUser(name: string) {
