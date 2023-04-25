@@ -149,6 +149,8 @@ export default async function createAccount() {
     await WelcomeScreen.waitForIsShown(true);
 
     // Maximize Window on Execution
-    await maximizeWindow();
+    if ((await WelcomeScreen.getCurrentDriver()) === "windows") {
+      await maximizeWindow();
+    }
   });
 }
