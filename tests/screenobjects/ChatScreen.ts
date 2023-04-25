@@ -74,7 +74,7 @@ const SELECTORS_WINDOWS = {
   REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE: "//Text",
   REPLY_POPUP_USER_IMAGE: '[name="User Image"]',
   REPLY_POPUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
-  SECURED_MESSAGES_INDICATOR: "//Group[3]/Group/Text",
+  SECURED_MESSAGES_INDICATOR: '//Text[contains(@Name, "Messages are secured")]',
   SEND_MESSAGE_BUTTON: '[name="send-message-button"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
@@ -159,7 +159,7 @@ const SELECTORS_MACOS = {
   REPLY_POPUP_USER_IMAGE: "~User Image",
   REPLY_POPUP_USER_IMAGE_WRAP: "~user-image-wrap",
   SECURED_MESSAGES_INDICATOR:
-    "**/XCUIElementTypeGroup[3]/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+    '//XCUIElementTypeStaticText[contains(@value, "Messages are secured")]',
   SEND_MESSAGE_BUTTON: "~send-message-button",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
@@ -866,17 +866,21 @@ class ChatScreen extends UplinkMainScreen {
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $(
-        '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
-          expectedMessage +
-          '")]'
-      ).waitForExist({ timeout: timeoutMsg, reverse: true });
+      await $$(SELECTORS.CHAT_MESSAGE)
+        .$(
+          '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg, reverse: true });
     } else if (currentDriver === "windows") {
-      await $(
-        '//Group[@Name="message-text"]/Text[contains(@Name, "' +
-          expectedMessage +
-          '")]'
-      ).waitForExist({ timeout: timeoutMsg, reverse: true });
+      await $$(SELECTORS.CHAT_MESSAGE)
+        .$(
+          '//Group[@Name="message-text"]/Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg, reverse: true });
     }
   }
 
@@ -886,7 +890,7 @@ class ChatScreen extends UplinkMainScreen {
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $(SELECTORS.CHAT_MESSAGE)
+      await $$(SELECTORS.CHAT_MESSAGE)
         .$(
           '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
@@ -894,7 +898,7 @@ class ChatScreen extends UplinkMainScreen {
         )
         .waitForDisplayed({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
-      await $(SELECTORS.CHAT_MESSAGE)
+      await $$(SELECTORS.CHAT_MESSAGE)
         .$(
           '//Group[@Name="message-text"]/Text[contains(@Name, "' +
             expectedMessage +

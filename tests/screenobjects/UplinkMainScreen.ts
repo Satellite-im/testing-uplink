@@ -585,6 +585,7 @@ export default class UplinkMainScreen extends AppScreen {
     } else if ((await this.getCurrentDriver()) === "windows") {
       await hoverOnWindows(element);
     }
+    await browser.pause(1000);
   }
 
   async hoverOnChatsButton() {

@@ -113,7 +113,9 @@ export async function loginWithTestUser() {
 
   // Only maximize if current driver is windows
   const currentDriver = await WelcomeScreen.getCurrentDriver();
-  await maximizeWindow();
+  if (currentDriver === "windows") {
+    await maximizeWindow();
+  }
 }
 
 export async function resetApp() {
