@@ -28,7 +28,7 @@ describe("Two users at the same time - Chat User A", async () => {
   });
 
   it("Ensure that friend request sent was accepted", async () => {
-    await FriendsScreen.waitUntilUserAcceptedFriendRequest();
+    await FriendsScreen.waitUntilUserAcceptedFriendRequest(280000);
   });
 
   it("Go to chat with friend and wait until user is online", async () => {
@@ -42,7 +42,7 @@ describe("Two users at the same time - Chat User A", async () => {
   });
 
   it("Chats - Validate Messages secured text displayed on top of conversation", async () => {
-    (await ChatScreen.encryptedMessagesText).waitForDisplayed();
+    await (await ChatScreen.encryptedMessagesText).waitForDisplayed();
     await expect(await ChatScreen.encryptedMessagesText).toHaveTextContaining(
       "Messages are secured by end-to-end encryption and sent over a peer-to-peer network."
     );

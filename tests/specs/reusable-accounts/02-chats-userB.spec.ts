@@ -14,7 +14,7 @@ describe("Two users at the same time - Chat User B", async () => {
   it("Accept Friend Request received from Chat User A", async () => {
     // Go to pending requests list, wait for receiving the friend request and accept it
     await FriendsScreen.goToPendingFriendsList();
-    await FriendsScreen.waitUntilFriendRequestIsReceived();
+    await FriendsScreen.waitUntilFriendRequestIsReceived(280000);
     await FriendsScreen.acceptIncomingRequest("ChatUserA");
 
     // Return to Friends List

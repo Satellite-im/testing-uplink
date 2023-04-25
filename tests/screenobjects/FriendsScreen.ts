@@ -454,10 +454,10 @@ class FriendsScreen extends UplinkMainScreen {
     ).click();
   }
 
-  async waitUntilFriendRequestIsReceived() {
+  async waitUntilFriendRequestIsReceived(timeout: number = 240000) {
     await (
       await this.acceptFriendRequestButton
-    ).waitForExist({ timeout: 240000 });
+    ).waitForExist({ timeout: timeout });
   }
 
   async waitUntilNotificationIsClosed() {
@@ -466,8 +466,8 @@ class FriendsScreen extends UplinkMainScreen {
     });
   }
 
-  async waitUntilUserAcceptedFriendRequest() {
-    await (await this.chatWithFriendButton).waitForExist({ timeout: 240000 });
+  async waitUntilUserAcceptedFriendRequest(timeout: number = 240000) {
+    await (await this.chatWithFriendButton).waitForExist({ timeout: timeout });
   }
 }
 
