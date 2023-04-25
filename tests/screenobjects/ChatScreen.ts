@@ -1026,7 +1026,7 @@ class ChatScreen extends UplinkMainScreen {
   // Context Menu Functions
 
   async openContextMenuOnReceivedMessage() {
-    const messageToClick = await this.getLastMessageReceivedLocator();
+    const messageToClick = await this.getLastMessageReceivedText();
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
       await rightClickOnMacOS(messageToClick);
@@ -1037,7 +1037,7 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   async openContextMenuOnSentMessage() {
-    const messageToClick = await this.getLastMessageSentLocator();
+    const messageToClick = await this.getLastMessageSentText();
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
       await rightClickOnMacOS(messageToClick);
