@@ -63,14 +63,14 @@ export default async function chats() {
   it("Reduce font size before continuing execution", async () => {
     // Go to Settings and then to General Settings
     await WelcomeScreen.goToSettings();
-    await SettingsProfileScreen.waitForIsShown();
+    await SettingsProfileScreen.waitForIsShown(true);
     await SettingsProfileScreen.goToGeneralSettings();
-    await SettingsGeneralScreen.waitForIsShown();
+    await SettingsGeneralScreen.waitForIsShown(true);
 
     // Reduce the font size and return to Welcome Screen
     await SettingsGeneralScreen.clickOnFontScalingMinus();
     await SettingsGeneralScreen.goToMainScreen();
-    await WelcomeScreen.waitForIsShown();
+    await WelcomeScreen.waitForIsShown(true);
   });
 
   it("Click on add someone redirects to Friends Page", async () => {
