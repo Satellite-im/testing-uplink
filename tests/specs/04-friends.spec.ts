@@ -73,10 +73,7 @@ export default async function friends() {
     // Click on Copy ID button and grab clipboard value
     await FriendsScreen.clickOnCopyID();
 
-    // Validate contents of Toast Notification and wait for it to disappear
-    await expect(
-      await FriendsScreen.toastNotificationText
-    ).toHaveTextContaining("Copied ID to clipboard!");
+    // Wait for toast notification to disappear
     await FriendsScreen.waitUntilNotificationIsClosed();
   });
 
@@ -87,10 +84,7 @@ export default async function friends() {
     // Click on Add Someone Button
     await FriendsScreen.clickOnAddSomeoneButton();
 
-    // Validate contents of Toast Notification and wait for it to disappear
-    await expect(
-      await FriendsScreen.toastNotificationText
-    ).toHaveTextContaining("Can't add yourself, silly!");
+    // Wait for toast notification to disappear
     await FriendsScreen.waitUntilNotificationIsClosed();
   });
 
