@@ -28,7 +28,7 @@ describe("Uplink UI Automated Tests", function () {
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Settings About Tests", settingsAbout.bind(this));
 
-  after(function () {
-    deleteCache();
+  after(async function () {
+    await deleteCache();
   });
 });
