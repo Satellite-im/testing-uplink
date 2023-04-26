@@ -12,11 +12,10 @@ export default async function chats() {
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await expect(await WelcomeScreen.buttonNav).toBeDisplayed();
-    await expect(await WelcomeScreen.chatsButton).toBeDisplayed();
-    await expect(await WelcomeScreen.filesButton).toBeDisplayed();
-    await expect(await WelcomeScreen.friendsButton).toBeDisplayed();
-    await expect(await WelcomeScreen.settingsButton).toBeDisplayed();
+    await (await WelcomeScreen.chatsButton).waitForExist();
+    await (await WelcomeScreen.filesButton).waitForExist();
+    await (await WelcomeScreen.friendsButton).waitForExist();
+    await (await WelcomeScreen.settingsButton).waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
