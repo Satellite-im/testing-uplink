@@ -16,8 +16,8 @@ concurrency:
 jobs:
   test:
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         os: [macos-latest, windows-latest]
         include:
           - os: macos-latest
@@ -158,8 +158,8 @@ jobs:
     outputs:
       results: ${{ steps.add-failed-results.outputs.results }}
     strategy:
+      fail-fast: false
       matrix:
-        fail-fast: false
         user: ["ChatUserA", "ChatUserB"]
         include:
           - user: "ChatUserA"
