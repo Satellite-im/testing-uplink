@@ -147,7 +147,6 @@ jobs:
     if: ${{ always() }}
     needs: test
     runs-on: macos-latest
-    runs-on: ${{ matrix.os }}
     outputs:
       results: ${{ steps.add-failed-results.outputs.results }}
     strategy:
@@ -237,7 +236,7 @@ jobs:
         uses: geekyeggo/delete-artifact@v2
         with:
           name: appium-test-accounts
-      
+
       - name: Add results output
         id: add-failed-results
         if: failure()
