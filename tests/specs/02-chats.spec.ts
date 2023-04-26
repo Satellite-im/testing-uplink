@@ -36,28 +36,24 @@ export default async function chats() {
   it("Validate Main Nav Bar buttons tooltips are displayed", async () => {
     // Validate Chats button tooltip
     await WelcomeScreen.hoverOnChatsButton();
-    await (await WelcomeScreen.chatsButtonTooltip).waitForExist();
     await expect(
       await WelcomeScreen.chatsButtonTooltipText
     ).toHaveTextContaining("Chats");
 
     // Validate Files button tooltip
     await WelcomeScreen.hoverOnFilesButton();
-    await (await WelcomeScreen.filesButtonTooltip).waitForExist();
     await expect(
       await WelcomeScreen.filesButtonTooltipText
     ).toHaveTextContaining("Files");
 
     // Validate Friends button tooltip
     await WelcomeScreen.hoverOnFriendsButton();
-    await (await WelcomeScreen.friendsButtonTooltip).waitForExist();
     await expect(
       await WelcomeScreen.friendsButtonTooltipText
     ).toHaveTextContaining("Friends");
 
     // Validate Settings button tooltip
     await WelcomeScreen.hoverOnSettingsButton();
-    await (await WelcomeScreen.settingsButtonTooltip).waitForExist();
     await expect(
       await WelcomeScreen.settingsButtonTooltipText
     ).toHaveTextContaining("Settings");

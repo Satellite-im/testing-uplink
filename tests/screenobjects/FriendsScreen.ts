@@ -239,6 +239,14 @@ class FriendsScreen extends UplinkMainScreen {
     return $(SELECTORS.TOAST_NOTIFICATION).$(SELECTORS.TOAST_NOTIFICATION_TEXT);
   }
 
+  get tooltip() {
+    return $(SELECTORS.TOOLTIP);
+  }
+
+  get tooltipText() {
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+  }
+
   get topbar() {
     return $(SELECTORS.TOPBAR);
   }

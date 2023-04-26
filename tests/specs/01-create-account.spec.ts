@@ -5,6 +5,9 @@ import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 export default async function createAccount() {
   it("Validate warning texts are displayed on screen", async () => {
+    await (
+      await CreatePinScreen.unlockLayout
+    ).waitForDisplayed({ timeout: 60000 });
     await expect(await CreatePinScreen.unlockWarningHeader).toBeDisplayed();
     await expect(
       await CreatePinScreen.unlockWarningHeader

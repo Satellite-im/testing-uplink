@@ -49,14 +49,12 @@ export default async function files() {
   it("Validate tooltips for add folder or file buttons are displayed", async () => {
     // Validate New Folder button tooltip
     await FilesScreen.hoverOnNewFolderButton();
-    await (await FilesScreen.addFolderTooltip).waitForExist();
     await expect(await FilesScreen.addFolderTooltipText).toHaveTextContaining(
       "New Folder"
     );
 
     // Validate Upload button tooltip
     await FilesScreen.hoverOnUploadButton();
-    await (await FilesScreen.uploadFileTooltip).waitForExist();
     await expect(await FilesScreen.uploadFileTooltipText).toHaveTextContaining(
       "Upload"
     );

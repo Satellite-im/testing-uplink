@@ -211,6 +211,7 @@ export async function hoverOnMacOS(locator: WebdriverIO.Element) {
       elementId: locator,
     },
   ]);
+  await browser.pause(1000);
 }
 
 export async function saveFileOnMacOS(filename: string) {
@@ -279,11 +280,12 @@ export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
 
 export async function hoverOnWindows(locator: WebdriverIO.Element) {
   await driver.moveToElement(locator.elementId);
+  await browser.pause(1000);
 }
 
 export async function rightClickOnWindows(locator: WebdriverIO.Element) {
   await driver.touchAction([{ action: "press", element: locator }]);
-  robot.mouseClick("right");
+  await robot.mouseClick("right");
 }
 
 export async function saveFileOnWindows(
