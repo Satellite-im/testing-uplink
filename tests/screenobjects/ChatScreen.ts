@@ -881,21 +881,17 @@ class ChatScreen extends UplinkMainScreen {
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $$(SELECTORS.CHAT_MESSAGE)
-        .$(
-          '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist({ timeout: timeoutMsg, reverse: true });
+      await $(
+        '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]'
+      ).waitForExist({ timeout: timeoutMsg, reverse: true });
     } else if (currentDriver === "windows") {
-      await $$(SELECTORS.CHAT_MESSAGE)
-        .$(
-          '//Group[@Name="message-text"]/Text[contains(@Name, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist({ timeout: timeoutMsg, reverse: true });
+      await $(
+        '//Group[@Name="message-text"]/Text[contains(@Name, "' +
+          expectedMessage +
+          '")]'
+      ).waitForExist({ timeout: timeoutMsg, reverse: true });
     }
   }
 
@@ -905,21 +901,17 @@ class ChatScreen extends UplinkMainScreen {
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $$(SELECTORS.CHAT_MESSAGE)
-        .$(
-          '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForDisplayed({ timeout: timeoutMsg });
+      await $(
+        '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]'
+      ).waitForDisplayed({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
-      await $$(SELECTORS.CHAT_MESSAGE)
-        .$(
-          '//Group[@Name="message-text"]/Text[contains(@Name, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForDisplayed({ timeout: timeoutMsg });
+      await $(
+        '//Group[@Name="message-text"]/Text[contains(@Name, "' +
+          expectedMessage +
+          '")]'
+      ).waitForDisplayed({ timeout: timeoutMsg });
     }
   }
 
