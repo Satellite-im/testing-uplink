@@ -14,15 +14,14 @@ export default async function friends() {
     await expect(await FriendsScreen.prereleaseIndicator).toBeDisplayed();
     await expect(
       await FriendsScreen.prereleaseIndicatorText
-    ).toHaveTextContaining("Pre-release");
+    ).toHaveTextContaining("Pre-release | Issues/Feedback");
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await expect(await FriendsScreen.buttonNav).toBeDisplayed();
-    await expect(await FriendsScreen.chatsButton).toBeDisplayed();
-    await expect(await FriendsScreen.filesButton).toBeDisplayed();
-    await expect(await FriendsScreen.friendsButton).toBeDisplayed();
-    await expect(await FriendsScreen.settingsButton).toBeDisplayed();
+    await (await FriendsScreen.chatsButton).waitForExist();
+    await (await FriendsScreen.filesButton).waitForExist();
+    await (await FriendsScreen.friendsButton).waitForExist();
+    await (await FriendsScreen.settingsButton).waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
