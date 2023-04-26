@@ -133,10 +133,13 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
   }
 
   async getToggleState(element: WebdriverIO.Element) {
-    if ((await this.getCurrentDriver()) === "mac2") {
-      return await element.getAttribute("value");
-    } else if ((await this.getCurrentDriver()) === "windows") {
-      return await element.getAttribute("Toggle.ToggleState");
+    const currentDriver = await this.getCurrentDriver();
+    let toggleState;
+    if (currentDriver === "mac2") {
+      toggleState = await element.getAttribute("value");
+    } else if (currentDriver === "windows") {
+      toggleState = await element.getAttribute("Toggle.ToggleState");
     }
+    return toggleState;
   }
 }

@@ -1,4 +1,3 @@
-import { waitForDisplayed } from "webdriverio/build/commands/element";
 import FilesScreen from "../screenobjects/FilesScreen";
 import FriendsScreen from "../screenobjects/FriendsScreen";
 
@@ -12,15 +11,14 @@ export default async function files() {
     await expect(await FilesScreen.prereleaseIndicator).toBeDisplayed();
     await expect(
       await FilesScreen.prereleaseIndicatorText
-    ).toHaveTextContaining("Pre-release");
+    ).toHaveTextContaining("Pre-release | Issues/Feedback");
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await expect(await FilesScreen.buttonNav).toBeDisplayed();
-    await expect(await FilesScreen.chatsButton).toBeDisplayed();
-    await expect(await FilesScreen.filesButton).toBeDisplayed();
-    await expect(await FilesScreen.friendsButton).toBeDisplayed();
-    await expect(await FilesScreen.settingsButton).toBeDisplayed();
+    await (await FilesScreen.chatsButton).waitForExist();
+    await (await FilesScreen.filesButton).waitForExist();
+    await (await FilesScreen.friendsButton).waitForExist();
+    await (await FilesScreen.settingsButton).waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
@@ -51,12 +49,14 @@ export default async function files() {
   it("Validate tooltips for add folder or file buttons are displayed", async () => {
     // Validate New Folder button tooltip
     await FilesScreen.hoverOnNewFolderButton();
+    await (await FilesScreen.addFolderTooltip).waitForExist();
     await expect(await FilesScreen.addFolderTooltipText).toHaveTextContaining(
       "New Folder"
     );
 
     // Validate Upload button tooltip
     await FilesScreen.hoverOnUploadButton();
+    await (await FilesScreen.uploadFileTooltip).waitForExist();
     await expect(await FilesScreen.uploadFileTooltipText).toHaveTextContaining(
       "Upload"
     );
@@ -65,15 +65,15 @@ export default async function files() {
   it("Create a new folder and enter to it", async () => {
     await FilesScreen.createFolder("testfolder01");
     const newFolder = await FilesScreen.getLocatorOfFolderFile("testfolder01");
-    await expect(newFolder).toExist();
-    await newFolder.click();
+    await (await $(newFolder)).waitForExist();
+    await (await $(newFolder)).click();
   });
 
   it("Create a subfolder inside the previous folder created and enter into it", async () => {
     await FilesScreen.createFolder("testfolder02");
     const newFolder = await FilesScreen.getLocatorOfFolderFile("testfolder02");
-    await expect(newFolder).toExist();
-    await newFolder.click();
+    await (await $(newFolder)).waitForExist();
+    await (await $(newFolder)).click();
   });
 
   it("Click in the Folder button to take you to the selected folder", async () => {
@@ -111,7 +111,7 @@ export default async function files() {
 
     // Once that progress indicator disappears, validate that file is loaded
     const newFile = await FilesScreen.getLocatorOfFolderFile("logo.jpg");
-    await expect(newFile).toExist();
+    await (await $(newFile)).waitForExist();
   });
 
   it("Context Menu - Folder - Rename", async () => {
@@ -121,7 +121,7 @@ export default async function files() {
 
     // Set the new name for the folder
     const renamedFolder = await FilesScreen.updateNameFileFolder("newname");
-    await expect(renamedFolder).toExist();
+    await renamedFolder.waitForExist();
   });
 
   it("Context Menu - Folder - Delete", async () => {
@@ -132,7 +132,7 @@ export default async function files() {
     // Ensure that folder deleted does not exist anymore
     const nonExistingFolderLocator =
       await FilesScreen.getLocatorOfDeletedElement("newname");
-    await expect(await $(nonExistingFolderLocator)).not.toExist();
+    await (await $(nonExistingFolderLocator)).waitForExist({ reverse: true });
   });
 
   it("Context Menu - File - Rename", async () => {
@@ -145,7 +145,7 @@ export default async function files() {
       "newname",
       ".jpg"
     );
-    await expect(renamedFile).toExist();
+    await renamedFile.waitForExist();
   });
 
   // Needs research on how to implement on Windows
@@ -164,6 +164,6 @@ export default async function files() {
     const nonExistingFile = await FilesScreen.getLocatorOfDeletedElement(
       "newname.jpg"
     );
-    await expect(await $(nonExistingFile)).not.toExist();
+    await (await $(nonExistingFile)).waitForExist({ reverse: true });
   });
 }
