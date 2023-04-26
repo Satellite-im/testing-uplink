@@ -16,7 +16,6 @@ concurrency:
 jobs:
   test:
     strategy:
-      fail-fast: false
       matrix:
         os: [macos-latest, windows-latest]
         include:
@@ -33,6 +32,9 @@ jobs:
             npm-test: windows.ci
             os-name: Windows
     runs-on: ${{ matrix.os }}
+    outputs:
+      results: ${{ steps.add-failed-results.outputs.results }}
+
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
@@ -84,16 +86,26 @@ jobs:
         run: ${{ matrix.appium-driver }}
 
       - if: matrix.os == 'macos-latest'
-        name: Delete Cache Folder if exists - Mac
-        run: rm -rf ~/.uplink
+        name: Run Tests on MacOS
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 2
+          retry_on: error
+          timeout_seconds: 5
+          command: |
+            rm -rf ~/.uplink
+            npm run ${{ matrix.npm-test }}
 
       - if: matrix.os == 'windows-latest'
-        name: Delete Cache Folder if exists - Winbdows
-        run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
-        shell: powershell
-
-      - name: Run WebdriverIO tests 🧪
-        run: npm run ${{ matrix.npm-test }}
+        name: Run Tests on Windows
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 2
+          retry_on: error
+          timeout_seconds: 5
+          command: |
+            If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
+            npm run ${{ matrix.npm-test }}
 
       - name: Publish Test Results for ${{ matrix.os-name }}
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -126,12 +138,19 @@ jobs:
           name: appium-test-accounts
           path: ./tests/fixtures/users/
 
+      - name: Add results output
+        id: add-failed-results
+        if: failure()
+        run: echo "results=failure" >> "$GITHUB_OUTPUT"
+
   test-chats:
     if: ${{ always() }}
     needs: test
     runs-on: macos-latest
+    runs-on: ${{ matrix.os }}
+    outputs:
+      results: ${{ steps.add-failed-results.outputs.results }}
     strategy:
-      fail-fast: false
       matrix:
         user: ["ChatUserA", "ChatUserB"]
         include:
@@ -214,7 +233,42 @@ jobs:
           path: ./appium.log
 
       - name: Delete Chat Users Accounts
-        if: always()
+        if: (success() && matrix.user == 'ChatUserA') && (success() && matrix.user == 'ChatUserB')
         uses: geekyeggo/delete-artifact@v2
         with:
           name: appium-test-accounts
+      
+      - name: Add results output
+        id: add-failed-results
+        if: failure()
+        run: echo "results=failure" >> "$GITHUB_OUTPUT"
+
+  add-label:
+    if: ${{ always() }}
+    needs: [test, test-chats]
+    runs-on: ubuntu-latest
+
+    steps:
+      - env:
+          results-1: ${{ needs.test.outputs.results }}
+          results-2: ${{ needs.test-chats.outputs.results }}
+
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Add label if any of test jobs failed
+        if: ${{ env.results-1 == "failure" }} || ${{ env.results-2 == "failure" }}
+        uses: christianvuerings/add-labels@v1
+        with:
+          labels: |
+            "Failed Automation Test"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove label if all test jobs succeeded
+        if: (!(${{ env.results-1 == "failure" }} || ${{ env.results-2 == "failure" }}))
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          labels: "Failed Automation Test"
+          type: remove
