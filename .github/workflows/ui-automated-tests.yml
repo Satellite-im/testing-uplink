@@ -34,7 +34,8 @@ jobs:
             os-name: Windows
     runs-on: ${{ matrix.os }}
     outputs:
-      results: ${{ steps.add-failed-results.outputs.results }}
+      results-macos: ${{ steps.add-passed-results-macos.outputs.results }}
+      results-windows: ${{ steps.add-passed-results-windows.outputs.results }}
 
     steps:
       - name: Checkout testing directory 🔖
@@ -95,27 +96,8 @@ jobs:
         run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
         shell: powershell
 
-      - if: matrix.os == 'macos-latest'
-        name: Run Tests on MacOS
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 2
-          retry_on: error
-          retry_wait_seconds: 30
-          timeout_minutes: 30
-          on_retry_command: rm -rf ~/.uplink
-          command: npm run ${{ matrix.npm-test }}
-
-      - if: matrix.os == 'windows-latest'
-        name: Run Tests on Windows
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 2
-          retry_on: error
-          retry_wait_seconds: 30
-          timeout_minutes: 30
-          on_retry_command: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
-          command: npm run ${{ matrix.npm-test }}
+      - name: Run Tests
+        run: npm run ${{ matrix.npm-test }}
 
       - name: Publish Test Results for ${{ matrix.os-name }}
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -148,17 +130,23 @@ jobs:
           name: appium-test-accounts
           path: ./tests/fixtures/users/
 
-      - name: Add results output
-        id: add-failed-results
-        if: failure()
-        run: echo "results=failure" >> "$GITHUB_OUTPUT"
+      - if: success() && matrix.os == 'macos-latest'
+        name: Add results output for MacOS
+        id: add-passed-results-macos
+        run: echo "results-macos=passed" >> "$GITHUB_OUTPUT"
+
+      - if: success() && matrix.os == 'windows-latest'
+        name: Add results output for Windows
+        id: add-passed-results-windows
+        run: echo "results-windows=passed" >> "$GITHUB_OUTPUT"
 
   test-chats:
     if: ${{ always() }}
     needs: test
     runs-on: macos-latest
     outputs:
-      results: ${{ steps.add-failed-results.outputs.results }}
+      results-chatA: ${{ steps.add-passed-results-chatA.outputs.results }}
+      results-chatB: ${{ steps.add-passed-results-chatB.outputs.results }}
     strategy:
       fail-fast: false
       matrix:
@@ -226,14 +214,7 @@ jobs:
           cp -r ./tests/fixtures/users/${{ matrix.user }}/. ~/.uplink
 
       - name: Run WebdriverIO tests on MacOS 🧪
-        uses: nick-fields/retry@v2
-        with:
-          max_attempts: 2
-          retry_on: error
-          retry_wait_seconds: 30
-          timeout_minutes: 15
-          on_retry_command: cp -r ./tests/fixtures/users/${{ matrix.user }}/. ~/.uplink
-          command: ${{ matrix.npm-command }}
+        run: ${{ matrix.npm-command }}
 
       - name: Upload Screenshots for ${{ matrix.user }} 📷
         uses: actions/upload-artifact@v3
@@ -249,19 +230,17 @@ jobs:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
 
-      - name: Delete Chat Users Accounts
-        if: (success() && matrix.user == 'ChatUserA') && (success() && matrix.user == 'ChatUserB')
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: appium-test-accounts
+      - if: success() && matrix.user == 'ChatUserA'
+        name: Add results output for Chat A
+        id: add-passed-results-chatA
+        run: echo "results=chatA=passed" >> "$GITHUB_OUTPUT"
 
-      - name: Add results output
-        id: add-failed-results
-        if: failure()
-        run: echo "results=failure" >> "$GITHUB_OUTPUT"
+      - if: success() && matrix.user == 'ChatUserB'
+        name: Add results output for Chat B
+        id: add-passed-results-chatB
+        run: echo "results=chatB=passed" >> "$GITHUB_OUTPUT"
 
   add-label:
-    if: ${{ always() }}
     needs: [test, test-chats]
     runs-on: ubuntu-latest
 
@@ -269,8 +248,8 @@ jobs:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
-      - name: Add label if any of test jobs failed
-        if: ${{ needs.test.outputs.results }} || ${{ needs.test-chats.outputs.results }}
+      - if: ${{ needs.test.outputs.results-macos != "passed" }} || ${{ needs.test.outputs.results-windows != "passed" }} || ${{ needs.test-chats.outputs.results-chatA != "passed" }} || ${{ needs.test-chats.outputs.results-chatB != "passed" }}
+        name: Add label if any of test jobs failed
         uses: christianvuerings/add-labels@v1
         with:
           labels: |
@@ -278,10 +257,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Remove label if all test jobs succeeded
-        if: (!(${{ needs.test.outputs.results }} || ${{ needs.test-chats.outputs.results }}))
+      - if: ${{ needs.test.outputs.results-macos == "passed" }} && ${{ needs.test.outputs.results-windows == "passed" }} && ${{ needs.test-chats.outputs.results-chatA == "passed" }} && ${{ needs.test-chats.outputs.results-chatB == "passed" }}
+        name: Remove label if all test jobs succeeded
         uses: buildsville/add-remove-label@v2.0.0
         with:
           labels: |
             "Failed Automated Test"
           type: remove
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - if: ${{ needs.test-chats.outputs.results-chatA == "passed" }} && ${{ needs.test-chats.outputs.results-chatB == "passed" }}
+        name: Delete Chat Users Accounts
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: appium-test-accounts
