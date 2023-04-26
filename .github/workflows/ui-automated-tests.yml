@@ -246,16 +246,13 @@ jobs:
     if: ${{ always() }}
     needs: [test, test-chats]
     runs-on: ubuntu-latest
-    env:
-      results-1: ${{ needs.test.outputs.results }}
-      results-2: ${{ needs.test-chats.outputs.results }}
 
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
       - name: Add label if any of test jobs failed
-        if: ${{ env.results-1 == "failure" }} || ${{ env.results-2 == "failure" }}
+        if: ${{ needs.test.outputs.results }} || ${{ needs.test-chats.outputs.results }}
         uses: christianvuerings/add-labels@v1
         with:
           labels: |
@@ -264,7 +261,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Remove label if all test jobs succeeded
-        if: (!(${{ env.results-1 == "failure" }} || ${{ env.results-2 == "failure" }}))
+        if: (!(${{ needs.test.outputs.results }} || ${{ needs.test-chats.outputs.results }}))
         uses: buildsville/add-remove-label@v2.0.0
         with:
           token: ${{secrets.GITHUB_TOKEN}}
