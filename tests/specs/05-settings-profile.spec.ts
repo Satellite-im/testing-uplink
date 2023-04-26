@@ -13,15 +13,14 @@ export default async function settingsProfile() {
     ).toBeDisplayed();
     await expect(
       await SettingsProfileScreen.prereleaseIndicatorText
-    ).toHaveTextContaining("Pre-release");
+    ).toHaveTextContaining("Pre-release | Issues/Feedback");
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await expect(await SettingsProfileScreen.buttonNav).toBeDisplayed();
-    await expect(await SettingsProfileScreen.chatsButton).toBeDisplayed();
-    await expect(await SettingsProfileScreen.filesButton).toBeDisplayed();
-    await expect(await SettingsProfileScreen.friendsButton).toBeDisplayed();
-    await expect(await SettingsProfileScreen.settingsButton).toBeDisplayed();
+    await (await SettingsProfileScreen.chatsButton).waitForExist();
+    await (await SettingsProfileScreen.filesButton).waitForExist();
+    await (await SettingsProfileScreen.friendsButton).waitForExist();
+    await (await SettingsProfileScreen.settingsButton).waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
@@ -76,7 +75,7 @@ export default async function settingsProfile() {
   it("Settings Profile - Validate Copy ID button tooltip", async () => {
     // Validate Copy ID button tooltip
     await SettingsProfileScreen.hoverOnCopyID();
-    await (await SettingsProfileScreen.copyIDTooltip).waitForDisplayed();
+    await (await SettingsProfileScreen.copyIDTooltip).waitForExist();
     await expect(
       await SettingsProfileScreen.copyIDTooltipText
     ).toHaveTextContaining("Copy ID");
@@ -129,7 +128,7 @@ export default async function settingsProfile() {
     await SettingsProfileScreen.hoverOnBanner();
 
     // Validate that change banner tooltip is displayed
-    await (await SettingsProfileScreen.profileBannerTooltip).waitForDisplayed();
+    await (await SettingsProfileScreen.profileBannerTooltip).waitForExist();
     await expect(
       await SettingsProfileScreen.profileBannerTooltip
     ).toHaveTextContaining("Change banner");

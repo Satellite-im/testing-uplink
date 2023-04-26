@@ -228,7 +228,7 @@ class FilesScreen extends UplinkMainScreen {
       await (await this.inputFolderFileName).setValue(name + "\uE007");
     }
     const newFolder = await this.getLocatorOfFolderFile(name);
-    await expect(newFolder).toExist();
+    await (await $(newFolder)).waitForExist();
   }
 
   async downloadFile(filename: string) {
@@ -263,21 +263,20 @@ class FilesScreen extends UplinkMainScreen {
         '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]'
       );
     } else if (currentDriver === "windows") {
-      return '[name="' + name + '"]';
+      return '//Group[name="' + name + '"]';
     }
   }
 
   async getLocatorOfFolderFile(name: string) {
     const currentDriver = await this.getCurrentDriver();
+    let locator;
     if (currentDriver === "mac2") {
-      return await (
-        await this.filesList
-      ).$(
-        '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]'
-      );
+      locator =
+        '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]';
     } else if (currentDriver === "windows") {
-      return await $('[name="' + name + '"]');
+      locator = '//Group[@Name="' + name + '"]';
     }
+    return locator;
   }
 
   async getProgressUploadFilename() {
@@ -292,7 +291,7 @@ class FilesScreen extends UplinkMainScreen {
 
   async openFilesContextMenu(name: string) {
     const elementLocator = await this.getLocatorOfFolderFile(name);
-    const fileFolderToRightClick = await elementLocator?.$(
+    const fileFolderToRightClick = await $(elementLocator).$(
       SELECTORS.FILE_FOLDER_NAME_TEXT
     );
     const currentDriver = await this.getCurrentDriver();
@@ -314,7 +313,7 @@ class FilesScreen extends UplinkMainScreen {
     const newFileFolder = await this.getLocatorOfFolderFile(
       newName + extension
     );
-    return newFileFolder;
+    return await $(newFileFolder);
   }
 
   async uploadFile(relativePath: string) {
