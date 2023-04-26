@@ -17,6 +17,7 @@ jobs:
   test:
     strategy:
       matrix:
+        fail-fast: false
         os: [macos-latest, windows-latest]
         include:
           - os: macos-latest
@@ -86,15 +87,23 @@ jobs:
         run: ${{ matrix.appium-driver }}
 
       - if: matrix.os == 'macos-latest'
+        name: Delete cache before starting on MacOS
+        run: rm -rf ~/.uplink
+
+      - if: matrix.os == 'windows-latest'
+        name: Delete cache before starting on Windows
+        run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
+        shell: powershell
+
+      - if: matrix.os == 'macos-latest'
         name: Run Tests on MacOS
         uses: nick-fields/retry@v2
         with:
           max_attempts: 2
           retry_on: error
-          timeout_seconds: 5
-          command: |
-            rm -rf ~/.uplink
-            npm run ${{ matrix.npm-test }}
+          retry_wait_seconds: 30
+          on_retry_command: rm -rf ~/.uplink
+          command: npm run ${{ matrix.npm-test }}
 
       - if: matrix.os == 'windows-latest'
         name: Run Tests on Windows
@@ -102,10 +111,9 @@ jobs:
         with:
           max_attempts: 2
           retry_on: error
-          timeout_seconds: 5
-          command: |
-            If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
-            npm run ${{ matrix.npm-test }}
+          retry_wait_seconds: 30
+          on_retry_command: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
+          command: npm run ${{ matrix.npm-test }}
 
       - name: Publish Test Results for ${{ matrix.os-name }}
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -151,6 +159,7 @@ jobs:
       results: ${{ steps.add-failed-results.outputs.results }}
     strategy:
       matrix:
+        fail-fast: false
         user: ["ChatUserA", "ChatUserB"]
         include:
           - user: "ChatUserA"
@@ -256,7 +265,7 @@ jobs:
         uses: christianvuerings/add-labels@v1
         with:
           labels: |
-            "Failed Automation Test"
+            Failed Automated Test
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -264,6 +273,6 @@ jobs:
         if: (!(${{ needs.test.outputs.results }} || ${{ needs.test-chats.outputs.results }}))
         uses: buildsville/add-remove-label@v2.0.0
         with:
-          token: ${{secrets.GITHUB_TOKEN}}
-          labels: "Failed Automation Test"
+          labels: |
+            "Failed Automated Test"
           type: remove
