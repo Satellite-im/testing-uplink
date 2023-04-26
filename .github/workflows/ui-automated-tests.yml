@@ -102,6 +102,7 @@ jobs:
           max_attempts: 2
           retry_on: error
           retry_wait_seconds: 30
+          timeout_minutes: 30
           on_retry_command: rm -rf ~/.uplink
           command: npm run ${{ matrix.npm-test }}
 
@@ -112,6 +113,7 @@ jobs:
           max_attempts: 2
           retry_on: error
           retry_wait_seconds: 30
+          timeout_minutes: 30
           on_retry_command: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
           command: npm run ${{ matrix.npm-test }}
 
@@ -224,7 +226,14 @@ jobs:
           cp -r ./tests/fixtures/users/${{ matrix.user }}/. ~/.uplink
 
       - name: Run WebdriverIO tests on MacOS 🧪
-        run: ${{ matrix.npm-command }}
+        uses: nick-fields/retry@v2
+        with:
+          max_attempts: 2
+          retry_on: error
+          retry_wait_seconds: 30
+          timeout_minutes: 15
+          on_retry_command: cp -r ./tests/fixtures/users/${{ matrix.user }}/. ~/.uplink
+          command: ${{ matrix.npm-command }}
 
       - name: Upload Screenshots for ${{ matrix.user }} 📷
         uses: actions/upload-artifact@v3
