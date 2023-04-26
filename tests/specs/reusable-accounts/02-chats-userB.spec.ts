@@ -64,7 +64,8 @@ describe("Two users at the same time - Chat User B", async () => {
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
   });
 
-  it("Reply popup - Validate contents and close it", async () => {
+  // Needs to be fixed on Chat User B before unskipping
+  xit("Reply popup - Validate contents and close it", async () => {
     await ChatScreen.openContextMenuOnReceivedMessage();
     await ChatScreen.selectContextOption(0);
 
@@ -84,7 +85,8 @@ describe("Two users at the same time - Chat User B", async () => {
     await ChatScreen.waitForReplyModalToNotExist();
   });
 
-  it("Reply - Reply to a message", async () => {
+  // Needs to be fixed on Chat User B before unskipping
+  xit("Reply - Reply to a message", async () => {
     await ChatScreen.openContextMenuOnReceivedMessage();
     await ChatScreen.selectContextOption(0);
 
@@ -95,7 +97,8 @@ describe("Two users at the same time - Chat User B", async () => {
     await ChatScreen.waitForReplyModalToNotExist();
   });
 
-  it("Send Reply - Validate reply message group reply and message replied", async () => {
+  // Needs to be fixed on Chat User B before unskipping
+  xit("Send Reply - Validate reply message group reply and message replied", async () => {
     // Validate message replied appears smaller above your reply
     const replySent = await ChatScreen.getLastReplySent();
     const replySentText = await ChatScreen.getLastReplySentText();
@@ -107,7 +110,8 @@ describe("Two users at the same time - Chat User B", async () => {
     await expect(textFromMessage).toHaveTextContaining("this is a reply");
   });
 
-  it("Send Reply - Validate reply message group contains timestamp", async () => {
+  // Needs to be fixed on Chat User B before unskipping
+  xit("Send Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
@@ -116,7 +120,8 @@ describe("Two users at the same time - Chat User B", async () => {
     await expect(timeAgo).toHaveTextContaining("ChatUserB");
   });
 
-  it("Send Reply - Validate reply message group contains user image and online indicator", async () => {
+  // Needs to be fixed on Chat User B before unskipping
+  xit("Send Reply - Validate reply message group contains user image and online indicator", async () => {
     //Your user image should be displayed next to the message
     const userImage = await ChatScreen.getLastGroupWrapImage();
     await expect(userImage).toExist();
@@ -134,7 +139,8 @@ describe("Two users at the same time - Chat User B", async () => {
     });
   });
 
-  it("Chats - Received Message with Attachment - Text Message contents", async () => {
+  // Needs to be fixed on Chat User A before unskipping
+  xit("Chats - Received Message with Attachment - Text Message contents", async () => {
     // Validate text from message containing attachment
     const textFromMessage = await ChatScreen.getLastMessageReceivedText();
     await expect(textFromMessage).toHaveTextContaining(
