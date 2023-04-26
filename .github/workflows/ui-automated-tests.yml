@@ -247,12 +247,11 @@ jobs:
     if: ${{ always() }}
     needs: [test, test-chats]
     runs-on: ubuntu-latest
+    env:
+      results-1: ${{ needs.test.outputs.results }}
+      results-2: ${{ needs.test-chats.outputs.results }}
 
     steps:
-      - env:
-          results-1: ${{ needs.test.outputs.results }}
-          results-2: ${{ needs.test-chats.outputs.results }}
-
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
