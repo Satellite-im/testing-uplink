@@ -130,23 +130,31 @@ jobs:
           name: appium-test-accounts
           path: ./tests/fixtures/users/
 
-      - if: success() && matrix.os == 'macos-latest'
+      - if: always()
         name: Add results output for MacOS
         id: add-passed-results-macos
-        run: echo "results-macos=passed" >> "$GITHUB_OUTPUT"
+        uses: haya14busa/action-cond@v1
+        with:
+          cond: success() && matrix.os == 'macos-latest'
+          if_true: echo "results-macos=true" >> "$GITHUB_OUTPUT"
+          if_false: echo "results-macos=false" >> "$GITHUB_OUTPUT"
 
-      - if: success() && matrix.os == 'windows-latest'
+      - if: always()
         name: Add results output for Windows
         id: add-passed-results-windows
-        run: echo "results-windows=passed" >> "$GITHUB_OUTPUT"
+        uses: haya14busa/action-cond@v1
+        with:
+          cond: success() && matrix.os == 'macos-windows'
+          if_true: echo "results-windows=true" >> "$GITHUB_OUTPUT"
+          if_false: echo "results-windows=false" >> "$GITHUB_OUTPUT"
 
   test-chats:
     if: ${{ always() }}
     needs: test
     runs-on: macos-latest
     outputs:
-      results-chatA: ${{ steps.add-passed-results-chatA.outputs.results }}
-      results-chatB: ${{ steps.add-passed-results-chatB.outputs.results }}
+      results-chatA: ${{ steps.add-passed-results-chatA.outputs.results }} || "failed"
+      results-chatB: ${{ steps.add-passed-results-chatB.outputs.results }} || "failed"
     strategy:
       fail-fast: false
       matrix:
@@ -230,15 +238,23 @@ jobs:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
 
-      - if: success() && matrix.user == 'ChatUserA'
-        name: Add results output for Chat A
+      - if: always()
+        name: Add results output for Chat User A
         id: add-passed-results-chatA
-        run: echo "results=chatA=passed" >> "$GITHUB_OUTPUT"
+        uses: haya14busa/action-cond@v1
+        with:
+          cond: success() && matrix.user == 'ChatUserA'
+          if_true: echo "results-chatA=true" >> "$GITHUB_OUTPUT"
+          if_false: echo "results-chatA=false" >> "$GITHUB_OUTPUT"
 
-      - if: success() && matrix.user == 'ChatUserB'
-        name: Add results output for Chat B
+      - if: always()
+        name: Add results output for Chat User B
         id: add-passed-results-chatB
-        run: echo "results=chatB=passed" >> "$GITHUB_OUTPUT"
+        uses: haya14busa/action-cond@v1
+        with:
+          cond: success() && matrix.user == 'ChatUserB'
+          if_true: echo "results-chatB=true" >> "$GITHUB_OUTPUT"
+          if_false: echo "results-chatB=false" >> "$GITHUB_OUTPUT"
 
   add-label:
     needs: [test, test-chats]
@@ -248,7 +264,7 @@ jobs:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
-      - if: ${{ needs.test.outputs.results-macos != 'passed' || needs.test.outputs.results-windows != 'passed' || needs.test-chats.outputs.results-chatA != 'passed' || needs.test-chats.outputs.results-chatB != 'passed' }}
+      - if: ${{ needs.test.outputs.results-macos == 'false' || needs.test.outputs.results-windows == 'false' || needs.test-chats.outputs.results-chatA == 'false' || needs.test-chats.outputs.results-chatB == 'false' }}
         name: Add label if any of test jobs failed
         uses: buildsville/add-remove-label@v2.0.0
         with:
@@ -257,7 +273,7 @@ jobs:
             "Failed Automated Test"
           type: add
 
-      - if: ${{ needs.test.outputs.results-macos == 'passed' && needs.test.outputs.results-windows == 'passed' && needs.test-chats.outputs.results-chatA == 'passed' && needs.test-chats.outputs.results-chatB == 'passed' }}
+      - if: ${{ needs.test.outputs.results-macos == 'true' && needs.test.outputs.results-windows == 'true' && needs.test-chats.outputs.results-chatA == 'true' && needs.test-chats.outputs.results-chatB == 'true' }}
         name: Remove label if all test jobs succeeded
         uses: buildsville/add-remove-label@v2.0.0
         with:
@@ -266,7 +282,7 @@ jobs:
             "Failed Automated Test"
           type: remove
 
-      - if: ${{ needs.test-chats.outputs.results-chatA == 'passed' && needs.test-chats.outputs.results-chatB == 'passed' }}
+      - if: ${{ needs.test-chats.outputs.results-chatA == 'true' && needs.test-chats.outputs.results-chatB == 'true' }}
         name: Delete Chat Users Accounts
         uses: geekyeggo/delete-artifact@v2
         with:
