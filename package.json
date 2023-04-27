@@ -36,7 +36,6 @@
     "@wdio/mocha-framework": "^8.8.7",
     "@wdio/spec-reporter": "^8.8.7",
     "eslint-plugin-wdio": "^8.8.7",
-    "mkdirp": "^3.0.1",
     "prettier": "^2.8.8",
     "robotjs": "^0.6.0",
     "ts-node": "^10.9.1",
