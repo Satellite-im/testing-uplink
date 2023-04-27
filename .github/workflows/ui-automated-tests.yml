@@ -24,13 +24,11 @@ jobs:
             appium-driver: |
               appium driver install mac2
               appium driver list
-            npm-test: mac.ci
             os-name: MacOS
           - os: windows-latest
             appium-driver: |
               appium driver install --source=npm appium-windows-driver
               appium driver list
-            npm-test: windows.ci
             os-name: Windows
     runs-on: ${{ matrix.os }}
     outputs:
@@ -96,9 +94,15 @@ jobs:
         run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
         shell: powershell
 
-      - name: Run Tests
-        id: test-execution-${{ matrix.os}}
-        run: npm run ${{ matrix.npm-test }}
+      - if: matrix.os == 'macos-latest'
+        name: Run Tests on MacOS
+        id: test-execution-macos
+        run: npm run mac.ci
+
+      - if: matrix.os == 'windows-latest'
+        name: Run Tests on Windows
+        id: test-execution-windows
+        run: npm run windows.ci
 
       - name: Publish Test Results for ${{ matrix.os-name }}
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -214,8 +218,14 @@ jobs:
           rm -rf ~/.uplink
           cp -r ./tests/fixtures/users/${{ matrix.user }}/. ~/.uplink
 
-      - name: Run WebdriverIO tests on MacOS 🧪
-        id: test-execution-${{ matrix.user }}
+      - if: matrix.user == 'ChatUserA'
+        name: Run WebdriverIO tests for Chat User A 🧪
+        id: test-execution-ChatUserA
+        run: ${{ matrix.npm-command }}
+
+      - if: matrix.user == 'ChatUserB'
+        name: Run WebdriverIO tests for Chat User B 🧪
+        id: test-execution-ChatUserB
         run: ${{ matrix.npm-command }}
 
       - name: Upload Screenshots for ${{ matrix.user }} 📷
