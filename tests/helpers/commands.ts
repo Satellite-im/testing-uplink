@@ -20,7 +20,7 @@ export async function deleteCache() {
 export async function grabCacheFolder(username: string) {
   const source = homedir() + "/.uplink";
   const target = "./tests/fixtures/users/" + username;
-  await fsp.mkdir(target);
+  await fsp.mkdir(target, { recursive: true });
   try {
     await fsp.cp(source, target, { recursive: true });
     console.log("Copied user cache successfully");

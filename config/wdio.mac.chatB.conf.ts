@@ -43,7 +43,7 @@ config.afterTest = async function (test, describe, { error }) {
   if (error) {
     let imageFile = await driver.takeScreenshot();
     let imageFolder = join(process.cwd(), "./test-results/macos", test.parent);
-    await fsp.mkdir(imageFolder);
+    await fsp.mkdir(imageFolder, {recursive: true});
     await fsp.writeFile(
       imageFolder + "/" + test.title + " - Failed.png",
       imageFile,
