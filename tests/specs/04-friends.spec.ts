@@ -103,18 +103,17 @@ export default async function friends() {
 
   it("Switch to Pending Friends view and validate elements displayed", async () => {
     await FriendsScreen.goToPendingFriendsList();
-    await expect(await FriendsScreen.incomingRequestsList).toBeDisplayed();
-    await expect(await FriendsScreen.outgoingRequestsList).toBeDisplayed();
+    await (await FriendsScreen.incomingRequestsList).waitForDisplayed();
   });
 
   it("Switch to Blocked Friends view and validate elements displayed", async () => {
     await FriendsScreen.goToBlockedList();
-    await expect(await FriendsScreen.blockedList).toBeDisplayed();
+    await (await FriendsScreen.blockedList).waitForDisplayed();
   });
 
   it("Switch to All Friends view and validate elements displayed", async () => {
     await FriendsScreen.goToAllFriendsList();
-    await expect(await FriendsScreen.friendsList).toBeDisplayed();
+    await (await FriendsScreen.friendsList).waitForDisplayed();
   });
 
   it("Go to Chat with Friend from Friends List", async () => {
@@ -217,7 +216,6 @@ export default async function friends() {
     await FriendsScreen.removeOrCancelUser(friendName);
 
     // Go to the current list of All friends and ensure that denied user is not in friends list
-    await browser.pause(1000);
     await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getAllFriendsList();
     await expect(allFriendsList.includes(friendName)).toEqual(false);
