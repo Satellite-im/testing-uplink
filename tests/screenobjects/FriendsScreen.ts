@@ -462,7 +462,8 @@ class FriendsScreen extends UplinkMainScreen {
     } else if (currentDriver === "windows") {
       await rightClickOnWindows(friendBubble);
     }
-    await (await this.contextMenu).waitForDisplayed();
+    await browser.pause(1000);
+    await (await this.contextMenu).waitForExist();
   }
 
   async pasteUserKeyInAddSomeone() {
