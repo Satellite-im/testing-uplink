@@ -8,7 +8,6 @@ import { join } from "path";
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
-const mkdirp = require("mkdirp");
 const robot = require("robotjs");
 
 // Users cache helper functions
@@ -21,7 +20,7 @@ export async function deleteCache() {
 export async function grabCacheFolder(username: string) {
   const source = homedir() + "/.uplink";
   const target = "./tests/fixtures/users/" + username;
-  await mkdirp(target);
+  await fsp.mkdir(target);
   try {
     await fsp.cp(source, target, { recursive: true });
     console.log("Copied user cache successfully");
