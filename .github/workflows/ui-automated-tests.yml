@@ -97,6 +97,7 @@ jobs:
         shell: powershell
 
       - name: Run Tests
+        id: test-execution
         run: npm run ${{ matrix.npm-test }}
 
       - name: Publish Test Results for ${{ matrix.os-name }}
@@ -130,21 +131,21 @@ jobs:
           name: appium-test-accounts
           path: ./tests/fixtures/users/
 
-      - if: always()
+      - if: always() && matrix.os == 'macos-latest'
         name: Add results output for MacOS
         id: add-passed-results-macos
         uses: haya14busa/action-cond@v1
         with:
-          cond: success() && matrix.os == 'macos-latest'
+          cond: ${{ steps.test-execution.outcome == 'success' }}
           if_true: echo "results-macos=true" >> "$GITHUB_OUTPUT"
           if_false: echo "results-macos=false" >> "$GITHUB_OUTPUT"
 
-      - if: always()
+      - if: always() && matrix.os == 'windows-latest'
         name: Add results output for Windows
         id: add-passed-results-windows
         uses: haya14busa/action-cond@v1
         with:
-          cond: success() && matrix.os == 'macos-windows'
+          cond: ${{ steps.test-execution.outcome == 'success' }}
           if_true: echo "results-windows=true" >> "$GITHUB_OUTPUT"
           if_false: echo "results-windows=false" >> "$GITHUB_OUTPUT"
 
@@ -153,8 +154,8 @@ jobs:
     needs: test
     runs-on: macos-latest
     outputs:
-      results-chatA: ${{ steps.add-passed-results-chatA.outputs.results }} || "failed"
-      results-chatB: ${{ steps.add-passed-results-chatB.outputs.results }} || "failed"
+      results-chatA: ${{ steps.add-passed-results-chatA.outputs.results }}
+      results-chatB: ${{ steps.add-passed-results-chatB.outputs.results }}
     strategy:
       fail-fast: false
       matrix:
@@ -222,6 +223,7 @@ jobs:
           cp -r ./tests/fixtures/users/${{ matrix.user }}/. ~/.uplink
 
       - name: Run WebdriverIO tests on MacOS 🧪
+        id: test-execution
         run: ${{ matrix.npm-command }}
 
       - name: Upload Screenshots for ${{ matrix.user }} 📷
@@ -238,21 +240,21 @@ jobs:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
 
-      - if: always()
+      - if: always() && matrix.user == 'ChatUserA'
         name: Add results output for Chat User A
         id: add-passed-results-chatA
         uses: haya14busa/action-cond@v1
         with:
-          cond: success() && matrix.user == 'ChatUserA'
+          cond: ${{ steps.test-execution.outcome == 'success' }}
           if_true: echo "results-chatA=true" >> "$GITHUB_OUTPUT"
           if_false: echo "results-chatA=false" >> "$GITHUB_OUTPUT"
 
-      - if: always()
+      - if: always() && matrix.user == 'ChatUserB'
         name: Add results output for Chat User B
         id: add-passed-results-chatB
         uses: haya14busa/action-cond@v1
         with:
-          cond: success() && matrix.user == 'ChatUserB'
+          cond: ${{ steps.test-execution.outcome == 'success' }}
           if_true: echo "results-chatB=true" >> "$GITHUB_OUTPUT"
           if_false: echo "results-chatB=false" >> "$GITHUB_OUTPUT"
 
