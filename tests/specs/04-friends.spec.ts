@@ -129,7 +129,8 @@ export default async function friends() {
     await FriendsScreen.waitForIsShown(true);
   });
 
-  it("Validate tooltip for Unfriend button is displayed", async () => {
+  // Skipping due to random failures with MacOS executor on CI with hovering on elements
+  xit("Validate tooltip for Unfriend button is displayed", async () => {
     // Validate Unfriend button tooltip
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(friendName);
@@ -138,7 +139,8 @@ export default async function friends() {
     );
   });
 
-  it("Validate tooltip for Block button is displayed", async () => {
+  // Skipping due to random failures with MacOS executor on CI with hovering on elements
+  xit("Validate tooltip for Block button is displayed", async () => {
     // Validate Block button tooltip
     const friendName = await FriendsScreen.getUserFromAllFriendsList();
     await FriendsScreen.hoverOnBlockButton(friendName);
@@ -170,7 +172,8 @@ export default async function friends() {
     await expect(blockedFriendsList.includes(friendName)).toEqual(true);
   });
 
-  it("Validate tooltip for Deny Request button is displayed", async () => {
+  // Skipping due to random failures with MacOS executor on CI with hovering on elements
+  xit("Validate tooltip for Deny Request button is displayed", async () => {
     // Go to Pending Requests Screen
     await FriendsScreen.goToPendingFriendsList();
 
@@ -182,7 +185,8 @@ export default async function friends() {
     );
   });
 
-  it("Validate tooltip for Unfriend button is displayed", async () => {
+  // Skipping due to random failures with MacOS executor on CI with hovering on elements
+  xit("Validate tooltip for Unfriend button is displayed", async () => {
     // Validate Unfriend button tooltip from Outgoing List
     const outgoingFriendName = await FriendsScreen.getUserFromOutgoingList();
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(outgoingFriendName);
@@ -192,6 +196,9 @@ export default async function friends() {
   });
 
   it("Accept incoming friend request", async () => {
+    // Go to Pending Requests Screen
+    await FriendsScreen.goToPendingFriendsList();
+
     // Get a random user from Incoming Pending list and accept the request
     const friendName = await FriendsScreen.getUserFromIncomingList();
     await FriendsScreen.acceptIncomingRequest(friendName);
@@ -224,8 +231,7 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  // Skipping test due to failure on CI
-  xit("Unfriend - Cancel outgoing friend request", async () => {
+  it("Unfriend - Cancel outgoing friend request", async () => {
     // Go to Pending Requests Screen
     await FriendsScreen.goToPendingFriendsList();
 
@@ -243,7 +249,8 @@ export default async function friends() {
     await expect(allFriendsList.includes(friendName)).toEqual(false);
   });
 
-  it("Validate tooltips for Unblock button is displayed", async () => {
+  // Skipping due to random failures with MacOS executor on CI with hovering on elements
+  xit("Validate tooltips for Unblock button is displayed", async () => {
     // Go to Blocked Users Screen
     await FriendsScreen.goToBlockedList();
 

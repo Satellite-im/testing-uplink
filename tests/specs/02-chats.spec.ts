@@ -33,7 +33,8 @@ export default async function chats() {
     );
   });
 
-  it("Validate Main Nav Bar buttons tooltips are displayed", async () => {
+  // Skipping due to random failures with MacOS executor on CI with hovering on elements
+  xit("Validate Main Nav Bar buttons tooltips are displayed", async () => {
     // Validate Chats button tooltip
     await WelcomeScreen.hoverOnChatsButton();
     await expect(

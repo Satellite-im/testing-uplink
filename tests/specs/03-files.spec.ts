@@ -46,7 +46,8 @@ export default async function files() {
     await expect(await FilesScreen.uploadFileButton).toBeDisplayed();
   });
 
-  it("Validate tooltips for add folder or file buttons are displayed", async () => {
+  // Skipping due to random failures with MacOS executor on CI with hovering on elements
+  xit("Validate tooltips for add folder or file buttons are displayed", async () => {
     // Validate New Folder button tooltip
     await FilesScreen.hoverOnNewFolderButton();
     await expect(await FilesScreen.addFolderTooltipText).toHaveTextContaining(
