@@ -34,8 +34,7 @@ jobs:
             os-name: Windows
     runs-on: ${{ matrix.os }}
     outputs:
-      results-macos: ${{ steps.add-passed-results-macos.outputs.results }}
-      results-windows: ${{ steps.add-passed-results-windows.outputs.results }}
+      results-${{ matrix.os }}: ${{ steps.add-failed-results-${{ matrix.os }}.outputs.results-${{ matrix.os }} }}
 
     steps:
       - name: Checkout testing directory 🔖
@@ -97,7 +96,7 @@ jobs:
         shell: powershell
 
       - name: Run Tests
-        id: test-execution
+        id: test-execution-${{ matrix.os}}
         run: npm run ${{ matrix.npm-test }}
 
       - name: Publish Test Results for ${{ matrix.os-name }}
@@ -131,31 +130,17 @@ jobs:
           name: appium-test-accounts
           path: ./tests/fixtures/users/
 
-      - if: always() && matrix.os == 'macos-latest'
-        name: Add results output for MacOS
-        id: add-passed-results-macos
-        uses: haya14busa/action-cond@v1
-        with:
-          cond: ${{ steps.test-execution.outcome == 'success' }}
-          if_true: echo "results-macos=true" >> "$GITHUB_OUTPUT"
-          if_false: echo "results-macos=false" >> "$GITHUB_OUTPUT"
-
-      - if: always() && matrix.os == 'windows-latest'
-        name: Add results output for Windows
-        id: add-passed-results-windows
-        uses: haya14busa/action-cond@v1
-        with:
-          cond: ${{ steps.test-execution.outcome == 'success' }}
-          if_true: echo "results-windows=true" >> "$GITHUB_OUTPUT"
-          if_false: echo "results-windows=false" >> "$GITHUB_OUTPUT"
+      - if: always() && ${{ steps.test-execution-${{ matrix.os }}.outcome != 'success' }}
+        name: Add results output for failed on ${{ matrix.os }}
+        id: add-failed-results-${{ matrix.os }}
+        run: echo "results-${{ matrix.os }}=failed" >> "$GITHUB_OUTPUT"
 
   test-chats:
     if: ${{ always() }}
     needs: test
     runs-on: macos-latest
     outputs:
-      results-chatA: ${{ steps.add-passed-results-chatA.outputs.results }}
-      results-chatB: ${{ steps.add-passed-results-chatB.outputs.results }}
+      results-${{ matrix.user }}: ${{ steps.add-failed-results-${{ matrix.user }}.outputs.results-${{ matrix.user }} }}
     strategy:
       fail-fast: false
       matrix:
@@ -240,33 +225,21 @@ jobs:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
 
-      - if: always() && matrix.user == 'ChatUserA'
-        name: Add results output for Chat User A
-        id: add-passed-results-chatA
-        uses: haya14busa/action-cond@v1
-        with:
-          cond: ${{ steps.test-execution.outcome == 'success' }}
-          if_true: echo "results-chatA=true" >> "$GITHUB_OUTPUT"
-          if_false: echo "results-chatA=false" >> "$GITHUB_OUTPUT"
-
-      - if: always() && matrix.user == 'ChatUserB'
-        name: Add results output for Chat User B
-        id: add-passed-results-chatB
-        uses: haya14busa/action-cond@v1
-        with:
-          cond: ${{ steps.test-execution.outcome == 'success' }}
-          if_true: echo "results-chatB=true" >> "$GITHUB_OUTPUT"
-          if_false: echo "results-chatB=false" >> "$GITHUB_OUTPUT"
+      - if: always() && ${{ steps.test-execution-${{ matrix.user }}.outcome != 'success' }}
+        name: Add results output for failed on ${{ matrix.user }}
+        id: add-failed-results-${{ matrix.user }}
+        run: echo "results-${{ matrix.user }}=failed" >> "$GITHUB_OUTPUT"
 
   add-label:
     needs: [test, test-chats]
+    if: always()
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
-      - if: ${{ needs.test.outputs.results-macos == 'false' || needs.test.outputs.results-windows == 'false' || needs.test-chats.outputs.results-chatA == 'false' || needs.test-chats.outputs.results-chatB == 'false' }}
+      - if: needs.test.outputs.results-macos-latest == 'failed' || needs.test.outputs.results-windows-latest == 'failed' || needs.test-chats.outputs.results-ChatUserA == 'failed' || needs.test-chats.outputs.results-ChatUserB == 'failed'
         name: Add label if any of test jobs failed
         uses: buildsville/add-remove-label@v2.0.0
         with:
@@ -275,7 +248,7 @@ jobs:
             "Failed Automated Test"
           type: add
 
-      - if: ${{ needs.test.outputs.results-macos == 'true' && needs.test.outputs.results-windows == 'true' && needs.test-chats.outputs.results-chatA == 'true' && needs.test-chats.outputs.results-chatB == 'true' }}
+      - if: needs.test.outputs.results-macos-latest != 'failed' && needs.test.outputs.results-windows-latest != 'failed' && needs.test-chats.outputs.results-ChatUserA != 'failed' && needs.test-chats.outputs.results-ChatUserB != 'failed'
         name: Remove label if all test jobs succeeded
         uses: buildsville/add-remove-label@v2.0.0
         with:
@@ -284,7 +257,7 @@ jobs:
             "Failed Automated Test"
           type: remove
 
-      - if: ${{ needs.test-chats.outputs.results-chatA == 'true' && needs.test-chats.outputs.results-chatB == 'true' }}
+      - if: needs.test-chats.outputs.results-ChatUserA != 'failed' && needs.test-chats.outputs.results-ChatUserB != 'failed'
         name: Delete Chat Users Accounts
         uses: geekyeggo/delete-artifact@v2
         with:
