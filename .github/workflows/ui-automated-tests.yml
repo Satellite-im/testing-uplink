@@ -248,7 +248,7 @@ jobs:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
-      - if: ${{ needs.test.outputs.results-macos != "passed" || needs.test.outputs.results-windows != "passed" || needs.test-chats.outputs.results-chatA != "passed" || needs.test-chats.outputs.results-chatB != "passed" }}
+      - if: ${{ needs.test.outputs.results-macos != 'passed' || needs.test.outputs.results-windows != 'passed' || needs.test-chats.outputs.results-chatA != 'passed' || needs.test-chats.outputs.results-chatB != 'passed' }}
         name: Add label if any of test jobs failed
         uses: buildsville/add-remove-label@v2.0.0
         with:
@@ -257,7 +257,7 @@ jobs:
             "Failed Automated Test"
           type: add
 
-      - if: ${{ needs.test.outputs.results-macos == "passed" && needs.test.outputs.results-windows == "passed" && needs.test-chats.outputs.results-chatA == "passed" && needs.test-chats.outputs.results-chatB == "passed" }}
+      - if: ${{ needs.test.outputs.results-macos == 'passed' && needs.test.outputs.results-windows == 'passed' && needs.test-chats.outputs.results-chatA == 'passed' && needs.test-chats.outputs.results-chatB == 'passed' }}
         name: Remove label if all test jobs succeeded
         uses: buildsville/add-remove-label@v2.0.0
         with:
@@ -266,7 +266,7 @@ jobs:
             "Failed Automated Test"
           type: remove
 
-      - if: ${{ needs.test-chats.outputs.results-chatA == "passed" && needs.test-chats.outputs.results-chatB == "passed" }}
+      - if: ${{ needs.test-chats.outputs.results-chatA == 'passed' && needs.test-chats.outputs.results-chatB == 'passed' }}
         name: Delete Chat Users Accounts
         uses: geekyeggo/delete-artifact@v2
         with:
