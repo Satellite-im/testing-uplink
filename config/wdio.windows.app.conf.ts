@@ -3,7 +3,6 @@ import { join } from "path";
 
 
 const fsp = require("fs").promises;
-const mkdirp = require("mkdirp");
 
 // ============
 // Specs
@@ -33,7 +32,7 @@ config.afterTest = async function (test, describe, { error }) {
   if (error) {
     let imageFile = await driver.takeScreenshot();
     let imageFolder = join(process.cwd(), "./test-results/windows", test.parent);
-    await mkdirp(imageFolder);
+    await fsp.mkdir(imageFolder, {recursive: true});
     await fsp.writeFile(
       imageFolder + "/" + test.title + " - Failed.png",
       imageFile,
