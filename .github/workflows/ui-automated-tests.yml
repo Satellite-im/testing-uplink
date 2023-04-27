@@ -34,7 +34,8 @@ jobs:
             os-name: Windows
     runs-on: ${{ matrix.os }}
     outputs:
-      results-${{ matrix.os }}: ${{ steps.add-failed-results-${{ matrix.os }}.outputs.results-${{ matrix.os }} }}
+      results-macos-latest: ${{ steps.add-failed-results-macos-latest.outputs.results-macos-latest }}
+      results-windows-latest: ${{ steps.add-failed-results-windows-latest.outputs.results-windows-latest }}
 
     steps:
       - name: Checkout testing directory 🔖
@@ -130,17 +131,23 @@ jobs:
           name: appium-test-accounts
           path: ./tests/fixtures/users/
 
-      - if: always() && ${{ steps.test-execution-${{ matrix.os }}.outcome != 'success' }}
-        name: Add results output for failed on ${{ matrix.os }}
-        id: add-failed-results-${{ matrix.os }}
-        run: echo "results-${{ matrix.os }}=failed" >> "$GITHUB_OUTPUT"
+      - if: always() && matrix.os == 'macos-latest' && steps.test-execution-macos-latest.outcome != 'success' }}
+        name: Add results output for failed on macos-latest
+        id: add-failed-results-macos-latest
+        run: echo "results-macos-latest=failed" >> "$GITHUB_OUTPUT"
+
+      - if: always() && matrix.os == 'windows-latest' && steps.test-execution-windows-latest.outcome != 'success' }}
+        name: Add results output for failed on windows-latest
+        id: add-failed-results-windows-latest
+        run: echo "results-windows-latest=failed" >> "$GITHUB_OUTPUT"
 
   test-chats:
     if: ${{ always() }}
     needs: test
     runs-on: macos-latest
     outputs:
-      results-${{ matrix.user }}: ${{ steps.add-failed-results-${{ matrix.user }}.outputs.results-${{ matrix.user }} }}
+      results-ChatUserA: ${{ steps.add-failed-results-ChatUserA.outputs.results-ChatUserA }}
+      results-ChatUserB: ${{ steps.add-failed-results-ChatUserB.outputs.results-ChatUserB }}
     strategy:
       fail-fast: false
       matrix:
@@ -208,7 +215,7 @@ jobs:
           cp -r ./tests/fixtures/users/${{ matrix.user }}/. ~/.uplink
 
       - name: Run WebdriverIO tests on MacOS 🧪
-        id: test-execution
+        id: test-execution-${{ matrix.user }}
         run: ${{ matrix.npm-command }}
 
       - name: Upload Screenshots for ${{ matrix.user }} 📷
@@ -225,10 +232,15 @@ jobs:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
 
-      - if: always() && ${{ steps.test-execution-${{ matrix.user }}.outcome != 'success' }}
-        name: Add results output for failed on ${{ matrix.user }}
-        id: add-failed-results-${{ matrix.user }}
-        run: echo "results-${{ matrix.user }}=failed" >> "$GITHUB_OUTPUT"
+      - if: always() && matrix.user == 'ChatUserA' && ${{ steps.test-execution-ChatUserA.outcome != 'success' }}
+        name: Add results output for failed on ChatUserA
+        id: add-failed-results-ChatUserA
+        run: echo "results-ChatUserA=failed" >> "$GITHUB_OUTPUT"
+
+      - if: always() && matrix.user == 'ChatUserB' && ${{ steps.test-execution-ChatUserB.outcome != 'success' }}
+        name: Add results output for failed on ChatUserB
+        id: add-failed-results-ChatUserB
+        run: echo "results-ChatUserB=failed" >> "$GITHUB_OUTPUT"
 
   add-label:
     needs: [test, test-chats]
