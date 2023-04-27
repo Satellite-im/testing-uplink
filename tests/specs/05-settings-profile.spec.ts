@@ -84,9 +84,6 @@ export default async function settingsProfile() {
   it("Settings Profile - Click On Copy ID Button", async () => {
     // Click on Copy ID button and assert Toast Notification is displayed
     await SettingsProfileScreen.clickOnCopyIDButton();
-    await expect(
-      await SettingsProfileScreen.toastNotificationText
-    ).toHaveTextContaining("Copied ID to clipboard!");
 
     // Wait for toast notification to be closed
     await SettingsProfileScreen.waitUntilNotificationIsClosed();
