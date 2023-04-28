@@ -104,15 +104,12 @@ jobs:
         id: test-execution-windows
         run: npm run windows.ci
 
-      - name: Publish Test Results for ${{ matrix.os-name }}
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      - name: Upload Test Reports
         if: always()
+        uses: actions/upload-artifact@v3
         with:
-          junit_files: "./test-report/*.xml"
-          ignore_runs: true
-          job_summary: false
-          compare_to_earlier_commit: false
-          check_name: "UI Automated Test Results on ${{ matrix.os-name}}"
+          name: test-report-${{ matrix.os-name }}
+          path: ./test-results
 
       - name: Upload Screenshots for ${{ matrix.os-name }} 📷
         uses: actions/upload-artifact@v3
@@ -228,6 +225,13 @@ jobs:
         id: test-execution-ChatUserB
         run: ${{ matrix.npm-command }}
 
+      - name: Upload Test Reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report-${{ matrix.user }}
+          path: ./test-results
+
       - name: Upload Screenshots for ${{ matrix.user }} 📷
         uses: actions/upload-artifact@v3
         if: failure()
@@ -290,3 +294,34 @@ jobs:
         uses: geekyeggo/delete-artifact@v2
         with:
           name: appium-test-accounts
+
+  generate-report:
+    needs: [test, test-chats]
+    if: always()
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        runner:
+          [
+            test-report-macos-latest,
+            test-report-windows-latest,
+            test-report-ChatUserA,
+            test-report-ChatUserB,
+          ]
+        include:
+          - runner: "test-report-macos-latest"
+            name: UI Automated Tests Results for MacOS
+          - runner: "test-report-windows-latest"
+            name: UI Automated Tests Results for Windows
+          - runner: "test-report-ChatUserA"
+            name: UI Automated Tests Results for ChatUserA
+          - runner: "test-report-ChatUserB"
+            name: UI Automated Tests Results for ChatUserB
+    steps:
+      - name: Publish Test Results
+        uses: dorny/test-reporter@v1
+        with:
+          artifact: ${{ matrix.runner }}
+          name: ${{ matrix.name }}
+          path: "*.xml"
+          reporter: "jest-junit"
