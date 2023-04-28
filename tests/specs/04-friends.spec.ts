@@ -118,6 +118,9 @@ export default async function friends() {
 
     //Validate Chat Screen is displayed and go back to Friends Screen
     await ChatScreen.waitForIsShown(true);
+  });
+
+  it("Type a message and return to Friends Screen", async () => {
     await ChatScreen.typeMessageOnInput("testing...");
     await ChatScreen.clearInputBar();
     await ChatScreen.goToFriends();

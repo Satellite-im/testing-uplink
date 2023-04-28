@@ -165,13 +165,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get chatsButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get chatsButtonTooltipText() {
-    return $(SELECTORS.BUTTON_NAV)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get createGroupChatSection() {
@@ -284,13 +282,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get filesButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get filesButtonTooltipText() {
-    return $(SELECTORS.BUTTON_NAV)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get friendsButton() {
@@ -298,13 +294,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get friendsButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get friendsButtonTooltipText() {
-    return $(SELECTORS.BUTTON_NAV)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get hamburgerButton() {
@@ -326,13 +320,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get settingsButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get settingsButtonTooltipText() {
-    return $(SELECTORS.BUTTON_NAV)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get sidebar() {

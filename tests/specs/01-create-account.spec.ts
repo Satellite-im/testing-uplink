@@ -1,10 +1,16 @@
-import { maximizeWindow } from "../helpers/commands";
+import { maximizeWindow, resetApp } from "../helpers/commands";
 import CreatePinScreen from "../screenobjects/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/CreateUserScreen";
 import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 export default async function createAccount() {
   it("Validate warning texts are displayed on screen", async () => {
+    // Clean data on second retry for MacOS
+    const currentDriver = await CreatePinScreen.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await resetApp();
+    }
+
     await expect(CreatePinScreen.unlockWarningHeader).toBeDisplayed();
     await expect(CreatePinScreen.unlockWarningHeader).toHaveTextContaining(
       "LET'S CHOOSE YOUR PASSWORD"

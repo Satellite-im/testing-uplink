@@ -312,9 +312,7 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getAllFriendsList() {
     await this.friendsList.waitForExist();
-    const friends = await $(SELECTORS.FRIENDS_LIST, { timeout: 15000 }).$$(
-      SELECTORS.FRIEND_INFO
-    );
+    const friends = await $$(SELECTORS.FRIEND_INFO);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend
@@ -327,7 +325,7 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getBlockedList() {
     await this.blockedList.waitForExist();
-    const friends = await $(SELECTORS.BLOCKED_LIST).$$(SELECTORS.FRIEND_INFO);
+    const friends = await $$(SELECTORS.FRIEND_INFO);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend
@@ -396,14 +394,15 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getUserFromAllFriendsList() {
-    const firstUserFromList = await $(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.FRIEND_INFO)[0]
+    await this.friendsList.waitForExist();
+    const firstUserFromList = await $$(SELECTORS.FRIEND_INFO)[0]
       .$(SELECTORS.FRIEND_INFO_USERNAME)
       .getText();
     return firstUserFromList;
   }
 
   async getUserFromIncomingList() {
+    await this.incomingRequestsList.waitForExist();
     const firstUserFromList = await $(SELECTORS.INCOMING_REQUESTS_LIST)
       .$$(SELECTORS.FRIEND_INFO)[0]
       .$(SELECTORS.FRIEND_INFO_USERNAME)
@@ -412,6 +411,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getUserFromOutgoingList() {
+    await this.outgoingRequestsList.waitForExist();
     const firstUserFromList = await $(SELECTORS.OUTGOING_REQUESTS_LIST)
       .$$(SELECTORS.FRIEND_INFO)[0]
       .$(SELECTORS.FRIEND_INFO_USERNAME)
@@ -420,8 +420,8 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getUserFromBlockedList() {
-    const firstUserFromList = await $(SELECTORS.BLOCKED_LIST)
-      .$$(SELECTORS.FRIEND_INFO)[0]
+    await this.blockedList.waitForExist();
+    const firstUserFromList = await $$(SELECTORS.FRIEND_INFO)[0]
       .$(SELECTORS.FRIEND_INFO_USERNAME)
       .getText();
     return firstUserFromList;

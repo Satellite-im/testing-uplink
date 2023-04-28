@@ -119,7 +119,7 @@ jobs:
           name: appium-log-${{ matrix.os-name }}
           path: ./appium.log
 
-      - if: matrix.os == 'macos-latest'
+      - if: matrix.os == 'macos-latest' && always()
         name: Upload Test User Accounts Created 📷
         uses: actions/upload-artifact@v3
         with:
@@ -214,7 +214,7 @@ jobs:
           path: ./appium.log
 
       - name: Delete Chat Users Accounts
-        if: always()
+        if: success()
         uses: geekyeggo/delete-artifact@v2
         with:
           name: appium-test-accounts
