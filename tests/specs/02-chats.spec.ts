@@ -5,30 +5,30 @@ import WelcomeScreen from "../screenobjects/WelcomeScreen";
 
 export default async function chats() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    await expect(await WelcomeScreen.prereleaseIndicator).toBeDisplayed();
-    await expect(
-      await WelcomeScreen.prereleaseIndicatorText
-    ).toHaveTextContaining("Pre-release | Issues/Feedback");
+    await expect(WelcomeScreen.prereleaseIndicator).toBeDisplayed();
+    await expect(WelcomeScreen.prereleaseIndicatorText).toHaveTextContaining(
+      "Pre-release | Issues/Feedback"
+    );
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await (await WelcomeScreen.chatsButton).waitForExist();
-    await (await WelcomeScreen.filesButton).waitForExist();
-    await (await WelcomeScreen.friendsButton).waitForExist();
-    await (await WelcomeScreen.settingsButton).waitForExist();
+    await expect(WelcomeScreen.chatsButton).toBeDisplayed();
+    await expect(WelcomeScreen.filesButton).toBeDisplayed();
+    await expect(WelcomeScreen.friendsButton).toBeDisplayed();
+    await expect(WelcomeScreen.settingsButton).toBeDisplayed();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await expect(await WelcomeScreen.chatSearchInput).toBeDisplayed();
-    await expect(await WelcomeScreen.sidebar).toBeDisplayed();
-    await expect(await WelcomeScreen.sidebarChildren).toBeDisplayed();
-    await expect(await WelcomeScreen.sidebarSearch).toBeDisplayed();
+    await expect(WelcomeScreen.chatSearchInput).toBeDisplayed();
+    await expect(WelcomeScreen.sidebar).toBeDisplayed();
+    await expect(WelcomeScreen.sidebarChildren).toBeDisplayed();
+    await expect(WelcomeScreen.sidebarSearch).toBeDisplayed();
   });
 
   it("Validate Welcome Screen is displayed", async () => {
-    await expect(await WelcomeScreen.welcomeLayout).toBeDisplayed();
-    await expect(await WelcomeScreen.addFriendsButton).toBeDisplayed();
-    await expect(await WelcomeScreen.addSomeoneText).toHaveTextContaining(
+    await expect(WelcomeScreen.welcomeLayout).toBeDisplayed();
+    await expect(WelcomeScreen.addFriendsButton).toBeDisplayed();
+    await expect(WelcomeScreen.addSomeoneText).toHaveTextContaining(
       "Things are better with friends."
     );
   });
@@ -36,36 +36,37 @@ export default async function chats() {
   it("Validate Main Nav Bar buttons tooltips are displayed", async () => {
     // Validate Chats button tooltip
     await WelcomeScreen.hoverOnChatsButton();
-    await (await WelcomeScreen.chatsButtonTooltip).waitForExist();
-    await expect(
-      await WelcomeScreen.chatsButtonTooltipText
-    ).toHaveTextContaining("Chats");
+    await expect(WelcomeScreen.chatsButtonTooltip).toBeDisplayed();
+    await expect(WelcomeScreen.chatsButtonTooltipText).toHaveTextContaining(
+      "Chats"
+    );
 
     // Validate Files button tooltip
     await WelcomeScreen.hoverOnFilesButton();
-    await (await WelcomeScreen.filesButtonTooltip).waitForExist();
-    await expect(
-      await WelcomeScreen.filesButtonTooltipText
-    ).toHaveTextContaining("Files");
+    await expect(WelcomeScreen.filesButtonTooltip).toBeDisplayed();
+    await expect(WelcomeScreen.filesButtonTooltipText).toHaveTextContaining(
+      "Files"
+    );
 
     // Validate Friends button tooltip
     await WelcomeScreen.hoverOnFriendsButton();
-    await (await WelcomeScreen.friendsButtonTooltip).waitForExist();
-    await expect(
-      await WelcomeScreen.friendsButtonTooltipText
-    ).toHaveTextContaining("Friends");
+    await expect(WelcomeScreen.friendsButtonTooltip).toBeDisplayed();
+    await expect(WelcomeScreen.friendsButtonTooltipText).toHaveTextContaining(
+      "Friends"
+    );
 
     // Validate Settings button tooltip
     await WelcomeScreen.hoverOnSettingsButton();
-    await (await WelcomeScreen.settingsButtonTooltip).waitForExist();
-    await expect(
-      await WelcomeScreen.settingsButtonTooltipText
-    ).toHaveTextContaining("Settings");
+    await expect(WelcomeScreen.settingsButtonTooltip).toBeDisplayed();
+    await expect(WelcomeScreen.settingsButtonTooltipText).toHaveTextContaining(
+      "Settings"
+    );
   });
 
   it("Reduce font size before continuing execution", async () => {
     // Execute only on MacOS
-    if ((await WelcomeScreen.getCurrentDriver()) === "mac2") {
+    const currentDriver = await WelcomeScreen.getCurrentDriver();
+    if (currentDriver === "mac2") {
       // Go to Settings and then to General Settings
       await WelcomeScreen.goToSettings();
       await SettingsProfileScreen.waitForIsShown(true);

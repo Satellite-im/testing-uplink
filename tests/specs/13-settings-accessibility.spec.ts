@@ -9,10 +9,10 @@ export default async function settingsAccessibility() {
 
     // Validate texts for Open Dyslexic Settings Section
     await expect(
-      await SettingsAccessibilityScreen.openDyslexicHeader
+      SettingsAccessibilityScreen.openDyslexicHeader
     ).toHaveTextContaining("OPEN DYSLEXIC");
     await expect(
-      await SettingsAccessibilityScreen.openDyslexicDescription
+      SettingsAccessibilityScreen.openDyslexicDescription
     ).toHaveTextContaining(
       "Open Dyslexic may help some users who suffer from dyslexia, it's a custom font you can enable."
     );
@@ -23,8 +23,10 @@ export default async function settingsAccessibility() {
     await SettingsAccessibilityScreen.clickOnOpenDyslexic();
 
     // Validate that toggle has now value = "1" (enabled)
+    const toggleElement =
+      await SettingsAccessibilityScreen.openDyslexicControllerValue;
     const openDyslexicStatus = await SettingsAccessibilityScreen.getToggleState(
-      await SettingsAccessibilityScreen.openDyslexicControllerValue
+      toggleElement
     );
 
     await expect(openDyslexicStatus).toEqual("1");
@@ -35,8 +37,10 @@ export default async function settingsAccessibility() {
     await SettingsAccessibilityScreen.clickOnOpenDyslexic();
 
     // Validate that toggle has now value = "0" (disabled)
+    const toggleElement =
+      await SettingsAccessibilityScreen.openDyslexicControllerValue;
     const openDyslexicStatus = await SettingsAccessibilityScreen.getToggleState(
-      await SettingsAccessibilityScreen.openDyslexicControllerValue
+      toggleElement
     );
 
     await expect(openDyslexicStatus).toEqual("0");

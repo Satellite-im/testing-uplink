@@ -149,18 +149,22 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnEnabledNotifications() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.enabledNotificationsCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.enabledNotificationsCheckbox);
+    } else if (currentDriver === "mac2") {
+      const locator = await this.enabledNotificationsCheckbox;
+      await clickOnSwitchMacOS(locator);
     }
   }
 
   async clickOnFriendsNotifications() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.friendsNotificationsCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.friendsNotificationsCheckbox);
+    } else if (currentDriver === "mac2") {
+      const locator = await this.friendsNotificationsCheckbox;
+      await clickOnSwitchMacOS(locator);
     }
   }
 
@@ -169,18 +173,22 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnMessagesNotifications() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.messagesNotificationsCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.messagesNotificationsCheckbox);
+    } else if (currentDriver === "mac2") {
+      const locator = await this.messagesNotificationsCheckbox;
+      await clickOnSwitchMacOS(locator);
     }
   }
 
   async clickOnSettingsNotifications() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.settingsNotificationsCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.settingsNotificationsCheckbox);
+    } else if (currentDriver === "mac2") {
+      const locator = await this.settingsNotificationsCheckbox;
+      await clickOnSwitchMacOS(locator);
     }
   }
 }

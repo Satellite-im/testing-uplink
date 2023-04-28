@@ -185,18 +185,20 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   async clickOnFontScalingMinus() {
-    (await this.fontScalingButtonMinus).click();
+    await this.fontScalingButtonMinus.click();
   }
 
   async clickOnFontScalingPlus() {
-    (await this.fontScalingButtonPlus).click();
+    await this.fontScalingButtonPlus.click();
   }
 
   async clickOnUplinkOverlay() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.uplinkOverlayCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.uplinkOverlayCheckbox);
+    } else if (currentDriver === "mac2") {
+      const locator = await this.uplinkOverlayCheckbox;
+      await clickOnSwitchMacOS(locator);
     }
   }
 
@@ -213,31 +215,34 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   async selectAppLanguage(language: string) {
-    if ((await this.getCurrentDriver()) === "mac2") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
       await $$("-ios class chain:**/XCUIElementTypePopUpButton")[0].addValue(
         language + "\n"
       );
-    } else if ((await this.getCurrentDriver()) === "windows") {
+    } else if (currentDriver === "windows") {
       await $$('[name="settings-control"]')[0].addValue(language + "\uE007");
     }
   }
 
   async selectFont(font: string) {
-    if ((await this.getCurrentDriver()) === "mac2") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
       await $$("-ios class chain:**/XCUIElementTypePopUpButton")[2].addValue(
         font + "\n"
       );
-    } else if ((await this.getCurrentDriver()) === "windows") {
+    } else if (currentDriver === "windows") {
       await $$('[name="settings-control"]')[2].addValue(font + "\uE007");
     }
   }
 
   async selectTheme(theme: string) {
-    if ((await this.getCurrentDriver()) === "mac2") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
       await $$("-ios class chain:**/XCUIElementTypePopUpButton")[1].addValue(
         theme + "\n"
       );
-    } else if ((await this.getCurrentDriver()) === "windows") {
+    } else if (currentDriver === "windows") {
       await $$('[name="settings-control"]')[1].addValue(theme + "\uE007");
     }
   }

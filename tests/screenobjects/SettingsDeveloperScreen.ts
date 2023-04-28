@@ -185,10 +185,12 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnDeveloperMode() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.developerModeCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.developerModeCheckbox);
+    } else if (currentDriver === "mac2") {
+      const element = await this.developerModeCheckbox;
+      await clickOnSwitchMacOS(element);
     }
   }
 
@@ -201,10 +203,12 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnSaveLogs() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.saveLogsCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.saveLogsCheckbox);
+    } else if (currentDriver === "mac2") {
+      const element = await this.saveLogsCheckbox;
+      await clickOnSwitchMacOS(element);
     }
   }
 
@@ -213,13 +217,14 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async returnToApp() {
-    if ((await this.getCurrentDriver()) === "mac2") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
       await driver.executeScript("macos: launchApp", [
         {
           bundleId: "im.satellite.uplink",
         },
       ]);
-    } else if ((await this.getCurrentDriver()) === "windows") {
+    } else if (currentDriver === "windows") {
       const uplinkWindow = await driver.getWindowHandle();
       await driver.switchToWindow(uplinkWindow);
     }

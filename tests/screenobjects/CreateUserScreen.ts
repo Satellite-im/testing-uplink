@@ -55,28 +55,18 @@ class CreatePinScreen extends UplinkMainScreen {
   }
 
   async clickOnCreateAccount() {
-    await (await this.createAccountButton).click();
+    await this.createAccountButton.click();
   }
 
   async getStatusOfCreateAccountButton() {
     let result;
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       result = await this.createAccountButton.getAttribute("IsEnabled");
     } else {
       result = await this.createAccountButton.getAttribute("enabled");
     }
     return result.toString().toLowerCase();
-  }
-
-  async saveUsername() {
-    const target = "./tests/fixtures/users/username.txt";
-    try {
-      const username = await this.usernameInput.getText();
-      writeFileSync(target, username, "utf8");
-      console.log("Data successfully saved");
-    } catch (error) {
-      console.log("An error has occurred ", error);
-    }
   }
 }
 

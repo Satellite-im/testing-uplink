@@ -245,19 +245,17 @@ class FriendsScreen extends UplinkMainScreen {
 
   async acceptIncomingRequest(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await (
-      await $(friendToClick).$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON)
-    ).click();
+    await $(friendToClick).$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON).click();
   }
 
   async blockUser(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await (await $(friendToClick).$(SELECTORS.BLOCK_FRIEND_BUTTON)).click();
+    await $(friendToClick).$(SELECTORS.BLOCK_FRIEND_BUTTON).click();
   }
 
   async chatWithFriend(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await (await $(friendToClick).$(SELECTORS.CHAT_WITH_FRIEND_BUTTON)).click();
+    await $(friendToClick).$(SELECTORS.CHAT_WITH_FRIEND_BUTTON).click();
   }
 
   async clickOnAddSomeoneButton() {
@@ -285,10 +283,11 @@ class FriendsScreen extends UplinkMainScreen {
   async enterCopiedID() {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
-    if ((await this.getCurrentDriver()) === "mac2") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
       const userKey = await getClipboardMacOS();
       await this.enterFriendDidKey(userKey);
-    } else if ((await this.getCurrentDriver()) === "windows") {
+    } else if (currentDriver === "windows") {
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
       await this.copyIdButton.click();
       await this.addSomeoneInput.clearValue();
@@ -297,31 +296,44 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getAbbreviatedDidKey(key: string) {
-    return key.substr(8, 3) + "..." + key.substr(-3);
+    const abbreviated = key.substr(8, 3) + "..." + key.substr(-3);
+    return abbreviated;
   }
 
   async getAbbreviatedFavUser(user: string) {
-    return user.substr(0, 4).toUpperCase() + "...";
+    const abbreviated = user.substr(0, 4).toUpperCase() + "...";
+    return abbreviated;
   }
 
   async getButtonBadgeText() {
-    return this.buttonBadgeText.getText();
+    const text = await this.buttonBadgeText.getText();
+    return text;
   }
 
   async getAllFriendsList() {
-    const friends = await $(SELECTORS.FRIENDS_LIST).$$(SELECTORS.FRIEND_INFO);
+    await this.friendsList.waitForExist();
+    const friends = await $(SELECTORS.FRIENDS_LIST, { timeout: 15000 }).$$(
+      SELECTORS.FRIEND_INFO
+    );
     let results = [];
     for (let friend of friends) {
-      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
+      const friendName = await friend
+        .$(SELECTORS.FRIEND_INFO_USERNAME)
+        .getText();
+      results.push(friendName);
     }
     return results;
   }
 
   async getBlockedList() {
+    await this.blockedList.waitForExist();
     const friends = await $(SELECTORS.BLOCKED_LIST).$$(SELECTORS.FRIEND_INFO);
     let results = [];
     for (let friend of friends) {
-      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
+      const friendName = await friend
+        .$(SELECTORS.FRIEND_INFO_USERNAME)
+        .getText();
+      results.push(friendName);
     }
     return results;
   }
@@ -344,33 +356,43 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async getIncomingList() {
+    await this.incomingRequestsList.waitForExist();
     const friends = await $(SELECTORS.INCOMING_REQUESTS_LIST).$$(
       SELECTORS.FRIEND_INFO
     );
     let results = [];
     for (let friend of friends) {
-      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
+      const friendName = await friend
+        .$(SELECTORS.FRIEND_INFO_USERNAME)
+        .getText();
+      results.push(friendName);
     }
     return results;
   }
 
   async getInputErrorText() {
-    await (await this.inputErrorText).getText();
+    const errorText = await this.inputErrorText.getText();
+    return errorText;
   }
 
   async getOutgoingList() {
+    await this.outgoingRequestsList.waitForExist();
     const friends = await $(SELECTORS.OUTGOING_REQUESTS_LIST).$$(
       SELECTORS.FRIEND_INFO
     );
     let results = [];
     for (let friend of friends) {
-      results.push(await friend.$(SELECTORS.FRIEND_INFO_USERNAME).getText());
+      const friendName = await friend
+        .$(SELECTORS.FRIEND_INFO_USERNAME)
+        .getText();
+      results.push(friendName);
     }
     return results;
   }
 
   async getToastNotificationText() {
-    return await this.toastNotificationText.getText();
+    const toastText = await this.toastNotificationText.getText();
+    return toastText;
   }
 
   async getUserFromAllFriendsList() {
@@ -407,24 +429,28 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getUserTooltip(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    return await $(userLocator).$(SELECTORS.TOOLTIP);
+    const userTooltip = await $(userLocator).$(SELECTORS.TOOLTIP);
+    return userTooltip;
   }
 
   async getUserTooltipText(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    return await $(userLocator).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    const userTooltipText = await $(userLocator)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
+    return userTooltipText;
   }
 
   async goToAllFriendsList() {
-    await (await this.allFriendsButton).click();
+    await this.allFriendsButton.click();
   }
 
   async goToBlockedList() {
-    await (await this.blockedListButton).click();
+    await this.blockedListButton.click();
   }
 
   async goToPendingFriendsList() {
-    await (await this.pendingFriendsButton).click();
+    await this.pendingFriendsButton.click();
   }
 
   async hoverOnBlockButton(username: string) {
@@ -452,16 +478,17 @@ class FriendsScreen extends UplinkMainScreen {
     } else if (currentDriver === "windows") {
       await rightClickOnWindows(friendElement);
     }
-    await (await this.contextMenu).waitForDisplayed();
+    await this.contextMenu.waitForDisplayed();
   }
 
   async pasteUserKeyInAddSomeone() {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
-    if ((await this.getCurrentDriver()) === "mac2") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
       const userKey = await getClipboardMacOS();
       await this.enterFriendDidKey(userKey);
-    } else if ((await this.getCurrentDriver()) === "windows") {
+    } else if (currentDriver === "windows") {
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
       await this.addSomeoneInput.click();
       await this.addSomeoneInput.clearValue();
@@ -471,15 +498,11 @@ class FriendsScreen extends UplinkMainScreen {
 
   async removeOrCancelUser(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await (
-      await $(friendToClick).$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON)
-    ).click();
+    await $(friendToClick).$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON).click();
   }
 
   async waitUntilFriendRequestIsReceived() {
-    await (
-      await this.acceptFriendRequestButton
-    ).waitForExist({ timeout: 240000 });
+    await this.acceptFriendRequestButton.waitForExist({ timeout: 240000 });
   }
 
   async waitUntilNotificationIsClosed() {
@@ -489,7 +512,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async waitUntilUserAcceptedFriendRequest() {
-    await (await this.chatWithFriendButton).waitForExist({ timeout: 240000 });
+    await this.chatWithFriendButton.waitForExist({ timeout: 240000 });
   }
 }
 

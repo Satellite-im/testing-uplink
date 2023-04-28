@@ -19,9 +19,9 @@ xdescribe("Two users at the same time - Chat User A", async () => {
     await FriendsScreen.enterFriendDidKey(friendDidKey);
     await FriendsScreen.clickOnAddSomeoneButton();
 
-    await expect(
-      await FriendsScreen.toastNotificationText
-    ).toHaveTextContaining("Friend Request Sent!");
+    await expect(FriendsScreen.toastNotificationText).toHaveTextContaining(
+      "Friend Request Sent!"
+    );
 
     // Wait for toast notification to be closed
     await FriendsScreen.waitUntilNotificationIsClosed();
@@ -32,18 +32,18 @@ xdescribe("Two users at the same time - Chat User A", async () => {
   });
 
   it("Go to chat with friend and wait until user is online", async () => {
-    await (await FriendsScreen.chatWithFriendButton).click();
+    await FriendsScreen.chatWithFriendButton.click();
     await ChatScreen.waitForIsShown(true);
 
     // Wait until Chat User B is online
-    await (
-      await ChatScreen.topbarIndicatorOnline
-    ).waitForDisplayed({ timeout: 240000 });
+    await ChatScreen.topbarIndicatorOnline.waitForDisplayed({
+      timeout: 240000,
+    });
   });
 
   it("Chats - Validate Messages secured text displayed on top of conversation", async () => {
-    (await ChatScreen.encryptedMessagesText).waitForDisplayed();
-    await expect(await ChatScreen.encryptedMessagesText).toHaveTextContaining(
+    await ChatScreen.encryptedMessagesText.waitForDisplayed();
+    await expect(ChatScreen.encryptedMessagesText).toHaveTextContaining(
       "Messages secured by local E2E encryption."
     );
   });
@@ -83,22 +83,20 @@ xdescribe("Two users at the same time - Chat User A", async () => {
 
   it("Chats - Topbar information", async () => {
     // Validate user image, username and online indicator are displayed on Chat Topbar
-    await expect(await ChatScreen.topbarUserImage).toBeDisplayed();
-    await expect(await ChatScreen.topbarUserName).toHaveTextContaining(
-      "ChatUserB"
-    );
-    await expect(await ChatScreen.topbarIndicatorOnline).toBeDisplayed();
+    await expect(ChatScreen.topbarUserImage).toBeDisplayed();
+    await expect(ChatScreen.topbarUserName).toHaveTextContaining("ChatUserB");
+    await expect(ChatScreen.topbarIndicatorOnline).toBeDisplayed();
   });
 
   it("Chats - Add user with active chat to Favorites", async () => {
     // Add user to favorites
     await ChatScreen.addToFavorites();
-    await (await ChatScreen.favorites).waitForDisplayed();
+    await ChatScreen.favorites.waitForDisplayed();
 
     // Favorites Sidebar should be displayed
-    await expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
-    await expect(await ChatScreen.favoritesUserIndicatorOnline).toBeDisplayed();
-    await expect(await ChatScreen.favoritesUserName).toHaveTextContaining(
+    await expect(ChatScreen.favoritesUserImage).toBeDisplayed();
+    await expect(ChatScreen.favoritesUserIndicatorOnline).toBeDisplayed();
+    await expect(ChatScreen.favoritesUserName).toHaveTextContaining(
       "CHATUSERB"
     );
   });
@@ -106,14 +104,12 @@ xdescribe("Two users at the same time - Chat User A", async () => {
   it("Chats - Remove user with active chat from Favorites", async () => {
     // Remove user from favorites
     await ChatScreen.removeFromFavorites();
-    await (await ChatScreen.favorites).waitForExist({ reverse: true });
+    await ChatScreen.favorites.waitForExist({ reverse: true });
   });
 
   it("Receive Reply - Validate reply message is received from remote user", async () => {
     // Wait until reply is received
-    await (
-      await ChatScreen.chatMessageReply
-    ).waitForDisplayed({ timeout: 180000 });
+    await ChatScreen.chatMessageReply.waitForDisplayed({ timeout: 180000 });
   });
 
   it("Receive Reply - Validate reply message contents", async () => {
@@ -219,12 +215,12 @@ xdescribe("Two users at the same time - Chat User A", async () => {
     );
 
     // Validate contents on Compose Attachments are displayed
-    await expect(await ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
-    await expect(await ChatScreen.composeAttachmentsFileIcon).toBeDisplayed();
-    await expect(await ChatScreen.composeAttachmentsFileInfo).toBeDisplayed();
+    await expect(ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
+    await expect(ChatScreen.composeAttachmentsFileIcon).toBeDisplayed();
+    await expect(ChatScreen.composeAttachmentsFileInfo).toBeDisplayed();
 
     await expect(
-      await ChatScreen.composeAttachmentsFileNameText
+      ChatScreen.composeAttachmentsFileNameText
     ).toHaveTextContaining(expectedPath);
   });
 
@@ -233,9 +229,9 @@ xdescribe("Two users at the same time - Chat User A", async () => {
     await ChatScreen.deleteFileOnComposeAttachment();
 
     // Validate contents on Compose Attachments are displayed
-    await (
-      await ChatScreen.composeAttachmentsFileEmbed
-    ).waitForExist({ reverse: true });
+    await ChatScreen.composeAttachmentsFileEmbed.waitForExist({
+      reverse: true,
+    });
   });
 
   it("Chats - Select a file and send message with attachment", async () => {
@@ -243,7 +239,7 @@ xdescribe("Two users at the same time - Chat User A", async () => {
     await ChatScreen.uploadFile("./tests/fixtures/logo.jpg");
 
     // Validate contents on Compose Attachments are displayed
-    await expect(await ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
+    await expect(ChatScreen.composeAttachmentsFileEmbed).toBeDisplayed();
 
     // Type a text message and send it
     await ChatScreen.typeMessageOnInput("message with attachment");
@@ -287,16 +283,16 @@ xdescribe("Two users at the same time - Chat User A", async () => {
     // Validate Call button tooltip contains "Coming soon"
     await ChatScreen.hoverOnCallButton();
     await ChatScreen.topbarCallTooltip.waitForDisplayed();
-    await expect(await ChatScreen.topbarCallTooltipText).toHaveTextContaining(
+    await expect(ChatScreen.topbarCallTooltipText).toHaveTextContaining(
       "Coming soon"
     );
 
     // Validate Videocall button tooltip contains "Coming soon"
     await ChatScreen.hoverOnVideocallButton();
     await ChatScreen.topbarVideocallTooltip.waitForDisplayed();
-    await expect(
-      await ChatScreen.topbarVideocallTooltipText
-    ).toHaveTextContaining("Coming soon");
+    await expect(ChatScreen.topbarVideocallTooltipText).toHaveTextContaining(
+      "Coming soon"
+    );
   });
 
   it("Validate Chat Screen tooltips are displayed", async () => {
@@ -304,20 +300,18 @@ xdescribe("Two users at the same time - Chat User A", async () => {
     await ChatScreen.hoverOnFavoritesButton();
     await ChatScreen.topbarAddToFavoritesTooltip.waitForDisplayed();
     await expect(
-      await ChatScreen.topbarAddToFavoritesTooltipText
+      ChatScreen.topbarAddToFavoritesTooltipText
     ).toHaveTextContaining("Add to Favorites");
 
     // Validate Upload button tooltip
     await ChatScreen.hoverOnUploadButton();
     await ChatScreen.uploadTooltip.waitForDisplayed();
-    await expect(await ChatScreen.uploadTooltipText).toHaveTextContaining(
-      "Upload"
-    );
+    await expect(ChatScreen.uploadTooltipText).toHaveTextContaining("Upload");
 
     // Validate Send button tooltip
     await ChatScreen.hoverOnSendButton();
     await ChatScreen.sendMessageTooltip.waitForDisplayed();
-    await expect(await ChatScreen.sendMessageTooltipText).toHaveTextContaining(
+    await expect(ChatScreen.sendMessageTooltipText).toHaveTextContaining(
       "Send"
     );
   });

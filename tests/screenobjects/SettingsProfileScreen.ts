@@ -184,8 +184,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   async clickOnAddPictureButton() {
-    await (await this.addPictureButton).click();
-    await browser.pause(1000);
+    await this.addPictureButton.click();
   }
 
   async clickOnCopyIDButton() {
@@ -232,7 +231,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   async getStatusInputValue() {
-    return await (await this.statusInput).getText();
+    return await this.statusInput.getText();
   }
 
   async getToastNotificationText() {
@@ -241,24 +240,27 @@ class SettingsProfileScreen extends SettingsBaseScreen {
 
   async hoverOnBanner() {
     const bannerLocator = await this.profileBanner;
-    if ((await this.getCurrentDriver()) === "mac2") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
       await hoverOnMacOS(bannerLocator);
-    } else if ((await this.getCurrentDriver()) === "windows") {
+    } else if (currentDriver === "windows") {
       await hoverOnWindows(bannerLocator);
     }
   }
 
   async hoverOnCopyID() {
-    await this.hoverOnElement(await this.copyIDButton);
+    const element = await this.copyIDButton;
+    await this.hoverOnElement(element);
   }
 
   async pasteUserKeyInStatus() {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
-    if ((await this.getCurrentDriver()) === "mac2") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
       const userKey = await getClipboardMacOS();
       await this.enterStatus(userKey);
-    } else if ((await this.getCurrentDriver()) === "windows") {
+    } else if (currentDriver === "windows") {
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
       await this.statusInput.click();
       await this.statusInput.clearValue();
@@ -278,7 +280,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     }
 
     // Validate that profile banner is displayed on screen
-    await expect(await this.profileBanner).toBeDisplayed();
+    await this.profileBanner.waitForDisplayed();
   }
 
   async uploadProfilePicture(relativePath: string) {
@@ -293,11 +295,11 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     }
 
     // Validate that profile banner is displayed on screen
-    await expect(await this.profilePicture).toBeDisplayed();
+    await this.profilePicture.waitForDisplayed();
   }
 
   async waitUntilNotificationIsClosed() {
-    await this.toastNotification.waitForDisplayed({
+    await this.toastNotification.waitForExist({
       reverse: true,
     });
   }

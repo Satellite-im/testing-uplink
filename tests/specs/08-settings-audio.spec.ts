@@ -9,41 +9,39 @@ export default async function settingsAudio() {
 
     // Validate texts for Interface Sounds Settings Section
     await expect(
-      await SettingsAudioScreen.interfaceSoundsHeader
+      SettingsAudioScreen.interfaceSoundsHeader
     ).toHaveTextContaining("INTERFACE SOUNDS");
     await expect(
-      await SettingsAudioScreen.interfaceSoundsDescription
+      SettingsAudioScreen.interfaceSoundsDescription
     ).toHaveTextContaining(
       "When enabled, some additional sounds will play when you interact with the app."
     );
 
     // Validate texts for Media Sounds Settings Section
+    await expect(SettingsAudioScreen.mediaSoundsHeader).toHaveTextContaining(
+      "MEDIA SOUNDS"
+    );
     await expect(
-      await SettingsAudioScreen.mediaSoundsHeader
-    ).toHaveTextContaining("MEDIA SOUNDS");
-    await expect(
-      await SettingsAudioScreen.mediaSoundsDescription
+      SettingsAudioScreen.mediaSoundsDescription
     ).toHaveTextContaining(
       "When enabled, media related events such as toggling microphone or headphones and other real time events, will play sounds."
     );
 
     // Validate texts for Message Sounds Settings Section
+    await expect(SettingsAudioScreen.messageSoundsHeader).toHaveTextContaining(
+      "MESSAGE SOUNDS"
+    );
     await expect(
-      await SettingsAudioScreen.messageSoundsHeader
-    ).toHaveTextContaining("MESSAGE SOUNDS");
-    await expect(
-      await SettingsAudioScreen.messageSoundsDescription
+      SettingsAudioScreen.messageSoundsDescription
     ).toHaveTextContaining(
       "When enabled you will hear a notification when a new message is received."
     );
 
     // Validate texts for Call Timer Settings Section
-    await expect(
-      await SettingsAudioScreen.callTimerHeader
-    ).toHaveTextContaining("CALL TIMER");
-    await expect(
-      await SettingsAudioScreen.callTimerDescription
-    ).toHaveTextContaining(
+    await expect(SettingsAudioScreen.callTimerHeader).toHaveTextContaining(
+      "CALL TIMER"
+    );
+    await expect(SettingsAudioScreen.callTimerDescription).toHaveTextContaining(
       "When enabled a timer will display when you're in a call showing it's duration."
     );
   });
@@ -62,17 +60,28 @@ export default async function settingsAudio() {
     await SettingsAudioScreen.clickOnCallTimer();
 
     // Validate that all toggles have now value = "1" (enabled)
+    const toggleElementInterface =
+      await SettingsAudioScreen.interfaceSoundsControllerValue;
     const interfaceSoundsStatus = await SettingsAudioScreen.getToggleState(
-      await SettingsAudioScreen.interfaceSoundsControllerValue
+      toggleElementInterface
     );
+
+    const toggleElementMedia =
+      await SettingsAudioScreen.mediaSoundsControllerValue;
     const mediaSoundsStatus = await SettingsAudioScreen.getToggleState(
-      await SettingsAudioScreen.mediaSoundsControllerValue
+      toggleElementMedia
     );
+
+    const toggleElementMessage =
+      await SettingsAudioScreen.messageSoundsControllerValue;
     const messageSoundsStatus = await SettingsAudioScreen.getToggleState(
-      await SettingsAudioScreen.messageSoundsControllerValue
+      toggleElementMessage
     );
+
+    const toggleElementCallTimer =
+      await SettingsAudioScreen.callTimerControllerValue;
     const callTimerStatus = await SettingsAudioScreen.getToggleState(
-      await SettingsAudioScreen.callTimerControllerValue
+      toggleElementCallTimer
     );
 
     await expect(interfaceSoundsStatus).toEqual("1");
@@ -89,17 +98,28 @@ export default async function settingsAudio() {
     await SettingsAudioScreen.clickOnCallTimer();
 
     // Validate that all toggles have now value = "0" (disabled)
+    const toggleElementInterface =
+      await SettingsAudioScreen.interfaceSoundsControllerValue;
     const interfaceSoundsStatus = await SettingsAudioScreen.getToggleState(
-      await SettingsAudioScreen.interfaceSoundsControllerValue
+      toggleElementInterface
     );
+
+    const toggleElementMedia =
+      await SettingsAudioScreen.mediaSoundsControllerValue;
     const mediaSoundsStatus = await SettingsAudioScreen.getToggleState(
-      await SettingsAudioScreen.mediaSoundsControllerValue
+      toggleElementMedia
     );
+
+    const toggleElementMessage =
+      await SettingsAudioScreen.messageSoundsControllerValue;
     const messageSoundsStatus = await SettingsAudioScreen.getToggleState(
-      await SettingsAudioScreen.messageSoundsControllerValue
+      toggleElementMessage
     );
+
+    const toggleElementCallTimer =
+      await SettingsAudioScreen.callTimerControllerValue;
     const callTimerStatus = await SettingsAudioScreen.getToggleState(
-      await SettingsAudioScreen.callTimerControllerValue
+      toggleElementCallTimer
     );
 
     await expect(interfaceSoundsStatus).toEqual("0");

@@ -8,12 +8,10 @@ export default async function settingsExtensions() {
     await SettingsExtensionsScreen.waitForIsShown(true);
 
     // Validate that the three buttons are displayed on top of the screen
+    await expect(SettingsExtensionsScreen.installedButton).toBeDisplayed();
+    await expect(SettingsExtensionsScreen.exploreButton).toBeDisplayed();
     await expect(
-      await SettingsExtensionsScreen.installedButton
-    ).toBeDisplayed();
-    await expect(await SettingsExtensionsScreen.exploreButton).toBeDisplayed();
-    await expect(
-      await SettingsExtensionsScreen.extensionsSettingsButton
+      SettingsExtensionsScreen.extensionsSettingsButton
     ).toBeDisplayed();
   });
 
@@ -23,19 +21,19 @@ export default async function settingsExtensions() {
 
     // Validate warning message, search extensions header and input are displayed
     await expect(
-      await SettingsExtensionsScreen.installedAlertText
+      SettingsExtensionsScreen.installedAlertText
     ).toHaveTextContaining(
       "Extensions are pre-compiled on external hardware. For added security you can compile extensions from source and place in the `extensions` folder."
     );
     await expect(
-      await SettingsExtensionsScreen.extensionsSearchHeader
+      SettingsExtensionsScreen.extensionsSearchHeader
     ).toHaveTextContaining("SEARCH EXTENSIONS");
     await expect(
-      await SettingsExtensionsScreen.extensionsSearchInput
+      SettingsExtensionsScreen.extensionsSearchInput
     ).toBeDisplayed();
-    await expect(
-      await SettingsExtensionsScreen.getPlaceholderFromExtensionsInput()
-    ).toEqual("Extension name or description.");
+    const placeholder =
+      await SettingsExtensionsScreen.getPlaceholderFromExtensionsInput();
+    await expect(placeholder).toEqual("Extension name or description.");
   });
 
   it("Settings Extensions - Go to Settings panel and assert contents", async () => {
@@ -44,18 +42,18 @@ export default async function settingsExtensions() {
 
     // Assert contents from screen
     await expect(
-      await SettingsExtensionsScreen.openExtensionsHeaderText
+      SettingsExtensionsScreen.openExtensionsHeaderText
     ).toHaveTextContaining("OPEN EXTENSIONS FOLDER");
     await expect(
-      await SettingsExtensionsScreen.openExtensionsDescriptionText
+      SettingsExtensionsScreen.openExtensionsDescriptionText
     ).toHaveTextContaining(
       "Open the local directory containing your installed extensions."
     );
     await expect(
-      await SettingsExtensionsScreen.enableAutomaticallyHeader
+      SettingsExtensionsScreen.enableAutomaticallyHeader
     ).toHaveTextContaining("ENABLE AUTOMATICALLY");
     await expect(
-      await SettingsExtensionsScreen.enableAutomaticallyDescription
+      SettingsExtensionsScreen.enableAutomaticallyDescription
     ).toHaveTextContaining(
       "When turned on, new extensions will automatically be enabled by default."
     );
@@ -66,10 +64,10 @@ export default async function settingsExtensions() {
     await SettingsExtensionsScreen.clickOnEnableAutomatically();
 
     // Validate that switch from Enable Automatically now has value = '1' (active)
+    const toggleElement =
+      await SettingsExtensionsScreen.enableAutomaticallyControllerValue;
     const enableAutomaticallyState =
-      await SettingsExtensionsScreen.getToggleState(
-        await SettingsExtensionsScreen.enableAutomaticallyControllerValue
-      );
+      await SettingsExtensionsScreen.getToggleState(toggleElement);
 
     await expect(enableAutomaticallyState).toEqual("1");
   });
@@ -79,10 +77,10 @@ export default async function settingsExtensions() {
     await SettingsExtensionsScreen.clickOnEnableAutomatically();
 
     // Validate that switch from Enable Automatically now has value = '0' (disabled)
+    const toggleElement =
+      await SettingsExtensionsScreen.enableAutomaticallyControllerValue;
     const enableAutomaticallyState =
-      await SettingsExtensionsScreen.getToggleState(
-        await SettingsExtensionsScreen.enableAutomaticallyControllerValue
-      );
+      await SettingsExtensionsScreen.getToggleState(toggleElement);
 
     await expect(enableAutomaticallyState).toEqual("0");
   });
