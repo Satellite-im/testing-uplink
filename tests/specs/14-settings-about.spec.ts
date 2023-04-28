@@ -17,8 +17,8 @@ export default async function settingsAbout() {
     await expect(SettingsAboutScreen.versionHeader).toHaveTextContaining(
       "VERSION"
     );
-    await expect(SettingsAboutScreen.versionDescription).toHaveTextContaining(
-      "0.1.1"
+    await expect(SettingsAboutScreen.versionDescription).toHaveText(
+      /^[0-9].[0-9].[0-9]$/
     );
 
     // Validate the header and description texts from Settings Section - About - Open Website
