@@ -8,56 +8,56 @@ export default async function files() {
     await FilesScreen.waitForIsShown(true);
 
     // Validate Pre Release Indicator
-    await expect(await FilesScreen.prereleaseIndicator).toBeDisplayed();
-    await expect(
-      await FilesScreen.prereleaseIndicatorText
-    ).toHaveTextContaining("Pre-release | Issues/Feedback");
+    await expect(FilesScreen.prereleaseIndicator).toBeDisplayed();
+    await expect(FilesScreen.prereleaseIndicatorText).toHaveTextContaining(
+      "Pre-release | Issues/Feedback"
+    );
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await (await FilesScreen.chatsButton).waitForExist();
-    await (await FilesScreen.filesButton).waitForExist();
-    await (await FilesScreen.friendsButton).waitForExist();
-    await (await FilesScreen.settingsButton).waitForExist();
+    await FilesScreen.chatsButton.waitForExist();
+    await FilesScreen.filesButton.waitForExist();
+    await FilesScreen.friendsButton.waitForExist();
+    await FilesScreen.settingsButton.waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await expect(await FilesScreen.chatSearchInput).toBeDisplayed();
-    await expect(await FilesScreen.sidebar).toBeDisplayed();
-    await expect(await FilesScreen.sidebarChildren).toBeDisplayed();
-    await expect(await FilesScreen.sidebarSearch).toBeDisplayed();
+    await expect(FilesScreen.chatSearchInput).toBeDisplayed();
+    await expect(FilesScreen.sidebar).toBeDisplayed();
+    await expect(FilesScreen.sidebarChildren).toBeDisplayed();
+    await expect(FilesScreen.sidebarSearch).toBeDisplayed();
   });
 
   it("Validate Files Info is displayed in screen", async () => {
-    await expect(await FilesScreen.filesInfo).toBeDisplayed();
-    await expect(await FilesScreen.filesInfoFreeSpaceLabel).toBeDisplayed();
-    await expect(await FilesScreen.filesInfoFreeSpaceValue).toBeDisplayed();
-    await expect(await FilesScreen.filesInfoTotalSpaceLabel).toBeDisplayed();
-    await expect(await FilesScreen.filesInfoTotalSpaceValue).toBeDisplayed();
+    await expect(FilesScreen.filesInfo).toBeDisplayed();
+    await expect(FilesScreen.filesInfoFreeSpaceLabel).toBeDisplayed();
+    await expect(FilesScreen.filesInfoFreeSpaceValue).toBeDisplayed();
+    await expect(FilesScreen.filesInfoTotalSpaceLabel).toBeDisplayed();
+    await expect(FilesScreen.filesInfoTotalSpaceValue).toBeDisplayed();
   });
 
   it("Validate Files Breadcrumbs are displayed in screen", async () => {
-    await expect(await FilesScreen.filesBreadcrumbs).toBeDisplayed();
-    await expect(await FilesScreen.crumb).toBeDisplayed();
+    await expect(FilesScreen.filesBreadcrumbs).toBeDisplayed();
+    await expect(FilesScreen.crumb).toBeDisplayed();
   });
 
   it("Validate add folder and file buttons are displayed in screen", async () => {
-    await expect(await FilesScreen.addFolderButton).toBeDisplayed();
-    await expect(await FilesScreen.uploadFileButton).toBeDisplayed();
+    await expect(FilesScreen.addFolderButton).toBeDisplayed();
+    await expect(FilesScreen.uploadFileButton).toBeDisplayed();
   });
 
   it("Validate tooltips for add folder or file buttons are displayed", async () => {
     // Validate New Folder button tooltip
     await FilesScreen.hoverOnNewFolderButton();
-    await (await FilesScreen.addFolderTooltip).waitForExist();
-    await expect(await FilesScreen.addFolderTooltipText).toHaveTextContaining(
+    await FilesScreen.addFolderTooltip.waitForExist();
+    await expect(FilesScreen.addFolderTooltipText).toHaveTextContaining(
       "New Folder"
     );
 
     // Validate Upload button tooltip
     await FilesScreen.hoverOnUploadButton();
-    await (await FilesScreen.uploadFileTooltip).waitForExist();
-    await expect(await FilesScreen.uploadFileTooltipText).toHaveTextContaining(
+    await FilesScreen.uploadFileTooltip.waitForExist();
+    await expect(FilesScreen.uploadFileTooltipText).toHaveTextContaining(
       "Upload"
     );
   });
@@ -65,15 +65,15 @@ export default async function files() {
   it("Create a new folder and enter to it", async () => {
     await FilesScreen.createFolder("testfolder01");
     const newFolder = await FilesScreen.getLocatorOfFolderFile("testfolder01");
-    await (await $(newFolder)).waitForExist();
-    await (await $(newFolder)).click();
+    await $(newFolder).waitForExist();
+    await $(newFolder).click();
   });
 
   it("Create a subfolder inside the previous folder created and enter into it", async () => {
     await FilesScreen.createFolder("testfolder02");
     const newFolder = await FilesScreen.getLocatorOfFolderFile("testfolder02");
-    await (await $(newFolder)).waitForExist();
-    await (await $(newFolder)).click();
+    await $(newFolder).waitForExist();
+    await $(newFolder).click();
   });
 
   it("Click in the Folder button to take you to the selected folder", async () => {
@@ -105,13 +105,14 @@ export default async function files() {
 
   it("Upload file - Progress indicator is closed and file appears on files list", async () => {
     // Wait until progress indicator disappears
-    await (
-      await FilesScreen.uploadFileIndicatorProgress
-    ).waitForExist({ reverse: true });
+
+    await FilesScreen.uploadFileIndicatorProgress.waitForExist({
+      reverse: true,
+    });
 
     // Once that progress indicator disappears, validate that file is loaded
     const newFile = await FilesScreen.getLocatorOfFolderFile("logo.jpg");
-    await (await $(newFile)).waitForExist();
+    await $(newFile).waitForExist();
   });
 
   it("Context Menu - Folder - Rename", async () => {
@@ -132,7 +133,7 @@ export default async function files() {
     // Ensure that folder deleted does not exist anymore
     const nonExistingFolderLocator =
       await FilesScreen.getLocatorOfDeletedElement("newname");
-    await (await $(nonExistingFolderLocator)).waitForExist({ reverse: true });
+    await $(nonExistingFolderLocator).waitForExist({ reverse: true });
   });
 
   it("Context Menu - File - Rename", async () => {
@@ -164,6 +165,6 @@ export default async function files() {
     const nonExistingFile = await FilesScreen.getLocatorOfDeletedElement(
       "newname.jpg"
     );
-    await (await $(nonExistingFile)).waitForExist({ reverse: true });
+    await $(nonExistingFile).waitForExist({ reverse: true });
   });
 }

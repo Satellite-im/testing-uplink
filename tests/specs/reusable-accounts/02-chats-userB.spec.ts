@@ -23,18 +23,18 @@ describe("Two users at the same time - Chat User B", async () => {
 
   it("Wait until the other user is online", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-    await (await FriendsScreen.chatWithFriendButton).waitForExist();
-    await (await FriendsScreen.chatWithFriendButton).click();
+    await FriendsScreen.chatWithFriendButton.waitForExist();
+    await FriendsScreen.chatWithFriendButton.click();
     await ChatScreen.waitForIsShown(true);
 
     // Wait until Chat User A is online
-    await (
-      await ChatScreen.topbarIndicatorOnline
-    ).waitForDisplayed({ timeout: 240000 });
+    await ChatScreen.topbarIndicatorOnline.waitForDisplayed({
+      timeout: 240000,
+    });
   });
 
   it("Assert message received from Chat User A", async () => {
-    await (await ChatScreen.chatMessage).waitForDisplayed({ timeout: 30000 });
+    await ChatScreen.chatMessage.waitForDisplayed({ timeout: 30000 });
     const textFromMessage = await ChatScreen.getLastMessageReceivedText();
     await expect(textFromMessage).toHaveTextContaining("testing...");
   });
@@ -70,16 +70,16 @@ describe("Two users at the same time - Chat User B", async () => {
     await ChatScreen.selectContextOption(0);
 
     // Validate contents of Reply Pop Up
-    await expect(await ChatScreen.replyPopUp).toBeDisplayed();
-    await expect(await ChatScreen.replyPopUpCloseButton).toBeDisplayed();
-    await expect(await ChatScreen.replyPopUpHeader).toHaveTextContaining(
+    await expect(ChatScreen.replyPopUp).toBeDisplayed();
+    await expect(ChatScreen.replyPopUpCloseButton).toBeDisplayed();
+    await expect(ChatScreen.replyPopUpHeader).toHaveTextContaining(
       "REPLYING TO:"
     );
-    await expect(await ChatScreen.replyPopUpIndicatorOnline).toBeDisplayed();
+    await expect(ChatScreen.replyPopUpIndicatorOnline).toBeDisplayed();
     await expect(
-      await ChatScreen.replyPopUpRemoteTextToReplyValue
+      ChatScreen.replyPopUpRemoteTextToReplyValue
     ).toHaveTextContaining("testing...");
-    await expect(await ChatScreen.replyPopUpUserImage).toBeDisplayed();
+    await expect(ChatScreen.replyPopUpUserImage).toBeDisplayed();
 
     await ChatScreen.closeReplyModal();
     await ChatScreen.waitForReplyModalToNotExist();
@@ -91,7 +91,7 @@ describe("Two users at the same time - Chat User B", async () => {
     await ChatScreen.selectContextOption(0);
 
     // Type a reply and sent it
-    await (await ChatScreen.replyPopUp).waitForDisplayed();
+    await ChatScreen.replyPopUp.waitForDisplayed();
     await ChatScreen.typeMessageOnInput("this is a reply");
     await ChatScreen.clickOnSendMessage();
     await ChatScreen.waitForReplyModalToNotExist();
@@ -131,11 +131,9 @@ describe("Two users at the same time - Chat User B", async () => {
     await expect(onlineIndicator).toExist();
   });
 
-  it("Chats - Received Message with Attachment", async () => {
-    await (
-      await ChatScreen.chatMessageFileEmbedRemote
-    ).waitForExist({
-      timeout: 280000,
+  it("Chats - Received Message with Attachment - Text Message contents", async () => {
+    await ChatScreen.chatMessageFileEmbedRemote.waitForDisplayed({
+      timeout: 240000,
     });
   });
 

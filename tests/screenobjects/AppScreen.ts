@@ -17,6 +17,7 @@ export default class AppScreen {
   }
 
   async getCurrentDriver() {
-    return await driver.capabilities.automationName;
+    const currentDriver = await driver.capabilities.automationName;
+    return currentDriver;
   }
 }

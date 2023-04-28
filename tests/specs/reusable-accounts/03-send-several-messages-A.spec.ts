@@ -19,9 +19,9 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Open a Chat conversation with ChatUserB", async () => {
     await FriendsScreen.chatWithFriend("ChatUserB");
     await ChatScreen.waitForIsShown(true);
-    await (
-      await ChatScreen.topbarIndicatorOnline
-    ).waitForDisplayed({ timeout: 240000 });
+    await ChatScreen.topbarIndicatorOnline.waitForDisplayed({
+      timeout: 240000,
+    });
   });
 
   for (let i = 0; i < 100; i++) {

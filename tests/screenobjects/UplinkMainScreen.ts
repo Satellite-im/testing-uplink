@@ -165,13 +165,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get chatsButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get chatsButtonTooltipText() {
-    return $(SELECTORS.BUTTON_NAV)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get createGroupChatSection() {
@@ -284,13 +282,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get filesButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get filesButtonTooltipText() {
-    return $(SELECTORS.BUTTON_NAV)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get friendsButton() {
@@ -298,13 +294,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get friendsButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get friendsButtonTooltipText() {
-    return $(SELECTORS.BUTTON_NAV)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get hamburgerButton() {
@@ -326,13 +320,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get settingsButtonTooltip() {
-    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get settingsButtonTooltipText() {
-    return $(SELECTORS.BUTTON_NAV)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get sidebar() {
@@ -489,56 +481,19 @@ export default class UplinkMainScreen extends AppScreen {
   // Clicking on common elements methods
 
   async clickOnBackButton() {
-    (await this.backButton).click();
+    await this.backButton.click();
   }
 
   async clickOnHamburgerButton() {
-    (await this.hamburgerButton).click();
+    await this.hamburgerButton.click();
   }
 
   async clickOnPreReleaseIndicator() {
-    (await this.prereleaseIndicator).click();
+    await this.prereleaseIndicator.click();
   }
 
   async clickOnUpdateAvailable() {
-    (await this.updateAvailable).click();
-  }
-
-  // Toast Notifications methods
-
-  async closeToastNotification(title: string) {
-    const toast = await driver.findElement(
-      "xpath",
-      "//*[@label='Toast Notification']//*[@value='" + title + "']/.."
-    );
-    const closeButton = await driver.findElementFromElement(
-      toast.ELEMENT,
-      "-ios class chain",
-      "XCUIElementTypeButton"
-    );
-    await (await $(closeButton)).click();
-  }
-
-  async validateContentsToastNotification(
-    title: string,
-    expectedSubtitle: string
-  ) {
-    const toast = await driver.findElement(
-      "xpath",
-      "//*[@label='Toast Notification']//*[@value='" + title + "']/.."
-    );
-    const toastSubtitle = await driver.findElementFromElement(
-      toast.ELEMENT,
-      "-ios class chain",
-      "**/XCUIElementTypeGroup/XCUIElementTypeStaticText"
-    );
-    const toastTitle = await driver.findElementFromElement(
-      toast.ELEMENT,
-      "-ios class chain",
-      "**/XCUIElementTypeStaticText"
-    );
-    await expect(await $(toastSubtitle)).toHaveTextContaining(expectedSubtitle);
-    await expect(await $(toastTitle)).toHaveTextContaining(title);
+    await this.updateAvailable.click();
   }
 
   // Favorites methods
@@ -547,7 +502,7 @@ export default class UplinkMainScreen extends AppScreen {
     const favoriteUsers = await this.favoritesUserName;
     let currentFavoriteUsers = [];
     for (let name of favoriteUsers) {
-      currentFavoriteUsers.push(await (await $(name)).getText());
+      currentFavoriteUsers.push(await $(name).getText());
     }
     return currentFavoriteUsers;
   }
@@ -555,19 +510,19 @@ export default class UplinkMainScreen extends AppScreen {
   // NavBar methods
 
   async goToFiles() {
-    await (await this.filesButton).click();
+    await this.filesButton.click();
   }
 
   async goToFriends() {
-    await (await this.friendsButton).click();
+    await this.friendsButton.click();
   }
 
   async goToMainScreen() {
-    await (await this.chatsButton).click();
+    await this.chatsButton.click();
   }
 
   async goToSettings() {
-    await (await this.settingsButton).click();
+    await this.settingsButton.click();
   }
 
   // Button Badges methods
@@ -580,27 +535,32 @@ export default class UplinkMainScreen extends AppScreen {
   // Hovering methods
 
   async hoverOnElement(element: WebdriverIO.Element) {
-    if ((await this.getCurrentDriver()) === "mac2") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
       await hoverOnMacOS(element);
-    } else if ((await this.getCurrentDriver()) === "windows") {
+    } else if (currentDriver === "windows") {
       await hoverOnWindows(element);
     }
     await browser.pause(1000);
   }
 
   async hoverOnChatsButton() {
-    await this.hoverOnElement(await this.chatsButton);
+    const element = await this.chatsButton;
+    await this.hoverOnElement(element);
   }
 
   async hoverOnFilesButton() {
-    await this.hoverOnElement(await this.filesButton);
+    const element = await this.filesButton;
+    await this.hoverOnElement(element);
   }
 
   async hoverOnFriendsButton() {
-    await this.hoverOnElement(await this.friendsButton);
+    const element = await this.friendsButton;
+    await this.hoverOnElement(element);
   }
 
   async hoverOnSettingsButton() {
-    await this.hoverOnElement(await this.settingsButton);
+    const element = await this.settingsButton;
+    await this.hoverOnElement(element);
   }
 }

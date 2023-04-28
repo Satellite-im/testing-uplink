@@ -83,10 +83,12 @@ class SettingsFilesScreen extends SettingsBaseScreen {
   }
 
   async clickOnLocalSync() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.localSyncCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.localSyncCheckbox);
+    } else if (currentDriver === "mac2") {
+      const locator = await this.localSyncCheckbox;
+      await clickOnSwitchMacOS(locator);
     }
   }
 

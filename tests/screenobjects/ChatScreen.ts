@@ -651,11 +651,11 @@ class ChatScreen extends UplinkMainScreen {
   // Input Bar Methods
 
   async clearInputBar() {
-    await (await this.inputText).clearValue();
+    await this.inputText.clearValue();
   }
 
   async clickOnInputBar() {
-    await (await this.inputText).click();
+    await this.inputText.click();
   }
 
   async clickOnSendMessage() {
@@ -667,7 +667,7 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   async deleteFileOnComposeAttachment() {
-    (await this.composeAttachmentsButton).click();
+    await this.composeAttachmentsButton.click();
   }
 
   async generateRandomText() {
@@ -688,11 +688,11 @@ class ChatScreen extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let enterValue;
     currentDriver === "windows" ? (enterValue = "\uE007") : (enterValue = "\n");
-    await (await this.inputText).setValue(enterValue);
+    await this.inputText.setValue(enterValue);
   }
 
   async typeMessageOnInput(text: string) {
-    await (await this.inputText).setValue(text);
+    await this.inputText.setValue(text);
   }
 
   async typeOnEditMessageInput(editedMessage: string) {
@@ -700,8 +700,8 @@ class ChatScreen extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let enterValue;
     currentDriver === "windows" ? (enterValue = "\uE007") : (enterValue = "\n");
-    await messageEditableInput?.clearValue();
-    await messageEditableInput?.setValue(editedMessage + enterValue);
+    await messageEditableInput.clearValue();
+    await messageEditableInput.setValue(editedMessage + enterValue);
   }
 
   async uploadFile(relativePath: string) {
@@ -714,7 +714,7 @@ class ChatScreen extends UplinkMainScreen {
     }
 
     // Validate that profile banner is displayed on screen
-    await expect(await this.composeAttachmentsFileEmbed).toBeDisplayed();
+    await this.composeAttachmentsFileEmbed.waitForDisplayed();
   }
 
   // Message Group Wraps Methods
@@ -1025,7 +1025,7 @@ class ChatScreen extends UplinkMainScreen {
     } else if (currentDriver === "windows") {
       await rightClickOnWindows(messageToClick);
     }
-    await (await this.contextMenu).waitForDisplayed();
+    await this.contextMenu.waitForDisplayed();
   }
 
   async openContextMenuOnSentMessage() {
@@ -1036,7 +1036,7 @@ class ChatScreen extends UplinkMainScreen {
     } else if (currentDriver === "windows") {
       await rightClickOnWindows(messageToClick);
     }
-    await (await this.contextMenu).waitForDisplayed();
+    await this.contextMenu.waitForDisplayed();
   }
 
   async selectContextOption(option: number) {
@@ -1046,19 +1046,23 @@ class ChatScreen extends UplinkMainScreen {
   // Hovering methods
 
   async hoverOnCallButton() {
-    await this.hoverOnElement(await this.topbarCall);
+    const element = await this.topbarCall;
+    await this.hoverOnElement(element);
   }
 
   async hoverOnFavoritesButton() {
-    await this.hoverOnElement(await this.topbarAddToFavorites);
+    const element = await this.topbarAddToFavorites;
+    await this.hoverOnElement(element);
   }
 
   async hoverOnSendButton() {
-    await this.hoverOnElement(await this.sendMessageButton);
+    const element = await this.sendMessageButton;
+    await this.hoverOnElement(element);
   }
 
   async hoverOnUploadButton() {
-    await this.hoverOnElement(await this.uploadButton);
+    const element = await this.uploadButton;
+    await this.hoverOnElement(element);
   }
 
   async hoverOnUsernameTopbar() {
@@ -1066,7 +1070,8 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   async hoverOnVideocallButton() {
-    await this.hoverOnElement(await this.topbarVideocall);
+    const element = await this.topbarVideocall;
+    await this.hoverOnElement(element);
   }
 
   // Reply Modal methods
@@ -1076,7 +1081,7 @@ class ChatScreen extends UplinkMainScreen {
   }
 
   async waitForReplyModalToNotExist() {
-    (await this.replyPopUp).waitForExist({ reverse: true });
+    await this.replyPopUp.waitForExist({ reverse: true });
   }
 }
 

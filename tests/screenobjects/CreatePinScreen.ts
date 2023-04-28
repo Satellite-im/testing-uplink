@@ -74,12 +74,13 @@ class CreatePinScreen extends UplinkMainScreen {
   }
 
   async clickOnCreateAccount() {
-    await (await this.createAccountButton).click();
+    await this.createAccountButton.click();
   }
 
   async getStatusOfCreateAccountButton() {
     let result;
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       result = await this.createAccountButton.getAttribute("IsEnabled");
     } else {
       result = await this.createAccountButton.getAttribute("enabled");

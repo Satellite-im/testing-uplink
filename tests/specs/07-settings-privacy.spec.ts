@@ -8,11 +8,11 @@ export default async function settingsPrivacy() {
     await SettingsPrivacyScreen.waitForIsShown(true);
 
     // Start validations
+    await expect(SettingsPrivacyScreen.backupPhraseHeader).toHaveTextContaining(
+      "BACKUP RECOVERY PHRASE"
+    );
     await expect(
-      await SettingsPrivacyScreen.backupPhraseHeader
-    ).toHaveTextContaining("BACKUP RECOVERY PHRASE");
-    await expect(
-      await SettingsPrivacyScreen.backupPhraseDescription
+      SettingsPrivacyScreen.backupPhraseDescription
     ).toHaveTextContaining(
       "Back this phrase up! Along with your password this represents your account. If you lose it, we can't help you get it back."
     );

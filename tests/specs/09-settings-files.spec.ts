@@ -8,21 +8,19 @@ export default async function settingsFiles() {
     await SettingsFilesScreen.waitForIsShown(true);
 
     // Validate LOCAL SYNC settings section texts
-    await expect(
-      await SettingsFilesScreen.localSyncHeader
-    ).toHaveTextContaining("LOCAL SYNC");
-    await expect(
-      await SettingsFilesScreen.localSyncDescription
-    ).toHaveTextContaining(
+    await expect(SettingsFilesScreen.localSyncHeader).toHaveTextContaining(
+      "LOCAL SYNC"
+    );
+    await expect(SettingsFilesScreen.localSyncDescription).toHaveTextContaining(
       "When enabled, files will be synced to your local machine."
     );
 
     // Validate OPEN SYNC FOLDER settings section texts
+    await expect(SettingsFilesScreen.openSyncFolderHeader).toHaveTextContaining(
+      "OPEN SYNC FOLDER"
+    );
     await expect(
-      await SettingsFilesScreen.openSyncFolderHeader
-    ).toHaveTextContaining("OPEN SYNC FOLDER");
-    await expect(
-      await SettingsFilesScreen.openSyncFolderDescription
+      SettingsFilesScreen.openSyncFolderDescription
     ).toHaveTextContaining("Open the folder where your files are synced to.");
   });
 
@@ -31,8 +29,9 @@ export default async function settingsFiles() {
     await SettingsFilesScreen.clickOnLocalSync();
 
     // Validate that switch has now value = '1' (active)
+    const toggleElement = await SettingsFilesScreen.localSyncControllerValue;
     const localSyncState = await SettingsFilesScreen.getToggleState(
-      await SettingsFilesScreen.localSyncControllerValue
+      toggleElement
     );
 
     await expect(localSyncState).toEqual("1");
@@ -43,8 +42,9 @@ export default async function settingsFiles() {
     await SettingsFilesScreen.clickOnLocalSync();
 
     // Validate that switch has now value = '0' (disabled)
+    const toggleElement = await SettingsFilesScreen.localSyncControllerValue;
     const localSyncState = await SettingsFilesScreen.getToggleState(
-      await SettingsFilesScreen.localSyncControllerValue
+      toggleElement
     );
 
     await expect(localSyncState).toEqual("0");
