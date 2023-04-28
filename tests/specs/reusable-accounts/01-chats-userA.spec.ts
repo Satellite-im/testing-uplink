@@ -77,7 +77,7 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Chats - Validate Messages secured text displayed on top of conversation", async () => {
     await ChatScreen.encryptedMessagesText.waitForDisplayed();
     await expect(ChatScreen.encryptedMessagesText).toHaveTextContaining(
-      "Messages secured by local E2E encryption."
+      "Messages are secured by end-to-end encryption and sent over a peer-to-peer network."
     );
   });
 
