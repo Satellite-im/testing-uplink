@@ -24,15 +24,17 @@ jobs:
             appium-driver: |
               appium driver install mac2
               appium driver list
-            npm-test: mac.ci
             os-name: MacOS
           - os: windows-latest
             appium-driver: |
               appium driver install --source=npm appium-windows-driver
               appium driver list
-            npm-test: windows.ci
             os-name: Windows
     runs-on: ${{ matrix.os }}
+    outputs:
+      results-macos-latest: ${{ steps.add-failed-results-macos-latest.outputs.results-macos-latest }}
+      results-windows-latest: ${{ steps.add-failed-results-windows-latest.outputs.results-windows-latest }}
+
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
@@ -88,12 +90,19 @@ jobs:
         run: rm -rf ~/.uplink
 
       - if: matrix.os == 'windows-latest'
-        name: Delete Cache Folder if exists - Winbdows
+        name: Delete Cache Folder if exists - Windows
         run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
         shell: powershell
 
-      - name: Run WebdriverIO tests 🧪
-        run: npm run ${{ matrix.npm-test }}
+      - if: matrix.os == 'macos-latest'
+        name: Run Tests on MacOS 🧪
+        id: test-execution-macos
+        run: npm run mac.ci
+
+      - if: matrix.os == 'windows-latest'
+        name: Run Tests on Windows 🧪
+        id: test-execution-windows
+        run: npm run windows.ci
 
       - name: Publish Test Results for ${{ matrix.os-name }}
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -126,10 +135,23 @@ jobs:
           name: appium-test-accounts
           path: ./tests/fixtures/users/
 
+      - if: always() && matrix.os == 'macos-latest' && steps.test-execution-macos-latest.outcome != 'success'
+        name: Add results output for failed on macos-latest
+        id: add-failed-results-macos-latest
+        run: echo "results-macos-latest=failed" >> "$GITHUB_OUTPUT"
+
+      - if: always() && matrix.os == 'windows-latest' && steps.test-execution-windows-latest.outcome != 'success'
+        name: Add results output for failed on windows-latest
+        id: add-failed-results-windows-latest
+        run: echo "results-windows-latest=failed" >> "$GITHUB_OUTPUT"
+
   test-chats:
-    if: ${{ always() }}
+    if: always()
     needs: test
     runs-on: macos-latest
+    outputs:
+      results-ChatUserA: ${{ steps.add-failed-results-ChatUserA.outputs.results-ChatUserA }}
+      results-ChatUserB: ${{ steps.add-failed-results-ChatUserB.outputs.results-ChatUserB }}
     strategy:
       fail-fast: false
       matrix:
@@ -196,7 +218,14 @@ jobs:
           rm -rf ~/.uplink
           cp -r ./tests/fixtures/users/${{ matrix.user }}/. ~/.uplink
 
-      - name: Run WebdriverIO tests on MacOS 🧪
+      - if: matrix.user == 'ChatUserA'
+        name: Run WebdriverIO tests for Chat User A 🧪
+        id: test-execution-ChatUserA
+        run: ${{ matrix.npm-command }}
+
+      - if: matrix.user == 'ChatUserB'
+        name: Run WebdriverIO tests for Chat User B 🧪
+        id: test-execution-ChatUserB
         run: ${{ matrix.npm-command }}
 
       - name: Upload Screenshots for ${{ matrix.user }} 📷
@@ -213,8 +242,51 @@ jobs:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
 
+      - if: always() && matrix.user == 'ChatUserA' && steps.test-execution-ChatUserA.outcome != 'success'
+        name: Add results output for failed on ChatUserA
+        id: add-failed-results-ChatUserA
+        run: echo "results-ChatUserA=failed" >> "$GITHUB_OUTPUT"
+
+      - if: always() && matrix.user == 'ChatUserB' && steps.test-execution-ChatUserB.outcome != 'success'
+        name: Add results output for failed on ChatUserB
+        id: add-failed-results-ChatUserB
+        run: echo "results-ChatUserB=failed" >> "$GITHUB_OUTPUT"
+
+  add-label:
+    needs: [test, test-chats]
+    if: always()
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - if: needs.test.outputs.results-macos-latest == 'failed' || needs.test.outputs.results-windows-latest == 'failed' || needs.test-chats.outputs.results-ChatUserA == 'failed' || needs.test-chats.outputs.results-ChatUserB == 'failed'
+        name: Add label if any of test jobs failed
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            Failed Automated Test
+          type: add
+
+  remove-label:
+    needs: [test, test-chats]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Remove label if all test jobs succeeded
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            Failed Automated Test
+          type: remove
+
       - name: Delete Chat Users Accounts
-        if: success()
         uses: geekyeggo/delete-artifact@v2
         with:
           name: appium-test-accounts
