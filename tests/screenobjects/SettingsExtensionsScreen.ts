@@ -130,10 +130,12 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   async clickOnEnableAutomatically() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.enableAutomaticallyCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.enableAutomaticallyCheckbox);
+    } else if (currentDriver === "mac2") {
+      const element = await this.enableAutomaticallyCheckbox;
+      await clickOnSwitchMacOS(element);
     }
   }
 
@@ -154,8 +156,9 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   async getPlaceholderFromExtensionsInput() {
+    const currentDriver = await this.getCurrentDriver();
     let result;
-    if ((await this.getCurrentDriver()) === "windows") {
+    if (currentDriver === "windows") {
       result = await this.extensionsSearchInput.getAttribute("HelpText");
     } else {
       result = await this.extensionsSearchInput.getAttribute(

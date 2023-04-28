@@ -198,10 +198,8 @@ class FilesScreen extends UplinkMainScreen {
   async clickOnFolderCrumb(folderName: string) {
     const crumbs = await this.crumb;
     for (let i = 0; i < crumbs.length; i++) {
-      if (
-        (await (await crumbs[i].$(SELECTORS.CRUMB_TEXT)).getText()) ===
-        folderName
-      ) {
+      const crumbText = await crumbs[i].$(SELECTORS.CRUMB_TEXT).getText();
+      if (crumbText === folderName) {
         await crumbs[i].click();
       }
     }
@@ -221,14 +219,14 @@ class FilesScreen extends UplinkMainScreen {
 
   async createFolder(name: string) {
     const currentDriver = await this.getCurrentDriver();
-    await (await this.addFolderButton).click();
+    await this.addFolderButton.click();
     if (currentDriver === "mac2") {
-      await (await this.inputFolderFileName).setValue(name + "\n");
+      await this.inputFolderFileName.setValue(name + "\n");
     } else if (currentDriver === "windows") {
-      await (await this.inputFolderFileName).setValue(name + "\uE007");
+      await this.inputFolderFileName.setValue(name + "\uE007");
     }
     const newFolder = await this.getLocatorOfFolderFile(name);
-    await (await $(newFolder)).waitForExist();
+    await $(newFolder).waitForExist();
   }
 
   async downloadFile(filename: string) {
@@ -253,18 +251,22 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   async getFileFolderName(element: WebdriverIO.Element) {
-    return await (await element.$(SELECTORS.FILE_FOLDER_NAME)).getText();
+    const fileOrFolderText = await element
+      .$(SELECTORS.FILE_FOLDER_NAME)
+      .getText();
+    return fileOrFolderText;
   }
 
   async getLocatorOfDeletedElement(name: string) {
     const currentDriver = await this.getCurrentDriver();
+    let locator;
     if (currentDriver === "mac2") {
-      return (
-        '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]'
-      );
+      locator =
+        '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]';
     } else if (currentDriver === "windows") {
-      return '//Group[name="' + name + '"]';
+      locator = '//Group[name="' + name + '"]';
     }
+    return locator;
   }
 
   async getLocatorOfFolderFile(name: string) {
@@ -280,12 +282,12 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   async getProgressUploadFilename() {
-    const filename = await (await this.uploadFileIndicatorFilename).getText();
+    const filename = await this.uploadFileIndicatorFilename.getText();
     return filename;
   }
 
   async getProgressUploadPercentage() {
-    const progress = await (await this.uploadFileIndicatorProgress).getText();
+    const progress = await this.uploadFileIndicatorProgress.getText();
     return progress;
   }
 
@@ -300,20 +302,21 @@ class FilesScreen extends UplinkMainScreen {
     } else if (currentDriver === "windows") {
       await rightClickOnWindows(fileFolderToRightClick);
     }
-    await (await this.contextMenu).waitForDisplayed();
+    await this.contextMenu.waitForDisplayed();
   }
 
   async updateNameFileFolder(newName: string, extension: string = "") {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await (await this.inputFolderFileName).setValue(newName + "\n");
+      await this.inputFolderFileName.setValue(newName + "\n");
     } else if (currentDriver === "windows") {
-      await (await this.inputFolderFileName).setValue(newName + "\uE007");
+      await this.inputFolderFileName.setValue(newName + "\uE007");
     }
     const newFileFolder = await this.getLocatorOfFolderFile(
       newName + extension
     );
-    return await $(newFileFolder);
+    const element = await $(newFileFolder);
+    return element;
   }
 
   async uploadFile(relativePath: string) {
@@ -329,11 +332,13 @@ class FilesScreen extends UplinkMainScreen {
   // Hovering methods
 
   async hoverOnNewFolderButton() {
-    await this.hoverOnElement(await this.addFolderButton);
+    const element = await this.addFolderButton;
+    await this.hoverOnElement(element);
   }
 
   async hoverOnUploadButton() {
-    await this.hoverOnElement(await this.uploadFileButton);
+    const element = await this.uploadFileButton;
+    await this.hoverOnElement(element);
   }
 }
 

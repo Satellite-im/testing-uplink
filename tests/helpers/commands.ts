@@ -217,7 +217,7 @@ export async function saveFileOnMacOS(filename: string) {
   await $("~save-panel").waitForDisplayed();
 
   // Type the new file name
-  await (await $("~saveAsNameTextField")).setValue(filename);
+  await $("~saveAsNameTextField").setValue(filename);
 
   // Click on OK Button to save into Downloads folder
   await $("~OKButton").click();
@@ -308,9 +308,8 @@ export async function saveFileOnWindows(
 
   // Type file location and hit enter
   await $("/Window/Pane[1]/ComboBox[1]/Edit").clearValue();
-  await (
-    await $("/Window/Pane[1]/ComboBox[1]/Edit")
-  ).setValue(filename + "\uE007");
+
+  await $("/Window/Pane[1]/ComboBox[1]/Edit").setValue(filename + "\uE007");
 
   // Wait for Save Panel not to be displayed
   await $("~TitleBar").waitForExist({ reverse: true });

@@ -8,35 +8,33 @@ export default async function settingsAbout() {
     await SettingsAboutScreen.waitForIsShown(true);
 
     // Validate the header and description texts from Settings Section - About - About
-    await expect(await SettingsAboutScreen.aboutHeader).toHaveTextContaining(
-      "ABOUT"
+    await expect(SettingsAboutScreen.aboutHeader).toHaveTextContaining("ABOUT");
+    await expect(SettingsAboutScreen.aboutDescription).toHaveTextContaining(
+      "uplink"
     );
-    await expect(
-      await SettingsAboutScreen.aboutDescription
-    ).toHaveTextContaining("uplink");
 
     // Validate the header and description texts from Settings Section - About - Version
-    await expect(await SettingsAboutScreen.versionHeader).toHaveTextContaining(
+    await expect(SettingsAboutScreen.versionHeader).toHaveTextContaining(
       "VERSION"
     );
-    await expect(
-      await SettingsAboutScreen.versionDescription
-    ).toHaveTextContaining("0.1.0");
+    await expect(SettingsAboutScreen.versionDescription).toHaveTextContaining(
+      "0.1.1"
+    );
 
     // Validate the header and description texts from Settings Section - About - Open Website
+    await expect(SettingsAboutScreen.openWebsiteHeader).toHaveTextContaining(
+      "OPEN WEBSITE"
+    );
     await expect(
-      await SettingsAboutScreen.openWebsiteHeader
-    ).toHaveTextContaining("OPEN WEBSITE");
-    await expect(
-      await SettingsAboutScreen.openWebsiteDescription
+      SettingsAboutScreen.openWebsiteDescription
     ).toHaveTextContaining("Opens our website in your default web browser.");
 
     // Validate the header and description texts from Settings Section - About - Open Source Code
+    await expect(SettingsAboutScreen.openSourceHeader).toHaveTextContaining(
+      "OPEN SOURCE CODE"
+    );
     await expect(
-      await SettingsAboutScreen.openSourceHeader
-    ).toHaveTextContaining("OPEN SOURCE CODE");
-    await expect(
-      await SettingsAboutScreen.openSourceDescription
+      SettingsAboutScreen.openSourceDescription
     ).toHaveTextContaining("Opens the codebase in your default web browser.");
   });
 

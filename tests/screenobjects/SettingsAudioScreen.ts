@@ -131,34 +131,42 @@ class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   async clickOnCallTimer() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.callTimerCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.callTimerCheckbox);
+    } else if (currentDriver === "mac2") {
+      const element = await this.callTimerCheckbox;
+      await clickOnSwitchMacOS(element);
     }
   }
 
   async clickOnInterfaceSounds() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.interfaceSoundsCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.interfaceSoundsCheckbox);
+    } else if (currentDriver === "mac2") {
+      const element = await this.interfaceSoundsCheckbox;
+      await clickOnSwitchMacOS(element);
     }
   }
 
   async clickOnMediaSounds() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.mediaSoundsCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.mediaSoundsCheckbox);
+    } else if (currentDriver === "mac2") {
+      const element = await this.mediaSoundsCheckbox;
+      await clickOnSwitchMacOS(element);
     }
   }
 
   async clickOnMessageSounds() {
-    if ((await this.getCurrentDriver()) === "windows") {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "windows") {
       await this.messageSoundsCheckbox.click();
-    } else if ((await this.getCurrentDriver()) === "mac2") {
-      await clickOnSwitchMacOS(await this.messageSoundsCheckbox);
+    } else if (currentDriver === "mac2") {
+      const element = await this.messageSoundsCheckbox;
+      await clickOnSwitchMacOS(element);
     }
   }
 }

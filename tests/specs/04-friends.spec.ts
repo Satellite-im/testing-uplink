@@ -11,40 +11,38 @@ export default async function friends() {
     await FriendsScreen.waitForIsShown(true);
 
     // Validate Pre Release Indicator is displayed
-    await expect(await FriendsScreen.prereleaseIndicator).toBeDisplayed();
-    await expect(
-      await FriendsScreen.prereleaseIndicatorText
-    ).toHaveTextContaining("Pre-release | Issues/Feedback");
+    await expect(FriendsScreen.prereleaseIndicator).toBeDisplayed();
+    await expect(FriendsScreen.prereleaseIndicatorText).toHaveTextContaining(
+      "Pre-release | Issues/Feedback"
+    );
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await (await FriendsScreen.chatsButton).waitForExist();
-    await (await FriendsScreen.filesButton).waitForExist();
-    await (await FriendsScreen.friendsButton).waitForExist();
-    await (await FriendsScreen.settingsButton).waitForExist();
+    await FriendsScreen.chatsButton.waitForExist();
+    await FriendsScreen.filesButton.waitForExist();
+    await FriendsScreen.friendsButton.waitForExist();
+    await FriendsScreen.settingsButton.waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await expect(await FriendsScreen.chatSearchInput).toBeDisplayed();
-    await expect(await FriendsScreen.sidebar).toBeDisplayed();
-    await expect(await FriendsScreen.sidebarChildren).toBeDisplayed();
-    await expect(await FriendsScreen.sidebarSearch).toBeDisplayed();
+    await expect(FriendsScreen.chatSearchInput).toBeDisplayed();
+    await expect(FriendsScreen.sidebar).toBeDisplayed();
+    await expect(FriendsScreen.sidebarChildren).toBeDisplayed();
+    await expect(FriendsScreen.sidebarSearch).toBeDisplayed();
   });
 
   it("Go to Friends Screen and validate elements displayed", async () => {
-    await expect(await FriendsScreen.friendsLayout).toBeDisplayed();
-    await expect(await FriendsScreen.settingsButton).toBeDisplayed();
+    await expect(FriendsScreen.friendsLayout).toBeDisplayed();
+    await expect(FriendsScreen.settingsButton).toBeDisplayed();
   });
 
   it("User can type on user search input bar", async () => {
     await FriendsScreen.enterFriendDidKey("Hello");
-    await expect(await FriendsScreen.addSomeoneInput).toHaveTextContaining(
-      "Hello"
-    );
+    await expect(FriendsScreen.addSomeoneInput).toHaveTextContaining("Hello");
   });
 
   it("Add Friend Input - Error is displayed when number of chars provided is less than expected", async () => {
-    await expect(await FriendsScreen.inputErrorText).toHaveTextContaining(
+    await expect(FriendsScreen.inputErrorText).toHaveTextContaining(
       "Please enter at least 9 characters."
     );
     await FriendsScreen.deleteAddFriendInput();
@@ -52,7 +50,7 @@ export default async function friends() {
 
   it("Add Friend Input - Error is displayed when non-alphanumeric chars are provided", async () => {
     await FriendsScreen.enterFriendDidKey("%%%%%%%%%%");
-    await expect(await FriendsScreen.inputErrorText).toHaveTextContaining(
+    await expect(FriendsScreen.inputErrorText).toHaveTextContaining(
       "Only alphanumeric characters are accepted."
     );
     await FriendsScreen.deleteAddFriendInput();
@@ -60,13 +58,11 @@ export default async function friends() {
 
   it("Add Friend Input - Error is displayed when spaces are provided", async () => {
     await FriendsScreen.enterFriendDidKey("123456789             ");
-    await expect(await FriendsScreen.inputErrorText).toHaveTextContaining(
+    await expect(FriendsScreen.inputErrorText).toHaveTextContaining(
       "Spaces are not allowed."
     );
     await FriendsScreen.deleteAddFriendInput();
   });
-
-  xit("Add Friend Input - Green indicator should appear when a did pasted is valid", async () => {});
 
   it("User can copy its own ID by clicking on button", async () => {
     // Click on Copy ID button and grab clipboard value
@@ -95,7 +91,7 @@ export default async function friends() {
     await FriendsScreen.enterFriendDidKey(
       "did:key:12345678901234567890123456789012345678901234567890"
     );
-    await expect(await FriendsScreen.inputErrorText).toHaveTextContaining(
+    await expect(FriendsScreen.inputErrorText).toHaveTextContaining(
       "Maximum of 56 characters exceeded."
     );
     await FriendsScreen.deleteAddFriendInput();
@@ -103,18 +99,17 @@ export default async function friends() {
 
   it("Switch to Pending Friends view and validate elements displayed", async () => {
     await FriendsScreen.goToPendingFriendsList();
-    await expect(await FriendsScreen.incomingRequestsList).toBeDisplayed();
-    await expect(await FriendsScreen.outgoingRequestsList).toBeDisplayed();
+    await FriendsScreen.incomingRequestsList.waitForDisplayed();
   });
 
   it("Switch to Blocked Friends view and validate elements displayed", async () => {
     await FriendsScreen.goToBlockedList();
-    await expect(await FriendsScreen.blockedList).toBeDisplayed();
+    await FriendsScreen.blockedList.waitForDisplayed();
   });
 
   it("Switch to All Friends view and validate elements displayed", async () => {
     await FriendsScreen.goToAllFriendsList();
-    await expect(await FriendsScreen.friendsList).toBeDisplayed();
+    await FriendsScreen.friendsList.waitForDisplayed();
   });
 
   it("Go to Chat with Friend from Friends List", async () => {
@@ -123,6 +118,9 @@ export default async function friends() {
 
     //Validate Chat Screen is displayed and go back to Friends Screen
     await ChatScreen.waitForIsShown(true);
+  });
+
+  it("Type a message and return to Friends Screen", async () => {
     await ChatScreen.typeMessageOnInput("testing...");
     await ChatScreen.clearInputBar();
     await ChatScreen.goToFriends();
@@ -155,7 +153,8 @@ export default async function friends() {
 
     // Get current list of All friends and ensure that it does not include the removed user
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(false);
+    const includesFriend = await allFriendsList.includes(friendName);
+    await expect(includesFriend).toEqual(false);
   });
 
   it("Block someone from Friends List", async () => {
@@ -166,12 +165,14 @@ export default async function friends() {
     // Go to Blocked List and validate that user is there now
     await FriendsScreen.goToBlockedList();
     const blockedFriendsList = await FriendsScreen.getBlockedList();
-    await expect(blockedFriendsList.includes(friendName)).toEqual(true);
+    const includesFriend = await blockedFriendsList.includes(friendName);
+    await expect(includesFriend).toEqual(true);
 
     // Get current list of All friends and ensure that it does not include the blocked user
     await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(false);
+    const allListIncludesFriend = allFriendsList.includes(friendName);
+    await expect(allListIncludesFriend).toEqual(false);
   });
 
   it("Validate tooltip for Deny Request button is displayed", async () => {
@@ -203,12 +204,16 @@ export default async function friends() {
     // Go to the current list of All friends and ensure that now includes the friend accepted
     await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(true);
+    const allFriendsIncludes = await allFriendsList.includes(friendName);
+    await expect(allFriendsIncludes).toEqual(true);
 
     // Get the current list of incoming requests and validate that user does not appear there now
     await FriendsScreen.goToPendingFriendsList();
     const incomingRequestsList = await FriendsScreen.getIncomingList();
-    await expect(incomingRequestsList.includes(friendName)).toEqual(false);
+    const incomingListIncludes = await incomingRequestsList.includes(
+      friendName
+    );
+    await expect(incomingListIncludes).toEqual(false);
   });
 
   it("Deny incoming friend request", async () => {
@@ -217,15 +222,16 @@ export default async function friends() {
     await FriendsScreen.removeOrCancelUser(friendName);
 
     // Go to the current list of All friends and ensure that denied user is not in friends list
-    await browser.pause(1000);
     await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(false);
+    const allListIncludes = await allFriendsList.includes(friendName);
+    await expect(allListIncludes).toEqual(false);
 
     // Get the current list of incoming requests and validate that user does not appear there now
     await FriendsScreen.goToPendingFriendsList();
     const incomingRequestsList = await FriendsScreen.getIncomingList();
-    await expect(incomingRequestsList.includes(friendName)).toEqual(false);
+    const incomingListIncludes = incomingRequestsList.includes(friendName);
+    await expect(incomingListIncludes).toEqual(false);
   });
 
   it("Unfriend - Cancel outgoing friend request", async () => {
@@ -236,12 +242,16 @@ export default async function friends() {
     // Go to the current list of All friends and ensure that removed user is not in friends list
     await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(false);
+    const allListIncludes = await allFriendsList.includes(friendName);
+    await expect(allListIncludes).toEqual(false);
 
     // Get the current list of Outgoing Requests and validate that user does not appear there now
     await FriendsScreen.goToPendingFriendsList();
     const outgoingRequestsList = await FriendsScreen.getOutgoingList();
-    await expect(outgoingRequestsList.includes(friendName)).toEqual(false);
+    const outgoingListIncludes = await outgoingRequestsList.includes(
+      friendName
+    );
+    expect(outgoingListIncludes).toEqual(false);
   });
 
   it("Validate tooltips for Unblock button is displayed", async () => {
@@ -265,12 +275,14 @@ export default async function friends() {
     // Go to the current list of All friends and ensure that unblocked user is not on friends list as expected
     await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(false);
+    const allListIncludes = await allFriendsList.includes(friendName);
+    await expect(allListIncludes).toEqual(false);
 
     // Get the current list of Blocked list and validate that user does not appear there now
     await FriendsScreen.goToBlockedList();
     const blockedList = await FriendsScreen.getBlockedList();
-    await expect(blockedList.includes(friendName)).toEqual(false);
+    const blockedListIncludes = await blockedList.includes(friendName);
+    await expect(blockedListIncludes).toEqual(false);
   });
 
   it("Context Menu - Chat with Friend", async () => {
@@ -299,13 +311,11 @@ export default async function friends() {
     await FriendsScreen.contextMenuOption[1].click();
 
     // Validate that username and user image bubble is now displayed on Favorites Sidebar
-    await (await FriendsScreen.favorites).waitForDisplayed();
+    await FriendsScreen.favorites.waitForDisplayed();
     // Favorites Sidebar should be displayed
-    await expect(await ChatScreen.favoritesUserImage).toBeDisplayed();
-    await expect(
-      await ChatScreen.favoritesUserIndicatorOffline
-    ).toBeDisplayed();
-    await expect(await ChatScreen.favoritesUserName).toHaveTextContaining(
+    await expect(ChatScreen.favoritesUserImage).toBeDisplayed();
+    await expect(ChatScreen.favoritesUserIndicatorOffline).toBeDisplayed();
+    await expect(ChatScreen.favoritesUserName).toHaveTextContaining(
       friendName.toUpperCase()
     );
   });
@@ -319,7 +329,7 @@ export default async function friends() {
     await FriendsScreen.contextMenuOption[1].click();
 
     // Validate that favorites is hidden now
-    await (await FriendsScreen.favorites).waitForExist({ reverse: true });
+    await FriendsScreen.favorites.waitForExist({ reverse: true });
   });
 
   it("Context Menu - Remove Friend", async () => {
@@ -336,7 +346,8 @@ export default async function friends() {
 
     // Get current list of All friends and ensure user was removed from list
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(false);
+    const allListIncludes = await allFriendsList.includes(friendName);
+    await expect(allListIncludes).toEqual(false);
   });
 
   it("Context Menu - Block Friend", async () => {
@@ -350,12 +361,14 @@ export default async function friends() {
     // Go to Blocked List and validate that user is there now
     await FriendsScreen.goToBlockedList();
     const blockedFriendsList = await FriendsScreen.getBlockedList();
-    await expect(blockedFriendsList.includes(friendName)).toEqual(true);
+    const blockedListIncludes = await blockedFriendsList.includes(friendName);
+    await expect(blockedListIncludes).toEqual(true);
 
     // Get current list of All friends and ensure that it does not include the blocked user
     await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(false);
+    const allListIncludes = await allFriendsList.includes(friendName);
+    await expect(allListIncludes).toEqual(false);
   });
 
   it("Context Menu - Accept Incoming Request", async () => {
@@ -372,12 +385,16 @@ export default async function friends() {
     // Go to the current list of All friends and ensure that accepted user is now in friends list
     await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(true);
+    const allListIncludes = await allFriendsList.includes(friendName);
+    await expect(allListIncludes).toEqual(true);
 
     // Get the current list of incoming requests and validate that user does not appear there now
     await FriendsScreen.goToPendingFriendsList();
     const incomingRequestsList = await FriendsScreen.getIncomingList();
-    await expect(incomingRequestsList.includes(friendName)).toEqual(false);
+    const incomingListIncludes = await incomingRequestsList.includes(
+      friendName
+    );
+    await expect(incomingListIncludes).toEqual(false);
   });
 
   it("Context Menu - Deny Incoming Request", async () => {
@@ -391,12 +408,16 @@ export default async function friends() {
     // Go to the current list of All friends and ensure that denied user is not in friends list
     await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(false);
+    const allListIncludes = await allFriendsList.includes(friendName);
+    await expect(allListIncludes).toEqual(false);
 
     // Get the current list of incoming requests and validate that user does not appear there now
     await FriendsScreen.goToPendingFriendsList();
     const incomingRequestsList = await FriendsScreen.getIncomingList();
-    await expect(incomingRequestsList.includes(friendName)).toEqual(false);
+    const incomingListIncludes = await incomingRequestsList.includes(
+      friendName
+    );
+    await expect(incomingListIncludes).toEqual(false);
   });
 
   it("Context Menu - Cancel Outgoing Request", async () => {
@@ -410,12 +431,14 @@ export default async function friends() {
     // Go to the current list of All friends and ensure that removed user is not in friends list
     await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(false);
+    const allListIncludes = allFriendsList.includes(friendName);
+    await expect(allListIncludes).toEqual(false);
 
     // Get the current list of Outgoing Requests and validate that user does not appear there now
     await FriendsScreen.goToPendingFriendsList();
     const outgoingRequestsList = await FriendsScreen.getOutgoingList();
-    await expect(outgoingRequestsList.includes(friendName)).toEqual(false);
+    const outgoingListIncludes = outgoingRequestsList.includes(friendName);
+    await expect(outgoingListIncludes).toEqual(false);
   });
 
   it("Context Menu - Unblock User", async () => {
@@ -432,11 +455,13 @@ export default async function friends() {
     // Go to the current list of All friends and ensure that unblocked user is not on friends list, as expected
     await FriendsScreen.goToAllFriendsList();
     const allFriendsList = await FriendsScreen.getAllFriendsList();
-    await expect(allFriendsList.includes(friendName)).toEqual(false);
+    const allListIncludes = await allFriendsList.includes(friendName);
+    await expect(allListIncludes).toEqual(false);
 
     // Get the current list of Blocked list and validate that user does not appear there now
     await FriendsScreen.goToBlockedList();
     const blockedList = await FriendsScreen.getBlockedList();
-    await expect(blockedList.includes(friendName)).toEqual(false);
+    const blockedListIncludes = await blockedList.includes(friendName);
+    await expect(blockedListIncludes).toEqual(false);
   });
 }
