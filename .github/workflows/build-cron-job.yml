@@ -17,7 +17,7 @@ jobs:
         os: [macos-latest, windows-latest]
         include:
           - os: macos-latest
-            build-instruction: make dmg
+            build-instruction: make unsigned-dmg
           - os: windows-latest
             build-instruction: cargo build --release --package uplink -F production_mode
     runs-on:
@@ -43,9 +43,12 @@ jobs:
         with:
           repo-token: ${{env.GITHUB_TOKEN}}
 
-      - name: Patch Makefile to remove --production-mode flag 🌐
+      - if: matrix.os == 'macos-latest'
+        name: Add Targets for MacOS
+        env:
+          MACOSX_DEPLOYMENT_TARGET: "10.13"
         run: |
-          perl -i -pe 's/--production-mode//g' Makefile
+          rustup target add x86_64-apple-darwin aarch64-apple-darwin
 
       - name: Run cargo update 🌐
         run: cargo update
@@ -57,7 +60,7 @@ jobs:
       - if: matrix.os == 'macos-latest'
         name: Create ZIP archive 🗳️
         run: |
-          ditto -c -k --sequesterRsrc --keepParent target/release/macos/Uplink.app Uplink-Mac-Universal.zip
+          ditto -c -k --sequesterRsrc --keepParent target/macos_bundle/Uplink.app Uplink-Mac-Universal.zip
 
       - if: matrix.os == 'macos-latest'
         name: Calculate hashes 🧮
