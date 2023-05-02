@@ -50,10 +50,6 @@ jobs:
         run: |
           rustup target add x86_64-apple-darwin aarch64-apple-darwin
 
-      - if: matrix.os == 'macos-latest'
-        name: Remove aarch64 target from Makefile make app on this workflow
-        run: perl -i -pe 's/MACOSX_DEPLOYMENT_TARGET="10.11" cargo build --release --target=aarch64-apple-darwin -F production_mode//g' Makefile
-
       - name: Run cargo update 🌐
         run: cargo update
 
@@ -62,9 +58,13 @@ jobs:
         continue-on-error: true
 
       - if: matrix.os == 'macos-latest'
-        name: Create ZIP archive 🗳️
+        name: Create ZIP archive on MacOS 🗳️
         run: |
           ditto -c -k --sequesterRsrc --keepParent target/macos_bundle/Uplink.app Uplink-Mac-Universal.zip
+
+      - if: matrix.os == 'windows-latest'
+        name: Create ZIP archive on Windows 🗳️
+        run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
 
       - if: matrix.os == 'macos-latest'
         name: Calculate hashes 🧮
@@ -87,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Uplink-windows-latest
-          path: target\release\uplink.exe
+          path: uplinkWindows.zip
 
   push-app:
     needs: build-app

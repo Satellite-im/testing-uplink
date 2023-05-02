@@ -60,6 +60,10 @@ jobs:
           cp -r ./Uplink.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
 
+      - if: matrix.os == 'windows-latest'
+        name: Extract .zip into apps Directory 🗳️
+        run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
+
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
