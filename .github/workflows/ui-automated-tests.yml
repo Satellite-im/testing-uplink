@@ -262,9 +262,11 @@ jobs:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
-      - name: Delete Test Account Data from Repo
-        working-directory: ./tests/fixtures
-        run: rm -rf ./users/
+      - name: Download the MacOS app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-macos-latest
+          path: ./apps
 
       - name: Download Test User Accounts 🗳️
         uses: actions/download-artifact@v3
@@ -366,7 +368,7 @@ jobs:
             Failed Automated Test
           type: add
 
-  remove-label:
+  remove-artifacts:
     needs: [test, test-chats]
     runs-on: ubuntu-latest
 
