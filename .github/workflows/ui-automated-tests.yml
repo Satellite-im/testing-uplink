@@ -95,6 +95,15 @@ jobs:
           name: Uplink-windows-latest
           path: uplinkWindows.zip
 
+      - name: Add label if any of build jobs failed
+        if: failure()
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            Failed Automated Test
+          type: add
+
   test:
     needs: build-app
     strategy:
@@ -113,9 +122,6 @@ jobs:
               appium driver list
             os-name: Windows
     runs-on: ${{ matrix.os }}
-    outputs:
-      results-macos-latest: ${{ steps.add-failed-results-macos-latest.outputs.results-macos-latest }}
-      results-windows-latest: ${{ steps.add-failed-results-windows-latest.outputs.results-windows-latest }}
 
     steps:
       - name: Checkout testing directory 🔖
@@ -231,23 +237,19 @@ jobs:
           name: appium-test-accounts
           path: ./tests/fixtures/users/
 
-      - if: always() && matrix.os == 'macos-latest' && steps.test-execution-macos-latest.outcome != 'success'
-        name: Add results output for failed on macos-latest
-        id: add-failed-results-macos-latest
-        run: echo "results-macos-latest=failed" >> "$GITHUB_OUTPUT"
-
-      - if: always() && matrix.os == 'windows-latest' && steps.test-execution-windows-latest.outcome != 'success'
-        name: Add results output for failed on windows-latest
-        id: add-failed-results-windows-latest
-        run: echo "results-windows-latest=failed" >> "$GITHUB_OUTPUT"
+      - name: Add label if any of test jobs failed
+        if: failure()
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            Failed Automated Test
+          type: add
 
   test-chats:
     if: always()
     needs: test
     runs-on: macos-latest
-    outputs:
-      results-ChatUserA: ${{ steps.add-failed-results-ChatUserA.outputs.results-ChatUserA }}
-      results-ChatUserB: ${{ steps.add-failed-results-ChatUserB.outputs.results-ChatUserB }}
     strategy:
       fail-fast: true
       matrix:
@@ -340,27 +342,8 @@ jobs:
           name: appium-log-${{ matrix.user }}
           path: ./appium.log
 
-      - if: always() && matrix.user == 'ChatUserA' && steps.test-execution-ChatUserA.outcome != 'success'
-        name: Add results output for failed on ChatUserA
-        id: add-failed-results-ChatUserA
-        run: echo "results-ChatUserA=failed" >> "$GITHUB_OUTPUT"
-
-      - if: always() && matrix.user == 'ChatUserB' && steps.test-execution-ChatUserB.outcome != 'success'
-        name: Add results output for failed on ChatUserB
-        id: add-failed-results-ChatUserB
-        run: echo "results-ChatUserB=failed" >> "$GITHUB_OUTPUT"
-
-  add-label:
-    needs: [test, test-chats]
-    if: always()
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
-
-      - if: needs.test.outputs.results-macos-latest == 'failed' || needs.test.outputs.results-windows-latest == 'failed' || needs.test-chats.outputs.results-ChatUserA == 'failed' || needs.test-chats.outputs.results-ChatUserB == 'failed'
-        name: Add label if any of test jobs failed
+      - name: Add label if any of test jobs failed
+        if: failure()
         uses: buildsville/add-remove-label@v2.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -369,7 +352,7 @@ jobs:
           type: add
 
   remove-artifacts:
-    needs: [test, test-chats]
+    needs: [build-app, test, test-chats]
     runs-on: ubuntu-latest
 
     steps:
