@@ -249,7 +249,7 @@ jobs:
       results-ChatUserA: ${{ steps.add-failed-results-ChatUserA.outputs.results-ChatUserA }}
       results-ChatUserB: ${{ steps.add-failed-results-ChatUserB.outputs.results-ChatUserB }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         user: ["ChatUserA", "ChatUserB"]
         include:
