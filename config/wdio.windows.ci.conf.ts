@@ -24,6 +24,9 @@ config.capabilities = [
     "appium:automationName": "windows",
     "appium:app": join(process.cwd(), "\\apps\\uplink.exe"),
     "ms:waitForAppLaunch": 40,
+    "appium:prerun": {
+      command: 'If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }',
+    },
   },
 ];
 
