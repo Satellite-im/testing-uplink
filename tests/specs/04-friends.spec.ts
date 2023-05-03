@@ -1,7 +1,8 @@
 import { resetAndLoginWithCache } from "../helpers/commands";
-import ChatScreen from "../screenobjects/ChatScreen";
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import ChatsLayout from "../screenobjects/chats/ChatsLayout";
+import FriendsScreen from "../screenobjects/friends/FriendsScreen";
+import InputBar from "../screenobjects/chats/InputBar";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function friends() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
@@ -117,13 +118,13 @@ export default async function friends() {
     await FriendsScreen.chatWithFriend(friendName);
 
     //Validate Chat Screen is displayed and go back to Friends Screen
-    await ChatScreen.waitForIsShown(true);
+    await ChatsLayout.waitForIsShown(true);
   });
 
   it("Type a message and return to Friends Screen", async () => {
-    await ChatScreen.typeMessageOnInput("testing...");
-    await ChatScreen.clearInputBar();
-    await ChatScreen.goToFriends();
+    await InputBar.typeMessageOnInput("testing...");
+    await InputBar.clearInputBar();
+    await ChatsLayout.goToFriends();
     await FriendsScreen.waitForIsShown(true);
   });
 
@@ -293,12 +294,12 @@ export default async function friends() {
 
     // Select first option "Chat" from Context Menu and validate Chat is displayed
     await FriendsScreen.contextMenuOption[0].click();
-    await ChatScreen.waitForIsShown(true);
-    await ChatScreen.typeMessageOnInput("testing...");
-    await ChatScreen.clearInputBar();
+    await ChatsLayout.waitForIsShown(true);
+    await InputBar.typeMessageOnInput("testing...");
+    await InputBar.clearInputBar();
 
     // Go back to Friends Screen
-    await ChatScreen.goToFriends();
+    await ChatsLayout.goToFriends();
     await FriendsScreen.waitForIsShown(true);
   });
 
@@ -313,9 +314,9 @@ export default async function friends() {
     // Validate that username and user image bubble is now displayed on Favorites Sidebar
     await FriendsScreen.favorites.waitForDisplayed();
     // Favorites Sidebar should be displayed
-    await expect(ChatScreen.favoritesUserImage).toBeDisplayed();
-    await expect(ChatScreen.favoritesUserIndicatorOffline).toBeDisplayed();
-    await expect(ChatScreen.favoritesUserName).toHaveTextContaining(
+    await expect(ChatsLayout.favoritesUserImage).toBeDisplayed();
+    await expect(ChatsLayout.favoritesUserIndicatorOffline).toBeDisplayed();
+    await expect(ChatsLayout.favoritesUserName).toHaveTextContaining(
       friendName.toUpperCase()
     );
   });

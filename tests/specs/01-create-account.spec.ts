@@ -1,7 +1,7 @@
-import { maximizeWindow, resetApp } from "../helpers/commands";
-import CreatePinScreen from "../screenobjects/CreatePinScreen";
-import CreateUserScreen from "../screenobjects/CreateUserScreen";
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import { maximizeWindow } from "../helpers/commands";
+import CreatePinScreen from "../screenobjects/account-creation/CreatePinScreen";
+import CreateUserScreen from "../screenobjects/account-creation/CreateUserScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function createAccount() {
   it("Validate warning texts are displayed on screen", async () => {

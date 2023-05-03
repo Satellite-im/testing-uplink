@@ -1,5 +1,5 @@
-import SettingsDeveloperScreen from "../screenobjects/SettingsDeveloperScreen";
-import SettingsNotificationsScreen from "../screenobjects/SettingsNotificationsScreen";
+import SettingsDeveloperScreen from "../screenobjects/settings/SettingsDeveloperScreen";
+import SettingsNotificationsScreen from "../screenobjects/settings/SettingsNotificationsScreen";
 
 export default async function settingsDeveloper() {
   it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {

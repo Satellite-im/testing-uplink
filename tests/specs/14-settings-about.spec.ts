@@ -1,5 +1,5 @@
-import SettingsDeveloperScreen from "../screenobjects/SettingsDeveloperScreen";
-import SettingsAboutScreen from "../screenobjects/SettingsAboutScreen";
+import SettingsDeveloperScreen from "../screenobjects/settings/SettingsDeveloperScreen";
+import SettingsAboutScreen from "../screenobjects/settings/SettingsAboutScreen";
 
 export default async function settingsAbout() {
   it("Settings About - Validate header and description texts from settings sections", async () => {

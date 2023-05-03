@@ -4,8 +4,8 @@ import {
   resetApp,
   saveTestKeys,
 } from "../helpers/commands";
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
 
 export default async function createReusableAccounts() {
   it("Create ChatUserA reusable account", async () => {

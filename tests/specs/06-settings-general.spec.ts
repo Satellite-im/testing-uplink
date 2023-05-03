@@ -1,5 +1,5 @@
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
 
 export default async function settingsGeneral() {
   it("Settings General - Validate header and description texts are correct", async () => {

@@ -1,4 +1,4 @@
-import { clickOnSwitchMacOS } from "../helpers/commands";
+import { clickOnSwitchMacOS } from "../../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
 const currentOS = driver.capabilities.automationName;

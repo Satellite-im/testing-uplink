@@ -5,8 +5,8 @@ import {
   saveFileOnWindows,
   selectFileOnMacos,
   selectFileOnWindows,
-} from "../helpers/commands";
-import UplinkMainScreen from "./UplinkMainScreen";
+} from "../../helpers/commands";
+import UplinkMainScreen from "../UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};

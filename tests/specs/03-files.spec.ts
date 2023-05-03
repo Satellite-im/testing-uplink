@@ -1,5 +1,5 @@
-import FilesScreen from "../screenobjects/FilesScreen";
-import FriendsScreen from "../screenobjects/FriendsScreen";
+import FilesScreen from "../screenobjects/files/FilesScreen";
+import FriendsScreen from "../screenobjects/friends/FriendsScreen";
 
 export default async function files() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {

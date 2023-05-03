@@ -1,7 +1,7 @@
-import CreatePinScreen from "../screenobjects/CreatePinScreen";
-import CreateUserScreen from "../screenobjects/CreateUserScreen";
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import CreatePinScreen from "../screenobjects/account-creation/CreatePinScreen";
+import CreateUserScreen from "../screenobjects/account-creation/CreateUserScreen";
+import FriendsScreen from "../screenobjects/friends/FriendsScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { faker } from "@faker-js/faker";
 import { homedir } from "os";
 import { join } from "path";

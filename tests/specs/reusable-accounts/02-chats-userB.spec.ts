@@ -1,9 +1,14 @@
 import { loginWithTestUser } from "../../helpers/commands";
-import ChatScreen from "../../screenobjects/ChatScreen";
-import FriendsScreen from "../../screenobjects/FriendsScreen";
-import WelcomeScreen from "../../screenobjects/WelcomeScreen";
+import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
+import ContextMenu from "../../screenobjects/chats/ContextMenu";
+import InputBar from "../../screenobjects/chats/InputBar";
+import Messages from "../../screenobjects/chats/Messages";
+import ReplyPrompt from "../../screenobjects/chats/ReplyPrompt";
+import Topbar from "../../screenobjects/chats/Topbar";
+import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
+import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
 
-xdescribe("Two users at the same time - Chat User B", async () => {
+describe("Two users at the same time - Chat User B", async () => {
   it("Load Chat User B account and go to Friends Screen", async () => {
     // Go to Friends Screen
     await loginWithTestUser();
@@ -25,39 +30,39 @@ xdescribe("Two users at the same time - Chat User B", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await FriendsScreen.chatWithFriendButton.waitForExist();
     await FriendsScreen.chatWithFriendButton.click();
-    await ChatScreen.waitForIsShown(true);
+    await ChatsLayout.waitForIsShown(true);
 
     // Wait until Chat User A is online
-    await ChatScreen.topbarIndicatorOnline.waitForDisplayed({
+    await Topbar.topbarIndicatorOnline.waitForDisplayed({
       timeout: 240000,
     });
   });
 
   it("Assert message received from Chat User A", async () => {
-    await ChatScreen.chatMessage.waitForDisplayed({ timeout: 30000 });
-    const textFromMessage = await ChatScreen.getLastMessageReceivedText();
+    await Messages.chatMessage.waitForDisplayed({ timeout: 30000 });
+    const textFromMessage = await Messages.getLastMessageReceivedText();
     await expect(textFromMessage).toHaveTextContaining("testing...");
   });
 
   it("Validate Chat Message received contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const lastMessage = await ChatScreen.getLastMessageReceivedLocator();
+    const lastMessage = await Messages.getLastMessageReceivedLocator();
     await expect(lastMessage).toBeDisplayed();
   });
 
   it("Validate Chat Message Group from remote user displays username picture and online indicator", async () => {
     //Your user image should be displayed next to the message
-    const userImage = await ChatScreen.getLastGroupWrapImage();
+    const userImage = await Messages.getLastGroupWrapImage();
     await expect(userImage).toExist();
 
     //Online indicator of your user should be displayed next to the image
-    const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
+    const onlineIndicator = await Messages.getLastGroupWrapOnline();
     await expect(onlineIndicator).toExist();
   });
 
   it("Validate Chat Message received displays timestamp and user who sent it", async () => {
     //Timestamp should be displayed when you send a message
-    const timeAgo = await ChatScreen.getLastMessageReceivedTimeAgo();
+    const timeAgo = await Messages.getLastMessageReceivedTimeAgo();
     await expect(timeAgo).toHaveText(
       /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
@@ -65,51 +70,53 @@ xdescribe("Two users at the same time - Chat User B", async () => {
   });
 
   it("Reply popup - Validate contents and close it", async () => {
-    await ChatScreen.openContextMenuOnReceivedMessage();
-    await ChatScreen.selectContextOption(0);
+    await Messages.openContextMenuOnReceivedMessage();
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.selectContextOption(0);
 
     // Validate contents of Reply Pop Up
-    await expect(ChatScreen.replyPopUp).toBeDisplayed();
-    await expect(ChatScreen.replyPopUpCloseButton).toBeDisplayed();
-    await expect(ChatScreen.replyPopUpHeader).toHaveTextContaining(
+    await expect(ReplyPrompt.replyPopUp).toBeDisplayed();
+    await expect(ReplyPrompt.replyPopUpCloseButton).toBeDisplayed();
+    await expect(ReplyPrompt.replyPopUpHeader).toHaveTextContaining(
       "REPLYING TO:"
     );
-    await expect(ChatScreen.replyPopUpIndicatorOnline).toBeDisplayed();
+    await expect(ReplyPrompt.replyPopUpIndicatorOnline).toBeDisplayed();
     await expect(
-      ChatScreen.replyPopUpRemoteTextToReplyValue
+      ReplyPrompt.replyPopUpRemoteTextToReplyValue
     ).toHaveTextContaining("testing...");
-    await expect(ChatScreen.replyPopUpUserImage).toBeDisplayed();
+    await expect(ReplyPrompt.replyPopUpUserImage).toBeDisplayed();
 
-    await ChatScreen.closeReplyModal();
-    await ChatScreen.waitForReplyModalToNotExist();
+    await ReplyPrompt.closeReplyModal();
+    await ReplyPrompt.waitForReplyModalToNotExist();
   });
 
   it("Reply - Reply to a message", async () => {
-    await ChatScreen.openContextMenuOnReceivedMessage();
-    await ChatScreen.selectContextOption(0);
+    await Messages.openContextMenuOnReceivedMessage();
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.selectContextOption(0);
 
     // Type a reply and sent it
-    await ChatScreen.replyPopUp.waitForDisplayed();
-    await ChatScreen.typeMessageOnInput("this is a reply");
-    await ChatScreen.clickOnSendMessage();
-    await ChatScreen.waitForReplyModalToNotExist();
+    await ReplyPrompt.replyPopUp.waitForDisplayed();
+    await InputBar.typeMessageOnInput("this is a reply");
+    await InputBar.clickOnSendMessage();
+    await ReplyPrompt.waitForReplyModalToNotExist();
   });
 
   it("Send Reply - Validate reply message group reply and message replied", async () => {
     // Validate message replied appears smaller above your reply
-    const replySent = await ChatScreen.getLastReplySent();
-    const replySentText = await ChatScreen.getLastReplySentText();
+    const replySent = await Messages.getLastReplySent();
+    const replySentText = await Messages.getLastReplySentText();
     await expect(replySent).toBeDisplayed();
     await expect(replySentText).toHaveTextContaining("testing...");
 
     // Validate reply message sent appears as last message
-    const textFromMessage = await ChatScreen.getLastMessageSentText();
+    const textFromMessage = await Messages.getLastMessageSentText();
     await expect(textFromMessage).toHaveTextContaining("this is a reply");
   });
 
   it("Send Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
-    const timeAgo = await ChatScreen.getLastMessageSentTimeAgo();
+    const timeAgo = await Messages.getLastMessageSentTimeAgo();
     await expect(timeAgo).toHaveText(
       /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
@@ -118,20 +125,20 @@ xdescribe("Two users at the same time - Chat User B", async () => {
 
   it("Send Reply - Validate reply message group contains user image and online indicator", async () => {
     //Your user image should be displayed next to the message
-    const userImage = await ChatScreen.getLastGroupWrapImage();
+    const userImage = await Messages.getLastGroupWrapImage();
     await expect(userImage).toExist();
 
     //Online indicator of your user should be displayed next to the image
-    const onlineIndicator = await ChatScreen.getLastGroupWrapOnline();
+    const onlineIndicator = await Messages.getLastGroupWrapOnline();
     await expect(onlineIndicator).toExist();
   });
 
   it("Chats - Received Message with Attachment - Text Message contents", async () => {
-    await ChatScreen.chatMessageFileEmbedRemote.waitForDisplayed({
+    await Messages.chatMessageFileEmbedRemote.waitForDisplayed({
       timeout: 240000,
     });
     // Validate text from message containing attachment
-    const textFromMessage = await ChatScreen.getLastMessageReceivedText();
+    const textFromMessage = await Messages.getLastMessageReceivedText();
     await expect(textFromMessage).toHaveTextContaining(
       "message with attachment"
     );
@@ -139,37 +146,37 @@ xdescribe("Two users at the same time - Chat User B", async () => {
 
   it("Chats - Received Message with Attachment - File Metadata", async () => {
     // Validate file metadata is displayed correctly on last chat message sent
-    const fileMeta = await ChatScreen.getLastMessageReceivedFileMeta();
+    const fileMeta = await Messages.getLastMessageReceivedFileMeta();
     await expect(fileMeta).toHaveTextContaining("7.75 kB");
   });
 
   it("Chats - Received Message with Attachment - File Name", async () => {
     // Validate filename is displayed correctly on last chat message sent
-    const fileName = await ChatScreen.getLastMessageReceivedFileName();
+    const fileName = await Messages.getLastMessageReceivedFileName();
     await expect(fileName).toHaveTextContaining("logo.jpg");
   });
 
   it("Chats - Received Message with Attachment - File Icon", async () => {
     // Validate file icon is displayed correctly on last chat message sent
-    const fileIcon = await ChatScreen.getLastMessageReceivedFileIcon();
+    const fileIcon = await Messages.getLastMessageReceivedFileIcon();
     await expect(fileIcon).toBeDisplayed();
   });
 
   it("Chats - Received Message with Attachment - Download Button", async () => {
     // Validate file download button is displayed correctly on last chat message sent
     const fileDownloadButton =
-      await ChatScreen.getLastMessageReceivedDownloadButton();
+      await Messages.getLastMessageReceivedDownloadButton();
     await expect(fileDownloadButton).toBeDisplayed();
   });
 
   xit("Chats - Validate that second message was edited", async () => {
     // Validate that last message is "edited"
-    await ChatScreen.waitForReceivingMessage("edited...", 240000);
+    await Messages.waitForReceivingMessage("edited...", 240000);
   });
 
   it("Validate that only deleted message is no longer in conversation", async () => {
     // Ensure that message three was deleted
-    await ChatScreen.waitForMessageToBeDeleted("message three", 30000);
+    await Messages.waitForMessageToBeDeleted("message three", 30000);
   });
 
   after(async () => {

@@ -1,7 +1,7 @@
-import FriendsScreen from "../screenobjects/FriendsScreen";
-import SettingsGeneralScreen from "../screenobjects/SettingsGeneralScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
+import FriendsScreen from "../screenobjects/friends/FriendsScreen";
+import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function chats() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {

@@ -2,8 +2,8 @@ import {
   getClipboardMacOS,
   rightClickOnMacOS,
   rightClickOnWindows,
-} from "../helpers/commands";
-import UplinkMainScreen from "./UplinkMainScreen";
+} from "../../helpers/commands";
+import UplinkMainScreen from "../UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
 const robot = require("robotjs");

@@ -4,7 +4,7 @@ import {
   hoverOnWindows,
   selectFileOnMacos,
   selectFileOnWindows,
-} from "../helpers/commands";
+} from "../../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
 const currentOS = driver.capabilities.automationName;

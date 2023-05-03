@@ -1,8 +1,10 @@
 //import { resetAndLoginWithCache } from "../../helpers/commands";
 import { grabCacheFolder, loginWithTestUser } from "../../helpers/commands";
-import ChatScreen from "../../screenobjects/ChatScreen";
-import FriendsScreen from "../../screenobjects/FriendsScreen";
-import WelcomeScreen from "../../screenobjects/WelcomeScreen";
+import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
+import InputBar from "../../screenobjects/chats/InputBar";
+import Topbar from "../../screenobjects/chats/Topbar";
+import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
+import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
 import { faker } from "@faker-js/faker";
 const userToTestWith = "ChatUserB";
 
@@ -19,8 +21,8 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Open a Chat conversation with ChatUserA", async () => {
     await FriendsScreen.chatWithFriend("ChatUserA");
-    await ChatScreen.waitForIsShown(true);
-    await ChatScreen.topbarIndicatorOnline.waitForDisplayed({
+    await ChatsLayout.waitForIsShown(true);
+    await Topbar.topbarIndicatorOnline.waitForDisplayed({
       timeout: 240000,
     });
   });
@@ -29,68 +31,68 @@ describe("Two users at the same time - Chat User A", async () => {
     const message = faker.lorem.sentence(5);
     it("Chats - Send multiple messages to ChatUserA", async () => {
       // Code
-      await ChatScreen.typeMessageOnInput(message);
-      await ChatScreen.clickOnSendMessage();
+      await InputBar.typeMessageOnInput(message);
+      await InputBar.clickOnSendMessage();
     });
   }
 
   /*it("Open a Chat conversation with ChatUserC", async () => {
-    await ChatScreen.goToFriends();
+    await ChatsLayout.goToFriends();
     await FriendsScreen.waitForIsShown(true);
     await FriendsScreen.chatWithFriend("ChatUserC");
-    await ChatScreen.waitForIsShown(true);
+    await ChatsLayout.waitForIsShown(true);
   });
 
   for (let i = 0; i < 100; i++) {
     const message = faker.lorem.sentence(5);
     it("Chats - Send multiple messages to ChatUserC", async () => {
-      await ChatScreen.typeMessageOnInput(message);
-      await ChatScreen.clickOnSendMessage();
+      await InputBar.typeMessageOnInput(message);
+      await InputBar.clickOnSendMessage();
     });
   }
 
   it("Open a Chat conversation with ChatUserD", async () => {
-    await ChatScreen.goToFriends();
+    await ChatsLayout.goToFriends();
     await FriendsScreen.waitForIsShown(true);
     await FriendsScreen.chatWithFriend("ChatUserD");
-    await ChatScreen.waitForIsShown(true);
+    await ChatsLayout.waitForIsShown(true);
   });
 
   for (let i = 0; i < 100; i++) {
     const message = faker.lorem.sentence(5);
     it("Chats - Send multiple messages to ChatUserD", async () => {
-      await ChatScreen.typeMessageOnInput(message);
-      await ChatScreen.clickOnSendMessage();
+      await InputBar.typeMessageOnInput(message);
+      await InputBar.clickOnSendMessage();
     });
   }
 
   it("Open a Chat conversation with ChatUserE", async () => {
-    await ChatScreen.goToFriends();
+    await ChatsLayout.goToFriends();
     await FriendsScreen.waitForIsShown(true);
     await FriendsScreen.chatWithFriend("ChatUserE");
-    await ChatScreen.waitForIsShown(true);
+    await ChatsLayout.waitForIsShown(true);
   });
 
   for (let i = 0; i < 100; i++) {
     const message = faker.lorem.sentence(5);
     it("Chats - Send multiple messages to ChatUserE", async () => {
-      await ChatScreen.typeMessageOnInput(message);
-      await ChatScreen.clickOnSendMessage();
+      await InputBar.typeMessageOnInput(message);
+      await InputBar.clickOnSendMessage();
     });
   }
 
   it("Open a Chat conversation with ChatUserF", async () => {
-    await ChatScreen.goToFriends();
+    await ChatsLayout.goToFriends();
     await FriendsScreen.waitForIsShown(true);
     await FriendsScreen.chatWithFriend("ChatUserF");
-    await ChatScreen.waitForIsShown(true);
+    await ChatsLayout.waitForIsShown(true);
   });
 
   for (let i = 0; i < 100; i++) {
     const message = faker.lorem.sentence(5);
     it("Chats - Send multiple messages to ChatUserF", async () => {
-      await ChatScreen.typeMessageOnInput(message);
-      await ChatScreen.clickOnSendMessage();
+      await InputBar.typeMessageOnInput(message);
+      await InputBar.clickOnSendMessage();
     });
   }
 
@@ -98,32 +100,32 @@ describe("Two users at the same time - Chat User A", async () => {
     const locator =
       '//XCUIElementTypeGroup[@label="Chats"]//XCUIElementTypeGroup[@label="Username"]';
     await $$(locator)[0].click();
-    await ChatScreen.waitForIsShown(true);
+    await ChatsLayout.waitForIsShown(true);
     await browser.pause(15000);
   });
 
   for (let i = 0; i < 100; i++) {
     const message = faker.lorem.sentence(5);
     it("Chats - Send multiple messages to First Group", async () => {
-      await ChatScreen.typeMessageOnInput(message);
-      await ChatScreen.clickOnSendMessage();
+      await InputBar.typeMessageOnInput(message);
+      await InputBar.clickOnSendMessage();
     });
   }
 
   it("Open a Chat conversation with Second Group", async () => {
-    await ChatScreen.goToFriends();
+    await ChatsLayout.goToFriends();
     await FriendsScreen.waitForIsShown(true);
     const locator =
       '//XCUIElementTypeGroup[@label="Chats"]//XCUIElementTypeGroup[@label="Username"]';
     await $$(locator)[6].click();
-    await ChatScreen.waitForIsShown(true);
+    await ChatsLayout.waitForIsShown(true);
   });
 
   for (let i = 0; i < 100; i++) {
     const message = faker.lorem.sentence(5);
     it("Chats - Send multiple messages to Second Group", async () => {
-      await ChatScreen.typeMessageOnInput(message);
-      await ChatScreen.clickOnSendMessage();
+      await InputBar.typeMessageOnInput(message);
+      await InputBar.clickOnSendMessage();
     });
   }*/
 

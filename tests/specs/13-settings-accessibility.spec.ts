@@ -1,5 +1,5 @@
-import SettingsExtensionsScreen from "../screenobjects/SettingsExtensionsScreen";
-import SettingsAccessibilityScreen from "../screenobjects/SettingsAccessibilityScreen";
+import SettingsExtensionsScreen from "../screenobjects/settings/SettingsExtensionsScreen";
+import SettingsAccessibilityScreen from "../screenobjects/settings/SettingsAccessibilityScreen";
 
 export default async function settingsAccessibility() {
   it("Settings Accessibility - Assert screen texts", async () => {
