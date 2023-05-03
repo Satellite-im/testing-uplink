@@ -1,20 +1,102 @@
 name: UI Tests on Windows and MacOS 🧪
 
 on:
+  schedule:
+    - cron: "0 0/6 * * 1-5"
   pull_request:
     types: [opened, synchronize, reopened, edited]
-  workflow_run:
-    workflows: [Build App Windows and MacOS 🧪]
-    types:
-      - completed
   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  CARGO_TERM_COLOR: always
+
 jobs:
+  build-app:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+        include:
+          - os: macos-latest
+            build-instruction: make unsigned-dmg
+          - os: windows-latest
+            build-instruction: cargo build --release --package uplink -F production_mode
+    runs-on:
+      labels: ${{ matrix.os }}
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+        with:
+          repository: Satellite-im/Uplink
+
+      - name: Set up cargo cache 🛠️
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.68.2
+          override: true
+          components: rustfmt, clippy
+
+      - name: Install Protobuf 💿
+        uses: arduino/setup-protoc@v1
+        with:
+          repo-token: ${{env.GITHUB_TOKEN}}
+
+      - if: matrix.os == 'macos-latest'
+        name: Add Targets for MacOS
+        env:
+          MACOSX_DEPLOYMENT_TARGET: "10.13"
+        run: |
+          rustup target add x86_64-apple-darwin aarch64-apple-darwin
+
+      - name: Run cargo update 🌐
+        run: cargo update
+
+      - name: Build executable 🖥️
+        run: ${{ matrix.build-instruction }}
+        continue-on-error: true
+
+      - if: matrix.os == 'macos-latest'
+        name: Create ZIP archive on MacOS 🗳️
+        run: |
+          ditto -c -k --sequesterRsrc --keepParent target/macos_bundle/Uplink.app Uplink-Mac-Universal.zip
+
+      - if: matrix.os == 'windows-latest'
+        name: Create ZIP archive on Windows 🗳️
+        run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
+
+      - if: matrix.os == 'macos-latest'
+        name: Calculate hashes 🧮
+        run: |
+          shasum -a 256 Uplink-Mac-Universal.zip > Uplink-Mac-Universal.zip.sha256.txt
+
+      - if: matrix.os == 'macos-latest'
+        name: Upload Artifact ⬆️
+        uses: actions/upload-artifact@v3
+        env:
+          NODE_OPTIONS: "--max-old-space-size=8192"
+        with:
+          name: Uplink-macos-latest
+          path: |
+            Uplink-Mac-Universal.zip
+            Uplink-Mac-Universal.zip.sha256.txt
+
+      - if: matrix.os == 'windows-latest'
+        name: Upload Executable ⬆️
+        uses: actions/upload-artifact@v3
+        with:
+          name: Uplink-windows-latest
+          path: uplinkWindows.zip
+
   test:
+    needs: build-app
     strategy:
       fail-fast: false
       matrix:
@@ -45,12 +127,22 @@ jobs:
         shell: powershell
 
       - if: matrix.os == 'macos-latest'
-        name: Enable opening app not codesigned 🖥️
-        run: sudo spctl --master-disable
+        name: Download the MacOS app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-macos-latest
+          path: ./apps
+
+      - if: matrix.os == 'windows-latest'
+        name: Download the Windows app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-windows-latest
+          path: ./apps
 
       - if: matrix.os == 'macos-latest'
-        name: Remove all notifications before starting tests 🖥️
-        run: killall NotificationCenter
+        name: Enable opening app not codesigned 🖥️
+        run: sudo spctl --master-disable
 
       - if: matrix.os == 'macos-latest'
         name: Copy DMG to Appium Apps Directory 💿
