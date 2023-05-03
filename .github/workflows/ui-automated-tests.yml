@@ -386,3 +386,13 @@ jobs:
         uses: geekyeggo/delete-artifact@v2
         with:
           name: appium-test-accounts
+
+      - name: Delete app Windows
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: Uplink-windows-latest
+
+      - name: Delete app MacOS
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: Uplink-macos-latest
