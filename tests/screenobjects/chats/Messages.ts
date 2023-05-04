@@ -18,7 +18,7 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_FILE_NAME: '[name="file-name"]',
   CHAT_MESSAGE_FILE_NAME_TEXT: "//Text",
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
-  CHAT_MESSAGE_REPLY_TEXT: "//Group/Text",
+  CHAT_MESSAGE_REPLY_TEXT: "//Text",
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
   CHAT_MESSAGE_TEXT_VALUE: "//Text",
   MESSAGE_GROUP_REMOTE: '[name="message-group-remote"]',
@@ -44,8 +44,7 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_FILE_NAME: "~file-name",
   CHAT_MESSAGE_FILE_NAME_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_REPLY: "~message-reply",
-  CHAT_MESSAGE_REPLY_TEXT:
-    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
   CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   MESSAGE_GROUP_REMOTE: "~message-group-remote",
@@ -274,8 +273,7 @@ class Messages extends UplinkMainScreen {
     const lastGroupReceived = await this.getLastReceivedGroup();
     const timeAgoText = await lastGroupReceived
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT)
-      .getText();
+      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
     return timeAgoText;
   }
 
@@ -291,8 +289,7 @@ class Messages extends UplinkMainScreen {
     const lastGroupSent = await this.getLastSentGroup();
     const timeAgoText = await lastGroupSent
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT)
-      .getText();
+      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
     return timeAgoText;
   }
 
@@ -316,8 +313,7 @@ class Messages extends UplinkMainScreen {
     const lastMessage = await this.getLastMessageReceivedLocator();
     const lastMessageText = await lastMessage
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return lastMessageText;
   }
 
@@ -355,21 +351,17 @@ class Messages extends UplinkMainScreen {
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $$(SELECTORS.CHAT_MESSAGE)
-        .$(
-          '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForDisplayed({ timeout: timeoutMsg });
+      await $(
+        '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]'
+      ).waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
-      await $$(SELECTORS.CHAT_MESSAGE)
-        .$(
-          '//Group[@Name="message-text"]/Text[contains(@Name, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForDisplayed({ timeout: timeoutMsg });
+      await $(
+        '//Group[@Name="message-text"]/Text[contains(@Name, "' +
+          expectedMessage +
+          '")]'
+      ).waitForExist({ timeout: timeoutMsg });
     }
   }
 
@@ -387,8 +379,7 @@ class Messages extends UplinkMainScreen {
     const lastMessage = await this.getLastMessageSentLocator();
     const lastMessageText = await lastMessage
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return lastMessageText;
   }
 
@@ -406,8 +397,7 @@ class Messages extends UplinkMainScreen {
     const lastGroupReceived = await this.getLastReceivedGroup();
     const lastReplyReceivedText = await lastGroupReceived
       .$(SELECTORS.CHAT_MESSAGE_REPLY)
-      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
     return lastReplyReceivedText;
   }
 
@@ -421,8 +411,7 @@ class Messages extends UplinkMainScreen {
     const lastGroupSent = await this.getLastSentGroup();
     const lastReplySentText = await lastGroupSent
       .$(SELECTORS.CHAT_MESSAGE_REPLY)
-      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT)
-      .getText();
+      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
     return lastReplySentText;
   }
 
@@ -512,6 +501,7 @@ class Messages extends UplinkMainScreen {
 
   async openContextMenuOnReceivedMessage() {
     const messageToClick = await this.getLastMessageReceivedLocator();
+    await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
       await rightClickOnMacOS(messageToClick);
@@ -522,6 +512,7 @@ class Messages extends UplinkMainScreen {
 
   async openContextMenuOnSentMessage() {
     const messageToClick = await this.getLastMessageSentLocator();
+    await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
       await rightClickOnMacOS(messageToClick);

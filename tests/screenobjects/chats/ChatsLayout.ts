@@ -8,12 +8,12 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
-  ENCRYPTED_MESSAGES_TEXT: "//Group[3]/Group/Text",
+  ENCRYPTED_MESSAGES_TEXT: '//Text[contains(@Name, "Messages are secured")]',
 };
 
 const SELECTORS_MACOS = {
   ENCRYPTED_MESSAGES_TEXT:
-    "-ios class chain:**/XCUIElementTypeGroup[3]/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+    '//XCUIElementTypeStaticText[contains(@value, "Messages are secured")]',
 };
 
 currentOS === "windows"

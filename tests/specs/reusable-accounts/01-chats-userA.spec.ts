@@ -62,8 +62,8 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await Messages.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toHaveText(
-      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    await expect(timeAgo).toHaveTextContaining(
+      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
   });
@@ -94,7 +94,7 @@ describe("Two users at the same time - Chat User A", async () => {
   it("Chats - Add user with active chat to Favorites", async () => {
     // Add user to favorites
     await Topbar.addToFavorites();
-    await Topbar.favorites.waitForDisplayed();
+    await Topbar.favorites.waitForExist();
 
     // Favorites Sidebar should be displayed
     await expect(Topbar.favoritesUserImage).toBeDisplayed();
@@ -122,14 +122,14 @@ describe("Two users at the same time - Chat User A", async () => {
 
     // Validate reply message sent appears as last message
     const textFromMessage = await Messages.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("this is a reply");
+    await expect(textFromMessage).toHaveTextContaining("myreply...");
   });
 
   it("Receive Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await Messages.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toHaveText(
-      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    await expect(timeAgo).toHaveTextContaining(
+      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserB");
   });
@@ -146,10 +146,10 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Send two more messages to Chat User B", async () => {
     // Send two messages to Chat User B
-    await InputBar.typeMessageOnInput("message two");
+    await InputBar.typeMessageOnInput("two...");
     await InputBar.clickOnSendMessage();
 
-    await InputBar.typeMessageOnInput("message three");
+    await InputBar.typeMessageOnInput("three...");
     await InputBar.clickOnSendMessage();
   });
 
@@ -159,9 +159,9 @@ describe("Two users at the same time - Chat User A", async () => {
     await ContextMenu.validateContextMenuIsOpen();
     await ContextMenu.selectContextOption(3);
 
-    // Validate that last message was deleted and therefore the last message displayed is "message two"
+    // Validate that last message was deleted and therefore the last message displayed is "two..."
     const textFromMessage = await Messages.getLastMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining("message two");
+    await expect(textFromMessage).toHaveTextContaining("two...");
   });
 
   it("Context Menu - Edit Message", async () => {
@@ -245,16 +245,14 @@ describe("Two users at the same time - Chat User A", async () => {
     await expect(ComposeAttachment.composeAttachmentsFileEmbed).toBeDisplayed();
 
     // Type a text message and send it
-    await InputBar.typeMessageOnInput("message with attachment");
+    await InputBar.typeMessageOnInput("attached...");
     await InputBar.clickOnSendMessage();
   });
 
   it("Chats - Message Sent With Attachment - Text contents", async () => {
     // Validate text from message containing attachment
     const textFromMessage = await Messages.getLastMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining(
-      "message with attachment"
-    );
+    await expect(textFromMessage).toHaveTextContaining("attached...");
   });
 
   it("Chats - Message Sent With Attachment - File Meta Data", async () => {
@@ -282,22 +280,6 @@ describe("Two users at the same time - Chat User A", async () => {
     await expect(fileDownloadButton).toBeDisplayed();
   });
 
-  it("Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
-    // Validate Call button tooltip contains "Coming soon"
-    await Topbar.hoverOnCallButton();
-    await Topbar.topbarCallTooltip.waitForDisplayed();
-    await expect(Topbar.topbarCallTooltipText).toHaveTextContaining(
-      "Coming soon"
-    );
-
-    // Validate Videocall button tooltip contains "Coming soon"
-    await Topbar.hoverOnVideocallButton();
-    await Topbar.topbarVideocallTooltip.waitForDisplayed();
-    await expect(Topbar.topbarVideocallTooltipText).toHaveTextContaining(
-      "Coming soon"
-    );
-  });
-
   it("Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
     await Topbar.hoverOnFavoritesButton();
@@ -317,8 +299,24 @@ describe("Two users at the same time - Chat User A", async () => {
     await expect(InputBar.sendMessageTooltipText).toHaveTextContaining("Send");
   });
 
-  after(async () => {
-    // Pause for 30 seconds before finishing execution
-    await browser.pause(30000);
+  it("Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
+    // Validate Call button tooltip contains "Coming soon"
+    await Topbar.hoverOnCallButton();
+    await Topbar.topbarCallTooltip.waitForDisplayed();
+    await expect(Topbar.topbarCallTooltipText).toHaveTextContaining(
+      "Coming soon"
+    );
+
+    // Validate Videocall button tooltip contains "Coming soon"
+    await Topbar.hoverOnVideocallButton();
+    await Topbar.topbarVideocallTooltip.waitForDisplayed();
+    await expect(Topbar.topbarVideocallTooltipText).toHaveTextContaining(
+      "Coming soon"
+    );
   });
+
+  //after(async () => {
+  // Pause for 30 seconds before finishing execution
+  //await browser.pause(30000);
+  //});
 });

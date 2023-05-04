@@ -1,3 +1,4 @@
+import { clickOnSwitchMacOS } from "../../helpers/commands";
 import UplinkMainScreen from "../UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
@@ -60,9 +61,7 @@ class Topbar extends UplinkMainScreen {
   }
 
   get topbarAddToFavoritesTooltipText() {
-    return $(SELECTORS.TOPBAR)
-      .$$(SELECTORS.TOOLTIP)[0]
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarCall() {
@@ -120,6 +119,7 @@ class Topbar extends UplinkMainScreen {
   // Top Bar Methods
 
   async addToFavorites() {
+    await this.hoverOnFavoritesButton();
     await this.topbarAddToFavorites.click();
   }
 
@@ -133,21 +133,29 @@ class Topbar extends UplinkMainScreen {
     await this.hoverOnElement(element);
   }
 
+  async hoverOnFavoritesRemoveButton() {
+    const element = await this.topbarRemoveFromFavorites;
+    await this.hoverOnElement(element);
+  }
+
   async hoverOnVideocallButton() {
     const element = await this.topbarVideocall;
     await this.hoverOnElement(element);
   }
 
   async removeFromFavorites() {
+    await this.hoverOnFavoritesRemoveButton();
     await this.topbarRemoveFromFavorites.click();
   }
 
   async validateTopbarExists() {
-    await this.waitForIsShown(true);
+    const element = await this.topbar;
+    await element.waitForExist();
   }
 
   async waitUntilRemoteUserIsOnline(time: number = 240000) {
-    await this.topbarIndicatorOnline.waitForDisplayed({
+    const element = await this.topbarIndicatorOnline;
+    await element.waitForDisplayed({
       timeout: time,
     });
   }

@@ -6,7 +6,9 @@ import UplinkMainScreen from "../UplinkMainScreen";
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON = {
+  CHAT_LAYOUT: "~chat-layout",
+};
 
 const SELECTORS_WINDOWS = {
   INPUT_GROUP: '[name="input-group"]',
@@ -37,7 +39,7 @@ class InputBar extends UplinkMainScreen {
   }
 
   get inputGroup() {
-    return $(SELECTORS.INPUT_GROUP);
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.INPUT_GROUP);
   }
 
   get inputText() {

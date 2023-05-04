@@ -63,8 +63,8 @@ describe("Two users at the same time - Chat User B", async () => {
   it("Validate Chat Message received displays timestamp and user who sent it", async () => {
     //Timestamp should be displayed when you send a message
     const timeAgo = await Messages.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toHaveText(
-      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    await expect(timeAgo).toHaveTextContaining(
+      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
   });
@@ -97,7 +97,7 @@ describe("Two users at the same time - Chat User B", async () => {
 
     // Type a reply and sent it
     await ReplyPrompt.replyPopUp.waitForDisplayed();
-    await InputBar.typeMessageOnInput("this is a reply");
+    await InputBar.typeMessageOnInput("myreply...");
     await InputBar.clickOnSendMessage();
     await ReplyPrompt.waitForReplyModalToNotExist();
   });
@@ -111,14 +111,14 @@ describe("Two users at the same time - Chat User B", async () => {
 
     // Validate reply message sent appears as last message
     const textFromMessage = await Messages.getLastMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining("this is a reply");
+    await expect(textFromMessage).toHaveTextContaining("myreply...");
   });
 
   it("Send Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await Messages.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toHaveText(
-      /^(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    await expect(timeAgo).toHaveTextContaining(
+      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserB");
   });
@@ -139,9 +139,7 @@ describe("Two users at the same time - Chat User B", async () => {
     });
     // Validate text from message containing attachment
     const textFromMessage = await Messages.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining(
-      "message with attachment"
-    );
+    await expect(textFromMessage).toHaveTextContaining("attached...");
   });
 
   it("Chats - Received Message with Attachment - File Metadata", async () => {
@@ -169,18 +167,18 @@ describe("Two users at the same time - Chat User B", async () => {
     await expect(fileDownloadButton).toBeDisplayed();
   });
 
-  xit("Chats - Validate that second message was edited", async () => {
+  it("Chats - Validate that second message was edited", async () => {
     // Validate that last message is "edited"
     await Messages.waitForReceivingMessage("edited...", 240000);
   });
 
   it("Validate that only deleted message is no longer in conversation", async () => {
-    // Ensure that message three was deleted
-    await Messages.waitForMessageToBeDeleted("message three", 30000);
+    // Ensure that message "three.." was deleted
+    await Messages.waitForMessageToBeDeleted("three...", 30000);
   });
 
-  after(async () => {
-    // Pause for 30 seconds before finishing execution
-    await browser.pause(30000);
-  });
+  //after(async () => {
+  // Pause for 30 seconds before finishing execution
+  //await browser.pause(30000);
+  //});
 });
