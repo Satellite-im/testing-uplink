@@ -113,6 +113,10 @@ class QuickProfile extends UplinkMainScreen {
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE_TEXT);
   }
+
+  async clickOnEditProfile() {
+    await this.quickProfileEditProfile.click();
+  }
 }
 
 export default new QuickProfile();

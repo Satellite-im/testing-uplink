@@ -277,6 +277,18 @@ class Messages extends UplinkMainScreen {
     return timeAgoText;
   }
 
+  async rightClickOnLastReceivedGroup() {
+    const lastGroupReceived = await this.getLastReceivedGroup();
+    const imageOnGroup = await lastGroupReceived.$("/..");
+    await this.hoverOnElement(imageOnGroup);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(imageOnGroup);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(imageOnGroup);
+    }
+  }
+
   // Group Messages Sent Methods
   async getLastSentGroup() {
     const messageGroupsSent = await this.messageGroupSent;
@@ -291,6 +303,18 @@ class Messages extends UplinkMainScreen {
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
     return timeAgoText;
+  }
+
+  async rightClickOnLastSentGroup() {
+    const lastSentGroup = await this.getLastSentGroup();
+    const imageOnGroup = await lastSentGroup.$("/..");
+    await this.hoverOnElement(imageOnGroup);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(imageOnGroup);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(imageOnGroup);
+    }
   }
 
   // Messages Received Methods
@@ -332,15 +356,13 @@ class Messages extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
       await $(
-        '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
+        '//XCUIElementTypeStaticText[contains(@value, "' +
           expectedMessage +
           '")]'
       ).waitForExist({ timeout: timeoutMsg, reverse: true });
     } else if (currentDriver === "windows") {
       await $(
-        '//Group[@Name="message-text"]/Text[contains(@Name, "' +
-          expectedMessage +
-          '")]'
+        '//Text[contains(@Name, "' + expectedMessage + '")]'
       ).waitForExist({ timeout: timeoutMsg, reverse: true });
     }
   }
@@ -352,15 +374,13 @@ class Messages extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
       await $(
-        '//XCUIElementTypeGroup[@label="message-text"]/XCUIElementTypeStaticText[contains(@value, "' +
+        '//XCUIElementTypeStaticText[contains(@value, "' +
           expectedMessage +
           '")]'
       ).waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
       await $(
-        '//Group[@Name="message-text"]/Text[contains(@Name, "' +
-          expectedMessage +
-          '")]'
+        '//Text[contains(@Name, "' + expectedMessage + '")]'
       ).waitForExist({ timeout: timeoutMsg });
     }
   }

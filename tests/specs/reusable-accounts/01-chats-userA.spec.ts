@@ -4,8 +4,10 @@ import ComposeAttachment from "../../screenobjects/chats/ComposeAttachment";
 import ContextMenu from "../../screenobjects/chats/ContextMenu";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
+import QuickProfile from "../../screenobjects/chats/QuickProfile";
 import Topbar from "../../screenobjects/chats/Topbar";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
+import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
 
 describe("Two users at the same time - Chat User A", async () => {
@@ -313,6 +315,46 @@ describe("Two users at the same time - Chat User A", async () => {
     await expect(Topbar.topbarVideocallTooltipText).toHaveTextContaining(
       "Coming soon"
     );
+  });
+
+  it("Quick Profile - Validate contents from remote quick profile", async () => {
+    // Open quick profile from remote user
+    await Messages.rightClickOnLastReceivedGroup();
+    await QuickProfile.waitForIsShown(true);
+
+    // Validate contents from quick profile
+    await expect(QuickProfile.quickProfileUserImage).toBeDisplayed();
+    await expect(QuickProfile.quickProfileBannerImage).toBeDisplayed();
+    await expect(QuickProfile.quickProfileIndicatorOnline).toBeDisplayed();
+    await expect(
+      QuickProfile.quickProfileUserNameValueText
+    ).toHaveTextContaining("ChatUserB");
+    await expect(QuickProfile.quickProfileRemoveFriend).toBeDisplayed();
+    await expect(QuickProfile.quickProfileBlockUser).toBeDisplayed();
+
+    // Click outside to close quick profile
+    await Topbar.topbar.click();
+  });
+
+  it("Quick Profile - Validate contents from local quick profile", async () => {
+    // Open quick profile from remote user
+    await Messages.rightClickOnLastSentGroup();
+    await QuickProfile.waitForIsShown(true);
+
+    // Validate contents from quick profile
+    await expect(QuickProfile.quickProfileUserImage).toBeDisplayed();
+    await expect(QuickProfile.quickProfileBannerImage).toBeDisplayed();
+    await expect(QuickProfile.quickProfileIndicatorOnline).toBeDisplayed();
+    await expect(
+      QuickProfile.quickProfileUserNameValueText
+    ).toHaveTextContaining("ChatUserA");
+    await expect(QuickProfile.quickProfileEditProfile).toBeDisplayed();
+  });
+
+  it("Quick Profile - Click on Edit Profile", async () => {
+    await QuickProfile.clickOnEditProfile();
+    await SettingsProfileScreen.waitForIsShown(true);
+    await SettingsProfileScreen.goToMainScreen();
   });
 
   after(async () => {
