@@ -315,8 +315,8 @@ describe("Two users at the same time - Chat User A", async () => {
     );
   });
 
-  //after(async () => {
-  // Pause for 30 seconds before finishing execution
-  //await browser.pause(30000);
-  //});
+  after(async () => {
+    // Pause for 30 seconds before finishing execution
+    await browser.pause(30000);
+  });
 });
