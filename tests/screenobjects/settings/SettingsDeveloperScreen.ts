@@ -1,5 +1,5 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
-import { clickOnSwitchMacOS } from "../helpers/commands";
+import { clickOnSwitchMacOS } from "../../helpers/commands";
 
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};

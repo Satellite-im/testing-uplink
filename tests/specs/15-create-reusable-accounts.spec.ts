@@ -4,8 +4,8 @@ import {
   resetApp,
   saveTestKeys,
 } from "../helpers/commands";
-import WelcomeScreen from "../screenobjects/WelcomeScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
 
 export default async function createReusableAccounts() {
   it("Create ChatUserA reusable account", async () => {
@@ -24,7 +24,8 @@ export default async function createReusableAccounts() {
 
     // Paste copied DID Key into Status Input
     await SettingsProfileScreen.pasteUserKeyInStatus();
-    const didkey = await SettingsProfileScreen.getStatusInputText();
+    const inputTextElement = await SettingsProfileScreen.getStatusInputText();
+    const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart
     await saveTestKeys(username, didkey);
@@ -47,7 +48,8 @@ export default async function createReusableAccounts() {
 
     // Paste copied DID Key into Status Input
     await SettingsProfileScreen.pasteUserKeyInStatus();
-    const didkey = await SettingsProfileScreen.getStatusInputText();
+    const inputTextElement = await SettingsProfileScreen.getStatusInputText();
+    const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart
     await saveTestKeys(username, didkey);

@@ -1,5 +1,5 @@
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
-import SettingsPrivacyScreen from "../screenobjects/SettingsPrivacyScreen";
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
+import SettingsPrivacyScreen from "../screenobjects/settings/SettingsPrivacyScreen";
 
 export default async function settingsPrivacy() {
   it("Settings Privacy - Validate header and description texts from settings sections", async () => {

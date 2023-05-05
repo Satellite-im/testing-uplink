@@ -1,5 +1,5 @@
-import SettingsNotificationsScreen from "../screenobjects/SettingsNotificationsScreen";
-import SettingsAccessibilityScreen from "../screenobjects/SettingsAccessibilityScreen";
+import SettingsNotificationsScreen from "../screenobjects/settings/SettingsNotificationsScreen";
+import SettingsAccessibilityScreen from "../screenobjects/settings/SettingsAccessibilityScreen";
 
 export default async function settingsNotifications() {
   it("Settings - Notifications - Go To Notifications Settings", async () => {

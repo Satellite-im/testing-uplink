@@ -1,5 +1,5 @@
-import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
-import SettingsPrivacyScreen from "../screenobjects/SettingsPrivacyScreen";
+import SettingsAudioScreen from "../screenobjects/settings/SettingsAudioScreen";
+import SettingsPrivacyScreen from "../screenobjects/settings/SettingsPrivacyScreen";
 
 export default async function settingsAudio() {
   it("Settings Audio - Assert screen texts", async () => {

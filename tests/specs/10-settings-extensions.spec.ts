@@ -1,5 +1,5 @@
-import SettingsExtensionsScreen from "../screenobjects/SettingsExtensionsScreen";
-import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
+import SettingsExtensionsScreen from "../screenobjects/settings/SettingsExtensionsScreen";
+import SettingsFilesScreen from "../screenobjects/settings/SettingsFilesScreen";
 
 export default async function settingsExtensions() {
   it("Settings Extensions - Validate that buttons are displayed in front", async () => {

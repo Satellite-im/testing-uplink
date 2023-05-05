@@ -1,5 +1,5 @@
-import SettingsFilesScreen from "../screenobjects/SettingsFilesScreen";
-import SettingsAudioScreen from "../screenobjects/SettingsAudioScreen";
+import SettingsFilesScreen from "../screenobjects/settings/SettingsFilesScreen";
+import SettingsAudioScreen from "../screenobjects/settings/SettingsAudioScreen";
 
 export default async function settingsFiles() {
   it("Settings Files - Assert screen texts", async () => {

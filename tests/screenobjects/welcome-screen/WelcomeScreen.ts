@@ -1,4 +1,4 @@
-import UplinkMainScreen from "./UplinkMainScreen";
+import UplinkMainScreen from "../UplinkMainScreen";
 
 const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};

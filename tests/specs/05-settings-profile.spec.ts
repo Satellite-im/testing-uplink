@@ -1,5 +1,5 @@
-import FilesScreen from "../screenobjects/FilesScreen";
-import SettingsProfileScreen from "../screenobjects/SettingsProfileScreen";
+import FilesScreen from "../screenobjects/files/FilesScreen";
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
 
 export default async function settingsProfile() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
