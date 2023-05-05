@@ -46,7 +46,7 @@ describe("Two users at the same time - Chat User B", async () => {
 
   it("Validate Chat Message received contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const lastMessage = await Messages.getLastMessageReceivedLocator();
+    const lastMessage = await Messages.chatMessageLastRemote;
     await expect(lastMessage).toBeDisplayed();
   });
 

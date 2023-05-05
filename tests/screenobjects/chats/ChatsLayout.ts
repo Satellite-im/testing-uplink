@@ -9,11 +9,13 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   ENCRYPTED_MESSAGES_TEXT: '//Text[contains(@Name, "Messages are secured")]',
+  TYPING_INDICATOR: '[name="message-typing-indicator"]',
 };
 
 const SELECTORS_MACOS = {
   ENCRYPTED_MESSAGES_TEXT:
     '//XCUIElementTypeStaticText[contains(@value, "Messages are secured")]',
+  TYPING_INDICATOR: "~message-typing-indicator",
 };
 
 currentOS === "windows"
@@ -31,6 +33,10 @@ class ChatsLayout extends UplinkMainScreen {
 
   get encryptedMessagesText() {
     return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.ENCRYPTED_MESSAGES_TEXT);
+  }
+
+  get typingIndicator() {
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.TYPING_INDICATOR);
   }
 }
 
