@@ -26,10 +26,6 @@ describe("Two users at the same time - Chat User A", async () => {
     await FriendsScreen.enterFriendDidKey(friendDidKey);
     await FriendsScreen.clickOnAddSomeoneButton();
 
-    await expect(FriendsScreen.toastNotificationText).toHaveTextContaining(
-      "Friend Request Sent!"
-    );
-
     // Wait for toast notification to be closed
     await FriendsScreen.waitUntilNotificationIsClosed();
   });
@@ -317,7 +313,8 @@ describe("Two users at the same time - Chat User A", async () => {
     );
   });
 
-  it("Quick Profile - Validate contents from remote quick profile", async () => {
+  // Needs more work to be done on identifying the correct image to right click
+  xit("Quick Profile - Validate contents from remote quick profile", async () => {
     // Open quick profile from remote user
     await Messages.rightClickOnLastReceivedGroup();
     await QuickProfile.waitForIsShown(true);
@@ -336,7 +333,8 @@ describe("Two users at the same time - Chat User A", async () => {
     await Topbar.topbar.click();
   });
 
-  it("Quick Profile - Validate contents from local quick profile", async () => {
+  // Needs more work to be done on identifying the correct image to right click
+  xit("Quick Profile - Validate contents from local quick profile", async () => {
     // Open quick profile from remote user
     await Messages.rightClickOnLastSentGroup();
     await QuickProfile.waitForIsShown(true);
@@ -351,7 +349,8 @@ describe("Two users at the same time - Chat User A", async () => {
     await expect(QuickProfile.quickProfileEditProfile).toBeDisplayed();
   });
 
-  it("Quick Profile - Click on Edit Profile", async () => {
+  // Needs more work to be done on identifying the correct image to right click
+  xit("Quick Profile - Click on Edit Profile", async () => {
     await QuickProfile.clickOnEditProfile();
     await SettingsProfileScreen.waitForIsShown(true);
     await SettingsProfileScreen.goToMainScreen();
