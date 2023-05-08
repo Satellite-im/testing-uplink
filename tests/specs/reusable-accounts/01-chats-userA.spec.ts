@@ -69,8 +69,8 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const lastMessage = await Messages.getFirstMessageSentLocator();
-    await expect(lastMessage).toBeDisplayed();
+    const firstMessage = await Messages.getFirstMessageSentLocator();
+    await expect(firstMessage).toBeDisplayed();
   });
 
   it("Validate Chat Message Group displays username picture and online indicator", async () => {

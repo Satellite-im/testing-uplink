@@ -42,14 +42,12 @@ describe("Two users at the same time - Chat User B", async () => {
   it("Assert message received from Chat User A", async () => {
     const message = await Messages.getMessageReceivedLocator("testing...");
     await expect(message).toBeDisplayed();
-    const textFromMessage = await Messages.getFirstMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("testing...");
   });
 
   it("Validate Chat Message received contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const lastMessage = await Messages.chatMessageLastRemote;
-    await expect(lastMessage).toBeDisplayed();
+    const textFromMessage = await Messages.getFirstMessageReceivedText();
+    await expect(textFromMessage).toHaveTextContaining("testing...");
   });
 
   it("Validate Chat Message Group from remote user displays username picture and online indicator", async () => {

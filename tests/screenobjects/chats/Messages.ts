@@ -16,16 +16,12 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_FILE_META_TEXT: "//Text",
   CHAT_MESSAGE_FILE_NAME: '[name="file-name"]',
   CHAT_MESSAGE_FILE_NAME_TEXT: "//Text",
-  CHAT_MESSAGE_FIRST_LOCAL: '[name="message-first-local"]',
-  CHAT_MESSAGE_FIRST_REMOTE: '[name="message-first-remote"]',
-  CHAT_MESSAGE_LAST_LOCAL: '[name="message-last-local"]',
-  CHAT_MESSAGE_LAST_REMOTE: '[name="message-last-remote"]',
   CHAT_MESSAGE_LINK_EMBED: '[name="link-embed"]',
   CHAT_MESSAGE_LINK_EMBED_DETAILS: '[name="embed-details"]',
   CHAT_MESSAGE_LINK_EMBED_ICON: '[name="embed-icon"]',
   CHAT_MESSAGE_LINK_EMBED_TITLE: '[name="link-title"]',
-  CHAT_MESSAGE_MIDDLE_LOCAL: '[name="message-middle-local"]',
-  CHAT_MESSAGE_MIDDLE_REMOTE: '[name="message-middle-remote"]',
+  CHAT_MESSAGE_LOCAL: '[name="message-local"]',
+  CHAT_MESSAGE_REMOTE: '[name="message-remote"]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
   CHAT_MESSAGE_REPLY_TEXT: "//Text",
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
@@ -42,16 +38,12 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_FILE_META_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_FILE_NAME: "~file-name",
   CHAT_MESSAGE_FILE_NAME_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  CHAT_MESSAGE_FIRST_LOCAL: "~message-first-local",
-  CHAT_MESSAGE_FIRST_REMOTE: "~message-first-remote",
-  CHAT_MESSAGE_LAST_LOCAL: "~message-last-local",
-  CHAT_MESSAGE_LAST_REMOTE: "~message-last-remote",
   CHAT_MESSAGE_LINK_EMBED: "~link-embed",
   CHAT_MESSAGE_LINK_EMBED_DETAILS: "~embed-details",
   CHAT_MESSAGE_LINK_EMBED_ICON: "~embed-icon",
   CHAT_MESSAGE_LINK_EMBED_TITLE: "~link-title",
-  CHAT_MESSAGE_MIDDLE_LOCAL: "~message-middle-local",
-  CHAT_MESSAGE_MIDDLE_REMOTE: "~message-middle-remote",
+  CHAT_MESSAGE_LOCAL: "~message-local",
+  CHAT_MESSAGE_REMOTE: "~message-remote",
   CHAT_MESSAGE_REPLY: "~message-reply",
   CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
@@ -64,14 +56,7 @@ currentOS === "windows"
 
 class Messages extends UplinkMainScreen {
   constructor() {
-    super(
-      SELECTORS.CHAT_MESSAGE_FIRST_LOCAL ||
-        SELECTORS.CHAT_MESSAGE_FIRST_REMOTE ||
-        SELECTORS.CHAT_MESSAGE_MIDDLE_LOCAL ||
-        SELECTORS.CHAT_MESSAGE_MIDDLE_REMOTE ||
-        SELECTORS.CHAT_MESSAGE_LAST_LOCAL ||
-        SELECTORS.CHAT_MESSAGE_LAST_REMOTE
-    );
+    super(SELECTORS.CHAT_MESSAGE_LOCAL || SELECTORS.CHAT_MESSAGE_REMOTE);
   }
 
   get chatMessageFileButtonLocal() {
@@ -166,22 +151,6 @@ class Messages extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
 
-  get chatMessageFirstLocal() {
-    return $(SELECTORS.CHAT_MESSAGE_FIRST_LOCAL);
-  }
-
-  get chatMessageFirstRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FIRST_REMOTE);
-  }
-
-  get chatMessageLastLocal() {
-    return $(SELECTORS.CHAT_MESSAGE_LAST_LOCAL);
-  }
-
-  get chatMessageLastRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_LAST_REMOTE);
-  }
-
   get chatMessageLinkEmbed() {
     return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED);
   }
@@ -204,12 +173,12 @@ class Messages extends UplinkMainScreen {
     );
   }
 
-  get chatMessageMiddleLocal() {
-    return $(SELECTORS.CHAT_MESSAGE_MIDDLE_LOCAL);
+  get chatMessageLocal() {
+    return $$(SELECTORS.CHAT_MESSAGE_LOCAL);
   }
 
-  get chatMessageMiddleRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_MIDDLE_REMOTE);
+  get chatMessageRemote() {
+    return $$(SELECTORS.CHAT_MESSAGE_REMOTE);
   }
 
   get chatMessageReply() {
@@ -296,43 +265,33 @@ class Messages extends UplinkMainScreen {
     }
   }
 
-  async getFirstMessageReceivedLocator() {
-    const firstMessage = await this.chatMessageFirstRemote;
-    return firstMessage;
-  }
-
-  async getFirstMessageReceivedText() {
-    const firstMessage = await this.chatMessageFirstRemote;
-    const firstMessageText = await firstMessage
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return firstMessageText;
-  }
-
   async getLastMessageReceivedLocator() {
-    const lastMessage = await this.chatMessageLastRemote;
+    const messages = await this.chatMessageRemote;
+    const lastMessageIndex = (await messages.length) - 1;
+    const lastMessage = await messages[lastMessageIndex];
     return lastMessage;
   }
 
   async getLastMessageReceivedText() {
-    const lastMessage = await this.chatMessageLastRemote;
-    const lastMessageText = await lastMessage
+    const message = await this.getLastMessageReceivedLocator();
+    const messageText = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return lastMessageText;
+    return messageText;
   }
 
-  async getMiddleMessageReceivedLocator() {
-    const middleMessage = await this.chatMessageMiddleRemote;
-    return middleMessage;
+  async getFirstMessageReceivedLocator() {
+    const messages = await this.chatMessageRemote;
+    const firstMessage = await messages[0];
+    return firstMessage;
   }
 
-  async getMiddleMessageReceivedText() {
-    const middleMessage = await this.chatMessageMiddleRemote;
-    const middleMessageText = await middleMessage
+  async getFirstMessageReceivedText() {
+    const message = await this.getFirstMessageReceivedLocator();
+    const messageText = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return middleMessageText;
+    return messageText;
   }
 
   async waitForMessageToBeDeleted(
@@ -391,43 +350,33 @@ class Messages extends UplinkMainScreen {
     }
   }
 
+  async getLastMessageSentLocator() {
+    const messages = await this.chatMessageLocal;
+    const lastMessageIndex = (await messages.length) - 1;
+    const lastMessage = await messages[lastMessageIndex];
+    return lastMessage;
+  }
+
+  async getLastMessageSentText() {
+    const message = await this.getLastMessageSentLocator();
+    const messageText = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    return messageText;
+  }
+
   async getFirstMessageSentLocator() {
-    const firstMessage = await this.chatMessageFirstLocal;
+    const messages = await this.chatMessageLocal;
+    const firstMessage = await messages[0];
     return firstMessage;
   }
 
   async getFirstMessageSentText() {
-    const firstMessage = await this.chatMessageFirstLocal;
-    const firstMessageText = await firstMessage
+    const message = await this.getFirstMessageSentLocator();
+    const messageText = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return firstMessageText;
-  }
-
-  async getLastMessageSentLocator() {
-    const lastMessageLocator = await this.chatMessageLastLocal;
-    return lastMessageLocator;
-  }
-
-  async getLastMessageSentText() {
-    const lastMessage = await this.chatMessageLastLocal;
-    const lastMessageText = await lastMessage
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return lastMessageText;
-  }
-
-  async getMiddleMessageSentLocator() {
-    const middleMessage = await this.chatMessageMiddleLocal;
-    return middleMessage;
-  }
-
-  async getMiddleMessageSentText() {
-    const middleMessage = await this.chatMessageMiddleLocal;
-    const middleMessageText = await middleMessage
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return middleMessageText;
+    return messageText;
   }
 
   // Replies Methods
@@ -528,7 +477,7 @@ class Messages extends UplinkMainScreen {
   // Context Menu Functions
 
   async openContextMenuOnReceivedMessage(message: string) {
-    const messageToClick = await this.getMessageReceivedLocator(string);
+    const messageToClick = await this.getMessageReceivedLocator(message);
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
