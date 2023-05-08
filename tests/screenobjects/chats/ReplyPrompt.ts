@@ -9,7 +9,7 @@ const SELECTORS_WINDOWS = {
   REPLY_POPUP: '[name="inline-reply"]',
   REPLY_POPUP_CLOSE_BUTTON: '[name="close-reply"]',
   REPLY_POPUP_CONTENT: '[name="content"]',
-  REPLY_POPUP_HEADER: '//Text[@Name="REPLYING TO:"]',
+  REPLY_POPUP_HEADER: '[name="inline-reply-header"]',
   REPLY_POPUP_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   REPLY_POPUP_INDICATOR_ONLINE: '[name="indicator-online"]',
   REPLY_POPUP_LOCAL_TEXT_TO_REPLY: '[name="reply-text-message"]',
@@ -24,8 +24,7 @@ const SELECTORS_MACOS = {
   REPLY_POPUP: "~inline-reply",
   REPLY_POPUP_CLOSE_BUTTON: "~close-reply",
   REPLY_POPUP_CONTENT: "~content",
-  REPLY_POPUP_HEADER:
-    '-ios class chain:**/XCUIElementTypeStaticText[`value == "REPLYING TO:"`][2]',
+  REPLY_POPUP_HEADER: "~inline-reply-header",
   REPLY_POPUP_INDICATOR_OFFLINE: "~indicator-offline",
   REPLY_POPUP_INDICATOR_ONLINE: "~indicator-online",
   REPLY_POPUP_LOCAL_TEXT_TO_REPLY: "~reply-text-message",

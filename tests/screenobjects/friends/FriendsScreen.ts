@@ -24,10 +24,20 @@ const SELECTORS_WINDOWS = {
   BLOCKED_LIST_BUTTON: '[name="blocked-friends-button"]',
   CHAT_WITH_FRIEND_BUTTON: '[name="Chat With Friend"]',
   CONTEXT_MENU: '[name="Context Menu"]',
-  CONTEXT_MENU_OPTION: '[name="Context Item"]',
+  CONTEXT_MENU_BLOCK: '[name="friends-block"]',
+  CONTEXT_MENU_CHAT: '[name="friends-chat"]',
+  CONTEXT_MENU_FAVORITES_ADD: '[name="favorites-add"]',
+  CONTEXT_MENU_FAVORITES_REMOVE: '[name="favorites-remove"]',
+  CONTEXT_MENU_INCOMING_ACCEPT: '[name="friends-accept"]',
+  CONTEXT_MENU_INCOMING_DENY: '[name="friends-deny"]',
+  CONTEXT_MENU_OUTGOING_CANCEL: '[name="friends-cancel"]',
+  CONTEXT_MENU_REMOVE: '[name="friends-remove"]',
+  CONTEXT_MENU_UNBLOCK: '[name="friends-unblock"]',
   COPY_ID_BUTTON: '[name="Copy ID"]',
   FRIEND_INFO: '[name="Friend Info"]',
-  FRIEND_INFO_USERNAME: "//Text[1]",
+  FRIEND_INFO_CURRENT_STATUS: '[name="friendship-status"]',
+  FRIEND_INFO_STATUS_MESSAGE: '[name="status-message"]',
+  FRIEND_INFO_USERNAME: '[name="friend-username"]',
   FRIEND_INFO_USERCODE: "//Text[2]",
   FRIEND_RECORD: '[name="Friend"]',
   FRIEND_USER_IMAGE: '[name="User Image"]',
@@ -43,8 +53,8 @@ const SELECTORS_WINDOWS = {
   PENDING_FRIENDS_BUTTON: '[name="pending-friends-button"]',
   REMOVE_OR_DENY_FRIEND_BUTTON: '[name="Remove or Deny Friend"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
-  TOAST_NOTIFICATION_CLOSE: "//Button/Button",
-  TOAST_NOTIFICATION_TEXT: "//Text[2]",
+  TOAST_NOTIFICATION_CLOSE: '[name="close-toast"]',
+  TOAST_NOTIFICATION_TEXT: '[name="toast-content"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   TOPBAR: '[name="Topbar"]',
@@ -60,11 +70,20 @@ const SELECTORS_MACOS = {
   BLOCKED_LIST_BUTTON: "~blocked-friends-button",
   CHAT_WITH_FRIEND_BUTTON: "~Chat With Friend",
   CONTEXT_MENU: "~Context Menu",
-  CONTEXT_MENU_OPTION: "~Context Item",
+  CONTEXT_MENU_BLOCK: "~friends-block",
+  CONTEXT_MENU_CHAT: "~friends-chat",
+  CONTEXT_MENU_FAVORITES_ADD: "~favorites-add",
+  CONTEXT_MENU_FAVORITES_REMOVE: "~favorites-remove",
+  CONTEXT_MENU_INCOMING_ACCEPT: "~friends-accept",
+  CONTEXT_MENU_INCOMING_DENY: "~friends-deny",
+  CONTEXT_MENU_OUTGOING_CANCEL: "~friends-cancel",
+  CONTEXT_MENU_REMOVE: "~friends-remove",
+  CONTEXT_MENU_UNBLOCK: "~friends-unblock",
   COPY_ID_BUTTON: "~Copy ID",
   FRIEND_INFO: "~Friend Info",
-  FRIEND_INFO_USERNAME:
-    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]",
+  FRIEND_INFO_CURRENT_STATUS: "~friendship-status",
+  FRIEND_INFO_STATUS_MESSAGE: "~status-message",
+  FRIEND_INFO_USERNAME: "~friend-username",
   FRIEND_INFO_USERCODE:
     "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[2]",
   FRIEND_RECORD: "~Friend",
@@ -81,9 +100,8 @@ const SELECTORS_MACOS = {
   PENDING_FRIENDS_BUTTON: "~pending-friends-button",
   REMOVE_OR_DENY_FRIEND_BUTTON: "~Remove or Deny Friend",
   TOAST_NOTIFICATION: "~Toast Notification",
-  TOAST_NOTIFICATION_CLOSE: "-ios class chain:**/XCUIElementTypeButton",
-  TOAST_NOTIFICATION_TEXT:
-    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText",
+  TOAST_NOTIFICATION_CLOSE: "~close-toast",
+  TOAST_NOTIFICATION_TEXT: "~toast-content",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -151,8 +169,40 @@ class FriendsScreen extends UplinkMainScreen {
     return $(SELECTORS.CONTEXT_MENU);
   }
 
-  get contextMenuOption() {
-    return $$(SELECTORS.CONTEXT_MENU_OPTION);
+  get contextMenuBlock() {
+    return $(SELECTORS.CONTEXT_MENU_BLOCK);
+  }
+
+  get contextMenuChat() {
+    return $(SELECTORS.CONTEXT_MENU_CHAT);
+  }
+
+  get contextMenuFavoritesAdd() {
+    return $(SELECTORS.CONTEXT_MENU_FAVORITES_ADD);
+  }
+
+  get contextMenuFavoritesRemove() {
+    return $(SELECTORS.CONTEXT_MENU_FAVORITES_REMOVE);
+  }
+
+  get contextMenuIncomingAccept() {
+    return $(SELECTORS.CONTEXT_MENU_INCOMING_ACCEPT);
+  }
+
+  get contextMenuIncomingDeny() {
+    return $(SELECTORS.CONTEXT_MENU_INCOMING_DENY);
+  }
+
+  get contextMenuOutgoingCancel() {
+    return $(SELECTORS.CONTEXT_MENU_OUTGOING_CANCEL);
+  }
+
+  get contextMenuRemove() {
+    return $(SELECTORS.CONTEXT_MENU_REMOVE);
+  }
+
+  get contextMenuUnblock() {
+    return $(SELECTORS.CONTEXT_MENU_UNBLOCK);
   }
 
   get copyIdButton() {
@@ -161,6 +211,14 @@ class FriendsScreen extends UplinkMainScreen {
 
   get friendInfo() {
     return $(SELECTORS.FRIEND_INFO);
+  }
+
+  get friendInfoCurrentStatus() {
+    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_CURRENT_STATUS);
+  }
+
+  get friendInfoStatusMessage() {
+    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_STATUS_MESSAGE);
   }
 
   get friendInfoUsername() {

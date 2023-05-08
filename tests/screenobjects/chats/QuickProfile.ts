@@ -10,10 +10,14 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   QUICK_PROFILE: '[name="Context Menu"]',
   QUICK_PROFILE_BANNER_IMAGE: '[name="banner-image"]',
-  QUICK_PROFILE_BUTTON: '[name="Context Item"]',
+  QUICK_PROFILE_BLOCK: '[name="quick-profile-block"]',
+  QUICK_PROFILE_FRIEND_REMOVE: '[name="quick-profile-friend-remove"]',
   QUICK_PROFILE_IDENTITY_HEADER: '[name="identity-header"]',
   QUICK_PROFILE_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   QUICK_PROFILE_INDICATOR_ONLINE: '[name="indicator-online"]',
+  QUICK_PROFILE_MESSAGE: '[name="quick-profile-message"]',
+  QUICK_PROFILE_SELF_EDIT: '[name="quick-profile-self-edit"]',
+  QUICK_PROFILE_UNBLOCK: '[name="quick-profile-unblock"]',
   QUICK_PROFILE_USER_IMAGE: '[name="profile-image"]',
   QUICK_PROFILE_USER_NAME: '[name="profile-name"]',
   QUICK_PROFILE_USER_NAME_VALUE: '[name="profile-name-value"]',
@@ -23,10 +27,15 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   QUICK_PROFILE: "~Context Menu",
   QUICK_PROFILE_BANNER_IMAGE: "~banner-image",
+  QUICK_PROFILE_BLOCK: "~quick-profile-block",
   QUICK_PROFILE_BUTTON: "~Context Item",
+  QUICK_PROFILE_FRIEND_REMOVE: "~quick-profile-friend-remove",
   QUICK_PROFILE_IDENTITY_HEADER: "~identity-header",
   QUICK_PROFILE_INDICATOR_ONLINE: "~indicator-online",
   QUICK_PROFILE_INDICATOR_OFFLINE: "~indicator-offline",
+  QUICK_PROFILE_MESSAGE: "~quick-profile-message",
+  QUICK_PROFILE_SELF_EDIT: "~quick-profile-self-edit",
+  QUICK_PROFILE_UNBLOCK: "~quick-profile-unblock",
   QUICK_PROFILE_USER_IMAGE: "~profile-image",
   QUICK_PROFILE_USER_NAME: "~profile-name",
   QUICK_PROFILE_USER_NAME_VALUE: "~profile-name-value",
@@ -54,15 +63,11 @@ class QuickProfile extends UplinkMainScreen {
   }
 
   get quickProfileBlockUser() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$$(SELECTORS.QUICK_PROFILE_BUTTON)[1];
+    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_BLOCK);
   }
 
   get quickProfileEditProfile() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_BUTTON);
+    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_SELF_EDIT);
   }
 
   get quickProfileIdentityHeader() {
@@ -83,10 +88,16 @@ class QuickProfile extends UplinkMainScreen {
       .$(SELECTORS.QUICK_PROFILE_INDICATOR_ONLINE);
   }
 
+  get quickProfileMessage() {
+    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_MESSAGE);
+  }
+
   get quickProfileRemoveFriend() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$$(SELECTORS.QUICK_PROFILE_BUTTON)[0];
+    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_FRIEND_REMOVE);
+  }
+
+  get quickProfileUnblockUser() {
+    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_UNBLOCK);
   }
 
   get quickProfileUserImage() {
@@ -114,8 +125,24 @@ class QuickProfile extends UplinkMainScreen {
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE_TEXT);
   }
 
+  async clickOnBlockUser() {
+    await this.quickProfileBlockUser.click();
+  }
+
   async clickOnEditProfile() {
     await this.quickProfileEditProfile.click();
+  }
+
+  async clickOnMessageUser() {
+    await this.quickProfileMessage.click();
+  }
+
+  async clickOnRemoveUser() {
+    await this.quickProfileRemoveFriend.click();
+  }
+
+  async clickOnUnblockUser() {
+    await this.quickProfileUnblockUser.click();
   }
 }
 

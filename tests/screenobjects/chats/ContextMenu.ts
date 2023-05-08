@@ -7,6 +7,7 @@ const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   CONTEXT_MENU: '[name="Context Menu"]',
+  CONTEXT_MESSAGES_CANCEL_EDIT: '[name="messages-cancel-edit"]',
   CONTEXT_MESSAGES_DELETE: '[name="messages-delete"]',
   CONTEXT_MESSAGES_EDIT: '[name="messages-edit"]',
   CONTEXT_MESSAGES_REACT: '[name="messages-react"]',
@@ -15,6 +16,7 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   CONTEXT_MENU: "~Context Menu",
+  CONTEXT_MESSAGES_CANCEL_EDIT: "~messages-cancel-edit",
   CONTEXT_MESSAGES_DELETE: "~messages-delete",
   CONTEXT_MESSAGES_EDIT: "~messages-edit",
   CONTEXT_MESSAGES_REACT: "~messages-react",
@@ -35,6 +37,10 @@ class ContextMenu extends UplinkMainScreen {
     return $(SELECTORS.CONTEXT_MENU);
   }
 
+  get contextMessagesCancelEdit() {
+    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_CANCEL_EDIT);
+  }
+
   get contextMessagesDelete() {
     return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_DELETE);
   }
@@ -49,6 +55,10 @@ class ContextMenu extends UplinkMainScreen {
 
   get contextMessagesReply() {
     return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_REPLY);
+  }
+
+  async selectContextOptionCancelEdit() {
+    await this.contextMessagesCancelEdit.click();
   }
 
   async selectContextOptionDelete() {

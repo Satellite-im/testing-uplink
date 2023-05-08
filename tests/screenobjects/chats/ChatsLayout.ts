@@ -8,13 +8,12 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
-  ENCRYPTED_MESSAGES_TEXT: '//Text[contains(@Name, "Messages are secured")]',
+  ENCRYPTED_MESSAGES_TEXT: '[name="messages-secured-alert"]',
   TYPING_INDICATOR: '[name="message-typing-indicator"]',
 };
 
 const SELECTORS_MACOS = {
-  ENCRYPTED_MESSAGES_TEXT:
-    '//XCUIElementTypeStaticText[contains(@value, "Messages are secured")]',
+  ENCRYPTED_MESSAGES_TEXT: "~messages-secured-alert",
   TYPING_INDICATOR: "~message-typing-indicator",
 };
 

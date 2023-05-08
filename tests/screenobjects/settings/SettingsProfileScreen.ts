@@ -18,58 +18,59 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   ADD_PICTURE_BUTTON: '[name="add-picture-button"]',
   COPY_ID_BUTTON: "//Button",
-  DISMISS_BUTTON: '[name="Dismiss"]',
+  DISMISS_BUTTON: '[name="welcome-message-dismiss"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_MESSAGE: "//Text",
   PROFILE_BANNER: '[name="profile-banner"]',
+  PROFILE_BANNER_CLEAR: '[name="clear-banner"]',
   PROFILE_BANNER_TOOLTIP: "//Text",
   PROFILE_CONTENT: '[name="profile-content"]',
   PROFILE_HEADER: '[name="profile-header"]',
   PROFILE_PICTURE: '[name="profile-picture"]',
+  PROFILE_PICTURE_CLEAR: '[name="clear-avatar"]',
   STATUS_INPUT: '[name="status-input"]',
   STATUS_LABEL: "//Text[2]/Text",
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
-  TOAST_NOTIFICATION_CLOSE: "//Button/Button",
-  TOAST_NOTIFICATION_TEXT: "//Text[2]",
+  TOAST_NOTIFICATION_CLOSE: '[name="close-toast"]',
+  TOAST_NOTIFICATION_TEXT: '[name="toast-content"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   USERNAME_INPUT: '[name="username-input"]',
   USERNAME_LABEL: "//Text[1]/Text",
-  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: "//Text[2]",
-  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO: "//Text[3]",
-  YOUR_NEW_PROFILE_HEADER_TEXT: "//Text[1]/Text",
+  YOUR_NEW_PROFILE: '[name="new-profile-welcome"]',
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: '[name="welcome-message"]',
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO: '[name="welcome-message-desc"]',
+  YOUR_NEW_PROFILE_HEADER_TEXT: '[name="welcome-message-cta"]',
 };
 
 const SELECTORS_MACOS = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
   COPY_ID_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
-  DISMISS_BUTTON:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-profile"`]/XCUIElementTypeButton',
+  DISMISS_BUTTON: "~welcome-message-dismiss",
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_MESSAGE: "-ios class chain:**/XCUIElementTypeStaticText",
   PROFILE_BANNER: "~profile-banner",
+  PROFILE_BANNER_CLEAR: "~clear-banner",
   PROFILE_BANNER_TOOLTIP:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   PROFILE_CONTENT: "~profile-content",
   PROFILE_HEADER: "~profile-header",
   PROFILE_PICTURE: "~profile-picture",
+  PROFILE_PICTURE_CLEAR: "~clear-avatar",
   STATUS_INPUT: "~status-input",
   STATUS_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[2]",
   TOAST_NOTIFICATION: "~Toast Notification",
-  TOAST_NOTIFICATION_CLOSE: "-ios class chain:**/XCUIElementTypeButton",
-  TOAST_NOTIFICATION_TEXT:
-    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText",
+  TOAST_NOTIFICATION_CLOSE: "~close-toast",
+  TOAST_NOTIFICATION_TEXT: "~toast-content",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   USERNAME_INPUT: "~username-input",
   USERNAME_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE:
-    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText",
-  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO:
-    '-ios class chain:**/XCUIElementTypeStaticText[`value == "First step, pick out a profile picture and maybe even a banner too!"`]',
-  YOUR_NEW_PROFILE_HEADER_TEXT:
-    "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
+  YOUR_NEW_PROFILE: "~new-profile-welcome",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: "~welcome-message",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO: "~welcome-message-desc",
+  YOUR_NEW_PROFILE_HEADER_TEXT: "~welcome-message-cta",
 };
 
 currentOS === "windows"
@@ -115,6 +116,10 @@ class SettingsProfileScreen extends SettingsBaseScreen {
     return $(SELECTORS.PROFILE_BANNER);
   }
 
+  get profileBannerClear() {
+    return $(SELECTORS.PROFILE_BANNER_CLEAR);
+  }
+
   get profileBannerTooltip() {
     return $(SELECTORS.PROFILE_BANNER).$(SELECTORS.PROFILE_BANNER_TOOLTIP);
   }
@@ -129,6 +134,10 @@ class SettingsProfileScreen extends SettingsBaseScreen {
 
   get profilePicture() {
     return $(SELECTORS.PROFILE_PICTURE);
+  }
+
+  get profilePictureClear() {
+    return $(SELECTORS.PROFILE_PICTURE_CLEAR);
   }
 
   get settingsProfile() {
@@ -163,6 +172,10 @@ class SettingsProfileScreen extends SettingsBaseScreen {
 
   get usernameLabel() {
     return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.USERNAME_LABEL);
+  }
+
+  get yourNewProfile() {
+    return $(SELECTORS.YOUR_NEW_PROFILE);
   }
 
   get yourNewProfileDescriptionTextOne() {
