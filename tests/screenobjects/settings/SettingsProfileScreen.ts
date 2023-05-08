@@ -38,9 +38,12 @@ const SELECTORS_WINDOWS = {
   USERNAME_INPUT: '[name="username-input"]',
   USERNAME_LABEL: "//Text[1]/Text",
   YOUR_NEW_PROFILE: '[name="new-profile-welcome"]',
-  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: '[name="welcome-message"]',
-  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO: '[name="welcome-message-desc"]',
-  YOUR_NEW_PROFILE_HEADER_TEXT: '[name="welcome-message-cta"]',
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: '[name="welcome-message-desc"]',
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE_VALUE: "//Text",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO: '[name="welcome-message-cta"]',
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO_VALUE: "//Text",
+  YOUR_NEW_PROFILE_HEADER_TEXT: '[name="welcome-message"]',
+  YOUR_NEW_PROFILE_HEADER_TEXT_VALUE: "//Text",
 };
 
 const SELECTORS_MACOS = {
@@ -68,9 +71,15 @@ const SELECTORS_MACOS = {
   USERNAME_INPUT: "~username-input",
   USERNAME_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   YOUR_NEW_PROFILE: "~new-profile-welcome",
-  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: "~welcome-message",
-  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO: "~welcome-message-desc",
-  YOUR_NEW_PROFILE_HEADER_TEXT: "~welcome-message-cta",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: "~welcome-message-desc",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE_VALUE:
+    "-ios class chain:**/XCUIElementTypeStaticText",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO: "~welcome-message-cta",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO_VALUE:
+    "-ios class chain:**/XCUIElementTypeStaticText",
+  YOUR_NEW_PROFILE_HEADER_TEXT: "~welcome-message",
+  YOUR_NEW_PROFILE_HEADER_TEXT_VALUE:
+    "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
 currentOS === "windows"
@@ -179,20 +188,32 @@ class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get yourNewProfileDescriptionTextOne() {
-    return $(SELECTORS.SETTINGS_PROFILE).$(
-      SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE
+    return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE);
+  }
+
+  get yourNewProfileDescriptionTextOneValue() {
+    return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE).$(
+      SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE_VALUE
     );
   }
 
   get yourNewProfileDescriptionTextTwo() {
-    return $(SELECTORS.SETTINGS_PROFILE).$(
-      SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO
+    return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO);
+  }
+
+  get yourNewProfileDescriptionTextTwoValue() {
+    return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO).$(
+      SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO_VALUE
     );
   }
 
   get yourNewProfileHeaderText() {
-    return $(SELECTORS.SETTINGS_PROFILE).$(
-      SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT
+    return $(SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT);
+  }
+
+  get yourNewProfileHeaderTextValue() {
+    return $(SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT).$(
+      SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT_VALUE
     );
   }
 

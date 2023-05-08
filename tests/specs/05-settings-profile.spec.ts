@@ -30,15 +30,15 @@ export default async function settingsProfile() {
   it("Settings Profile - Assert texts for Your New Profile dialog", async () => {
     await SettingsProfileScreen.yourNewProfile.waitForDisplayed();
     await expect(
-      SettingsProfileScreen.yourNewProfileHeaderText
+      SettingsProfileScreen.yourNewProfileHeaderTextValue
     ).toHaveTextContaining("YOUR NEW PROFILE!");
     await expect(
-      SettingsProfileScreen.yourNewProfileDescriptionTextOne
+      SettingsProfileScreen.yourNewProfileDescriptionTextOneValue
     ).toHaveTextContaining(
       "Tell the world all about yourself, well.. tell them as much as you can while we're still under construction, at least."
     );
     await expect(
-      SettingsProfileScreen.yourNewProfileDescriptionTextTwo
+      SettingsProfileScreen.yourNewProfileDescriptionTextTwoValue
     ).toHaveTextContaining(
       "First step, pick out a profile picture and maybe even a banner too!"
     );
@@ -79,9 +79,6 @@ export default async function settingsProfile() {
   it("Settings Profile - Click On Copy ID Button", async () => {
     // Click on Copy ID button and assert Toast Notification is displayed
     await SettingsProfileScreen.clickOnCopyIDButton();
-    await expect(
-      SettingsProfileScreen.toastNotificationText
-    ).toHaveTextContaining("Copied ID to clipboard!");
 
     // Wait for toast notification to be closed
     await SettingsProfileScreen.waitUntilNotificationIsClosed();

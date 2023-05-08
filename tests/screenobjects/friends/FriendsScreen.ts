@@ -38,7 +38,8 @@ const SELECTORS_WINDOWS = {
   FRIEND_INFO_CURRENT_STATUS: '[name="friendship-status"]',
   FRIEND_INFO_STATUS_MESSAGE: '[name="status-message"]',
   FRIEND_INFO_USERNAME: '[name="friend-username"]',
-  FRIEND_INFO_USERCODE: "//Text[2]",
+  FRIEND_INFO_USERNAME_CODE: "//Text[2]",
+  FRIEND_INFO_USERNAME_NAME: "//Text[1]",
   FRIEND_RECORD: '[name="Friend"]',
   FRIEND_USER_IMAGE: '[name="User Image"]',
   FRIENDS_BODY: '[name="friends-body"]',
@@ -84,8 +85,8 @@ const SELECTORS_MACOS = {
   FRIEND_INFO_CURRENT_STATUS: "~friendship-status",
   FRIEND_INFO_STATUS_MESSAGE: "~status-message",
   FRIEND_INFO_USERNAME: "~friend-username",
-  FRIEND_INFO_USERCODE:
-    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[2]",
+  FRIEND_INFO_USERNAME_CODE: "-ios class chain:**/XCUIElementTypeStaticText[2]",
+  FRIEND_INFO_USERNAME_NAME: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   FRIEND_RECORD: "~Friend",
   FRIEND_USER_IMAGE: "~User Image",
   FRIENDS_BODY: "~friends-body",
@@ -222,11 +223,19 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   get friendInfoUsername() {
-    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_USERNAME);
+    return $$(SELECTORS.FRIEND_INFO_USERNAME);
   }
 
-  get friendInfoUsercode() {
-    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_USERCODE);
+  get friendInfoUsernameCode() {
+    return $$(SELECTORS.FRIEND_INFO_USERNAME).$(
+      SELECTORS.FRIEND_INFO_USERNAME_CODE
+    );
+  }
+
+  get friendInfoUsernameName() {
+    return $$(SELECTORS.FRIEND_INFO_USERNAME).$(
+      SELECTORS.FRIEND_INFO_USERNAME_NAME
+    );
   }
 
   get friendRecords() {
@@ -370,11 +379,11 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getAllFriendsList() {
     await this.friendsList.waitForExist();
-    const friends = await $$(SELECTORS.FRIEND_INFO);
+    const friends = await $$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend
-        .$(SELECTORS.FRIEND_INFO_USERNAME)
+        .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
         .getText();
       results.push(friendName);
     }
@@ -383,11 +392,11 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getBlockedList() {
     await this.blockedList.waitForExist();
-    const friends = await $$(SELECTORS.FRIEND_INFO);
+    const friends = await $$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend
-        .$(SELECTORS.FRIEND_INFO_USERNAME)
+        .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
         .getText();
       results.push(friendName);
     }
@@ -399,14 +408,14 @@ class FriendsScreen extends UplinkMainScreen {
     let locator;
     if (currentDriver === "mac2") {
       locator =
-        '//XCUIElementTypeGroup[@label="Friend"]/XCUIElementTypeGroup[@label="Friend Info"]/XCUIElementTypeGroup/XCUIElementTypeStaticText[contains(@value, "' +
+        '//XCUIElementTypeGroup[@label="friend-username"]/XCUIElementTypeStaticText[contains(@value, "' +
         name +
         '")]/../../..';
     } else if (currentDriver === "windows") {
       locator =
-        '//Group[@Name="Friend"]/Group[@Name="Friend Info"]/Text[contains(@Name, "' +
+        '//Group[@Name="friend-username"]/Text[contains(@Name, "' +
         name +
-        '")]/../..';
+        '")]/../../..';
     }
     return locator;
   }
@@ -414,12 +423,12 @@ class FriendsScreen extends UplinkMainScreen {
   async getIncomingList() {
     await this.incomingRequestsList.waitForExist();
     const friends = await $(SELECTORS.INCOMING_REQUESTS_LIST).$$(
-      SELECTORS.FRIEND_INFO
+      SELECTORS.FRIEND_INFO_USERNAME
     );
     let results = [];
     for (let friend of friends) {
       const friendName = await friend
-        .$(SELECTORS.FRIEND_INFO_USERNAME)
+        .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
         .getText();
       results.push(friendName);
     }
@@ -434,12 +443,12 @@ class FriendsScreen extends UplinkMainScreen {
   async getOutgoingList() {
     await this.outgoingRequestsList.waitForExist();
     const friends = await $(SELECTORS.OUTGOING_REQUESTS_LIST).$$(
-      SELECTORS.FRIEND_INFO
+      SELECTORS.FRIEND_INFO_USERNAME
     );
     let results = [];
     for (let friend of friends) {
       const friendName = await friend
-        .$(SELECTORS.FRIEND_INFO_USERNAME)
+        .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
         .getText();
       results.push(friendName);
     }
@@ -453,8 +462,8 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getUserFromAllFriendsList() {
     await this.friendsList.waitForExist();
-    const firstUserFromList = await $$(SELECTORS.FRIEND_INFO)[0]
-      .$(SELECTORS.FRIEND_INFO_USERNAME)
+    const firstUserFromList = await $$(SELECTORS.FRIEND_INFO_USERNAME)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
       .getText();
     return firstUserFromList;
   }
@@ -462,8 +471,8 @@ class FriendsScreen extends UplinkMainScreen {
   async getUserFromIncomingList() {
     await this.incomingRequestsList.waitForExist();
     const firstUserFromList = await $(SELECTORS.INCOMING_REQUESTS_LIST)
-      .$$(SELECTORS.FRIEND_INFO)[0]
-      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .$$(SELECTORS.FRIEND_INFO_USERNAME)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
       .getText();
     return firstUserFromList;
   }
@@ -471,16 +480,16 @@ class FriendsScreen extends UplinkMainScreen {
   async getUserFromOutgoingList() {
     await this.outgoingRequestsList.waitForExist();
     const firstUserFromList = await $(SELECTORS.OUTGOING_REQUESTS_LIST)
-      .$$(SELECTORS.FRIEND_INFO)[0]
-      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .$$(SELECTORS.FRIEND_INFO_USERNAME)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
       .getText();
     return firstUserFromList;
   }
 
   async getUserFromBlockedList() {
     await this.blockedList.waitForExist();
-    const firstUserFromList = await $$(SELECTORS.FRIEND_INFO)[0]
-      .$(SELECTORS.FRIEND_INFO_USERNAME)
+    const firstUserFromList = await $$(SELECTORS.FRIEND_INFO_USERNAME)[0]
+      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
       .getText();
     return firstUserFromList;
   }
