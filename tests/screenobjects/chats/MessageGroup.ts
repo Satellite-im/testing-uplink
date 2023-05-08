@@ -129,7 +129,7 @@ class Messages extends UplinkMainScreen {
   // Message Group Wraps Sent Methods
 
   async getLastGroupWrapSent() {
-    const messageGroupWraps = await this.messageGroupWrapRemote;
+    const messageGroupWraps = await this.messageGroupWrapLocal;
     const lastGroupWrapIndex = (await messageGroupWraps.length) - 1;
     const lastGroupWrap = await messageGroupWraps[lastGroupWrapIndex];
     return lastGroupWrap;

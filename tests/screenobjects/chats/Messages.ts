@@ -278,6 +278,24 @@ class Messages extends UplinkMainScreen {
 
   // Messages Received Methods
 
+  async getMessageReceivedLocator(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await $(
+        '//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]/../..'
+      ).waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === "windows") {
+      await $(
+        '//Text[contains(@Name, "' + expectedMessage + '")]/../..'
+      ).waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
   async getFirstMessageReceivedLocator() {
     const firstMessage = await this.chatMessageFirstRemote;
     return firstMessage;
@@ -354,6 +372,24 @@ class Messages extends UplinkMainScreen {
   }
 
   // Messages Sent Methods
+
+  async getMessageSentLocator(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await $(
+        '//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]/../..'
+      ).waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === "windows") {
+      await $(
+        '//Text[contains(@Name, "' + expectedMessage + '")]/../..'
+      ).waitForExist({ timeout: timeoutMsg });
+    }
+  }
 
   async getFirstMessageSentLocator() {
     const firstMessage = await this.chatMessageFirstLocal;
@@ -491,8 +527,8 @@ class Messages extends UplinkMainScreen {
 
   // Context Menu Functions
 
-  async openContextMenuOnReceivedMessage() {
-    const messageToClick = await this.getLastMessageReceivedLocator();
+  async openContextMenuOnReceivedMessage(message: string) {
+    const messageToClick = await this.getMessageReceivedLocator(string);
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
@@ -502,8 +538,8 @@ class Messages extends UplinkMainScreen {
     }
   }
 
-  async openContextMenuOnSentMessage() {
-    const messageToClick = await this.getLastMessageSentLocator();
+  async openContextMenuOnSentMessage(message: string) {
+    const messageToClick = await this.getMessageSentLocator(message);
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {

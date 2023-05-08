@@ -8,12 +8,15 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
-  ENCRYPTED_MESSAGES_TEXT: '[name="messages-secured-alert"]',
+  ENCRYPTED_MESSAGES: '[name="messages-secured-alert"]',
+  ENCRYPTED_MESSAGES_TEXT: "//Group/Text",
   TYPING_INDICATOR: '[name="message-typing-indicator"]',
 };
 
 const SELECTORS_MACOS = {
-  ENCRYPTED_MESSAGES_TEXT: "~messages-secured-alert",
+  ENCRYPTED_MESSAGES: "~messages-secured-alert",
+  ENCRYPTED_MESSAGES_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   TYPING_INDICATOR: "~message-typing-indicator",
 };
 
@@ -30,8 +33,12 @@ class ChatsLayout extends UplinkMainScreen {
     return $(SELECTORS.CHAT_LAYOUT);
   }
 
+  get encryptedMessages() {
+    return $(SELECTORS.ENCRYPTED_MESSAGES);
+  }
+
   get encryptedMessagesText() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.ENCRYPTED_MESSAGES_TEXT);
+    return $(SELECTORS.ENCRYPTED_MESSAGES).$(SELECTORS.ENCRYPTED_MESSAGES_TEXT);
   }
 
   get typingIndicator() {

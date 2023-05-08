@@ -40,9 +40,9 @@ describe("Two users at the same time - Chat User B", async () => {
   });
 
   it("Assert message received from Chat User A", async () => {
-    const message = await Messages.chatMessageTextGroup;
-    await message.waitForExist({ timeout: 30000 });
-    const textFromMessage = await Messages.getLastMessageReceivedText();
+    const message = await Messages.getMessageReceivedLocator("testing...");
+    await expect(message).toBeDisplayed();
+    const textFromMessage = await Messages.getFirstMessageReceivedText();
     await expect(textFromMessage).toHaveTextContaining("testing...");
   });
 
@@ -72,7 +72,7 @@ describe("Two users at the same time - Chat User B", async () => {
   });
 
   it("Reply popup - Validate contents and close it", async () => {
-    await Messages.openContextMenuOnReceivedMessage();
+    await Messages.openContextMenuOnReceivedMessage("testing...");
     await ContextMenu.validateContextMenuIsOpen();
     await ContextMenu.selectContextOptionReply();
 
@@ -93,7 +93,7 @@ describe("Two users at the same time - Chat User B", async () => {
   });
 
   it("Reply - Reply to a message", async () => {
-    await Messages.openContextMenuOnReceivedMessage();
+    await Messages.openContextMenuOnReceivedMessage("testing...");
     await ContextMenu.validateContextMenuIsOpen();
     await ContextMenu.selectContextOptionReply();
 
@@ -112,8 +112,8 @@ describe("Two users at the same time - Chat User B", async () => {
     await expect(replySentText).toHaveTextContaining("testing...");
 
     // Validate reply message sent appears as last message
-    const textFromMessage = await Messages.getLastMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining("myreply...");
+    const message = await Messages.getMessageSentLocator("myreply...");
+    await expect(message).toBeDisplayed();
   });
 
   it("Send Reply - Validate reply message group contains timestamp", async () => {
@@ -140,8 +140,8 @@ describe("Two users at the same time - Chat User B", async () => {
       timeout: 240000,
     });
     // Validate text from message containing attachment
-    const textFromMessage = await Messages.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("attached...");
+    const message = await Messages.getMessageReceivedLocator("attached...");
+    await expect(message).toBeDisplayed();
   });
 
   it("Chats - Received Message with Attachment - File Metadata", async () => {
