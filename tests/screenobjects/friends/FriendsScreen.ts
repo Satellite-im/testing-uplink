@@ -527,18 +527,6 @@ class FriendsScreen extends UplinkMainScreen {
     await this.hoverOnElement(firstButtonLocator);
   }
 
-  async openFriendContextMenu(name: string) {
-    const locator = await this.getFriendRecordByName(name);
-    const friendElement = await $(locator);
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
-      await rightClickOnMacOS(friendElement);
-    } else if (currentDriver === "windows") {
-      await rightClickOnWindows(friendElement);
-    }
-    await this.contextMenu.waitForDisplayed();
-  }
-
   async pasteUserKeyInAddSomeone() {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
@@ -571,6 +559,56 @@ class FriendsScreen extends UplinkMainScreen {
 
   async waitUntilUserAcceptedFriendRequest() {
     await this.chatWithFriendButton.waitForExist({ timeout: 240000 });
+  }
+
+  // Context Menu methods
+
+  async clickOnContextMenuBlock() {
+    await this.contextMenuBlock.click();
+  }
+
+  async clickOnContextMenuChat() {
+    await this.contextMenuChat.click();
+  }
+
+  async clickOnContextMenuFavoritesAdd() {
+    await this.contextMenuFavoritesAdd.click();
+  }
+
+  async clickOnContextMenuFavoritesRemove() {
+    await this.contextMenuFavoritesRemove.click();
+  }
+
+  async clickOnContextMenuIncomingAccept() {
+    await this.contextMenuIncomingAccept.click();
+  }
+
+  async clickOnContextMenuIncomingDeny() {
+    await this.contextMenuIncomingDeny.click();
+  }
+
+  async clickOnContextMenuOutgoingCancel() {
+    await this.contextMenuOutgoingCancel.click();
+  }
+
+  async clickOnContextMenuRemove() {
+    await this.contextMenuRemove.click();
+  }
+
+  async clickOnContextMenuUnblock() {
+    await this.contextMenuUnblock.click();
+  }
+
+  async openFriendContextMenu(name: string) {
+    const locator = await this.getFriendRecordByName(name);
+    const friendElement = await $(locator);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(friendElement);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(friendElement);
+    }
+    await this.contextMenu.waitForDisplayed();
   }
 }
 

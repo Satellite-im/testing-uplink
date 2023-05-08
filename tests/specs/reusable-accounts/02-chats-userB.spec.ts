@@ -3,6 +3,7 @@ import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
 import ContextMenu from "../../screenobjects/chats/ContextMenu";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
+import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import ReplyPrompt from "../../screenobjects/chats/ReplyPrompt";
 import Topbar from "../../screenobjects/chats/Topbar";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
@@ -39,7 +40,8 @@ describe("Two users at the same time - Chat User B", async () => {
   });
 
   it("Assert message received from Chat User A", async () => {
-    await Messages.chatMessage.waitForDisplayed({ timeout: 30000 });
+    const message = await Messages.chatMessageTextGroup;
+    await message.waitForExist({ timeout: 30000 });
     const textFromMessage = await Messages.getLastMessageReceivedText();
     await expect(textFromMessage).toHaveTextContaining("testing...");
   });
@@ -52,17 +54,17 @@ describe("Two users at the same time - Chat User B", async () => {
 
   it("Validate Chat Message Group from remote user displays username picture and online indicator", async () => {
     //Your user image should be displayed next to the message
-    const userImage = await Messages.getLastGroupWrapImage();
+    const userImage = await MessageGroup.getLastGroupWrapReceivedImage();
     await expect(userImage).toExist();
 
     //Online indicator of your user should be displayed next to the image
-    const onlineIndicator = await Messages.getLastGroupWrapOnline();
+    const onlineIndicator = await MessageGroup.getLastGroupWrapReceivedOnline();
     await expect(onlineIndicator).toExist();
   });
 
   it("Validate Chat Message received displays timestamp and user who sent it", async () => {
     //Timestamp should be displayed when you send a message
-    const timeAgo = await Messages.getLastMessageReceivedTimeAgo();
+    const timeAgo = await MessageGroup.getLastMessageReceivedTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
@@ -72,7 +74,7 @@ describe("Two users at the same time - Chat User B", async () => {
   it("Reply popup - Validate contents and close it", async () => {
     await Messages.openContextMenuOnReceivedMessage();
     await ContextMenu.validateContextMenuIsOpen();
-    await ContextMenu.selectContextOption(0);
+    await ContextMenu.selectContextOptionReply();
 
     // Validate contents of Reply Pop Up
     await expect(ReplyPrompt.replyPopUp).toBeDisplayed();
@@ -93,7 +95,7 @@ describe("Two users at the same time - Chat User B", async () => {
   it("Reply - Reply to a message", async () => {
     await Messages.openContextMenuOnReceivedMessage();
     await ContextMenu.validateContextMenuIsOpen();
-    await ContextMenu.selectContextOption(0);
+    await ContextMenu.selectContextOptionReply();
 
     // Type a reply and sent it
     await ReplyPrompt.replyPopUp.waitForDisplayed();
@@ -104,8 +106,8 @@ describe("Two users at the same time - Chat User B", async () => {
 
   it("Send Reply - Validate reply message group reply and message replied", async () => {
     // Validate message replied appears smaller above your reply
-    const replySent = await Messages.getLastReplySent();
-    const replySentText = await Messages.getLastReplySentText();
+    const replySent = await Messages.getLastReply();
+    const replySentText = await Messages.getLastReplyText();
     await expect(replySent).toBeDisplayed();
     await expect(replySentText).toHaveTextContaining("testing...");
 
@@ -116,7 +118,7 @@ describe("Two users at the same time - Chat User B", async () => {
 
   it("Send Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
-    const timeAgo = await Messages.getLastMessageSentTimeAgo();
+    const timeAgo = await MessageGroup.getLastMessageSentTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
@@ -125,11 +127,11 @@ describe("Two users at the same time - Chat User B", async () => {
 
   it("Send Reply - Validate reply message group contains user image and online indicator", async () => {
     //Your user image should be displayed next to the message
-    const userImage = await Messages.getLastGroupWrapImage();
+    const userImage = await MessageGroup.getLastGroupWrapSentImage();
     await expect(userImage).toExist();
 
     //Online indicator of your user should be displayed next to the image
-    const onlineIndicator = await Messages.getLastGroupWrapOnline();
+    const onlineIndicator = await MessageGroup.getLastGroupWrapSentOnline();
     await expect(onlineIndicator).toExist();
   });
 

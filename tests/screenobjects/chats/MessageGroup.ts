@@ -215,6 +215,30 @@ class Messages extends UplinkMainScreen {
       await rightClickOnWindows(imageOnGroup);
     }
   }
+
+  // Context Menu methods
+
+  async openLocalQuickProfile() {
+    const imageToRightClick = await this.getLastGroupWrapSentImage();
+    await this.hoverOnElement(imageToRightClick);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(imageToRightClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(imageToRightClick);
+    }
+  }
+
+  async openRemoteQuickProfile() {
+    const imageToRightClick = await this.getLastGroupWrapReceivedImage();
+    await this.hoverOnElement(imageToRightClick);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(imageToRightClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(imageToRightClick);
+    }
+  }
 }
 
 export default new Messages();

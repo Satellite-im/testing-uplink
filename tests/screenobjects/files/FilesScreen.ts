@@ -256,11 +256,11 @@ class FilesScreen extends UplinkMainScreen {
   async downloadFile(filename: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await this.contextMenuOption[1].click();
+      await this.clickOnFilesDownload();
       await saveFileOnMacOS(filename);
     } else if (currentDriver === "windows") {
       const uplinkContext = await driver.getWindowHandle();
-      await this.contextMenuOption[1].click();
+      await this.clickOnFilesDownload();
       await saveFileOnWindows(filename, uplinkContext);
     }
   }
@@ -315,20 +315,6 @@ class FilesScreen extends UplinkMainScreen {
     return progress;
   }
 
-  async openFilesContextMenu(name: string) {
-    const elementLocator = await this.getLocatorOfFolderFile(name);
-    const fileFolderToRightClick = await $(elementLocator).$(
-      SELECTORS.FILE_FOLDER_NAME_TEXT
-    );
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
-      await rightClickOnMacOS(fileFolderToRightClick);
-    } else if (currentDriver === "windows") {
-      await rightClickOnWindows(fileFolderToRightClick);
-    }
-    await this.contextMenu.waitForDisplayed();
-  }
-
   async updateNameFileFolder(newName: string, extension: string = "") {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
@@ -363,6 +349,42 @@ class FilesScreen extends UplinkMainScreen {
   async hoverOnUploadButton() {
     const element = await this.uploadFileButton;
     await this.hoverOnElement(element);
+  }
+
+  // Context Menu methods
+
+  async openFilesContextMenu(name: string) {
+    const elementLocator = await this.getLocatorOfFolderFile(name);
+    const fileFolderToRightClick = await $(elementLocator).$(
+      SELECTORS.FILE_FOLDER_NAME_TEXT
+    );
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(fileFolderToRightClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(fileFolderToRightClick);
+    }
+    await this.contextMenu.waitForDisplayed();
+  }
+
+  async clickOnFilesDelete() {
+    await this.contextMenuFilesDelete.click();
+  }
+
+  async clickOnFilesDownload() {
+    await this.contextMenuFilesDownload.click();
+  }
+
+  async clickOnFilesRename() {
+    await this.contextMenuFilesRename.click();
+  }
+
+  async clickOnFolderDelete() {
+    await this.contextMenuFolderDelete.click();
+  }
+
+  async clickOnFolderRename() {
+    await this.contextMenuFolderRename.click();
   }
 }
 

@@ -28,6 +28,7 @@ export default async function settingsProfile() {
   });
 
   it("Settings Profile - Assert texts for Your New Profile dialog", async () => {
+    await SettingsProfileScreen.yourNewProfile.waitForDisplayed();
     await expect(
       SettingsProfileScreen.yourNewProfileHeaderText
     ).toHaveTextContaining("YOUR NEW PROFILE!");
