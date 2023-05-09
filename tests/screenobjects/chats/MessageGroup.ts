@@ -219,7 +219,7 @@ class Messages extends UplinkMainScreen {
   // Context Menu methods
 
   async openLocalQuickProfile() {
-    const imageToRightClick = await this.getLastGroupWrapSentImage();
+    const imageToRightClick = await this.getLastGroupWrapSentOnline();
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
@@ -230,7 +230,7 @@ class Messages extends UplinkMainScreen {
   }
 
   async openRemoteQuickProfile() {
-    const imageToRightClick = await this.getLastGroupWrapReceivedImage();
+    const imageToRightClick = await this.getLastGroupWrapReceivedOnline();
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {

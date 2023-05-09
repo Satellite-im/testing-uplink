@@ -6,7 +6,7 @@ const fsp = require("fs").promises;
 // ============
 // Specs
 // ============
-config.specs = [join(process.cwd(), "./tests/specs/reusable-accounts/01-chats-userA.spec.ts")];
+config.specs = [join(process.cwd(), "./tests/suites/ChatUserA/*.suite.ts")];
 
 // ============
 // Capabilities

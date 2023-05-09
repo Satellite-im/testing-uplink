@@ -1,15 +1,15 @@
-import { loginWithTestUser } from "../../helpers/commands";
-import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
-import ContextMenu from "../../screenobjects/chats/ContextMenu";
-import InputBar from "../../screenobjects/chats/InputBar";
-import Messages from "../../screenobjects/chats/Messages";
-import MessageGroup from "../../screenobjects/chats/MessageGroup";
-import ReplyPrompt from "../../screenobjects/chats/ReplyPrompt";
-import Topbar from "../../screenobjects/chats/Topbar";
-import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
-import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
+import { loginWithTestUser } from "../../../helpers/commands";
+import ChatsLayout from "../../../screenobjects/chats/ChatsLayout";
+import ContextMenu from "../../../screenobjects/chats/ContextMenu";
+import InputBar from "../../../screenobjects/chats/InputBar";
+import Messages from "../../../screenobjects/chats/Messages";
+import MessageGroup from "../../../screenobjects/chats/MessageGroup";
+import ReplyPrompt from "../../../screenobjects/chats/ReplyPrompt";
+import Topbar from "../../../screenobjects/chats/Topbar";
+import FriendsScreen from "../../../screenobjects/friends/FriendsScreen";
+import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
 
-describe("Two users at the same time - Chat User B", async () => {
+export default async function acceptRequest() {
   it("Load Chat User B account and go to Friends Screen", async () => {
     // Go to Friends Screen
     await loginWithTestUser();
@@ -175,9 +175,4 @@ describe("Two users at the same time - Chat User B", async () => {
     // Ensure that message "three.." was deleted
     await Messages.waitForMessageToBeDeleted("three...", 30000);
   });
-
-  after(async () => {
-    // Pause for 30 seconds before finishing execution
-    await browser.pause(30000);
-  });
-});
+}
