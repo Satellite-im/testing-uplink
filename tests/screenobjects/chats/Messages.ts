@@ -497,6 +497,28 @@ class Messages extends UplinkMainScreen {
       await rightClickOnWindows(messageToClick);
     }
   }
+
+  async openContextMenuOnLastReceived() {
+    const messageToClick = await this.getLastMessageReceivedLocator();
+    await this.hoverOnElement(messageToClick);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(messageToClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(messageToClick);
+    }
+  }
+
+  async openContextMenuOnLastSent() {
+    const messageToClick = await this.getLastMessageSentLocator();
+    await this.hoverOnElement(messageToClick);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(messageToClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(messageToClick);
+    }
+  }
 }
 
 export default new Messages();

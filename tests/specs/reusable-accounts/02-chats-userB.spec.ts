@@ -40,13 +40,12 @@ describe("Two users at the same time - Chat User B", async () => {
   });
 
   it("Assert message received from Chat User A", async () => {
-    const message = await Messages.getMessageReceivedLocator("testing...");
-    await expect(message).toBeDisplayed();
+    await Messages.waitForReceivingMessage("testing...");
   });
 
   it("Validate Chat Message received contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const textFromMessage = await Messages.getFirstMessageReceivedText();
+    const textFromMessage = await Messages.getLastMessageReceivedText();
     await expect(textFromMessage).toHaveTextContaining("testing...");
   });
 
@@ -70,7 +69,7 @@ describe("Two users at the same time - Chat User B", async () => {
   });
 
   it("Reply popup - Validate contents and close it", async () => {
-    await Messages.openContextMenuOnReceivedMessage("testing...");
+    await Messages.openContextMenuOnLastReceived();
     await ContextMenu.validateContextMenuIsOpen();
     await ContextMenu.selectContextOptionReply();
 
@@ -91,7 +90,7 @@ describe("Two users at the same time - Chat User B", async () => {
   });
 
   it("Reply - Reply to a message", async () => {
-    await Messages.openContextMenuOnReceivedMessage("testing...");
+    await Messages.openContextMenuOnLastReceived();
     await ContextMenu.validateContextMenuIsOpen();
     await ContextMenu.selectContextOptionReply();
 

@@ -54,7 +54,7 @@ describe("Two users at the same time - Chat User A", async () => {
     await InputBar.typeMessageOnInput("testing...");
     await InputBar.clickOnSendMessage();
 
-    const textFromMessage = await Messages.getFirstMessageSentText();
+    const textFromMessage = await Messages.getLastMessageSentText();
     await expect(textFromMessage).toHaveTextContaining("testing...");
   });
 
@@ -69,8 +69,8 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const firstMessage = await Messages.getFirstMessageSentLocator();
-    await expect(firstMessage).toBeDisplayed();
+    const messageText = await Messages.getLastMessageSentText();
+    await expect(messageText).toHaveTextContaining("testing...");
   });
 
   it("Validate Chat Message Group displays username picture and online indicator", async () => {
@@ -120,7 +120,7 @@ describe("Two users at the same time - Chat User A", async () => {
     await expect(replyReceivedText).toHaveTextContaining("testing...");
 
     // Validate reply message sent appears as last message
-    const textFromMessage = await Messages.getFirstMessageReceivedText();
+    const textFromMessage = await Messages.getLastMessageReceivedText();
     await expect(textFromMessage).toHaveTextContaining("myreply...");
   });
 
@@ -154,7 +154,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Context Menu - Delete Message", async () => {
     // Open context menu on last message sent and select option for deleting
-    await Messages.openContextMenuOnSentMessage("three...");
+    await Messages.openContextMenuOnLastSent();
     await ContextMenu.validateContextMenuIsOpen();
     await ContextMenu.selectContextOptionDelete();
 
@@ -165,7 +165,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Context Menu - Edit Message", async () => {
     // Open context menu on last message sent, select option for editing and type a new message
-    await Messages.openContextMenuOnSentMessage("two...");
+    await Messages.openContextMenuOnLastSent();
     await ContextMenu.validateContextMenuIsOpen();
     await ContextMenu.selectContextOptionEdit();
     await InputBar.typeOnEditMessageInput("edited...");
