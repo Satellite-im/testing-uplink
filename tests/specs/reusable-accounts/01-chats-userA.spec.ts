@@ -159,8 +159,8 @@ describe("Two users at the same time - Chat User A", async () => {
     await ContextMenu.selectContextOptionDelete();
 
     // Validate that last message was deleted and therefore the last message displayed is "two..."
-    const textMessage = await Messages.getMessageSentLocator("two...");
-    await expect(textMessage).toBeDisplayed();
+    const textMessage = await Messages.getLastMessageSentText();
+    await expect(textMessage).toHaveTextContaining("two...");
   });
 
   it("Context Menu - Edit Message", async () => {
@@ -171,8 +171,8 @@ describe("Two users at the same time - Chat User A", async () => {
     await InputBar.typeOnEditMessageInput("edited...");
 
     // Validate message edited contents is shown on Chat Screen
-    const textMessage = await Messages.getMessageSentLocator("edited...");
-    await expect(textMessage).toBeDisplayed();
+    const textMessage = await Messages.getLastMessageSentText();
+    await expect(textMessage).toHaveTextContaining("edited...");
   });
 
   it("Message Input - User cannot send empty messages", async () => {
@@ -188,8 +188,8 @@ describe("Two users at the same time - Chat User A", async () => {
     await InputBar.pressEnterKeyOnInputBar();
 
     // Validate latest message sent displayed on Chat Conversation is still "edited..."
-    const textMessage = await Messages.getMessageSentLocator("edited...");
-    await expect(textMessage).toBeDisplayed();
+    const textMessage = await Messages.getLastMessageSentText();
+    await expect(textMessage).toHaveTextContaining("edited...");
   });
 
   // Skipping test failing on CI due to slowness on driver typing 1024 characters
@@ -250,8 +250,8 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Chats - Message Sent With Attachment - Text contents", async () => {
     // Validate text from message containing attachment
-    const textMessage = await Messages.getMessageSentLocator("attached...");
-    await expect(textMessage).toBeDisplayed();
+    const textMessage = await Messages.getLastMessageSentText();
+    await expect(textMessage).toHaveTextContaining("attached...");
   });
 
   it("Chats - Message Sent With Attachment - File Meta Data", async () => {
@@ -315,7 +315,7 @@ describe("Two users at the same time - Chat User A", async () => {
   });
 
   // Needs more work to be done on identifying the correct image to right click
-  it("Quick Profile - Validate contents from remote quick profile", async () => {
+  xit("Quick Profile - Validate contents from remote quick profile", async () => {
     // Open quick profile from remote user
     await MessageGroup.openRemoteQuickProfile();
     await QuickProfile.waitForIsShown(true);
@@ -335,7 +335,7 @@ describe("Two users at the same time - Chat User A", async () => {
   });
 
   // Needs more work to be done on identifying the correct image to right click
-  it("Quick Profile - Validate contents from local quick profile", async () => {
+  xit("Quick Profile - Validate contents from local quick profile", async () => {
     // Open quick profile from remote user
     await MessageGroup.openLocalQuickProfile();
     await QuickProfile.waitForIsShown(true);

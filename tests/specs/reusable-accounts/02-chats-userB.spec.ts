@@ -109,8 +109,8 @@ describe("Two users at the same time - Chat User B", async () => {
     await expect(replySentText).toHaveTextContaining("testing...");
 
     // Validate reply message sent appears as last message
-    const message = await Messages.getMessageSentLocator("myreply...");
-    await expect(message).toBeDisplayed();
+    const message = await Messages.getLastMessageSentText();
+    await expect(message).toHaveTextContaining("myreply...");
   });
 
   it("Send Reply - Validate reply message group contains timestamp", async () => {
@@ -137,8 +137,8 @@ describe("Two users at the same time - Chat User B", async () => {
       timeout: 240000,
     });
     // Validate text from message containing attachment
-    const message = await Messages.getMessageReceivedLocator("attached...");
-    await expect(message).toBeDisplayed();
+    const message = await Messages.getLastMessageReceivedText();
+    await expect(message).toHaveTextContaining("attached...");
   });
 
   it("Chats - Received Message with Attachment - File Metadata", async () => {
