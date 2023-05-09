@@ -2,6 +2,6 @@ import sendRequest from "../../specs/reusable-accounts/ChatUserA/01-send-request
 import quickProfileUserA from "../../specs/reusable-accounts/ChatUserA/02-quick-profile-with-A.spec";
 
 describe("Chat and Friends Tests with User A", function () {
-  xdescribe("Send request and chats tests with User A", sendRequest.bind(this));
+  describe("Send request and chats tests with User A", sendRequest.bind(this));
   describe("Quick Profile Tests with User A", quickProfileUserA.bind(this));
 });
