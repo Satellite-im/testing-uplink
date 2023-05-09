@@ -351,7 +351,7 @@ describe("Two users at the same time - Chat User A", async () => {
   });
 
   // Needs more work to be done on identifying the correct image to right click
-  it("Quick Profile - Click on Edit Profile", async () => {
+  xit("Quick Profile - Click on Edit Profile", async () => {
     await QuickProfile.clickOnEditProfile();
     await SettingsProfileScreen.waitForIsShown(true);
     await SettingsProfileScreen.goToMainScreen();
