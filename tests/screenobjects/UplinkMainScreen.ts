@@ -28,6 +28,8 @@ const SELECTORS_WINDOWS = {
   CREATE_GROUP_CHAT_USER_NAME: '[name="friend-name"]',
   CREATE_GROUP_CHAT_USER_NAME_TEXT: "//Text",
   FAVORITES: '[name="Favorites"]',
+  FAVORITES_CONTEXT_CHAT: '[name="favorites-chat"]',
+  FAVORITES_CONTEXT_REMOVE: '[name="favorites-remove"]',
   FAVORITES_HEADER: "//Text/Text",
   FAVORITES_USER: "//Group",
   FAVORITES_USER_IMAGE: '[name="User Image"]',
@@ -41,6 +43,12 @@ const SELECTORS_WINDOWS = {
   PRE_RELEASE_INDICATOR_TEXT: "//Text",
   SETTINGS_BUTTON: '[name="settings-button"]',
   SIDEBAR: '[name="sidebar"]',
+  SIDEBAR_CHATS_CONTEXT_CLEAR: '[name="chats-clear-unreads"]',
+  SIDEBAR_CHATS_CONTEXT_DELETE_CONVERSATION:
+    '[name="chats-delete-conversation"]',
+  SIDEBAR_CHATS_CONTEXT_DELETE_GROUP: '[name="chats-delete-group"]',
+  SIDEBAR_CHATS_CONTEXT_HIDE: '[name="chats-hide-chat"]',
+  SIDEBAR_CHATS_CONTEXT_LEAVE: '[name="chats-leave-group"]',
   SIDEBAR_CHATS_HEADER: "//Text/Text",
   SIDEBAR_CHATS_USER: '[name="User"]',
   SIDEBAR_CHATS_USER_IMAGE: '[name="User Image"]',
@@ -63,6 +71,8 @@ const SELECTORS_WINDOWS = {
   TOOLTIP_TEXT: "//Group/Text",
   UPDATE_AVAILABLE: '[name="update-available"]',
   UPDATE_AVAILABLE_TEXT: "//Text",
+  UPDATE_MENU_DISMISS: '[name="update-menu-dismiss"]',
+  UPDATE_MENU_DOWNLOAD: '[name="update-menu-download"]',
   WINDOW: "~main",
 };
 
@@ -87,6 +97,8 @@ const SELECTORS_MACOS = {
   CREATE_GROUP_CHAT_USER_NAME_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText",
   FAVORITES: "~Favorites",
+  FAVORITES_CONTEXT_CHAT: "~favorites-chat",
+  FAVORITES_CONTEXT_REMOVE: "~favorites-remove",
   FAVORITES_HEADER:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   FAVORITES_USER: "-ios class chain:**/XCUIElementTypeGroup",
@@ -102,6 +114,11 @@ const SELECTORS_MACOS = {
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
   SIDEBAR: "~sidebar",
+  SIDEBAR_CHATS_CONTEXT_CLEAR: "~chats-clear-unreads",
+  SIDEBAR_CHATS_CONTEXT_DELETE_CONVERSATION: "~chats-delete-conversation",
+  SIDEBAR_CHATS_CONTEXT_DELETE_GROUP: "~chats-delete-group",
+  SIDEBAR_CHATS_CONTEXT_HIDE: "~chats-hide-chat",
+  SIDEBAR_CHATS_CONTEXT_LEAVE: "~chats-leave-group",
   SIDEBAR_CHATS_HEADER:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   SIDEBAR_CHATS_USER: "~User",
@@ -128,6 +145,8 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   UPDATE_AVAILABLE: "~update-available",
   UPDATE_AVAILABLE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  UPDATE_MENU_DISMISS: "~update-menu-dismiss",
+  UPDATE_MENU_DOWNLOAD: "~update-menu-download",
   WINDOW: "-ios class chain:**/XCUIElementTypeWindow",
 };
 
@@ -235,6 +254,14 @@ export default class UplinkMainScreen extends AppScreen {
     return $(SELECTORS.SIDEBAR).$(SELECTORS.FAVORITES);
   }
 
+  get favoritesChat() {
+    return $(SELECTORS.FAVORITES_CONTEXT_CHAT);
+  }
+
+  get favoritesRemove() {
+    return $(SELECTORS.FAVORITES_CONTEXT_REMOVE);
+  }
+
   get favoritesHeader() {
     return $(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
@@ -329,6 +356,26 @@ export default class UplinkMainScreen extends AppScreen {
 
   get sidebar() {
     return $(SELECTORS.SIDEBAR);
+  }
+
+  get sidebarChatsContextClearUnreads() {
+    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_CLEAR);
+  }
+
+  get sidebarChatsContextHideChat() {
+    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_HIDE);
+  }
+
+  get sidebarChatsContextDeleteConversation() {
+    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_DELETE_CONVERSATION);
+  }
+
+  get sidebarChatsContextDeleteGroup() {
+    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_DELETE_GROUP);
+  }
+
+  get sidebarChatsContextLeaveGroup() {
+    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_LEAVE);
   }
 
   get siderbarChatsHeader() {
@@ -472,6 +519,14 @@ export default class UplinkMainScreen extends AppScreen {
 
   get updateAvailableText() {
     return $(SELECTORS.UPDATE_AVAILABLE).$(SELECTORS.UPDATE_AVAILABLE_TEXT);
+  }
+
+  get updateMenuDismiss() {
+    return $(SELECTORS.UPDATE_MENU_DISMISS);
+  }
+
+  get updateMenuDownload() {
+    return $(SELECTORS.UPDATE_MENU_DOWNLOAD);
   }
 
   get window() {

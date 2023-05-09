@@ -293,7 +293,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select first option "Chat" from Context Menu and validate Chat is displayed
-    await FriendsScreen.contextMenuOption[0].click();
+    await FriendsScreen.clickOnContextMenuChat();
     await ChatsLayout.waitForIsShown(true);
     await InputBar.typeMessageOnInput("testing...");
     await InputBar.clearInputBar();
@@ -309,7 +309,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select second option "Favorites" from Context Menu
-    await FriendsScreen.contextMenuOption[1].click();
+    await FriendsScreen.clickOnContextMenuFavoritesAdd();
 
     // Validate that username and user image bubble is now displayed on Favorites Sidebar
     await FriendsScreen.favorites.waitForDisplayed();
@@ -327,7 +327,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select second option "Remove from Favorites" from Context Menu
-    await FriendsScreen.contextMenuOption[1].click();
+    await FriendsScreen.clickOnContextMenuFavoritesRemove();
 
     // Validate that favorites is hidden now
     await FriendsScreen.favorites.waitForExist({ reverse: true });
@@ -339,7 +339,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select fourth option "Remove" from Context Menu
-    await FriendsScreen.contextMenuOption[2].click();
+    await FriendsScreen.clickOnContextMenuRemove();
 
     // Go to pending list and return to all friends list
     await FriendsScreen.goToPendingFriendsList();
@@ -357,7 +357,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select last option "Block" from Context Menu
-    await FriendsScreen.contextMenuOption[2].click();
+    await FriendsScreen.clickOnContextMenuBlock();
 
     // Go to Blocked List and validate that user is there now
     await FriendsScreen.goToBlockedList();
@@ -381,7 +381,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select the only option "Accept" from Context Menu
-    await FriendsScreen.contextMenuOption[0].click();
+    await FriendsScreen.clickOnContextMenuIncomingAccept();
 
     // Go to the current list of All friends and ensure that accepted user is now in friends list
     await FriendsScreen.goToAllFriendsList();
@@ -404,7 +404,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select the only option "Deny Request" from Context Menu
-    await FriendsScreen.contextMenuOption[1].click();
+    await FriendsScreen.clickOnContextMenuIncomingDeny();
 
     // Go to the current list of All friends and ensure that denied user is not in friends list
     await FriendsScreen.goToAllFriendsList();
@@ -427,7 +427,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select the only option "Cancel Request" from Context Menu
-    await FriendsScreen.contextMenuOption[0].click();
+    await FriendsScreen.clickOnContextMenuOutgoingCancel();
 
     // Go to the current list of All friends and ensure that removed user is not in friends list
     await FriendsScreen.goToAllFriendsList();
@@ -451,7 +451,7 @@ export default async function friends() {
     await FriendsScreen.openFriendContextMenu(friendName);
 
     // Select the only option "Unblock" from Context Menu
-    await FriendsScreen.contextMenuOption[0].click();
+    await FriendsScreen.clickOnContextMenuUnblock();
 
     // Go to the current list of All friends and ensure that unblocked user is not on friends list, as expected
     await FriendsScreen.goToAllFriendsList();

@@ -118,7 +118,7 @@ export default async function files() {
   it("Context Menu - Folder - Rename", async () => {
     // Open context menu for testfolder01 and select the first option "Rename"
     await FilesScreen.openFilesContextMenu("testfolder01");
-    await FilesScreen.contextMenuOption[0].click();
+    await FilesScreen.clickOnFolderRename();
 
     // Set the new name for the folder
     const renamedFolder = await FilesScreen.updateNameFileFolder("newname");
@@ -128,7 +128,7 @@ export default async function files() {
   it("Context Menu - Folder - Delete", async () => {
     // Open context menu for newname folder and select the second option "Delete"
     await FilesScreen.openFilesContextMenu("newname");
-    await FilesScreen.contextMenuOption[1].click();
+    await FilesScreen.clickOnFolderDelete();
 
     // Ensure that folder deleted does not exist anymore
     const nonExistingFolderLocator =
@@ -139,7 +139,7 @@ export default async function files() {
   it("Context Menu - File - Rename", async () => {
     // Open context menu for logo.jpg file and select the first option "Rename"
     await FilesScreen.openFilesContextMenu("logo.jpg");
-    await FilesScreen.contextMenuOption[0].click();
+    await FilesScreen.clickOnFilesRename();
 
     // Set the new name for the file
     const renamedFile = await FilesScreen.updateNameFileFolder(
@@ -159,7 +159,7 @@ export default async function files() {
   it("Context Menu - File - Delete", async () => {
     // Open context menu for newname.jpg file and select the second option "Delete"
     await FilesScreen.openFilesContextMenu("newname.jpg");
-    await FilesScreen.contextMenuOption[2].click();
+    await FilesScreen.clickOnFilesDelete();
 
     // Ensure that file deleted does not exist anymore
     const nonExistingFile = await FilesScreen.getLocatorOfDeletedElement(

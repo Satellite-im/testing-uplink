@@ -7,7 +7,6 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
-  CHAT_MESSAGE: '[name="Message"]',
   CHAT_MESSAGE_FILE_BUTTON: '[name="attachment-button"]',
   CHAT_MESSAGE_FILE_EMBED: '[name="file-embed"]',
   CHAT_MESSAGE_FILE_EMBED_REMOTE: '[name="file-embed-remote"]',
@@ -17,23 +16,19 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_FILE_META_TEXT: "//Text",
   CHAT_MESSAGE_FILE_NAME: '[name="file-name"]',
   CHAT_MESSAGE_FILE_NAME_TEXT: "//Text",
+  CHAT_MESSAGE_LINK_EMBED: '[name="link-embed"]',
+  CHAT_MESSAGE_LINK_EMBED_DETAILS: '[name="embed-details"]',
+  CHAT_MESSAGE_LINK_EMBED_ICON: '[name="embed-icon"]',
+  CHAT_MESSAGE_LINK_EMBED_TITLE: '[name="link-title"]',
+  CHAT_MESSAGE_LOCAL: '[name="message-local"]',
+  CHAT_MESSAGE_REMOTE: '[name="message-remote"]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
   CHAT_MESSAGE_REPLY_TEXT: "//Text",
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
   CHAT_MESSAGE_TEXT_VALUE: "//Text",
-  MESSAGE_GROUP_REMOTE: '[name="message-group-remote"]',
-  MESSAGE_GROUP_SENT: '[name="message-group"]',
-  MESSAGE_GROUP_WRAP: '[name="message-group-wrap"]',
-  MESSAGE_GROUP_TIME_AGO: '[name="time-ago"]',
-  MESSAGE_GROUP_TIME_AGO_TEXT: "//Text",
-  MESSAGE_GROUP_USER_IMAGE: '[name="User Image"]',
-  MESSAGE_GROUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
-  MESSAGE_GROUP_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
-  MESSAGE_GROUP_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
 };
 
 const SELECTORS_MACOS = {
-  CHAT_MESSAGE: "~Message",
   CHAT_MESSAGE_FILE_BUTTON: "~attachment-button",
   CHAT_MESSAGE_FILE_EMBED: "~file-embed",
   CHAT_MESSAGE_FILE_EMBED_REMOTE: "~file-embed-remote",
@@ -43,19 +38,16 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_FILE_META_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_FILE_NAME: "~file-name",
   CHAT_MESSAGE_FILE_NAME_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_LINK_EMBED: "~link-embed",
+  CHAT_MESSAGE_LINK_EMBED_DETAILS: "~embed-details",
+  CHAT_MESSAGE_LINK_EMBED_ICON: "~embed-icon",
+  CHAT_MESSAGE_LINK_EMBED_TITLE: "~link-title",
+  CHAT_MESSAGE_LOCAL: "~message-local",
+  CHAT_MESSAGE_REMOTE: "~message-remote",
   CHAT_MESSAGE_REPLY: "~message-reply",
   CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
   CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
-  MESSAGE_GROUP_REMOTE: "~message-group-remote",
-  MESSAGE_GROUP_SENT: "~message-group",
-  MESSAGE_GROUP_WRAP: "~message-group-wrap",
-  MESSAGE_GROUP_TIME_AGO: "~time-ago",
-  MESSAGE_GROUP_TIME_AGO_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  MESSAGE_GROUP_USER_IMAGE: "~User Image",
-  MESSAGE_GROUP_USER_IMAGE_WRAP: "~user-image-wrap",
-  MESSAGE_GROUP_USER_INDICATOR_OFFLINE: "~indicator-offline",
-  MESSAGE_GROUP_USER_INDICATOR_ONLINE: "~indicator-online",
 };
 
 currentOS === "windows"
@@ -64,11 +56,7 @@ currentOS === "windows"
 
 class Messages extends UplinkMainScreen {
   constructor() {
-    super(SELECTORS.MESSAGE_GROUP_WRAP);
-  }
-
-  get chatMessage() {
-    return $(SELECTORS.CHAT_MESSAGE);
+    super(SELECTORS.CHAT_MESSAGE_LOCAL || SELECTORS.CHAT_MESSAGE_REMOTE);
   }
 
   get chatMessageFileButtonLocal() {
@@ -163,6 +151,36 @@ class Messages extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
 
+  get chatMessageLinkEmbed() {
+    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED);
+  }
+
+  get chatMessageLinkEmbedDetails() {
+    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS
+    );
+  }
+
+  get chatMessageLinkEmbedIcon() {
+    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
+    );
+  }
+
+  get chatMessageLinkEmbedTitle() {
+    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
+    );
+  }
+
+  get chatMessageLocal() {
+    return $$(SELECTORS.CHAT_MESSAGE_LOCAL);
+  }
+
+  get chatMessageRemote() {
+    return $$(SELECTORS.CHAT_MESSAGE_REMOTE);
+  }
+
   get chatMessageReply() {
     return $(SELECTORS.CHAT_MESSAGE_REPLY);
   }
@@ -227,126 +245,53 @@ class Messages extends UplinkMainScreen {
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
   }
 
-  // Message Group Wraps Methods
-
-  async getLastGroupWrap() {
-    const messageGroupWraps = await this.messageGroupWrap;
-    const lastGroupWrapIndex = (await messageGroupWraps.length) - 1;
-    const lastGroupWrap = await messageGroupWraps[lastGroupWrapIndex];
-    return lastGroupWrap;
-  }
-
-  async getLastGroupWrapImage() {
-    const groupWrap = await this.getLastGroupWrap();
-    const userImage = await groupWrap
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
-    return userImage;
-  }
-
-  async getLastGroupWrapOffline() {
-    const groupWrap = await this.getLastGroupWrap();
-    const offlineStatus = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE
-    );
-    return offlineStatus;
-  }
-
-  async getLastGroupWrapOnline() {
-    const groupWrap = await this.getLastGroupWrap();
-    const onlineStatus = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
-    );
-    return onlineStatus;
-  }
-
-  // Group Messages Received Methods
-
-  async getLastReceivedGroup() {
-    const messageGroupsReceived = await this.messageGroupReceived;
-    const lastGroupIndex = (await messageGroupsReceived.length) - 1;
-    const lastGroupLocator = await messageGroupsReceived[lastGroupIndex];
-    return lastGroupLocator;
-  }
-
-  async getLastMessageReceivedTimeAgo() {
-    const lastGroupReceived = await this.getLastReceivedGroup();
-    const timeAgoText = await lastGroupReceived
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
-    return timeAgoText;
-  }
-
-  async rightClickOnLastReceivedGroup() {
-    const lastGroupReceived = await this.getLastReceivedGroup();
-    const imageOnGroup = await lastGroupReceived.$("/..");
-    await this.hoverOnElement(imageOnGroup);
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
-      await rightClickOnMacOS(imageOnGroup);
-    } else if (currentDriver === "windows") {
-      await rightClickOnWindows(imageOnGroup);
-    }
-  }
-
-  // Group Messages Sent Methods
-  async getLastSentGroup() {
-    const messageGroupsSent = await this.messageGroupSent;
-    const lastGroupIndex = (await messageGroupsSent.length) - 1;
-    const lastGroupLocator = await messageGroupsSent[lastGroupIndex];
-    return lastGroupLocator;
-  }
-
-  async getLastMessageSentTimeAgo() {
-    const lastGroupSent = await this.getLastSentGroup();
-    const timeAgoText = await lastGroupSent
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
-    return timeAgoText;
-  }
-
-  async rightClickOnLastSentGroup() {
-    const lastSentGroup = await this.getLastSentGroup();
-    const imageOnGroup = await lastSentGroup.$("/..");
-    await this.hoverOnElement(imageOnGroup);
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
-      await rightClickOnMacOS(imageOnGroup);
-    } else if (currentDriver === "windows") {
-      await rightClickOnWindows(imageOnGroup);
-    }
-  }
-
   // Messages Received Methods
 
-  async getNumberOfMessagesInLastReceivedGroup() {
-    const lastReceivedGroup = await this.getLastReceivedGroup();
-    const messagesInGroup = await lastReceivedGroup.$$(SELECTORS.CHAT_MESSAGE);
-    return messagesInGroup.length;
+  async getMessageReceivedLocator(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await $(
+        '//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]/../..'
+      ).waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === "windows") {
+      await $(
+        '//Text[contains(@Name, "' + expectedMessage + '")]/../..'
+      ).waitForExist({ timeout: timeoutMsg });
+    }
   }
 
   async getLastMessageReceivedLocator() {
-    const lastReceivedGroup = await this.getLastReceivedGroup();
-    const messagesInGroup = await lastReceivedGroup.$$(SELECTORS.CHAT_MESSAGE);
-    const lastMessageIndex = (await messagesInGroup.length) - 1;
-    const lastMessageLocator = await messagesInGroup[lastMessageIndex];
-    return lastMessageLocator;
+    const messages = await this.chatMessageRemote;
+    const lastMessageIndex = (await messages.length) - 1;
+    const lastMessage = await messages[lastMessageIndex];
+    return lastMessage;
   }
 
   async getLastMessageReceivedText() {
-    const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageText = await lastMessage
+    const message = await this.getLastMessageReceivedLocator();
+    const messageText = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return lastMessageText;
+    return messageText;
   }
 
-  async getLastMessageReceivedTextLocator() {
-    const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageText = await lastMessage
+  async getFirstMessageReceivedLocator() {
+    const messages = await this.chatMessageRemote;
+    const firstMessage = await messages[0];
+    return firstMessage;
+  }
+
+  async getFirstMessageReceivedText() {
+    const message = await this.getFirstMessageReceivedLocator();
+    const messageText = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return lastMessageText;
+    return messageText;
   }
 
   async waitForMessageToBeDeleted(
@@ -387,52 +332,64 @@ class Messages extends UplinkMainScreen {
 
   // Messages Sent Methods
 
+  async getMessageSentLocator(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await $(
+        '//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]/../..'
+      ).waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === "windows") {
+      await $(
+        '//Text[contains(@Name, "' + expectedMessage + '")]/../..'
+      ).waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
   async getLastMessageSentLocator() {
-    const lastSentGroup = await this.getLastSentGroup();
-    const messagesInGroup = await lastSentGroup.$$(SELECTORS.CHAT_MESSAGE);
-    const lastMessageIndex = (await messagesInGroup.length) - 1;
-    const lastMessageLocator = await messagesInGroup[lastMessageIndex];
-    return lastMessageLocator;
+    const messages = await this.chatMessageLocal;
+    const lastMessageIndex = (await messages.length) - 1;
+    const lastMessage = await messages[lastMessageIndex];
+    return lastMessage;
   }
 
   async getLastMessageSentText() {
-    const lastMessage = await this.getLastMessageSentLocator();
-    const lastMessageText = await lastMessage
+    const message = await this.getLastMessageSentLocator();
+    const messageText = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return lastMessageText;
+    return messageText;
+  }
+
+  async getFirstMessageSentLocator() {
+    const messages = await this.chatMessageLocal;
+    const firstMessage = await messages[0];
+    return firstMessage;
+  }
+
+  async getFirstMessageSentText() {
+    const message = await this.getFirstMessageSentLocator();
+    const messageText = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    return messageText;
   }
 
   // Replies Methods
 
-  async getLastReplyReceived() {
-    const lastGroupReceived = await this.getLastReceivedGroup();
-    const lastReplyReceived = await lastGroupReceived.$(
-      SELECTORS.CHAT_MESSAGE_REPLY
-    );
-    return lastReplyReceived;
+  async getLastReply() {
+    const lastReply = await this.chatMessageReply;
+    return lastReply;
   }
 
-  async getLastReplyReceivedText() {
-    const lastGroupReceived = await this.getLastReceivedGroup();
-    const lastReplyReceivedText = await lastGroupReceived
-      .$(SELECTORS.CHAT_MESSAGE_REPLY)
-      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
-    return lastReplyReceivedText;
-  }
-
-  async getLastReplySent() {
-    const lastGroupSent = await this.getLastSentGroup();
-    const lastReplySent = await lastGroupSent.$(SELECTORS.CHAT_MESSAGE_REPLY);
-    return lastReplySent;
-  }
-
-  async getLastReplySentText() {
-    const lastGroupSent = await this.getLastSentGroup();
-    const lastReplySentText = await lastGroupSent
-      .$(SELECTORS.CHAT_MESSAGE_REPLY)
-      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
-    return lastReplySentText;
+  async getLastReplyText() {
+    const lastGroup = await this.chatMessageReply;
+    const lastReplyText = await lastGroup.$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
+    return lastReplyText;
   }
 
   // Messages With Files Methods
@@ -519,7 +476,29 @@ class Messages extends UplinkMainScreen {
 
   // Context Menu Functions
 
-  async openContextMenuOnReceivedMessage() {
+  async openContextMenuOnReceivedMessage(message: string) {
+    const messageToClick = await this.getMessageReceivedLocator(message);
+    await this.hoverOnElement(messageToClick);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(messageToClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(messageToClick);
+    }
+  }
+
+  async openContextMenuOnSentMessage(message: string) {
+    const messageToClick = await this.getMessageSentLocator(message);
+    await this.hoverOnElement(messageToClick);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(messageToClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(messageToClick);
+    }
+  }
+
+  async openContextMenuOnLastReceived() {
     const messageToClick = await this.getLastMessageReceivedLocator();
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
@@ -530,7 +509,7 @@ class Messages extends UplinkMainScreen {
     }
   }
 
-  async openContextMenuOnSentMessage() {
+  async openContextMenuOnLastSent() {
     const messageToClick = await this.getLastMessageSentLocator();
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();

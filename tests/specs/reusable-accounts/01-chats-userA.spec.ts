@@ -4,6 +4,7 @@ import ComposeAttachment from "../../screenobjects/chats/ComposeAttachment";
 import ContextMenu from "../../screenobjects/chats/ContextMenu";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
+import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import QuickProfile from "../../screenobjects/chats/QuickProfile";
 import Topbar from "../../screenobjects/chats/Topbar";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
@@ -59,7 +60,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
-    const timeAgo = await Messages.getLastMessageSentTimeAgo();
+    const timeAgo = await MessageGroup.getLastMessageSentTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
@@ -68,17 +69,17 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const lastMessage = await Messages.getLastMessageSentLocator();
-    await expect(lastMessage).toBeDisplayed();
+    const messageText = await Messages.getLastMessageSentText();
+    await expect(messageText).toHaveTextContaining("testing...");
   });
 
   it("Validate Chat Message Group displays username picture and online indicator", async () => {
     //Your user image should be displayed next to the message
-    const userImage = await Messages.getLastGroupWrapImage();
+    const userImage = await MessageGroup.getLastGroupWrapSentImage();
     await expect(userImage).toExist();
 
     //Online indicator of your user should be displayed next to the image
-    const onlineIndicator = await Messages.getLastGroupWrapOnline();
+    const onlineIndicator = await MessageGroup.getLastGroupWrapSentOnline();
     await expect(onlineIndicator).toExist();
   });
 
@@ -113,8 +114,8 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Receive Reply - Validate reply message contents", async () => {
     // Validate message replied appears smaller above your reply
-    const replyReceived = await Messages.getLastReplyReceived();
-    const replyReceivedText = await Messages.getLastReplyReceivedText();
+    const replyReceived = await Messages.getLastReply();
+    const replyReceivedText = await Messages.getLastReplyText();
     await expect(replyReceived).toBeDisplayed();
     await expect(replyReceivedText).toHaveTextContaining("testing...");
 
@@ -125,7 +126,7 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Receive Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
-    const timeAgo = await Messages.getLastMessageReceivedTimeAgo();
+    const timeAgo = await MessageGroup.getLastMessageReceivedTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
@@ -134,11 +135,11 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Receive Reply - Validate reply message group contains user image and online indicator", async () => {
     //Your user image should be displayed next to the message
-    const userImage = await Messages.getLastGroupWrapImage();
+    const userImage = await MessageGroup.getLastGroupWrapReceivedImage();
     await expect(userImage).toExist();
 
     //Online indicator of your user should be displayed next to the image
-    const onlineIndicator = await Messages.getLastGroupWrapOnline();
+    const onlineIndicator = await MessageGroup.getLastGroupWrapReceivedOnline();
     await expect(onlineIndicator).toExist();
   });
 
@@ -152,26 +153,26 @@ describe("Two users at the same time - Chat User A", async () => {
   });
 
   it("Context Menu - Delete Message", async () => {
-    // Open context menu on last message sent and select option with index = 3 (delete)
-    await Messages.openContextMenuOnSentMessage();
+    // Open context menu on last message sent and select option for deleting
+    await Messages.openContextMenuOnLastSent();
     await ContextMenu.validateContextMenuIsOpen();
-    await ContextMenu.selectContextOption(3);
+    await ContextMenu.selectContextOptionDelete();
 
     // Validate that last message was deleted and therefore the last message displayed is "two..."
-    const textFromMessage = await Messages.getLastMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining("two...");
+    const textMessage = await Messages.getLastMessageSentText();
+    await expect(textMessage).toHaveTextContaining("two...");
   });
 
   it("Context Menu - Edit Message", async () => {
-    // Open context menu on last message sent, select option with index = 2 (edit) and type a new message
-    await Messages.openContextMenuOnSentMessage();
+    // Open context menu on last message sent, select option for editing and type a new message
+    await Messages.openContextMenuOnLastSent();
     await ContextMenu.validateContextMenuIsOpen();
-    await ContextMenu.selectContextOption(2);
+    await ContextMenu.selectContextOptionEdit();
     await InputBar.typeOnEditMessageInput("edited...");
 
     // Validate message edited contents is shown on Chat Screen
-    const textFromMessage = await Messages.getLastMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining("edited...");
+    const textMessage = await Messages.getLastMessageSentText();
+    await expect(textMessage).toHaveTextContaining("edited...");
   });
 
   it("Message Input - User cannot send empty messages", async () => {
@@ -187,8 +188,8 @@ describe("Two users at the same time - Chat User A", async () => {
     await InputBar.pressEnterKeyOnInputBar();
 
     // Validate latest message sent displayed on Chat Conversation is still "edited..."
-    const latestMessage = await Messages.getLastMessageSentText();
-    await expect(latestMessage).toHaveTextContaining("edited...");
+    const textMessage = await Messages.getLastMessageSentText();
+    await expect(textMessage).toHaveTextContaining("edited...");
   });
 
   // Skipping test failing on CI due to slowness on driver typing 1024 characters
@@ -249,8 +250,8 @@ describe("Two users at the same time - Chat User A", async () => {
 
   it("Chats - Message Sent With Attachment - Text contents", async () => {
     // Validate text from message containing attachment
-    const textFromMessage = await Messages.getLastMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining("attached...");
+    const textMessage = await Messages.getLastMessageSentText();
+    await expect(textMessage).toHaveTextContaining("attached...");
   });
 
   it("Chats - Message Sent With Attachment - File Meta Data", async () => {
@@ -316,7 +317,7 @@ describe("Two users at the same time - Chat User A", async () => {
   // Needs more work to be done on identifying the correct image to right click
   xit("Quick Profile - Validate contents from remote quick profile", async () => {
     // Open quick profile from remote user
-    await Messages.rightClickOnLastReceivedGroup();
+    await MessageGroup.openRemoteQuickProfile();
     await QuickProfile.waitForIsShown(true);
 
     // Validate contents from quick profile
@@ -336,7 +337,7 @@ describe("Two users at the same time - Chat User A", async () => {
   // Needs more work to be done on identifying the correct image to right click
   xit("Quick Profile - Validate contents from local quick profile", async () => {
     // Open quick profile from remote user
-    await Messages.rightClickOnLastSentGroup();
+    await MessageGroup.openLocalQuickProfile();
     await QuickProfile.waitForIsShown(true);
 
     // Validate contents from quick profile
@@ -350,7 +351,7 @@ describe("Two users at the same time - Chat User A", async () => {
   });
 
   // Needs more work to be done on identifying the correct image to right click
-  xit("Quick Profile - Click on Edit Profile", async () => {
+  it("Quick Profile - Click on Edit Profile", async () => {
     await QuickProfile.clickOnEditProfile();
     await SettingsProfileScreen.waitForIsShown(true);
     await SettingsProfileScreen.goToMainScreen();
