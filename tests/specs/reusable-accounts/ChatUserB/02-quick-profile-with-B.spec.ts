@@ -54,4 +54,9 @@ export default async function quickProfileUserB() {
     // Return to Friends List
     await FriendsScreen.goToAllFriendsList();
   });
+
+  after(async () => {
+    // Pause for 30 seconds before finishing execution
+    await browser.pause(30000);
+  });
 }
