@@ -55,8 +55,11 @@ export default async function quickProfileUserB() {
     await FriendsScreen.goToAllFriendsList();
   });
 
-  after(async () => {
-    // Pause for 30 seconds before finishing execution
-    await browser.pause(30000);
+  it("Return to Chat with User A", async () => {
+    // Go to the current list of All friends and then open a Chat conversation with ChatUserA
+    await FriendsScreen.chatWithFriendButton.waitForExist();
+    await FriendsScreen.chatWithFriendButton.click();
+    await ChatsLayout.waitForIsShown(true);
+    await Topbar.waitUntilRemoteUserIsOnline();
   });
 }

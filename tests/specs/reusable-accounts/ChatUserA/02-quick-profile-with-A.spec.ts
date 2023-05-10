@@ -137,10 +137,11 @@ export default async function quickProfileUserA() {
 
   it("Wait until friend request is accepted again", async () => {
     await FriendsScreen.waitUntilUserAcceptedFriendRequest();
-  });
 
-  after(async () => {
-    // Pause for 30 seconds before finishing execution
-    await browser.pause(30000);
+    // Go to chat with User B
+    await FriendsScreen.chatWithFriendButton.waitForExist();
+    await FriendsScreen.chatWithFriendButton.click();
+    await ChatsLayout.waitForIsShown(true);
+    await Topbar.waitUntilRemoteUserIsOnline();
   });
 }
