@@ -1,0 +1,60 @@
+2023-05-10 05:11:15:594 [Appium] Welcome to Appium v2.0.0-beta.56 (REV 01e0c20d01c6aab28d844280d130f0e745e2ddd9)
+2023-05-10 05:11:15:596 [Appium] Non-default server args:
+2023-05-10 05:11:15:596 [Appium] { basePath: '/', relaxedSecurityEnabled: true }
+2023-05-10 05:11:15:597 [Appium] Attempting to load driver flutter...
+2023-05-10 05:11:15:597 [Appium] Requiring driver at /Users/luisecm/.appium/node_modules/appium-flutter-driver
+2023-05-10 05:11:16:907 [Appium] Attempting to load driver xcuitest...
+2023-05-10 05:11:16:907 [Appium] Requiring driver at /Users/luisecm/.appium/node_modules/appium-xcuitest-driver
+2023-05-10 05:11:17:317 [Appium] Attempting to load driver uiautomator2...
+2023-05-10 05:11:17:318 [Appium] Requiring driver at /Users/luisecm/.appium/node_modules/appium-uiautomator2-driver
+2023-05-10 05:11:17:696 [Appium] Attempting to load driver espresso...
+2023-05-10 05:11:17:697 [Appium] Requiring driver at /Users/luisecm/.appium/node_modules/appium-espresso-driver
+2023-05-10 05:11:18:061 [Appium] Attempting to load driver mac2...
+2023-05-10 05:11:18:062 [Appium] Requiring driver at /Users/luisecm/.appium/node_modules/appium-mac2-driver
+2023-05-10 05:11:18:119 [Appium] Appium REST http interface listener started on 0.0.0.0:4723
+2023-05-10 05:11:18:119 [Appium] Available drivers:
+2023-05-10 05:11:18:119 [Appium]   - flutter@1.5.0 (automationName 'Flutter')
+2023-05-10 05:11:18:119 [Appium]   - xcuitest@4.7.4 (automationName 'XCUITest')
+2023-05-10 05:11:18:119 [Appium]   - uiautomator2@2.4.5 (automationName 'UiAutomator2')
+2023-05-10 05:11:18:119 [Appium]   - espresso@2.7.1 (automationName 'Espresso')
+2023-05-10 05:11:18:119 [Appium]   - mac2@1.5.3 (automationName 'Mac2')
+2023-05-10 05:11:18:119 [Appium] Available plugins:
+2023-05-10 05:11:18:119 [Appium]   - relaxed-caps@1.0.0-beta.9
+2023-05-10 05:11:18:119 [Appium] No plugins activated. Use the --use-plugins flag with names of plugins to activate
+2023-05-10 05:11:18:760 [HTTP] --> POST /session
+2023-05-10 05:11:18:761 [HTTP] {"capabilities":{"alwaysMatch":{"platformName":"mac","appium:automationName":"mac2","appium:bundleId":"com.apple.AppStore"},"firstMatch":[{}]},"desiredCapabilities":{"platformName":"mac","appium:automationName":"mac2","appium:bundleId":"com.apple.AppStore"}}
+2023-05-10 05:11:18:761 [AppiumDriver@5fc3] Calling AppiumDriver.createSession() with args: [{"platformName":"mac","appium:automationName":"mac2","appium:bundleId":"com.apple.AppStore"},null,{"alwaysMatch":{"platformName":"mac","appium:automationName":"mac2","appium:bundleId":"com.apple.AppStore"},"firstMatch":[{}]}]
+2023-05-10 05:11:18:762 [AppiumDriver@5fc3] Event 'newSessionRequested' logged at 1683695478762 (00:11:18 GMT-0500 (hora de verano central))
+2023-05-10 05:11:18:763 [Appium] Attempting to find matching driver for automationName 'mac2' and platformName 'mac'
+2023-05-10 05:11:18:764 [Appium] The 'mac2' driver was installed and matched caps.
+2023-05-10 05:11:18:764 [Appium] Will require it at /Users/luisecm/.appium/node_modules/appium-mac2-driver
+2023-05-10 05:11:18:764 [Appium] Requiring driver at /Users/luisecm/.appium/node_modules/appium-mac2-driver
+2023-05-10 05:11:18:764 [AppiumDriver@5fc3] Appium v2.0.0-beta.56 creating new Mac2Driver (v1.5.3) session
+2023-05-10 05:11:18:764 [AppiumDriver@5fc3] Checking BaseDriver versions for Appium and Mac2Driver
+2023-05-10 05:11:18:764 [AppiumDriver@5fc3] Appium's BaseDriver version is 9.3.2
+2023-05-10 05:11:18:764 [AppiumDriver@5fc3] Mac2Driver's BaseDriver version is 9.3.2
+2023-05-10 05:11:18:764 [AppiumDriver@5fc3] Applying relaxed security to 'Mac2Driver' as per server command line argument. All insecure features will be enabled unless explicitly disabled by --deny-insecure
+2023-05-10 05:11:18:765 [Mac2Driver@c5a9] Creating session with W3C capabilities: {
+2023-05-10 05:11:18:765 [Mac2Driver@c5a9]   "alwaysMatch": {
+2023-05-10 05:11:18:765 [Mac2Driver@c5a9]     "platformName": "mac",
+2023-05-10 05:11:18:765 [Mac2Driver@c5a9]     "appium:automationName": "mac2",
+2023-05-10 05:11:18:765 [Mac2Driver@c5a9]     "appium:bundleId": "com.apple.AppStore"
+2023-05-10 05:11:18:765 [Mac2Driver@c5a9]   },
+2023-05-10 05:11:18:765 [Mac2Driver@c5a9]   "firstMatch": [
+2023-05-10 05:11:18:765 [Mac2Driver@c5a9]     {}
+2023-05-10 05:11:18:765 [Mac2Driver@c5a9]   ]
+2023-05-10 05:11:18:765 [Mac2Driver@c5a9] }
+2023-05-10 05:11:18:766 [Mac2Driver@c5a9 (cf1f5b18)] Session created with session id: cf1f5b18-93e2-430b-9a86-7cf15e14a1c4
+2023-05-10 05:11:18:767 [WebDriverAgentMac] Using bootstrap root: /Users/luisecm/.appium/node_modules/appium-mac2-driver/WebDriverAgentMac
+2023-05-10 05:11:18:769 [WebDriverAgentMac] Using xcodebuild binary at '/usr/bin/xcodebuild'
+2023-05-10 05:11:18:769 [WebDriverAgentMac] WebDriverAgent sources are up to date (1678990180344 >= 1678990180344)
+2023-05-10 05:11:18:769 [WebDriverAgentMac] Using 127.0.0.1 as server host
+2023-05-10 05:11:18:769 [WebDriverAgentMac] Using port 10100
+2023-05-10 05:11:18:771 [WebDriverAgentMac] Mac2Driver host process logging is disabled. All the xcodebuild output is going to be suppressed. Set the 'showServerLogs' capability to 'true' if this is an undesired behavior
+2023-05-10 05:11:18:771 [WebDriverAgentMac] Starting Mac2Driver host process: xcodebuild build-for-testing test-without-building -project /Users/luisecm/.appium/node_modules/appium-mac2-driver/WebDriverAgentMac/WebDriverAgentMac.xcodeproj -scheme WebDriverAgentRunner COMPILER_INDEX_STORE_ENABLE\=NO
+2023-05-10 05:11:18:775 [WD Proxy] Matched '/status' to command name 'getStatus'
+2023-05-10 05:11:18:775 [WD Proxy] Proxying [GET /status] to [GET http://127.0.0.1:10100/status] with no body
+2023-05-10 05:11:18:779 [WD Proxy] connect ECONNREFUSED 127.0.0.1:10100
+2023-05-10 05:11:18:856 [HTTP] <-- POST /session - - ms - -
+2023-05-10 05:11:18:857 [HTTP] 
+2023-05-10 05:11:18:857 [Appium] Received SIGTERM - shutting down
