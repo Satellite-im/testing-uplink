@@ -1,6 +1,8 @@
 import {
   createNewUser,
   getUserKey,
+  launchAppForChatUserA,
+  launchAppForChatUserB,
   saveTestKeys,
 } from "../../helpers/commands";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
@@ -9,11 +11,7 @@ import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
 
 describe("Two users in one file", () => {
   it("Chat User A - Create Account", async () => {
-    await driver.executeScript("macos: launchApp", [
-      {
-        bundleId: "im.satellite.uplink05092023",
-      },
-    ]);
+    await launchAppForChatUserA();
     const username = "ChatUserA";
     await createNewUser(username);
     await WelcomeScreen.goToSettings();
@@ -37,12 +35,7 @@ describe("Two users in one file", () => {
   });
 
   it("Chat User B - Create Account", async () => {
-    // Go to app store app now
-    await driver.executeScript("macos: launchApp", [
-      {
-        bundleId: "im.satellite.uplink05102023",
-      },
-    ]);
+    await launchAppForChatUserB();
     const username = "ChatUserB";
     await createNewUser(username);
   });
@@ -61,11 +54,8 @@ describe("Two users in one file", () => {
   });
 
   it("Chat User A - Accept friend request from B", async () => {
-    await driver.executeScript("macos: activateApp", [
-      {
-        bundleId: "im.satellite.uplink05092023",
-      },
-    ]);
+    await launchAppForChatUserA();
+
     // Go to pending requests list, wait for receiving the friend request and accept it
     await FriendsScreen.goToPendingFriendsList();
     await FriendsScreen.waitUntilFriendRequestIsReceived();
@@ -76,12 +66,8 @@ describe("Two users in one file", () => {
   });
 
   it("Chat User B - Validate friend request was accepted", async () => {
-    // Return to a app
-    await driver.executeScript("macos: activateApp", [
-      {
-        bundleId: "im.satellite.uplink05102023",
-      },
-    ]);
+    await launchAppForChatUserB();
+
     // Go to pending requests list, wait for receiving the friend request and accept it
     await FriendsScreen.waitUntilUserAcceptedFriendRequest();
   });

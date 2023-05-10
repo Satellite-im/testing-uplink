@@ -247,18 +247,8 @@ jobs:
           type: add
 
   test-chats:
-    if: always()
     needs: test
     runs-on: macos-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        user: ["ChatUserA", "ChatUserB"]
-        include:
-          - user: "ChatUserA"
-            npm-command: "npm run mac.chatA"
-          - user: "ChatUserB"
-            npm-command: "npm run mac.chatB"
 
     steps:
       - name: Checkout testing directory 🔖
@@ -270,11 +260,20 @@ jobs:
           name: Uplink-macos-latest
           path: ./apps
 
-      - name: Download Test User Accounts 🗳️
-        uses: actions/download-artifact@v3
-        with:
-          name: appium-test-accounts
-          path: ./tests/fixtures/users/
+      - name: Enable opening app not codesigned 🖥️
+        run: sudo spctl --master-disable
+
+      - name: Copy DMG to Appium Apps Directory 💿
+        working-directory: ./apps
+        run: |
+          unzip Uplink-Mac-Universal.zip
+          cp -r ./Uplink.app ./Uplink2.app
+          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserA</g' ./Uplink.app/Contents/Info.plist
+          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserB</g' ./Uplink2.app/Contents/Info.plist
+          cp -r ./Uplink.app /Applications/
+          cp -r ./Uplink2.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink2.app
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -284,65 +283,63 @@ jobs:
 
       - name: Cache NPM dependencies 🔨
         uses: actions/cache@v3
-        id: cache-appium
+        id: cache-mac
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
       - name: Install NPM dependencies 📦
-        if: steps.cache-appium.outputs.cache-hit != 'true'
+        if: steps.cache-mac.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Enable opening app not codesigned 🖥️
-        run: sudo spctl --master-disable
-
-      - name: Remove all notifications before starting tests 🖥️
-        run: killall NotificationCenter
-
-      - name: Copy DMG to Appium Apps Directory 💿
-        working-directory: ./apps
-        run: |
-          unzip Uplink-Mac-Universal.zip
-          cp -r ./Uplink.app /Applications/
-          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
-
-      - name: Install and Run Appium Server 💻
+      - name: Install Appium Server 💻
         run: |
           npm install -g appium@next
           appium -v
+
+      - name: Install Appium Driver 💻
+        run: |
           appium driver install mac2
           appium driver list
 
-      - name: Delete Cache Folder if exists
+      - name: Delete Cache Folder if exists - Mac
         run: |
-          rm -rf ~/.uplink
-          cp -r ./tests/fixtures/users/${{ matrix.user }}/. ~/.uplink
+          rm -rf ~/.uplinkUserA
+          rm -rf ~/.uplinkUserB
 
-      - if: matrix.user == 'ChatUserA'
-        name: Run WebdriverIO tests for Chat User A 🧪
-        id: test-execution-ChatUserA
-        run: ${{ matrix.npm-command }}
+      - name: Open instances of Uplink
+        run: |
+          /Applications/Uplink.app/Contents/MacOS/uplink --path ~/.uplinkUserA &
+          /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserB &
 
-      - if: matrix.user == 'ChatUserB'
-        name: Run WebdriverIO tests for Chat User B 🧪
-        id: test-execution-ChatUserB
-        run: ${{ matrix.npm-command }}
+      - name: Run Tests on MacOS 🧪
+        run: npm run mac.chats
 
-      - name: Upload Screenshots for ${{ matrix.user }} 📷
+      - name: Publish Test Results for MacOS Chats Tests
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          junit_files: "./test-report/*.xml"
+          ignore_runs: true
+          job_summary: false
+          compare_to_earlier_commit: false
+          check_name: "UI Automated Test Results on Chats Tests"
+
+      - name: Upload Screenshots for MacOS Chats 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-screenshots-${{ matrix.user }}
+          name: appium-screenshots-macos-chats
           path: ./test-results
 
-      - name: Upload Appium Log for ${{ matrix.user }} 📷
+      - name: Upload Appium Log for MacOS Chats 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-log-${{ matrix.user }}
+          name: appium-log-macos-chats
           path: ./appium.log
 
-      - name: Add label if any of test jobs failed
+      - name: Add label if job failed
         if: failure()
         uses: buildsville/add-remove-label@v2.0.0
         with:

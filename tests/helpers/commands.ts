@@ -329,3 +329,26 @@ export async function selectFileOnWindows(relativePath: string) {
   await robot.keyTap("enter");
   await browser.pause(1000);
 }
+
+// Launching Chats Apps only working for MacOS now
+export async function launchAppForChatUserA() {
+  const currentDriver = await driver.capabilities.automationName;
+  if (currentDriver === "mac2") {
+    await driver.executeScript("macos: activateApp", [
+      {
+        bundleId: "im.satellite.uplinkChatUserA",
+      },
+    ]);
+  }
+}
+
+export async function launchAppForChatUserB() {
+  const currentDriver = await driver.capabilities.automationName;
+  if (currentDriver === "mac2") {
+    await driver.executeScript("macos: activateApp", [
+      {
+        bundleId: "im.satellite.uplinkChatUserB",
+      },
+    ]);
+  }
+}
