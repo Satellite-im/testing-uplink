@@ -7,7 +7,7 @@ const fsp = require("fs").promises;
 // ============
 // Specs
 // ============
-config.specs = [join(process.cwd(), "./tests/specs/reusable-accounts/04-send-several-messages-X.spec.ts")];
+config.specs = [join(process.cwd(), "./tests/specs/reusable-accounts/SendMultipleMessages/04-send-several-messages-X.spec.ts")];
 
 // ============
 // Capabilities

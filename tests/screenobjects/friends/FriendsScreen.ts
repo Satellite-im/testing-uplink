@@ -556,6 +556,29 @@ class FriendsScreen extends UplinkMainScreen {
     await $(friendToClick).$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON).click();
   }
 
+  async waitUntilFriendIsRemoved(
+    username: string,
+    timeoutUser: number = 180000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await $(
+        '//XCUIElementTypeGroup[@label="friend-username"]/XCUIElementTypeStaticText[contains(@value, "' +
+          username +
+          '")]'
+      ).waitForExist({ timeout: timeoutUser, reverse: true });
+    } else if (currentDriver === "windows") {
+      await $(
+        '//Group[@Name="friend-username"]/Text[contains(@Name, "' +
+          username +
+          '")]'
+      ).waitForExist({
+        timeout: timeoutUser,
+        reverse: true,
+      });
+    }
+  }
+
   async waitUntilFriendRequestIsReceived() {
     await this.acceptFriendRequestButton.waitForExist({ timeout: 240000 });
   }

@@ -1,10 +1,10 @@
 //import { resetAndLoginWithCache } from "../../helpers/commands";
-import { grabCacheFolder, loginWithTestUser } from "../../helpers/commands";
-import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
-import InputBar from "../../screenobjects/chats/InputBar";
-import Topbar from "../../screenobjects/chats/Topbar";
-import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
-import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
+import { grabCacheFolder, loginWithTestUser } from "../../../helpers/commands";
+import ChatsLayout from "../../../screenobjects/chats/ChatsLayout";
+import InputBar from "../../../screenobjects/chats/InputBar";
+import Topbar from "../../../screenobjects/chats/Topbar";
+import FriendsScreen from "../../../screenobjects/friends/FriendsScreen";
+import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
 import { faker } from "@faker-js/faker";
 const userToTestWith = "ChatUserB";
 
