@@ -144,4 +144,8 @@ export default async function quickProfileUserA() {
     await ChatsLayout.waitForIsShown(true);
     await Topbar.waitUntilRemoteUserIsOnline();
   });
+
+  after(async () => {
+    await browser.pause(60000);
+  });
 }
