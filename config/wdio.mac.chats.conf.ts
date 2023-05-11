@@ -23,9 +23,6 @@ config.capabilities = [
     "appium:automationName": "mac2",
     // @ts-ignore
     "appium:serverStartupTimeout": 240000,
-    "appium:prerun": {
-      command: 'do shell script "rm -rf ~/.uplink"',
-    },
   },
 ];
 
