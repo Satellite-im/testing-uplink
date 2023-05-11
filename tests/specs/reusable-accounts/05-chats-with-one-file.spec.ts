@@ -6,6 +6,7 @@ import {
   saveTestKeys,
 } from "../../helpers/commands";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
+import SettingsNotificationsScreen from "../../screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
 
@@ -30,7 +31,14 @@ describe("Two users in one file", () => {
 
     // Grab cache folder and restart
     await saveTestKeys(username, didkey);
-    await SettingsProfileScreen.goToFriends();
+  });
+
+  it("Chat User A - Disable notifications", async () => {
+    await SettingsProfileScreen.goToNotificationsSettings();
+    await SettingsNotificationsScreen.waitForIsShown(true);
+    await SettingsNotificationsScreen.clickOnFriendsNotifications();
+    await SettingsNotificationsScreen.clickOnMessagesNotifications();
+    await SettingsNotificationsScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
   });
 
@@ -40,9 +48,18 @@ describe("Two users in one file", () => {
     await createNewUser(username);
   });
 
+  it("Chat User B - Disable notifications", async () => {
+    await WelcomeScreen.goToSettings();
+    await SettingsProfileScreen.waitForIsShown(true);
+    await SettingsProfileScreen.goToNotificationsSettings();
+    await SettingsNotificationsScreen.waitForIsShown(true);
+    await SettingsNotificationsScreen.clickOnFriendsNotifications();
+    await SettingsNotificationsScreen.clickOnMessagesNotifications();
+  });
+
   it("Chat User B - Send friend request to User A", async () => {
     // Go to Friends
-    await WelcomeScreen.goToFriends();
+    await SettingsNotificationsScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
     // Obtain did key from Chat User B
     const friendDidKey = await getUserKey("ChatUserA");
