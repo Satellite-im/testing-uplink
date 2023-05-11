@@ -190,7 +190,6 @@ jobs:
       - name: Copy second instance of app and change bundleIds 💿
         working-directory: ./apps
         run: |
-          unzip Uplink-Mac-Universal.zip
           cp -r ./Uplink.app ./Uplink2.app
           cp -r ./Uplink2.app /Applications/
           perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserA</g' /Applications/Uplink.app/Contents/Info.plist
