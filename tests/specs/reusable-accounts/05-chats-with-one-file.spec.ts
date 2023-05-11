@@ -75,7 +75,7 @@ describe("Two users in one file", () => {
 
     // Go to pending requests list, wait for receiving the friend request and accept it
     await FriendsScreen.goToPendingFriendsList();
-    await FriendsScreen.waitUntilFriendRequestIsReceived();
+    await FriendsScreen.waitUntilFriendRequestIsReceived(30000);
     await FriendsScreen.acceptIncomingRequest("ChatUserB");
 
     // Return to Friends List
@@ -86,6 +86,6 @@ describe("Two users in one file", () => {
     await launchAppForChatUserB();
 
     // Go to pending requests list, wait for receiving the friend request and accept it
-    await FriendsScreen.waitUntilUserAcceptedFriendRequest();
+    await FriendsScreen.waitUntilUserAcceptedFriendRequest(30000);
   });
 });

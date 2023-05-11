@@ -579,8 +579,8 @@ class FriendsScreen extends UplinkMainScreen {
     }
   }
 
-  async waitUntilFriendRequestIsReceived() {
-    await this.acceptFriendRequestButton.waitForExist({ timeout: 240000 });
+  async waitUntilFriendRequestIsReceived(timeout: number = 240000) {
+    await this.acceptFriendRequestButton.waitForExist({ timeout: timeout });
   }
 
   async waitUntilNotificationIsClosed() {
@@ -589,8 +589,8 @@ class FriendsScreen extends UplinkMainScreen {
     });
   }
 
-  async waitUntilUserAcceptedFriendRequest() {
-    await this.chatWithFriendButton.waitForExist({ timeout: 240000 });
+  async waitUntilUserAcceptedFriendRequest(timeout: number = 240000) {
+    await this.chatWithFriendButton.waitForExist({ timeout: timeout });
   }
 
   // Context Menu methods

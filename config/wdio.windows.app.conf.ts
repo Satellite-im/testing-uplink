@@ -31,10 +31,51 @@ config.capabilities = [
   },
 ];
 
+//
+// ======
+// Reporters
+// ======
+//
+
+// Setup reporters dot and JUnit with correct xml report names
+config.reporters = [[
+  "spec", 
+  {
+    showPreface: false,
+  },
+], ['junit', {
+  outputDir: './test-report/',
+  outputFileFormat: function (options) {
+    return `test-results-windows-app-${options.cid}.xml`;
+  }
+}]]
+
+//
+// ======
+// Appium
+// ======
+//
+config.services = (config.services ? config.services : []).concat([
+  [
+    "appium",
+    {
+      // This will use the globally installed version of Appium
+      command: "appium",
+      args: {
+        // This is needed to tell Appium that we can execute local ADB commands
+        // and to automatically download the latest version of ChromeDriver
+        relaxedSecurity: true,
+        // Write the Appium logs to a file in the root of the directory
+        log: "./appium-app.log",
+      },
+    },
+  ],
+]);
+
 config.afterTest = async function (test, describe, { error }) {
   if (error) {
     let imageFile = await driver.takeScreenshot();
-    let imageFolder = join(process.cwd(), "./test-results/windows", test.parent);
+    let imageFolder = join(process.cwd(), "./test-results/windows-app", test.parent);
     await fsp.mkdir(imageFolder, {recursive: true});
     await fsp.writeFile(
       imageFolder + "/" + test.title + " - Failed.png",
