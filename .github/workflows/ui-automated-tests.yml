@@ -191,9 +191,9 @@ jobs:
         working-directory: ./apps
         run: |
           cp -r ./Uplink.app ./Uplink2.app
+          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserB</g' ./Uplink2.app/Contents/Info.plist
           cp -r ./Uplink2.app /Applications/
           perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserA</g' /Applications/Uplink.app/Contents/Info.plist
-          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserB</g' ./Uplink2.app/Contents/Info.plistƒma
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink2.app
 
       - name: Delete Cache Folder if exists - Mac
