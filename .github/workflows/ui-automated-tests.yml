@@ -17,7 +17,7 @@ env:
 
 jobs:
   build-mac:
-    runs-on: macos-latest-xl
+    runs-on: macos-latest
 
     steps:
       - name: Checkout testing directory 🔖
@@ -132,7 +132,7 @@ jobs:
 
   test-mac:
     needs: build-mac
-    runs-on: macos-latest-xl
+    runs-on: macos-latest
 
     steps:
       - name: Checkout testing directory 🔖
@@ -193,7 +193,7 @@ jobs:
           cp -r ./Uplink.app ./Uplink2.app
           cp -r ./Uplink2.app /Applications/
           perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserA</g' /Applications/Uplink.app/Contents/Info.plist
-          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserB</g' ./Uplink2.app/Contents/Info.plist
+          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserB</g' ./Uplink2.app/Contents/Info.plistƒma
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink2.app
 
       - name: Delete Cache Folder if exists - Mac
