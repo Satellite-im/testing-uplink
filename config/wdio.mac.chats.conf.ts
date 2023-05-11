@@ -6,7 +6,7 @@ import { join } from "path";
 // ============
 // Specs
 // ============
-config.specs = [join(process.cwd(), "./tests/specs/reusable-accounts/05-chats-with-one-file.spec.ts")];
+config.specs = [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")];
 
 // ============
 // Capabilities
