@@ -20,7 +20,7 @@ export default async function repliesTests() {
     await expect(ReplyPrompt.replyPopUpIndicatorOnline).toBeDisplayed();
     await expect(
       ReplyPrompt.replyPopUpRemoteTextToReplyValue
-    ).toHaveTextContaining("testing...");
+    ).toHaveTextContaining("Testing...");
     await expect(ReplyPrompt.replyPopUpUserImage).toBeDisplayed();
 
     await ReplyPrompt.closeReplyModal();
@@ -34,7 +34,7 @@ export default async function repliesTests() {
 
     // Type a reply and sent it
     await ReplyPrompt.replyPopUp.waitForDisplayed();
-    await InputBar.typeMessageOnInput("myreply...");
+    await InputBar.typeMessageOnInput("Myreply...");
     await InputBar.clickOnSendMessage();
     await ReplyPrompt.waitForReplyModalToNotExist();
   });
@@ -44,11 +44,11 @@ export default async function repliesTests() {
     const replySent = await Messages.getLastReply();
     const replySentText = await Messages.getLastReplyText();
     await expect(replySent).toBeDisplayed();
-    await expect(replySentText).toHaveTextContaining("testing...");
+    await expect(replySentText).toHaveTextContaining("Testing...");
 
     // Validate reply message sent appears as last message
     const message = await Messages.getLastMessageSentText();
-    await expect(message).toHaveTextContaining("myreply...");
+    await expect(message).toHaveTextContaining("Myreply...");
   });
 
   it("Chat User B - Validate reply message group contains timestamp", async () => {
@@ -81,11 +81,11 @@ export default async function repliesTests() {
     const replyReceived = await Messages.getLastReply();
     const replyReceivedText = await Messages.getLastReplyText();
     await expect(replyReceived).toBeDisplayed();
-    await expect(replyReceivedText).toHaveTextContaining("testing...");
+    await expect(replyReceivedText).toHaveTextContaining("Testing...");
 
     // Validate reply message sent appears as last message
     const textFromMessage = await Messages.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("myreply...");
+    await expect(textFromMessage).toHaveTextContaining("Myreply...");
   });
 
   it("Chat User A - Validate reply message group contains timestamp", async () => {

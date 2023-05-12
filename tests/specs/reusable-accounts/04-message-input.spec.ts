@@ -18,7 +18,7 @@ export default async function messageInputTests() {
 
     // Validate latest message sent displayed on Chat Conversation is still "edited..."
     const textMessage = await Messages.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("edited...");
+    await expect(textMessage).toHaveTextContaining("Edited...");
   });
 
   // Skipping test failing on CI due to slowness on driver typing 1024 characters

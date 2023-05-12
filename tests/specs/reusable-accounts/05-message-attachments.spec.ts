@@ -41,14 +41,14 @@ export default async function messageAttachmentsTests() {
     await expect(ComposeAttachment.composeAttachmentsFileEmbed).toBeDisplayed();
 
     // Type a text message and send it
-    await InputBar.typeMessageOnInput("attached...");
+    await InputBar.typeMessageOnInput("Attached...");
     await InputBar.clickOnSendMessage();
   });
 
   it("Chat User A - Message Sent With Attachment - Text contents", async () => {
     // Validate text from message containing attachment
     const textMessage = await Messages.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("attached...");
+    await expect(textMessage).toHaveTextContaining("Attached...");
   });
 
   it("Chat User A - Message Sent With Attachment - File Meta Data", async () => {
@@ -83,7 +83,7 @@ export default async function messageAttachmentsTests() {
     });
     // Validate text from message containing attachment
     const message = await Messages.getLastMessageReceivedText();
-    await expect(message).toHaveTextContaining("attached...");
+    await expect(message).toHaveTextContaining("Attached...");
   });
 
   it("Chat User B - Received Message with Attachment - File Metadata", async () => {

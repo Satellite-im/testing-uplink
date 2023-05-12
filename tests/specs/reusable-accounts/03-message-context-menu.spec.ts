@@ -6,10 +6,10 @@ import Messages from "../../screenobjects/chats/Messages";
 export default async function messageContextMenuTests() {
   it("Chat User A - Send two more messages to Chat User B", async () => {
     // Send two messages to Chat User B
-    await InputBar.typeMessageOnInput("two...");
+    await InputBar.typeMessageOnInput("Two...");
     await InputBar.clickOnSendMessage();
 
-    await InputBar.typeMessageOnInput("three...");
+    await InputBar.typeMessageOnInput("Three...");
     await InputBar.clickOnSendMessage();
   });
 
@@ -21,7 +21,7 @@ export default async function messageContextMenuTests() {
 
     // Validate that last message was deleted and therefore the last message displayed is "two..."
     const textMessage = await Messages.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("two...");
+    await expect(textMessage).toHaveTextContaining("Two...");
   });
 
   it("Chat User A - Context Menu - Edit Message", async () => {
@@ -29,21 +29,21 @@ export default async function messageContextMenuTests() {
     await Messages.openContextMenuOnLastSent();
     await ContextMenu.validateContextMenuIsOpen();
     await ContextMenu.selectContextOptionEdit();
-    await InputBar.typeOnEditMessageInput("edited...");
+    await InputBar.typeOnEditMessageInput("Edited...");
 
     // Validate message edited contents is shown on Chat Screen
     const textMessage = await Messages.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("edited...");
+    await expect(textMessage).toHaveTextContaining("Edited...");
   });
 
   it("Chat User B - Validate that second message was edited", async () => {
     await launchAppForChatUserB();
     // Validate that last message is "edited"
-    await Messages.waitForReceivingMessage("edited...", 240000);
+    await Messages.waitForReceivingMessage("Edited...", 240000);
   });
 
   it("Chat User B - Validate that only deleted message is no longer in conversation", async () => {
     // Ensure that message "three.." was deleted
-    await Messages.waitForMessageToBeDeleted("three...", 30000);
+    await Messages.waitForMessageToBeDeleted("Three...", 30000);
   });
 }

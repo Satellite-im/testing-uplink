@@ -125,13 +125,13 @@ export default async function quickProfileTests() {
     await Topbar.waitUntilRemoteUserIsOnline();
 
     // Send message to Chat User B
-    await InputBar.typeMessageOnInput("accepted...");
+    await InputBar.typeMessageOnInput("Accepted...");
     await InputBar.clickOnSendMessage();
   });
 
   it("Chat User A - Go to chat with User B and wait for receiving a message", async () => {
     await launchAppForChatUserA();
-    await Messages.waitForReceivingMessage("accepted...");
+    await Messages.waitForReceivingMessage("Accepted...");
   });
 
   it("Chat User A - Block Friend", async () => {
