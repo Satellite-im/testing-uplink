@@ -231,7 +231,9 @@ jobs:
         if: failure()
         with:
           name: appium-log-macos
-          path: ./appium-ci.log
+          path: |
+            ./appium-ci.log
+            ./appium-chats.log
 
       - name: Upload Test User Accounts Created 📷
         if: always()
