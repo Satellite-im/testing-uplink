@@ -187,28 +187,6 @@ jobs:
       - name: Run Tests on MacOS 🧪
         run: npm run mac.ci
 
-      - name: Copy second instance of app and change bundleIds 💿
-        working-directory: ./apps
-        run: |
-          cp -r ./Uplink.app ./Uplink2.app
-          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserB</g' ./Uplink2.app/Contents/Info.plist
-          cp -r ./Uplink2.app /Applications/
-          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserA</g' /Applications/Uplink.app/Contents/Info.plist
-          sudo xattr -r -d com.apple.quarantine /Applications/Uplink2.app
-
-      - name: Delete Cache Folder if exists - Mac
-        run: |
-          rm -rf ~/.uplinkUserA
-          rm -rf ~/.uplinkUserB
-
-      - name: Open instances of Uplink
-        run: |
-          /Applications/Uplink.app/Contents/MacOS/uplink --path ~/.uplinkUserA &
-          /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserB &
-
-      - name: Run Chat Tests on MacOS 🧪
-        run: npm run mac.chats
-
       - name: Publish Test Results for MacOS
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
@@ -231,16 +209,110 @@ jobs:
         if: failure()
         with:
           name: appium-log-macos
-          path: |
-            ./appium-ci.log
-            ./appium-chats.log
+          path: ./appium-ci.log
 
-      - name: Upload Test User Accounts Created 📷
-        if: always()
-        uses: actions/upload-artifact@v3
+      - name: Add label if any of test jobs failed
+        if: failure()
+        uses: buildsville/add-remove-label@v2.0.0
         with:
-          name: appium-test-accounts
-          path: ./tests/fixtures/users/
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            Failed Automated Test
+          type: add
+
+  test-mac-chats:
+    needs: build-mac
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Download the MacOS app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-macos-latest
+          path: ./apps
+
+      - name: Enable opening app not codesigned 🖥️
+        run: sudo spctl --master-disable
+
+      - name: Copy DMG to Appium Apps Directory 💿
+        working-directory: ./apps
+        run: |
+          unzip Uplink-Mac-Universal.zip
+          cp -r ./Uplink.app ./Uplink2.app
+          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserA</g' ./Uplink.app/Contents/Info.plist
+          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserB</g' ./Uplink2.app/Contents/Info.plist
+          cp -r ./Uplink.app /Applications/
+          cp -r ./Uplink2.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink2.app
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-mac-chats
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-mac-chats.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Install Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+
+      - name: Install Appium Driver 💻
+        run: |
+          appium driver install mac2
+          appium driver list
+
+      - name: Delete Cache Folder if exists - Mac
+        run: |
+          rm -rf ~/.uplinkUserA
+          rm -rf ~/.uplinkUserB
+
+      - name: Open instances of Uplink
+        run: |
+          /Applications/Uplink.app/Contents/MacOS/uplink --path ~/.uplinkUserA &
+          /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserB &
+
+      - name: Run Chat Tests on MacOS 🧪
+        run: npm run mac.chats
+
+      - name: Publish Test Results for MacOS - Chats Tests
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          junit_files: "./test-report/*.xml"
+          ignore_runs: true
+          job_summary: false
+          compare_to_earlier_commit: false
+          check_name: "UI Automated Test Results on MacOS"
+
+      - name: Upload Screenshots for MacOS - Chats 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-screenshots-MacOS-chats
+          path: ./test-results
+
+      - name: Upload Appium Log for MacOS - Chats 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-log-macos-chats
+          path: |
+            ./appium-chats.log
 
       - name: Add label if any of test jobs failed
         if: failure()
@@ -341,7 +413,7 @@ jobs:
           type: add
 
   remove-artifacts:
-    needs: [build-mac, build-windows, test-mac, test-windows]
+    needs: [build-mac, build-windows, test-mac, test-mac-chats, test-windows]
     runs-on: ubuntu-latest
 
     steps:
