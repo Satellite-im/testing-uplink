@@ -198,15 +198,6 @@ export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
   ]);
 }
 
-export async function discardNotificationsAlert() {
-  // If Alert Dialog for Notifications is displayed, click on Cancel button
-  if (await $("-ios class chain:**/XCUIElementTypeDialog")) {
-    await $(
-      "ios class chain:**/XCUIElementTypeDialog/XCUIElementTypeButton[2]"
-    ).click();
-  }
-}
-
 export async function getClipboardMacOS() {
   const clipboard = await execSync("pbpaste", { encoding: "utf8" });
   return clipboard;
