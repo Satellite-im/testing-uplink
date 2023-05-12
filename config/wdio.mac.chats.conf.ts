@@ -35,6 +35,15 @@ config.capabilities = [
 // Change spec file retries to zero
 config.specFileRetries = 0;
 
+config.mochaOpts = {
+  ui: "bdd",
+  /**
+   * NOTE: This has been increased for more stable Appium Native app
+   * tests because they can take a bit longer.
+   */
+  timeout: 300000, // 5min
+},
+
 //
 // ======
 // Reporters
