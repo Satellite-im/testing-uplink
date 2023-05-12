@@ -199,9 +199,8 @@ export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
 }
 
 export async function discardNotificationsAlert() {
-  const alertDialog = await $("-ios class chain:**/XCUIElementTypeDialog");
   // If Alert Dialog for Notifications is displayed, click on Cancel button
-  if (alertDialog) {
+  if (await $("-ios class chain:**/XCUIElementTypeDialog")) {
     await $(
       "ios class chain:**/XCUIElementTypeDialog/XCUIElementTypeButton[2]"
     ).click();

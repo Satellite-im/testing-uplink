@@ -1,5 +1,6 @@
 import {
   createNewUser,
+  discardNotificationsAlert,
   getUserKey,
   launchAppForChatUserA,
   launchAppForChatUserB,
@@ -80,7 +81,7 @@ export default async function createChatAcountsTests() {
 
     // Go to pending requests list, wait for receiving the friend request and accept it
     await FriendsScreen.goToPendingFriendsList();
-    await FriendsScreen.waitUntilFriendRequestIsReceived(30000);
+    await FriendsScreen.waitUntilFriendRequestIsReceived();
     await FriendsScreen.acceptIncomingRequest("ChatUserB");
 
     // Return to Friends List
@@ -89,9 +90,10 @@ export default async function createChatAcountsTests() {
 
   it("Chat User B - Validate friend request was accepted", async () => {
     await launchAppForChatUserB();
+    await discardNotificationsAlert();
 
     // Go to pending requests list, wait for receiving the friend request and accept it
-    await FriendsScreen.waitUntilUserAcceptedFriendRequest(30000);
+    await FriendsScreen.waitUntilUserAcceptedFriendRequest();
   });
 
   it("Chat User A - Go to chat with friend and wait until user is online", async () => {
@@ -181,6 +183,7 @@ export default async function createChatAcountsTests() {
   });
 
   it("Chat User B - Assert message received from Chat User A", async () => {
+    await discardNotificationsAlert();
     await Messages.waitForReceivingMessage("testing...");
   });
 
