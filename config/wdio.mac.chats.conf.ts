@@ -23,26 +23,11 @@ config.capabilities = [
     "appium:automationName": "mac2",
     // @ts-ignore
     "appium:serverStartupTimeout": 240000,
+    "appium:prerun": {
+      command: 'do shell script "rm -rf ~/.uplink ~/.chatUserB"',
+    },
   },
 ];
-
-//
-// ======
-// Mocha
-// ======
-//
-
-// Change spec file retries to zero
-config.specFileRetries = 0;
-
-config.mochaOpts = {
-  ui: "bdd",
-  /**
-   * NOTE: This has been increased for more stable Appium Native app
-   * tests because they can take a bit longer.
-   */
-  timeout: 300000, // 5min
-},
 
 //
 // ======

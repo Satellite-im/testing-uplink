@@ -1,4 +1,8 @@
 # UI Tests
+appium-app.log
+appium-chats.log
+appium-ci.log
+apps/
 node_modules/
 package-lock.json
 appium.log

@@ -1,6 +1,8 @@
 import {
   createNewUser,
   getUserKey,
+  launchAppFirstTimeUserA,
+  launchAppFirstTimeUserB,
   launchAppForChatUserA,
   launchAppForChatUserB,
   saveTestKeys,
@@ -17,7 +19,7 @@ import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function createChatAcountsTests() {
   it("Chat User A - Create Account", async () => {
-    await launchAppForChatUserA();
+    await launchAppFirstTimeUserA();
     const username = "ChatUserA";
     await createNewUser(username);
     await WelcomeScreen.goToSettings();
@@ -48,7 +50,7 @@ export default async function createChatAcountsTests() {
   });
 
   it("Chat User B - Create Account", async () => {
-    await launchAppForChatUserB();
+    await launchAppFirstTimeUserB();
     const username = "ChatUserB";
     await createNewUser(username);
   });
@@ -73,6 +75,13 @@ export default async function createChatAcountsTests() {
 
     // Wait for toast notification to be closed
     await FriendsScreen.waitUntilNotificationIsClosed();
+
+    // Validate friend request appears on pending list
+    await FriendsScreen.goToPendingFriendsList();
+    const pendingList = await FriendsScreen.getOutgoingList();
+    const includesFriend = await pendingList.includes("ChatUserA");
+    await expect(includesFriend).toEqual(true);
+    await FriendsScreen.goToAllFriendsList();
   });
 
   it("Chat User A - Accept friend request from B", async () => {
@@ -83,8 +92,11 @@ export default async function createChatAcountsTests() {
     await FriendsScreen.waitUntilFriendRequestIsReceived();
     await FriendsScreen.acceptIncomingRequest("ChatUserB");
 
-    // Return to Friends List
+    // Validate friend is now on all friends list
     await FriendsScreen.goToAllFriendsList();
+    const friendsList = await FriendsScreen.getAllFriendsList();
+    const includesFriend = await friendsList.includes("ChatUserB");
+    await expect(includesFriend).toEqual(true);
   });
 
   it("Chat User B - Validate friend request was accepted", async () => {
@@ -92,6 +104,12 @@ export default async function createChatAcountsTests() {
 
     // Go to pending requests list, wait for receiving the friend request and accept it
     await FriendsScreen.waitUntilUserAcceptedFriendRequest();
+
+    // Validate friend is now on all friends list
+    await FriendsScreen.goToAllFriendsList();
+    const friendsList = await FriendsScreen.getAllFriendsList();
+    const includesFriend = await friendsList.includes("ChatUserA");
+    await expect(includesFriend).toEqual(true);
   });
 
   it("Chat User A - Go to chat with friend and wait until user is online", async () => {

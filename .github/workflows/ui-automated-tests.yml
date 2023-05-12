@@ -276,20 +276,10 @@ jobs:
           appium driver install mac2
           appium driver list
 
-      - name: Delete Cache Folder if exists - Mac
-        run: |
-          rm -rf ~/.uplinkUserA
-          rm -rf ~/.uplinkUserB
-
-      - name: Open instances of Uplink
-        run: |
-          /Applications/Uplink.app/Contents/MacOS/uplink --path ~/.uplinkUserA &
-          /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserB &
-
       - name: Run Chat Tests on MacOS 🧪
         run: npm run mac.chats
 
-      - name: Publish Test Results for MacOS - Chats Tests
+      - name: Publish Test Results for Chats Tests
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
         with:
@@ -297,7 +287,7 @@ jobs:
           ignore_runs: true
           job_summary: false
           compare_to_earlier_commit: false
-          check_name: "UI Automated Test Results on MacOS"
+          check_name: "UI Automated Test Results on Chats Tests"
 
       - name: Upload Screenshots for MacOS - Chats 📷
         uses: actions/upload-artifact@v3

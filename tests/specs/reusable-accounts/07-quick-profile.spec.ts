@@ -91,9 +91,16 @@ export default async function quickProfileTests() {
 
     // Wait for toast notification to be closed
     await FriendsScreen.waitUntilNotificationIsClosed();
+
+    // Validate friend request appears on pending list
+    await FriendsScreen.goToPendingFriendsList();
+    const pendingList = await FriendsScreen.getOutgoingList();
+    const includesFriend = await pendingList.includes("ChatUserB");
+    await expect(includesFriend).toEqual(true);
+    await FriendsScreen.goToAllFriendsList();
   });
 
-  it("Chat User B - Wait until User A sends friend request again User B and accept it", async () => {
+  it("Chat User B - Wait until User A sends friend request again User A and accept it", async () => {
     await launchAppForChatUserB();
     // Go to pending requests list, wait for receiving the friend request and accept it
     await FriendsScreen.goToPendingFriendsList();
@@ -102,12 +109,23 @@ export default async function quickProfileTests() {
 
     // Return to Friends List
     await FriendsScreen.goToAllFriendsList();
+
+    // Validate friend is now on all friends list
+    await FriendsScreen.goToAllFriendsList();
+    const friendsList = await FriendsScreen.getAllFriendsList();
+    const includesFriend = await friendsList.includes("ChatUserA");
+    await expect(includesFriend).toEqual(true);
   });
 
   it("Chat User A - Wait until friend request is accepted again", async () => {
     await launchAppForChatUserA();
     // Wait until user B accepts the friend request
     await FriendsScreen.waitUntilUserAcceptedFriendRequest();
+
+    // Validate friend is now on all friends list
+    const friendsList = await FriendsScreen.getAllFriendsList();
+    const includesFriend = await friendsList.includes("ChatUserB");
+    await expect(includesFriend).toEqual(true);
 
     // Go to chat with User B
     await FriendsScreen.chatWithFriendButton.waitForExist();
@@ -177,6 +195,13 @@ export default async function quickProfileTests() {
 
     // Wait for toast notification to be closed
     await FriendsScreen.waitUntilNotificationIsClosed();
+
+    // Validate friend request appears on pending list
+    await FriendsScreen.goToPendingFriendsList();
+    const pendingList = await FriendsScreen.getOutgoingList();
+    const includesFriend = await pendingList.includes("ChatUserB");
+    await expect(includesFriend).toEqual(true);
+    await FriendsScreen.goToAllFriendsList();
   });
 
   it("Chat User B - Wait until User A sends friend request again User B and accept it", async () => {
@@ -188,6 +213,11 @@ export default async function quickProfileTests() {
 
     // Return to Friends List
     await FriendsScreen.goToAllFriendsList();
+
+    // Validate friend is now on all friends list
+    const friendsList = await FriendsScreen.getAllFriendsList();
+    const includesFriend = await friendsList.includes("ChatUserA");
+    await expect(includesFriend).toEqual(true);
   });
 
   it("Chat User B - Return to conversation", async () => {
@@ -200,6 +230,11 @@ export default async function quickProfileTests() {
   it("Chat User A - Wait until friend request is accepted again", async () => {
     await launchAppForChatUserA();
     await FriendsScreen.waitUntilUserAcceptedFriendRequest();
+
+    // Validate friend is now on all friends list
+    const friendsList = await FriendsScreen.getAllFriendsList();
+    const includesFriend = await friendsList.includes("ChatUserB");
+    await expect(includesFriend).toEqual(true);
 
     // Go to chat with User B
     await FriendsScreen.chatWithFriendButton.waitForExist();

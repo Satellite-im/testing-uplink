@@ -352,3 +352,26 @@ export async function launchAppForChatUserB() {
     ]);
   }
 }
+
+export async function launchAppFirstTimeUserA() {
+  const currentDriver = await driver.capabilities.automationName;
+  if (currentDriver === "mac2") {
+    await driver.executeScript("macos: launchApp", [
+      {
+        bundleId: "im.satellite.uplinkChatUserA",
+      },
+    ]);
+  }
+}
+
+export async function launchAppFirstTimeUserB() {
+  const currentDriver = await driver.capabilities.automationName;
+  if (currentDriver === "mac2") {
+    await driver.executeScript("macos: launchApp", [
+      {
+        bundleId: "im.satellite.uplinkChatUserB",
+        arguments: ["--path", homedir() + "/.chatUserB"],
+      },
+    ]);
+  }
+}

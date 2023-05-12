@@ -558,7 +558,7 @@ class FriendsScreen extends UplinkMainScreen {
 
   async waitUntilFriendIsRemoved(
     username: string,
-    timeoutUser: number = 180000
+    timeoutUser: number = 30000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
@@ -579,7 +579,7 @@ class FriendsScreen extends UplinkMainScreen {
     }
   }
 
-  async waitUntilFriendRequestIsReceived(timeout: number = 240000) {
+  async waitUntilFriendRequestIsReceived(timeout: number = 30000) {
     await this.acceptFriendRequestButton.waitForExist({ timeout: timeout });
   }
 
@@ -589,7 +589,7 @@ class FriendsScreen extends UplinkMainScreen {
     });
   }
 
-  async waitUntilUserAcceptedFriendRequest(timeout: number = 240000) {
+  async waitUntilUserAcceptedFriendRequest(timeout: number = 30000) {
     await this.chatWithFriendButton.waitForExist({ timeout: timeout });
   }
 
