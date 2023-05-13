@@ -359,6 +359,7 @@ export async function launchAppFirstTimeUserA() {
     await driver.executeScript("macos: launchApp", [
       {
         bundleId: "im.satellite.uplinkChatUserA",
+        arguments: ["--path", homedir() + "/.chatUserA"],
       },
     ]);
   }

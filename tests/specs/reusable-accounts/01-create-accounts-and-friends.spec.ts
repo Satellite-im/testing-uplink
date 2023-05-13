@@ -1,8 +1,6 @@
 import {
   createNewUser,
   getUserKey,
-  launchAppFirstTimeUserA,
-  launchAppFirstTimeUserB,
   launchAppForChatUserA,
   launchAppForChatUserB,
   saveTestKeys,
@@ -19,7 +17,7 @@ import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function createChatAcountsTests() {
   it("Chat User A - Create Account", async () => {
-    await launchAppFirstTimeUserA();
+    await launchAppForChatUserA();
     const username = "ChatUserA";
     await createNewUser(username);
     await WelcomeScreen.goToSettings();
@@ -50,7 +48,7 @@ export default async function createChatAcountsTests() {
   });
 
   it("Chat User B - Create Account", async () => {
-    await launchAppFirstTimeUserB();
+    await launchAppForChatUserB();
     const username = "ChatUserB";
     await createNewUser(username);
   });

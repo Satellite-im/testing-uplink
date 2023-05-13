@@ -24,7 +24,7 @@ config.capabilities = [
     // @ts-ignore
     "appium:serverStartupTimeout": 240000,
     "appium:prerun": {
-      command: 'do shell script "rm -rf ~/.uplink ~/.chatUserB"',
+      command: 'do shell script "rm -rf ~/.chatUserA ~/.chatUserB"',
     },
   },
 ];
