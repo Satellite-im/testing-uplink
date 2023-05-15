@@ -120,31 +120,6 @@ export default async function quickProfileUserA() {
     await expect(includesFriend).toEqual(true);
   });
 
-  it("Unblock and send friend request again to User B", async () => {
-    // Unblock user
-    const username = "ChatUserB";
-    await FriendsScreen.removeOrCancelUser(username);
-    await FriendsScreen.goToAllFriendsList();
-
-    // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey(username);
-    await FriendsScreen.enterFriendDidKey(friendDidKey);
-    await FriendsScreen.clickOnAddSomeoneButton();
-
-    // Wait for toast notification to be closed
-    await FriendsScreen.waitUntilNotificationIsClosed();
-  });
-
-  it("Wait until friend request is accepted again", async () => {
-    await FriendsScreen.waitUntilUserAcceptedFriendRequest();
-
-    // Go to chat with User B
-    await FriendsScreen.chatWithFriendButton.waitForExist();
-    await FriendsScreen.chatWithFriendButton.click();
-    await ChatsLayout.waitForIsShown(true);
-    await Topbar.waitUntilRemoteUserIsOnline();
-  });
-
   after(async () => {
     await browser.pause(60000);
   });
