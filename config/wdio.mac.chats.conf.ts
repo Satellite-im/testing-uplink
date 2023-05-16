@@ -8,6 +8,18 @@ import { join } from "path";
 // ============
 config.specs = [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")];
 
+config.mochaOpts = {
+  ui: "bdd",
+  /**
+   * NOTE: This has been increased for more stable Appium Native app
+   * tests because they can take a bit longer.
+   */
+  timeout: 180000, // 5min
+},
+
+// Change spec file retries to zero
+config.specFileRetries = 0;
+
 // ============
 // Capabilities
 // ============

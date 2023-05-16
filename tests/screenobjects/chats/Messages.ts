@@ -296,7 +296,7 @@ class Messages extends UplinkMainScreen {
 
   async waitForMessageToBeDeleted(
     expectedMessage: string,
-    timeoutMsg: number = 30000
+    timeoutMsg: number = 60000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
@@ -314,7 +314,7 @@ class Messages extends UplinkMainScreen {
 
   async waitForReceivingMessage(
     expectedMessage: string,
-    timeoutMsg: number = 30000
+    timeoutMsg: number = 150000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
