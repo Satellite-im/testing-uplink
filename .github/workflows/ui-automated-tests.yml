@@ -182,6 +182,15 @@ jobs:
           appium driver list
 
       - name: Delete Cache Folder if exists - Mac
+      - if: matrix.os == 'macos-latest'
+        name: Update MacOS runner to not autocorrect text
+        run: |
+          defaults write -g NSAutomaticCapitalizationEnabled -bool false
+          defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
+          defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
+
+      - if: matrix.os == 'macos-latest'
+        name: Delete Cache Folder if exists - Mac
         run: rm -rf ~/.uplink
 
       - name: Run Tests on MacOS 🧪
@@ -357,6 +366,13 @@ jobs:
         run: npm ci
 
       - name: Install Appium Server 💻
+      - name: Update MacOS runner to not autocorrect text
+        run: |
+          defaults write -g NSAutomaticCapitalizationEnabled -bool false
+          defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
+          defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
+
+      - name: Install and Run Appium Server 💻
         run: |
           npm install -g appium@next
           appium -v
