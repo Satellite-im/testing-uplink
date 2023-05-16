@@ -51,11 +51,25 @@ export default async function createChatAcountsTests() {
     await launchAppForChatUserB();
     const username = "ChatUserB";
     await createNewUser(username);
+    await WelcomeScreen.goToSettings();
+    await SettingsProfileScreen.waitForIsShown(true);
+
+    // Click on Copy ID button and assert Toast Notification is displayed
+    await SettingsProfileScreen.clickOnCopyIDButton();
+
+    // Wait for toast notification to be closed
+    await SettingsProfileScreen.waitUntilNotificationIsClosed();
+
+    // Paste copied DID Key into Status Input
+    await SettingsProfileScreen.pasteUserKeyInStatus();
+    const inputTextElement = await SettingsProfileScreen.getStatusInputText();
+    const didkey = await inputTextElement.getText();
+
+    // Grab cache folder and restart
+    await saveTestKeys(username, didkey);
   });
 
   it("Chat User B - Disable notifications", async () => {
-    await WelcomeScreen.goToSettings();
-    await SettingsProfileScreen.waitForIsShown(true);
     await SettingsProfileScreen.goToNotificationsSettings();
     await SettingsNotificationsScreen.waitForIsShown(true);
     await SettingsNotificationsScreen.clickOnFriendsNotifications();

@@ -34,7 +34,7 @@ export default async function repliesTests() {
 
     // Type a reply and sent it
     await ReplyPrompt.replyPopUp.waitForDisplayed();
-    await InputBar.typeMessageOnInput("Myreply...");
+    await InputBar.typeMessageOnInput("Reply");
     await InputBar.clickOnSendMessage();
     await ReplyPrompt.waitForReplyModalToNotExist();
   });
@@ -48,7 +48,7 @@ export default async function repliesTests() {
 
     // Validate reply message sent appears as last message
     const message = await Messages.getLastMessageSentText();
-    await expect(message).toHaveTextContaining("Myreply...");
+    await expect(message).toHaveTextContaining("Reply");
   });
 
   it("Chat User B - Validate reply message group contains timestamp", async () => {
@@ -85,7 +85,7 @@ export default async function repliesTests() {
 
     // Validate reply message sent appears as last message
     const textFromMessage = await Messages.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("Myreply...");
+    await expect(textFromMessage).toHaveTextContaining("Reply");
   });
 
   it("Chat User A - Validate reply message group contains timestamp", async () => {
