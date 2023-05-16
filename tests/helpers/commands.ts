@@ -337,6 +337,7 @@ export async function launchAppForChatUserA() {
     await driver.executeScript("macos: activateApp", [
       {
         bundleId: "im.satellite.uplinkChatUserA",
+        arguments: ["--path", homedir() + "/.chatUserA"],
       },
     ]);
   }
@@ -348,6 +349,7 @@ export async function launchAppForChatUserB() {
     await driver.executeScript("macos: activateApp", [
       {
         bundleId: "im.satellite.uplinkChatUserB",
+        arguments: ["--path", homedir() + "/.chatUserB"],
       },
     ]);
   }

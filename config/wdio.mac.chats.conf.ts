@@ -1,6 +1,7 @@
 const fsp = require("fs").promises;
 
 import config from "./wdio.shared.mac.appium.conf";
+import { homedir } from "os";
 import { join } from "path";
 
 // ============
@@ -34,7 +35,8 @@ config.capabilities = [
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "mac2",
     // @ts-ignore
-    "appium:serverStartupTimeout": 240000,
+    "appium:bundleId": "im.satellite.uplinkChatUserA",
+    "appium:arguments": ["--path", homedir() + "/.chatUserA"],
     "appium:prerun": {
       command: 'do shell script "rm -rf ~/.chatUserA ~/.chatUserB"',
     },

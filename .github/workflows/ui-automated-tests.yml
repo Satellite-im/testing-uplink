@@ -276,10 +276,10 @@ jobs:
           appium driver install mac2
           appium driver list
 
-      - name: Open instances of Uplink
-        run: |
-          /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserA &
-          /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserB &
+      #- name: Open instances of Uplink
+      #  run: |
+      #    /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserA &
+      #    /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserB &
 
       - name: Run Chat Tests on MacOS 🧪
         run: npm run mac.chats
