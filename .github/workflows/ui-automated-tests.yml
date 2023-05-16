@@ -188,6 +188,13 @@ jobs:
         run: ${{ matrix.appium-driver }}
 
       - if: matrix.os == 'macos-latest'
+        name: Update MacOS runner to not autocorrect text
+        run: |
+          defaults write -g NSAutomaticCapitalizationEnabled -bool false
+          defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
+          defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
+
+      - if: matrix.os == 'macos-latest'
         name: Delete Cache Folder if exists - Mac
         run: rm -rf ~/.uplink
 
@@ -305,6 +312,12 @@ jobs:
           unzip Uplink-Mac-Universal.zip
           cp -r ./Uplink.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+
+      - name: Update MacOS runner to not autocorrect text
+        run: |
+          defaults write -g NSAutomaticCapitalizationEnabled -bool false
+          defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
+          defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
 
       - name: Install and Run Appium Server 💻
         run: |
