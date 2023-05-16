@@ -35,8 +35,6 @@ config.capabilities = [
     // This is `appium:` for all Appium Capabilities which can be found here
     "appium:automationName": "mac2",
     // @ts-ignore
-    "appium:bundleId": "im.satellite.uplinkChatUserA",
-    "appium:arguments": ["--path", homedir() + "/.chatUserA"],
     "appium:prerun": {
       command: 'do shell script "rm -rf ~/.chatUserA ~/.chatUserB"',
     },
