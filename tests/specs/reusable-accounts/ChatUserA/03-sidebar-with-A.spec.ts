@@ -10,7 +10,8 @@ import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function sidebarWithUserA() {
   it("Unblock Chat User A and send friend request again", async () => {
-    // Tests start in Chat Screen with User B
+    // Unblock Chat User B and go to Friends List to send a new friend request
+    await FriendsScreen.removeOrCancelUser("ChatUserB");
     await FriendsScreen.goToAllFriendsList();
 
     // Obtain did key from Chat User B
