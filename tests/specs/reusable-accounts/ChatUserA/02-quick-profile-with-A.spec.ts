@@ -96,7 +96,7 @@ export default async function quickProfileUserA() {
   });
 
   it("Go to chat with User B and wait for receiving a message", async () => {
-    await Messages.waitForReceivingMessage("accepted...");
+    await Messages.waitForReceivingMessage("Accepted...");
   });
 
   it("Quick Profile - Block Friend", async () => {

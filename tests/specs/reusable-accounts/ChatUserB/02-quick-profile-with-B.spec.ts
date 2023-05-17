@@ -34,7 +34,7 @@ export default async function quickProfileUserB() {
     await Topbar.waitUntilRemoteUserIsOnline();
 
     // Send message to Chat User B
-    await InputBar.typeMessageOnInput("accepted...");
+    await InputBar.typeMessageOnInput("Accepted...");
     await InputBar.clickOnSendMessage();
   });
 
