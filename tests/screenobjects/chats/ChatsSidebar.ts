@@ -1,3 +1,4 @@
+import { rightClickOnMacOS, rightClickOnWindows } from "../../helpers/commands";
 import { hoverOnMacOS, hoverOnWindows } from "../helpers/commands";
 import UplinkMainScreen from "../UplinkMainScreen";
 
@@ -18,12 +19,6 @@ const SELECTORS_WINDOWS = {
   CREATE_GROUP_CHAT_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   CREATE_GROUP_CHAT_USER_NAME: '[name="friend-name"]',
   CREATE_GROUP_CHAT_USER_NAME_TEXT: "//Text",
-  SIDEBAR_CHATS_CONTEXT_CLEAR: '[name="chats-clear-unreads"]',
-  SIDEBAR_CHATS_CONTEXT_DELETE_CONVERSATION:
-    '[name="chats-delete-conversation"]',
-  SIDEBAR_CHATS_CONTEXT_DELETE_GROUP: '[name="chats-delete-group"]',
-  SIDEBAR_CHATS_CONTEXT_HIDE: '[name="chats-hide-chat"]',
-  SIDEBAR_CHATS_CONTEXT_LEAVE: '[name="chats-leave-group"]',
   SIDEBAR_CHATS_HEADER: "//Text/Text",
   SIDEBAR_CHATS_USER: '[name="User"]',
   SIDEBAR_CHATS_USER_BADGE: '[name="User Badge"]',
@@ -54,11 +49,6 @@ const SELECTORS_MACOS = {
   CREATE_GROUP_CHAT_USER_NAME: "~friend-name",
   CREATE_GROUP_CHAT_USER_NAME_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText",
-  SIDEBAR_CHATS_CONTEXT_CLEAR: "~chats-clear-unreads",
-  SIDEBAR_CHATS_CONTEXT_DELETE_CONVERSATION: "~chats-delete-conversation",
-  SIDEBAR_CHATS_CONTEXT_DELETE_GROUP: "~chats-delete-group",
-  SIDEBAR_CHATS_CONTEXT_HIDE: "~chats-hide-chat",
-  SIDEBAR_CHATS_CONTEXT_LEAVE: "~chats-leave-group",
   SIDEBAR_CHATS_HEADER:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   SIDEBAR_CHATS_USER: "~User",
@@ -151,26 +141,6 @@ class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.CREATE_GROUP_CHAT_USER_NAME_TEXT);
   }
 
-  get sidebarChatsContextClearUnreads() {
-    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_CLEAR);
-  }
-
-  get sidebarChatsContextHideChat() {
-    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_HIDE);
-  }
-
-  get sidebarChatsContextDeleteConversation() {
-    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_DELETE_CONVERSATION);
-  }
-
-  get sidebarChatsContextDeleteGroup() {
-    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_DELETE_GROUP);
-  }
-
-  get sidebarChatsContextLeaveGroup() {
-    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_LEAVE);
-  }
-
   get siderbarChatsHeader() {
     return $(SELECTORS.SIDEBAR_CHATS_SECTION).$(
       SELECTORS.SIDERBAR_CHATS_HEADER
@@ -182,7 +152,7 @@ class ChatsSidebar extends UplinkMainScreen {
   }
 
   get sidebarChatsUser() {
-    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$$(SELECTORS.SIDEBAR_CHATS_USER);
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$(SELECTORS.SIDEBAR_CHATS_USER);
   }
 
   get sidebarChatsUserBadge() {
@@ -220,7 +190,7 @@ class ChatsSidebar extends UplinkMainScreen {
   get sidebarChatsUserInfo() {
     return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
-      .$$(SELECTORS.SIDEBAR_CHATS_USER_INFO);
+      .$(SELECTORS.SIDEBAR_CHATS_USER_INFO);
   }
 
   get sidebarChatsUserName() {
@@ -308,6 +278,113 @@ class ChatsSidebar extends UplinkMainScreen {
     return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
       .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
+  }
+
+  // Validations or assertions
+
+  async validateLastMessageDisplayed(message: string) {
+    await expect(this.sidebarChatsUserStatusValue).toHaveTextContaining(
+      message
+    );
+  }
+
+  async validateLastMessageTimeAgo() {
+    await expect(this.sidebarChatsUserBadgeTimeAgo).toHaveTextContaining(
+      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    );
+  }
+
+  async validateNoUnreadMessages() {
+    await this.sidebarChatsUserBadge.waitForExist({ reverse: true });
+  }
+
+  async validateNoSidebarChatsAreDisplayed() {
+    await this.sidebarChatsUser.waitForExist({ reverse: true });
+  }
+
+  async validateNumberOfUnreadMessages(badgeNumber: string) {
+    await expect(this.sidebarChatsUserBadgeNumber).toHaveTextContaining(
+      badgeNumber
+    );
+  }
+
+  async validateUsernameDisplayed(username: string) {
+    await expect(this.sidebarChatsUserNameValue).toHaveTextContaining(username);
+  }
+
+  // Waiting methods
+
+  async waitForReceivingMessageOnSidebar(timeout: number = 30000) {
+    await this.sidebarChatsUserStatusValue.waitForExist({ timeout: timeout });
+  }
+
+  // Get Sidebar elements
+
+  async getSidebarUserLocator(username: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let element;
+    if (currentDriver === "mac2") {
+      element = await $(
+        '//XCUIElementTypeGroup[@label="User Info"]/XCUIElementTypeGroup[@label="Username"]/XCUIElementTypeStaticText[contains(@value, "' +
+          username +
+          '")]/../../..'
+      );
+    } else if (currentDriver === "windows") {
+      element = await $(
+        '//Group[@Name="User Info"]/Group[@Name="Username"]/Text[contains(@Name, "' +
+          username +
+          '")]/../../..'
+      );
+    }
+    return element;
+  }
+
+  async getSidebarUserImage(username: string) {
+    const userLocator = await this.getSidebarUserLocator(username);
+    const imageLocator = await userLocator
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
+    return imageLocator;
+  }
+
+  async getSidebarUserStatus(username: string) {
+    const userLocator = await this.getSidebarUserLocator(username);
+    const statusLocator = await userLocator
+      .$(SELECTORS.SIDEBAR_CHATS_USER_INFO)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
+    return statusLocator;
+  }
+
+  async getSidebarUserIndicatorOffline(username: string) {
+    const userLocator = await this.getSidebarUserLocator(username);
+    const offlineLocator = await userLocator
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
+    return offlineLocator;
+  }
+
+  async getSidebarUserIndicatorOnline(username: string) {
+    const userLocator = await this.getSidebarUserLocator(username);
+    const onlineLocator = await userLocator
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
+    return onlineLocator;
+  }
+
+  // Context menu methods
+
+  async openContextMenuOnSidebar(username: string) {
+    const imageToRightClick = await this.getSidebarUserImage(username);
+    await this.hoverOnElement(imageToRightClick);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(imageToRightClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(imageToRightClick);
+    }
   }
 }
 

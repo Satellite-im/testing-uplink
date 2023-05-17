@@ -1,9 +1,15 @@
-import { getUserKey } from "../../../helpers/commands";
+import { getUserKey, loginWithTestUser } from "../../../helpers/commands";
 import ChatsSidebar from "../../../screenobjects/chats/ChatsSidebar";
+import ContextMenuSidebar from "../../../screenobjects/chats/ContextMenuSidebar";
 import FriendsScreen from "../../../screenobjects/friends/FriendsScreen";
+import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function sidebarWithUserA() {
   it("Unblock Chat User A and send friend request again", async () => {
+    // Temp functions
+    await loginWithTestUser();
+    await WelcomeScreen.goToFriends();
+
     // Tests start in Chat Screen with User B
     await FriendsScreen.goToAllFriendsList();
 
@@ -20,41 +26,34 @@ export default async function sidebarWithUserA() {
     // Wait until user B accepts the friend request
     await FriendsScreen.waitUntilUserAcceptedFriendRequest();
 
-    // Go to chat with User B
-    await FriendsScreen.chatWithFriendButton.waitForExist();
-    await ChatsSidebar.sidebarChatsUserInfo.waitForExist({ timeout: 30000 });
+    // Wait until message is received
+    await ChatsSidebar.waitForReceivingMessageOnSidebar();
   });
 
   it("Sidebar - Any active chats user has created should appear in Sidebar", async () => {
     // Validate Sidebar shows Username
-    await expect(ChatsSidebar.sidebarChatsUserNameValue).toHaveTextContaining(
-      "ChatUserB"
-    );
+    await ChatsSidebar.validateUsernameDisplayed("ChatUserB");
 
     // Validate last message contents
-    await expect(ChatsSidebar.sidebarChatsUserStatusValue).toHaveTextContaining(
-      "Helloagain..."
-    );
+    await ChatsSidebar.validateLastMessageDisplayed("Helloagain...");
 
     // Validate number of unread messages is displayed on sidebar
-    await expect(ChatsSidebar.sidebarChatsUserBadgeNumber).toHaveTextContaining(
-      "1"
-    );
+    await ChatsSidebar.validateNumberOfUnreadMessages("1");
 
     // Validate time ago displayed on sidebar
-    await expect(
-      ChatsSidebar.sidebarChatsUserBadgeTimeAgo
-    ).toHaveTextContaining(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/);
+    await ChatsSidebar.validateLastMessageTimeAgo();
   });
 
-  xit("Sidebar - Context Menu - Clear Unreads", async () => {
-    // Validate Sidebar shows Username, last message contents, time ago and number of messages
-    // Validate Sidebar shows Username and only last message contents
+  it("Sidebar - Context Menu - Clear Unreads", async () => {
+    await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
+    await ContextMenuSidebar.selectChatsClearUnreads();
+    await ChatsSidebar.validateNoUnreadMessages();
   });
 
-  xit("Sidebar - Context Menu - Hide chat", async () => {
-    // Validate Sidebar shows Username, last message contents, time ago and number of messages
-    // Validate Sidebar shows Username and only last message contents
+  it("Sidebar - Context Menu - Hide chat", async () => {
+    await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
+    await ContextMenuSidebar.selectChatsHideChat();
+    await ChatsSidebar.validateNoSidebarChatsAreDisplayed();
   });
 
   xit("Sidebar - Context Menu - Delete chat", async () => {
