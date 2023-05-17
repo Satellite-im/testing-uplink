@@ -386,6 +386,12 @@ class ChatsSidebar extends UplinkMainScreen {
       await rightClickOnWindows(imageToRightClick);
     }
   }
+
+  // Go to sidebar conversation
+  async goToSidebarChat(username: string) {
+    const imageToClick = await this.getSidebarUserImage(username);
+    await imageToClick.click();
+  }
 }
 
 export default new ChatsSidebar();

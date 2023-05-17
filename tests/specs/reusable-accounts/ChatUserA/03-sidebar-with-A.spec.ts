@@ -1,6 +1,9 @@
 import { getUserKey, loginWithTestUser } from "../../../helpers/commands";
+import ChatsLayout from "../../../screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "../../../screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "../../../screenobjects/chats/ContextMenuSidebar";
+import InputBar from "../../../screenobjects/chats/InputBar";
+import Topbar from "../../../screenobjects/chats/Topbar";
 import FriendsScreen from "../../../screenobjects/friends/FriendsScreen";
 import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
 
@@ -35,7 +38,7 @@ export default async function sidebarWithUserA() {
     await ChatsSidebar.validateUsernameDisplayed("ChatUserB");
 
     // Validate last message contents
-    await ChatsSidebar.validateLastMessageDisplayed("Helloagain...");
+    await ChatsSidebar.validateLastMessageDisplayed("Hello again...");
 
     // Validate number of unread messages is displayed on sidebar
     await ChatsSidebar.validateNumberOfUnreadMessages("1");
@@ -56,15 +59,36 @@ export default async function sidebarWithUserA() {
     await ChatsSidebar.validateNoSidebarChatsAreDisplayed();
   });
 
-  xit("Sidebar - Context Menu - Delete chat", async () => {
-    // Validate Sidebar shows Username, last message contents, time ago and number of messages
-    // Validate Sidebar shows Username and only last message contents
+  it("Sidebar - Context Menu - Delete chat", async () => {
+    // Wait until message is received
+    await ChatsSidebar.waitForReceivingMessageOnSidebar();
+
+    // Open context menu and right click on Delete chat
+    await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
+    await ContextMenuSidebar.selectChatsDeleteConversation();
+    await WelcomeScreen.waitForIsShown(true);
   });
 
-  xit("Sidebar - Hamburger button", async () => {
-    // Validate Sidebar shows Username, last message contents, time ago and number of messages
-    // Validate Sidebar shows Username and only last message contents
+  it("Sidebar - Send a message to User B", async () => {
+    // Go to the current list of All friends and then open a Chat conversation with ChatUserA
+    await WelcomeScreen.goToFriends();
+    await FriendsScreen.chatWithFriendButton.waitForExist();
+    await FriendsScreen.chatWithFriendButton.click();
+    await ChatsLayout.waitForIsShown(true);
+    await Topbar.waitUntilRemoteUserIsOnline();
+
+    // Send message to Chat User B
+    await InputBar.typeMessageOnInput("Hi...");
+    await InputBar.clickOnSendMessage();
   });
 
-  xit("Sidebar - Persists between different sections of the app", async () => {});
+  it("Sidebar - Validate Hamburger button and back buttons can hide or display the sidebar", async () => {
+    // Click on hamburger button and validate that Sidebar is hidden
+    await ChatsLayout.clickOnHamburgerButton();
+    await ChatsSidebar.waitForIsShown(false);
+
+    // Click on back button and validate that Sidebar is displayed again
+    await ChatsLayout.clickOnBackButton();
+    await ChatsSidebar.waitForIsShown(true);
+  });
 }
