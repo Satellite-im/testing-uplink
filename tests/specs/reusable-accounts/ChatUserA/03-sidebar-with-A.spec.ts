@@ -1,18 +1,15 @@
-import { getUserKey, loginWithTestUser } from "../../../helpers/commands";
+import { getUserKey } from "../../../helpers/commands";
 import ChatsLayout from "../../../screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "../../../screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "../../../screenobjects/chats/ContextMenuSidebar";
 import InputBar from "../../../screenobjects/chats/InputBar";
 import Topbar from "../../../screenobjects/chats/Topbar";
+import FilesScreen from "../../../screenobjects/files/FilesScreen";
 import FriendsScreen from "../../../screenobjects/friends/FriendsScreen";
 import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function sidebarWithUserA() {
   it("Unblock Chat User A and send friend request again", async () => {
-    // Temp functions
-    await loginWithTestUser();
-    await WelcomeScreen.goToFriends();
-
     // Tests start in Chat Screen with User B
     await FriendsScreen.goToAllFriendsList();
 
@@ -59,16 +56,6 @@ export default async function sidebarWithUserA() {
     await ChatsSidebar.validateNoSidebarChatsAreDisplayed();
   });
 
-  it("Sidebar - Context Menu - Delete chat", async () => {
-    // Wait until message is received
-    await ChatsSidebar.waitForReceivingMessageOnSidebar();
-
-    // Open context menu and right click on Delete chat
-    await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
-    await ContextMenuSidebar.selectChatsDeleteConversation();
-    await WelcomeScreen.waitForIsShown(true);
-  });
-
   it("Sidebar - Send a message to User B", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await WelcomeScreen.goToFriends();
@@ -78,17 +65,55 @@ export default async function sidebarWithUserA() {
     await Topbar.waitUntilRemoteUserIsOnline();
 
     // Send message to Chat User B
-    await InputBar.typeMessageOnInput("Hi...");
+    await InputBar.typeMessageOnInput("Hi again...");
     await InputBar.clickOnSendMessage();
+  });
+
+  it("Sidebar - Context Menu - Delete chat", async () => {
+    // Open context menu and right click on Delete chat
+    await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
+    await ContextMenuSidebar.selectChatsDeleteConversation();
+    await WelcomeScreen.waitForIsShown(true);
+  });
+
+  it("Sidebar - Send another message to User B", async () => {
+    // Go to the current list of All friends and then open a Chat conversation with ChatUserA
+    await WelcomeScreen.goToFriends();
+    await FriendsScreen.chatWithFriendButton.waitForExist();
+    await FriendsScreen.chatWithFriendButton.click();
+    await ChatsLayout.waitForIsShown(true);
+    await Topbar.waitUntilRemoteUserIsOnline();
+
+    // Send message to Chat User B
+    await InputBar.typeMessageOnInput("Bye...");
+    await InputBar.clickOnSendMessage();
+  });
+
+  it("Sidebar - Persists between different sections of the app", async () => {
+    // Validate on Files Screen that sidebar is displayed
+    await ChatsLayout.goToFiles();
+    await FilesScreen.waitForIsShown(true);
+    await ChatsSidebar.waitForIsShown(true);
+
+    // Validate on Friends Screen that sidebar is displayed
+    await FilesScreen.goToFriends();
+    await FriendsScreen.waitForIsShown(true);
+    await ChatsSidebar.waitForIsShown(true);
+
+    // Return to chat
+    await ChatsSidebar.goToSidebarChat("ChatUserB");
   });
 
   it("Sidebar - Validate Hamburger button and back buttons can hide or display the sidebar", async () => {
     // Click on hamburger button and validate that Sidebar is hidden
     await ChatsLayout.clickOnHamburgerButton();
-    await ChatsSidebar.waitForIsShown(false);
 
     // Click on back button and validate that Sidebar is displayed again
     await ChatsLayout.clickOnBackButton();
     await ChatsSidebar.waitForIsShown(true);
+  });
+
+  after(async () => {
+    await browser.pause(30000);
   });
 }

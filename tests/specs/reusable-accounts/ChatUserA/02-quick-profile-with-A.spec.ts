@@ -119,8 +119,4 @@ export default async function quickProfileUserA() {
     const includesFriend = await blockedList.includes("ChatUserB");
     await expect(includesFriend).toEqual(true);
   });
-
-  after(async () => {
-    await browser.pause(60000);
-  });
 }

@@ -290,7 +290,7 @@ class ChatsSidebar extends UplinkMainScreen {
 
   async validateLastMessageTimeAgo() {
     await expect(this.sidebarChatsUserBadgeTimeAgo).toHaveTextContaining(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+      /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
   }
 

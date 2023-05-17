@@ -44,8 +44,4 @@ export default async function quickProfileUserB() {
     await FriendsScreen.waitForIsShown(true);
     await FriendsScreen.waitUntilFriendIsRemoved("ChatUserA");
   });
-
-  after(async () => {
-    await browser.pause(60000);
-  });
 }
