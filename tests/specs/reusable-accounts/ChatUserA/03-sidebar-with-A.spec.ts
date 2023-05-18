@@ -38,7 +38,7 @@ export default async function sidebarWithUserA() {
     await ChatsSidebar.validateUsernameDisplayed("ChatUserB");
 
     // Validate last message contents
-    await ChatsSidebar.validateLastMessageDisplayed("Hello again...");
+    await ChatsSidebar.validateLastMessageDisplayed("Hello...");
 
     // Validate number of unread messages is displayed on sidebar
     await ChatsSidebar.validateNumberOfUnreadMessages("1");
@@ -68,7 +68,7 @@ export default async function sidebarWithUserA() {
     await Topbar.waitUntilRemoteUserIsOnline();
 
     // Send message to Chat User B
-    await InputBar.typeMessageOnInput("Hi again...");
+    await InputBar.typeMessageOnInput("Hi...");
     await InputBar.clickOnSendMessage();
   });
 
@@ -114,18 +114,5 @@ export default async function sidebarWithUserA() {
     await expect(ChatsSidebar.sidebarChatsUserStatusValue).toHaveTextContaining(
       "No messages sent yet, send one!"
     );
-  });
-
-  it("Sidebar - Send another message to User B", async () => {
-    // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-    await WelcomeScreen.goToFriends();
-    await FriendsScreen.chatWithFriendButton.waitForExist();
-    await FriendsScreen.chatWithFriendButton.click();
-    await ChatsLayout.waitForIsShown(true);
-    await Topbar.waitUntilRemoteUserIsOnline();
-
-    // Send message to Chat User B
-    await InputBar.typeMessageOnInput("Bye...");
-    await InputBar.clickOnSendMessage();
   });
 }
