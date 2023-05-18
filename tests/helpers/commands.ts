@@ -18,7 +18,7 @@ export async function deleteCache() {
 }
 
 export async function grabCacheFolder(username: string) {
-  const source = homedir() + "/.uplink";
+  const source = homedir() + "/.uplink/.user";
   const currentDriver = await driver.capabilities.automationName;
   const target =
     "./tests/fixtures/users/windows/" + currentDriver + "/" + username;
@@ -37,7 +37,7 @@ export async function loadTestUserData(user: string) {
   // Move files
   const currentDriver = await driver.capabilities.automationName;
   const source = "./tests/fixtures/users/" + currentDriver + "/" + user;
-  const target = homedir() + "/.uplink";
+  const target = homedir() + "/.uplink/.user";
   try {
     await deleteCache();
     await fsp.cp(source, target, { recursive: true }, { force: true });
@@ -53,7 +53,9 @@ export async function loadTestUserData(user: string) {
 
 export async function getUserKey(username: string) {
   // Read user data and store variable with DID Key from JSON file
-  const source = "./tests/fixtures/users/" + username + ".json";
+  const currentDriver = await driver.capabilities.automationName;
+  const source =
+    "./tests/fixtures/users/" + currentDriver + "/" + username + ".json";
   const jsonFile = readFileSync(source);
   const jsonFileParsed = JSON.parse(jsonFile);
   const didkey = jsonFileParsed.key;
@@ -62,7 +64,9 @@ export async function getUserKey(username: string) {
 
 export async function saveTestKeys(username: string, didkey: string) {
   // Save JSON file with keys
-  const target = "./tests/fixtures/users/" + username + ".json";
+  const currentDriver = await driver.capabilities.automationName;
+  const target =
+    "./tests/fixtures/users/" + currentDriver + "/" + username + ".json";
   const userData = { username: username, key: didkey };
   try {
     writeFileSync(target, JSON.stringify(userData, null, 2), "utf8");
