@@ -145,7 +145,7 @@ export async function launchApplication() {
   if (currentOS === "windows") {
     await driver.executeScript("windows: launchApp", [
       {
-        app: join(process.cwd(), "\\apps\\ui.exe"),
+        app: join(process.cwd(), "\\apps\\uplink.exe"),
       },
     ]);
   } else if (currentOS === "mac2") {
@@ -162,7 +162,7 @@ export async function closeApplication() {
   if (currentOS === "windows") {
     await driver.executeScript("windows: closeApp", [
       {
-        app: join(process.cwd(), "\\apps\\ui.exe"),
+        app: join(process.cwd(), "\\apps\\uplink.exe"),
       },
     ]);
   } else if (currentOS === "mac2") {
