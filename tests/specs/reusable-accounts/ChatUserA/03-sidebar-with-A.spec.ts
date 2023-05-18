@@ -9,11 +9,18 @@ import FriendsScreen from "../../../screenobjects/friends/FriendsScreen";
 import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function sidebarWithUserA() {
-  it("Unblock Chat User A and send friend request again", async () => {
+  it("Unblock Chat User A and delete chat from sidebar", async () => {
     // Unblock Chat User B and go to Friends List to send a new friend request
     await FriendsScreen.removeOrCancelUser("ChatUserB");
     await FriendsScreen.goToAllFriendsList();
 
+    // Open context menu and right click on Delete chat
+    await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
+    await ContextMenuSidebar.selectChatsDeleteConversation();
+    await WelcomeScreen.waitForIsShown(true);
+  });
+
+  it("Send friend request again to Chat User B", async () => {
     // Obtain did key from Chat User B
     const friendDidKey = await getUserKey("ChatUserB");
     await FriendsScreen.enterFriendDidKey(friendDidKey);
@@ -75,6 +82,7 @@ export default async function sidebarWithUserA() {
     await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
     await ContextMenuSidebar.selectChatsDeleteConversation();
     await WelcomeScreen.waitForIsShown(true);
+    await browser.pause(30000);
   });
 
   it("Sidebar - Send another message to User B", async () => {
@@ -112,9 +120,5 @@ export default async function sidebarWithUserA() {
     // Click on back button and validate that Sidebar is displayed again
     await ChatsLayout.clickOnBackButton();
     await ChatsSidebar.waitForIsShown(true);
-  });
-
-  after(async () => {
-    await browser.pause(30000);
   });
 }
