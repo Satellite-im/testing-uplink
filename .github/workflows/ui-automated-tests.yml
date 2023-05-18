@@ -253,7 +253,7 @@ jobs:
             Failed Automated Test
           type: add
 
-  test-chats:
+  test-chats-macos:
     if: always()
     needs: test
     runs-on: macos-latest
@@ -364,8 +364,106 @@ jobs:
             Failed Automated Test
           type: add
 
+  test-chats-windows:
+    if: always()
+    needs: test
+    runs-on: windows-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        user: ["ChatUserA", "ChatUserB"]
+        include:
+          - user: "ChatUserA"
+            npm-command: "npm run windows.chatA"
+          - user: "ChatUserB"
+            npm-command: "npm run windows.chatB"
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Change resolution on Windows Runner
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+        shell: powershell
+
+      - name: Download the Windows app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-windows-latest
+          path: ./apps
+
+      - name: Extract .zip into apps Directory 🗳️
+        run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
+
+      - name: Download Test User Accounts 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: appium-test-accounts
+          path: ./tests/fixtures/users/
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-appium
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-appium.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Install Appium Server and Drivers 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+          appium driver install mac2
+          appium driver list
+
+      - name: Delete Cache Folder if exists - Windows
+        run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
+        shell: powershell
+
+      - if: matrix.user == 'ChatUserA'
+        name: Run WebdriverIO tests for Chat User A 🧪
+        id: test-execution-ChatUserA
+        run: ${{ matrix.npm-command }}
+
+      - if: matrix.user == 'ChatUserB'
+        name: Run WebdriverIO tests for Chat User B 🧪
+        id: test-execution-ChatUserB
+        run: ${{ matrix.npm-command }}
+
+      - name: Upload Screenshots for ${{ matrix.user }} 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-screenshots-${{ matrix.user }}
+          path: ./test-results
+
+      - name: Upload Appium Log for ${{ matrix.user }} 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-log-${{ matrix.user }}
+          path: ./appium.log
+
+      - name: Add label if any of test jobs failed
+        if: failure()
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            Failed Automated Test
+          type: add
+
   remove-artifacts:
-    needs: [build-app, test, test-chats]
+    needs: [build-app, test, test-chats-macos, test-chats-windows]
     runs-on: ubuntu-latest
 
     steps:
