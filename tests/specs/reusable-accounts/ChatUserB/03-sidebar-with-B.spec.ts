@@ -1,5 +1,7 @@
 import ChatsLayout from "../../../screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "../../../screenobjects/chats/ChatsSidebar";
+import ContextMenu from "../../../screenobjects/chats/ContextMenu";
+import ContextMenuSidebar from "../../../screenobjects/chats/ContextMenuSidebar";
 import InputBar from "../../../screenobjects/chats/InputBar";
 import MessageGroup from "../../../screenobjects/chats/MessageGroup";
 import Messages from "../../../screenobjects/chats/Messages";
@@ -9,6 +11,10 @@ import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function sidebarWithUserB() {
   it("Chat User B - Wait until receiving a friend request again", async () => {
+    // Open context menu and right click on Delete chat
+    await ChatsSidebar.openContextMenuOnSidebar("ChatUserA");
+    await ContextMenuSidebar.selectChatsDeleteConversation();
+
     // Go to pending requests list, wait for receiving the friend request and accept it
     await FriendsScreen.goToPendingFriendsList();
     await FriendsScreen.waitUntilFriendRequestIsReceived();
@@ -57,11 +63,12 @@ export default async function sidebarWithUserB() {
 
   it("Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {
     // After user deletes chat conversation on remote side, chat is deleted on local side and Welcome Image displayed again
-    await browser.pause(10000);
     await ChatsLayout.goToFriends();
     await FriendsScreen.waitForIsShown(true);
     await FriendsScreen.chatWithFriendButton.click();
     await ChatsLayout.waitForIsShown(true);
-    await MessageGroup.waitForIsShown(false);
+    await ChatsSidebar.sidebarChatsUserInfo.waitForExist({
+      reverse: true,
+    });
   });
 }

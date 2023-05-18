@@ -9,15 +9,10 @@ import FriendsScreen from "../../../screenobjects/friends/FriendsScreen";
 import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function sidebarWithUserA() {
-  it("Unblock Chat User A and delete chat from sidebar", async () => {
+  it("Unblock Chat User A", async () => {
     // Unblock Chat User B and go to Friends List to send a new friend request
     await FriendsScreen.removeOrCancelUser("ChatUserB");
     await FriendsScreen.goToAllFriendsList();
-
-    // Open context menu and right click on Delete chat
-    await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
-    await ContextMenuSidebar.selectChatsDeleteConversation();
-    await WelcomeScreen.waitForIsShown(true);
   });
 
   it("Send friend request again to Chat User B", async () => {
@@ -82,7 +77,7 @@ export default async function sidebarWithUserA() {
     await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
     await ContextMenuSidebar.selectChatsDeleteConversation();
     await WelcomeScreen.waitForIsShown(true);
-    await browser.pause(30000);
+    await browser.pause(15000);
   });
 
   it("Sidebar - Send another message to User B", async () => {
