@@ -13,7 +13,7 @@ const robot = require("robotjs");
 // Users cache helper functions
 
 export async function deleteCache() {
-  const target = homedir() + "/.uplink";
+  const target = homedir() + "/.uplink/.user";
   await rmSync(target, { recursive: true, force: true });
 }
 
