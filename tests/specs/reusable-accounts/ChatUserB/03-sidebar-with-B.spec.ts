@@ -1,20 +1,12 @@
 import ChatsLayout from "../../../screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "../../../screenobjects/chats/ChatsSidebar";
-import ContextMenu from "../../../screenobjects/chats/ContextMenu";
-import ContextMenuSidebar from "../../../screenobjects/chats/ContextMenuSidebar";
 import InputBar from "../../../screenobjects/chats/InputBar";
-import MessageGroup from "../../../screenobjects/chats/MessageGroup";
 import Messages from "../../../screenobjects/chats/Messages";
 import Topbar from "../../../screenobjects/chats/Topbar";
 import FriendsScreen from "../../../screenobjects/friends/FriendsScreen";
-import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function sidebarWithUserB() {
   it("Chat User B - Wait until receiving a friend request again", async () => {
-    // Open context menu and right click on Delete chat
-    await ChatsSidebar.openContextMenuOnSidebar("ChatUserA");
-    await ContextMenuSidebar.selectChatsDeleteConversation();
-
     // Go to pending requests list, wait for receiving the friend request and accept it
     await FriendsScreen.goToPendingFriendsList();
     await FriendsScreen.waitUntilFriendRequestIsReceived();
@@ -34,21 +26,12 @@ export default async function sidebarWithUserB() {
     await FriendsScreen.goToAllFriendsList();
   });
 
-  it("Chat User B - Sidebar without messages sent displays No messages yet, sent one", async () => {
+  it("Send message to User A", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await FriendsScreen.chatWithFriendButton.waitForExist();
     await FriendsScreen.chatWithFriendButton.click();
     await ChatsLayout.waitForIsShown(true);
 
-    await expect(ChatsSidebar.sidebarChatsUserNameValue).toHaveTextContaining(
-      "ChatUserA"
-    );
-    await expect(ChatsSidebar.sidebarChatsUserStatusValue).toHaveTextContaining(
-      "No messages sent yet, send one!"
-    );
-  });
-
-  it("Send message to User A", async () => {
     await Topbar.waitUntilRemoteUserIsOnline();
 
     // Send message to Chat User B
@@ -69,6 +52,12 @@ export default async function sidebarWithUserB() {
     await ChatsLayout.waitForIsShown(true);
     await ChatsSidebar.sidebarChatsUserInfo.waitForExist({
       reverse: true,
+      timeout: 60000,
     });
+  });
+
+  it("Sidebar - Wait for receiving a a new message", async () => {
+    // Wait until message is received
+    await Messages.waitForReceivingMessage("Bye...");
   });
 }

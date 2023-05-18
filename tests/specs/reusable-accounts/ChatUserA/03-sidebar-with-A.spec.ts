@@ -72,12 +72,48 @@ export default async function sidebarWithUserA() {
     await InputBar.clickOnSendMessage();
   });
 
+  it("Sidebar - Persists between different sections of the app", async () => {
+    // Validate on Files Screen that sidebar is displayed
+    await ChatsLayout.goToFiles();
+    await FilesScreen.waitForIsShown(true);
+    await ChatsSidebar.sidebarChatsUser.waitForExist();
+
+    // Validate on Friends Screen that sidebar is displayed
+    await FilesScreen.goToFriends();
+    await FriendsScreen.waitForIsShown(true);
+    await ChatsSidebar.sidebarChatsUser.waitForExist();
+
+    // Return to chat
+    await ChatsSidebar.goToSidebarChat("ChatUserB");
+  });
+
+  it("Sidebar - Validate Hamburger button and back buttons can hide or display the sidebar", async () => {
+    // Click on hamburger button and validate that Sidebar is hidden
+    await ChatsLayout.clickOnHamburgerButton();
+
+    // Click on back button and validate that Sidebar is displayed again
+    await ChatsLayout.clickOnBackButton();
+    await ChatsSidebar.waitForIsShown(true);
+  });
+
   it("Sidebar - Context Menu - Delete chat", async () => {
     // Open context menu and right click on Delete chat
     await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
     await ContextMenuSidebar.selectChatsDeleteConversation();
     await WelcomeScreen.waitForIsShown(true);
-    await browser.pause(15000);
+  });
+
+  it("Chat User B - Sidebar without messages sent displays No messages yet, sent one", async () => {
+    await WelcomeScreen.goToFriends();
+    await FriendsScreen.chatWithFriendButton.waitForExist();
+    await FriendsScreen.chatWithFriendButton.click();
+    await ChatsLayout.waitForIsShown(true);
+    await expect(ChatsSidebar.sidebarChatsUserNameValue).toHaveTextContaining(
+      "ChatUserB"
+    );
+    await expect(ChatsSidebar.sidebarChatsUserStatusValue).toHaveTextContaining(
+      "No messages sent yet, send one!"
+    );
   });
 
   it("Sidebar - Send another message to User B", async () => {
@@ -91,29 +127,5 @@ export default async function sidebarWithUserA() {
     // Send message to Chat User B
     await InputBar.typeMessageOnInput("Bye...");
     await InputBar.clickOnSendMessage();
-  });
-
-  it("Sidebar - Persists between different sections of the app", async () => {
-    // Validate on Files Screen that sidebar is displayed
-    await ChatsLayout.goToFiles();
-    await FilesScreen.waitForIsShown(true);
-    await ChatsSidebar.waitForIsShown(true);
-
-    // Validate on Friends Screen that sidebar is displayed
-    await FilesScreen.goToFriends();
-    await FriendsScreen.waitForIsShown(true);
-    await ChatsSidebar.waitForIsShown(true);
-
-    // Return to chat
-    await ChatsSidebar.goToSidebarChat("ChatUserB");
-  });
-
-  it("Sidebar - Validate Hamburger button and back buttons can hide or display the sidebar", async () => {
-    // Click on hamburger button and validate that Sidebar is hidden
-    await ChatsLayout.clickOnHamburgerButton();
-
-    // Click on back button and validate that Sidebar is displayed again
-    await ChatsLayout.clickOnBackButton();
-    await ChatsSidebar.waitForIsShown(true);
   });
 }
