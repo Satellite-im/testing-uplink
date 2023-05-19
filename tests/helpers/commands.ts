@@ -18,7 +18,7 @@ export async function deleteCache() {
 }
 
 export async function grabCacheFolder(username: string) {
-  const source = homedir() + "/.uplink/.user";
+  const source = homedir() + "/.uplink/";
   const currentDriver = await driver.capabilities.automationName;
   const target = "./tests/fixtures/users/" + currentDriver + "/" + username;
   await fsp.mkdir(target, { recursive: true });
@@ -36,7 +36,7 @@ export async function loadTestUserData(user: string) {
   // Move files
   const currentDriver = await driver.capabilities.automationName;
   const source = "./tests/fixtures/users/" + currentDriver + "/" + user;
-  const target = homedir() + "/.uplink/.user";
+  const target = homedir() + "/.uplink/";
   try {
     await deleteCache();
     await fsp.cp(source, target, { recursive: true }, { force: true });

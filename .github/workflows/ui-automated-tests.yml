@@ -415,18 +415,18 @@ jobs:
         id: test-execution-ChatUserB
         run: ${{ matrix.npm-command }}
 
-      - name: Upload Screenshots for ${{ matrix.user }} 📷
+      - name: Upload Screenshots for MacOS - ${{ matrix.user }} 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-screenshots-${{ matrix.user }}
+          name: appium-screenshots-macos-${{ matrix.user }}
           path: ./test-results
 
-      - name: Upload Appium Log for ${{ matrix.user }} 📷
+      - name: Upload Appium Log for MacOS - ${{ matrix.user }} 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-log-${{ matrix.user }}
+          name: appium-log-macos-${{ matrix.user }}
           path: ./appium.log
 
       - name: Add label if any of test jobs failed
@@ -515,18 +515,18 @@ jobs:
         id: test-execution-ChatUserB
         run: ${{ matrix.npm-command }}
 
-      - name: Upload Screenshots for ${{ matrix.user }} 📷
+      - name: Upload Screenshots for Windows - ${{ matrix.user }} 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-screenshots-${{ matrix.user }}
+          name: appium-screenshots-windows-${{ matrix.user }}
           path: ./test-results
 
-      - name: Upload Appium Log for ${{ matrix.user }} 📷
+      - name: Upload Appium Log for Windows - ${{ matrix.user }} 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-log-${{ matrix.user }}
+          name: appium-log-windows-${{ matrix.user }}
           path: ./appium.log
 
       - name: Add label if any of test jobs failed
