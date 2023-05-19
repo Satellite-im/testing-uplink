@@ -16,18 +16,8 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build-app:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [macos-latest, windows-latest]
-        include:
-          - os: macos-latest
-            build-instruction: make dmg
-          - os: windows-latest
-            build-instruction: cargo build --release --package uplink -F production_mode
-    runs-on:
-      labels: ${{ matrix.os }}
+  build-macos:
+    runs-on: macos-latest
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
