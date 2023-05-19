@@ -57,4 +57,8 @@ export default async function sidebarWithUserB() {
       timeout: 60000,
     });
   });
+
+  after(async () => {
+    await browser.pause(30000);
+  });
 }

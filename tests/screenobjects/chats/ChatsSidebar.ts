@@ -377,7 +377,9 @@ class ChatsSidebar extends UplinkMainScreen {
   // Context menu methods
 
   async openContextMenuOnSidebar(username: string) {
-    const imageToRightClick = await this.getSidebarUserLocator(username);
+    const imageToRightClick = await this.getSidebarUserIndicatorOnline(
+      username
+    );
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {

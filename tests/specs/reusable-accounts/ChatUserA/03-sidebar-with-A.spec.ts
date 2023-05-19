@@ -121,4 +121,8 @@ export default async function sidebarWithUserA() {
       "No messages sent yet, send one!"
     );
   });
+
+  after(async () => {
+    await browser.pause(30000);
+  });
 }
