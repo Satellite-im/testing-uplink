@@ -16,9 +16,18 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build-mac:
-    runs-on: macos-latest
-
+  build-app:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+        include:
+          - os: macos-latest
+            build-instruction: make dmg
+          - os: windows-latest
+            build-instruction: cargo build --release --package uplink -F production_mode
+    runs-on:
+      labels: ${{ matrix.os }}
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
@@ -55,7 +64,7 @@ jobs:
 
       - name: Create ZIP archive on MacOS 🗳️
         run: |
-          ditto -c -k --sequesterRsrc --keepParent target/macos_bundle/Uplink.app Uplink-Mac-Universal.zip
+          ditto -c -k --sequesterRsrc --keepParent target/release/macos/Uplink.app Uplink-Mac-Universal.zip
 
       - name: Calculate hashes 🧮
         run: |
