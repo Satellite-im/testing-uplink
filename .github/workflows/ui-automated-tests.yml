@@ -59,7 +59,7 @@ jobs:
         run: cargo update
 
       - name: Build executable 🖥️
-        run: make unsigned-dmg
+        run: make dmg
         continue-on-error: true
 
       - name: Create ZIP archive on MacOS 🗳️
