@@ -30,7 +30,7 @@ export default async function sidebarWithUserA() {
     await FriendsScreen.waitUntilUserAcceptedFriendRequest();
 
     // Go to another part of the app
-    await FriendsScreen.goToFiles();
+    await FriendsScreen.goToMainScreen();
 
     // Wait until message is received
     await ChatsSidebar.waitForReceivingMessageOnSidebar(60000);

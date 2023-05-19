@@ -248,6 +248,7 @@ export default async function sendRequest() {
 
   it("Chats - Message Sent With Attachment - Text contents", async () => {
     // Validate text from message containing attachment
+    await Messages.chatMessageFileEmbedLocal.waitForExist();
     const textMessage = await Messages.getLastMessageSentText();
     await expect(textMessage).toHaveTextContaining("Attached...");
   });
