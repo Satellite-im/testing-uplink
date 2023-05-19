@@ -502,7 +502,7 @@ jobs:
       - name: Delete Cache Folder if exists - Windows
         run: |
           cp -r ./tests/fixtures/users/windows/${{ matrix.user }}/. $home/.uplink
-          ls -la $home/.uplink
+          Get-ChildItem -Path $home/.uplink
         shell: powershell
 
       - if: matrix.user == 'ChatUserA'
