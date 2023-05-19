@@ -29,6 +29,9 @@ export default async function sidebarWithUserA() {
     // Wait until user B accepts the friend request
     await FriendsScreen.waitUntilUserAcceptedFriendRequest();
 
+    // Go to another part of the app
+    await FriendsScreen.goToFiles();
+
     // Wait until message is received
     await ChatsSidebar.waitForReceivingMessageOnSidebar(60000);
   });
