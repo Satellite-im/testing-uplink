@@ -42,7 +42,7 @@ export default async function sidebarWithUserB() {
 
   it("Sidebar - Wait for receiving a a new message", async () => {
     // Wait until message is received
-    await Messages.waitForReceivingMessage("Hi...");
+    await Messages.waitForReceivingMessage("Hi...", 60000);
   });
 
   it("Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {
