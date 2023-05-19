@@ -38,11 +38,17 @@ export default async function sidebarWithUserB() {
     // Send message to Chat User B
     await InputBar.typeMessageOnInput("Hello...");
     await InputBar.clickOnSendMessage();
+
+    const latestMessage = await Messages.getLastMessageSentText();
+    await expect(latestMessage).toHaveTextContaining("Hello...");
   });
 
   it("Sidebar - Wait for receiving a a new message", async () => {
     // Wait until message is received
     await Messages.waitForReceivingMessage("Hi...", 60000);
+
+    const latestMessage = await Messages.getLastMessageReceivedText();
+    await expect(latestMessage).toHaveTextContaining("Hi...");
   });
 
   it("Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {

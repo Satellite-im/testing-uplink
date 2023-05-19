@@ -258,7 +258,7 @@ jobs:
     needs: test
     runs-on: macos-latest
     strategy:
-      fail-fast: true
+      fail-fast: false
       matrix:
         user: ["ChatUserA", "ChatUserB"]
         include:

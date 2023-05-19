@@ -3,6 +3,7 @@ import ChatsLayout from "../../../screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "../../../screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "../../../screenobjects/chats/ContextMenuSidebar";
 import InputBar from "../../../screenobjects/chats/InputBar";
+import Messages from "../../../screenobjects/chats/Messages";
 import Topbar from "../../../screenobjects/chats/Topbar";
 import FilesScreen from "../../../screenobjects/files/FilesScreen";
 import FriendsScreen from "../../../screenobjects/friends/FriendsScreen";
@@ -73,6 +74,8 @@ export default async function sidebarWithUserA() {
     // Send message to Chat User B
     await InputBar.typeMessageOnInput("Hi...");
     await InputBar.clickOnSendMessage();
+    const latestMessage = await Messages.getLastMessageSentText();
+    await expect(latestMessage).toHaveTextContaining("Hi...");
   });
 
   it("Sidebar - Persists between different sections of the app", async () => {
