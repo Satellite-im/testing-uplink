@@ -220,7 +220,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: appium-test-accounts-macos
-          path: ./tests/fixtures/users/
+          path: ./tests/fixtures/users/mac2/
 
       - name: Add label if any of test jobs failed
         if: failure()
@@ -316,7 +316,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: appium-test-accounts-windows
-          path: ./tests/fixtures/users/
+          path: ./tests/fixtures/users/windows/
 
       - name: Add label if any of test jobs failed
         if: failure()
@@ -354,8 +354,8 @@ jobs:
       - name: Download Test User Accounts 🗳️
         uses: actions/download-artifact@v3
         with:
-          name: appium-test-accounts
-          path: ./tests/fixtures/users/
+          name: appium-test-accounts-macos
+          path: ./tests/fixtures/users/mac2/
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -472,8 +472,8 @@ jobs:
       - name: Download Test User Accounts 🗳️
         uses: actions/download-artifact@v3
         with:
-          name: appium-test-accounts
-          path: ./tests/fixtures/users/
+          name: appium-test-accounts-windows
+          path: ./tests/fixtures/users/windows/
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
