@@ -501,8 +501,8 @@ jobs:
 
       - name: Delete Cache Folder if exists - Windows
         run: |
-          If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }
           cp -r ./tests/fixtures/users/windows/${{ matrix.user }}/. $home/.uplink
+          ls -la $home/.uplink
         shell: powershell
 
       - if: matrix.user == 'ChatUserA'
