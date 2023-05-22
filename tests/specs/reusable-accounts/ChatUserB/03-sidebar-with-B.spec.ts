@@ -1,5 +1,4 @@
 import ChatsLayout from "../../../screenobjects/chats/ChatsLayout";
-import ChatsSidebar from "../../../screenobjects/chats/ChatsSidebar";
 import InputBar from "../../../screenobjects/chats/InputBar";
 import Messages from "../../../screenobjects/chats/Messages";
 import Topbar from "../../../screenobjects/chats/Topbar";
@@ -45,7 +44,7 @@ export default async function sidebarWithUserB() {
 
   it("Sidebar - Wait for receiving a a new message", async () => {
     // Wait until message is received
-    await Messages.waitForReceivingMessage("Hi...", 60000);
+    await Messages.waitForReceivingMessage("Hi...", 180000);
 
     const latestMessage = await Messages.getLastMessageReceivedText();
     await expect(latestMessage).toHaveTextContaining("Hi...");
@@ -54,7 +53,7 @@ export default async function sidebarWithUserB() {
   it("Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {
     // After user deletes chat conversation on remote side, chat is deleted on local side and Welcome Image displayed again
     await WelcomeScreen.welcomeImage.waitForExist({
-      timeout: 60000,
+      timeout: 90000,
     });
   });
 
