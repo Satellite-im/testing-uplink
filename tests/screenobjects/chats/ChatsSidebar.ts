@@ -389,9 +389,25 @@ class ChatsSidebar extends UplinkMainScreen {
     }
   }
 
+  async openContextOnFirstSidebarChat() {
+    const imageToRightClick = await this.sidebarChatsUser;
+    await this.hoverOnElement(imageToRightClick);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await rightClickOnMacOS(imageToRightClick);
+    } else if (currentDriver === "windows") {
+      await rightClickOnWindows(imageToRightClick);
+    }
+  }
+
   // Go to sidebar conversation
   async goToSidebarChat(username: string) {
     const imageToClick = await this.getSidebarUserImage(username);
+    await imageToClick.click();
+  }
+
+  async goToSidebarFirstChat() {
+    const imageToClick = await this.sidebarChatsUser;
     await imageToClick.click();
   }
 }

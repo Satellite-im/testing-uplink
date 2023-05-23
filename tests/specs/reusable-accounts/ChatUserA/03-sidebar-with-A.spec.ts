@@ -52,13 +52,13 @@ export default async function sidebarWithUserA() {
   });
 
   it("Sidebar - Context Menu - Clear Unreads", async () => {
-    await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
+    await ChatsSidebar.openContextOnFirstSidebarChat();
     await ContextMenuSidebar.selectChatsClearUnreads();
     await ChatsSidebar.validateNoUnreadMessages();
   });
 
   it("Sidebar - Context Menu - Hide chat", async () => {
-    await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
+    await ChatsSidebar.openContextOnFirstSidebarChat();
     await ContextMenuSidebar.selectChatsHideChat();
     await ChatsSidebar.validateNoSidebarChatsAreDisplayed();
   });
@@ -90,7 +90,7 @@ export default async function sidebarWithUserA() {
     await ChatsSidebar.sidebarChatsUser.waitForExist();
 
     // Return to chat
-    await ChatsSidebar.goToSidebarChat("ChatUserB");
+    await ChatsSidebar.goToSidebarFirstChat();
   });
 
   it("Sidebar - Validate Hamburger button and back buttons can hide or display the sidebar", async () => {
@@ -104,7 +104,7 @@ export default async function sidebarWithUserA() {
 
   it("Sidebar - Context Menu - Delete chat", async () => {
     // Open context menu and right click on Delete chat
-    await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
+    await ChatsSidebar.openContextOnFirstSidebarChat();
     await ContextMenuSidebar.selectChatsDeleteConversation();
     await WelcomeScreen.waitForIsShown(true);
   });
