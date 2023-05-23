@@ -122,7 +122,7 @@ export default async function friends() {
   });
 
   it("Type a message and return to Friends Screen", async () => {
-    await InputBar.typeMessageOnInput("testing...");
+    await InputBar.typeMessageOnInput("Testing...");
     await InputBar.clearInputBar();
     await ChatsLayout.goToFriends();
     await FriendsScreen.waitForIsShown(true);
@@ -295,7 +295,7 @@ export default async function friends() {
     // Select first option "Chat" from Context Menu and validate Chat is displayed
     await FriendsScreen.clickOnContextMenuChat();
     await ChatsLayout.waitForIsShown(true);
-    await InputBar.typeMessageOnInput("testing...");
+    await InputBar.typeMessageOnInput("Testing...");
     await InputBar.clearInputBar();
 
     // Go back to Friends Screen

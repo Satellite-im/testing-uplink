@@ -120,7 +120,13 @@ class InputBar extends UplinkMainScreen {
   }
 
   async typeMessageOnInput(text: string) {
+    await this.inputText.clearValue();
     await this.inputText.setValue(text);
+    // Retry if webdriverio typing failed
+    if ((await this.inputText.getValue()) !== text) {
+      await this.inputText.clearValue();
+      await this.inputText.setValue(text);
+    }
   }
 
   async typeOnEditMessageInput(editedMessage: string) {

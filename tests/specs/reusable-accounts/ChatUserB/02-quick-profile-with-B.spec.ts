@@ -34,7 +34,7 @@ export default async function quickProfileUserB() {
     await Topbar.waitUntilRemoteUserIsOnline();
 
     // Send message to Chat User B
-    await InputBar.typeMessageOnInput("accepted...");
+    await InputBar.typeMessageOnInput("Accepted...");
     await InputBar.clickOnSendMessage();
   });
 
@@ -43,9 +43,5 @@ export default async function quickProfileUserB() {
     await InputBar.goToFriends();
     await FriendsScreen.waitForIsShown(true);
     await FriendsScreen.waitUntilFriendIsRemoved("ChatUserA");
-  });
-
-  after(async () => {
-    await browser.pause(60000);
   });
 }

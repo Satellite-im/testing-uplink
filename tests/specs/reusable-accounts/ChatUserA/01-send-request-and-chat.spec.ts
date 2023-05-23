@@ -49,11 +49,11 @@ export default async function sendRequest() {
   });
 
   it("Chats - Send a message to the other user", async () => {
-    await InputBar.typeMessageOnInput("testing...");
+    await InputBar.typeMessageOnInput("Testing...");
     await InputBar.clickOnSendMessage();
 
     const textFromMessage = await Messages.getLastMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining("testing...");
+    await expect(textFromMessage).toHaveTextContaining("Testing...");
   });
 
   it("Validate Chat Message displays timestamp and user who sent it", async () => {
@@ -68,7 +68,7 @@ export default async function sendRequest() {
   it("Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
     const messageText = await Messages.getLastMessageSentText();
-    await expect(messageText).toHaveTextContaining("testing...");
+    await expect(messageText).toHaveTextContaining("Testing...");
   });
 
   it("Validate Chat Message Group displays username picture and online indicator", async () => {
@@ -115,11 +115,11 @@ export default async function sendRequest() {
     const replyReceived = await Messages.getLastReply();
     const replyReceivedText = await Messages.getLastReplyText();
     await expect(replyReceived).toBeDisplayed();
-    await expect(replyReceivedText).toHaveTextContaining("testing...");
+    await expect(replyReceivedText).toHaveTextContaining("Testing...");
 
     // Validate reply message sent appears as last message
     const textFromMessage = await Messages.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("myreply...");
+    await expect(textFromMessage).toHaveTextContaining("Myreply...");
   });
 
   it("Receive Reply - Validate reply message group contains timestamp", async () => {
@@ -143,10 +143,10 @@ export default async function sendRequest() {
 
   it("Send two more messages to Chat User B", async () => {
     // Send two messages to Chat User B
-    await InputBar.typeMessageOnInput("two...");
+    await InputBar.typeMessageOnInput("Two...");
     await InputBar.clickOnSendMessage();
 
-    await InputBar.typeMessageOnInput("three...");
+    await InputBar.typeMessageOnInput("Three...");
     await InputBar.clickOnSendMessage();
   });
 
@@ -156,9 +156,9 @@ export default async function sendRequest() {
     await ContextMenu.validateContextMenuIsOpen();
     await ContextMenu.selectContextOptionDelete();
 
-    // Validate that last message was deleted and therefore the last message displayed is "two..."
+    // Validate that last message was deleted and therefore the last message displayed is "Two..."
     const textMessage = await Messages.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("two...");
+    await expect(textMessage).toHaveTextContaining("Two...");
   });
 
   it("Context Menu - Edit Message", async () => {
@@ -242,14 +242,15 @@ export default async function sendRequest() {
     await expect(ComposeAttachment.composeAttachmentsFileEmbed).toBeDisplayed();
 
     // Type a text message and send it
-    await InputBar.typeMessageOnInput("attached...");
+    await InputBar.typeMessageOnInput("Attached...");
     await InputBar.clickOnSendMessage();
   });
 
   it("Chats - Message Sent With Attachment - Text contents", async () => {
     // Validate text from message containing attachment
+    await Messages.chatMessageFileEmbedLocal.waitForExist();
     const textMessage = await Messages.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("attached...");
+    await expect(textMessage).toHaveTextContaining("Attached...");
   });
 
   it("Chats - Message Sent With Attachment - File Meta Data", async () => {
