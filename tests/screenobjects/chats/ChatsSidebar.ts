@@ -370,7 +370,7 @@ class ChatsSidebar extends UplinkMainScreen {
     const onlineLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
-      .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
+      .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
     return onlineLocator;
   }
 
