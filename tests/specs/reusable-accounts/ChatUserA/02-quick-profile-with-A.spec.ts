@@ -96,7 +96,7 @@ export default async function quickProfileUserA() {
   });
 
   it("Go to chat with User B and wait for receiving a message", async () => {
-    await Messages.waitForReceivingMessage("accepted...");
+    await Messages.waitForReceivingMessage("Accepted...");
   });
 
   it("Quick Profile - Block Friend", async () => {
@@ -118,9 +118,5 @@ export default async function quickProfileUserA() {
     const blockedList = await FriendsScreen.getBlockedList();
     const includesFriend = await blockedList.includes("ChatUserB");
     await expect(includesFriend).toEqual(true);
-  });
-
-  after(async () => {
-    await browser.pause(60000);
   });
 }

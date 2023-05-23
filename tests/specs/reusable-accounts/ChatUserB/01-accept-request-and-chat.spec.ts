@@ -40,13 +40,13 @@ export default async function acceptRequest() {
   });
 
   it("Assert message received from Chat User A", async () => {
-    await Messages.waitForReceivingMessage("testing...");
+    await Messages.waitForReceivingMessage("Testing...");
   });
 
   it("Validate Chat Message received contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
     const textFromMessage = await Messages.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("testing...");
+    await expect(textFromMessage).toHaveTextContaining("Testing...");
   });
 
   it("Validate Chat Message Group from remote user displays username picture and online indicator", async () => {
@@ -82,7 +82,7 @@ export default async function acceptRequest() {
     await expect(ReplyPrompt.replyPopUpIndicatorOnline).toBeDisplayed();
     await expect(
       ReplyPrompt.replyPopUpRemoteTextToReplyValue
-    ).toHaveTextContaining("testing...");
+    ).toHaveTextContaining("Testing...");
     await expect(ReplyPrompt.replyPopUpUserImage).toBeDisplayed();
 
     await ReplyPrompt.closeReplyModal();
@@ -96,7 +96,7 @@ export default async function acceptRequest() {
 
     // Type a reply and sent it
     await ReplyPrompt.replyPopUp.waitForDisplayed();
-    await InputBar.typeMessageOnInput("myreply...");
+    await InputBar.typeMessageOnInput("Myreply...");
     await InputBar.clickOnSendMessage();
     await ReplyPrompt.waitForReplyModalToNotExist();
   });
@@ -106,11 +106,11 @@ export default async function acceptRequest() {
     const replySent = await Messages.getLastReply();
     const replySentText = await Messages.getLastReplyText();
     await expect(replySent).toBeDisplayed();
-    await expect(replySentText).toHaveTextContaining("testing...");
+    await expect(replySentText).toHaveTextContaining("Testing...");
 
     // Validate reply message sent appears as last message
     const message = await Messages.getLastMessageSentText();
-    await expect(message).toHaveTextContaining("myreply...");
+    await expect(message).toHaveTextContaining("Myreply...");
   });
 
   it("Send Reply - Validate reply message group contains timestamp", async () => {
@@ -138,7 +138,7 @@ export default async function acceptRequest() {
     });
     // Validate text from message containing attachment
     const message = await Messages.getLastMessageReceivedText();
-    await expect(message).toHaveTextContaining("attached...");
+    await expect(message).toHaveTextContaining("Attached...");
   });
 
   it("Chats - Received Message with Attachment - File Metadata", async () => {
@@ -173,6 +173,6 @@ export default async function acceptRequest() {
 
   it("Validate that only deleted message is no longer in conversation", async () => {
     // Ensure that message "three.." was deleted
-    await Messages.waitForMessageToBeDeleted("three...", 30000);
+    await Messages.waitForMessageToBeDeleted("Three...", 30000);
   });
 }
