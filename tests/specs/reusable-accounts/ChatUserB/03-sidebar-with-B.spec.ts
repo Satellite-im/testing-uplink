@@ -52,9 +52,10 @@ export default async function sidebarWithUserB() {
 
   it("Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {
     // After user deletes chat conversation on remote side, chat is deleted on local side and Welcome Image displayed again
-    await WelcomeScreen.welcomeImage.waitForExist({
-      timeout: 90000,
-    });
+    await Messages.goToFriends();
+    await FriendsScreen.waitForIsShown(true);
+    await FriendsScreen.chatWithFriendButton.click();
+    await ChatsLayout.waitForIsShown(true);
   });
 
   after(async () => {
