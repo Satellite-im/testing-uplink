@@ -55,8 +55,6 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
-    port: 4723,
-    path: '/',
     capabilities: {
       userA: {
         capabilities: {
@@ -64,10 +62,7 @@ exports.config = {
           "appium:automationName": "mac2",
           "appium:bundleId": "im.satellite.uplinkChatUserA",
           "appium:arguments": ["--path", homedir() + "/.uplinkUserA"],
-          "appium:systemPort": 4724,
-          "appium:prerun": {
-            command: 'do shell script "rm -rf ~/.uplinkUserA"',
-          },  
+          "appium:systemPort": 4725,
         }
       },
       userB: {
@@ -77,9 +72,6 @@ exports.config = {
           "appium:bundleId": "im.satellite.uplinkChatUserB",
           "appium:arguments": ["--path", homedir() + "/.uplinkUserB"],
           "appium:systemPort": 4726,
-          "appium:prerun": {
-            command: 'do shell script "rm -rf ~/.uplinkUserB"',
-          },  
         }
       },
     }
@@ -144,7 +136,7 @@ exports.config = {
         ["appium", { 
           command: "appium", 
           args: {
-            port: 4725,
+            port: 4724,
             relaxedSecurity: true, 
             log: "./appium-chat-b.log"
           },

@@ -131,10 +131,8 @@ export default async function files() {
     await filesScreenFirstUser.clickOnFolderRename();
 
     // Set the new name for the folder
-    const renamedFolder = await filesScreenFirstUser.updateNameFileFolder(
-      "newname"
-    );
-    await renamedFolder.waitForExist();
+    await filesScreenFirstUser.updateNameFileFolder("newname");
+    await filesScreenFirstUser.validateFileOrFolderExist("newname");
   });
 
   it("Context Menu - Folder - Delete", async () => {

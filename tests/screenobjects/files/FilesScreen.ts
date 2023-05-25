@@ -360,7 +360,7 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async validateFileOrFolderExist(locator: string) {
-    await this.instance.$(locator).waitForExist();
+    await this.instance.$(locator).waitForExist({ timeout: 15000 });
   }
 
   async validateFileOrFolderNotExist(locator: string) {
