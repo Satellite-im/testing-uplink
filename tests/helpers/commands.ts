@@ -76,11 +76,12 @@ export async function saveTestKeys(
 ) {
   // Save JSON file with keys
   const currentDriver = await driver[instance].capabilities.automationName;
-  const target =
-    "./tests/fixtures/users/" + currentDriver + +"/" + username + ".json";
+  const target = "./tests/fixtures/users/" + currentDriver;
+  const filepath = target + "/" + username + ".json";
+  await fsp.mkdir(target, { recursive: true });
   const userData = { username: username, key: didkey };
   try {
-    writeFileSync(target, JSON.stringify(userData, null, 2), "utf8");
+    writeFileSync(filepath, JSON.stringify(userData, null, 2), "utf8");
     console.log("Data successfully saved");
   } catch (error) {
     console.log("An error has occurred ", error);
@@ -341,7 +342,7 @@ export async function rightClickOnWindows(
   instance: string
 ) {
   await driver[instance].touchAction([{ action: "press", element: locator }]);
-  robot.mouseClick("right");
+  await robot.mouseClick("right");
 }
 
 export async function saveFileOnWindows(
@@ -387,7 +388,7 @@ export async function saveFileOnWindows(
 export async function selectFileOnWindows(relativePath: string) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
-
+  await browser.pause(1000);
   await robot.typeString(filepath);
   await robot.keyTap("enter");
   await browser.pause(1000);

@@ -134,6 +134,7 @@ export default class InputBar extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let enterValue;
     currentDriver === "windows" ? (enterValue = "\uE007") : (enterValue = "\n");
+    await browser.pause(1000);
     await this.instance.$$(SELECTORS.INPUT_TEXT)[1].clearValue();
     await this.instance
       .$$(SELECTORS.INPUT_TEXT)[1]

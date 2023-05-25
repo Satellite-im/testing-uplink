@@ -1,7 +1,12 @@
 # UI Tests
-appium-app.log
-appium-chats.log
-appium-ci.log
+appium-mac-app.log
+appium-mac-ci.log
+appium-mac-chats-multiremote.log
+appium-chat-a.log
+appium-chat-b.log
+appium-windows-ci.log
+appium-windows-app.log
+appium-windows-chats.log
 apps/
 node_modules/
 package-lock.json
@@ -9,3 +14,5 @@ appium.log
 test-report/
 test-results/
 tests/fixtures/newname.jpg
+tests/fixtures/users/windows/
+tests/fixtures/users/mac2/

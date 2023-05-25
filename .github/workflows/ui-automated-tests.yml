@@ -336,34 +336,31 @@ jobs:
             Failed Automated Test
           type: add
 
-  test-mac-chats:
-    needs: build-mac
-    runs-on: macos-latest
+  test-windows-chats:
+    needs: build-windows
+    runs-on: windows-latest
 
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
 
-      - name: Download the MacOS app 🗳️
+      - name: Change resolution on Windows Runner
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+        shell: powershell
+
+      - name: Download the Windows app 🗳️
         uses: actions/download-artifact@v3
         with:
-          name: Uplink-macos-latest
+          name: Uplink-windows-latest
           path: ./apps
 
-      - name: Enable opening app not codesigned 🖥️
-        run: sudo spctl --master-disable
+      - name: Extract .zip into apps Directory 🗳️
+        run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
 
-      - name: Copy DMG to Appium Apps Directory 💿
+      - name: Copy app to have two instances 💿
         working-directory: ./apps
         run: |
-          unzip Uplink-Mac-Universal.zip
-          cp -r ./Uplink.app ./Uplink2.app
-          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserA</g' ./Uplink.app/Contents/Info.plist
-          perl -i -pe 's/>im.satellite.uplink</>im.satellite.uplinkChatUserB</g' ./Uplink2.app/Contents/Info.plist
-          cp -r ./Uplink.app /Applications/
-          cp -r ./Uplink2.app /Applications/
-          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
-          sudo xattr -r -d com.apple.quarantine /Applications/Uplink2.app
+          cp -r ./uplink.exe ./uplink2.exe
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -373,13 +370,13 @@ jobs:
 
       - name: Cache NPM dependencies 🔨
         uses: actions/cache@v3
-        id: cache-mac-chats
+        id: cache-windows-chats
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
       - name: Install NPM dependencies 📦
-        if: steps.cache-mac-chats.outputs.cache-hit != 'true'
+        if: steps.cache-windows-chats.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Install Appium Server 💻
@@ -389,19 +386,13 @@ jobs:
 
       - name: Install Appium Driver 💻
         run: |
-          appium driver install mac2
+          appium driver install --source=npm appium-windows-driver
           appium driver list
 
-      - name: Update MacOS runner to not autocorrect text
-        run: |
-          defaults write -g NSAutomaticCapitalizationEnabled -bool false
-          defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
-          defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
-
       - name: Run Chat Tests on MacOS 🧪
-        run: npm run mac.multiremote
+        run: npm run windows.multiremote
 
-      - name: Publish Test Results for Chats Tests
+      - name: Publish Test Results for Windows Chats Tests
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
         with:
@@ -409,23 +400,22 @@ jobs:
           ignore_runs: true
           job_summary: false
           compare_to_earlier_commit: false
-          check_name: "UI Automated Test Results on Chats Tests"
+          check_name: "UI Automated Test Results on Windows Chats Tests"
 
-      - name: Upload Screenshots for MacOS - Chats 📷
+      - name: Upload Screenshots for Windows - Chats 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-screenshots-MacOS-chats
+          name: appium-screenshots-windows-chats
           path: ./test-results
 
-      - name: Upload Appium Log for MacOS - Chats 📷
+      - name: Upload Appium Log for Windows - Chats 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
           name: appium-log-macos-chats
           path: |
-            ./appium-chat-a.log
-            ./appium-chat-b.log
+            ./appium-windows-chats.log
 
       - name: Add label if any of test jobs failed
         if: failure()
@@ -532,7 +522,7 @@ jobs:
         build-windows,
         test-mac,
         test-chats,
-        test-mac-chats,
+        test-windows-chats,
         test-windows,
       ]
     runs-on: ubuntu-latest

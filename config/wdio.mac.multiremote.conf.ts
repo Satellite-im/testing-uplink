@@ -128,19 +128,12 @@ exports.config = {
         ["appium", { 
           command: "appium", 
           args: {
+            sessionOverride: true,
             port: 4723,
             relaxedSecurity: true, 
-            log: "./appium-chat-a.log"
+            log: "./appium-mac-chats.log"
           },
         }], 
-        ["appium", { 
-          command: "appium", 
-          args: {
-            port: 4724,
-            relaxedSecurity: true, 
-            log: "./appium-chat-b.log"
-          },
-        }]
       ],
     
     // Framework you want to run your specs with.

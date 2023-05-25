@@ -61,7 +61,9 @@ exports.config = {
           "appium:deviceName": "WindowsPC",
           "appium:automationName": "windows",
           "appium:app": join(process.cwd(), "\\apps\\uplink.exe"),
-          "ms:waitForAppLaunch": 30,
+          "appium:systemPort": 4725,
+          "appium:createSessionTimeout": 40000,
+          "ms:waitForAppLaunch": 10,
           "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserA"),
         }
       },
@@ -71,7 +73,9 @@ exports.config = {
           "appium:deviceName": "WindowsPC",
           "appium:automationName": "windows",
           "appium:app": join(process.cwd(), "\\apps\\uplink2.exe"),
-          "ms:waitForAppLaunch": 30,
+          "appium:systemPort": 4726,
+          "appium:createSessionTimeout": 40000,
+          "ms:waitForAppLaunch": 10,
           "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserB"), 
         }
       },
@@ -132,17 +136,9 @@ exports.config = {
           args: {
             port: 4723,
             relaxedSecurity: true, 
-            log: "./appium-windows-chat-a.log"
+            log: "./appium-windows-chats.log"
           },
         }], 
-        ["appium", { 
-            command: "appium", 
-            args: {
-                port: 4724,
-                relaxedSecurity: true, 
-                log: "./appium-windows-chat-b.log"
-            },
-          }], 
       ],
     
     // Framework you want to run your specs with.

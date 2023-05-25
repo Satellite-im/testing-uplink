@@ -123,6 +123,9 @@ export default async function createChatAcountsTests() {
     const friendsList = await friendsScreenFirstUser.getAllFriendsList();
     const includesFriend = await friendsList.includes("ChatUserB");
     await expect(includesFriend).toEqual(true);
+
+    // Go to Chat with User B
+    await friendsScreenFirstUser.chatWithFriendButton.click();
   });
 
   it("Chat User B - Validate friend request was accepted", async () => {
@@ -137,7 +140,6 @@ export default async function createChatAcountsTests() {
   });
 
   it("Chat User A - Go to chat with friend and wait until user is online", async () => {
-    await friendsScreenFirstUser.chatWithFriendButton.click();
     await chatsTopbarFirstUser.validateTopbarExists();
 
     // Wait until Chat User B is online
