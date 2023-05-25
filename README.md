@@ -48,10 +48,21 @@ appium driver install --source=npm appium-windows-driver
 ```sh
 cargo update
 cargo clean
-cargo build --release --package ui
 ```
 
-7. Wait until the process is completed, and you will find a UI.exe program (for Windows) or Uplink.app (for MacOS) file in "Uplink/target/release/windows" or "Uplink/target/release/macOS". If you are on Windows, you just have to create an "apps" folder inside the main folder of the testing-uplink folder and then copy the file UI.exe to the "./apps/" folder. Now, if you are testing on MacOS, you have to copy the Uplink.app file into your Applications folder from your OS.
+Then, execute the following instruction to build the application:
+
+```sh
+# To build the app for Windows (uplink.exe)
+cargo build --release --package uplink -F production_mode
+```
+
+```sh
+# To build the app for MacOS (Uplink.app)
+make dmg
+```
+
+7. Wait until the process is completed, and you will find a uplink.exe program (for Windows) or Uplink.app (for MacOS) file in "Uplink/target/release/windows" or "Uplink/target/release/macOS". If you are on Windows, you just have to create an "apps" folder inside the main folder of the testing-uplink folder and then copy the file uplink.exe to the "./apps/" folder. Now, if you are testing on MacOS, you have to copy the Uplink.app file into your Applications folder from your OS.
 
 8. Once the application is installed, you can run the tests by using the following commands:
 
