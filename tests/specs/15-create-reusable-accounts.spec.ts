@@ -4,29 +4,31 @@ import {
   resetApp,
   saveTestKeys,
 } from "../helpers/commands";
-import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
+let settingsProfileFirstUser = new SettingsProfileScreen("userA");
+let welcomeScreenFirstUser = new WelcomeScreen("userA");
 
 export default async function createReusableAccounts() {
   it("Create reusable account - Chat User A", async () => {
-    await resetApp();
+    await resetApp("userA");
     // Create New User and go to Settings Profile Screen
     const username = "ChatUserA";
     await createNewUser(username);
-    await WelcomeScreen.goToSettings();
-    await SettingsProfileScreen.waitForIsShown(true);
+    await welcomeScreenFirstUser.goToSettings();
+    await settingsProfileFirstUser.waitForIsShown(true);
   });
 
   it("Add profile picture - Chat User A", async () => {
     it("Settings Profile - Add profile picture", async () => {
-      await SettingsProfileScreen.uploadProfilePicture(
+      await settingsProfileFirstUser.uploadProfilePicture(
         "./tests/fixtures/logo.jpg"
       );
     });
   });
 
   it("Add banner picture - Chat User A", async () => {
-    await SettingsProfileScreen.uploadBannerPicture(
+    await settingsProfileFirstUser.uploadBannerPicture(
       "./tests/fixtures/banner.jpg"
     );
   });
@@ -34,14 +36,15 @@ export default async function createReusableAccounts() {
   it("Save test account - Chat User A", async () => {
     // Click on Copy ID button and assert Toast Notification is displayed
     const username = "ChatUserA";
-    await SettingsProfileScreen.clickOnCopyIDButton();
+    await settingsProfileFirstUser.clickOnCopyIDButton();
 
     // Wait for toast notification to be closed
-    await SettingsProfileScreen.waitUntilNotificationIsClosed();
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await SettingsProfileScreen.pasteUserKeyInStatus();
-    const inputTextElement = await SettingsProfileScreen.getStatusInputText();
+    await settingsProfileFirstUser.pasteUserKeyInStatus();
+    const inputTextElement =
+      await settingsProfileFirstUser.getStatusInputText();
     const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart
@@ -51,26 +54,26 @@ export default async function createReusableAccounts() {
 
     // Update banner picture from user A
     await grabCacheFolder(username);
-    await resetApp();
+    await resetApp("userA");
   });
 
   it("Create reusable account - Chat User B", async () => {
     // Create New User and go to Settings Profile Screen
     const username = "ChatUserB";
     await createNewUser(username);
-    await WelcomeScreen.goToSettings();
-    await SettingsProfileScreen.waitForIsShown(true);
+    await welcomeScreenFirstUser.goToSettings();
+    await settingsProfileFirstUser.waitForIsShown(true);
   });
 
   it("Add profile picture - Chat User B", async () => {
-    await SettingsProfileScreen.uploadProfilePicture(
+    await settingsProfileFirstUser.uploadProfilePicture(
       "./tests/fixtures/second-profile.png"
     );
   });
 
   it("Add banner picture - Chat User B", async () => {
     it("Settings Profile - Change banner picture", async () => {
-      await SettingsProfileScreen.uploadBannerPicture(
+      await settingsProfileFirstUser.uploadBannerPicture(
         "./tests/fixtures/second-banner.jpg"
       );
     });
@@ -79,14 +82,15 @@ export default async function createReusableAccounts() {
   it("Save test account - Chat User B", async () => {
     const username = "ChatUserB";
     // Click on Copy ID button and assert Toast Notification is displayed
-    await SettingsProfileScreen.clickOnCopyIDButton();
+    await settingsProfileFirstUser.clickOnCopyIDButton();
 
     // Wait for toast notification to be closed
-    await SettingsProfileScreen.waitUntilNotificationIsClosed();
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await SettingsProfileScreen.pasteUserKeyInStatus();
-    const inputTextElement = await SettingsProfileScreen.getStatusInputText();
+    await settingsProfileFirstUser.pasteUserKeyInStatus();
+    const inputTextElement =
+      await settingsProfileFirstUser.getStatusInputText();
     const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart

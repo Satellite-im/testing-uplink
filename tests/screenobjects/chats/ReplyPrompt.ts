@@ -1,6 +1,6 @@
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -41,65 +41,81 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class ReplyPrompt extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.REPLY_POPUP);
+export default class ReplyPrompt extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.REPLY_POPUP);
   }
 
   get replyPopUp() {
-    return $(SELECTORS.REPLY_POPUP);
+    return this.instance.$(SELECTORS.REPLY_POPUP);
   }
 
   get replyPopUpCloseButton() {
-    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
   }
 
   get replyPopUpContent() {
-    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_CONTENT);
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_CONTENT);
   }
 
   get replyPopUpHeader() {
-    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_HEADER);
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_HEADER);
   }
 
   get replyPopUpIndicatorOffline() {
-    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_INDICATOR_OFFLINE);
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_INDICATOR_OFFLINE);
   }
 
   get replyPopUpIndicatorOnline() {
-    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_INDICATOR_ONLINE);
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_INDICATOR_ONLINE);
   }
 
   get replyPopUpLocalTextToReply() {
-    return $(SELECTORS.REPLY_POPUP).$(
-      SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY
-    );
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY);
   }
 
   get replyPopUpLocalTextToReplyValue() {
-    return $(SELECTORS.REPLY_POPUP)
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
       .$(SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY)
       .$(SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY_VALUE);
   }
 
   get replyPopUpRemoteTextToReply() {
-    return $(SELECTORS.REPLY_POPUP).$(
-      SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY
-    );
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY);
   }
 
   get replyPopUpRemoteTextToReplyValue() {
-    return $(SELECTORS.REPLY_POPUP)
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
       .$(SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY)
       .$(SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE);
   }
 
   get replyPopUpUserImage() {
-    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_USER_IMAGE);
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_USER_IMAGE);
   }
 
   get replyPopUpUserImageWrap() {
-    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_USER_IMAGE_WRAP);
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_USER_IMAGE_WRAP);
   }
 
   async closeReplyModal() {
@@ -110,5 +126,3 @@ class ReplyPrompt extends UplinkMainScreen {
     await this.replyPopUp.waitForExist({ reverse: true });
   }
 }
-
-export default new ReplyPrompt();

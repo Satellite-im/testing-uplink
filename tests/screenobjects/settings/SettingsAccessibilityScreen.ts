@@ -1,7 +1,7 @@
 import { clickOnSwitchMacOS } from "../../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -33,33 +33,39 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class SettingsAccessibilityScreen extends SettingsBaseScreen {
-  constructor() {
-    super(SELECTORS.SETTINGS_AUDIO);
+export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.SETTINGS_AUDIO);
   }
 
   get openDyslexicCheckbox() {
-    return $(SELECTORS.SETTINGS_CONTROL).$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get openDyslexicControllerValue() {
-    return $(SELECTORS.SETTINGS_CONTROL).$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return this.instance
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get openDyslexicDescription() {
-    return $(SELECTORS.SETTINGS_SECTION)
+    return this.instance
+      .$(SELECTORS.SETTINGS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openDyslexicHeader() {
-    return $(SELECTORS.SETTINGS_SECTION)
+    return this.instance
+      .$(SELECTORS.SETTINGS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsAccessibility() {
-    return $(SELECTORS.SETTINGS_ACCESSIBILITY);
+    return this.instance.$(SELECTORS.SETTINGS_ACCESSIBILITY);
   }
 
   async clickOnOpenDyslexic() {
@@ -68,9 +74,7 @@ class SettingsAccessibilityScreen extends SettingsBaseScreen {
       await this.openDyslexicCheckbox.click();
     } else if (currentDriver === "mac2") {
       const element = await this.openDyslexicCheckbox;
-      await clickOnSwitchMacOS(element);
+      await clickOnSwitchMacOS(element, this.executor);
     }
   }
 }
-
-export default new SettingsAccessibilityScreen();

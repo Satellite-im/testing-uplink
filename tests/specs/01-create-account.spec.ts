@@ -2,154 +2,161 @@ import { maximizeWindow } from "../helpers/commands";
 import CreatePinScreen from "../screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/account-creation/CreateUserScreen";
 import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
+let createPinFirstUser = new CreatePinScreen("userA");
+let createUserFirstUser = new CreateUserScreen("userA");
+let welcomeScreenFirstUser = new WelcomeScreen("userA");
 
 export default async function createAccount() {
   it("Validate warning texts are displayed on screen", async () => {
-    await expect(CreatePinScreen.unlockWarningHeader).toBeDisplayed();
-    await expect(CreatePinScreen.unlockWarningHeader).toHaveTextContaining(
+    await expect(createPinFirstUser.unlockWarningHeader).toBeDisplayed();
+    await expect(createPinFirstUser.unlockWarningHeader).toHaveTextContaining(
       "LET'S CHOOSE YOUR PASSWORD"
     );
-    await expect(CreatePinScreen.unlockWarningParagraph).toBeDisplayed();
-    await expect(CreatePinScreen.unlockWarningParagraph).toHaveTextContaining(
+    await expect(createPinFirstUser.unlockWarningParagraph).toBeDisplayed();
+    await expect(
+      createPinFirstUser.unlockWarningParagraph
+    ).toHaveTextContaining(
       "(this is used to encrypt all of the data Uplink stores on your computer when you're not using it so nobody can read your data.)"
     );
   });
 
   it("Create Account button should be disabled if no pin has been entered", async () => {
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
   });
 
   it("Enter an empty pin", async () => {
-    await CreatePinScreen.enterPin("1");
-    await CreatePinScreen.pinInput.clearValue();
-    await expect(CreatePinScreen.inputError).toBeDisplayed();
-    await expect(CreatePinScreen.inputErrorText).toHaveTextContaining(
+    await createPinFirstUser.enterPin("1");
+    await createPinFirstUser.pinInput.clearValue();
+    await expect(createPinFirstUser.inputError).toBeDisplayed();
+    await expect(createPinFirstUser.inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
   });
 
   it("Enter a pin with less than 4 characters", async () => {
-    await CreatePinScreen.enterPin("123");
-    await expect(CreatePinScreen.inputError).toBeDisplayed();
-    await expect(CreatePinScreen.inputErrorText).toHaveTextContaining(
+    await createPinFirstUser.enterPin("123");
+    await expect(createPinFirstUser.inputError).toBeDisplayed();
+    await expect(createPinFirstUser.inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
-    await CreatePinScreen.pinInput.clearValue();
+    await createPinFirstUser.pinInput.clearValue();
   });
 
   it("Enter a pin with more than 32 characters", async () => {
-    await CreatePinScreen.enterPin("12345678901234567890123456789012345");
-    await expect(CreatePinScreen.inputError).toBeDisplayed();
-    await expect(CreatePinScreen.inputErrorText).toHaveTextContaining(
+    await createPinFirstUser.enterPin("12345678901234567890123456789012345");
+    await expect(createPinFirstUser.inputError).toBeDisplayed();
+    await expect(createPinFirstUser.inputErrorText).toHaveTextContaining(
       "Maximum of 32 characters exceeded"
     );
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
-    await CreatePinScreen.pinInput.clearValue();
+    await createPinFirstUser.pinInput.clearValue();
   });
 
   it("Enter a pin with spaces", async () => {
     // Enter pin value with spaces
-    await CreatePinScreen.pinInput.click();
-    await CreatePinScreen.enterPin("1234" + "             ");
-    await expect(CreatePinScreen.inputError).toBeDisplayed();
-    await expect(CreatePinScreen.inputErrorText).toHaveTextContaining(
+    await createPinFirstUser.pinInput.click();
+    await createPinFirstUser.enterPin("1234" + "             ");
+    await expect(createPinFirstUser.inputError).toBeDisplayed();
+    await expect(createPinFirstUser.inputErrorText).toHaveTextContaining(
       "Spaces are not allowed."
     );
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
-    await CreatePinScreen.pinInput.clearValue();
+    await createPinFirstUser.pinInput.clearValue();
   });
 
   it("Enter a valid pin and continue creating a username", async () => {
-    await CreatePinScreen.enterPin("1234");
+    await createPinFirstUser.enterPin("1234");
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("true");
-    await CreatePinScreen.clickOnCreateAccount();
-    await CreateUserScreen.waitForIsShown(true);
+    await createPinFirstUser.clickOnCreateAccount();
+    await createUserFirstUser.waitForIsShown(true);
   });
 
   it("Leave empty username and attempt to continue", async () => {
-    await CreateUserScreen.enterUsername("1");
-    await CreateUserScreen.enterUsername("");
+    await createUserFirstUser.enterUsername("1");
+    await createUserFirstUser.enterUsername("");
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
-    await expect(CreateUserScreen.inputError).toBeDisplayed();
-    await expect(CreateUserScreen.inputErrorText).toHaveTextContaining(
+    await expect(createUserFirstUser.inputError).toBeDisplayed();
+    await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
   });
 
   it("Username with less than 4 characters and attempt to continue", async () => {
-    await CreateUserScreen.enterUsername("12");
+    await createUserFirstUser.enterUsername("12");
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
-    await expect(CreateUserScreen.inputError).toBeDisplayed();
-    await expect(CreateUserScreen.inputErrorText).toHaveTextContaining(
+    await expect(createUserFirstUser.inputError).toBeDisplayed();
+    await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
   });
 
   it("Username with more than 32 characters and attempt to continue", async () => {
-    await CreateUserScreen.enterUsername("12345678901234567890123456789012345");
+    await createUserFirstUser.enterUsername(
+      "12345678901234567890123456789012345"
+    );
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
-    await expect(CreateUserScreen.inputError).toBeDisplayed();
-    await expect(CreateUserScreen.inputErrorText).toHaveTextContaining(
+    await expect(createUserFirstUser.inputError).toBeDisplayed();
+    await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
       "Maximum of 32 characters exceeded"
     );
   });
 
   it("Username with spaces and attempt to continue", async () => {
     // Enter pin value with spaces
-    await CreateUserScreen.usernameInput.click();
-    await CreateUserScreen.enterUsername("1234" + "             ");
+    await createUserFirstUser.usernameInput.click();
+    await createUserFirstUser.enterUsername("1234" + "             ");
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
-    await expect(CreateUserScreen.inputError).toBeDisplayed();
-    await expect(CreateUserScreen.inputErrorText).toHaveTextContaining(
+    await expect(createUserFirstUser.inputError).toBeDisplayed();
+    await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
       "Spaces are not allowed."
     );
   });
 
   it("Username with non-alphanumeric characters", async () => {
-    await CreateUserScreen.enterUsername("test...");
+    await createUserFirstUser.enterUsername("test...");
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
-    await expect(CreateUserScreen.inputError).toBeDisplayed();
-    await expect(CreateUserScreen.inputErrorText).toHaveTextContaining(
+    await expect(createUserFirstUser.inputError).toBeDisplayed();
+    await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
       "Only alphanumeric characters are accepted."
     );
   });
 
   it("Enter valid username to continue", async () => {
-    await CreateUserScreen.enterUsername("Test123");
+    await createUserFirstUser.enterUsername("Test123");
     const statusOfButton =
-      await CreatePinScreen.getStatusOfCreateAccountButton();
+      await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("true");
-    await CreateUserScreen.clickOnCreateAccount();
-    await WelcomeScreen.waitForIsShown(true);
+    await createUserFirstUser.clickOnCreateAccount();
+    await welcomeScreenFirstUser.waitForIsShown(true);
 
     // Maximize Window on Execution
-    const currentDriver = await WelcomeScreen.getCurrentDriver();
+    const currentDriver = await welcomeScreenFirstUser.getCurrentDriver();
     if (currentDriver === "windows") {
-      await maximizeWindow();
+      await maximizeWindow("userA");
     }
   });
 }

@@ -1,86 +1,90 @@
 import SettingsAudioScreen from "../screenobjects/settings/SettingsAudioScreen";
 import SettingsPrivacyScreen from "../screenobjects/settings/SettingsPrivacyScreen";
+let settingsAudioFirstUser = new SettingsAudioScreen("userA");
+let settingsPrivacyFirstUser = new SettingsPrivacyScreen("userA");
 
 export default async function settingsAudio() {
   it("Settings Audio - Assert screen texts", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await SettingsPrivacyScreen.goToAudioSettings();
-    await SettingsAudioScreen.waitForIsShown(true);
+    await settingsPrivacyFirstUser.goToAudioSettings();
+    await settingsAudioFirstUser.waitForIsShown(true);
 
     // Validate texts for Interface Sounds Settings Section
     await expect(
-      SettingsAudioScreen.interfaceSoundsHeader
+      settingsAudioFirstUser.interfaceSoundsHeader
     ).toHaveTextContaining("INTERFACE SOUNDS");
     await expect(
-      SettingsAudioScreen.interfaceSoundsDescription
+      settingsAudioFirstUser.interfaceSoundsDescription
     ).toHaveTextContaining(
       "When enabled, some additional sounds will play when you interact with the app."
     );
 
     // Validate texts for Media Sounds Settings Section
-    await expect(SettingsAudioScreen.mediaSoundsHeader).toHaveTextContaining(
+    await expect(settingsAudioFirstUser.mediaSoundsHeader).toHaveTextContaining(
       "MEDIA SOUNDS"
     );
     await expect(
-      SettingsAudioScreen.mediaSoundsDescription
+      settingsAudioFirstUser.mediaSoundsDescription
     ).toHaveTextContaining(
       "When enabled, media related events such as toggling microphone or headphones and other real time events, will play sounds."
     );
 
     // Validate texts for Message Sounds Settings Section
-    await expect(SettingsAudioScreen.messageSoundsHeader).toHaveTextContaining(
-      "MESSAGE SOUNDS"
-    );
     await expect(
-      SettingsAudioScreen.messageSoundsDescription
+      settingsAudioFirstUser.messageSoundsHeader
+    ).toHaveTextContaining("MESSAGE SOUNDS");
+    await expect(
+      settingsAudioFirstUser.messageSoundsDescription
     ).toHaveTextContaining(
       "When enabled you will hear a notification when a new message is received."
     );
 
     // Validate texts for Call Timer Settings Section
-    await expect(SettingsAudioScreen.callTimerHeader).toHaveTextContaining(
+    await expect(settingsAudioFirstUser.callTimerHeader).toHaveTextContaining(
       "CALL TIMER"
     );
-    await expect(SettingsAudioScreen.callTimerDescription).toHaveTextContaining(
+    await expect(
+      settingsAudioFirstUser.callTimerDescription
+    ).toHaveTextContaining(
       "When enabled a timer will display when you're in a call showing it's duration."
     );
   });
 
   it("Settings Audio - Disable switches enabled by default", async () => {
     // Since Media Sounds and Message Sounds are enabled by default, first we need to click on these checkboxes before starting the test
-    await SettingsAudioScreen.clickOnMediaSounds();
-    await SettingsAudioScreen.clickOnMessageSounds();
+    await settingsAudioFirstUser.clickOnMediaSounds();
+    await settingsAudioFirstUser.clickOnMessageSounds();
   });
 
   it("Settings Audio - Click on slider switches to enable the options", async () => {
     // Click on the four switch sliders from the Settings Sounds & Audio Screen
-    await SettingsAudioScreen.clickOnInterfaceSounds();
-    await SettingsAudioScreen.clickOnMediaSounds();
-    await SettingsAudioScreen.clickOnMessageSounds();
-    await SettingsAudioScreen.clickOnCallTimer();
+    await settingsAudioFirstUser.clickOnInterfaceSounds();
+    await settingsAudioFirstUser.clickOnMediaSounds();
+    await settingsAudioFirstUser.clickOnMessageSounds();
+    await settingsAudioFirstUser.clickOnCallTimer();
 
     // Validate that all toggles have now value = "1" (enabled)
     const toggleElementInterface =
-      await SettingsAudioScreen.interfaceSoundsControllerValue;
-    const interfaceSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await settingsAudioFirstUser.interfaceSoundsControllerValue;
+    const interfaceSoundsStatus = await settingsAudioFirstUser.getToggleState(
       toggleElementInterface
     );
 
     const toggleElementMedia =
-      await SettingsAudioScreen.mediaSoundsControllerValue;
-    const mediaSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await settingsAudioFirstUser.mediaSoundsControllerValue;
+    const mediaSoundsStatus = await settingsAudioFirstUser.getToggleState(
       toggleElementMedia
     );
 
     const toggleElementMessage =
-      await SettingsAudioScreen.messageSoundsControllerValue;
-    const messageSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await settingsAudioFirstUser.messageSoundsControllerValue;
+    const messageSoundsStatus = await settingsAudioFirstUser.getToggleState(
       toggleElementMessage
     );
 
     const toggleElementCallTimer =
-      await SettingsAudioScreen.callTimerControllerValue;
-    const callTimerStatus = await SettingsAudioScreen.getToggleState(
+      await settingsAudioFirstUser.callTimerControllerValue;
+    const callTimerStatus = await settingsAudioFirstUser.getToggleState(
       toggleElementCallTimer
     );
 
@@ -92,33 +96,33 @@ export default async function settingsAudio() {
 
   it("Settings Audio - Click on slider switches to disable the options", async () => {
     // Click again on the four switch sliders from the Settings Sounds & Audio Screen
-    await SettingsAudioScreen.clickOnInterfaceSounds();
-    await SettingsAudioScreen.clickOnMediaSounds();
-    await SettingsAudioScreen.clickOnMessageSounds();
-    await SettingsAudioScreen.clickOnCallTimer();
+    await settingsAudioFirstUser.clickOnInterfaceSounds();
+    await settingsAudioFirstUser.clickOnMediaSounds();
+    await settingsAudioFirstUser.clickOnMessageSounds();
+    await settingsAudioFirstUser.clickOnCallTimer();
 
     // Validate that all toggles have now value = "0" (disabled)
     const toggleElementInterface =
-      await SettingsAudioScreen.interfaceSoundsControllerValue;
-    const interfaceSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await settingsAudioFirstUser.interfaceSoundsControllerValue;
+    const interfaceSoundsStatus = await settingsAudioFirstUser.getToggleState(
       toggleElementInterface
     );
 
     const toggleElementMedia =
-      await SettingsAudioScreen.mediaSoundsControllerValue;
-    const mediaSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await settingsAudioFirstUser.mediaSoundsControllerValue;
+    const mediaSoundsStatus = await settingsAudioFirstUser.getToggleState(
       toggleElementMedia
     );
 
     const toggleElementMessage =
-      await SettingsAudioScreen.messageSoundsControllerValue;
-    const messageSoundsStatus = await SettingsAudioScreen.getToggleState(
+      await settingsAudioFirstUser.messageSoundsControllerValue;
+    const messageSoundsStatus = await settingsAudioFirstUser.getToggleState(
       toggleElementMessage
     );
 
     const toggleElementCallTimer =
-      await SettingsAudioScreen.callTimerControllerValue;
-    const callTimerStatus = await SettingsAudioScreen.getToggleState(
+      await settingsAudioFirstUser.callTimerControllerValue;
+    const callTimerStatus = await settingsAudioFirstUser.getToggleState(
       toggleElementCallTimer
     );
 

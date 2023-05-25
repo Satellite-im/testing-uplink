@@ -1,7 +1,7 @@
 import { clickOnSwitchMacOS } from "../../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -33,101 +33,117 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class SettingsAudioScreen extends SettingsBaseScreen {
-  constructor() {
-    super(SELECTORS.SETTINGS_AUDIO);
+export default class SettingsAudioScreen extends SettingsBaseScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.SETTINGS_AUDIO);
   }
 
   get callTimerCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[3]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get callTimerControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[3]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get callTimerDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get callTimerHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get interfaceSoundsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get interfaceSoundsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get interfaceSoundsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get interfaceSoundsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get mediaSoundsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[1]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get mediaSoundsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[1]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get mediaSoundsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get mediaSoundsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get messageSoundsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[2]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get messageSoundsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[2]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get messageSoundsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get messageSoundsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsAudio() {
-    return $(SELECTORS.SETTINGS_AUDIO);
+    return this.instance.$(SELECTORS.SETTINGS_AUDIO);
   }
 
   async clickOnCallTimer() {
@@ -136,7 +152,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
       await this.callTimerCheckbox.click();
     } else if (currentDriver === "mac2") {
       const element = await this.callTimerCheckbox;
-      await clickOnSwitchMacOS(element);
+      await clickOnSwitchMacOS(element, this.executor);
     }
   }
 
@@ -146,7 +162,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
       await this.interfaceSoundsCheckbox.click();
     } else if (currentDriver === "mac2") {
       const element = await this.interfaceSoundsCheckbox;
-      await clickOnSwitchMacOS(element);
+      await clickOnSwitchMacOS(element, this.executor);
     }
   }
 
@@ -156,7 +172,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
       await this.mediaSoundsCheckbox.click();
     } else if (currentDriver === "mac2") {
       const element = await this.mediaSoundsCheckbox;
-      await clickOnSwitchMacOS(element);
+      await clickOnSwitchMacOS(element, this.executor);
     }
   }
 
@@ -166,9 +182,7 @@ class SettingsAudioScreen extends SettingsBaseScreen {
       await this.messageSoundsCheckbox.click();
     } else if (currentDriver === "mac2") {
       const element = await this.messageSoundsCheckbox;
-      await clickOnSwitchMacOS(element);
+      await clickOnSwitchMacOS(element, this.executor);
     }
   }
 }
-
-export default new SettingsAudioScreen();

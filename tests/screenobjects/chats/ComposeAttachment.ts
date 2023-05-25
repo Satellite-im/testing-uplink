@@ -1,6 +1,6 @@
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -32,53 +32,58 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class ComposeAttachments extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.COMPOSE_ATTACHMENTS);
+export default class ComposeAttachments extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.COMPOSE_ATTACHMENTS);
   }
 
   get composeAttachments() {
-    return $(SELECTORS.COMPOSE_ATTACHMENTS);
+    return this.instance.$(SELECTORS.COMPOSE_ATTACHMENTS);
   }
 
   get composeAttachmentsButton() {
-    return $(SELECTORS.COMPOSE_ATTACHMENTS).$(
-      SELECTORS.COMPOSE_ATTACHMENTS_BUTTON
-    );
+    return this.instance
+      .$(SELECTORS.COMPOSE_ATTACHMENTS)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_BUTTON);
   }
 
   get composeAttachmentsFileEmbed() {
-    return $(SELECTORS.COMPOSE_ATTACHMENTS).$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED
-    );
+    return this.instance
+      .$(SELECTORS.COMPOSE_ATTACHMENTS)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED);
   }
 
   get composeAttachmentsFileIcon() {
-    return $(SELECTORS.COMPOSE_ATTACHMENTS)
+    return this.instance
+      .$(SELECTORS.COMPOSE_ATTACHMENTS)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_ICON);
   }
 
   get composeAttachmentsFileInfo() {
-    return $(SELECTORS.COMPOSE_ATTACHMENTS)
+    return this.instance
+      .$(SELECTORS.COMPOSE_ATTACHMENTS)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_INFO);
   }
 
   get composeAttachmentsFileMeta() {
-    return $(SELECTORS.COMPOSE_ATTACHMENTS)
+    return this.instance
+      .$(SELECTORS.COMPOSE_ATTACHMENTS)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_META);
   }
 
   get composeAttachmentsFileName() {
-    return $(SELECTORS.COMPOSE_ATTACHMENTS)
+    return this.instance
+      .$(SELECTORS.COMPOSE_ATTACHMENTS)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME);
   }
 
   get composeAttachmentsFileNameText() {
-    return $(SELECTORS.COMPOSE_ATTACHMENTS)
+    return this.instance
+      .$(SELECTORS.COMPOSE_ATTACHMENTS)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME_TEXT);
@@ -92,5 +97,3 @@ class ComposeAttachments extends UplinkMainScreen {
     await this.composeAttachmentsFileEmbed.waitForDisplayed();
   }
 }
-
-export default new ComposeAttachments();

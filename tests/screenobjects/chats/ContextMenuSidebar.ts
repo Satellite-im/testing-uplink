@@ -1,6 +1,6 @@
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -28,33 +28,33 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class ContextMenuSidebar extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.CONTEXT_MENU);
+export default class ContextMenuSidebar extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.CONTEXT_MENU);
   }
 
   get contextMenu() {
-    return $(SELECTORS.CONTEXT_MENU);
+    return this.instance.$(SELECTORS.CONTEXT_MENU);
   }
 
   get sidebarChatsContextClearUnreads() {
-    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_CLEAR);
+    return this.instance.$(SELECTORS.SIDEBAR_CHATS_CONTEXT_CLEAR);
   }
 
   get sidebarChatsContextHideChat() {
-    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_HIDE);
+    return this.instance.$(SELECTORS.SIDEBAR_CHATS_CONTEXT_HIDE);
   }
 
   get sidebarChatsContextDeleteConversation() {
-    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_DELETE_CONVERSATION);
+    return this.instance.$(SELECTORS.SIDEBAR_CHATS_CONTEXT_DELETE_CONVERSATION);
   }
 
   get sidebarChatsContextDeleteGroup() {
-    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_DELETE_GROUP);
+    return this.instance.$(SELECTORS.SIDEBAR_CHATS_CONTEXT_DELETE_GROUP);
   }
 
   get sidebarChatsContextLeaveGroup() {
-    return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_LEAVE);
+    return this.instance.$(SELECTORS.SIDEBAR_CHATS_CONTEXT_LEAVE);
   }
 
   async selectChatsClearUnreads() {
@@ -81,5 +81,3 @@ class ContextMenuSidebar extends UplinkMainScreen {
     await this.contextMenu.waitForDisplayed();
   }
 }
-
-export default new ContextMenuSidebar();

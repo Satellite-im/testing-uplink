@@ -28,7 +28,7 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [join(process.cwd(), "./tests/specs/reusable-accounts/00-windows.spec.ts")],
+    specs: [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -55,23 +55,33 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
+    port: 4723,
+    path: '/',
     capabilities: {
-        firstUserExecutor: {
-            capabilities: {
-                platformName: "mac",
-                "appium:automationName": "mac2",
-                "appium:bundleId": "im.satellite.uplinkChatUserA",
-                "appium:arguments": ["--path", homedir() + "/.chatUserA"],      
-              }
-        },
-        secondUserExecutor: {
-            capabilities:{
-                platformName: "mac",
-                "appium:automationName": "mac2",
-                "appium:bundleId": "im.satellite.uplinkChatUserB",
-                "appium:arguments": ["--path", homedir() + "/.chatUserB"],
-            }
+      userA: {
+        capabilities: {
+          platformName: "mac",
+          "appium:automationName": "mac2",
+          "appium:bundleId": "im.satellite.uplinkChatUserA",
+          "appium:arguments": ["--path", homedir() + "/.uplinkUserA"],
+          "appium:systemPort": 4724,
+          "appium:prerun": {
+            command: 'do shell script "rm -rf ~/.uplinkUserA"',
+          },  
         }
+      },
+      userB: {
+        capabilities: {
+          platformName: "mac",
+          "appium:automationName": "mac2",
+          "appium:bundleId": "im.satellite.uplinkChatUserB",
+          "appium:arguments": ["--path", homedir() + "/.uplinkUserB"],
+          "appium:systemPort": 4726,
+          "appium:prerun": {
+            command: 'do shell script "rm -rf ~/.uplinkUserB"',
+          },  
+        }
+      },
     }
     ,
     //
@@ -121,7 +131,25 @@ exports.config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: [["appium", {command: "appium", port: 4723, args: {relaxedSecurity: true, log: "./appium-chat-a.log"}}], ["appium", {command: "appium", port: 4724, args: {relaxedSecurity: true, log: "./appium-chat-b.log"}}]],
+    services: 
+      [
+        ["appium", { 
+          command: "appium", 
+          args: {
+            port: 4723,
+            relaxedSecurity: true, 
+            log: "./appium-chat-a.log"
+          },
+        }], 
+        ["appium", { 
+          command: "appium", 
+          args: {
+            port: 4725,
+            relaxedSecurity: true, 
+            log: "./appium-chat-b.log"
+          },
+        }]
+      ],
     
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -151,7 +179,7 @@ exports.config = {
       ], ['junit', {
             outputDir: './test-report/',
             outputFileFormat: function (options) {
-                return `test-results-windows-chats-${options.cid}.xml`;
+                return `test-results-macos-chats-${options.cid}.xml`;
             }
       }]],
 

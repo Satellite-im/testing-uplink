@@ -1,7 +1,7 @@
 import { clickOnSwitchMacOS } from "../../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -35,51 +35,57 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class SettingsFilesScreen extends SettingsBaseScreen {
-  constructor() {
-    super(SELECTORS.SETTINGS_FILES);
+export default class SettingsFilesScreen extends SettingsBaseScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.SETTINGS_FILES);
   }
 
   get localSyncCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get localSyncControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get localSyncDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get localSyncHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get openSyncFolderButton() {
-    return $(SELECTORS.OPEN_SYNC_FOLDER_BUTTON);
+    return this.instance.$(SELECTORS.OPEN_SYNC_FOLDER_BUTTON);
   }
 
   get openSyncFolderDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openSyncFolderHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsFiles() {
-    return $(SELECTORS.SETTINGS_FILES);
+    return this.instance.$(SELECTORS.SETTINGS_FILES);
   }
 
   async clickOnLocalSync() {
@@ -88,7 +94,7 @@ class SettingsFilesScreen extends SettingsBaseScreen {
       await this.localSyncCheckbox.click();
     } else if (currentDriver === "mac2") {
       const locator = await this.localSyncCheckbox;
-      await clickOnSwitchMacOS(locator);
+      await clickOnSwitchMacOS(locator, this.executor);
     }
   }
 
@@ -96,5 +102,3 @@ class SettingsFilesScreen extends SettingsBaseScreen {
     await this.openSyncFolderButton.click();
   }
 }
-
-export default new SettingsFilesScreen();

@@ -1,4 +1,7 @@
-import { loginWithTestUser } from "../../../helpers/commands";
+import {
+  loginWithTestUser,
+  loginWithTestUserSecondInstance,
+} from "../../../helpers/commands";
 import ChatsLayout from "../../../screenobjects/chats/ChatsLayout";
 import ContextMenu from "../../../screenobjects/chats/ContextMenu";
 import InputBar from "../../../screenobjects/chats/InputBar";
@@ -8,60 +11,73 @@ import ReplyPrompt from "../../../screenobjects/chats/ReplyPrompt";
 import Topbar from "../../../screenobjects/chats/Topbar";
 import FriendsScreen from "../../../screenobjects/friends/FriendsScreen";
 import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
+let chatsContextMenuFirstUser = new ContextMenu("userA");
+let chatsInputFirstUser = new InputBar("userA");
+let chatsLayoutFirstUser = new ChatsLayout("userA");
+let chatsMessagesFirstUser = new Messages("userA");
+let chatsMessageGroupsFirstUser = new MessageGroup("userA");
+let chatsReplyPromptFirstUser = new ReplyPrompt("userA");
+let chatsTopbarFirstUser = new Topbar("userA");
+let friendsScreenFirstUser = new FriendsScreen("userA");
+let welcomeScreenFirstUser = new WelcomeScreen("userA");
 
 export default async function acceptRequest() {
   it("Load Chat User B account and go to Friends Screen", async () => {
     // Go to Friends Screen
-    await loginWithTestUser();
-    await WelcomeScreen.goToFriends();
-    await FriendsScreen.waitForIsShown(true);
+    await loginWithTestUserSecondInstance();
+    await welcomeScreenFirstUser.goToFriends();
+    await friendsScreenFirstUser.waitForIsShown(true);
   });
 
   it("Accept Friend Request received from Chat User A", async () => {
     // Go to pending requests list, wait for receiving the friend request and accept it
-    await FriendsScreen.goToPendingFriendsList();
-    await FriendsScreen.waitUntilFriendRequestIsReceived();
-    await FriendsScreen.acceptIncomingRequest("ChatUserA");
+    await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.waitUntilFriendRequestIsReceived();
+    await friendsScreenFirstUser.acceptIncomingRequest("ChatUserA");
 
     // Return to Friends List
-    await FriendsScreen.goToAllFriendsList();
+    await friendsScreenFirstUser.goToAllFriendsList();
   });
 
   it("Wait until the other user is online", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-    await FriendsScreen.chatWithFriendButton.waitForExist();
-    await FriendsScreen.chatWithFriendButton.click();
-    await ChatsLayout.waitForIsShown(true);
+    await friendsScreenFirstUser.chatWithFriendButton.waitForExist();
+    await friendsScreenFirstUser.chatWithFriendButton.click();
+    await chatsLayoutFirstUser.waitForIsShown(true);
 
     // Wait until Chat User A is online
-    await Topbar.topbarIndicatorOnline.waitForDisplayed({
+    await chatsTopbarFirstUser.topbarIndicatorOnline.waitForDisplayed({
       timeout: 240000,
     });
   });
 
   it("Assert message received from Chat User A", async () => {
-    await Messages.waitForReceivingMessage("Testing...");
+    await chatsMessagesFirstUser.waitForReceivingMessage("Testing...");
   });
 
   it("Validate Chat Message received contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const textFromMessage = await Messages.getLastMessageReceivedText();
+    const textFromMessage =
+      await chatsMessagesFirstUser.getLastMessageReceivedText();
     await expect(textFromMessage).toHaveTextContaining("Testing...");
   });
 
   it("Validate Chat Message Group from remote user displays username picture and online indicator", async () => {
     //Your user image should be displayed next to the message
-    const userImage = await MessageGroup.getLastGroupWrapReceivedImage();
+    const userImage =
+      await chatsMessageGroupsFirstUser.getLastGroupWrapReceivedImage();
     await expect(userImage).toExist();
 
     //Online indicator of your user should be displayed next to the image
-    const onlineIndicator = await MessageGroup.getLastGroupWrapReceivedOnline();
+    const onlineIndicator =
+      await chatsMessageGroupsFirstUser.getLastGroupWrapReceivedOnline();
     await expect(onlineIndicator).toExist();
   });
 
   it("Validate Chat Message received displays timestamp and user who sent it", async () => {
     //Timestamp should be displayed when you send a message
-    const timeAgo = await MessageGroup.getLastMessageReceivedTimeAgo();
+    const timeAgo =
+      await chatsMessageGroupsFirstUser.getLastMessageReceivedTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
@@ -69,53 +85,58 @@ export default async function acceptRequest() {
   });
 
   it("Reply popup - Validate contents and close it", async () => {
-    await Messages.openContextMenuOnLastReceived();
-    await ContextMenu.validateContextMenuIsOpen();
-    await ContextMenu.selectContextOptionReply();
+    await chatsMessagesFirstUser.openContextMenuOnLastReceived();
+    await chatsContextMenuFirstUser.validateContextMenuIsOpen();
+    await chatsContextMenuFirstUser.selectContextOptionReply();
 
     // Validate contents of Reply Pop Up
-    await expect(ReplyPrompt.replyPopUp).toBeDisplayed();
-    await expect(ReplyPrompt.replyPopUpCloseButton).toBeDisplayed();
-    await expect(ReplyPrompt.replyPopUpHeader).toHaveTextContaining(
-      "REPLYING TO:"
-    );
-    await expect(ReplyPrompt.replyPopUpIndicatorOnline).toBeDisplayed();
+    await expect(chatsReplyPromptFirstUser.replyPopUp).toBeDisplayed();
     await expect(
-      ReplyPrompt.replyPopUpRemoteTextToReplyValue
+      chatsReplyPromptFirstUser.replyPopUpCloseButton
+    ).toBeDisplayed();
+    await expect(
+      chatsReplyPromptFirstUser.replyPopUpHeader
+    ).toHaveTextContaining("REPLYING TO:");
+    await expect(
+      chatsReplyPromptFirstUser.replyPopUpIndicatorOnline
+    ).toBeDisplayed();
+    await expect(
+      chatsReplyPromptFirstUser.replyPopUpRemoteTextToReplyValue
     ).toHaveTextContaining("Testing...");
-    await expect(ReplyPrompt.replyPopUpUserImage).toBeDisplayed();
+    await expect(chatsReplyPromptFirstUser.replyPopUpUserImage).toBeDisplayed();
 
-    await ReplyPrompt.closeReplyModal();
-    await ReplyPrompt.waitForReplyModalToNotExist();
+    await chatsReplyPromptFirstUser.closeReplyModal();
+    await chatsReplyPromptFirstUser.waitForReplyModalToNotExist();
   });
 
   it("Reply - Reply to a message", async () => {
-    await Messages.openContextMenuOnLastReceived();
-    await ContextMenu.validateContextMenuIsOpen();
-    await ContextMenu.selectContextOptionReply();
+    await chatsMessagesFirstUser.openContextMenuOnLastReceived();
+    await chatsContextMenuFirstUser.validateContextMenuIsOpen();
+    await chatsContextMenuFirstUser.selectContextOptionReply();
 
     // Type a reply and sent it
-    await ReplyPrompt.replyPopUp.waitForDisplayed();
-    await InputBar.typeMessageOnInput("Myreply...");
-    await InputBar.clickOnSendMessage();
-    await ReplyPrompt.waitForReplyModalToNotExist();
+    await chatsReplyPromptFirstUser.replyPopUp.waitForDisplayed();
+    await chatsInputFirstUser.typeMessageOnInput("Myreply...");
+    await chatsInputFirstUser.clickOnSendMessage();
+    await chatsReplyPromptFirstUser.waitForReplyModalToNotExist();
   });
 
   it("Send Reply - Validate reply message group reply and message replied", async () => {
     // Validate message replied appears smaller above your reply
-    const replySent = await Messages.getLastReply();
-    const replySentText = await Messages.getLastReplyText();
+    const replySent = await chatsMessagesFirstUser.getLastReply();
+    const replySentText = await chatsMessagesFirstUser.getLastReplyText();
     await expect(replySent).toBeDisplayed();
     await expect(replySentText).toHaveTextContaining("Testing...");
 
     // Validate reply message sent appears as last message
-    const message = await Messages.getLastMessageSentText();
+    const message = await chatsMessagesFirstUser.getLastMessageSentText();
     await expect(message).toHaveTextContaining("Myreply...");
   });
 
   it("Send Reply - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
-    const timeAgo = await MessageGroup.getLastMessageSentTimeAgo();
+    const timeAgo =
+      await chatsMessageGroupsFirstUser.getLastMessageSentTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
@@ -124,55 +145,60 @@ export default async function acceptRequest() {
 
   it("Send Reply - Validate reply message group contains user image and online indicator", async () => {
     //Your user image should be displayed next to the message
-    const userImage = await MessageGroup.getLastGroupWrapSentImage();
+    const userImage =
+      await chatsMessageGroupsFirstUser.getLastGroupWrapSentImage();
     await expect(userImage).toExist();
 
     //Online indicator of your user should be displayed next to the image
-    const onlineIndicator = await MessageGroup.getLastGroupWrapSentOnline();
+    const onlineIndicator =
+      await chatsMessageGroupsFirstUser.getLastGroupWrapSentOnline();
     await expect(onlineIndicator).toExist();
   });
 
   it("Chats - Received Message with Attachment - Text Message contents", async () => {
-    await Messages.chatMessageFileEmbedRemote.waitForDisplayed({
+    await chatsMessagesFirstUser.chatMessageFileEmbedRemote.waitForDisplayed({
       timeout: 240000,
     });
     // Validate text from message containing attachment
-    const message = await Messages.getLastMessageReceivedText();
+    const message = await chatsMessagesFirstUser.getLastMessageReceivedText();
     await expect(message).toHaveTextContaining("Attached...");
   });
 
   it("Chats - Received Message with Attachment - File Metadata", async () => {
     // Validate file metadata is displayed correctly on last chat message sent
-    const fileMeta = await Messages.getLastMessageReceivedFileMeta();
+    const fileMeta =
+      await chatsMessagesFirstUser.getLastMessageReceivedFileMeta();
     await expect(fileMeta).toHaveTextContaining("7.75 kB");
   });
 
   it("Chats - Received Message with Attachment - File Name", async () => {
     // Validate filename is displayed correctly on last chat message sent
-    const fileName = await Messages.getLastMessageReceivedFileName();
+    const fileName =
+      await chatsMessagesFirstUser.getLastMessageReceivedFileName();
     await expect(fileName).toHaveTextContaining("logo.jpg");
   });
 
   it("Chats - Received Message with Attachment - File Icon", async () => {
     // Validate file icon is displayed correctly on last chat message sent
-    const fileIcon = await Messages.getLastMessageReceivedFileIcon();
+    const fileIcon =
+      await chatsMessagesFirstUser.getLastMessageReceivedFileIcon();
     await expect(fileIcon).toBeDisplayed();
   });
 
   it("Chats - Received Message with Attachment - Download Button", async () => {
     // Validate file download button is displayed correctly on last chat message sent
     const fileDownloadButton =
-      await Messages.getLastMessageReceivedDownloadButton();
+      await chatsMessagesFirstUser.getLastMessageReceivedDownloadButton();
     await expect(fileDownloadButton).toBeDisplayed();
   });
 
   it("Chats - Validate that second message was edited", async () => {
     // Validate that last message is "edited"
-    await Messages.waitForReceivingMessage("edited...", 240000);
+    await chatsMessagesFirstUser.waitForReceivingMessage("edited...", 240000);
   });
 
   it("Validate that only deleted message is no longer in conversation", async () => {
     // Ensure that message "three.." was deleted
-    await Messages.waitForMessageToBeDeleted("Three...", 30000);
+    await chatsMessagesFirstUser.waitForMessageToBeDeleted("Three...", 30000);
   });
 }

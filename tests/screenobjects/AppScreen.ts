@@ -1,23 +1,25 @@
 export default class AppScreen {
-  private selector: string;
+  public executor;
+  private locator;
 
-  constructor(selector: string) {
-    this.selector = selector;
+  constructor(executor: string, locator: string) {
+    this.executor = executor;
+    this.locator = locator;
   }
 
-  /**
-   * Wait for the login screen to be visible
-   *
-   * @param {boolean} isShown
-   */
-  async waitForIsShown(isShown = true): Promise<boolean | void> {
-    return $(this.selector).waitForDisplayed({
-      reverse: !isShown,
-    });
+  get instance() {
+    return browser.getInstance(this.executor);
   }
 
   async getCurrentDriver() {
-    const currentDriver = await driver.capabilities.automationName;
+    const currentDriver = await driver[this.executor].capabilities
+      .automationName;
     return currentDriver;
+  }
+
+  async waitForIsShown(isShown = true): Promise<boolean | void> {
+    return this.instance.$(this.locator).waitForDisplayed({
+      reverse: !isShown,
+    });
   }
 }

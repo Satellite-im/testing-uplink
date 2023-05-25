@@ -1,6 +1,6 @@
-import UplinkMainScreen from "../UplinkMainScreen";
+import UplinkMainScreen from "../UplinkMainScreen.ts";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -23,30 +23,30 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class WelcomeScreen extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.WELCOME_LAYOUT);
+export default class WelcomeScreen extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.WELCOME_LAYOUT);
   }
 
   get addFriendsButton() {
-    return $(SELECTORS.ADD_FRIENDS_BUTTON);
+    return this.instance.$(SELECTORS.ADD_FRIENDS_BUTTON);
   }
 
   get addSomeoneText() {
-    return $(SELECTORS.WELCOME_LAYOUT).$(SELECTORS.ADD_SOMEONE_TEXT);
+    return this.instance
+      .$(SELECTORS.WELCOME_LAYOUT)
+      .$(SELECTORS.ADD_SOMEONE_TEXT);
   }
 
   get welcomeImage() {
-    return $(SELECTORS.WELCOME_LAYOUT).$(SELECTORS.WELCOME_IMAGE);
+    return this.instance.$(SELECTORS.WELCOME_LAYOUT).$(SELECTORS.WELCOME_IMAGE);
   }
 
   get welcomeLayout() {
-    return $(SELECTORS.WELCOME_LAYOUT);
+    return this.instance.$(SELECTORS.WELCOME_LAYOUT);
   }
 
   async clickAddSomeone() {
     return this.addFriendsButton.click();
   }
 }
-
-export default new WelcomeScreen();

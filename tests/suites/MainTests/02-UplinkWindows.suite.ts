@@ -11,8 +11,6 @@ import settingsNotifications from "../../specs/11-settings-notifications.spec";
 import settingsDeveloper from "../../specs/12-settings-developer.spec";
 import settingsAccessibility from "../../specs/13-settings-accessibility.spec";
 import settingsAbout from "../../specs/14-settings-about.spec";
-import friends from "../../specs/04-friends.spec";
-import createReusableAccounts from "../../specs/15-create-reusable-accounts.spec";
 
 describe("Uplink UI Automated Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));
@@ -28,6 +26,4 @@ describe("Uplink UI Automated Tests", function () {
   describe("Settings Notifications Tests", settingsNotifications.bind(this));
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Settings About Tests", settingsAbout.bind(this));
-  describe("Friends Screen Tests", friends.bind(this));
-  describe("Create Test Accounts on MacOS", createReusableAccounts.bind(this));
 });

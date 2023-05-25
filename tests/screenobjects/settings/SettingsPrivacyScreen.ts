@@ -1,6 +1,6 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -32,34 +32,34 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class SettingsPrivacyScreen extends SettingsBaseScreen {
-  constructor() {
-    super(SELECTORS.SETTINGS_PRIVACY);
+export default class SettingsPrivacyScreen extends SettingsBaseScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.SETTINGS_PRIVACY);
   }
 
   get backupPhraseButton() {
-    return $(SELECTORS.BACKUP_PHRASE_BUTTON);
+    return this.instance.$(SELECTORS.BACKUP_PHRASE_BUTTON);
   }
 
   get backupPhraseDescription() {
-    return $(SELECTORS.SETTINGS_SECTION)
+    return this.instance
+      .$(SELECTORS.SETTINGS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get backupPhraseHeader() {
-    return $(SELECTORS.SETTINGS_SECTION)
+    return this.instance
+      .$(SELECTORS.SETTINGS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsPrivacy() {
-    return $(SELECTORS.SETTINGS_PRIVACY);
+    return this.instance.$(SELECTORS.SETTINGS_PRIVACY);
   }
 
   async clickOnBackupPhrase() {
     await this.backupPhraseButton.click();
   }
 }
-
-export default new SettingsPrivacyScreen();

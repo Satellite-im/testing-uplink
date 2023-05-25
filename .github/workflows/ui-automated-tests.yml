@@ -287,13 +287,8 @@ jobs:
           defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
           defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
 
-      #- name: Open instances of Uplink
-      #  run: |
-      #    /Applications/Uplink.app/Contents/MacOS/uplink --path ~/.uplinkUserA &
-      #    /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserB &
-
       - name: Run Chat Tests on MacOS 🧪
-        run: npm run mac.chats
+        run: npm run mac.multiremote
 
       - name: Publish Test Results for Chats Tests
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -318,7 +313,8 @@ jobs:
         with:
           name: appium-log-macos-chats
           path: |
-            ./appium-chats.log
+            ./appium-chat-a.log
+            ./appium-chat-b.log
 
       - name: Add label if any of test jobs failed
         if: failure()
