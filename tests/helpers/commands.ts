@@ -21,13 +21,14 @@ let welcomeScreenSecondUser = new WelcomeScreen("userB");
 // Users cache helper functions
 
 export async function deleteCache() {
-  const target = homedir() + "/.uplink";
+  const target = homedir() + "/.uplink/.user";
   await rmSync(target, { recursive: true, force: true });
 }
 
-export async function grabCacheFolder(username: string) {
+export async function grabCacheFolder(username: string, instance: string) {
   const source = homedir() + "/.uplink";
-  const target = "./tests/fixtures/users/" + username;
+  const currentDriver = await driver[instance].capabilities.automationName;
+  const target = "./tests/fixtures/users/" + currentDriver + "/" + username;
   await fsp.mkdir(target, { recursive: true });
   try {
     await fsp.cp(source, target, { recursive: true });
@@ -39,9 +40,10 @@ export async function grabCacheFolder(username: string) {
   }
 }
 
-export async function loadTestUserData(user: string) {
+export async function loadTestUserData(user: string, instance: string) {
   // Move files
-  const source = "./tests/fixtures/users/" + user;
+  const currentDriver = await driver[instance].capabilities.automationName;
+  const source = "./tests/fixtures/users/" + currentDriver + "/" + user;
   const target = homedir() + "/.uplink";
   try {
     await deleteCache();
@@ -56,18 +58,26 @@ export async function loadTestUserData(user: string) {
 
 // DidKeys and username handling functions
 
-export async function getUserKey(username: string) {
+export async function getUserKey(username: string, instance: string) {
   // Read user data and store variable with DID Key from JSON file
-  const source = "./tests/fixtures/users/" + username + ".json";
+  const currentDriver = await driver[instance].capabilities.automationName;
+  const source =
+    "./tests/fixtures/users/" + currentDriver + "/" + username + ".json";
   const jsonFile = readFileSync(source);
   const jsonFileParsed = JSON.parse(jsonFile);
   const didkey = jsonFileParsed.key;
   return didkey;
 }
 
-export async function saveTestKeys(username: string, didkey: string) {
+export async function saveTestKeys(
+  username: string,
+  didkey: string,
+  instance: string
+) {
   // Save JSON file with keys
-  const target = "./tests/fixtures/users/" + username + ".json";
+  const currentDriver = await driver[instance].capabilities.automationName;
+  const target =
+    "./tests/fixtures/users/" + currentDriver + +"/" + username + ".json";
   const userData = { username: username, key: didkey };
   try {
     writeFileSync(target, JSON.stringify(userData, null, 2), "utf8");
@@ -153,7 +163,7 @@ export async function resetApp(instance: string) {
 export async function resetAndLoginWithCache(user: string) {
   await closeApplication("userA");
   await deleteCache();
-  await loadTestUserData(user);
+  await loadTestUserData(user, "userA");
   await launchApplication("userA");
   await loginWithTestUser();
 }
@@ -165,7 +175,7 @@ export async function launchApplication(instance: string) {
   if (currentOS === "windows") {
     await driver[instance].executeScript("windows: launchApp", [
       {
-        app: join(process.cwd(), "\\apps\\ui.exe"),
+        app: join(process.cwd(), "\\apps\\uplink.exe"),
       },
     ]);
   } else if (currentOS === "mac2") {
@@ -182,7 +192,7 @@ export async function closeApplication(instance: string) {
   if (currentOS === "windows") {
     await driver[instance].executeScript("windows: closeApp", [
       {
-        app: join(process.cwd(), "\\apps\\ui.exe"),
+        app: join(process.cwd(), "\\apps\\uplink.exe"),
       },
     ]);
   } else if (currentOS === "mac2") {

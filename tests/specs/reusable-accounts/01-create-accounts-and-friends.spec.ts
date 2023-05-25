@@ -51,7 +51,7 @@ export default async function createChatAcountsTests() {
     const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey);
+    await saveTestKeys(username, didkey, "userA");
   });
 
   it("Chat User A - Disable notifications", async () => {
@@ -82,7 +82,7 @@ export default async function createChatAcountsTests() {
     const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey);
+    await saveTestKeys(username, didkey, "userB");
   });
 
   it("Chat User B - Disable notifications", async () => {
@@ -97,7 +97,7 @@ export default async function createChatAcountsTests() {
     await settingsNotificationsSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
     // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey("ChatUserA");
+    const friendDidKey = await getUserKey("ChatUserA", "userB");
     await friendsScreenSecondUser.enterFriendDidKey(friendDidKey);
     await friendsScreenSecondUser.clickOnAddSomeoneButton();
 

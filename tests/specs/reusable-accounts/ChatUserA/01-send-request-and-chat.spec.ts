@@ -30,7 +30,7 @@ export default async function sendRequest() {
 
   it("Send friend request to Chat User B", async () => {
     // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey("ChatUserB");
+    const friendDidKey = await getUserKey("ChatUserB", "userA");
     await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
     await friendsScreenFirstUser.clickOnAddSomeoneButton();
 

@@ -48,12 +48,12 @@ export default async function createReusableAccounts() {
     const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey);
+    await saveTestKeys(username, didkey, "userA");
 
     // Update profile picture from user A
 
     // Update banner picture from user A
-    await grabCacheFolder(username);
+    await grabCacheFolder(username, "userA");
     await resetApp("userA");
   });
 
@@ -94,7 +94,7 @@ export default async function createReusableAccounts() {
     const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey);
-    await grabCacheFolder(username);
+    await saveTestKeys(username, didkey, "userA");
+    await grabCacheFolder(username, "userA");
   });
 }

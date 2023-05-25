@@ -134,6 +134,6 @@ describe("Two users at the same time - Chat User A", async () => {
   }*/
 
   it("Chats - Grab cache folder", async () => {
-    await grabCacheFolder(userToTestWith);
+    await grabCacheFolder(userToTestWith, "userA");
   });
 });

@@ -110,7 +110,7 @@ export default async function quickProfileTests() {
 
   it("Chat User A - Send friend request again to User B", async () => {
     // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey("ChatUserB");
+    const friendDidKey = await getUserKey("ChatUserB", "userA");
     await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
     await friendsScreenFirstUser.clickOnAddSomeoneButton();
 
@@ -208,7 +208,7 @@ export default async function quickProfileTests() {
     await friendsScreenFirstUser.goToAllFriendsList();
 
     // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey(username);
+    const friendDidKey = await getUserKey(username, "userA");
     await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
     await friendsScreenFirstUser.clickOnAddSomeoneButton();
 

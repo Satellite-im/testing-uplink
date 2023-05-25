@@ -102,7 +102,7 @@ export default async function quickProfileUserA() {
 
   it("Send friend request again to User B", async () => {
     // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey("ChatUserB");
+    const friendDidKey = await getUserKey("ChatUserB", "userA");
     await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
     await friendsScreenFirstUser.clickOnAddSomeoneButton();
 
