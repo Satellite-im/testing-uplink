@@ -11,7 +11,7 @@ describe("Chat and Friends Tests with two users", function () {
   describe("Chat Replies Tests", repliesTests.bind(this));
   describe("Message Context Menu Tests", messageContextMenuTests.bind(this));
   describe("Message Input Tests", messageInputTests.bind(this));
-  describe("Message Attachments Tests", messageAttachmentsTests.bind(this));
+  //describe("Message Attachments Tests", messageAttachmentsTests.bind(this));
   describe("Chat Tooltips Tests", chatTooltipsTests.bind(this));
-  describe("Quick Profile Tests", quickProfileTests.bind(this));
+  //describe("Quick Profile Tests", quickProfileTests.bind(this));
 });

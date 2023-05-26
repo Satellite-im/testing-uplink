@@ -1,7 +1,4 @@
-import {
-  loginWithTestUser,
-  loginWithTestUserSecondInstance,
-} from "../../../helpers/commands";
+import { resetAndLoginWithCache } from "../../../helpers/commands";
 import ChatsLayout from "../../../screenobjects/chats/ChatsLayout";
 import ContextMenu from "../../../screenobjects/chats/ContextMenu";
 import InputBar from "../../../screenobjects/chats/InputBar";
@@ -24,7 +21,7 @@ let welcomeScreenFirstUser = new WelcomeScreen("userA");
 export default async function acceptRequest() {
   it("Load Chat User B account and go to Friends Screen", async () => {
     // Go to Friends Screen
-    await loginWithTestUserSecondInstance();
+    await resetAndLoginWithCache("ChatUserB");
     await welcomeScreenFirstUser.goToFriends();
     await friendsScreenFirstUser.waitForIsShown(true);
   });

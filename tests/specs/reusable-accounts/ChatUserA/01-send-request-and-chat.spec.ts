@@ -1,4 +1,4 @@
-import { getUserKey, loginWithTestUser } from "../../../helpers/commands";
+import { getUserKey, resetAndLoginWithCache } from "../../../helpers/commands";
 import ChatsLayout from "../../../screenobjects/chats/ChatsLayout";
 import ComposeAttachment from "../../../screenobjects/chats/ComposeAttachment";
 import ContextMenu from "../../../screenobjects/chats/ContextMenu";
@@ -21,7 +21,7 @@ let welcomeScreenFirstUser = new WelcomeScreen("userA");
 export default async function sendRequest() {
   it("Load Chat User A account and go to friends screen", async () => {
     // Go to Friends Screen
-    await loginWithTestUser();
+    await resetAndLoginWithCache("ChatUserA");
     await welcomeScreenFirstUser.goToFriends();
 
     // Go to Friends

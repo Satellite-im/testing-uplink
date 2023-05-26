@@ -312,6 +312,8 @@ jobs:
         run: |
           rm -rf ~/.uplink
           cp -r ./tests/fixtures/users/mac2/${{ matrix.user }}/. ~/.uplink
+          ls -la ./tests/fixtures/users/mac2/
+          ls -la ~/.uplink
 
       - if: matrix.user == 'ChatUserA'
         name: Run WebdriverIO tests for Chat User A 🧪
@@ -334,7 +336,7 @@ jobs:
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-log-macos-macos-${{ matrix.user }}
+          name: appium-log-macos-${{ matrix.user }}
           path: ./appium.log
 
       - name: Add label if any of test jobs failed
