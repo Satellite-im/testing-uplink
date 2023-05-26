@@ -128,7 +128,6 @@ exports.config = {
         ["appium", { 
           command: "appium", 
           args: {
-            sessionOverride: true,
             port: 4723,
             relaxedSecurity: true, 
             log: "./appium.log"
@@ -145,7 +144,7 @@ exports.config = {
     framework: 'mocha',
     //
     // The number of times to retry the entire specfile when it fails as a whole
-    // specFileRetries: 1,
+     specFileRetries: 0,
     //
     // Delay in seconds between the spec file retry attempts
     // specFileRetriesDelay: 0,
@@ -164,7 +163,7 @@ exports.config = {
       ], ['junit', {
             outputDir: './test-report/',
             outputFileFormat: function (options) {
-                return `test-results-macos-chats-${options.cid}.xml`;
+                return `test-results-macos-multiremote-${options.cid}.xml`;
             }
       }]],
 
@@ -261,7 +260,7 @@ exports.config = {
     afterTest: async function (test, describe, { error }) {
         if (error) {
           let imageFile = await driver.takeScreenshot();
-          let imageFolder = join(process.cwd(), "./test-results/macos-chats", test.parent);
+          let imageFolder = join(process.cwd(), "./test-results/macos-multiremote", test.parent);
           await fsp.mkdir(imageFolder, {recursive: true});
           await fsp.writeFile(
             imageFolder + "/" + test.title + " - Failed.png",
