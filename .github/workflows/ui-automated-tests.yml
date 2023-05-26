@@ -311,7 +311,7 @@ jobs:
       - name: Delete Cache Folder if exists
         run: |
           rm -rf ~/.uplink
-          cp -r ./tests/fixtures/users/${{ matrix.user }}/. ~/.uplink
+          cp -r ./tests/fixtures/users/mac2/${{ matrix.user }}/. ~/.uplink
 
       - if: matrix.user == 'ChatUserA'
         name: Run WebdriverIO tests for Chat User A 🧪
@@ -327,14 +327,14 @@ jobs:
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-screenshots-${{ matrix.user }}
+          name: appium-screenshots-macos-${{ matrix.user }}
           path: ./test-results
 
       - name: Upload Appium Log for ${{ matrix.user }} 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-log-${{ matrix.user }}
+          name: appium-log-macos-macos-${{ matrix.user }}
           path: ./appium.log
 
       - name: Add label if any of test jobs failed
@@ -399,7 +399,7 @@ jobs:
           appium driver install --source=npm appium-windows-driver
           appium driver list
 
-      - name: Run Chat Tests on MacOS 🧪
+      - name: Run Chat Tests on Windows 🧪
         run: npm run windows.multiremote
 
       - name: Publish Test Results for Windows Chats Tests
@@ -423,7 +423,7 @@ jobs:
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-log-macos-chats
+          name: appium-log-windows-chats
           path: |
             ./appium.log
 

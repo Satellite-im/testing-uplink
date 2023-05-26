@@ -359,11 +359,11 @@ export default class FilesScreen extends UplinkMainScreen {
     }
   }
 
-  async validateFileOrFolderExist(locator: string) {
-    await this.instance.$(locator).waitForExist({ timeout: 15000 });
+  async validateFileOrFolderExist(locator: WebdriverIO.Element) {
+    await locator.waitForExist({ timeout: 15000 });
   }
 
-  async validateFileOrFolderNotExist(locator: string) {
+  async validateFileOrFolderNotExist(locator: WebdriverIO.Element) {
     await this.instance.$(locator).waitForExist({ reverse: true });
   }
 
