@@ -131,7 +131,7 @@ exports.config = {
             sessionOverride: true,
             port: 4723,
             relaxedSecurity: true, 
-            log: "./appium-mac-chats.log"
+            log: "./appium.log"
           },
         }], 
       ],

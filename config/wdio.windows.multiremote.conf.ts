@@ -136,7 +136,7 @@ exports.config = {
           args: {
             port: 4723,
             relaxedSecurity: true, 
-            log: "./appium-windows-chats.log"
+            log: "./appium.log"
           },
         }], 
       ],

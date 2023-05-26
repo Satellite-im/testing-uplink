@@ -1,12 +1,5 @@
 # UI Tests
-appium-mac-app.log
-appium-mac-ci.log
-appium-mac-chats-multiremote.log
-appium-chat-a.log
-appium-chat-b.log
-appium-windows-ci.log
-appium-windows-app.log
-appium-windows-chats.log
+appium.log
 apps/
 node_modules/
 package-lock.json

@@ -186,11 +186,21 @@ jobs:
           defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
           defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
 
-      - name: Delete Cache Folder if exists - Mac
-        run: rm -rf ~/.uplink
+      - name: Delete Cache Folder and copy reusable data
+        run: |
+          rm -rf ~/.uplink
+          mkdir ./tests/fixtures/users/mac2
+          cp -r ./tests/fixtures/users/FriendsTestUser/ ./tests/fixtures/users/mac2/FriendsTestUser
 
       - name: Run Tests on MacOS 🧪
         run: npm run mac.ci
+
+      - if: always()
+        name: Upload Test User Accounts Created 📷
+        uses: actions/upload-artifact@v3
+        with:
+          name: appium-test-accounts
+          path: ./tests/fixtures/users/
 
       - name: Publish Test Results for MacOS
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -214,7 +224,7 @@ jobs:
         if: failure()
         with:
           name: appium-log-macos
-          path: ./appium-ci.log
+          path: ./appium.log
 
       - name: Add label if any of test jobs failed
         if: failure()
@@ -415,7 +425,7 @@ jobs:
         with:
           name: appium-log-macos-chats
           path: |
-            ./appium-windows-chats.log
+            ./appium.log
 
       - name: Add label if any of test jobs failed
         if: failure()
@@ -504,7 +514,7 @@ jobs:
         if: failure()
         with:
           name: appium-log-windows
-          path: ./appium-ci.log
+          path: ./appium.log
 
       - name: Add label if any of test jobs failed
         if: failure()

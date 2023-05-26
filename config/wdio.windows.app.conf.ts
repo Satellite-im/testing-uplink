@@ -126,7 +126,7 @@ exports.config = {
           args: {
             port: 4723,
             relaxedSecurity: true, 
-            log: "./appium-windows-app.log"
+            log: "./appium.log"
           },
         }], 
       ],

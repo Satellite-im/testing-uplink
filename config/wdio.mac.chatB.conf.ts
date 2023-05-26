@@ -126,7 +126,7 @@ exports.config = {
           args: {
             port: 4723,
             relaxedSecurity: true, 
-            log: "./appium-chat-b.log"
+            log: "./appium.log"
           },
         }], 
       ],

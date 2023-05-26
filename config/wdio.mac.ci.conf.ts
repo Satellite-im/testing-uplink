@@ -126,7 +126,7 @@ exports.config = {
           args: {
             port: 4723,
             relaxedSecurity: true, 
-            log: "./appium-mac-ci.log"
+            log: "./appium.log"
           },
         }], 
       ],
