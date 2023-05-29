@@ -331,6 +331,27 @@ export default class Messages extends UplinkMainScreen {
     }
   }
 
+  async waitForMessageSentToExist(
+    expectedMessage: string,
+    timeoutMsg: number = 150000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await this.instance
+        .$$(SELECTORS.CHAT_MESSAGE_LOCAL)
+        .$(
+          '//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === "windows") {
+      await this.instance
+        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
   async waitForReceivingMessage(
     expectedMessage: string,
     timeoutMsg: number = 150000

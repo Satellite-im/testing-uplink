@@ -4,9 +4,7 @@ import UplinkMainScreen from "../UplinkMainScreen";
 const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
-const SELECTORS_COMMON = {
-  SIDEBAR_CHATS_SECTION: "~Chats",
-};
+const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   CREATE_GROUP_CHAT_CREATE_DM_BUTTON: '[name="create-dm-button"]',
@@ -18,6 +16,7 @@ const SELECTORS_WINDOWS = {
   CREATE_GROUP_CHAT_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   CREATE_GROUP_CHAT_USER_NAME: '[name="friend-name"]',
   CREATE_GROUP_CHAT_USER_NAME_TEXT: "//Text",
+  SIDEBAR_CHATS_SECTION: "~chats",
   SIDEBAR_CHATS_HEADER: "//Text/Text",
   SIDEBAR_CHATS_USER: '[name="User"]',
   SIDEBAR_CHATS_USER_BADGE: '[name="User Badge"]',
@@ -48,6 +47,7 @@ const SELECTORS_MACOS = {
   CREATE_GROUP_CHAT_USER_NAME: "~friend-name",
   CREATE_GROUP_CHAT_USER_NAME_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText",
+  SIDEBAR_CHATS_SECTION: "~Chats",
   SIDEBAR_CHATS_HEADER:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   SIDEBAR_CHATS_USER: "~User",

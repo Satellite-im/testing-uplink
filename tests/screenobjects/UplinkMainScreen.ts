@@ -6,7 +6,6 @@ let SELECTORS = {};
 
 const SELECTORS_COMMON = {
   PRE_RELEASE_INDICATOR: "~pre-release",
-  SIDEBAR_CHATS_SECTION: "~Chats",
 };
 
 const SELECTORS_WINDOWS = {
@@ -34,6 +33,7 @@ const SELECTORS_WINDOWS = {
   PRE_RELEASE_INDICATOR_TEXT: "//Text",
   SETTINGS_BUTTON: '[name="settings-button"]',
   SIDEBAR: '[name="sidebar"]',
+  SIDEBAR_CHATS_SECTION: "~chats",
   SIDEBAR_CHILDREN: '[name="sidebar-children"]',
   SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SKELETAL_USER: '[name="skeletal-user"]',
@@ -75,6 +75,7 @@ const SELECTORS_MACOS = {
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
   SIDEBAR: "~sidebar",
+  SIDEBAR_CHATS_SECTION: "~Chats",
   SIDEBAR_CHILDREN: "~sidebar-children",
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",

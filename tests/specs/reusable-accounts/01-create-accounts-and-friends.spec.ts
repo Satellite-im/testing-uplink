@@ -158,6 +158,7 @@ export default async function createChatAcountsTests() {
   it("Chat User A - Send a message to the other user", async () => {
     await chatsInputFirstUser.typeMessageOnInput("Testing...");
     await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Testing...");
 
     const textFromMessage =
       await chatsMessagesFirstUser.getLastMessageSentText();

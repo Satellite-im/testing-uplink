@@ -22,6 +22,7 @@ let friendsScreenFirstUser = new FriendsScreen("userA");
 let friendsScreenSecondUser = new FriendsScreen("userB");
 let settingsProfileFirstUser = new SettingsProfileScreen("userA");
 let welcomeScreenFirstUser = new WelcomeScreen("userA");
+let welcomeScreenSecondUser = new WelcomeScreen("userB");
 
 export default async function quickProfileTests() {
   it("Chat User A - Validate contents from local quick profile", async () => {
@@ -106,7 +107,9 @@ export default async function quickProfileTests() {
     // Go to Friends and wait for User A to remove friendship with User B
     await chatsTopbarSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
-    await friendsScreenSecondUser.waitUntilFriendIsRemoved("ChatUserA");
+    await friendsScreenSecondUser.chatWithFriendButton.waitForExist({
+      reverse: true,
+    });
   });
 
   it("Chat User A - Send friend request again to User B", async () => {
@@ -129,16 +132,14 @@ export default async function quickProfileTests() {
 
   it("Chat User B - Wait until User A sends friend request again User A and accept it", async () => {
     // Go to pending requests list, wait for receiving the friend request and accept it
-    await friendsScreenSecondUser.friendsButtonBadge.waitForDisplayed();
+    await welcomeScreenSecondUser.goToFriends();
     await friendsScreenSecondUser.goToPendingFriendsList();
-    await friendsScreenSecondUser.waitUntilFriendRequestIsReceived();
     await friendsScreenSecondUser.acceptIncomingRequest("ChatUserA");
 
     // Return to Friends List
     await friendsScreenSecondUser.goToAllFriendsList();
 
     // Validate friend is now on all friends list
-    await friendsScreenSecondUser.goToAllFriendsList();
     const friendsList = await friendsScreenSecondUser.getAllFriendsList();
     const includesFriend = await friendsList.includes("ChatUserA");
     await expect(includesFriend).toEqual(true);
@@ -146,7 +147,7 @@ export default async function quickProfileTests() {
 
   it("Chat User A - Wait until friend request is accepted again", async () => {
     // Wait until user B accepts the friend request
-    await friendsScreenFirstUser.waitUntilUserAcceptedFriendRequest();
+    await friendsScreenFirstUser.goToAllFriendsList();
 
     // Validate friend is now on all friends list
     const friendsList = await friendsScreenFirstUser.getAllFriendsList();

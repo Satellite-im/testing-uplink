@@ -35,6 +35,7 @@ export default async function messageContextMenuTests() {
     await chatsInputFirstUser.typeOnEditMessageInput("Edited...");
 
     // Validate message edited contents is shown on Chat Screen
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Edited...");
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
     await expect(textMessage).toHaveTextContaining("Edited...");
   });

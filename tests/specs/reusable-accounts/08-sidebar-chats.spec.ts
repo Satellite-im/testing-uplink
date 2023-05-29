@@ -27,6 +27,9 @@ export default async function sidebarChatsTests() {
   it("Chat User A - Unblock the other Chat User", async () => {
     // Unblock Chat User B and go to Friends List to send a new friend request
     await friendsScreenFirstUser.removeOrCancelUser("ChatUserB");
+    await friendsScreenFirstUser.removeOrDenyFriendButton.waitForExist({
+      reverse: true,
+    });
     await friendsScreenFirstUser.goToAllFriendsList();
   });
 
@@ -38,10 +41,16 @@ export default async function sidebarChatsTests() {
 
     // Wait for toast notification to be closed
     await friendsScreenFirstUser.waitUntilNotificationIsClosed();
+
+    // Validate that friend request was sent
+    await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.removeOrDenyFriendButton.waitForDisplayed();
+    await friendsScreenFirstUser.goToAllFriendsList();
   });
 
   it("Chat User B - Wait until receiving a friend request again", async () => {
     // Go to pending requests list, wait for receiving the friend request and accept it
+    await friendsScreenSecondUser.goToFriends();
     await friendsScreenSecondUser.goToPendingFriendsList();
     await friendsScreenSecondUser.waitUntilFriendRequestIsReceived();
   });
@@ -55,6 +64,9 @@ export default async function sidebarChatsTests() {
 
   it("Chat User B - Accept incoming request", async () => {
     await friendsScreenSecondUser.acceptIncomingRequest("ChatUserA");
+    await friendsScreenSecondUser.acceptFriendRequestButton.waitForExist({
+      reverse: true,
+    });
 
     // Return to Friends List
     await friendsScreenSecondUser.goToAllFriendsList();
@@ -71,10 +83,7 @@ export default async function sidebarChatsTests() {
     // Send message to Chat User B
     await chatsInputSecondUser.typeMessageOnInput("Hello...");
     await chatsInputSecondUser.clickOnSendMessage();
-
-    const latestMessage =
-      await chatsMessagesSecondUser.getLastMessageSentText();
-    await expect(latestMessage).toHaveTextContaining("Hello...");
+    await chatsMessagesSecondUser.waitForMessageSentToExist("Hello...");
   });
 
   it("Chat User A - Wait until Chat User B accepts friend request and sends a message", async () => {
@@ -125,8 +134,7 @@ export default async function sidebarChatsTests() {
     // Send message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
     await chatsInputFirstUser.clickOnSendMessage();
-    const latestMessage = await chatsMessagesFirstUser.getLastMessageSentText();
-    await expect(latestMessage).toHaveTextContaining("Hi...");
+    await chatsMessagesSecondUser.waitForMessageSentToExist("Hi...");
   });
 
   it("Chat User A - Sidebar - Persists between different sections of the app", async () => {
