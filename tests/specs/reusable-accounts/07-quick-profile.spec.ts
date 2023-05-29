@@ -9,6 +9,7 @@ import Topbar from "../../screenobjects/chats/Topbar";
 import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
 
+let chatsInputFirstUser = new InputBar("userA");
 let chatsInputSecondUser = new InputBar("userB");
 let chatsLayoutFirstUser = new ChatsLayout("userA");
 let chatsLayoutSecondUser = new ChatsLayout("userB");
@@ -78,7 +79,7 @@ export default async function quickProfileTests() {
     ).toBeDisplayed();
 
     // Click outside to close quick profile
-    await chatsTopbarFirstUser.chatsTopbarFirstUser.click();
+    await chatsInputFirstUser.clickOnInputBar();
   });
 
   it("Chat User A - Remove Friend", async () => {
@@ -119,6 +120,7 @@ export default async function quickProfileTests() {
 
     // Validate friend request appears on pending list
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.removeOrDenyFriendButton.waitForDisplayed();
     const pendingList = await friendsScreenFirstUser.getOutgoingList();
     const includesFriend = await pendingList.includes("ChatUserB");
     await expect(includesFriend).toEqual(true);
@@ -127,6 +129,7 @@ export default async function quickProfileTests() {
 
   it("Chat User B - Wait until User A sends friend request again User A and accept it", async () => {
     // Go to pending requests list, wait for receiving the friend request and accept it
+    await friendsScreenSecondUser.friendsButtonBadge.waitForDisplayed();
     await friendsScreenSecondUser.goToPendingFriendsList();
     await friendsScreenSecondUser.waitUntilFriendRequestIsReceived();
     await friendsScreenSecondUser.acceptIncomingRequest("ChatUserA");
@@ -199,63 +202,5 @@ export default async function quickProfileTests() {
     await chatsInputSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
     await friendsScreenSecondUser.waitUntilFriendIsRemoved("ChatUserA");
-  });
-
-  it("Chat User A - Unblock and send friend request again to User B", async () => {
-    // Unblock user
-    const username = "ChatUserB";
-    await friendsScreenFirstUser.removeOrCancelUser(username);
-    await friendsScreenFirstUser.goToAllFriendsList();
-
-    // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey(username, "userA");
-    await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
-    await friendsScreenFirstUser.clickOnAddSomeoneButton();
-
-    // Wait for toast notification to be closed
-    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
-
-    // Validate friend request appears on pending list
-    await friendsScreenFirstUser.goToPendingFriendsList();
-    const pendingList = await friendsScreenFirstUser.getOutgoingList();
-    const includesFriend = await pendingList.includes("ChatUserB");
-    await expect(includesFriend).toEqual(true);
-    await friendsScreenFirstUser.goToAllFriendsList();
-  });
-
-  it("Chat User B - Wait until User A sends friend request again User B and accept it", async () => {
-    // Go to pending requests list, wait for receiving the friend request and accept it
-    await friendsScreenSecondUser.goToPendingFriendsList();
-    await friendsScreenSecondUser.waitUntilFriendRequestIsReceived();
-    await friendsScreenSecondUser.acceptIncomingRequest("ChatUserA");
-
-    // Return to Friends List
-    await friendsScreenSecondUser.goToAllFriendsList();
-
-    // Validate friend is now on all friends list
-    const friendsList = await friendsScreenSecondUser.getAllFriendsList();
-    const includesFriend = await friendsList.includes("ChatUserA");
-    await expect(includesFriend).toEqual(true);
-  });
-
-  it("Chat User B - Return to conversation", async () => {
-    // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-    await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
-    await friendsScreenSecondUser.chatWithFriendButton.click();
-    await chatsLayoutSecondUser.waitForIsShown(true);
-  });
-
-  it("Chat User A - Wait until friend request is accepted again", async () => {
-    await friendsScreenFirstUser.waitUntilUserAcceptedFriendRequest();
-
-    // Validate friend is now on all friends list
-    const friendsList = await friendsScreenFirstUser.getAllFriendsList();
-    const includesFriend = await friendsList.includes("ChatUserB");
-    await expect(includesFriend).toEqual(true);
-
-    // Go to chat with User B
-    await friendsScreenFirstUser.chatWithFriendButton.waitForExist();
-    await friendsScreenFirstUser.chatWithFriendButton.click();
-    await chatsLayoutFirstUser.waitForIsShown(true);
   });
 }

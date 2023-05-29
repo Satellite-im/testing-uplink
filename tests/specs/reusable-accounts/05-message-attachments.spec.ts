@@ -4,7 +4,7 @@ import Messages from "../../screenobjects/chats/Messages";
 let chatsAttachmentFirstUser = new ComposeAttachment("userA");
 let chatsInputFirstUser = new InputBar("userA");
 let chatsMessagesFirstUser = new Messages("userA");
-let chatsMessagesSecondUser = new InputBar("userB");
+let chatsMessagesSecondUser = new Messages("userB");
 
 export default async function messageAttachmentsTests() {
   it("Chat User A - Validate compose attachments contents", async () => {
@@ -57,6 +57,7 @@ export default async function messageAttachmentsTests() {
   });
 
   it("Chat User A - Message Sent With Attachment - Text contents", async () => {
+    await chatsMessagesFirstUser.chatMessageFileEmbedLocal.waitForExist();
     // Validate text from message containing attachment
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
     await expect(textMessage).toHaveTextContaining("Attached");
@@ -88,9 +89,7 @@ export default async function messageAttachmentsTests() {
   });
 
   it("Chat User B - Received Message with Attachment - Text Message contents", async () => {
-    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForDisplayed({
-      timeout: 240000,
-    });
+    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForDisplayed();
     // Validate text from message containing attachment
     const message = await chatsMessagesSecondUser.getLastMessageReceivedText();
     await expect(message).toHaveTextContaining("Attached");
