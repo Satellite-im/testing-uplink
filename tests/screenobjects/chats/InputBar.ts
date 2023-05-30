@@ -3,7 +3,7 @@ import { selectFileOnMacos, selectFileOnWindows } from "../../helpers/commands";
 import { join } from "path";
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -33,43 +33,44 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class InputBar extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.INPUT_GROUP);
+export default class InputBar extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.INPUT_GROUP);
   }
 
   get inputGroup() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.INPUT_GROUP);
+    return this.instance.$(SELECTORS.CHAT_LAYOUT).$(SELECTORS.INPUT_GROUP);
   }
 
   get inputText() {
-    return $(SELECTORS.CHAT_LAYOUT)
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.INPUT_GROUP)
       .$(SELECTORS.INPUT_TEXT);
   }
 
   get sendMessageButton() {
-    return $(SELECTORS.SEND_MESSAGE_BUTTON);
+    return this.instance.$(SELECTORS.SEND_MESSAGE_BUTTON);
   }
 
   get sendMessageTooltip() {
-    return $(SELECTORS.TOOLTIP);
+    return this.instance.$(SELECTORS.TOOLTIP);
   }
 
   get sendMessageTooltipText() {
-    return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get uploadButton() {
-    return $(SELECTORS.UPLOAD_BUTTON);
+    return this.instance.$(SELECTORS.UPLOAD_BUTTON);
   }
 
   get uploadTooltip() {
-    return $(SELECTORS.TOOLTIP);
+    return this.instance.$(SELECTORS.TOOLTIP);
   }
 
   get uploadTooltipText() {
-    return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   async clearInputBar() {
@@ -133,19 +134,20 @@ class InputBar extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let enterValue;
     currentDriver === "windows" ? (enterValue = "\uE007") : (enterValue = "\n");
-    await $$(SELECTORS.INPUT_TEXT)[1].clearValue();
-    await $$(SELECTORS.INPUT_TEXT)[1].setValue(editedMessage + enterValue);
+    await browser.pause(1000);
+    await this.instance.$$(SELECTORS.INPUT_TEXT)[1].clearValue();
+    await this.instance
+      .$$(SELECTORS.INPUT_TEXT)[1]
+      .setValue(editedMessage + enterValue);
   }
 
   async uploadFile(relativePath: string) {
     const currentDriver = await this.getCurrentDriver();
     await this.clickOnUploadFile();
     if (currentDriver === "mac2") {
-      await selectFileOnMacos(relativePath);
+      await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === "windows") {
       await selectFileOnWindows(relativePath);
     }
   }
 }
-
-export default new InputBar();

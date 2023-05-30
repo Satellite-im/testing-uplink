@@ -9,17 +9,26 @@ const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
 const robot = require("robotjs");
+let createPinFirstUser = new CreatePinScreen("userA");
+let createPinSecondUser = new CreatePinScreen("userB");
+let createUserFirstUser = new CreateUserScreen("userA");
+let createUserSecondUser = new CreateUserScreen("userB");
+let friendsScreenFirstUser = new FriendsScreen("userA");
+let friendsScreenSecondUser = new FriendsScreen("userB");
+let welcomeScreenFirstUser = new WelcomeScreen("userA");
+let welcomeScreenSecondUser = new WelcomeScreen("userB");
 
 // Users cache helper functions
 
 export async function deleteCache() {
-  const target = homedir() + "/.uplink";
+  const target = homedir() + "/.uplink/.user";
   await rmSync(target, { recursive: true, force: true });
 }
 
-export async function grabCacheFolder(username: string) {
+export async function grabCacheFolder(username: string, instance: string) {
   const source = homedir() + "/.uplink";
-  const target = "./tests/fixtures/users/" + username;
+  const currentDriver = await driver[instance].capabilities.automationName;
+  const target = "./tests/fixtures/users/" + currentDriver + "/" + username;
   await fsp.mkdir(target, { recursive: true });
   try {
     await fsp.cp(source, target, { recursive: true });
@@ -31,9 +40,10 @@ export async function grabCacheFolder(username: string) {
   }
 }
 
-export async function loadTestUserData(user: string) {
+export async function loadTestUserData(user: string, instance: string) {
   // Move files
-  const source = "./tests/fixtures/users/" + user;
+  const currentDriver = await driver[instance].capabilities.automationName;
+  const source = "./tests/fixtures/users/" + currentDriver + "/" + user;
   const target = homedir() + "/.uplink";
   try {
     await deleteCache();
@@ -48,21 +58,30 @@ export async function loadTestUserData(user: string) {
 
 // DidKeys and username handling functions
 
-export async function getUserKey(username: string) {
+export async function getUserKey(username: string, instance: string) {
   // Read user data and store variable with DID Key from JSON file
-  const source = "./tests/fixtures/users/" + username + ".json";
+  const currentDriver = await driver[instance].capabilities.automationName;
+  const source =
+    "./tests/fixtures/users/" + currentDriver + "/" + username + ".json";
   const jsonFile = readFileSync(source);
   const jsonFileParsed = JSON.parse(jsonFile);
   const didkey = jsonFileParsed.key;
   return didkey;
 }
 
-export async function saveTestKeys(username: string, didkey: string) {
+export async function saveTestKeys(
+  username: string,
+  didkey: string,
+  instance: string
+) {
   // Save JSON file with keys
-  const target = "./tests/fixtures/users/" + username + ".json";
+  const currentDriver = await driver[instance].capabilities.automationName;
+  const target = "./tests/fixtures/users/" + currentDriver;
+  const filepath = target + "/" + username + ".json";
+  await fsp.mkdir(target, { recursive: true });
   const userData = { username: username, key: didkey };
   try {
-    writeFileSync(target, JSON.stringify(userData, null, 2), "utf8");
+    writeFileSync(filepath, JSON.stringify(userData, null, 2), "utf8");
     console.log("Data successfully saved");
   } catch (error) {
     console.log("An error has occurred ", error);
@@ -73,76 +92,95 @@ export async function saveTestKeys(username: string, didkey: string) {
 
 export async function createNewUser(username: string) {
   // Enter pin for test user
-  await CreatePinScreen.waitForIsShown(true);
-  await CreatePinScreen.enterPin("1234");
-  await CreatePinScreen.clickOnCreateAccount();
+  await createPinFirstUser.waitForIsShown(true);
+  await createPinFirstUser.enterPin("1234");
+  await createPinFirstUser.clickOnCreateAccount();
 
   // Enter Username and click on Create Account
-  await CreateUserScreen.enterUsername(username);
-  await CreateUserScreen.clickOnCreateAccount();
+  await createUserFirstUser.enterUsername(username);
+  await createUserFirstUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  await WelcomeScreen.waitForIsShown(true);
+  await welcomeScreenFirstUser.waitForIsShown(true);
 
   // Workaround to ensure that user clicks on Add Someone
-  await WelcomeScreen.clickAddSomeone();
-  await FriendsScreen.waitForIsShown(true);
+  await welcomeScreenFirstUser.clickAddSomeone();
+  await friendsScreenFirstUser.waitForIsShown(true);
 }
 
-export async function loginWithRandomUser() {
-  const randomPin = await faker.internet.password(4, true);
-  const randomUser = await faker.internet.password(12, true);
-
-  // Enter Pin and click on Create Account
-  await CreatePinScreen.enterPin(randomPin);
-  await CreatePinScreen.clickOnCreateAccount();
+export async function createNewUserSecondInstance(username: string) {
+  // Enter pin for test user
+  await createPinSecondUser.waitForIsShown(true);
+  await createPinSecondUser.enterPin("1234");
+  await createPinSecondUser.clickOnCreateAccount();
 
   // Enter Username and click on Create Account
-  await CreateUserScreen.enterUsername(randomUser);
-  await CreateUserScreen.clickOnCreateAccount();
-}
-
-export async function loginWithTestUser() {
-  // Enter pin for test user
-  await CreatePinScreen.waitForIsShown(true);
-  await CreatePinScreen.enterPin("1234");
+  await createUserSecondUser.enterUsername(username);
+  await createUserSecondUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  await WelcomeScreen.waitForIsShown(true);
+  await welcomeScreenSecondUser.waitForIsShown(true);
+
+  // Workaround to ensure that user clicks on Add Someone
+  await welcomeScreenSecondUser.clickAddSomeone();
+  await friendsScreenSecondUser.waitForIsShown(true);
+}
+export async function loginWithTestUser() {
+  // Enter pin for test user
+  await createPinFirstUser.waitForIsShown(true);
+  await createPinFirstUser.enterPin("1234");
+
+  // Ensure Main Screen is displayed
+  await welcomeScreenFirstUser.waitForIsShown(true);
 
   // Only maximize if current driver is windows
-  const currentDriver = await WelcomeScreen.getCurrentDriver();
+  const currentDriver = await welcomeScreenFirstUser.getCurrentDriver();
   if (currentDriver === "windows") {
-    await maximizeWindow();
+    await maximizeWindow("userA");
   }
 }
 
-export async function resetApp() {
-  await closeApplication();
+export async function loginWithTestUserSecondInstance() {
+  // Enter pin for test user
+  await createPinSecondUser.waitForIsShown(true);
+  await createPinSecondUser.enterPin("1234");
+
+  // Ensure Main Screen is displayed
+  await welcomeScreenSecondUser.waitForIsShown(true);
+
+  // Only maximize if current driver is windows
+  const currentDriver = await welcomeScreenSecondUser.getCurrentDriver();
+  if (currentDriver === "windows") {
+    await maximizeWindow("userB");
+  }
+}
+
+export async function resetApp(instance: string) {
+  await closeApplication(instance);
   await deleteCache();
-  await launchApplication();
+  await launchApplication(instance);
 }
 
 export async function resetAndLoginWithCache(user: string) {
-  await closeApplication();
+  await closeApplication("userA");
   await deleteCache();
-  await loadTestUserData(user);
-  await launchApplication();
+  await loadTestUserData(user, "userA");
+  await launchApplication("userA");
   await loginWithTestUser();
 }
 
 // Application Manage Functions
 
-export async function launchApplication() {
-  const currentOS = await driver.capabilities.automationName;
+export async function launchApplication(instance: string) {
+  const currentOS = await driver[instance].capabilities.automationName;
   if (currentOS === "windows") {
-    await driver.executeScript("windows: launchApp", [
+    await driver[instance].executeScript("windows: launchApp", [
       {
-        app: join(process.cwd(), "\\apps\\ui.exe"),
+        app: join(process.cwd(), "\\apps\\uplink.exe"),
       },
     ]);
   } else if (currentOS === "mac2") {
-    await driver.executeScript("macos: launchApp", [
+    await driver[instance].executeScript("macos: launchApp", [
       {
         bundleId: "im.satellite.uplink",
       },
@@ -150,47 +188,48 @@ export async function launchApplication() {
   }
 }
 
-export async function closeApplication() {
-  const currentOS = await driver.capabilities.automationName;
+export async function closeApplication(instance: string) {
+  const currentOS = await driver[instance].capabilities.automationName;
   if (currentOS === "windows") {
-    await driver.executeScript("windows: closeApp", [
+    await driver[instance].executeScript("windows: closeApp", [
       {
-        app: join(process.cwd(), "\\apps\\ui.exe"),
+        app: join(process.cwd(), "\\apps\\uplink.exe"),
       },
     ]);
   } else if (currentOS === "mac2") {
-    await $("~_XCUI:CloseWindow").click();
+    await driver[instance].executeScript("macos: terminateApp", [
+      {
+        bundleId: "im.satellite.uplink",
+      },
+    ]);
   }
 }
 
-export async function maximizeWindow() {
-  const currentOS = await driver.capabilities.automationName;
+export async function maximizeWindow(instance: string) {
+  const currentOS = await driver[instance].capabilities.automationName;
+  const currentInstance = await browser.getInstance(instance);
   if (currentOS === "windows") {
-    await $('[name="square-button"]').click();
+    await currentInstance.$('[name="square-button"]').click();
   } else if (currentOS === "mac2") {
-    await $("~_XCUI:FullScreenWindow").click();
+    await currentInstance.$("~_XCUI:FullScreenWindow").click();
   }
 }
 
-export async function minimizeWindow() {
-  const currentOS = await driver.capabilities.automationName;
-  if (currentOS === "windows") {
-    await $('[name="minimize-button"]').click();
-  } else if (currentOS === "mac2") {
-    await $("~_XCUI:MinimizeWindow").click();
-  }
-}
 // MacOS driver helper functions
 
-export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
-  const elementLocator = await $(element);
+export async function clickOnSwitchMacOS(
+  element: WebdriverIO.Element,
+  instance: string
+) {
+  const currentInstance = await browser.getInstance(instance);
+  const elementLocator = await currentInstance.$(element);
 
   // Get X and Y coordinates to hover on from element
   const elementX = await elementLocator.getLocation("x");
   const elementY = await elementLocator.getLocation("y");
 
   // Hover on X and Y coordinates previously retrieved
-  await driver.executeScript("macos: click", [
+  await driver[instance].executeScript("macos: click", [
     {
       x: elementX,
       y: elementY,
@@ -203,42 +242,52 @@ export async function getClipboardMacOS() {
   return clipboard;
 }
 
-export async function hoverOnMacOS(locator: WebdriverIO.Element) {
+export async function hoverOnMacOS(
+  locator: WebdriverIO.Element,
+  instance: string
+) {
   // Hover on X and Y coordinates previously retrieved
-  await driver.executeScript("macos: hover", [
+  await driver[instance].executeScript("macos: hover", [
     {
       elementId: locator,
     },
   ]);
 }
 
-export async function saveFileOnMacOS(filename: string) {
+export async function saveFileOnMacOS(filename: string, instance: string) {
+  const currentInstance = await browser.getInstance(instance);
+
   // Wait for Save Dialog to be displayed
-  await $("~save-panel").waitForDisplayed();
+  await currentInstance.$("~save-panel").waitForDisplayed();
 
   // Type the new file name
-  await $("~saveAsNameTextField").setValue(filename);
+  await currentInstance.$("~saveAsNameTextField").setValue(filename);
 
   // Click on OK Button to save into Downloads folder
-  await $("~OKButton").click();
+  await currentInstance.$("~OKButton").click();
 
   // Wait until Save Dialog is closed
-  await $("~save-panel").waitForExist({ reverse: true });
+  await currentInstance.$("~save-panel").waitForExist({ reverse: true });
 
   // Delete file from local files
   const target = join(process.cwd(), "/tests/fixtures/", filename);
   rmSync(target, { force: true });
 }
 
-export async function selectFileOnMacos(relativePath: string) {
+export async function selectFileOnMacos(
+  relativePath: string,
+  instance: string
+) {
+  const currentInstance = await browser.getInstance(instance);
+
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
 
   // Wait for Open Panel to be displayed
-  await $("~open-panel").waitForDisplayed();
+  await currentInstance.$("~open-panel").waitForDisplayed();
 
   // Open Go To File
-  await driver.executeScript("macos: keys", [
+  await driver[instance].executeScript("macos: keys", [
     {
       keys: [
         {
@@ -249,25 +298,30 @@ export async function selectFileOnMacos(relativePath: string) {
   ]);
 
   //Ensure that Go To File is displayed on screen
-  await $("~GoToWindow").waitForDisplayed();
+  await currentInstance.$("~GoToWindow").waitForDisplayed();
 
   // Remove the / and type filepath into go to file section and ensure that it contains the filepath expected
-  await $("~GoToWindow")
+  await currentInstance
+    .$("~GoToWindow")
     .$("-ios class chain:**/XCUIElementTypeTextField")
     .clearValue();
-  await $("~GoToWindow")
+  await currentInstance
+    .$("~GoToWindow")
     .$("-ios class chain:**/XCUIElementTypeTextField")
     .addValue(filepath + "\n");
 
   // Hit Enter and then click on OK to close open panel
-  await $("~OKButton").click();
+  await currentInstance.$("~OKButton").click();
 
   // Wait until Dialog is closed
-  await $("~open-panel").waitForExist({ reverse: true });
+  await currentInstance.$("~open-panel").waitForExist({ reverse: true });
 }
 
-export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
-  await driver.executeScript("macos: rightClick", [
+export async function rightClickOnMacOS(
+  locator: WebdriverIO.Element,
+  instance: string
+) {
+  await driver[instance].executeScript("macos: rightClick", [
     {
       elementId: locator,
     },
@@ -276,24 +330,32 @@ export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
 
 // Windows driver helper functions
 
-export async function hoverOnWindows(locator: WebdriverIO.Element) {
-  await driver.moveToElement(locator.elementId);
+export async function hoverOnWindows(
+  locator: WebdriverIO.Element,
+  instance: string
+) {
+  await driver[instance].moveToElement(locator.elementId);
 }
 
-export async function rightClickOnWindows(locator: WebdriverIO.Element) {
-  await driver.touchAction([{ action: "press", element: locator }]);
-  robot.mouseClick("right");
+export async function rightClickOnWindows(
+  locator: WebdriverIO.Element,
+  instance: string
+) {
+  await driver[instance].touchAction([{ action: "press", element: locator }]);
+  await robot.mouseClick("right");
 }
 
 export async function saveFileOnWindows(
   filename: string,
-  uplinkContext: string
+  uplinkContext: string,
+  instance: string
 ) {
   // Get the filepath to select on browser
+  const currentInstance = await browser.getInstance(instance);
   const filepath = join(process.cwd(), "\\tests\\fixtures\\", filename);
 
   // Pause for one second until explorer window is displayed and switch to it
-  const windows = await driver.getWindowHandles();
+  const windows = await driver[instance].getWindowHandles();
   let explorerWindow;
   if (windows[0] === uplinkContext) {
     explorerWindow = windows[1];
@@ -301,20 +363,22 @@ export async function saveFileOnWindows(
     explorerWindow = windows[0];
   }
 
-  await driver.switchToWindow(explorerWindow);
+  await driver[instance].switchToWindow(explorerWindow);
 
   // Wait for Save Panel to be displayed
-  await $("~TitleBar").waitForDisplayed();
+  await currentInstance.$("~TitleBar").waitForDisplayed();
 
   // Type file location and hit enter
-  await $("/Window/Pane[1]/ComboBox[1]/Edit").clearValue();
+  await currentInstance.$("/Window/Pane[1]/ComboBox[1]/Edit").clearValue();
 
-  await $("/Window/Pane[1]/ComboBox[1]/Edit").setValue(filename + "\uE007");
+  await currentInstance
+    .$("/Window/Pane[1]/ComboBox[1]/Edit")
+    .setValue(filename + "\uE007");
 
   // Wait for Save Panel not to be displayed
-  await $("~TitleBar").waitForExist({ reverse: true });
+  await currentInstance.$("~TitleBar").waitForExist({ reverse: true });
 
-  await driver.switchToWindow(uplinkContext);
+  await driver[instance].switchToWindow(uplinkContext);
 
   // Delete file from local files
   await rmSync(filepath, { force: true });
@@ -324,7 +388,7 @@ export async function saveFileOnWindows(
 export async function selectFileOnWindows(relativePath: string) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
-
+  await browser.pause(1000);
   await robot.typeString(filepath);
   await robot.keyTap("enter");
   await browser.pause(1000);

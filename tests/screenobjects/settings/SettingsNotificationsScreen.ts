@@ -1,7 +1,7 @@
 import { clickOnSwitchMacOS } from "../../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -35,117 +35,135 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class SettingsDeveloperScreen extends SettingsBaseScreen {
-  constructor() {
-    super(SELECTORS.SETTINGS_NOTIFICATIONS);
+export default class SettingsNotificationsScreen extends SettingsBaseScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.SETTINGS_NOTIFICATIONS);
   }
 
   get enabledNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[1]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get enabledNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[1]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get enabledNotificationsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get enabledNotificationsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get friendsNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[2]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get friendsNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[2]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get friendsNotificationsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get friendsNotificationsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get grantPermissionsButton() {
-    return $(SELECTORS.GRANT_PERMISSIONS_BUTTON);
+    return this.instance.$(SELECTORS.GRANT_PERMISSIONS_BUTTON);
   }
 
   get grantPermissionsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get grantPermissionsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get messagesNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[3]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get messagesNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[3]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get messagesNotificationsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get messagesNotificationsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[4].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[4]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get settingsNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[4].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[4]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get settingsNotificationsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get settingsNotificationsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsNotifications() {
-    return $(SELECTORS.SETTINGS_NOTIFICATIONS);
+    return this.instance.$(SELECTORS.SETTINGS_NOTIFICATIONS);
   }
 
   async clickOnEnabledNotifications() {
@@ -154,7 +172,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
       await this.enabledNotificationsCheckbox.click();
     } else if (currentDriver === "mac2") {
       const locator = await this.enabledNotificationsCheckbox;
-      await clickOnSwitchMacOS(locator);
+      await clickOnSwitchMacOS(locator, this.executor);
     }
   }
 
@@ -164,7 +182,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
       await this.friendsNotificationsCheckbox.click();
     } else if (currentDriver === "mac2") {
       const locator = await this.friendsNotificationsCheckbox;
-      await clickOnSwitchMacOS(locator);
+      await clickOnSwitchMacOS(locator, this.executor);
     }
   }
 
@@ -178,7 +196,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
       await this.messagesNotificationsCheckbox.click();
     } else if (currentDriver === "mac2") {
       const locator = await this.messagesNotificationsCheckbox;
-      await clickOnSwitchMacOS(locator);
+      await clickOnSwitchMacOS(locator, this.executor);
     }
   }
 
@@ -188,9 +206,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
       await this.settingsNotificationsCheckbox.click();
     } else if (currentDriver === "mac2") {
       const locator = await this.settingsNotificationsCheckbox;
-      await clickOnSwitchMacOS(locator);
+      await clickOnSwitchMacOS(locator, this.executor);
     }
   }
 }
-
-export default new SettingsDeveloperScreen();

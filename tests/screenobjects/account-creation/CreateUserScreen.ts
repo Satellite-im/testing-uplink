@@ -1,7 +1,6 @@
-import UplinkMainScreen from "../UplinkMainScreen";
+import UplinkMainScreen from "../UplinkMainScreen.ts";
 
-const currentOS = driver.capabilities.automationName;
-const { writeFileSync } = require("fs");
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -25,29 +24,29 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class CreatePinScreen extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.UNLOCK_LAYOUT);
+export default class CreateUserScreen extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.UNLOCK_LAYOUT);
   }
 
   get createAccountButton() {
-    return $(SELECTORS.CREATE_ACCOUNT_BUTTON);
+    return this.instance.$(SELECTORS.CREATE_ACCOUNT_BUTTON);
   }
 
   get inputError() {
-    return $(SELECTORS.INPUT_ERROR);
+    return this.instance.$(SELECTORS.INPUT_ERROR);
   }
 
   get inputErrorText() {
-    return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
+    return this.instance.$(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get unlockLayout() {
-    return $(SELECTORS.UNLOCK_LAYOUT);
+    return this.instance.$(SELECTORS.UNLOCK_LAYOUT);
   }
 
   get usernameInput() {
-    return $(SELECTORS.USERNAME_INPUT);
+    return this.instance.$(SELECTORS.USERNAME_INPUT);
   }
 
   async enterUsername(username: string) {
@@ -69,5 +68,3 @@ class CreatePinScreen extends UplinkMainScreen {
     return result.toString().toLowerCase();
   }
 }
-
-export default new CreatePinScreen();

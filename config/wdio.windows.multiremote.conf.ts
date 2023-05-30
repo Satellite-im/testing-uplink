@@ -1,4 +1,3 @@
-import { homedir } from "os";
 import { join } from "path";
 const fsp = require("fs").promises;
 
@@ -28,7 +27,7 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [join(process.cwd(), "./tests/suites/MainTests/01-UplinkTests.suite.ts")],
+    specs: [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -55,23 +54,34 @@ exports.config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
-    port: 4723,
-    path: '/',
     capabilities: {
       userA: {
         capabilities: {
-          platformName: "mac",
-          "appium:automationName": "mac2",
-          "appium:bundleId": "im.satellite.uplink",
-          "appium:arguments": ["--path", homedir() + "/.uplink"],
-          "appium:systemPort": 4724,
-          "appium:prerun": {
-            command: 'do shell script "rm -rf ~/.uplink"',
-          },  
+          platformName: "windows",
+          "appium:deviceName": "WindowsPC",
+          "appium:automationName": "windows",
+          "appium:app": join(process.cwd(), "\\apps\\uplink.exe"),
+          "appium:systemPort": 4725,
+          "appium:createSessionTimeout": 40000,
+          "ms:waitForAppLaunch": 10,
+          "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserA"),
         }
       },
-    }
-    ,
+      userB: {
+        capabilities: {
+          platformName: "windows",
+          "appium:deviceName": "WindowsPC",
+          "appium:automationName": "windows",
+          "appium:app": join(process.cwd(), "\\apps\\uplink2.exe"),
+          "appium:systemPort": 4726,
+          "appium:createSessionTimeout": 40000,
+          "ms:waitForAppLaunch": 10,
+          "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserB"), 
+        }
+      },
+    },
+
+
     //
     // ===================
     // Test Configurations
@@ -140,7 +150,7 @@ exports.config = {
     framework: 'mocha',
     //
     // The number of times to retry the entire specfile when it fails as a whole
-    // specFileRetries: 1,
+    specFileRetries: 0,
     //
     // Delay in seconds between the spec file retry attempts
     // specFileRetriesDelay: 0,
@@ -159,12 +169,9 @@ exports.config = {
       ], ['junit', {
             outputDir: './test-report/',
             outputFileFormat: function (options) {
-                return `test-results-macos-app-${options.cid}.xml`;
+                return `test-results-windows-chats-${options.cid}.xml`;
             }
       }]],
-    
-    specFileRetries: 1,
-
     
     //
     // Options to be passed to Mocha.
@@ -189,7 +196,7 @@ exports.config = {
     afterTest: async function (test, describe, { error }) {
         if (error) {
           let imageFile = await driver.takeScreenshot();
-          let imageFolder = join(process.cwd(), "./test-results/macos-app", test.parent);
+          let imageFolder = join(process.cwd(), "./test-results/windows-chats", test.parent);
           await fsp.mkdir(imageFolder, {recursive: true});
           await fsp.writeFile(
             imageFolder + "/" + test.title + " - Failed.png",

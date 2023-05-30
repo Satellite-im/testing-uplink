@@ -1,7 +1,7 @@
 import { clickOnSwitchMacOS } from "../../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -47,127 +47,154 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class SettingsGeneralScreen extends SettingsBaseScreen {
-  constructor() {
-    super(SELECTORS.SETTINGS_GENERAL);
+export default class SettingsGeneralScreen extends SettingsBaseScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.SETTINGS_GENERAL);
   }
 
   get appLanguageDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get appLanguageHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get appLanguageDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.DROPDOWN_MENU);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.DROPDOWN_MENU);
   }
 
   get fontDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(SELECTORS.DROPDOWN_MENU);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.DROPDOWN_MENU);
   }
 
   get fontScalingDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontScalingHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontScalingButtonMinus() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[4]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[4]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
   }
 
   get fontScalingButtonPlus() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[4]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[4]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
   }
 
   get fontScalingValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[4]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[4]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE);
   }
 
   get settingsGeneral() {
-    return $(SELECTORS.SETTINGS_GENERAL);
+    return this.instance.$(SELECTORS.SETTINGS_GENERAL);
   }
 
   get slideSelector() {
-    return $(SELECTORS.SLIDE_SELECTOR);
+    return this.instance.$(SELECTORS.SLIDE_SELECTOR);
   }
 
   get slideSelectorButtonMinus() {
-    return $(SELECTORS.SLIDE_SELECTOR).$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
+    return this.instance
+      .$(SELECTORS.SLIDE_SELECTOR)
+      .$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
   }
 
   get slideSelectorButtonPlus() {
-    return $(SELECTORS.SLIDE_SELECTOR).$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
+    return this.instance
+      .$(SELECTORS.SLIDE_SELECTOR)
+      .$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
   }
 
   get slideSelectorValue() {
-    return $(SELECTORS.SLIDE_SELECTOR).$(SELECTORS.SLIDE_SELECTOR_VALUE);
+    return this.instance
+      .$(SELECTORS.SLIDE_SELECTOR)
+      .$(SELECTORS.SLIDE_SELECTOR_VALUE);
   }
 
   get themeDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get themeDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(SELECTORS.DROPDOWN_MENU);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.DROPDOWN_MENU);
   }
 
   get themeHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get uplinkOverlayCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get uplinkOverlayControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get uplinkOverlayDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get uplinkOverlayHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -198,7 +225,7 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
       await this.uplinkOverlayCheckbox.click();
     } else if (currentDriver === "mac2") {
       const locator = await this.uplinkOverlayCheckbox;
-      await clickOnSwitchMacOS(locator);
+      await clickOnSwitchMacOS(locator, this.executor);
     }
   }
 
@@ -217,35 +244,39 @@ class SettingsGeneralScreen extends SettingsBaseScreen {
   async selectAppLanguage(language: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[0].addValue(
-        language + "\n"
-      );
+      await this.instance
+        .$$("-ios class chain:**/XCUIElementTypePopUpButton")[0]
+        .addValue(language + "\n");
     } else if (currentDriver === "windows") {
-      await $$('[name="settings-control"]')[0].addValue(language + "\uE007");
+      await this.instance
+        .$$('[name="settings-control"]')[0]
+        .addValue(language + "\uE007");
     }
   }
 
   async selectFont(font: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[2].addValue(
-        font + "\n"
-      );
+      await this.instance
+        .$$("-ios class chain:**/XCUIElementTypePopUpButton")[2]
+        .addValue(font + "\n");
     } else if (currentDriver === "windows") {
-      await $$('[name="settings-control"]')[2].addValue(font + "\uE007");
+      await this.instance
+        .$$('[name="settings-control"]')[2]
+        .addValue(font + "\uE007");
     }
   }
 
   async selectTheme(theme: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[1].addValue(
-        theme + "\n"
-      );
+      await this.instance
+        .$$("-ios class chain:**/XCUIElementTypePopUpButton")[1]
+        .addValue(theme + "\n");
     } else if (currentDriver === "windows") {
-      await $$('[name="settings-control"]')[1].addValue(theme + "\uE007");
+      await this.instance
+        .$$('[name="settings-control"]')[1]
+        .addValue(theme + "\uE007");
     }
   }
 }
-
-export default new SettingsGeneralScreen();

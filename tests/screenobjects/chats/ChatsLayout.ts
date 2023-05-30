@@ -1,6 +1,6 @@
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -24,26 +24,26 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class ChatsLayout extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.CHAT_LAYOUT);
+export default class ChatsLayout extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.CHAT_LAYOUT);
   }
 
   get chatLayout() {
-    return $(SELECTORS.CHAT_LAYOUT);
+    return this.instance.$(SELECTORS.CHAT_LAYOUT);
   }
 
   get encryptedMessages() {
-    return $(SELECTORS.ENCRYPTED_MESSAGES);
+    return this.instance.$(SELECTORS.ENCRYPTED_MESSAGES);
   }
 
   get encryptedMessagesText() {
-    return $(SELECTORS.ENCRYPTED_MESSAGES).$(SELECTORS.ENCRYPTED_MESSAGES_TEXT);
+    return this.instance
+      .$(SELECTORS.ENCRYPTED_MESSAGES)
+      .$(SELECTORS.ENCRYPTED_MESSAGES_TEXT);
   }
 
   get typingIndicator() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.TYPING_INDICATOR);
+    return this.instance.$(SELECTORS.CHAT_LAYOUT).$(SELECTORS.TYPING_INDICATOR);
   }
 }
-
-export default new ChatsLayout();

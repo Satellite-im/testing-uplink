@@ -1,7 +1,6 @@
-import { clickOnSwitchMacOS } from "../../helpers/commands";
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -43,77 +42,96 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class Topbar extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.TOPBAR);
+export default class Topbar extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.TOPBAR);
   }
 
   get topbar() {
-    return $(SELECTORS.TOPBAR);
+    return this.instance.$(SELECTORS.TOPBAR);
   }
 
   get topbarAddToFavorites() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_ADD_TO_FAVORITES);
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOPBAR_ADD_TO_FAVORITES);
   }
 
   get topbarAddToFavoritesTooltip() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get topbarAddToFavoritesTooltipText() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarCall() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_CALL);
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_CALL);
   }
 
   get topbarCallTooltip() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get topbarCallTooltipText() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarIndicatorOffline() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_OFFLINE);
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOPBAR_INDICATOR_OFFLINE);
   }
 
   get topbarIndicatorOnline() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_ONLINE);
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOPBAR_INDICATOR_ONLINE);
   }
 
   get topbarRemoveFromFavorites() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_REMOVE_FROM_FAVORITES);
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOPBAR_REMOVE_FROM_FAVORITES);
   }
 
   get topbarUserImage() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE);
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE);
   }
 
   get topbarUserImageWrap() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE_WRAP);
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOPBAR_USER_IMAGE_WRAP);
   }
 
   get topbarUserInfo() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_INFO);
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_INFO);
   }
 
   get topbarUserName() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_NAME);
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_NAME);
   }
 
   get topbarVideocall() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_VIDEOCALL);
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_VIDEOCALL);
   }
 
   get topbarVideocallTooltip() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get topbarVideocallTooltipText() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
   }
 
   // Top Bar Methods
@@ -153,12 +171,10 @@ class Topbar extends UplinkMainScreen {
     await element.waitForExist();
   }
 
-  async waitUntilRemoteUserIsOnline(time: number = 240000) {
+  async waitUntilRemoteUserIsOnline(time: number = 30000) {
     const element = await this.topbarIndicatorOnline;
     await element.waitForDisplayed({
       timeout: time,
     });
   }
 }
-
-export default new Topbar();

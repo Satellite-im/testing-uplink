@@ -1,7 +1,7 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
 import { clickOnSwitchMacOS } from "../../helpers/commands";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -43,135 +43,153 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class SettingsDeveloperScreen extends SettingsBaseScreen {
-  constructor() {
-    super(SELECTORS.SETTINGS_DEVELOPER);
+export default class SettingsDeveloperScreen extends SettingsBaseScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.SETTINGS_DEVELOPER);
   }
 
   get clearCacheButton() {
-    return $(SELECTORS.CLEAR_CACHE_BUTTON);
+    return this.instance.$(SELECTORS.CLEAR_CACHE_BUTTON);
   }
 
   get clearCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get clearCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get compressAndDownloadCacheButton() {
-    return $(SELECTORS.COMPRESS_BUTTON);
+    return this.instance.$(SELECTORS.COMPRESS_BUTTON);
   }
 
   get compressAndDownloadCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get compressAndDownloadCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get developerModeCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get developerModeControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get developerModeDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get developerModeHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get openCacheButton() {
-    return $(SELECTORS.OPEN_CACHE_FOLDER_BUTTON);
+    return this.instance.$(SELECTORS.OPEN_CACHE_FOLDER_BUTTON);
   }
 
   get openCacheDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openCacheHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get printStateButton() {
-    return $(SELECTORS.PRINT_STATE_BUTTON);
+    return this.instance.$(SELECTORS.PRINT_STATE_BUTTON);
   }
 
   get printStateDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get printStateHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get saveLogsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[6].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[6]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get saveLogsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[6].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[6]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get saveLogsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get saveLogsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsDeveloper() {
-    return $(SELECTORS.SETTINGS_DEVELOPER);
+    return this.instance.$(SELECTORS.SETTINGS_DEVELOPER);
   }
 
   get testNotificationButton() {
-    return $(SELECTORS.TEST_NOTIFICATIONS_BUTTON);
+    return this.instance.$(SELECTORS.TEST_NOTIFICATIONS_BUTTON);
   }
 
   get testNotificationDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get testNotificationHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -190,7 +208,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
       await this.developerModeCheckbox.click();
     } else if (currentDriver === "mac2") {
       const element = await this.developerModeCheckbox;
-      await clickOnSwitchMacOS(element);
+      await clickOnSwitchMacOS(element, this.executor);
     }
   }
 
@@ -208,7 +226,7 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
       await this.saveLogsCheckbox.click();
     } else if (currentDriver === "mac2") {
       const element = await this.saveLogsCheckbox;
-      await clickOnSwitchMacOS(element);
+      await clickOnSwitchMacOS(element, this.executor);
     }
   }
 
@@ -230,5 +248,3 @@ class SettingsDeveloperScreen extends SettingsBaseScreen {
     }
   }
 }
-
-export default new SettingsDeveloperScreen();

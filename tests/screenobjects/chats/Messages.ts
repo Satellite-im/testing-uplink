@@ -1,7 +1,7 @@
 import { rightClickOnMacOS, rightClickOnWindows } from "../../helpers/commands";
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -54,193 +54,208 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class Messages extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.CHAT_MESSAGE_LOCAL || SELECTORS.CHAT_MESSAGE_REMOTE);
+export default class Messages extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(
+      executor,
+      SELECTORS.CHAT_MESSAGE_LOCAL || SELECTORS.CHAT_MESSAGE_REMOTE
+    );
   }
 
   get chatMessageFileButtonLocal() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
-      SELECTORS.CHAT_MESSAGE_FILE_BUTTON
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
   }
 
   get chatMessageFileButtonRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
-      SELECTORS.CHAT_MESSAGE_FILE_BUTTON
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
   }
 
   get chatMessageFileEmbedLocal() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
   }
 
   get chatMessageFileEmbedRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE);
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE);
   }
 
   get chatMessageFileIconLocal() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
-      SELECTORS.CHAT_MESSAGE_FILE_ICON
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
   }
 
   get chatMessageFileIconRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
-      SELECTORS.CHAT_MESSAGE_FILE_ICON
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
   }
 
   get chatMessageFileInfoLocal() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
-      SELECTORS.CHAT_MESSAGE_FILE_INFO
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_INFO);
   }
 
   get chatMessageFileInfoRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
-      SELECTORS.CHAT_MESSAGE_FILE_INFO
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_INFO);
   }
 
   get chatMessageFileMetaLocal() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
-      SELECTORS.CHAT_MESSAGE_FILE_META
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META);
   }
 
   get chatMessageFileMetaRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
-      SELECTORS.CHAT_MESSAGE_FILE_META
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META);
   }
 
   get chatMessageFileMetaTextLocal() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
   }
 
   get chatMessageFileMetaTextRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
   }
 
   get chatMessageFileNameLocal() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
-      SELECTORS.CHAT_MESSAGE_FILE_NAME
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME);
   }
 
   get chatMessageFileNameRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
-      SELECTORS.CHAT_MESSAGE_FILE_NAME
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME);
   }
 
   get chatMessageFileNameTextLocal() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
 
   get chatMessageFileNameTextRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
 
   get chatMessageLinkEmbed() {
-    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED);
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_LINK_EMBED);
   }
 
   get chatMessageLinkEmbedDetails() {
-    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS);
   }
 
   get chatMessageLinkEmbedIcon() {
-    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON);
   }
 
   get chatMessageLinkEmbedTitle() {
-    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
-    );
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE);
   }
 
   get chatMessageLocal() {
-    return $$(SELECTORS.CHAT_MESSAGE_LOCAL);
+    return this.instance.$$(SELECTORS.CHAT_MESSAGE_LOCAL);
   }
 
   get chatMessageRemote() {
-    return $$(SELECTORS.CHAT_MESSAGE_REMOTE);
+    return this.instance.$$(SELECTORS.CHAT_MESSAGE_REMOTE);
   }
 
   get chatMessageReply() {
-    return $(SELECTORS.CHAT_MESSAGE_REPLY);
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_REPLY);
   }
 
   get chatMessageReplyText() {
-    return $(SELECTORS.CHAT_MESSAGE_REPLY).$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_REPLY)
+      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
   }
 
   get chatMessageTextValue() {
-    return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
-      SELECTORS.CHAT_MESSAGE_TEXT_VALUE
-    );
+    return this.instance
+      .$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
   }
 
   get chatMessageTextGroup() {
-    return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
+    return this.instance.$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
   get messageGroupReceived() {
-    return $$(SELECTORS.MESSAGE_GROUP_REMOTE);
+    return this.instance.$$(SELECTORS.MESSAGE_GROUP_REMOTE);
   }
 
   get messageGroupSent() {
-    return $$(SELECTORS.MESSAGE_GROUP_SENT);
+    return this.instance.$$(SELECTORS.MESSAGE_GROUP_SENT);
   }
 
   get messageGroupWrap() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP);
+    return this.instance.$$(SELECTORS.MESSAGE_GROUP_WRAP);
   }
 
   get messageGroupTimeAgo() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP).$(SELECTORS.MESSAGE_GROUP_TIME_AGO);
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
+      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO);
   }
 
   get messageGroupTimeAgoValue() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
   }
 
   get messageGroupUserImage() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
   }
 
   get messageGroupUserImageWrap() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP).$(
-      SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP
-    );
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
+      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP);
   }
 
   get messageGroupUserIndicatorOffline() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE);
   }
 
   get messageGroupUserIndicatorOnline() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
   }
@@ -253,15 +268,17 @@ class Messages extends UplinkMainScreen {
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $(
-        '//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedMessage +
-          '")]/../..'
-      ).waitForExist({ timeout: timeoutMsg });
+      await this.instance
+        .$(
+          '//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]/../..'
+        )
+        .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
-      await $(
-        '//Text[contains(@Name, "' + expectedMessage + '")]/../..'
-      ).waitForExist({ timeout: timeoutMsg });
+      await this.instance
+        .$('//Text[contains(@Name, "' + expectedMessage + '")]/../..')
+        .waitForExist({ timeout: timeoutMsg });
     }
   }
 
@@ -296,37 +313,62 @@ class Messages extends UplinkMainScreen {
 
   async waitForMessageToBeDeleted(
     expectedMessage: string,
-    timeoutMsg: number = 30000
+    timeoutMsg: number = 60000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $(
-        '//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedMessage +
-          '")]'
-      ).waitForExist({ timeout: timeoutMsg, reverse: true });
+      await this.instance
+        .$(
+          '//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg, reverse: true });
     } else if (currentDriver === "windows") {
-      await $(
-        '//Text[contains(@Name, "' + expectedMessage + '")]'
-      ).waitForExist({ timeout: timeoutMsg, reverse: true });
+      await this.instance
+        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .waitForExist({ timeout: timeoutMsg, reverse: true });
+    }
+  }
+
+  async waitForMessageSentToExist(
+    expectedMessage: string,
+    timeoutMsg: number = 150000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await this.instance
+        .$$(SELECTORS.CHAT_MESSAGE_LOCAL)
+        .$(
+          '//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === "windows") {
+      await this.instance
+        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .waitForExist({ timeout: timeoutMsg });
     }
   }
 
   async waitForReceivingMessage(
     expectedMessage: string,
-    timeoutMsg: number = 30000
+    timeoutMsg: number = 150000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $(
-        '//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedMessage +
-          '")]'
-      ).waitForExist({ timeout: timeoutMsg });
+      await this.instance
+        .$(
+          '//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
-      await $(
-        '//Text[contains(@Name, "' + expectedMessage + '")]'
-      ).waitForExist({ timeout: timeoutMsg });
+      await this.instance
+        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .waitForExist({ timeout: timeoutMsg });
     }
   }
 
@@ -338,15 +380,17 @@ class Messages extends UplinkMainScreen {
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $(
-        '//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedMessage +
-          '")]/../..'
-      ).waitForExist({ timeout: timeoutMsg });
+      await this.instance
+        .$(
+          '//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]/../..'
+        )
+        .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
-      await $(
-        '//Text[contains(@Name, "' + expectedMessage + '")]/../..'
-      ).waitForExist({ timeout: timeoutMsg });
+      await this.instance
+        .$('//Text[contains(@Name, "' + expectedMessage + '")]/../..')
+        .waitForExist({ timeout: timeoutMsg });
     }
   }
 
@@ -481,9 +525,9 @@ class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await rightClickOnMacOS(messageToClick);
+      await rightClickOnMacOS(messageToClick, this.executor);
     } else if (currentDriver === "windows") {
-      await rightClickOnWindows(messageToClick);
+      await rightClickOnWindows(messageToClick, this.executor);
     }
   }
 
@@ -492,9 +536,9 @@ class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await rightClickOnMacOS(messageToClick);
+      await rightClickOnMacOS(messageToClick, this.executor);
     } else if (currentDriver === "windows") {
-      await rightClickOnWindows(messageToClick);
+      await rightClickOnWindows(messageToClick, this.executor);
     }
   }
 
@@ -503,9 +547,9 @@ class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await rightClickOnMacOS(messageToClick);
+      await rightClickOnMacOS(messageToClick, this.executor);
     } else if (currentDriver === "windows") {
-      await rightClickOnWindows(messageToClick);
+      await rightClickOnWindows(messageToClick, this.executor);
     }
   }
 
@@ -514,11 +558,9 @@ class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await rightClickOnMacOS(messageToClick);
+      await rightClickOnMacOS(messageToClick, this.executor);
     } else if (currentDriver === "windows") {
-      await rightClickOnWindows(messageToClick);
+      await rightClickOnWindows(messageToClick, this.executor);
     }
   }
 }
-
-export default new Messages();

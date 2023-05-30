@@ -1,11 +1,12 @@
+import UplinkMainScreen from "../UplinkMainScreen.ts";
+
 import {
   getClipboardMacOS,
   rightClickOnMacOS,
   rightClickOnWindows,
 } from "../../helpers/commands";
-import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 const robot = require("robotjs");
 
 let SELECTORS = {};
@@ -113,216 +114,234 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class FriendsScreen extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.FRIENDS_LAYOUT);
+export default class FriendsScreen extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.FRIENDS_LAYOUT);
   }
 
   get acceptFriendRequestButton() {
-    return $(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON);
+    return this.instance.$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON);
   }
 
   get addSomeoneButton() {
-    return $(SELECTORS.ADD_SOMEONE_BUTTON);
+    return this.instance.$(SELECTORS.ADD_SOMEONE_BUTTON);
   }
 
   get addSomeoneInput() {
-    return $(SELECTORS.ADD_SOMEONE_INPUT);
+    return this.instance.$(SELECTORS.ADD_SOMEONE_INPUT);
   }
 
   get allFriendsButton() {
-    return $(SELECTORS.ALL_FRIENDS_BUTTON);
+    return this.instance.$(SELECTORS.ALL_FRIENDS_BUTTON);
   }
 
   get allFriendsFriends() {
-    return $(SELECTORS.FRIENDS_LIST).$$(SELECTORS.FRIEND);
+    return this.instance.$(SELECTORS.FRIENDS_LIST).$$(SELECTORS.FRIEND);
   }
 
   get allFriendsFriendsImages() {
-    return $(SELECTORS.FRIENDS_LIST)
+    return this.instance
+      .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.FRIEND)
       .$$(SELECTORS.FRIEND_USER_IMAGE);
   }
 
   get allFriendsFriendsInfo() {
-    return $(SELECTORS.FRIENDS_LIST)
+    return this.instance
+      .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.FRIEND)
       .$$(SELECTORS.FRIEND_INFO);
   }
 
   get blockFriendButton() {
-    return $(SELECTORS.BLOCK_FRIEND_BUTTON);
+    return this.instance.$(SELECTORS.BLOCK_FRIEND_BUTTON);
   }
 
   get blockedListButton() {
-    return $(SELECTORS.BLOCKED_LIST_BUTTON);
+    return this.instance.$(SELECTORS.BLOCKED_LIST_BUTTON);
   }
 
   get blockedList() {
-    return $(SELECTORS.BLOCKED_LIST);
+    return this.instance.$(SELECTORS.BLOCKED_LIST);
   }
 
   get chatWithFriendButton() {
-    return $(SELECTORS.CHAT_WITH_FRIEND_BUTTON);
+    return this.instance.$(SELECTORS.CHAT_WITH_FRIEND_BUTTON);
   }
 
   get contextMenu() {
-    return $(SELECTORS.CONTEXT_MENU);
+    return this.instance.$(SELECTORS.CONTEXT_MENU);
   }
 
   get contextMenuBlock() {
-    return $(SELECTORS.CONTEXT_MENU_BLOCK);
+    return this.instance.$(SELECTORS.CONTEXT_MENU_BLOCK);
   }
 
   get contextMenuChat() {
-    return $(SELECTORS.CONTEXT_MENU_CHAT);
+    return this.instance.$(SELECTORS.CONTEXT_MENU_CHAT);
   }
 
   get contextMenuFavoritesAdd() {
-    return $(SELECTORS.CONTEXT_MENU_FAVORITES_ADD);
+    return this.instance.$(SELECTORS.CONTEXT_MENU_FAVORITES_ADD);
   }
 
   get contextMenuFavoritesRemove() {
-    return $(SELECTORS.CONTEXT_MENU_FAVORITES_REMOVE);
+    return this.instance.$(SELECTORS.CONTEXT_MENU_FAVORITES_REMOVE);
   }
 
   get contextMenuIncomingAccept() {
-    return $(SELECTORS.CONTEXT_MENU_INCOMING_ACCEPT);
+    return this.instance.$(SELECTORS.CONTEXT_MENU_INCOMING_ACCEPT);
   }
 
   get contextMenuIncomingDeny() {
-    return $(SELECTORS.CONTEXT_MENU_INCOMING_DENY);
+    return this.instance.$(SELECTORS.CONTEXT_MENU_INCOMING_DENY);
   }
 
   get contextMenuOutgoingCancel() {
-    return $(SELECTORS.CONTEXT_MENU_OUTGOING_CANCEL);
+    return this.instance.$(SELECTORS.CONTEXT_MENU_OUTGOING_CANCEL);
   }
 
   get contextMenuRemove() {
-    return $(SELECTORS.CONTEXT_MENU_REMOVE);
+    return this.instance.$(SELECTORS.CONTEXT_MENU_REMOVE);
   }
 
   get contextMenuUnblock() {
-    return $(SELECTORS.CONTEXT_MENU_UNBLOCK);
+    return this.instance.$(SELECTORS.CONTEXT_MENU_UNBLOCK);
   }
 
   get copyIdButton() {
-    return $(SELECTORS.FRIENDS_BODY).$(SELECTORS.COPY_ID_BUTTON);
+    return this.instance.$(SELECTORS.FRIENDS_BODY).$(SELECTORS.COPY_ID_BUTTON);
   }
 
   get friendInfo() {
-    return $(SELECTORS.FRIEND_INFO);
+    return this.instance.$(SELECTORS.FRIEND_INFO);
   }
 
   get friendInfoCurrentStatus() {
-    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_CURRENT_STATUS);
+    return this.instance
+      .$$(SELECTORS.FRIEND_INFO)
+      .$(SELECTORS.FRIEND_INFO_CURRENT_STATUS);
   }
 
   get friendInfoStatusMessage() {
-    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_STATUS_MESSAGE);
+    return this.instance
+      .$$(SELECTORS.FRIEND_INFO)
+      .$(SELECTORS.FRIEND_INFO_STATUS_MESSAGE);
   }
 
   get friendInfoUsername() {
-    return $$(SELECTORS.FRIEND_INFO_USERNAME);
+    return this.instance.$$(SELECTORS.FRIEND_INFO_USERNAME);
   }
 
   get friendInfoUsernameCode() {
-    return $$(SELECTORS.FRIEND_INFO_USERNAME).$(
-      SELECTORS.FRIEND_INFO_USERNAME_CODE
-    );
+    return this.instance
+      .$$(SELECTORS.FRIEND_INFO_USERNAME)
+      .$(SELECTORS.FRIEND_INFO_USERNAME_CODE);
   }
 
   get friendInfoUsernameName() {
-    return $$(SELECTORS.FRIEND_INFO_USERNAME).$(
-      SELECTORS.FRIEND_INFO_USERNAME_NAME
-    );
+    return this.instance
+      .$$(SELECTORS.FRIEND_INFO_USERNAME)
+      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
   }
 
   get friendRecords() {
-    return $$(SELECTORS.FRIEND_RECORD);
+    return this.instance.$$(SELECTORS.FRIEND_RECORD);
   }
 
   get friendsBody() {
-    return $(SELECTORS.FRIENDS_BODY);
+    return this.instance.$(SELECTORS.FRIENDS_BODY);
   }
 
   get friendsButtonBadge() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.FRIENDS_BUTTON_BADGE);
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.FRIENDS_BUTTON_BADGE);
   }
 
   get friendsButtonBadgeText() {
-    return $(SELECTORS.TOPBAR)
+    return this.instance
+      .$(SELECTORS.TOPBAR)
       .$(SELECTORS.FRIENDS_BUTTON_BADGE)
       .$(SELECTORS.FRIENDS_BUTTON_BADGE_TEXT);
   }
 
   get friendsControls() {
-    return $(SELECTORS.FRIENDS_CONTROLS);
+    return this.instance.$(SELECTORS.FRIENDS_CONTROLS);
   }
 
   get friendsLayout() {
-    return $(SELECTORS.FRIENDS_LAYOUT);
+    return this.instance.$(SELECTORS.FRIENDS_LAYOUT);
   }
 
   get friendsList() {
-    return $(SELECTORS.FRIENDS_LIST);
+    return this.instance.$(SELECTORS.FRIENDS_LIST);
   }
 
   get incomingRequestsList() {
-    return $(SELECTORS.INCOMING_REQUESTS_LIST);
+    return this.instance.$(SELECTORS.INCOMING_REQUESTS_LIST);
   }
 
   get inputError() {
-    return $(SELECTORS.INPUT_ERROR);
+    return this.instance.$(SELECTORS.INPUT_ERROR);
   }
 
   get inputErrorText() {
-    return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
+    return this.instance.$(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get outgoingRequestsList() {
-    return $(SELECTORS.OUTGOING_REQUESTS_LIST);
+    return this.instance.$(SELECTORS.OUTGOING_REQUESTS_LIST);
   }
 
   get pendingFriendsButton() {
-    return $(SELECTORS.PENDING_FRIENDS_BUTTON);
+    return this.instance.$(SELECTORS.PENDING_FRIENDS_BUTTON);
   }
 
   get removeOrDenyFriendButton() {
-    return $(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON);
+    return this.instance.$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON);
   }
 
   get toastNotification() {
-    return $(SELECTORS.TOAST_NOTIFICATION);
+    return this.instance.$(SELECTORS.TOAST_NOTIFICATION);
   }
 
   get toastNotificationClose() {
-    return $(SELECTORS.TOAST_NOTIFICATION).$(
-      SELECTORS.TOAST_NOTIFICATION_CLOSE
-    );
+    return this.instance
+      .$(SELECTORS.TOAST_NOTIFICATION)
+      .$(SELECTORS.TOAST_NOTIFICATION_CLOSE);
   }
 
   get toastNotificationText() {
-    return $(SELECTORS.TOAST_NOTIFICATION).$(SELECTORS.TOAST_NOTIFICATION_TEXT);
+    return this.instance
+      .$(SELECTORS.TOAST_NOTIFICATION)
+      .$(SELECTORS.TOAST_NOTIFICATION_TEXT);
   }
 
   get topbar() {
-    return $(SELECTORS.TOPBAR);
+    return this.instance.$(SELECTORS.TOPBAR);
   }
 
   async acceptIncomingRequest(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await $(friendToClick).$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON).click();
+    await this.instance
+      .$(friendToClick)
+      .$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON)
+      .click();
   }
 
   async blockUser(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await $(friendToClick).$(SELECTORS.BLOCK_FRIEND_BUTTON).click();
+    await this.instance
+      .$(friendToClick)
+      .$(SELECTORS.BLOCK_FRIEND_BUTTON)
+      .click();
   }
 
   async chatWithFriend(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await $(friendToClick).$(SELECTORS.CHAT_WITH_FRIEND_BUTTON).click();
+    await this.instance
+      .$(friendToClick)
+      .$(SELECTORS.CHAT_WITH_FRIEND_BUTTON)
+      .click();
   }
 
   async clickOnAddSomeoneButton() {
@@ -379,7 +398,7 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getAllFriendsList() {
     await this.friendsList.waitForExist();
-    const friends = await $$(SELECTORS.FRIEND_INFO_USERNAME);
+    const friends = await this.instance.$$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend
@@ -392,7 +411,7 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getBlockedList() {
     await this.blockedList.waitForExist();
-    const friends = await $$(SELECTORS.FRIEND_INFO_USERNAME);
+    const friends = await this.instance.$$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend
@@ -422,9 +441,9 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getIncomingList() {
     await this.incomingRequestsList.waitForExist();
-    const friends = await $(SELECTORS.INCOMING_REQUESTS_LIST).$$(
-      SELECTORS.FRIEND_INFO_USERNAME
-    );
+    const friends = await this.instance
+      .$(SELECTORS.INCOMING_REQUESTS_LIST)
+      .$$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend
@@ -442,9 +461,9 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getOutgoingList() {
     await this.outgoingRequestsList.waitForExist();
-    const friends = await $(SELECTORS.OUTGOING_REQUESTS_LIST).$$(
-      SELECTORS.FRIEND_INFO_USERNAME
-    );
+    const friends = await this.instance
+      .$(SELECTORS.OUTGOING_REQUESTS_LIST)
+      .$$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend
@@ -462,7 +481,8 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getUserFromAllFriendsList() {
     await this.friendsList.waitForExist();
-    const firstUserFromList = await $$(SELECTORS.FRIEND_INFO_USERNAME)[0]
+    const firstUserFromList = await this.instance
+      .$$(SELECTORS.FRIEND_INFO_USERNAME)[0]
       .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
       .getText();
     return firstUserFromList;
@@ -470,7 +490,8 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getUserFromIncomingList() {
     await this.incomingRequestsList.waitForExist();
-    const firstUserFromList = await $(SELECTORS.INCOMING_REQUESTS_LIST)
+    const firstUserFromList = await this.instance
+      .$(SELECTORS.INCOMING_REQUESTS_LIST)
       .$$(SELECTORS.FRIEND_INFO_USERNAME)[0]
       .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
       .getText();
@@ -479,7 +500,8 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getUserFromOutgoingList() {
     await this.outgoingRequestsList.waitForExist();
-    const firstUserFromList = await $(SELECTORS.OUTGOING_REQUESTS_LIST)
+    const firstUserFromList = await this.instance
+      .$(SELECTORS.OUTGOING_REQUESTS_LIST)
       .$$(SELECTORS.FRIEND_INFO_USERNAME)[0]
       .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
       .getText();
@@ -488,7 +510,8 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getUserFromBlockedList() {
     await this.blockedList.waitForExist();
-    const firstUserFromList = await $$(SELECTORS.FRIEND_INFO_USERNAME)[0]
+    const firstUserFromList = await this.instance
+      .$$(SELECTORS.FRIEND_INFO_USERNAME)[0]
       .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
       .getText();
     return firstUserFromList;
@@ -496,13 +519,14 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getUserTooltip(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    const userTooltip = await $(userLocator).$(SELECTORS.TOOLTIP);
+    const userTooltip = await this.instance.$(userLocator).$(SELECTORS.TOOLTIP);
     return userTooltip;
   }
 
   async getUserTooltipText(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    const userTooltipText = await $(userLocator)
+    const userTooltipText = await this.instance
+      .$(userLocator)
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
     return userTooltipText;
@@ -522,17 +546,17 @@ class FriendsScreen extends UplinkMainScreen {
 
   async hoverOnBlockButton(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    const secondButtonLocator = await $(userLocator).$(
-      SELECTORS.BLOCK_FRIEND_BUTTON
-    );
+    const secondButtonLocator = await this.instance
+      .$(userLocator)
+      .$(SELECTORS.BLOCK_FRIEND_BUTTON);
     await this.hoverOnElement(secondButtonLocator);
   }
 
   async hoverOnUnfriendDenyUnblockButton(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    const firstButtonLocator = await $(userLocator).$(
-      SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON
-    );
+    const firstButtonLocator = await this.instance
+      .$(userLocator)
+      .$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON);
     await this.hoverOnElement(firstButtonLocator);
   }
 
@@ -553,34 +577,41 @@ class FriendsScreen extends UplinkMainScreen {
 
   async removeOrCancelUser(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await $(friendToClick).$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON).click();
+    await this.instance
+      .$(friendToClick)
+      .$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON)
+      .click();
   }
 
   async waitUntilFriendIsRemoved(
     username: string,
-    timeoutUser: number = 180000
+    timeoutUser: number = 90000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await $(
-        '//XCUIElementTypeGroup[@label="friend-username"]/XCUIElementTypeStaticText[contains(@value, "' +
-          username +
-          '")]'
-      ).waitForExist({ timeout: timeoutUser, reverse: true });
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[@label="friend-username"]/XCUIElementTypeStaticText[contains(@value, "' +
+            username +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutUser, reverse: true });
     } else if (currentDriver === "windows") {
-      await $(
-        '//Group[@Name="friend-username"]/Text[contains(@Name, "' +
-          username +
-          '")]'
-      ).waitForExist({
-        timeout: timeoutUser,
-        reverse: true,
-      });
+      await this.instance
+        .$(
+          '//Group[@Name="friend-username"]/Text[contains(@Name, "' +
+            username +
+            '")]'
+        )
+        .waitForExist({
+          timeout: timeoutUser,
+          reverse: true,
+        });
     }
   }
 
-  async waitUntilFriendRequestIsReceived() {
-    await this.acceptFriendRequestButton.waitForExist({ timeout: 240000 });
+  async waitUntilFriendRequestIsReceived(timeout: number = 90000) {
+    await this.acceptFriendRequestButton.waitForExist({ timeout: timeout });
   }
 
   async waitUntilNotificationIsClosed() {
@@ -589,8 +620,8 @@ class FriendsScreen extends UplinkMainScreen {
     });
   }
 
-  async waitUntilUserAcceptedFriendRequest() {
-    await this.chatWithFriendButton.waitForExist({ timeout: 240000 });
+  async waitUntilUserAcceptedFriendRequest(timeout: number = 90000) {
+    await this.chatWithFriendButton.waitForExist({ timeout: timeout });
   }
 
   // Context Menu methods
@@ -633,15 +664,13 @@ class FriendsScreen extends UplinkMainScreen {
 
   async openFriendContextMenu(name: string) {
     const locator = await this.getFriendRecordByName(name);
-    const friendElement = await $(locator);
+    const friendElement = await this.instance.$(locator);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await rightClickOnMacOS(friendElement);
+      await rightClickOnMacOS(friendElement, this.executor);
     } else if (currentDriver === "windows") {
-      await rightClickOnWindows(friendElement);
+      await rightClickOnWindows(friendElement, this.executor);
     }
     await this.contextMenu.waitForDisplayed();
   }
 }
-
-export default new FriendsScreen();

@@ -1,6 +1,6 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -32,63 +32,71 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class SettingsAboutScreen extends SettingsBaseScreen {
-  constructor() {
-    super(SELECTORS.OPEN_WEBSITE_BUTTON);
+export default class SettingsAboutScreen extends SettingsBaseScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.OPEN_WEBSITE_BUTTON);
   }
 
   get aboutDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get aboutHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get openSourceCodeButton() {
-    return $(SELECTORS.OPEN_SOURCE_CODE_BUTTON);
+    return this.instance.$(SELECTORS.OPEN_SOURCE_CODE_BUTTON);
   }
 
   get openSourceDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openSourceHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get openWebsiteButton() {
-    return $(SELECTORS.OPEN_WEBSITE_BUTTON);
+    return this.instance.$(SELECTORS.OPEN_WEBSITE_BUTTON);
   }
 
   get openWebsiteDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openWebsiteHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get versionDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get versionHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -101,5 +109,3 @@ class SettingsAboutScreen extends SettingsBaseScreen {
     await this.openWebsiteButton.click();
   }
 }
-
-export default new SettingsAboutScreen();

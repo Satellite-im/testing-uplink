@@ -1,6 +1,6 @@
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -47,79 +47,97 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class QuickProfile extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.QUICK_PROFILE);
+export default class QuickProfile extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.QUICK_PROFILE);
   }
 
   get quickProfile() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.QUICK_PROFILE);
+    return this.instance.$(SELECTORS.CHAT_LAYOUT).$(SELECTORS.QUICK_PROFILE);
   }
 
   get quickProfileBannerImage() {
-    return $(SELECTORS.CHAT_LAYOUT)
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_BANNER_IMAGE);
   }
 
   get quickProfileBlockUser() {
-    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_BLOCK);
+    return this.instance
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_BLOCK);
   }
 
   get quickProfileEditProfile() {
-    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_SELF_EDIT);
+    return this.instance
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_SELF_EDIT);
   }
 
   get quickProfileIdentityHeader() {
-    return $(SELECTORS.CHAT_LAYOUT)
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_IDENTITY_HEADER);
   }
 
   get quickProfileIndicatorOffline() {
-    return $(SELECTORS.CHAT_LAYOUT)
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_INDICATOR_OFFLINE);
   }
 
   get quickProfileIndicatorOnline() {
-    return $(SELECTORS.CHAT_LAYOUT)
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_INDICATOR_ONLINE);
   }
 
   get quickProfileMessage() {
-    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_MESSAGE);
+    return this.instance
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_MESSAGE);
   }
 
   get quickProfileRemoveFriend() {
-    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_FRIEND_REMOVE);
+    return this.instance
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_FRIEND_REMOVE);
   }
 
   get quickProfileUnblockUser() {
-    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_UNBLOCK);
+    return this.instance
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_UNBLOCK);
   }
 
   get quickProfileUserImage() {
-    return $(SELECTORS.CHAT_LAYOUT)
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_IMAGE);
   }
 
   get quickProfileUserName() {
-    return $(SELECTORS.CHAT_LAYOUT)
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME);
   }
 
   get quickProfileUserNameValue() {
-    return $(SELECTORS.CHAT_LAYOUT)
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE);
   }
 
   get quickProfileUserNameValueText() {
-    return $(SELECTORS.CHAT_LAYOUT)
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE_TEXT);
@@ -145,5 +163,3 @@ class QuickProfile extends UplinkMainScreen {
     await this.quickProfileUnblockUser.click();
   }
 }
-
-export default new QuickProfile();

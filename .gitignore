@@ -1,7 +1,11 @@
 # UI Tests
+appium.log
+apps/
 node_modules/
 package-lock.json
 appium.log
 test-report/
 test-results/
 tests/fixtures/newname.jpg
+tests/fixtures/users/windows/
+tests/fixtures/users/mac2/

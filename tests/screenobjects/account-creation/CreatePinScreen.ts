@@ -1,6 +1,6 @@
-import UplinkMainScreen from "../UplinkMainScreen";
+import UplinkMainScreen from "../UplinkMainScreen.ts";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -32,17 +32,17 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class CreatePinScreen extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.UNLOCK_LAYOUT);
+export default class CreatePinScreen extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.UNLOCK_LAYOUT);
   }
 
   get createAccountButton() {
-    return $(SELECTORS.CREATE_ACCOUNT_BUTTON);
+    return this.instance.$(SELECTORS.CREATE_ACCOUNT_BUTTON);
   }
 
   get inputError() {
-    return $(SELECTORS.INPUT_ERROR);
+    return this.instance.$(SELECTORS.INPUT_ERROR);
   }
 
   get inputErrorText() {
@@ -50,23 +50,27 @@ class CreatePinScreen extends UplinkMainScreen {
   }
 
   get pinInput() {
-    return $(SELECTORS.PIN_INPUT);
+    return this.instance.$(SELECTORS.PIN_INPUT);
   }
 
   get unlockLayout() {
-    return $(SELECTORS.UNLOCK_LAYOUT);
+    return this.instance.$(SELECTORS.UNLOCK_LAYOUT);
   }
 
   get unlockImage() {
-    return $(SELECTORS.UNLOCK_LAYOUT).$(SELECTORS.UNLOCK_IMAGE);
+    return this.instance.$(SELECTORS.UNLOCK_LAYOUT).$(SELECTORS.UNLOCK_IMAGE);
   }
 
   get unlockWarningHeader() {
-    return $(SELECTORS.UNLOCK_LAYOUT).$(SELECTORS.UNLOCK_WARNING_HEADER);
+    return this.instance
+      .$(SELECTORS.UNLOCK_LAYOUT)
+      .$(SELECTORS.UNLOCK_WARNING_HEADER);
   }
 
   get unlockWarningParagraph() {
-    return $(SELECTORS.UNLOCK_LAYOUT).$(SELECTORS.UNLOCK_WARNING_PARAGRAPH);
+    return this.instance
+      .$(SELECTORS.UNLOCK_LAYOUT)
+      .$(SELECTORS.UNLOCK_WARNING_PARAGRAPH);
   }
 
   async enterPin(pin: string) {
@@ -88,5 +92,3 @@ class CreatePinScreen extends UplinkMainScreen {
     return result.toString().toLowerCase();
   }
 }
-
-export default new CreatePinScreen();

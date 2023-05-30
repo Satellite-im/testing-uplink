@@ -16,18 +16,8 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build-app:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [macos-latest, windows-latest]
-        include:
-          - os: macos-latest
-            build-instruction: make dmg
-          - os: windows-latest
-            build-instruction: cargo build --release --package uplink -F production_mode
-    runs-on:
-      labels: ${{ matrix.os }}
+  build-mac:
+    runs-on: macos-latest
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
@@ -49,8 +39,7 @@ jobs:
         with:
           repo-token: ${{env.GITHUB_TOKEN}}
 
-      - if: matrix.os == 'macos-latest'
-        name: Add Targets for MacOS
+      - name: Add Targets for MacOS
         env:
           MACOSX_DEPLOYMENT_TARGET: "10.13"
         run: |
@@ -60,25 +49,18 @@ jobs:
         run: cargo update
 
       - name: Build executable 🖥️
-        run: ${{ matrix.build-instruction }}
+        run: make dmg
         continue-on-error: true
 
-      - if: matrix.os == 'macos-latest'
-        name: Create ZIP archive on MacOS 🗳️
+      - name: Create ZIP archive on MacOS 🗳️
         run: |
           ditto -c -k --sequesterRsrc --keepParent target/release/macos/Uplink.app Uplink-Mac-Universal.zip
 
-      - if: matrix.os == 'windows-latest'
-        name: Create ZIP archive on Windows 🗳️
-        run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
-
-      - if: matrix.os == 'macos-latest'
-        name: Calculate hashes 🧮
+      - name: Calculate hashes 🧮
         run: |
           shasum -a 256 Uplink-Mac-Universal.zip > Uplink-Mac-Universal.zip.sha256.txt
 
-      - if: matrix.os == 'macos-latest'
-        name: Upload Artifact ⬆️
+      - name: Upload Artifact ⬆️
         uses: actions/upload-artifact@v3
         env:
           NODE_OPTIONS: "--max-old-space-size=8192"
@@ -88,8 +70,51 @@ jobs:
             Uplink-Mac-Universal.zip
             Uplink-Mac-Universal.zip.sha256.txt
 
-      - if: matrix.os == 'windows-latest'
-        name: Upload Executable ⬆️
+      - name: Add label if any of build jobs failed
+        if: failure()
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            Failed Automated Test
+          type: add
+
+  build-windows:
+    runs-on:
+      labels: windows-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+        with:
+          repository: Satellite-im/Uplink
+
+      - name: Set up cargo cache 🛠️
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.68.2
+          override: true
+          components: rustfmt, clippy
+
+      - name: Install Protobuf 💿
+        uses: arduino/setup-protoc@v1
+        with:
+          repo-token: ${{env.GITHUB_TOKEN}}
+
+      - name: Run cargo update 🌐
+        run: cargo update
+
+      - name: Build executable 🖥️
+        run: cargo build --release --package uplink -F production_mode
+        continue-on-error: true
+
+      - name: Create ZIP archive on Windows 🗳️
+        run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
+
+      - name: Upload Executable ⬆️
         uses: actions/upload-artifact@v3
         with:
           name: Uplink-windows-latest
@@ -104,168 +129,9 @@ jobs:
             Failed Automated Test
           type: add
 
-  test:
-    needs: build-app
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [macos-latest, windows-latest]
-        include:
-          - os: macos-latest
-            appium-driver: |
-              appium driver install mac2
-              appium driver list
-            os-name: MacOS
-          - os: windows-latest
-            appium-driver: |
-              appium driver install --source=npm appium-windows-driver
-              appium driver list
-            os-name: Windows
-    runs-on: ${{ matrix.os }}
-
-    steps:
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
-
-      - if: matrix.os == 'windows-latest'
-        name: Change resolution on Windows Runner
-        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
-        shell: powershell
-
-      - if: matrix.os == 'macos-latest'
-        name: Download the MacOS app 🗳️
-        uses: actions/download-artifact@v3
-        with:
-          name: Uplink-macos-latest
-          path: ./apps
-
-      - if: matrix.os == 'windows-latest'
-        name: Download the Windows app 🗳️
-        uses: actions/download-artifact@v3
-        with:
-          name: Uplink-windows-latest
-          path: ./apps
-
-      - if: matrix.os == 'macos-latest'
-        name: Enable opening app not codesigned 🖥️
-        run: sudo spctl --master-disable
-
-      - if: matrix.os == 'macos-latest'
-        name: Copy DMG to Appium Apps Directory 💿
-        working-directory: ./apps
-        run: |
-          unzip Uplink-Mac-Universal.zip
-          cp -r ./Uplink.app /Applications/
-          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
-
-      - if: matrix.os == 'windows-latest'
-        name: Extract .zip into apps Directory 🗳️
-        run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
-
-      - name: Setup Node.js 🔨
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: "npm"
-
-      - name: Cache NPM dependencies 🔨
-        uses: actions/cache@v3
-        id: cache-mac-windows
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-
-      - name: Install NPM dependencies 📦
-        if: steps.cache-mac-windows.outputs.cache-hit != 'true'
-        run: npm ci
-
-      - name: Install Appium Server 💻
-        run: |
-          npm install -g appium@next
-          appium -v
-
-      - name: Install Appium Driver 💻
-        run: ${{ matrix.appium-driver }}
-
-      - if: matrix.os == 'macos-latest'
-        name: Update MacOS runner to not autocorrect text
-        run: |
-          defaults write -g NSAutomaticCapitalizationEnabled -bool false
-          defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
-          defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
-
-      - if: matrix.os == 'macos-latest'
-        name: Delete Cache Folder if exists - Mac
-        run: rm -rf ~/.uplink
-
-      - if: matrix.os == 'windows-latest'
-        name: Delete Cache Folder if exists - Windows
-        run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
-        shell: powershell
-
-      - if: matrix.os == 'macos-latest'
-        name: Run Tests on MacOS 🧪
-        id: test-execution-macos
-        run: npm run mac.ci
-
-      - if: matrix.os == 'windows-latest'
-        name: Run Tests on Windows 🧪
-        id: test-execution-windows
-        run: npm run windows.ci
-
-      - name: Publish Test Results for ${{ matrix.os-name }}
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
-        if: always()
-        with:
-          junit_files: "./test-report/*.xml"
-          ignore_runs: true
-          job_summary: false
-          compare_to_earlier_commit: false
-          check_name: "UI Automated Test Results on ${{ matrix.os-name}}"
-
-      - name: Upload Screenshots for ${{ matrix.os-name }} 📷
-        uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: appium-screenshots-${{ matrix.os-name }}
-          path: ./test-results
-
-      - name: Upload Appium Log for ${{ matrix.os-name }} 📷
-        uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: appium-log-${{ matrix.os-name }}
-          path: ./appium.log
-
-      - if: matrix.os == 'macos-latest' && always()
-        name: Upload Test User Accounts Created 📷
-        uses: actions/upload-artifact@v3
-        with:
-          name: appium-test-accounts
-          path: ./tests/fixtures/users/
-
-      - name: Add label if any of test jobs failed
-        if: failure()
-        uses: buildsville/add-remove-label@v2.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          labels: |
-            Failed Automated Test
-          type: add
-
-  test-chats:
-    if: always()
-    needs: test
+  test-mac:
+    needs: build-mac
     runs-on: macos-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        user: ["ChatUserA", "ChatUserB"]
-        include:
-          - user: "ChatUserA"
-            npm-command: "npm run mac.chatA"
-          - user: "ChatUserB"
-            npm-command: "npm run mac.chatB"
 
     steps:
       - name: Checkout testing directory 🔖
@@ -277,11 +143,15 @@ jobs:
           name: Uplink-macos-latest
           path: ./apps
 
-      - name: Download Test User Accounts 🗳️
-        uses: actions/download-artifact@v3
-        with:
-          name: appium-test-accounts
-          path: ./tests/fixtures/users/
+      - name: Enable opening app not codesigned 🖥️
+        run: sudo spctl --master-disable
+
+      - name: Copy DMG to Appium Apps Directory 💿
+        working-directory: ./apps
+        run: |
+          unzip Uplink-Mac-Universal.zip
+          cp -r ./Uplink.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -291,27 +161,24 @@ jobs:
 
       - name: Cache NPM dependencies 🔨
         uses: actions/cache@v3
-        id: cache-appium
+        id: cache-mac
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
 
       - name: Install NPM dependencies 📦
-        if: steps.cache-appium.outputs.cache-hit != 'true'
+        if: steps.cache-mac.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Enable opening app not codesigned 🖥️
-        run: sudo spctl --master-disable
-
-      - name: Remove all notifications before starting tests 🖥️
-        run: killall NotificationCenter
-
-      - name: Copy DMG to Appium Apps Directory 💿
-        working-directory: ./apps
+      - name: Install Appium Server 💻
         run: |
-          unzip Uplink-Mac-Universal.zip
-          cp -r ./Uplink.app /Applications/
-          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+          npm install -g appium@next
+          appium -v
+
+      - name: Install Appium Driver 💻
+        run: |
+          appium driver install mac2
+          appium driver list
 
       - name: Update MacOS runner to not autocorrect text
         run: |
@@ -319,40 +186,37 @@ jobs:
           defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
           defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
 
-      - name: Install and Run Appium Server 💻
-        run: |
-          npm install -g appium@next
-          appium -v
-          appium driver install mac2
-          appium driver list
-
-      - name: Delete Cache Folder if exists
+      - name: Delete Cache Folder and copy reusable data
         run: |
           rm -rf ~/.uplink
-          cp -r ./tests/fixtures/users/${{ matrix.user }}/. ~/.uplink
+          mkdir ./tests/fixtures/users/mac2
+          cp -r ./tests/fixtures/users/FriendsTestUser/ ./tests/fixtures/users/mac2/FriendsTestUser
 
-      - if: matrix.user == 'ChatUserA'
-        name: Run WebdriverIO tests for Chat User A 🧪
-        id: test-execution-ChatUserA
-        run: ${{ matrix.npm-command }}
+      - name: Run Tests on MacOS 🧪
+        run: npm run mac.ci
 
-      - if: matrix.user == 'ChatUserB'
-        name: Run WebdriverIO tests for Chat User B 🧪
-        id: test-execution-ChatUserB
-        run: ${{ matrix.npm-command }}
+      - name: Publish Test Results for MacOS
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: always()
+        with:
+          junit_files: "./test-report/*.xml"
+          ignore_runs: true
+          job_summary: false
+          compare_to_earlier_commit: false
+          check_name: "UI Automated Test Results on MacOS"
 
-      - name: Upload Screenshots for ${{ matrix.user }} 📷
+      - name: Upload Screenshots for MacOS 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-screenshots-${{ matrix.user }}
+          name: appium-screenshots-MacOS
           path: ./test-results
 
-      - name: Upload Appium Log for ${{ matrix.user }} 📷
+      - name: Upload Appium Log for MacOS 📷
         uses: actions/upload-artifact@v3
         if: failure()
         with:
-          name: appium-log-${{ matrix.user }}
+          name: appium-log-macos
           path: ./appium.log
 
       - name: Add label if any of test jobs failed
@@ -364,8 +228,221 @@ jobs:
             Failed Automated Test
           type: add
 
+  test-windows-chats:
+    needs: build-windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Change resolution on Windows Runner
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+        shell: powershell
+
+      - name: Download the Windows app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-windows-latest
+          path: ./apps
+
+      - name: Extract .zip into apps Directory 🗳️
+        run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
+
+      - name: Copy app to have two instances 💿
+        working-directory: ./apps
+        run: |
+          cp -r ./uplink.exe ./uplink2.exe
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-windows-chats
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-windows-chats.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Install Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+
+      - name: Install Appium Driver 💻
+        run: |
+          appium driver install --source=npm appium-windows-driver
+          appium driver list
+
+      - name: Run Chat Tests on Windows 🧪
+        run: npm run windows.multiremote
+
+      - name: Upload Test Report - Windows Chats
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report-windows-chats
+          path: ./test-report/*.xml
+
+      - name: Upload Screenshots for Windows - Chats 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-screenshots-windows-chats
+          path: ./test-results
+
+      - name: Upload Appium Log for Windows - Chats 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-log-windows-chats
+          path: |
+            ./appium.log
+
+      - name: Add label if any of test jobs failed
+        if: failure()
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            Failed Automated Test
+          type: add
+
+  test-windows:
+    needs: build-windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Change resolution on Windows Runner
+        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
+        shell: powershell
+
+      - name: Download the Windows app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-windows-latest
+          path: ./apps
+
+      - name: Extract .zip into apps Directory 🗳️
+        run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-windows
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-windows.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Install and Run Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+
+      - name: Install Appium Driver 💻
+        run: |
+          appium driver install --source=npm appium-windows-driver
+          appium driver list
+
+      - name: Delete Cache Folder if exists - Windows
+        run: If (Test-Path $home/.uplink) {Remove-Item -Recurse -Force $home/.uplink} Else { Break }
+        shell: powershell
+
+      - name: Run Tests on Windows 🧪
+        id: test-execution-windows
+        run: npm run windows.ci
+
+      - name: Upload Test Report - Windows CI
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report-windows-ci
+          path: ./test-report/*.xml
+
+      - name: Upload Screenshots for Windows 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-screenshots-windows
+          path: ./test-results
+
+      - name: Upload Appium Log for Windows 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-log-windows
+          path: ./appium.log
+
+      - name: Add label if any of test jobs failed
+        if: failure()
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            Failed Automated Test
+          type: add
+
+  publish-windows-results:
+    if: always()
+    needs: [test-windows-chats, test-windows]
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
+      issues: read
+
+    steps:
+      - name: Download Test Report for Windows Chats
+        uses: actions/download-artifact@v3
+        with:
+          name: test-report-windows-chats
+          path: artifacts
+
+      - name: Download Test Report for Windows CI
+        uses: actions/download-artifact@v3
+        with:
+          name: test-report-windows-ci
+          path: artifacts
+
+      - name: Publish Test Results for Windows Tests
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        with:
+          junit_files: "artifacts/**/*.xml"
+          ignore_runs: true
+          job_summary: false
+          compare_to_earlier_commit: false
+          check_name: "UI Automated Test Results on Windows Tests"
+
   remove-artifacts:
-    needs: [build-app, test, test-chats]
+    needs:
+      [
+        build-mac,
+        build-windows,
+        test-mac,
+        test-windows-chats,
+        test-windows,
+        publish-windows-results,
+      ]
     runs-on: ubuntu-latest
 
     steps:
@@ -380,11 +457,6 @@ jobs:
             Failed Automated Test
           type: remove
 
-      - name: Delete Chat Users Accounts
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: appium-test-accounts
-
       - name: Delete app Windows
         uses: geekyeggo/delete-artifact@v2
         with:
@@ -394,3 +466,13 @@ jobs:
         uses: geekyeggo/delete-artifact@v2
         with:
           name: Uplink-macos-latest
+
+      - name: Delete test reports Windows CI
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: test-report-windows-ci
+
+      - name: Delete test reports Windows Chats
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: test-report-windows-chats

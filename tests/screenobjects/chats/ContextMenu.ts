@@ -1,6 +1,6 @@
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -28,33 +28,43 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class ContextMenu extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.CONTEXT_MENU);
+export default class ContextMenu extends UplinkMainScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.CONTEXT_MENU);
   }
 
   get contextMenu() {
-    return $(SELECTORS.CONTEXT_MENU);
+    return this.instance.$(SELECTORS.CONTEXT_MENU);
   }
 
   get contextMessagesCancelEdit() {
-    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_CANCEL_EDIT);
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.CONTEXT_MESSAGES_CANCEL_EDIT);
   }
 
   get contextMessagesDelete() {
-    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_DELETE);
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.CONTEXT_MESSAGES_DELETE);
   }
 
   get contextMessagesEdit() {
-    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_EDIT);
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.CONTEXT_MESSAGES_EDIT);
   }
 
   get contextMessagesReact() {
-    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_REACT);
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.CONTEXT_MESSAGES_REACT);
   }
 
   get contextMessagesReply() {
-    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_REPLY);
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.CONTEXT_MESSAGES_REPLY);
   }
 
   async selectContextOptionCancelEdit() {
@@ -81,5 +91,3 @@ class ContextMenu extends UplinkMainScreen {
     await this.contextMenu.waitForDisplayed();
   }
 }
-
-export default new ContextMenu();

@@ -1,7 +1,7 @@
 import { clickOnSwitchMacOS } from "../../helpers/commands";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -56,77 +56,83 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class SettingsExtensionsScreen extends SettingsBaseScreen {
-  constructor() {
-    super(SELECTORS.SETTINGS_EXTENSIONS);
+export default class SettingsExtensionsScreen extends SettingsBaseScreen {
+  constructor(executor: string) {
+    super(executor, SELECTORS.SETTINGS_EXTENSIONS);
   }
 
   get enableAutomaticallyCheckbox() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.SWITCH_SLIDER);
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get enableAutomaticallyControllerValue() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
-      SELECTORS.SETTINGS_CONTROL_CHECKBOX
-    );
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get enableAutomaticallyDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get enableAutomaticallyHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get exploreButton() {
-    return $(SELECTORS.EXPLORE_BUTTON);
+    return this.instance.$(SELECTORS.EXPLORE_BUTTON);
   }
 
   get extensionsSearchHeader() {
-    return $(SELECTORS.EXTENSIONS_SEARCH_HEADER);
+    return this.instance.$(SELECTORS.EXTENSIONS_SEARCH_HEADER);
   }
 
   get extensionsSearchInput() {
-    return $(SELECTORS.EXTENSIONS_SEARCH_INPUT);
+    return this.instance.$(SELECTORS.EXTENSIONS_SEARCH_INPUT);
   }
 
   get extensionsSettingsButton() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS).$(
-      SELECTORS.EXTENSIONS_SETTINGS_BUTTON
-    );
+    return this.instance
+      .$(SELECTORS.SETTINGS_EXTENSIONS)
+      .$(SELECTORS.EXTENSIONS_SETTINGS_BUTTON);
   }
 
   get installedAlertText() {
-    return $(SELECTORS.INSTALLED_ALERT_TEXT);
+    return this.instance.$(SELECTORS.INSTALLED_ALERT_TEXT);
   }
 
   get installedButton() {
-    return $(SELECTORS.INSTALLED_BUTTON);
+    return this.instance.$(SELECTORS.INSTALLED_BUTTON);
   }
 
   get openExtensionsDescriptionText() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.OPEN_EXTENSIONS_DESCRIPTION_TEXT);
   }
 
   get openExtensionsHeaderText() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.OPEN_EXTENSIONS_HEADER_TEXT);
   }
 
   get openExtensionsFolderButton() {
-    return $(SELECTORS.OPEN_EXTENSIONS_FOLDER_BUTTON);
+    return this.instance.$(SELECTORS.OPEN_EXTENSIONS_FOLDER_BUTTON);
   }
 
   get settingsExtensions() {
-    return $(SELECTORS.SETTINGS_EXTENSIONS);
+    return this.instance.$(SELECTORS.SETTINGS_EXTENSIONS);
   }
 
   async clickOnEnableAutomatically() {
@@ -135,7 +141,7 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
       await this.enableAutomaticallyCheckbox.click();
     } else if (currentDriver === "mac2") {
       const element = await this.enableAutomaticallyCheckbox;
-      await clickOnSwitchMacOS(element);
+      await clickOnSwitchMacOS(element, this.executor);
     }
   }
 
@@ -168,5 +174,3 @@ class SettingsExtensionsScreen extends SettingsBaseScreen {
     return result.toString();
   }
 }
-
-export default new SettingsExtensionsScreen();

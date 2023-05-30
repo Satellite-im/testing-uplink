@@ -1,7 +1,7 @@
 import { rightClickOnMacOS, rightClickOnWindows } from "../../helpers/commands";
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -36,59 +36,66 @@ currentOS === "windows"
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-class Messages extends UplinkMainScreen {
-  constructor() {
+export default class MessageGroup extends UplinkMainScreen {
+  constructor(executor: string) {
     super(
+      executor,
       SELECTORS.MESSAGE_GROUP_WRAP_REMOTE || SELECTORS.MESSAGE_GROUP_WRAP_SENT
     );
   }
 
   get messageGroupReceived() {
-    return $$(SELECTORS.MESSAGE_GROUP_REMOTE);
+    return this.instance.$$(SELECTORS.MESSAGE_GROUP_REMOTE);
   }
 
   get messageGroupSent() {
-    return $$(SELECTORS.MESSAGE_GROUP_SENT);
+    return this.instance.$$(SELECTORS.MESSAGE_GROUP_SENT);
   }
 
   get messageGroupWrapLocal() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL);
+    return this.instance.$$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL);
   }
 
   get messageGroupWrapRemote() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE);
+    return this.instance.$$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE);
   }
 
   get messageGroupTimeAgo() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP).$(SELECTORS.MESSAGE_GROUP_TIME_AGO);
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
+      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO);
   }
 
   get messageGroupTimeAgoValue() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
   }
 
   get messageGroupUserImage() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
   }
 
   get messageGroupUserImageWrap() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP).$(
-      SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP
-    );
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
+      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP);
   }
 
   get messageGroupUserIndicatorOffline() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE);
   }
 
   get messageGroupUserIndicatorOnline() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
   }
@@ -182,9 +189,9 @@ class Messages extends UplinkMainScreen {
     await this.hoverOnElement(imageOnGroup);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await rightClickOnMacOS(imageOnGroup);
+      await rightClickOnMacOS(imageOnGroup, this.executor);
     } else if (currentDriver === "windows") {
-      await rightClickOnWindows(imageOnGroup);
+      await rightClickOnWindows(imageOnGroup, this.executor);
     }
   }
 
@@ -210,9 +217,9 @@ class Messages extends UplinkMainScreen {
     await this.hoverOnElement(imageOnGroup);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await rightClickOnMacOS(imageOnGroup);
+      await rightClickOnMacOS(imageOnGroup, this.executor);
     } else if (currentDriver === "windows") {
-      await rightClickOnWindows(imageOnGroup);
+      await rightClickOnWindows(imageOnGroup, this.executor);
     }
   }
 
@@ -223,9 +230,9 @@ class Messages extends UplinkMainScreen {
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await rightClickOnMacOS(imageToRightClick);
+      await rightClickOnMacOS(imageToRightClick, this.executor);
     } else if (currentDriver === "windows") {
-      await rightClickOnWindows(imageToRightClick);
+      await rightClickOnWindows(imageToRightClick, this.executor);
     }
   }
 
@@ -234,11 +241,9 @@ class Messages extends UplinkMainScreen {
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await rightClickOnMacOS(imageToRightClick);
+      await rightClickOnMacOS(imageToRightClick, this.executor);
     } else if (currentDriver === "windows") {
-      await rightClickOnWindows(imageToRightClick);
+      await rightClickOnWindows(imageToRightClick, this.executor);
     }
   }
 }
-
-export default new Messages();

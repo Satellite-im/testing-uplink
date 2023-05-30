@@ -1,12 +1,11 @@
+import AppScreen from "./AppScreen.ts";
 import { hoverOnMacOS, hoverOnWindows } from "../helpers/commands";
-import AppScreen from "./AppScreen";
 
-const currentOS = driver.capabilities.automationName;
+const currentOS = driver["userA"].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
   PRE_RELEASE_INDICATOR: "~pre-release",
-  SIDEBAR_CHATS_SECTION: "~Chats",
 };
 
 const SELECTORS_WINDOWS = {
@@ -34,6 +33,7 @@ const SELECTORS_WINDOWS = {
   PRE_RELEASE_INDICATOR_TEXT: "//Text",
   SETTINGS_BUTTON: '[name="settings-button"]',
   SIDEBAR: '[name="sidebar"]',
+  SIDEBAR_CHATS_SECTION: "~chats",
   SIDEBAR_CHILDREN: '[name="sidebar-children"]',
   SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SKELETAL_USER: '[name="skeletal-user"]',
@@ -75,6 +75,7 @@ const SELECTORS_MACOS = {
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
   SIDEBAR: "~sidebar",
+  SIDEBAR_CHATS_SECTION: "~Chats",
   SIDEBAR_CHILDREN: "~sidebar-children",
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
@@ -94,184 +95,203 @@ currentOS === "windows"
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class UplinkMainScreen extends AppScreen {
-  constructor() {
-    super(SELECTORS.WINDOW);
+  constructor(executor: string) {
+    super(executor, SELECTORS.WINDOW);
   }
 
   get backButton() {
-    return $(SELECTORS.BACK_BUTTON);
+    return this.instance.$(SELECTORS.BACK_BUTTON);
   }
 
   get buttonBadge() {
-    return $(SELECTORS.BUTTON_BADGE);
+    return this.instance.$(SELECTORS.BUTTON_BADGE);
   }
 
   get buttonBadgeText() {
-    return $(SELECTORS.BUTTON_BADGE).$(SELECTORS.BUTTON_BADGE_TEXT);
+    return this.instance
+      .$(SELECTORS.BUTTON_BADGE)
+      .$(SELECTORS.BUTTON_BADGE_TEXT);
   }
 
   get buttonNav() {
-    return $(SELECTORS.BUTTON_NAV);
+    return this.instance.$(SELECTORS.BUTTON_NAV);
   }
 
   get chatSearchInput() {
-    return $(SELECTORS.CHAT_SEARCH_INPUT);
+    return this.instance.$(SELECTORS.CHAT_SEARCH_INPUT);
   }
 
   get chatsButton() {
-    return $(SELECTORS.CHATS_BUTTON);
+    return this.instance.$(SELECTORS.CHATS_BUTTON);
   }
 
   get chatsButtonTooltip() {
-    return $(SELECTORS.TOOLTIP);
+    return this.instance.$(SELECTORS.TOOLTIP);
   }
 
   get chatsButtonTooltipText() {
-    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return this.instance
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get favorites() {
-    return $(SELECTORS.SIDEBAR).$(SELECTORS.FAVORITES);
+    return this.instance.$(SELECTORS.SIDEBAR).$(SELECTORS.FAVORITES);
   }
 
   get favoritesChat() {
-    return $(SELECTORS.FAVORITES_CONTEXT_CHAT);
+    return this.instance.$(SELECTORS.FAVORITES_CONTEXT_CHAT);
   }
 
   get favoritesRemove() {
-    return $(SELECTORS.FAVORITES_CONTEXT_REMOVE);
+    return this.instance.$(SELECTORS.FAVORITES_CONTEXT_REMOVE);
   }
 
   get favoritesHeader() {
-    return $(SELECTORS.SIDEBAR)
+    return this.instance
+      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$(SELECTORS.FAVORITES_HEADER);
   }
 
   get favoriteUsers() {
-    return $(SELECTORS.SIDEBAR)
+    return this.instance
+      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER);
   }
 
   get favoritesUserImage() {
-    return $(SELECTORS.SIDEBAR)
+    return this.instance
+      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE);
   }
 
   get favoritesUserImageWrap() {
-    return $(SELECTORS.SIDEBAR)
+    return this.instance
+      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_WRAP);
   }
 
   get favoritesUserIndicatorOffline() {
-    return $(SELECTORS.SIDEBAR)
+    return this.instance
+      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$(SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE);
   }
 
   get favoritesUserIndicatorOnline() {
-    return $(SELECTORS.SIDEBAR)
+    return this.instance
+      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
   }
 
   get favoritesUserName() {
-    return $(SELECTORS.SIDEBAR)
+    return this.instance
+      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$(SELECTORS.FAVORITES_USER_NAME);
   }
 
   get filesButton() {
-    return $(SELECTORS.FILES_BUTTON);
+    return this.instance.$(SELECTORS.FILES_BUTTON);
   }
 
   get filesButtonTooltip() {
-    return $(SELECTORS.TOOLTIP);
+    return this.instance.$(SELECTORS.TOOLTIP);
   }
 
   get filesButtonTooltipText() {
-    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return this.instance
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get friendsButton() {
-    return $(SELECTORS.FRIENDS_BUTTON);
+    return this.instance.$(SELECTORS.FRIENDS_BUTTON);
   }
 
   get friendsButtonTooltip() {
-    return $(SELECTORS.TOOLTIP);
+    return this.instance.$(SELECTORS.TOOLTIP);
   }
 
   get friendsButtonTooltipText() {
-    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return this.instance
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get hamburgerButton() {
-    return $(SELECTORS.HAMBURGER_BUTTON);
+    return this.instance.$(SELECTORS.HAMBURGER_BUTTON);
   }
 
   get prereleaseIndicator() {
-    return $(SELECTORS.PRE_RELEASE_INDICATOR);
+    return this.instance.$(SELECTORS.PRE_RELEASE_INDICATOR);
   }
 
   get prereleaseIndicatorText() {
-    return $(SELECTORS.PRE_RELEASE_INDICATOR).$(
-      SELECTORS.PRE_RELEASE_INDICATOR_TEXT
-    );
+    return this.instance
+      .$(SELECTORS.PRE_RELEASE_INDICATOR)
+      .$(SELECTORS.PRE_RELEASE_INDICATOR_TEXT);
   }
 
   get settingsButton() {
-    return $(SELECTORS.SETTINGS_BUTTON);
+    return this.instance.$(SELECTORS.SETTINGS_BUTTON);
   }
 
   get settingsButtonTooltip() {
-    return $(SELECTORS.TOOLTIP);
+    return this.instance.$(SELECTORS.TOOLTIP);
   }
 
   get settingsButtonTooltipText() {
-    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return this.instance
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get sidebar() {
-    return $(SELECTORS.SIDEBAR);
+    return this.instance.$(SELECTORS.SIDEBAR);
   }
 
   get sidebarChildren() {
-    return $(SELECTORS.SIDEBAR_CHILDREN);
+    return this.instance.$(SELECTORS.SIDEBAR_CHILDREN);
   }
 
   get sidebarSearch() {
-    return $(SELECTORS.SIDEBAR_SEARCH);
+    return this.instance.$(SELECTORS.SIDEBAR_SEARCH);
   }
 
   get skeletalUser() {
-    return $$(SELECTORS.SKELETAL_USER);
+    return this.instance.$$(SELECTORS.SKELETAL_USER);
   }
 
   get toastNotifications() {
-    return $$(SELECTORS.TOAST_NOTIFICATION);
+    return this.instance.$$(SELECTORS.TOAST_NOTIFICATION);
   }
 
   get updateAvailable() {
-    return $(SELECTORS.UPDATE_AVAILABLE);
+    return this.instance.$(SELECTORS.UPDATE_AVAILABLE);
   }
 
   get updateAvailableText() {
-    return $(SELECTORS.UPDATE_AVAILABLE).$(SELECTORS.UPDATE_AVAILABLE_TEXT);
+    return this.instance
+      .$(SELECTORS.UPDATE_AVAILABLE)
+      .$(SELECTORS.UPDATE_AVAILABLE_TEXT);
   }
 
   get updateMenuDismiss() {
-    return $(SELECTORS.UPDATE_MENU_DISMISS);
+    return this.instance.$(SELECTORS.UPDATE_MENU_DISMISS);
   }
 
   get updateMenuDownload() {
-    return $(SELECTORS.UPDATE_MENU_DOWNLOAD);
+    return this.instance.$(SELECTORS.UPDATE_MENU_DOWNLOAD);
   }
 
   get window() {
-    return $(SELECTORS.WINDOW);
+    return this.instance.$(SELECTORS.WINDOW);
   }
 
   // Clicking on common elements methods
@@ -298,7 +318,7 @@ export default class UplinkMainScreen extends AppScreen {
     const favoriteUsers = await this.favoritesUserName;
     let currentFavoriteUsers = [];
     for (let name of favoriteUsers) {
-      currentFavoriteUsers.push(await $(name).getText());
+      currentFavoriteUsers.push(await this.instance.$(name).getText());
     }
     return currentFavoriteUsers;
   }
@@ -324,7 +344,7 @@ export default class UplinkMainScreen extends AppScreen {
   // Button Badges methods
 
   async validateTextFromButtonBadge(expectedText: string) {
-    const badgeText = await $('//*[@label="Button Badge"]/*[1]');
+    const badgeText = await this.instance.$('//*[@label="Button Badge"]/*[1]');
     await expect($(badgeText)).toHaveTextContaining(expectedText);
   }
 
@@ -333,9 +353,9 @@ export default class UplinkMainScreen extends AppScreen {
   async hoverOnElement(element: WebdriverIO.Element) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
-      await hoverOnMacOS(element);
+      await hoverOnMacOS(element, this.executor);
     } else if (currentDriver === "windows") {
-      await hoverOnWindows(element);
+      await hoverOnWindows(element, this.executor);
     }
   }
 
