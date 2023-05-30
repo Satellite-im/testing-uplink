@@ -291,15 +291,12 @@ jobs:
       - name: Run Chat Tests on Windows 🧪
         run: npm run windows.multiremote
 
-      - name: Publish Test Results for Windows Chats Tests
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      - name: Upload Test Report - Windows Chats
         if: always()
+        uses: actions/upload-artifact@v3
         with:
-          junit_files: "./test-report/*.xml"
-          ignore_runs: true
-          job_summary: false
-          compare_to_earlier_commit: false
-          check_name: "UI Automated Test Results on Windows Chats Tests"
+          name: test-report-windows-chats
+          path: ./test-report/*.xml
 
       - name: Upload Screenshots for Windows - Chats 📷
         uses: actions/upload-artifact@v3
@@ -381,15 +378,12 @@ jobs:
         id: test-execution-windows
         run: npm run windows.ci
 
-      - name: Publish Test Results for Windows
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      - name: Upload Test Report - Windows CI
         if: always()
+        uses: actions/upload-artifact@v3
         with:
-          junit_files: "./test-report/*.xml"
-          ignore_runs: true
-          job_summary: false
-          compare_to_earlier_commit: false
-          check_name: "UI Automated Test Results on Windows"
+          name: test-report-windows-ci
+          path: ./test-report/*.xml
 
       - name: Upload Screenshots for Windows 📷
         uses: actions/upload-artifact@v3
@@ -414,9 +408,48 @@ jobs:
             Failed Automated Test
           type: add
 
+  publish-windows-results:
+    if: always()
+    needs: [test-windows-chats, test-windows]
+    runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: read
+      issues: read
+
+    steps:
+      - name: Download Test Report for Windows Chats
+        uses: actions/download-artifact@v3
+        with:
+          name: test-report-windows-chats
+          path: artifacts
+
+      - name: Download Test Report for Windows CI
+        uses: actions/download-artifact@v3
+        with:
+          name: test-report-windows-ci
+          path: artifacts
+
+      - name: Publish Test Results for Windows Tests
+        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        with:
+          junit_files: "artifacts/**/*.xml"
+          ignore_runs: true
+          job_summary: false
+          compare_to_earlier_commit: false
+          check_name: "UI Automated Test Results on Windows Tests"
+
   remove-artifacts:
     needs:
-      [build-mac, build-windows, test-mac, test-windows-chats, test-windows]
+      [
+        build-mac,
+        build-windows,
+        test-mac,
+        test-windows-chats,
+        test-windows,
+        publish-windows-results,
+      ]
     runs-on: ubuntu-latest
 
     steps:

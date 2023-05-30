@@ -15,6 +15,7 @@ let chatsLayoutFirstUser = new ChatsLayout("userA");
 let chatsLayoutSecondUser = new ChatsLayout("userB");
 let chatsMessageGroupsFirstUser = new MessageGroup("userA");
 let chatsMessagesFirstUser = new Messages("userA");
+let chatsMessagesSecondUser = new Messages("userB");
 let chatsQuickProfileFirstUser = new QuickProfile("userA");
 let chatsTopbarFirstUser = new Topbar("userA");
 let chatsTopbarSecondUser = new Topbar("userB");
@@ -173,6 +174,7 @@ export default async function quickProfileTests() {
     // Send message to Chat User B
     await chatsInputSecondUser.typeMessageOnInput("Accepted...");
     await chatsInputSecondUser.clickOnSendMessage();
+    await chatsMessagesSecondUser.waitForMessageSentToExist("Accepted...");
   });
 
   it("Chat User A - Go to chat with User B and wait for receiving a message", async () => {
