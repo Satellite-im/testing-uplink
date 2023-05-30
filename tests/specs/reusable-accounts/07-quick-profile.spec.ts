@@ -200,6 +200,8 @@ export default async function quickProfileTests() {
     const blockedList = await friendsScreenFirstUser.getBlockedList();
     const includesFriend = await blockedList.includes("ChatUserB");
     await expect(includesFriend).toEqual(true);
+    await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.friendsList.waitForDisplayed();
   });
 
   it("Chat User B - Wait until User A blocks User B", async () => {

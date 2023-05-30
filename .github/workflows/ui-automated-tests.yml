@@ -195,13 +195,6 @@ jobs:
       - name: Run Tests on MacOS 🧪
         run: npm run mac.ci
 
-      - if: always()
-        name: Upload Test User Accounts Created 📷
-        uses: actions/upload-artifact@v3
-        with:
-          name: appium-test-accounts
-          path: ./tests/fixtures/users/
-
       - name: Publish Test Results for MacOS
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
@@ -464,11 +457,6 @@ jobs:
             Failed Automated Test
           type: remove
 
-      - name: Delete Chat Users Accounts
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: appium-test-accounts
-
       - name: Delete app Windows
         uses: geekyeggo/delete-artifact@v2
         with:
@@ -478,3 +466,13 @@ jobs:
         uses: geekyeggo/delete-artifact@v2
         with:
           name: Uplink-macos-latest
+
+      - name: Delete test reports Windows CI
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: test-report-windows-ci
+
+      - name: Delete test reports Windows Chats
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: test-report-windows-chats
