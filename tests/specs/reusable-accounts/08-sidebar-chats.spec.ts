@@ -12,7 +12,6 @@ let chatsInputFirstUser = new InputBar("userA");
 let chatsInputSecondUser = new InputBar("userB");
 let chatsLayoutFirstUser = new ChatsLayout("userA");
 let chatsLayoutSecondUser = new ChatsLayout("userB");
-let chatsMessagesFirstUser = new Messages("userA");
 let chatsMessagesSecondUser = new Messages("userB");
 let chatsSidebarFirstUser = new ChatsSidebar("userA");
 let chatsTopbarFirstUser = new Topbar("userA");
@@ -22,6 +21,7 @@ let filesScreenFirstUser = new FilesScreen("userA");
 let friendsScreenFirstUser = new FriendsScreen("userA");
 let friendsScreenSecondUser = new FriendsScreen("userB");
 let welcomeScreenFirstUser = new WelcomeScreen("userA");
+let welcomeScreenSecondUser = new WelcomeScreen("userB");
 
 export default async function sidebarChatsTests() {
   it("Chat User A - Unblock the other Chat User", async () => {
@@ -179,10 +179,7 @@ export default async function sidebarChatsTests() {
 
   it("Chat User B - Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {
     // After user deletes chat conversation on remote side, chat is deleted on local side and Welcome Image displayed again
-    await chatsMessagesSecondUser.goToFriends();
-    await friendsScreenSecondUser.waitForIsShown(true);
-    await friendsScreenSecondUser.chatWithFriendButton.click();
-    await chatsLayoutSecondUser.waitForIsShown(true);
+    await welcomeScreenSecondUser.waitForIsShown(true);
   });
 
   it("Chat User A - Sidebar without messages sent displays No messages yet, sent one", async () => {

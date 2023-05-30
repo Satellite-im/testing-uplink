@@ -132,7 +132,9 @@ export default async function quickProfileTests() {
 
   it("Chat User B - Wait until User A sends friend request again User A and accept it", async () => {
     // Go to pending requests list, wait for receiving the friend request and accept it
+    await welcomeScreenSecondUser.waitForIsShown(true);
     await welcomeScreenSecondUser.goToFriends();
+    await friendsScreenSecondUser.waitForIsShown(true);
     await friendsScreenSecondUser.goToPendingFriendsList();
     await friendsScreenSecondUser.acceptIncomingRequest("ChatUserA");
 

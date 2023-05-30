@@ -5,8 +5,6 @@
   "scripts": {
     "mac.app": "wdio config/wdio.mac.app.conf.ts",
     "mac.ci": "wdio config/wdio.mac.ci.conf.ts",
-    "mac.chatA": "wdio config/wdio.mac.chatA.conf.ts",
-    "mac.chatB": "wdio config/wdio.mac.chatB.conf.ts",
     "mac.multiremote": "wdio config/wdio.mac.multiremote.conf.ts",
     "windows.app": "wdio config/wdio.windows.app.conf.ts",
     "windows.ci": "wdio config/wdio.windows.ci.conf.ts",
