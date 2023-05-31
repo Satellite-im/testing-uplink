@@ -63,7 +63,7 @@ exports.config = {
           "appium:app": join(process.cwd(), "\\apps\\uplink.exe"),
           "appium:systemPort": 4725,
           "appium:createSessionTimeout": 40000,
-          "ms:waitForAppLaunch": 10,
+          "ms:waitForAppLaunch": 50,
           "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserA"),
         }
       },
@@ -75,7 +75,7 @@ exports.config = {
           "appium:app": join(process.cwd(), "\\apps\\uplink2.exe"),
           "appium:systemPort": 4726,
           "appium:createSessionTimeout": 40000,
-          "ms:waitForAppLaunch": 10,
+          "ms:waitForAppLaunch": 50,
           "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserB"), 
         }
       },
