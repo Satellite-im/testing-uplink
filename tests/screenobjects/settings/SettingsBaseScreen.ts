@@ -10,7 +10,7 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   ABOUT_BUTTON: '[name="about-button"]',
   ACCESSIBILITY_BUTTON: '[name="accessibility-button"]',
-  AUDIO_BUTTON: "//Group/Group/Button[4]",
+  AUDIO_BUTTON: '//Button[@HelpText="Sounds & Audio"]',
   DEVELOPER_BUTTON: '[name="developer-button"]',
   EXTENSIONS_BUTTON: '[name="extensions-button"]',
   FILES_BUTTON: '[name="files-button"]',

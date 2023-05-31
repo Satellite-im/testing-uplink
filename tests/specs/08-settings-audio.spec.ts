@@ -1,12 +1,12 @@
 import SettingsAudioScreen from "../screenobjects/settings/SettingsAudioScreen";
-import SettingsPrivacyScreen from "../screenobjects/settings/SettingsPrivacyScreen";
+import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
 let settingsAudioFirstUser = new SettingsAudioScreen("userA");
-let settingsPrivacyFirstUser = new SettingsPrivacyScreen("userA");
+let settingsGeneralFirstUser = new SettingsGeneralScreen("userA");
 
 export default async function settingsAudio() {
   it("Settings Audio - Assert screen texts", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await settingsPrivacyFirstUser.goToAudioSettings();
+    await settingsGeneralFirstUser.goToAudioSettings();
     await settingsAudioFirstUser.waitForIsShown(true);
 
     // Validate texts for Interface Sounds Settings Section

@@ -54,75 +54,75 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
 
   get appLanguageDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get appLanguageHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get appLanguageDropdown() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.DROPDOWN_MENU);
   }
 
   get fontDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontDropdown() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.DROPDOWN_MENU);
   }
 
   get fontScalingDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontScalingHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontScalingButtonMinus() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[4]
+      .$$(SELECTORS.SETTINGS_CONTROL)[3]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
   }
 
   get fontScalingButtonPlus() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[4]
+      .$$(SELECTORS.SETTINGS_CONTROL)[3]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
   }
 
   get fontScalingValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[4]
+      .$$(SELECTORS.SETTINGS_CONTROL)[3]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE);
   }
@@ -155,46 +155,20 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
 
   get themeDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get themeDropdown() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.DROPDOWN_MENU);
   }
 
   get themeHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
-      .$(SELECTORS.SETTINGS_INFO)
-      .$(SELECTORS.SETTINGS_INFO_HEADER);
-  }
-
-  get uplinkOverlayCheckbox() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[0]
-      .$(SELECTORS.SWITCH_SLIDER);
-  }
-
-  get uplinkOverlayControllerValue() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[0]
-      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
-  }
-
-  get uplinkOverlayDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
-      .$(SELECTORS.SETTINGS_INFO)
-      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
-  }
-
-  get uplinkOverlayHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -217,16 +191,6 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
 
   async clickOnFontScalingPlus() {
     await this.fontScalingButtonPlus.click();
-  }
-
-  async clickOnUplinkOverlay() {
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
-      await this.uplinkOverlayCheckbox.click();
-    } else if (currentDriver === "mac2") {
-      const locator = await this.uplinkOverlayCheckbox;
-      await clickOnSwitchMacOS(locator, this.executor);
-    }
   }
 
   async decreaseFontScale() {

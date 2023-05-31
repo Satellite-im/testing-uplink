@@ -1,12 +1,12 @@
+import SettingsAudioScreen from "../screenobjects/settings/SettingsAudioScreen";
 import SettingsExtensionsScreen from "../screenobjects/settings/SettingsExtensionsScreen";
-import SettingsFilesScreen from "../screenobjects/settings/SettingsFilesScreen";
+let settingsAudioFirstUser = new SettingsAudioScreen("userA");
 let settingsExtensionsFirstUser = new SettingsExtensionsScreen("userA");
-let settingsFilesFirstUser = new SettingsFilesScreen("userA");
 
 export default async function settingsExtensions() {
   it("Settings Extensions - Validate that buttons are displayed in front", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await settingsFilesFirstUser.goToExtensionsSettings();
+    await settingsAudioFirstUser.goToExtensionsSettings();
     await settingsExtensionsFirstUser.waitForIsShown(true);
 
     // Validate that the three buttons are displayed on top of the screen

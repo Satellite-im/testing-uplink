@@ -124,7 +124,7 @@ export default class InputBar extends UplinkMainScreen {
     await this.inputText.clearValue();
     await this.inputText.setValue(text);
     // Retry if webdriverio typing failed
-    if ((await this.inputText.getValue()) !== text) {
+    if ((await this.inputText.getText()) !== text) {
       await this.inputText.clearValue();
       await this.inputText.setValue(text);
     }
