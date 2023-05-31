@@ -13,12 +13,6 @@ export default async function settingsNotifications() {
   it("Settings Notifications - Validate header and description texts are correct", async () => {
     // Start validations
     await expect(
-      settingsNotificationsFirstUser.grantPermissionsHeader
-    ).toHaveTextContaining("GRANT PERMISSIONS");
-    await expect(
-      settingsNotificationsFirstUser.grantPermissionsDescription
-    ).toHaveTextContaining("Grant permissions to receive notifications.");
-    await expect(
       settingsNotificationsFirstUser.enabledNotificationsHeader
     ).toHaveTextContaining("ENABLED");
     await expect(

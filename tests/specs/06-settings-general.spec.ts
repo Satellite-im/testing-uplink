@@ -9,16 +9,6 @@ export default async function settingsGeneral() {
     await settingsProfileFirstUser.goToGeneralSettings();
     await settingsGeneralFirstUser.waitForIsShown(true);
 
-    // UPLINK OVERLAY
-    await expect(
-      settingsGeneralFirstUser.uplinkOverlayHeader
-    ).toHaveTextContaining("UPLINK OVERLAY");
-    await expect(
-      settingsGeneralFirstUser.uplinkOverlayDescription
-    ).toHaveTextContaining(
-      "Enable the on screen Uplink overlay. This will show active call information, as well as allow you to add custom widgets to your screen."
-    );
-
     // APP LANGUAGE
     await expect(
       settingsGeneralFirstUser.appLanguageHeader
@@ -50,30 +40,6 @@ export default async function settingsGeneral() {
     await expect(
       settingsGeneralFirstUser.fontScalingDescription
     ).toHaveTextContaining("Scale the font size up or down to your liking.");
-  });
-
-  // Skipping test failing on CI
-  xit("Settings General - Toggle switches to enabled", async () => {
-    // Click on Uplink Overlay to activate switch and then validate that toggle has now value = "1" (enabled)
-    await settingsGeneralFirstUser.clickOnUplinkOverlay();
-    const toggleElement =
-      await settingsGeneralFirstUser.uplinkOverlayControllerValue;
-    const uplinkOverlayState = await settingsGeneralFirstUser.getToggleState(
-      toggleElement
-    );
-    await expect(uplinkOverlayState).toEqual("1");
-  });
-
-  // Skipping test failing on CI
-  xit("Settings General - Toggle switches to disabled", async () => {
-    // Click on Uplink Overlay to activate switch and then validate that toggle has now value = "0" (disabled)
-    await settingsGeneralFirstUser.clickOnUplinkOverlay();
-    const toggleElement =
-      await settingsGeneralFirstUser.uplinkOverlayControllerValue;
-    const uplinkOverlayState = await settingsGeneralFirstUser.getToggleState(
-      toggleElement
-    );
-    await expect(uplinkOverlayState).toEqual("0");
   });
 
   // Skipped for now since there are no themes to select

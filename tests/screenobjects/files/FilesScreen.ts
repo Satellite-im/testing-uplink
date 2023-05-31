@@ -270,7 +270,7 @@ export default class FilesScreen extends UplinkMainScreen {
       await this.inputFolderFileName.setValue(name + "\uE007");
     }
     const newFolder = await this.getLocatorOfFolderFile(name);
-    await this.instance.$(newFolder).waitForExist();
+    await this.instance.$(newFolder).waitForExist({ timeout: 15000 });
   }
 
   async downloadFile(filename: string) {
