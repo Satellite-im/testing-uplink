@@ -53,7 +53,9 @@ export default async function sidebarChatsTests() {
   it("Chat User B - Wait until receiving a friend request again", async () => {
     // Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenSecondUser.goToFriends();
+    await friendsScreenSecondUser.waitForIsShown(true);
     await friendsScreenSecondUser.goToPendingFriendsList();
+    await friendsScreenSecondUser.incomingRequestsList.waitForDisplayed();
     await friendsScreenSecondUser.waitUntilFriendRequestIsReceived();
   });
 
