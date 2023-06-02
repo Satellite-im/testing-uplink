@@ -541,6 +541,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async goToPendingFriendsList() {
+    await this.pendingFriendsButton.waitForExist();
     await this.pendingFriendsButton.click();
   }
 
