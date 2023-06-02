@@ -12,7 +12,7 @@ Tests running using GitHub Actions:
 
 This automation framework is currently based on the following:
 
-- **WebdriverIO:** `8.2.4`
+- **WebdriverIO:** `8.8.7`
 - **Appium:** `2.0.0`
 
 ## Setting up to run on the local machine - MAC OS
@@ -64,6 +64,8 @@ make dmg
 
 7. Wait until the process is completed, and you will find a uplink.exe program (for Windows) or Uplink.app (for MacOS) file in "Uplink/target/release/windows" or "Uplink/target/release/macOS". If you are on Windows, you just have to create an "apps" folder inside the main folder of the testing-uplink folder and then copy the file uplink.exe to the "./apps/" folder. Now, if you are testing on MacOS, you have to copy the Uplink.app file into your Applications folder from your OS.
 
+There are tests that can trigger two or more instances of uplink at the same time to test a chat conversation and friend request process as a real environment with more than one user. For now, these tests can only be executed in Windows due to existing limitations on the appium mac2 driver to run more than one instance at the same time. If you would like to try these tests, you would need to copy the uplink,.exe file into the same apps folder with the name "uplink2.exe". So you would have two executables of uplink running on the same apps folder.
+
 8. Once the application is installed, you can run the tests by using the following commands:
 
 ```sh
@@ -76,18 +78,19 @@ npm run mac.app
 npm run windows.app
 ```
 
+```sh
+# To run the chats tests under Windows
+npm run windows.multiremote
+```
+
 ## Configuration files
 
-This framework uses a specific config for macOS now and will contain configuration files for Windows/Linux in the future, see [configs](./config). The configs are based on a shared config
-[`wdio.shared.conf.ts`](./config/wdio.shared.conf.ts).
-This shared config holds **all the defaults**, so the macOS/Windows/Linux configs only need to hold the capabilities and specs that are needed
-for running on macOS and/or Windows/Linux.
+This framework uses specific config files for macOS, Windows and Multiremote Chats Tests, see [configs](./config). A Mac App Config File
+[`wdio.mac.app.conf.ts`](./config/wdio.mac.app.conf.ts) contains all the WebdriverIO required setup including capabilities, reporters, services and hooks for running MacOS tests locally.
 
-Please check the [`wdio.shared.conf.ts`](./config/wdio.shared.conf.ts)-file for the minimal configuration options. Notes are added for why
-a different value has been selected in comparison to the default values WebdriverIO provides.
+For Windows, there is a similar file [`wdio.windows.app.conf.ts`](./config/wdio.windows.app.conf.ts) containing the same WebdriverIO required setup including capabilities, reporters, services and hooks for running Windows tests locally.
 
-Since we do not have Appium installed as part of this package, we are going to use the globally installed version of Appium. This is
-configured in [`wdio.shared.mac.appium.conf.ts`](./config/wdio.shared.mac.appium.conf.ts) for MacOS and [`wdio.shared.windows.appium.conf.ts`](./config/wdio.shared.windows.appium.conf.ts)
+As well, there are multiremote configuration files for Windows and MacOS (in case that the external appium driver for mac is fixed in the future to allow running more than one instance at the same time), the multiremote configuration files are [`wdio.windows.multiremote.conf.ts`](./config/wdio.windows.multiremote.conf.ts) and [`wdio.mac.multiremote.conf.ts`](./config/wdio.mac.multiremote.conf.ts). The files previously mentioned contain the WebdriverIO required setup including capabilities, reporters, services and hooks for running Windows multiremote tests.
 
 Finally, since we have a GitHub Action setup to run the Appium tests on macOS and Windows, there are two configuration files used to run these tests on CI. Configuration for running MacOS tests on CI is setup in [`wdio.mac.ci.conf.ts`](./config/wdio.mac.ci.conf.ts) and for running Windows tests on CI setup is located in [`wdio.windows.ci.conf.ts`](./config/wdio.windows.ci.conf.ts).
 
@@ -99,7 +102,7 @@ If `accessibilityID`'s can't be used, for example, then for Mac2 driver, -ios cl
 
 ## Improvements to be implemented soon
 
-- Tests running on Ubuntu - To add these, we need to start adding the Ubuntu UI locators for the elements and then modify the tests to run on both platforms. Also, there is no official driver for Appium to run tests under Ubuntu. Unfortunately, there is only one third-party driver that we need to validate that it is secure and works correctly before implementing it inside the project
+- Tests running on Ubuntu - Unfortunately, there are no official drivers for Appium to run tests under Ubuntu or any other Linux Distribution. There is only one third-party driver that does not perform expected actions when connected with WebdriverIO. We are still doing research to find the best way to run automated tests under Ubuntu and we will go back to you when we have more news!
 
 ## Demo Videos
 
