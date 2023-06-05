@@ -435,4 +435,15 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const imageToClick = await this.sidebarChatsUser;
     await imageToClick.click();
   }
+
+  // Group Chats Methods
+
+  async clickOnCreateGroupChat() {
+    await this.sidebarCreateGroupChat.click();
+  }
+
+  async hoverOnCreateGroupButton() {
+    const element = await this.sidebarCreateGroupChat;
+    await this.hoverOnElement(element);
+  }
 }
