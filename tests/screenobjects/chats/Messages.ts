@@ -277,7 +277,9 @@ export default class Messages extends UplinkMainScreen {
         .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]/../..')
+        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .parentElement()
+        .parentElement()
         .waitForExist({ timeout: timeoutMsg });
     }
   }
@@ -389,7 +391,9 @@ export default class Messages extends UplinkMainScreen {
         .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === "windows") {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]/../..')
+        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .parentElement()
+        .parentElement()
         .waitForExist({ timeout: timeoutMsg });
     }
   }

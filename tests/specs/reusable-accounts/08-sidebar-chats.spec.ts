@@ -48,9 +48,7 @@ export default async function sidebarChatsTests() {
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.removeOrDenyFriendButton.waitForDisplayed();
     await friendsScreenFirstUser.goToAllFriendsList();
-  });
 
-  it("Chat User B - Wait until receiving a friend request again", async () => {
     // Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
