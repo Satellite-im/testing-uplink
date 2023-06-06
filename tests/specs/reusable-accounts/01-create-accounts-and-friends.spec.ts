@@ -31,7 +31,7 @@ let settingsProfileSecondUser = new SettingsProfileScreen("userB");
 let welcomeScreenFirstUser = new WelcomeScreen("userA");
 let welcomeScreenSecondUser = new WelcomeScreen("userB");
 
-export default async function createChatAcountsTests() {
+export default async function createChatAccountsTests() {
   it("Chat User A - Create Account", async () => {
     const username = "ChatUserA";
     await createNewUser(username);
