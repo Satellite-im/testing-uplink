@@ -110,14 +110,14 @@ export default async function createChatAccountsTests() {
     const includesFriend = await pendingList.includes("ChatUserA");
     await expect(includesFriend).toEqual(true);
     await friendsScreenSecondUser.goToAllFriendsList();
-  });
 
-  it("Chat User A - Accept friend request from B", async () => {
-    // Go to pending requests list, wait for receiving the friend request and accept it
+    // With User A - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.waitUntilFriendRequestIsReceived();
     await friendsScreenFirstUser.acceptIncomingRequest("ChatUserB");
+  });
 
+  it("Chat User A - Validate Chat User B is now a friend", async () => {
     // Validate friend is now on all friends list
     await friendsScreenFirstUser.goToAllFriendsList();
     const friendsList = await friendsScreenFirstUser.getAllFriendsList();
@@ -126,12 +126,12 @@ export default async function createChatAccountsTests() {
 
     // Go to Chat with User B
     await friendsScreenFirstUser.chatWithFriendButton.click();
+
+    // With User A - Go to pending requests list, wait for receiving the friend request and accept it
+    await friendsScreenSecondUser.waitUntilUserAcceptedFriendRequest();
   });
 
   it("Chat User B - Validate friend request was accepted", async () => {
-    // Go to pending requests list, wait for receiving the friend request and accept it
-    await friendsScreenSecondUser.waitUntilUserAcceptedFriendRequest();
-
     // Validate friend is now on all friends list
     await friendsScreenSecondUser.goToAllFriendsList();
     const friendsList = await friendsScreenSecondUser.getAllFriendsList();

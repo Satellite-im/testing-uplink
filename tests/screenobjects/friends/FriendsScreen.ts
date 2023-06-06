@@ -322,26 +322,17 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async acceptIncomingRequest(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await this.instance
-      .$(friendToClick)
-      .$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON)
-      .click();
+    await friendToClick.$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON).click();
   }
 
   async blockUser(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await this.instance
-      .$(friendToClick)
-      .$(SELECTORS.BLOCK_FRIEND_BUTTON)
-      .click();
+    await friendToClick.$(SELECTORS.BLOCK_FRIEND_BUTTON).click();
   }
 
   async chatWithFriend(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await this.instance
-      .$(friendToClick)
-      .$(SELECTORS.CHAT_WITH_FRIEND_BUTTON)
-      .click();
+    await friendToClick.$(SELECTORS.CHAT_WITH_FRIEND_BUTTON).click();
   }
 
   async clickOnAddSomeoneButton() {
@@ -426,15 +417,17 @@ export default class FriendsScreen extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === "mac2") {
-      locator =
+      locator = await this.instance.$(
         '//XCUIElementTypeGroup[@label="friend-username"]/XCUIElementTypeStaticText[contains(@value, "' +
-        name +
-        '")]/../../..';
+          name +
+          '")]/../../..'
+      );
     } else if (currentDriver === "windows") {
-      locator =
+      locator = await this.instance.$(
         '//Group[@Name="friend-username"]/Text[contains(@Name, "' +
-        name +
-        '")]/../../..';
+          name +
+          '")]/../../..'
+      );
     }
     return locator;
   }
@@ -519,14 +512,13 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async getUserTooltip(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    const userTooltip = await this.instance.$(userLocator).$(SELECTORS.TOOLTIP);
+    const userTooltip = await userLocator.$(SELECTORS.TOOLTIP);
     return userTooltip;
   }
 
   async getUserTooltipText(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    const userTooltipText = await this.instance
-      .$(userLocator)
+    const userTooltipText = await userLocator
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
     return userTooltipText;
@@ -547,17 +539,17 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async hoverOnBlockButton(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    const secondButtonLocator = await this.instance
-      .$(userLocator)
-      .$(SELECTORS.BLOCK_FRIEND_BUTTON);
+    const secondButtonLocator = await userLocator.$(
+      SELECTORS.BLOCK_FRIEND_BUTTON
+    );
     await this.hoverOnElement(secondButtonLocator);
   }
 
   async hoverOnUnfriendDenyUnblockButton(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
-    const firstButtonLocator = await this.instance
-      .$(userLocator)
-      .$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON);
+    const firstButtonLocator = await userLocator.$(
+      SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON
+    );
     await this.hoverOnElement(firstButtonLocator);
   }
 
@@ -578,10 +570,7 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async removeOrCancelUser(name: string) {
     const friendToClick = await this.getFriendRecordByName(name);
-    await this.instance
-      .$(friendToClick)
-      .$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON)
-      .click();
+    await friendToClick.$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON).click();
   }
 
   async waitUntilFriendIsRemoved(
@@ -664,8 +653,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async openFriendContextMenu(name: string) {
-    const locator = await this.getFriendRecordByName(name);
-    const friendElement = await this.instance.$(locator);
+    const friendElement = await this.getFriendRecordByName(name);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
       await rightClickOnMacOS(friendElement, this.executor);

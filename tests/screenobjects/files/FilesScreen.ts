@@ -236,7 +236,8 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async clickOnFileOrFolder(locator: string) {
-    await this.instance.$(locator).click();
+    const element = await this.getLocatorOfFolderFile(locator);
+    await this.instance.$(element).click();
   }
 
   async clickOnFolderCrumb(folderName: string) {
@@ -322,6 +323,7 @@ export default class FilesScreen extends UplinkMainScreen {
     } else if (currentDriver === "windows") {
       locator = '//Group[@Name="' + name + '"]';
     }
+    await this.instance.$(locator).waitForExist();
     return locator;
   }
 
@@ -345,8 +347,7 @@ export default class FilesScreen extends UplinkMainScreen {
     const newFileFolder = await this.getLocatorOfFolderFile(
       newName + extension
     );
-    const element = await this.instance.$(newFileFolder);
-    return element;
+    await this.instance.$(newFileFolder).waitForExist();
   }
 
   async uploadFile(relativePath: string) {
@@ -360,11 +361,13 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async validateFileOrFolderExist(locator: string) {
-    await this.instance.$(locator).waitForExist({ timeout: 15000 });
+    const element = await this.getLocatorOfFolderFile(locator);
+    await this.instance.$(element).waitForExist({ timeout: 15000 });
   }
 
   async validateFileOrFolderNotExist(locator: string) {
-    await this.instance.$(locator).waitForExist({ reverse: true });
+    const element = await this.getLocatorOfDeletedElement(locator);
+    await this.instance.$(element).waitForExist({ reverse: true });
   }
 
   // Hovering methods

@@ -66,20 +66,14 @@ export default async function files() {
 
   it("Create a new folder and enter to it", async () => {
     await filesScreenFirstUser.createFolder("testfolder01");
-    const newFolder = await filesScreenFirstUser.getLocatorOfFolderFile(
-      "testfolder01"
-    );
-    await filesScreenFirstUser.validateFileOrFolderExist(newFolder);
-    await filesScreenFirstUser.clickOnFileOrFolder(newFolder);
+    await filesScreenFirstUser.validateFileOrFolderExist("testfolder01");
+    await filesScreenFirstUser.clickOnFileOrFolder("testfolder01");
   });
 
   it("Create a subfolder inside the previous folder created and enter into it", async () => {
     await filesScreenFirstUser.createFolder("testfolder02");
-    const newFolder = await filesScreenFirstUser.getLocatorOfFolderFile(
-      "testfolder02"
-    );
-    await filesScreenFirstUser.validateFileOrFolderExist(newFolder);
-    await filesScreenFirstUser.clickOnFileOrFolder(newFolder);
+    await filesScreenFirstUser.validateFileOrFolderExist("testfolder02");
+    await filesScreenFirstUser.clickOnFileOrFolder("testfolder02");
   });
 
   it("Click in the Folder button to take you to the selected folder", async () => {
@@ -119,10 +113,7 @@ export default async function files() {
     });
 
     // Once that progress indicator disappears, validate that file is loaded
-    const newFile = await filesScreenFirstUser.getLocatorOfFolderFile(
-      "logo.jpg"
-    );
-    await filesScreenFirstUser.validateFileOrFolderExist(newFile);
+    await filesScreenFirstUser.validateFileOrFolderExist("logo.jpg");
   });
 
   it("Context Menu - Folder - Rename", async () => {
@@ -131,10 +122,8 @@ export default async function files() {
     await filesScreenFirstUser.clickOnFolderRename();
 
     // Set the new name for the folder
-    const folderRenamed = await filesScreenFirstUser.updateNameFileFolder(
-      "newname"
-    );
-    await filesScreenFirstUser.validateFileOrFolderExist(folderRenamed);
+    await filesScreenFirstUser.updateNameFileFolder("newname");
+    await filesScreenFirstUser.validateFileOrFolderExist("newname");
   });
 
   it("Context Menu - Folder - Delete", async () => {
@@ -143,11 +132,7 @@ export default async function files() {
     await filesScreenFirstUser.clickOnFolderDelete();
 
     // Ensure that folder deleted does not exist anymore
-    const nonExistingFolderLocator =
-      await filesScreenFirstUser.getLocatorOfDeletedElement("newname");
-    await filesScreenFirstUser.validateFileOrFolderNotExist(
-      nonExistingFolderLocator
-    );
+    await filesScreenFirstUser.validateFileOrFolderNotExist("newname");
   });
 
   it("Context Menu - File - Rename", async () => {
@@ -156,11 +141,8 @@ export default async function files() {
     await filesScreenFirstUser.clickOnFilesRename();
 
     // Set the new name for the file
-    const renamedFile = await filesScreenFirstUser.updateNameFileFolder(
-      "newname",
-      ".jpg"
-    );
-    await renamedFile.waitForExist();
+    await filesScreenFirstUser.updateNameFileFolder("newname", ".jpg");
+    await filesScreenFirstUser.validateFileOrFolderExist("newname.jpg");
   });
 
   // Needs research on how to implement on Windows
@@ -176,8 +158,6 @@ export default async function files() {
     await filesScreenFirstUser.clickOnFilesDelete();
 
     // Ensure that file deleted does not exist anymore
-    const nonExistingFile =
-      await filesScreenFirstUser.getLocatorOfDeletedElement("newname.jpg");
-    await filesScreenFirstUser.validateFileOrFolderNotExist(nonExistingFile);
+    await filesScreenFirstUser.validateFileOrFolderNotExist("newname.jpg");
   });
 }
