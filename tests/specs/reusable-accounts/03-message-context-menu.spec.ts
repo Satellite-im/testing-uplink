@@ -38,15 +38,11 @@ export default async function messageContextMenuTests() {
     await chatsMessagesFirstUser.waitForMessageSentToExist("Edited...");
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
     await expect(textMessage).toHaveTextContaining("Edited...");
-  });
 
-  it("Chat User B - Validate that second message was edited", async () => {
-    // Validate that last message is "edited"
+    // With User B - Validate that last message is "edited"
     await chatsMessagesSecondUser.waitForReceivingMessage("Edited...", 240000);
-  });
 
-  it("Chat User B - Validate that only deleted message is no longer in conversation", async () => {
-    // Ensure that message "three.." was deleted
+    // With User B - Ensure that message "three.." was deleted
     await chatsMessagesSecondUser.waitForMessageToBeDeleted("Three...", 30000);
   });
 }

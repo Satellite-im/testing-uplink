@@ -355,15 +355,11 @@ export default class ChatsSidebar extends UplinkMainScreen {
           '")]/../../..'
       );
     } else if (currentDriver === "windows") {
-      element = await this.instance
-        .$(
-          '//Group[@Name="User Info"]/Group[@Name="Username"]/Text[contains(@Name, "' +
-            username +
-            '")]'
-        )
-        .parentElement()
-        .parentElement()
-        .parentElement();
+      element = await this.instance.$(
+        '//Group[@Name="User Info"]/Group[@Name="Username"]/Text[contains(@Name, "' +
+          username +
+          '")]/../../..'
+      );
     }
     return element;
   }

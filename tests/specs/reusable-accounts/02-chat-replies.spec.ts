@@ -83,10 +83,8 @@ export default async function repliesTests() {
     const onlineIndicator =
       await chatsMessageGroupsSecondUser.getLastGroupWrapSentOnline();
     await expect(onlineIndicator).toExist();
-  });
 
-  it("Chat User A - Validate reply message is received from remote user", async () => {
-    // Wait until reply is received
+    // With User A - Validate that reply message is received
     await chatsMessagesFirstUser.chatMessageReply.waitForDisplayed({
       timeout: 180000,
     });

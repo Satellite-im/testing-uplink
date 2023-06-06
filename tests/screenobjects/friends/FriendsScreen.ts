@@ -423,15 +423,11 @@ export default class FriendsScreen extends UplinkMainScreen {
           '")]/../../..'
       );
     } else if (currentDriver === "windows") {
-      locator = await this.instance
-        .$(
-          '//Group[@Name="friend-username"]/Text[contains(@Name, "' +
-            name +
-            '")]'
-        )
-        .parentElement()
-        .parentElement()
-        .parentElement();
+      locator = await this.instance.$(
+        '//Group[@Name="friend-username"]/Text[contains(@Name, "' +
+          name +
+          '")]/../../..'
+      );
     }
     return locator;
   }

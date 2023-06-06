@@ -86,10 +86,12 @@ export default async function messageAttachmentsTests() {
     const fileDownloadButton =
       await chatsMessagesFirstUser.getLastMessageSentDownloadButton();
     await expect(fileDownloadButton).toBeDisplayed();
+
+    // With User B - Validate that message with attachment was received
+    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForDisplayed();
   });
 
   it("Chat User B - Received Message with Attachment - Text Message contents", async () => {
-    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForDisplayed();
     // Validate text from message containing attachment
     const message = await chatsMessagesSecondUser.getLastMessageReceivedText();
     await expect(message).toHaveTextContaining("Attached");
