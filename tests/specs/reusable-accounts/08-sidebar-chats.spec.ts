@@ -48,9 +48,7 @@ export default async function sidebarChatsTests() {
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.removeOrDenyFriendButton.waitForDisplayed();
     await friendsScreenFirstUser.goToAllFriendsList();
-  });
 
-  it("Chat User B - Wait until receiving a friend request again", async () => {
     // Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
@@ -88,12 +86,12 @@ export default async function sidebarChatsTests() {
     await chatsInputSecondUser.typeMessageOnInput("Hello...");
     await chatsInputSecondUser.clickOnSendMessage();
     await chatsMessagesSecondUser.waitForMessageSentToExist("Hello...");
+
+    // With User A - Wait until user B accepts the friend request
+    await friendsScreenFirstUser.waitUntilUserAcceptedFriendRequest();
   });
 
   it("Chat User A - Wait until Chat User B accepts friend request and sends a message", async () => {
-    // Wait until user B accepts the friend request
-    await friendsScreenFirstUser.waitUntilUserAcceptedFriendRequest();
-
     // Go to another part of the app
     await friendsScreenFirstUser.goToMainScreen();
 
@@ -163,12 +161,12 @@ export default async function sidebarChatsTests() {
     // Click on back button and validate that Sidebar is displayed again
     await chatsLayoutFirstUser.clickOnBackButton();
     await chatsSidebarFirstUser.waitForIsShown(true);
+
+    // With User B - Wait until message is received
+    await chatsMessagesSecondUser.waitForReceivingMessage("Hi...", 180000);
   });
 
   it("Chat User B - Sidebar - Wait for receiving a a new message", async () => {
-    // Wait until message is received
-    await chatsMessagesSecondUser.waitForReceivingMessage("Hi...", 180000);
-
     const latestMessage =
       await chatsMessagesSecondUser.getLastMessageReceivedText();
     await expect(latestMessage).toHaveTextContaining("Hi...");
