@@ -11,6 +11,7 @@ const SELECTORS_WINDOWS = {
   TOPBAR: '[name="Topbar"]',
   TOPBAR_ADD_TO_FAVORITES: '[name="Favorites"]',
   TOPBAR_CALL: '[name="Call"]',
+  TOPBAR_EDIT_GROUP: '[name="edit-group"]',
   TOPBAR_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   TOPBAR_INDICATOR_ONLINE: '[name="indicator-online"]',
   TOPBAR_REMOVE_FROM_FAVORITES: '[name="Remove from Favorites"]',
@@ -28,6 +29,7 @@ const SELECTORS_MACOS = {
   TOPBAR: "~Topbar",
   TOPBAR_ADD_TO_FAVORITES: "~Favorites",
   TOPBAR_CALL: "~Call",
+  TOPBAR_EDIT_GROUP: "~edit-group",
   TOPBAR_INDICATOR_OFFLINE: "~indicator-offline",
   TOPBAR_INDICATOR_ONLINE: "~indicator-online",
   TOPBAR_REMOVE_FROM_FAVORITES: "~Remove from Favorites",
@@ -77,6 +79,21 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarCallTooltipText() {
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
+  }
+
+  get topbarEditGroup() {
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_EDIT_GROUP);
+  }
+
+  get topbarEditGroupTooltip() {
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+  }
+
+  get topbarEditGroupTooltipText() {
     return this.instance
       .$(SELECTORS.TOPBAR)
       .$(SELECTORS.TOOLTIP)
@@ -141,8 +158,18 @@ export default class Topbar extends UplinkMainScreen {
     await this.topbarAddToFavorites.click();
   }
 
+  async editGroup() {
+    await this.hoverOnEditGroupButton();
+    await this.topbarEditGroup.click();
+  }
+
   async hoverOnCallButton() {
     const element = await this.topbarCall;
+    await this.hoverOnElement(element);
+  }
+
+  async hoverOnEditGroupButton() {
+    const element = await this.topbarEditGroup;
     await this.hoverOnElement(element);
   }
 

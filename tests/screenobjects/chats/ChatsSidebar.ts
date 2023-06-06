@@ -7,15 +7,6 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
-  CREATE_GROUP_CHAT_CREATE_DM_BUTTON: '[name="create-dm-button"]',
-  CREATE_GROUP_CHAT_FRIEND_CONTAINER: '[name="Friend Container"]',
-  CREATE_GROUP_CHAT_SECTION: '[name="Create Group"]',
-  CREATE_GROUP_CHAT_USER_IMAGE: '[name="User Image"]',
-  CREATE_GROUP_CHAT_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
-  CREATE_GROUP_CHAT_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
-  CREATE_GROUP_CHAT_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
-  CREATE_GROUP_CHAT_USER_NAME: '[name="friend-name"]',
-  CREATE_GROUP_CHAT_USER_NAME_TEXT: "//Text",
   SIDEBAR_CHATS_SECTION: "~chats",
   SIDEBAR_CHATS_HEADER: "//Text/Text",
   SIDEBAR_CHATS_USER: '[name="User"]',
@@ -37,16 +28,6 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
-  CREATE_GROUP_CHAT_CREATE_DM_BUTTON: "~create-dm-button",
-  CREATE_GROUP_CHAT_FRIEND_CONTAINER: "~Friend Container",
-  CREATE_GROUP_CHAT_SECTION: "~Create Group",
-  CREATE_GROUP_CHAT_USER_IMAGE: "~User Image",
-  CREATE_GROUP_CHAT_USER_IMAGE_WRAP: "~user-image-wrap",
-  CREATE_GROUP_CHAT_USER_INDICATOR_OFFLINE: "~indicator-offline",
-  CREATE_GROUP_CHAT_USER_INDICATOR_ONLINE: "~indicator-online",
-  CREATE_GROUP_CHAT_USER_NAME: "~friend-name",
-  CREATE_GROUP_CHAT_USER_NAME_TEXT:
-    "-ios class chain:**/XCUIElementTypeStaticText",
   SIDEBAR_CHATS_SECTION: "~Chats",
   SIDEBAR_CHATS_HEADER:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
@@ -345,6 +326,14 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   // Get Sidebar elements
 
+  async getSidebarGroupPlusSome(username: string) {
+    const groupLocator = await this.getSidebarUserLocator(username);
+    const plusSomeLocator = await groupLocator.$(
+      SELECTORS.SIDEBAR_GROUP_CHAT_PLUS_SOME
+    );
+    return plusSomeLocator;
+  }
+
   async getSidebarUserLocator(username: string) {
     const currentDriver = await this.getCurrentDriver();
     let element;
@@ -428,6 +417,11 @@ export default class ChatsSidebar extends UplinkMainScreen {
   // Go to sidebar conversation
   async goToSidebarChat(username: string) {
     const imageToClick = await this.getSidebarUserImage(username);
+    await imageToClick.click();
+  }
+
+  async goToSidebarGroupChat(groupname: string) {
+    const imageToClick = await this.getSidebarGroupPlusSome(groupname);
     await imageToClick.click();
   }
 
