@@ -14,7 +14,7 @@ let welcomeScreenFirstUser = new WelcomeScreen("userA");
 
 describe("Two users at the same time - Chat User A", async () => {
   it("Load Chat User A account and go to friends screen", async () => {
-    // Assumming that you have copied .uplink folder from user with several friends and groups into ./fixutes/users/ChatUserA
+    // Assuming that you have copied .uplink folder from user with several friends and groups into ./fixutes/users/ChatUserA
     // Login with the test user
     await loginWithTestUser();
     await welcomeScreenFirstUser.goToFriends();

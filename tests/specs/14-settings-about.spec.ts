@@ -5,7 +5,7 @@ let settingsDeveloperFirstUser = new SettingsDeveloperScreen("userA");
 
 export default async function settingsAbout() {
   it("Settings About - Validate header and description texts from settings sections", async () => {
-    // Go to Settings Aboout Screen
+    // Go to Settings About Screen
     await settingsDeveloperFirstUser.goToAboutSettings();
     await settingsAboutFirstUser.waitForIsShown(true);
 
