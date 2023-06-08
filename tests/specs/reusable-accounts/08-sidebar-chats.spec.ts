@@ -99,7 +99,8 @@ export default async function sidebarChatsTests() {
     await chatsSidebarFirstUser.waitForReceivingMessageOnSidebar(60000);
   });
 
-  it("Chat User A - Sidebar - Any active chats user has created should appear in Sidebar", async () => {
+  // Skipping this test in the meantime the Uplink PR adding new aria label for Copy ID button is merged
+  xit("Chat User A - Sidebar - Any active chats user has created should appear in Sidebar", async () => {
     // Validate Sidebar shows Username
     await chatsSidebarFirstUser.validateUsernameDisplayed("ChatUserB");
 
