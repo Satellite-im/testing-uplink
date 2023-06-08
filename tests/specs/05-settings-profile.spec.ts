@@ -96,7 +96,8 @@ export default async function settingsProfile() {
     ).toHaveTextContaining("did:key:");
   });
 
-  it("Settings Profile - Copy ID button contains the last characters from user did key", async () => {
+  // Skipping this test in the meantime the Uplink PR adding new aria label for Copy ID button is merged
+  xit("Settings Profile - Copy ID button contains the last characters from user did key", async () => {
     // Get expected Short DID Key from DID Key value pasted in Status field
     const userDidKey = await settingsProfileFirstUser.getStatusInputValue();
     const shortDidKey = await settingsProfileFirstUser.getShortDidKey(
