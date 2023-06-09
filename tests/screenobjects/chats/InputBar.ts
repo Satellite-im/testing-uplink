@@ -11,6 +11,10 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  EMOJI: '[name="emoji"]',
+  EMOJI_BUTTON: '//Group[@Name="chat-layout"]//Group[9]/Button',
+  EMOJI_SELECTOR: '[name="emoji-selector"]',
+  EMOJIS_CONTAINER: '[name="emojis-container"]',
   INPUT_GROUP: '[name="input-group"]',
   INPUT_TEXT: "//Edit",
   SEND_MESSAGE_BUTTON: '[name="send-message-button"]',
@@ -20,6 +24,11 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  EMOJI: "~emoji",
+  EMOJI_BUTTON:
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "chat-layout"`]/XCUIElementTypeGroup[9]/XCUIElementTypeButton',
+  EMOJI_SELECTOR: "~emoji-selector",
+  EMOJIS_CONTAINER: "~emojis-container",
   INPUT_GROUP: "~input-group",
   INPUT_TEXT: "-ios class chain:**/XCUIElementTypeTextView",
   SEND_MESSAGE_BUTTON: "~send-message-button",
@@ -36,6 +45,22 @@ currentOS === "windows"
 export default class InputBar extends UplinkMainScreen {
   constructor(executor: string) {
     super(executor, SELECTORS.INPUT_GROUP);
+  }
+
+  get emoji() {
+    return this.instance.$(SELECTORS.EMOJI);
+  }
+
+  get emojiSelector() {
+    return this.instance.$(SELECTORS.EMOJI_SELECTOR);
+  }
+
+  get emojisContainer() {
+    return this.instance.$(SELECTORS.EMOJIS_CONTAINER);
+  }
+
+  get emojiButton() {
+    return this.instance.$(SELECTORS.EMOJI_BUTTON);
   }
 
   get inputGroup() {
@@ -75,6 +100,10 @@ export default class InputBar extends UplinkMainScreen {
 
   async clearInputBar() {
     await this.inputText.clearValue();
+  }
+
+  async clickOnEmojiButton() {
+    await this.emojiButton.click();
   }
 
   async clickOnInputBar() {

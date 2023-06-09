@@ -19,10 +19,12 @@ const SELECTORS_WINDOWS = {
   ACCEPT_FRIEND_REQUEST_BUTTON: '[name="Accept Friend"]',
   ADD_SOMEONE_BUTTON: '[name="Add Someone Button"]',
   ADD_SOMEONE_INPUT: '[name="Add Someone Input"]',
+  ADD_SOMEONE_LABEL: '[name="add-friend-label"]',
   ALL_FRIENDS_BUTTON: '[name="all-friends-button"]',
   BLOCK_FRIEND_BUTTON: '[name="Block Friend"]',
   BLOCKED_LIST: '[name="Blocked List"]',
   BLOCKED_LIST_BUTTON: '[name="blocked-friends-button"]',
+  BLOCKED_LIST_LABEL: '[name="blocked-list-label"]',
   CHAT_WITH_FRIEND_BUTTON: '[name="Chat With Friend"]',
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_BLOCK: '[name="friends-block"]',
@@ -43,15 +45,22 @@ const SELECTORS_WINDOWS = {
   FRIEND_INFO_USERNAME_NAME: "//Text[1]",
   FRIEND_RECORD: '[name="Friend"]',
   FRIEND_USER_IMAGE: '[name="User Image"]',
+  FRIEND_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
+  FRIEND_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
+  FRIEND_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
+  FRIEND_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   FRIENDS_BODY: '[name="friends-body"]',
   FRIENDS_BUTTON_BADGE: '[name="Button Badge"]',
   FRIENDS_BUTTON_BADGE_TEXT: "//Text",
   FRIENDS_CONTROLS: '[name="friends-controls"]',
   FRIENDS_LIST: '[name="Friends List"]',
+  FRIENDS_LIST_LABEL: '[name="friends-list-label"]',
   INCOMING_REQUESTS_LIST: '[name="Incoming Requests List"]',
+  INCOMING_REQUESTS_LIST_LABEL: '[name="incoming-list-label"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "//Text",
   OUTGOING_REQUESTS_LIST: '[name="Outgoing Requests List"]',
+  OUTGOING_REQUESTS_LIST_LABEL: '[name="outgoing-list-label"]',
   PENDING_FRIENDS_BUTTON: '[name="pending-friends-button"]',
   REMOVE_OR_DENY_FRIEND_BUTTON: '[name="Remove or Deny Friend"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
@@ -66,10 +75,12 @@ const SELECTORS_MACOS = {
   ACCEPT_FRIEND_REQUEST_BUTTON: "~Accept Friend",
   ADD_SOMEONE_BUTTON: "~Add Someone Button",
   ADD_SOMEONE_INPUT: "~Add Someone Input",
+  ADD_SOMEONE_LABEL: "~add-friend-label",
   ALL_FRIENDS_BUTTON: "~all-friends-button",
   BLOCK_FRIEND_BUTTON: "~Block Friend",
   BLOCKED_LIST: "~Blocked List",
   BLOCKED_LIST_BUTTON: "~blocked-friends-button",
+  BLOCKED_LIST_LABEL: "~blocked-list-label",
   CHAT_WITH_FRIEND_BUTTON: "~Chat With Friend",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_BLOCK: "~friends-block",
@@ -90,15 +101,22 @@ const SELECTORS_MACOS = {
   FRIEND_INFO_USERNAME_NAME: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   FRIEND_RECORD: "~Friend",
   FRIEND_USER_IMAGE: "~User Image",
+  FRIEND_USER_IMAGE_PROFILE: "~user-image-profile",
+  FRIEND_USER_IMAGE_WRAP: "~user-image-wrap",
+  FRIEND_USER_INDICATOR_OFFLINE: "~indicator-offline",
+  FRIEND_USER_INDICATOR_ONLINE: "~indicator-online",
   FRIENDS_BODY: "~friends-body",
   FRIENDS_BUTTON_BADGE: "~Button Badge",
   FRIENDS_BUTTON_BADGE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   FRIENDS_CONTROLS: "~friends-controls",
   FRIENDS_LIST: "~Friends List",
+  FRIENDS_LIST_LABEL: "~friends-list-label",
   INCOMING_REQUESTS_LIST: "~Incoming Requests List",
+  INCOMING_REQUESTS_LIST_LABEL: "~incoming-list-label",
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   OUTGOING_REQUESTS_LIST: "~Outgoing Requests List",
+  OUTGOING_REQUESTS_LIST_LABEL: "~outgoing-list-label",
   PENDING_FRIENDS_BUTTON: "~pending-friends-button",
   REMOVE_OR_DENY_FRIEND_BUTTON: "~Remove or Deny Friend",
   TOAST_NOTIFICATION: "~Toast Notification",
@@ -129,6 +147,10 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   get addSomeoneInput() {
     return this.instance.$(SELECTORS.ADD_SOMEONE_INPUT);
+  }
+
+  get addSomeoneLabel() {
+    return this.instance.$(SELECTORS.ADD_SOMEONE_LABEL);
   }
 
   get allFriendsButton() {
@@ -163,6 +185,10 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   get blockedList() {
     return this.instance.$(SELECTORS.BLOCKED_LIST);
+  }
+
+  get blockedListLabel() {
+    return this.instance.$(SELECTORS.BLOCKED_LIST_LABEL);
   }
 
   get chatWithFriendButton() {
@@ -276,8 +302,16 @@ export default class FriendsScreen extends UplinkMainScreen {
     return this.instance.$(SELECTORS.FRIENDS_LIST);
   }
 
+  get friendsListLabel() {
+    return this.instance.$(SELECTORS.FRIENDS_LIST_LABEL);
+  }
+
   get incomingRequestsList() {
     return this.instance.$(SELECTORS.INCOMING_REQUESTS_LIST);
+  }
+
+  get incomingRequestsListLabel() {
+    return this.instance.$(SELECTORS.INCOMING_REQUESTS_LIST_LABEL);
   }
 
   get inputError() {
@@ -290,6 +324,10 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   get outgoingRequestsList() {
     return this.instance.$(SELECTORS.OUTGOING_REQUESTS_LIST);
+  }
+
+  get outgoingRequestsListLabel() {
+    return this.instance.$(SELECTORS.OUTGOING_REQUESTS_LIST_LABEL);
   }
 
   get pendingFriendsButton() {
@@ -508,6 +546,42 @@ export default class FriendsScreen extends UplinkMainScreen {
       .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
       .getText();
     return firstUserFromList;
+  }
+
+  async getUserImage(username: string) {
+    const userLocator = await this.getFriendRecordByName(username);
+    const userImage = await userLocator.$(SELECTORS.FRIEND_USER_IMAGE);
+    return userImage;
+  }
+
+  async getUserImageProfile(username: string) {
+    const userLocator = await this.getFriendRecordByName(username);
+    const userImageProfile = await userLocator.$(
+      SELECTORS.FRIEND_USER_IMAGE_PROFILE
+    );
+    return userImageProfile;
+  }
+
+  async getUserImageWrap(username: string) {
+    const userLocator = await this.getFriendRecordByName(username);
+    const userImageWrap = await userLocator.$(SELECTORS.FRIEND_USER_IMAGE_WRAP);
+    return userImageWrap;
+  }
+
+  async getUserIndicatorOffline(username: string) {
+    const userLocator = await this.getFriendRecordByName(username);
+    const indicatorOffline = await userLocator.$(
+      SELECTORS.FRIEND_USER_INDICATOR_OFFLINE
+    );
+    return indicatorOffline;
+  }
+
+  async getUserIndicatorOnline(username: string) {
+    const userLocator = await this.getFriendRecordByName(username);
+    const indicatorOnline = await userLocator.$(
+      SELECTORS.FRIEND_USER_INDICATOR_ONLINE
+    );
+    return indicatorOnline;
   }
 
   async getUserTooltip(username: string) {

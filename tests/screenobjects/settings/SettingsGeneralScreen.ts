@@ -19,9 +19,10 @@ const SELECTORS_WINDOWS = {
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
   SETTINGS_SECTION: '[name="settings-section"]',
   SLIDE_SELECTOR: '[name="slide-selector"]',
-  SLIDE_SELECTOR_BUTTON_MINUS: "//Button[1]",
-  SLIDE_SELECTOR_BUTTON_PLUS: "//Button[2]",
-  SLIDE_SELECTOR_VALUE: "//Text",
+  SLIDE_SELECTOR_BUTTON_MINUS: '[name="slide-selector-minus"]',
+  SLIDE_SELECTOR_BUTTON_PLUS: '[name="slide-selector-plus"]',
+  SLIDE_SELECTOR_VALUE: '[name="slide-selector-value"]',
+  SLIDE_SELECTOR_VALUE_TEXT: "//Text",
   SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 
@@ -37,9 +38,10 @@ const SELECTORS_MACOS = {
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
   SLIDE_SELECTOR: "~slide-selector",
-  SLIDE_SELECTOR_BUTTON_MINUS: "-ios class chain:**/XCUIElementTypeButton[1]",
-  SLIDE_SELECTOR_BUTTON_PLUS: "-ios class chain:**/XCUIElementTypeButton[2]",
-  SLIDE_SELECTOR_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
+  SLIDE_SELECTOR_BUTTON_MINUS: "~slide-selector-minus",
+  SLIDE_SELECTOR_BUTTON_PLUS: "~slide-selector-plus",
+  SLIDE_SELECTOR_VALUE: "~slide-selector-value",
+  SLIDE_SELECTOR_VALUE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SWITCH_SLIDER: "~Switch Slider",
 };
 
@@ -124,7 +126,8 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
     return this.instance
       .$$(SELECTORS.SETTINGS_CONTROL)[3]
       .$(SELECTORS.SLIDE_SELECTOR)
-      .$(SELECTORS.SLIDE_SELECTOR_VALUE);
+      .$(SELECTORS.SLIDE_SELECTOR_VALUE)
+      .$(SELECTORS.SLIDE_SELECTOR_VALUE_TEXT);
   }
 
   get settingsGeneral() {
@@ -150,7 +153,8 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
   get slideSelectorValue() {
     return this.instance
       .$(SELECTORS.SLIDE_SELECTOR)
-      .$(SELECTORS.SLIDE_SELECTOR_VALUE);
+      .$(SELECTORS.SLIDE_SELECTOR_VALUE)
+      .$(SELECTORS.SLIDE_SELECTOR_VALUE_TEXT);
   }
 
   get themeDescription() {

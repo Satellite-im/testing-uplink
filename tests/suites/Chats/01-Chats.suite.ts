@@ -8,7 +8,10 @@ import quickProfileTests from "../../specs/reusable-accounts/07-quick-profile.sp
 import sidebarChatsTests from "../../specs/reusable-accounts/08-sidebar-chats.spec";
 
 describe("Chat and Friends Tests with two users", function () {
-  describe("Create Accounts and Chat Tests", createChatAccountsTests.bind(this));
+  describe(
+    "Create Accounts and Chat Tests",
+    createChatAccountsTests.bind(this)
+  );
   describe("Chat Replies Tests", repliesTests.bind(this));
   describe("Message Context Menu Tests", messageContextMenuTests.bind(this));
   describe("Message Input Tests", messageInputTests.bind(this));

@@ -11,10 +11,12 @@ const SELECTORS_WINDOWS = {
   TOPBAR: '[name="Topbar"]',
   TOPBAR_ADD_TO_FAVORITES: '[name="Favorites"]',
   TOPBAR_CALL: '[name="Call"]',
+  TOPBAR_EDIT_GROUP: '[name="edit-group"]',
   TOPBAR_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   TOPBAR_INDICATOR_ONLINE: '[name="indicator-online"]',
   TOPBAR_REMOVE_FROM_FAVORITES: '[name="Remove from Favorites"]',
   TOPBAR_USER_IMAGE: '[name="User Image"]',
+  TOPBAR_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   TOPBAR_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   TOPBAR_USER_INFO: '[name="user-info"]',
   TOPBAR_USER_NAME: "//Text",
@@ -28,10 +30,12 @@ const SELECTORS_MACOS = {
   TOPBAR: "~Topbar",
   TOPBAR_ADD_TO_FAVORITES: "~Favorites",
   TOPBAR_CALL: "~Call",
+  TOPBAR_EDIT_GROUP: "~edit-group",
   TOPBAR_INDICATOR_OFFLINE: "~indicator-offline",
   TOPBAR_INDICATOR_ONLINE: "~indicator-online",
   TOPBAR_REMOVE_FROM_FAVORITES: "~Remove from Favorites",
   TOPBAR_USER_IMAGE: "~User Image",
+  TOPBAR_USER_IMAGE_PROFILE: "~user-image-profile",
   TOPBAR_USER_IMAGE_WRAP: "~user-image-wrap",
   TOPBAR_USER_INFO: "~user-info",
   TOPBAR_USER_NAME: "-ios class chain:**/XCUIElementTypeStaticText",
@@ -83,6 +87,21 @@ export default class Topbar extends UplinkMainScreen {
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
+  get topbarEditGroup() {
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_EDIT_GROUP);
+  }
+
+  get topbarEditGroupTooltip() {
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+  }
+
+  get topbarEditGroupTooltipText() {
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
+  }
+
   get topbarIndicatorOffline() {
     return this.instance
       .$(SELECTORS.TOPBAR)
@@ -103,6 +122,12 @@ export default class Topbar extends UplinkMainScreen {
 
   get topbarUserImage() {
     return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE);
+  }
+
+  get topbarUserImageProfile() {
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOPBAR_USER_IMAGE_PROFILE);
   }
 
   get topbarUserImageWrap() {
@@ -141,8 +166,18 @@ export default class Topbar extends UplinkMainScreen {
     await this.topbarAddToFavorites.click();
   }
 
+  async editGroup() {
+    await this.hoverOnEditGroupButton();
+    await this.topbarEditGroup.click();
+  }
+
   async hoverOnCallButton() {
     const element = await this.topbarCall;
+    await this.hoverOnElement(element);
+  }
+
+  async hoverOnEditGroupButton() {
+    const element = await this.topbarEditGroup;
     await this.hoverOnElement(element);
   }
 

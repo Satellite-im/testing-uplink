@@ -10,11 +10,13 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   EXPLORE_BUTTON: '[name="explore-button"]',
+  EXTENSIONS_BROWSER: '[name="extensions-browser"]',
+  EXTENSIONS_EXPLORE_BANNER: '[name="extensions-explore-banner"]',
+  EXTENSIONS_EXPLORE_SECTION: '[name="extensions-explore"]',
   EXTENSIONS_SEARCH_HEADER: '//Text[@Name="SEARCH EXTENSIONS"]',
   EXTENSIONS_SEARCH_INPUT: '[name="extensions-search-input"]',
   EXTENSIONS_SETTINGS_BUTTON: '[name="settings-button"]',
-  INSTALLED_ALERT_TEXT:
-    '//Text[contains(@Name, "Extensions are pre-compiled")]',
+  INSTALLED_ALERT_TEXT: "//Text",
   INSTALLED_BUTTON: '[name="installed-button"]',
   OPEN_EXTENSIONS_DESCRIPTION_TEXT: "//Text[2]",
   OPEN_EXTENSIONS_FOLDER_BUTTON: '[name="open-extensions-folder-button"]',
@@ -30,12 +32,14 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   EXPLORE_BUTTON: "~explore-button",
+  EXTENSIONS_BROWSER: "~extensions-browser",
+  EXTENSIONS_EXPLORE_BANNER: "~extensions-explore-banner",
+  EXTENSIONS_EXPLORE_SECTION: "~extensions-explore",
   EXTENSIONS_SEARCH_HEADER:
     '-ios class chain:**/XCUIElementTypeStaticText[`value == "SEARCH EXTENSIONS"`][2]',
   EXTENSIONS_SEARCH_INPUT: "~extensions-search-input",
   EXTENSIONS_SETTINGS_BUTTON: "~settings-button",
-  INSTALLED_ALERT_TEXT:
-    '//XCUIElementTypeStaticText[contains(@value, "Extensions are pre-compiled")]',
+  INSTALLED_ALERT_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   INSTALLED_BUTTON: "~installed-button",
   OPEN_EXTENSIONS_DESCRIPTION_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -91,6 +95,18 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
     return this.instance.$(SELECTORS.EXPLORE_BUTTON);
   }
 
+  get extensionsBrowser() {
+    return this.instance.$(SELECTORS.EXTENSIONS_BROWSER);
+  }
+
+  get extensionsExplore() {
+    return this.instance.$(SELECTORS.EXTENSIONS_EXPLORE_SECTION);
+  }
+
+  get extensionsExploreBanner() {
+    return this.instance.$(SELECTORS.EXTENSIONS_EXPLORE_BANNER);
+  }
+
   get extensionsSearchHeader() {
     return this.instance.$(SELECTORS.EXTENSIONS_SEARCH_HEADER);
   }
@@ -106,7 +122,9 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   get installedAlertText() {
-    return this.instance.$(SELECTORS.INSTALLED_ALERT_TEXT);
+    return this.instance
+      .$(SELECTORS.EXTENSIONS_EXPLORE_BANNER)
+      .$(SELECTORS.INSTALLED_ALERT_TEXT);
   }
 
   get installedButton() {

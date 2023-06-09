@@ -17,7 +17,7 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   ADD_PICTURE_BUTTON: '[name="add-picture-button"]',
-  COPY_ID_BUTTON: "//Button",
+  COPY_ID_BUTTON: '[name="copy-id-button"]',
   DISMISS_BUTTON: '[name="welcome-message-dismiss"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_MESSAGE: "//Text",
@@ -29,14 +29,14 @@ const SELECTORS_WINDOWS = {
   PROFILE_PICTURE: '[name="profile-picture"]',
   PROFILE_PICTURE_CLEAR: '[name="clear-avatar"]',
   STATUS_INPUT: '[name="status-input"]',
-  STATUS_LABEL: "//Text[2]/Text",
+  STATUS_LABEL: '//Text[@Name="profile-status-label"]/Text',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
   TOAST_NOTIFICATION_CLOSE: '[name="close-toast"]',
   TOAST_NOTIFICATION_TEXT: '[name="toast-content"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   USERNAME_INPUT: '[name="username-input"]',
-  USERNAME_LABEL: "//Text[1]/Text",
+  USERNAME_LABEL: '//Text[@Name="profile-username-label"]/Text',
   YOUR_NEW_PROFILE: '[name="new-profile-welcome"]',
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: '[name="welcome-message-desc"]',
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE_VALUE: "//Text",
@@ -48,7 +48,7 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
-  COPY_ID_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
+  COPY_ID_BUTTON: "~copy-id-button",
   DISMISS_BUTTON: "~welcome-message-dismiss",
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_MESSAGE: "-ios class chain:**/XCUIElementTypeStaticText",
