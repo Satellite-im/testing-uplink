@@ -104,7 +104,7 @@ export default async function quickProfileTests() {
     await expect(includesFriend).toEqual(false);
 
     // With User B - Go to Friends and wait for User A to remove friendship with User B
-    await chatsTopbarSecondUser.goToFriends();
+    await welcomeScreenSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
     await friendsScreenSecondUser.chatWithFriendButton.waitForExist({
       reverse: true,
@@ -129,8 +129,6 @@ export default async function quickProfileTests() {
     await friendsScreenFirstUser.goToAllFriendsList();
 
     // With User B - Go to pending requests list, wait for receiving the friend request and accept it
-    await welcomeScreenSecondUser.waitForIsShown(true);
-    await welcomeScreenSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
     await friendsScreenSecondUser.goToPendingFriendsList();
     await friendsScreenSecondUser.acceptIncomingRequest("ChatUserA");

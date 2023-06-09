@@ -309,6 +309,23 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   // Get Sidebar Group elements
 
+  async waitForGroupToBeCreated(groupname: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let element;
+    if (currentDriver === "mac2") {
+      element =
+        '//XCUIElementTypeGroup[@label="user-image-group-wrap"]/..//XCUIElementTypeGroup[@label="Username"]/XCUIElementTypeStaticText[contains(@value, "' +
+        groupname +
+        '")]';
+    } else if (currentDriver === "windows") {
+      element =
+        '//Group[@Name="user-image-group-wrap"]/..//Group[@Name="Username"]/Text[contains(@Name, "' +
+        groupname +
+        '")]';
+    }
+    await this.instance.$(element).waitForExist();
+  }
+
   async getSidebarGroupLocator(groupname: string) {
     const currentDriver = await this.getCurrentDriver();
     let element;

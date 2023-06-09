@@ -132,7 +132,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   async clearGroupNameInput() {
-    await this.groupNameInput.clear();
+    await this.groupNameInput.setValue("");
   }
 
   async clearUserSearchInput() {

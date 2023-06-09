@@ -4,6 +4,7 @@ import ChatsSidebar from "../../screenobjects/chats/ChatsSidebar";
 import CreateGroupChat from "../../screenobjects/chats/CreateGroupChat";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Topbar from "../../screenobjects/chats/Topbar";
+import sidebarChatsTests from "./08-sidebar-chats.spec";
 let chatsLayoutFirstUser = new ChatsLayout("userA");
 let chatsLayoutSecondUser = new ChatsLayout("userB");
 let chatsInputFirstUser = new InputBar("userA");
@@ -72,9 +73,10 @@ export default async function groupChatTests() {
     await createGroupFirstUser.typeOnUsersSearchInput("ChatUserB");
     await createGroupFirstUser.selectUserFromList("ChatUserB");
     await createGroupFirstUser.clickOnCreateGroupChat();
+    await chatsSidebarFirstUser.waitForGroupToBeCreated("My First Group");
   });
 
-  it("Users A and B - Group Chat is displayed on both participant users sidebar", async () => {
+  it("Chat User A - Group Chat is displayed on local user sidebar", async () => {
     const statusFromGroup = await chatsSidebarFirstUser.getSidebarGroupStatus(
       "My First Group"
     );
@@ -87,7 +89,10 @@ export default async function groupChatTests() {
     await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
       "My First Group"
     );
+  });
 
+  it("User B - Group Chat is displayed on remote participant users sidebar", async () => {
+    await chatsSidebarSecondUser.waitForGroupToBeCreated("My First Group");
     const statusFromGroupOnUserB =
       await chatsSidebarSecondUser.getSidebarGroupStatus("My First Group");
     await expect(statusFromGroupOnUserB).toHaveTextContaining(
