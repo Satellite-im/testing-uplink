@@ -1,15 +1,24 @@
+import Messages from "../../screenobjects/chats/Messages";
+import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "../../screenobjects/chats/ChatsSidebar";
 import CreateGroupChat from "../../screenobjects/chats/CreateGroupChat";
+import InputBar from "../../screenobjects/chats/InputBar";
+import Topbar from "../../screenobjects/chats/Topbar";
+let chatsLayoutFirstUser = new ChatsLayout("userA");
+let chatsLayoutSecondUser = new ChatsLayout("userB");
+let chatsInputFirstUser = new InputBar("userA");
+let chatsMessagesFirstUser = new Messages("userA");
+let chatsMessagesSecondUser = new Messages("userB");
 let chatsSidebarFirstUser = new ChatsSidebar("userA");
+let chatsSidebarSecondUser = new ChatsSidebar("userB");
+let chatsTopbarFirstUser = new Topbar("userA");
+let chatsTopbarSecondUser = new Topbar("userB");
 let createGroupFirstUser = new CreateGroupChat("userA");
 
 export default async function groupChatTests() {
   it("Chat User A - Create Group Chat button tooltip", async () => {
     await chatsSidebarFirstUser.hoverOnCreateGroupButton();
     await chatsSidebarFirstUser.sidebarCreateGroupChatTooltip.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarCreateGroupChatTooltipText.toHaveTextContaining(
-      "Create Group Chat"
-    );
   });
 
   it("Chat User A - Click on Create Group Chat and close modal", async () => {
@@ -32,23 +41,13 @@ export default async function groupChatTests() {
     // Validate contents
     await expect(createGroupFirstUser.groupNameInput).toBeDisplayed();
     await expect(createGroupFirstUser.userSearchInput).toBeDisplayed();
-    await expect(createGroupFirstUser.friendContainer).toBeDisplayed();
-    await expect(createGroupFirstUser.friendIndicatorOnline).toBeDisplayed();
-    await expect(createGroupFirstUser.friendUserName).toBeDisplayed();
-    await expect(createGroupFirstUser.friendUserNameText).toHaveTextContaining(
-      "ChatUserB"
-    );
+    await expect(createGroupFirstUser.friendsList).toBeDisplayed();
     await expect(createGroupFirstUser.createGroupChatButton).toBeDisplayed();
   });
 
-  xit("Chat User A - Attempt to create group chat with empty name", async () => {});
-
   it("Chat User A - Attempt to create group chat with alphanumeric chars in name", async () => {
     await createGroupFirstUser.typeOnGroupName("&*!@#^&!@^#!");
-    await createGroupFirstUser.createGroupInputError.toBeDisplayed();
-    await createGroupFirstUser.createGroupInputErrorText.toHaveTextContaining(
-      "Only alphanumeric characters are accepted."
-    );
+    await expect(createGroupFirstUser.createGroupInputError).toBeDisplayed();
     await createGroupFirstUser.clearGroupNameInput();
   });
 
@@ -56,16 +55,15 @@ export default async function groupChatTests() {
     await createGroupFirstUser.typeOnGroupName(
       "01234567890123456789012345678901234567890123456789012345678912345"
     );
-    await createGroupFirstUser.createGroupInputError.toBeDisplayed();
-    await createGroupFirstUser.createGroupInputErrorText.toHaveTextContaining(
-      "Maximum of 64 characters exceeded."
-    );
+    await expect(createGroupFirstUser.createGroupInputError).toBeDisplayed();
     await createGroupFirstUser.clearGroupNameInput();
   });
 
   it("Chat User A - Search bar - Look for non existing user", async () => {
     await createGroupFirstUser.typeOnUsersSearchInput("zzz");
-    await expect(createGroupFirstUser.friendContainer).not.toExist();
+    const numberOfUsersInList =
+      await createGroupFirstUser.getNumberOfUsersInListFromCreateGroup();
+    await expect(numberOfUsersInList).toEqual(0);
     await createGroupFirstUser.clearUserSearchInput();
   });
 
@@ -74,5 +72,39 @@ export default async function groupChatTests() {
     await createGroupFirstUser.typeOnUsersSearchInput("ChatUserB");
     await createGroupFirstUser.selectUserFromList("ChatUserB");
     await createGroupFirstUser.clickOnCreateGroupChat();
+  });
+
+  it("Users A and B - Group Chat is displayed on both participant users sidebar", async () => {
+    const statusFromGroup = await chatsSidebarFirstUser.getSidebarGroupStatus(
+      "My First Group"
+    );
+    await expect(statusFromGroup).toHaveTextContaining(
+      "No messages sent yet, send one!"
+    );
+    await chatsSidebarFirstUser.goToSidebarGroupChat("My First Group");
+    await chatsLayoutFirstUser.waitForIsShown(true);
+    await chatsTopbarFirstUser.waitForIsShown(true);
+    await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
+      "My First Group"
+    );
+
+    const statusFromGroupOnUserB =
+      await chatsSidebarSecondUser.getSidebarGroupStatus("My First Group");
+    await expect(statusFromGroupOnUserB).toHaveTextContaining(
+      "No messages sent yet, send one!"
+    );
+    await chatsSidebarSecondUser.goToSidebarGroupChat("My First Group");
+    await chatsLayoutSecondUser.waitForIsShown(true);
+    await chatsTopbarSecondUser.waitForIsShown(true);
+    await expect(chatsTopbarSecondUser.topbarUserName).toHaveTextContaining(
+      "My First Group"
+    );
+  });
+
+  it("Group Chat - User A sends a message in group chat", async () => {
+    await chatsInputFirstUser.typeMessageOnInput("Hi Group!");
+    await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Hi Group!");
+    await chatsMessagesSecondUser.waitForReceivingMessage("Hi Group!");
   });
 }

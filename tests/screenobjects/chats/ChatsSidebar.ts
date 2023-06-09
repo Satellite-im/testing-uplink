@@ -30,6 +30,8 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_CREATE_GROUP_CHAT_BUTTON: '[name="create-group-chat"]',
   SIDEBAR_GROUP_CHAT_IMAGE: '[name="user-image-group-wrap"]',
   SIDEBAR_GROUP_CHAT_PLUS_SOME: '[name="plus-some"]',
+  TOOLTIP: '[name="tooltip"]',
+  TOOLTIP_TEXT: "//Text",
 };
 
 const SELECTORS_MACOS = {
@@ -60,6 +62,9 @@ const SELECTORS_MACOS = {
   SIDEBAR_CREATE_GROUP_CHAT_BUTTON: "~create-group-chat",
   SIDEBAR_GROUP_CHAT_IMAGE: "~user-image-group-wrap",
   SIDEBAR_GROUP_CHAT_PLUS_SOME: "~plus-some",
+  TOOLTIP: "~tooltip",
+  TOOLTIP_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
 };
 
 currentOS === "windows"
@@ -69,71 +74,6 @@ currentOS === "windows"
 export default class ChatsSidebar extends UplinkMainScreen {
   constructor(executor: string) {
     super(executor, SELECTORS.SIDEBAR_CHATS_SECTION);
-  }
-
-  get createGroupChatSection() {
-    return this.instance.$(SELECTORS.CREATE_GROUP_CHAT_SECTION);
-  }
-
-  get createGroupChatCreateDMButton() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_CHAT_CREATE_DM_BUTTON);
-  }
-
-  get createGroupChatSearchInput() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CHAT_SEARCH_INPUT);
-  }
-
-  get createGroupChatFriendContainer() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER);
-  }
-
-  get createGroupChatUserImage() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
-      .$(SELECTORS.CREATE_GROUP_CHAT_USER_IMAGE);
-  }
-
-  get createGroupChatUserImageWrap() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
-      .$(SELECTORS.CREATE_GROUP_CHAT_USER_IMAGE_WRAP);
-  }
-
-  get createGroupChatUserIndicatorOffline() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
-      .$(SELECTORS.CREATE_GROUP_CHAT_USER_INDICATOR_OFFLINE);
-  }
-
-  get createGroupChatUserIndicatorOnline() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
-      .$(SELECTORS.CREATE_GROUP_CHAT_USER_INDICATOR_ONLINE);
-  }
-
-  get createGroupChatUserName() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
-      .$(SELECTORS.CREATE_GROUP_CHAT_USER_NAME);
-  }
-
-  get createGroupChatUserNameText() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_CHAT_FRIEND_CONTAINER)
-      .$(SELECTORS.CREATE_GROUP_CHAT_USER_NAME)
-      .$(SELECTORS.CREATE_GROUP_CHAT_USER_NAME_TEXT);
   }
 
   get siderbarChatsHeader() {
@@ -285,16 +225,11 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   get sidebarCreateGroupChatTooltip() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
-      .$(SELECTORS.TOOLTIP);
+    return this.instance.$(SELECTORS.TOOLTIP);
   }
 
   get sidebarCreateGroupChatTooltipText() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get sidebarGroupChatImage() {
@@ -372,15 +307,44 @@ export default class ChatsSidebar extends UplinkMainScreen {
     await this.sidebarChatsUserStatusValue.waitForExist({ timeout: timeout });
   }
 
-  // Get Sidebar elements
+  // Get Sidebar Group elements
 
-  async getSidebarGroupPlusSome(username: string) {
-    const groupLocator = await this.getSidebarUserLocator(username);
+  async getSidebarGroupLocator(groupname: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let element;
+    if (currentDriver === "mac2") {
+      element = await this.instance.$(
+        '//XCUIElementTypeGroup[@label="user-image-group-wrap"]/..//XCUIElementTypeGroup[@label="Username"]/XCUIElementTypeStaticText[contains(@value, "' +
+          groupname +
+          '")]/../../..'
+      );
+    } else if (currentDriver === "windows") {
+      element = await this.instance.$(
+        '//Group[@Name="user-image-group-wrap"]/..//Group[@Name="Username"]/Text[contains(@Name, "' +
+          groupname +
+          '")]/../../..'
+      );
+    }
+    return element;
+  }
+
+  async getSidebarGroupPlusSome(groupname: string) {
+    const groupLocator = await this.getSidebarGroupLocator(groupname);
     const plusSomeLocator = await groupLocator.$(
       SELECTORS.SIDEBAR_GROUP_CHAT_PLUS_SOME
     );
     return plusSomeLocator;
   }
+
+  async getSidebarGroupStatus(groupname: string) {
+    const groupLocator = await this.getSidebarGroupLocator(groupname);
+    const statusLocator = await groupLocator
+      .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
+    return statusLocator;
+  }
+
+  // Get Sidebar User elements
 
   async getSidebarUserLocator(username: string) {
     const currentDriver = await this.getCurrentDriver();
@@ -478,8 +442,8 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async goToSidebarGroupChat(groupname: string) {
-    const imageToClick = await this.getSidebarGroupPlusSome(groupname);
-    await imageToClick.click();
+    const elementToClick = await this.getSidebarGroupStatus(groupname);
+    await elementToClick.click();
   }
 
   async goToSidebarFirstChat() {
