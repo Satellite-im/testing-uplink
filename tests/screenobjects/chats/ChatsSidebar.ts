@@ -343,7 +343,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateLastMessageTimeAgo() {
-    await expect(this.sidebarChatsUserBadgeTimeAgo).toHaveTextContaining(
+    await expect(this.sidebarChatsUserBadgeTimeAgoValue).toHaveTextContaining(
       /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
   }
@@ -357,7 +357,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateNumberOfUnreadMessages(badgeNumber: string) {
-    await expect(this.sidebarChatsUserBadgeNumber).toHaveTextContaining(
+    await expect(this.sidebarChatsUserBadgeNumberValue).toHaveTextContaining(
       badgeNumber
     );
   }
