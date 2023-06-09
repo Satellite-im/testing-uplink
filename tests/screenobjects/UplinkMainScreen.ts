@@ -20,9 +20,11 @@ const SELECTORS_WINDOWS = {
   FAVORITES: '[name="Favorites"]',
   FAVORITES_CONTEXT_CHAT: '[name="favorites-chat"]',
   FAVORITES_CONTEXT_REMOVE: '[name="favorites-remove"]',
-  FAVORITES_HEADER: "//Text/Text",
+  FAVORITES_HEADER: '[name="favorites-label"]',
+  FAVORITES_HEADER_TEXT: "//Text",
   FAVORITES_USER: "//Group",
   FAVORITES_USER_IMAGE: '[name="User Image"]',
+  FAVORITES_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   FAVORITES_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   FAVORITES_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FAVORITES_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
@@ -60,11 +62,12 @@ const SELECTORS_MACOS = {
   FAVORITES: "~Favorites",
   FAVORITES_CONTEXT_CHAT: "~favorites-chat",
   FAVORITES_CONTEXT_REMOVE: "~favorites-remove",
-  FAVORITES_HEADER:
-    "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
+  FAVORITES_HEADER: "~favorites-label",
+  FAVORITES_HEADER_TEXT: "-ios class chain:**/XXCUIElementTypeStaticText",
   FAVORITES_USER: "-ios class chain:**/XCUIElementTypeGroup",
-  FAVORITES_USER_IMAGE_WRAP: "~user-image-wrap",
   FAVORITES_USER_IMAGE: "~User Image",
+  FAVORITES_USER_IMAGE_PROFILE: "~user-image-profile",
+  FAVORITES_USER_IMAGE_WRAP: "~user-image-wrap",
   FAVORITES_USER_INDICATOR_OFFLINE: "~indicator-offline",
   FAVORITES_USER_INDICATOR_ONLINE: "~indicator-online",
   FAVORITES_USER_NAME:
@@ -154,6 +157,14 @@ export default class UplinkMainScreen extends AppScreen {
       .$(SELECTORS.FAVORITES_HEADER);
   }
 
+  get favoritesHeaderText() {
+    return this.instance
+      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.FAVORITES)
+      .$(SELECTORS.FAVORITES_HEADER)
+      .$(SELECTORS.FAVORITES_HEADER_TEXT);
+  }
+
   get favoriteUsers() {
     return this.instance
       .$(SELECTORS.SIDEBAR)
@@ -166,6 +177,13 @@ export default class UplinkMainScreen extends AppScreen {
       .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE);
+  }
+
+  get favoritesUserImageProfile() {
+    return this.instance
+      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.FAVORITES)
+      .$$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
   }
 
   get favoritesUserImageWrap() {

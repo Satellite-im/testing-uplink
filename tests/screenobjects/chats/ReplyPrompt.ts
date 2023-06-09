@@ -17,6 +17,7 @@ const SELECTORS_WINDOWS = {
   REPLY_POPUP_REMOTE_TEXT_TO_REPLY: '[name="reply-text-message-remote"]',
   REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE: "//Text",
   REPLY_POPUP_USER_IMAGE: '[name="User Image"]',
+  REPLY_POPUP_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   REPLY_POPUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
 };
 
@@ -34,6 +35,7 @@ const SELECTORS_MACOS = {
   REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE:
     "-ios class chain:**/XCUIElementTypeStaticText",
   REPLY_POPUP_USER_IMAGE: "~User Image",
+  REPLY_POPUP_USER_IMAGE_PROFILE: "~user-image-profile",
   REPLY_POPUP_USER_IMAGE_WRAP: "~user-image-wrap",
 };
 
@@ -110,6 +112,12 @@ export default class ReplyPrompt extends UplinkMainScreen {
     return this.instance
       .$(SELECTORS.REPLY_POPUP)
       .$(SELECTORS.REPLY_POPUP_USER_IMAGE);
+  }
+
+  get replyPopUpUserImageProfile() {
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_USER_IMAGE_PROFILE);
   }
 
   get replyPopUpUserImageWrap() {

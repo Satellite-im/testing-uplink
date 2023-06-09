@@ -16,6 +16,7 @@ const SELECTORS_WINDOWS = {
   TOPBAR_INDICATOR_ONLINE: '[name="indicator-online"]',
   TOPBAR_REMOVE_FROM_FAVORITES: '[name="Remove from Favorites"]',
   TOPBAR_USER_IMAGE: '[name="User Image"]',
+  TOPBAR_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   TOPBAR_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   TOPBAR_USER_INFO: '[name="user-info"]',
   TOPBAR_USER_NAME: "//Text",
@@ -34,6 +35,7 @@ const SELECTORS_MACOS = {
   TOPBAR_INDICATOR_ONLINE: "~indicator-online",
   TOPBAR_REMOVE_FROM_FAVORITES: "~Remove from Favorites",
   TOPBAR_USER_IMAGE: "~User Image",
+  TOPBAR_USER_IMAGE_PROFILE: "~user-image-profile",
   TOPBAR_USER_IMAGE_WRAP: "~user-image-wrap",
   TOPBAR_USER_INFO: "~user-info",
   TOPBAR_USER_NAME: "-ios class chain:**/XCUIElementTypeStaticText",
@@ -120,6 +122,12 @@ export default class Topbar extends UplinkMainScreen {
 
   get topbarUserImage() {
     return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE);
+  }
+
+  get topbarUserImageProfile() {
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOPBAR_USER_IMAGE_PROFILE);
   }
 
   get topbarUserImageWrap() {

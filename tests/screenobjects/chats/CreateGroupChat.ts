@@ -10,15 +10,20 @@ const SELECTORS_WINDOWS = {
   CREATE_GROUP_CHAT_SECTION: '[name="Create Group"]',
   CREATE_GROUP_INPUT_ERROR: '[name="input-error"]',
   CREATE_GROUP_INPUT_ERROR_TEXT: "//Text",
+  CREATE_GROUP_NAME: '[name="create-group-name"]',
+  CREATE_GROUP_NAME_LABEL: '[name="group-name-label"]',
+  CREATE_GROUP_USERS_LABEL: '[name="users-label"]',
   FRIEND_CONTAINER: '[name="Friend Container"]',
   FRIEND_USER_IMAGE: '[name="User Image"]',
+  FRIEND_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   FRIEND_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   FRIEND_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FRIEND_INDICATOR_ONLINE: '[name="indicator-online"]',
   FRIEND_USER_NAME: '[name="friend-name"]',
   FRIEND_USER_NAME_TEXT: "//Text",
+  FRIENDS_LIST: '[name="friends-list"]',
   GROUP_NAME_INPUT: '[name="groupname-input"]',
-  USER_SEARCH_INPUT: '[name="chat-search-input"]',
+  USER_SEARCH_INPUT: '[name="friend-search-input"]',
 };
 
 const SELECTORS_MACOS = {
@@ -27,15 +32,20 @@ const SELECTORS_MACOS = {
   CREATE_GROUP_INPUT_ERROR: "~input-error",
   CREATE_GROUP_INPUT_ERROR_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText",
+  CREATE_GROUP_NAME: "~create-group-name",
+  CREATE_GROUP_NAME_LABEL: "~group-name-label",
+  CREATE_GROUP_USERS_LABEL: "~users-label",
   FRIEND_CONTAINER: "~Friend Container",
   FRIEND_USER_IMAGE: "~User Image",
+  FRIEND_USER_IMAGE_PROFILE: "~user-image-profile",
   FRIEND_USER_IMAGE_WRAP: "~user-image-wrap",
   FRIEND_INDICATOR_OFFLINE: "~indicator-offline",
   FRIEND_INDICATOR_ONLINE: "~indicator-online",
   FRIEND_USER_NAME: "~friend-name",
   FRIEND_USER_NAME_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  FRIENDS_LIST: "~friends-list",
   GROUP_NAME_INPUT: "~groupname-input",
-  USER_SEARCH_INPUT: "~chat-search-input",
+  USER_SEARCH_INPUT: "~friend-search-input",
 };
 
 currentOS === "windows"
@@ -70,22 +80,52 @@ export default class CreateGroupChat extends UplinkMainScreen {
       .$(SELECTORS.CREATE_GROUP_INPUT_ERROR_TEXT);
   }
 
+  get createGroupName() {
+    return this.instance
+      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.CREATE_GROUP_NAME);
+  }
+
+  get createGroupNameLabel() {
+    return this.instance
+      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.CREATE_GROUP_NAME)
+      .$(SELECTORS.CREATE_GROUP_NAME_LABEL);
+  }
+
+  get createGroupUsersLabel() {
+    return this.instance
+      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.CREATE_GROUP_USERS_LABEL);
+  }
+
   get friendContainer() {
     return this.instance
       .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SEECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIEND_CONTAINER);
   }
 
   get friendUserImage() {
     return this.instance
       .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SEECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIEND_CONTAINER)
       .$(SELECTORS.FRIEND_USER_IMAGE);
+  }
+
+  get friendUserImageProfile() {
+    return this.instance
+      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SEECTORS.FRIENDS_LIST)
+      .$(SELECTORS.FRIEND_CONTAINER)
+      .$(SELECTORS.FRIEND_USER_IMAGE_PROFILE);
   }
 
   get friendUserImageWrap() {
     return this.instance
       .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SEECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIEND_CONTAINER)
       .$(SELECTORS.FRIEND_USER_IMAGE_WRAP);
   }
@@ -93,6 +133,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   get friendIndicatorOffline() {
     return this.instance
       .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SEECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIEND_CONTAINER)
       .$(SELECTORS.FRIEND_INDICATOR_OFFLINE);
   }
@@ -100,6 +141,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   get friendIndicatorOnline() {
     return this.instance
       .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SEECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIEND_CONTAINER)
       .$(SELECTORS.FRIEND_INDICATOR_ONLINE);
   }
@@ -107,6 +149,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   get friendUserName() {
     return this.instance
       .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SEECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIEND_CONTAINER)
       .$(SELECTORS.FRIEND_USER_NAME);
   }
@@ -114,9 +157,16 @@ export default class CreateGroupChat extends UplinkMainScreen {
   get friendUserNameText() {
     return this.instance
       .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SEECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIEND_CONTAINER)
       .$(SELECTORS.FRIEND_USER_NAME)
       .$(SELECTORS.FRIEND_USER_NAME_TEXT);
+  }
+
+  get friendsList() {
+    return this.instance
+      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.FRIENDS_LIST);
   }
 
   get groupNameInput() {
@@ -150,10 +200,19 @@ export default class CreateGroupChat extends UplinkMainScreen {
     );
     return indicatorOffline;
   }
+
   async getFriendFromListIndicatorOnline(username: string) {
     const locator = await this.getFriendFromListLocator(username);
     const indicatorOnline = await locator.$(SELECTORS.FRIEND_INDICATOR_ONLINE);
     return indicatorOnline;
+  }
+
+  async getFriendFromListUserImageProfile(username: string) {
+    const locator = await this.getFriendFromListLocator(username);
+    const userImageProfile = await locator.$(
+      SELECTORS.FRIEND_USER_IMAGE_PROFILE
+    );
+    return userImageProfile;
   }
 
   async getFriendFromListLocator(username: string) {
@@ -162,6 +221,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
     if (currentDriver === "mac2") {
       element = await this.instance
         .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+        .$(SELECTORS.FRIENDS_LIST)
         .$(
           '//XCUIElementTypeGroup[@label="friend-name"]/XCUIElementTypeStaticText[contains(@value, "' +
             username +
@@ -170,6 +230,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
     } else if (currentDriver === "windows") {
       element = await this.instance
         .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+        .$(SELECTORS.FRIENDS_LIST)
         .$(
           '//Group[@Name="friend-name"]/Text[contains(@Name, "' +
             username +

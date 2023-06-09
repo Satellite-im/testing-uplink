@@ -22,15 +22,18 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU_FOLDER_DELETE: '[name="folder-delete"]',
   CONTEXT_MENU_FOLDER_RENAME: '[name="folder-rename"]',
   CRUMB: '[name="crumb"]',
+  CRUMB_HOME_FOLDER: '[name="home-dir"]',
   CRUMB_TEXT: "//Text",
   FILE_FOLDER_NAME_TEXT: "//Text/Text",
   FILES_BODY: '[name="files-body"]',
   FILES_BREADCRUMBS: '[name="files-breadcrumbs"]',
   FILES_INFO: '[name="files-info"]',
-  FILES_INFO_FREE_SPACE_LABEL: "//Text[1]",
-  FILES_INFO_FREE_SPACE_VALUE: "//Text[2]",
-  FILES_INFO_TOTAL_SPACE_LABEL: "//Text[3]",
-  FILES_INFO_TOTAL_SPACE_VALUE: "//Text[4]",
+  FILES_INFO_CURRENT_SIZE: '[name="free-space-current-size"]',
+  FILES_INFO_CURRENT_SIZE_HEADER: "//Text[1]",
+  FILES_INFO_CURRENT_SIZE_VALUE: "//Text[2]",
+  FILES_INFO_MAX_SIZE: '[name="free-space-max-size"]',
+  FILES_INFO_MAX_SIZE_HEADER: "//Text[1]",
+  FILES_INFO_MAX_SIZE_VALUE: "//Text[2]",
   FILES_LAYOUT: '[name=files-layout"]',
   FILES_LIST: '[name="files-list"]',
   INPUT_ERROR: '[name="input-error"]',
@@ -53,6 +56,7 @@ const SELECTORS_MACOS = {
   CONTEXT_MENU_FOLDER_DELETE: "~folder-delete",
   CONTEXT_MENU_FOLDER_RENAME: "~folder-rename",
   CRUMB: "~crumb",
+  CRUMB_HOME_FOLDER: "~home-dir",
   CRUMB_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[1]",
   FILE_FOLDER_NAME:
@@ -62,14 +66,15 @@ const SELECTORS_MACOS = {
   FILES_BODY: "~files-body",
   FILES_BREADCRUMBS: "~files-breadcrumbs",
   FILES_INFO: "~files-info",
-  FILES_INFO_FREE_SPACE_LABEL:
-    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[1]",
-  FILES_INFO_FREE_SPACE_VALUE:
-    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeStaticText[2]",
-  FILES_INFO_TOTAL_SPACE_LABEL:
-    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText[1]",
-  FILES_INFO_TOTAL_SPACE_VALUE:
-    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText[2]",
+  FILES_INFO_CURRENT_SIZE: "~free-space-current-size",
+  FILES_INFO_CURRENT_SIZE_HEADER:
+    "-ios class chain:**/XCUIElementTypeStaticText[1]",
+  FILES_INFO_CURRENT_SIZE_VALUE:
+    "-ios class chain:**/XCUIElementTypeStaticText[2]",
+  FILES_INFO_MAX_SIZE: "~free-space-max-size",
+  FILES_INFO_MAX_SIZE_HEADER:
+    "-ios class chain:**/XCUIElementTypeStaticText[1]",
+  FILES_INFO_MAX_SIZE_VALUE: "-ios class chain:**/XCUIElementTypeStaticText[2]",
   FILES_LAYOUT: "~files-layout",
   FILES_LIST: "~files-list",
   INPUT_ERROR: "~input-error",
@@ -138,6 +143,10 @@ export default class FilesScreen extends UplinkMainScreen {
     return this.instance.$$(SELECTORS.CRUMB);
   }
 
+  get crumbHomeDir() {
+    return this.instance.$(SELECTORS.CRUMB_HOME_FOLDER);
+  }
+
   get crumbText() {
     return this.instance.$$(SELECTORS.CRUMB).$(SELECTORS.CRUMB_TEXT);
   }
@@ -158,28 +167,36 @@ export default class FilesScreen extends UplinkMainScreen {
     return this.instance.$(SELECTORS.FILES_INFO);
   }
 
-  get filesInfoFreeSpaceLabel() {
-    return this.instance
-      .$(SELECTORS.FILES_INFO)
-      .$(SELECTORS.FILES_INFO_FREE_SPACE_LABEL);
+  get filesInfoCurrentSize() {
+    return this.instance.$(SELECTORS.FILES_INFO_CURRENT_SIZE);
   }
 
-  get filesInfoFreeSpaceValue() {
+  get filesInfoCurrentSizeLabel() {
     return this.instance
-      .$(SELECTORS.FILES_INFO)
-      .$(SELECTORS.FILES_INFO_FREE_SPACE_VALUE);
+      .$(SELECTORS.FILES_INFO_CURRENT_SIZE)
+      .$(SELECTORS.FILES_INFO_CURRENT_SIZE_HEADER);
   }
 
-  get filesInfoTotalSpaceLabel() {
+  get filesInfoCurrentSizeValue() {
     return this.instance
-      .$(SELECTORS.FILES_INFO)
-      .$(SELECTORS.FILES_INFO_TOTAL_SPACE_LABEL);
+      .$(SELECTORS.FILES_INFO_CURRENT_SIZE)
+      .$(SELECTORS.FILES_INFO_CURRENT_SIZE_VALUE);
   }
 
-  get filesInfoTotalSpaceValue() {
+  get filesInfoMaxSize() {
+    return this.instance.$(SELECTORS.FILES_INFO_MAX_SIZE);
+  }
+
+  get filesInfoMaxSizeLabel() {
     return this.instance
-      .$(SELECTORS.FILES_INFO)
-      .$(SELECTORS.FILES_INFO_TOTAL_SPACE_VALUE);
+      .$(SELECTORS.FILES_INFO_MAX_SIZE)
+      .$(SELECTORS.FILES_INFO_MAX_SIZE_HEADER);
+  }
+
+  get filesInfoMaxSizeValue() {
+    return this.instance
+      .$(SELECTORS.FILES_INFO_MAX_SIZE)
+      .$(SELECTORS.FILES_INFO_MAX_SIZE_VALUE);
   }
 
   get filesLayout() {
@@ -251,7 +268,7 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async clickOnHomeFolderCrumb() {
-    await this.instance.$$(SELECTORS.CRUMB)[0].click();
+    await this.instance.$(SELECTORS.CRUMB_HOME_FOLDER).click();
   }
 
   async clickOnShowSidebar() {

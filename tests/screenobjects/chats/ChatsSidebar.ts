@@ -8,18 +8,23 @@ const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   SIDEBAR_CHATS_SECTION: "~chats",
-  SIDEBAR_CHATS_HEADER: "//Text/Text",
+  SIDEBAR_CHATS_HEADER: "~chats-label",
+  SIDEBAR_CHATS_HEADER_TEXT: "//Text",
   SIDEBAR_CHATS_USER: '[name="User"]',
   SIDEBAR_CHATS_USER_BADGE: '[name="User Badge"]',
-  SIDEBAR_CHATS_USER_BADGE_NUMBER: "//Text[2]",
-  SIDEBAR_CHATS_USER_BADGE_TIME_AGO: "//Text[1]",
+  SIDEBAR_CHATS_USER_BADGE_NUMBER: '[name="badge-count"]',
+  SIDEBAR_CHATS_USER_BADGE_NUMBER_VALUE: "//Text",
+  SIDEBAR_CHATS_USER_BADGE_TIME_AGO: '[name="badge-prefix"]',
+  SIDEBAR_CHATS_USER_BADGE_TIME_AGO_VALUE: "//Text",
   SIDEBAR_CHATS_USER_IMAGE: '[name="User Image"]',
+  SIDEBAR_CHATS_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   SIDEBAR_CHATS_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   SIDEBAR_CHATS_USER_INFO: '[name="User Info"]',
   SIDEBAR_CHATS_USER_NAME: '[name="Username"]',
   SIDEBAR_CHATS_USER_NAME_VALUE: "//Text",
   SIDEBAR_CHATS_USER_OFFLINE_INDICATOR: '[name="indicator-offline"]',
   SIDEBAR_CHATS_USER_ONLINE_INDICATOR: '[name="indicator-online"]',
+  SIDEBAR_CHATS_USER_PROFILE_TYPING: '[name="profile-typing"]',
   SIDEBAR_CHATS_USER_STATUS: '[name="User Status"]',
   SIDEBAR_CHATS_USER_STATUS_VALUE: "//Text",
   SIDEBAR_CREATE_GROUP_CHAT_BUTTON: '[name="create-group-chat"]',
@@ -29,15 +34,18 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   SIDEBAR_CHATS_SECTION: "~Chats",
-  SIDEBAR_CHATS_HEADER:
-    "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
+  SIDEBAR_CHATS_HEADER: "~chats-label",
+  SIDEBAR_CHATS_HEADER_TEXT: "-ios class chain:**/XXCUIElementTypeStaticText",
   SIDEBAR_CHATS_USER: "~User",
   SIDEBAR_CHATS_USER_BADGE: "~User Badge",
-  SIDEBAR_CHATS_USER_BADGE_NUMBER:
-    "-ios class chain:**/XCUIElementTypeStaticText[2]",
-  SIDEBAR_CHATS_USER_BADGE_TIME_AGO:
-    "-ios class chain:**/XCUIElementTypeStaticText[1]",
+  SIDEBAR_CHATS_USER_BADGE_NUMBER: "~badge-count",
+  SIDEBAR_CHATS_USER_BADGE_NUMBER_VALUE:
+    "-ios class chain:**/XCUIElementTypeStaticText",
+  SIDEBAR_CHATS_USER_BADGE_TIME_AGO: "~badge-prefix",
+  SIDEBAR_CHATS_USER_BADGE_TIME_AGO_VALUE:
+    "-ios class chain:**/XCUIElementTypeStaticText",
   SIDEBAR_CHATS_USER_IMAGE: "~User Image",
+  SIDEBAR_CHATS_USER_IMAGE_PROFILE: "~user-image-profile",
   SIDEBAR_CHATS_USER_IMAGE_WRAP: "~user-image-wrap",
   SIDEBAR_CHATS_USER_INFO: "~User Info",
   SIDEBAR_CHATS_USER_NAME: "~Username",
@@ -45,6 +53,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeStaticText",
   SIDEBAR_CHATS_USER_OFFLINE_INDICATOR: "~indicator-offline",
   SIDEBAR_CHATS_USER_ONLINE_INDICATOR: "~indicator-online",
+  SIDEBAR_CHATS_USER_PROFILE_TYPING: "~profile-typing",
   SIDEBAR_CHATS_USER_STATUS: "~User Status",
   SIDEBAR_CHATS_USER_STATUS_VALUE:
     "-ios class chain:**/XCUIElementTypeStaticText",
@@ -133,6 +142,13 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.SIDERBAR_CHATS_HEADER);
   }
 
+  get siderbarChatsHeaderText() {
+    return this.instance
+      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+      .$(SELECTORS.SIDERBAR_CHATS_HEADER)
+      .$(SELECTORS.SIDEBAR_CHATS_HEADER_TEXT);
+  }
+
   get sidebarChatsSection() {
     return this.instance.$(SELECTORS.SIDEBAR_CHATS_SECTION);
   }
@@ -158,6 +174,15 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_NUMBER);
   }
 
+  get sidebarChatsUserBadgeNumberValue() {
+    return this.instance
+      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+      .$(SELECTORS.SIDEBAR_CHATS_USER)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_NUMBER)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_NUMBER_VALUE);
+  }
+
   get sidebarChatsUserBadgeTimeAgo() {
     return this.instance
       .$(SELECTORS.SIDEBAR_CHATS_SECTION)
@@ -166,11 +191,27 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO);
   }
 
+  get sidebarChatsUserBadgeTimeAgoValue() {
+    return this.instance
+      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+      .$(SELECTORS.SIDEBAR_CHATS_USER)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO_VALUE);
+  }
+
   get sidebarChatsUserImage() {
     return this.instance
       .$(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
+  }
+
+  get sidebarChatsUserImageProfile() {
+    return this.instance
+      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+      .$(SELECTORS.SIDEBAR_CHATS_USER)
+      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_PROFILE);
   }
 
   get sidebarChatsUserImageWrap() {
@@ -213,6 +254,13 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$$(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
+  }
+
+  get sidebarChatsUserProfileTyping() {
+    return this.instance
+      .$$(SELECTORS.SIDEBAR_CHATS_SECTION)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_PROFILE_TYPING);
   }
 
   get sidebarChatsUserStatus() {
@@ -386,6 +434,15 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
     return onlineLocator;
+  }
+
+  async getSidebarUserProfileTyping(username: string) {
+    const userLocator = await this.getSidebarUserLocator(username);
+    const profileTyping = await userLocator
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_PROFILE_TYPING);
+    return profileTyping;
   }
 
   // Context menu methods

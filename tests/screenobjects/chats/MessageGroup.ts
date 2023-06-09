@@ -7,6 +7,9 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
+  EMOJI_REACTION_REMOTE: '[name="emoji-reaction-remote"]',
+  EMOJI_REACTION_SELF: '[name="emoji-reaction-self"]',
+  EMOJI_REACTION_VALUE: "//Text",
   MESSAGE_GROUP_REMOTE: '[name="message-group-remote"]',
   MESSAGE_GROUP_SENT: '[name="message-group"]',
   MESSAGE_GROUP_WRAP_LOCAL: '[name="message-group-wrap-local"]',
@@ -14,12 +17,17 @@ const SELECTORS_WINDOWS = {
   MESSAGE_GROUP_TIME_AGO: '[name="time-ago"]',
   MESSAGE_GROUP_TIME_AGO_TEXT: "//Text",
   MESSAGE_GROUP_USER_IMAGE: '[name="User Image"]',
+  MESSAGE_GROUP_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   MESSAGE_GROUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   MESSAGE_GROUP_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   MESSAGE_GROUP_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
+  MESSAGE_REACTION_CONTAINER: '[name="message-reaction-container"]',
 };
 
 const SELECTORS_MACOS = {
+  EMOJI_REACTION_REMOTE: "~emoji-reaction-remote",
+  EMOJI_REACTION_SELF: "~emoji-reaction-self",
+  EMOJI_REACTION_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   MESSAGE_GROUP_REMOTE: "~message-group-remote",
   MESSAGE_GROUP_SENT: "~message-group",
   MESSAGE_GROUP_WRAP_LOCAL: "~message-group-wrap-local",
@@ -27,9 +35,11 @@ const SELECTORS_MACOS = {
   MESSAGE_GROUP_TIME_AGO: "~time-ago",
   MESSAGE_GROUP_TIME_AGO_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   MESSAGE_GROUP_USER_IMAGE: "~User Image",
+  MESSAGE_GROUP_USER_IMAGE_PROFILE: "~user-image-profile",
   MESSAGE_GROUP_USER_IMAGE_WRAP: "~user-image-wrap",
   MESSAGE_GROUP_USER_INDICATOR_OFFLINE: "~indicator-offline",
   MESSAGE_GROUP_USER_INDICATOR_ONLINE: "~indicator-online",
+  MESSAGE_REACTION_CONTAINER: "~message-reaction-container",
 };
 
 currentOS === "windows"
@@ -42,6 +52,32 @@ export default class MessageGroup extends UplinkMainScreen {
       executor,
       SELECTORS.MESSAGE_GROUP_WRAP_REMOTE || SELECTORS.MESSAGE_GROUP_WRAP_SENT
     );
+  }
+
+  get emojiReactionRemote() {
+    return this.instance
+      .$$(SELECTORS.MESSAGE_REACTION_CONTAINER)
+      .$$(SELECTORS.EMOJI_REACTION_REMOTE);
+  }
+
+  get emojiReactionRemoteValue() {
+    return this.instance
+      .$$(SELECTORS.MESSAGE_REACTION_CONTAINER)
+      .$$(SELECTORS.EMOJI_REACTION_REMOTE)
+      .$(SELECTORS.EMOJI_REACTION_VALUE);
+  }
+
+  get emojiReactionSelf() {
+    return this.instance
+      .$$(SELECTORS.MESSAGE_REACTION_CONTAINER)
+      .$$(SELECTORS.EMOJI_REACTION_SELF);
+  }
+
+  get emojiReactionSelfValue() {
+    return this.instance
+      .$$(SELECTORS.MESSAGE_REACTION_CONTAINER)
+      .$$(SELECTORS.EMOJI_REACTION_SELF)
+      .$(SELECTORS.EMOJI_REACTION_VALUE);
   }
 
   get messageGroupReceived() {
@@ -80,6 +116,12 @@ export default class MessageGroup extends UplinkMainScreen {
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
   }
 
+  get messageGroupUserImageProfile() {
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
+      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE);
+  }
+
   get messageGroupUserImageWrap() {
     return this.instance
       .$$(SELECTORS.MESSAGE_GROUP_WRAP)
@@ -98,6 +140,10 @@ export default class MessageGroup extends UplinkMainScreen {
       .$$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
+  }
+
+  get messageReactionContainer() {
+    return this.instance.$$(SELECTORS.MESSAGE_REACTION_CONTAINER);
   }
 
   // Message Group Wraps Received Methods
@@ -133,6 +179,14 @@ export default class MessageGroup extends UplinkMainScreen {
     return onlineStatus;
   }
 
+  async getLastGroupWrapReceivedUserImageProfile() {
+    const groupWrap = await this.getLastGroupWrapReceived();
+    const userImageProfile = await groupWrap.$(
+      SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE
+    );
+    return userImageProfile;
+  }
+
   // Message Group Wraps Sent Methods
 
   async getLastGroupWrapSent() {
@@ -166,6 +220,14 @@ export default class MessageGroup extends UplinkMainScreen {
     return onlineStatus;
   }
 
+  async getLastGroupWrapSentUserImageProfile() {
+    const groupWrap = await this.getLastGroupWrapSent();
+    const userImageProfile = await groupWrap.$(
+      SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE
+    );
+    return userImageProfile;
+  }
+
   // Group Messages Received Methods
 
   async getLastReceivedGroup() {
@@ -173,6 +235,46 @@ export default class MessageGroup extends UplinkMainScreen {
     const lastGroupIndex = (await messageGroupsReceived.length) - 1;
     const lastGroupLocator = await messageGroupsReceived[lastGroupIndex];
     return lastGroupLocator;
+  }
+
+  async getLastMessageReceivedReactionsContainer() {
+    const lastGroupReceived = await this.getLastReceivedGroup();
+    const reactionsContainer = await lastGroupReceived.$(
+      SELECTORS.MESSAGE_REACTION_CONTAINER
+    );
+    return reactionsContainer;
+  }
+
+  async getLastMessageReceivedRemoteReactions() {
+    const reactionsContainer =
+      await this.getLastMessageReceivedReactionsContainer();
+    const remoteReactions = await reactionsContainer.$$(
+      SELECTORS.EMOJI_REACTION_REMOTE
+    );
+    let results = [];
+    for (let reaction of remoteReactions) {
+      const reactionValue = await reaction
+        .$(SELECTORS.EMOJI_REACTION_VALUE)
+        .getText();
+      results.push(reactionValue);
+    }
+    return results;
+  }
+
+  async getLastMessageReceivedSelfReactions() {
+    const reactionsContainer =
+      await this.getLastMessageReceivedReactionsContainer();
+    const selfReactions = await reactionsContainer.$$(
+      SELECTORS.EMOJI_REACTION_SELF
+    );
+    let results = [];
+    for (let reaction of selfReactions) {
+      const reactionValue = await reaction
+        .$(SELECTORS.EMOJI_REACTION_VALUE)
+        .getText();
+      results.push(reactionValue);
+    }
+    return results;
   }
 
   async getLastMessageReceivedTimeAgo() {
@@ -201,6 +303,46 @@ export default class MessageGroup extends UplinkMainScreen {
     const lastGroupIndex = (await messageGroupsSent.length) - 1;
     const lastGroupLocator = await messageGroupsSent[lastGroupIndex];
     return lastGroupLocator;
+  }
+
+  async getLastMessageSentReactionsContainer() {
+    const lastGroupSent = await this.getLastSentGroup();
+    const reactionsContainer = await lastGroupSent.$(
+      SELECTORS.MESSAGE_REACTION_CONTAINER
+    );
+    return reactionsContainer;
+  }
+
+  async getLastMessageSentRemoteReactions() {
+    const reactionsContainer =
+      await this.getLastMessageSentReactionsContainer();
+    const remoteReactions = await reactionsContainer.$$(
+      SELECTORS.EMOJI_REACTION_REMOTE
+    );
+    let results = [];
+    for (let reaction of remoteReactions) {
+      const reactionValue = await reaction
+        .$(SELECTORS.EMOJI_REACTION_VALUE)
+        .getText();
+      results.push(reactionValue);
+    }
+    return results;
+  }
+
+  async getLastMessageSentSelfReactions() {
+    const reactionsContainer =
+      await this.getLastMessageSentReactionsContainer();
+    const selfReactions = await reactionsContainer.$$(
+      SELECTORS.EMOJI_REACTION_SELF
+    );
+    let results = [];
+    for (let reaction of selfReactions) {
+      const reactionValue = await reaction
+        .$(SELECTORS.EMOJI_REACTION_VALUE)
+        .getText();
+      results.push(reactionValue);
+    }
+    return results;
   }
 
   async getLastMessageSentTimeAgo() {
@@ -245,5 +387,76 @@ export default class MessageGroup extends UplinkMainScreen {
     } else if (currentDriver === "windows") {
       await rightClickOnWindows(imageToRightClick, this.executor);
     }
+  }
+
+  // Reactions Methods
+  async getLocatorOfReactionOnReceivedMessage(emoji: string, reactor: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let locator;
+    if (currentDriver === "mac2") {
+      locator = await this.messageGroupReceived
+        .$(SELECTORS.MESSAGE_REACTION_CONTAINER)
+        .$(
+          '//XCUIElementTypeGroup[@label="emoji-reaction-' +
+            reactor +
+            '"]/XCUIElementTypeStaticText[contains(@value, "' +
+            emoji +
+            '")]'
+        );
+    } else if (currentDriver === "windows") {
+      locator = await this.messageGroupReceived
+        .$(SELECTORS.MESSAGE_REACTION_CONTAINER)
+        .$(
+          '//Group[@Name="emoji-reaction-' +
+            reactor +
+            '"]/Text[contains(@Name, "' +
+            emoji +
+            '")]'
+        );
+    }
+    return locator;
+  }
+
+  async getLocatorOfReactionOnSentMessage(emoji: string, reactor: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let locator;
+    if (currentDriver === "mac2") {
+      locator = await this.messageGroupSent
+        .$(SELECTORS.MESSAGE_REACTION_CONTAINER)
+        .$(
+          '//XCUIElementTypeGroup[@label="emoji-reaction-' +
+            reactor +
+            '"]/XCUIElementTypeStaticText[contains(@value, "' +
+            emoji +
+            '")]'
+        );
+    } else if (currentDriver === "windows") {
+      locator = await this.messageGroupSent
+        .$(SELECTORS.MESSAGE_REACTION_CONTAINER)
+        .$(
+          '//Group[@Name="emoji-reaction-' +
+            reactor +
+            '"]/Text[contains(@Name, "' +
+            emoji +
+            '")]'
+        );
+    }
+    return locator;
+  }
+
+  async clickOnReactionOnReceivedMessage(emoji: string, reactor: string) {
+    const locator = await this.getLocatorOfReactionOnReceivedMessage(
+      emoji,
+      reactor
+    );
+    await locator.click();
+  }
+
+  async clickOnReactionOnSentMessage(emoji: string, reactor: string) {
+    const locator = await this.getLocatorOfReactionOnSentMessage(
+      emoji,
+      reactor
+    );
+    await locator.click();
   }
 }

@@ -30,13 +30,16 @@ export default async function files() {
     await expect(filesScreenFirstUser.sidebarSearch).toBeDisplayed();
   });
 
-  // Skipping this test in the meantime the Uplink PR adding new aria label for Copy ID button is merged
-  xit("Validate Files Info is displayed in screen", async () => {
+  it("Validate Files Info is displayed in screen", async () => {
     await expect(filesScreenFirstUser.filesInfo).toBeDisplayed();
-    await expect(filesScreenFirstUser.filesInfoFreeSpaceLabel).toBeDisplayed();
-    await expect(filesScreenFirstUser.filesInfoFreeSpaceValue).toBeDisplayed();
-    await expect(filesScreenFirstUser.filesInfoTotalSpaceLabel).toBeDisplayed();
-    await expect(filesScreenFirstUser.filesInfoTotalSpaceValue).toBeDisplayed();
+    await expect(
+      filesScreenFirstUser.filesInfoCurrentSizeLabel
+    ).toBeDisplayed();
+    await expect(
+      filesScreenFirstUser.filesInfoCurrentSizeValue
+    ).toBeDisplayed();
+    await expect(filesScreenFirstUser.filesInfoMaxSizeLabel).toBeDisplayed();
+    await expect(filesScreenFirstUser.filesInfoMaxSizeValue).toBeDisplayed();
   });
 
   it("Validate Files Breadcrumbs are displayed in screen", async () => {
