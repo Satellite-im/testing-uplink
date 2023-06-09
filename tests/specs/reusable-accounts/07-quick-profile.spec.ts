@@ -129,6 +129,8 @@ export default async function quickProfileTests() {
     await friendsScreenFirstUser.goToAllFriendsList();
 
     // With User B - Go to pending requests list, wait for receiving the friend request and accept it
+    await friendsScreenSecondUser.hoverOnFriendsButton();
+    await friendsScreenSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
     await friendsScreenSecondUser.goToPendingFriendsList();
     await friendsScreenSecondUser.acceptIncomingRequest("ChatUserA");

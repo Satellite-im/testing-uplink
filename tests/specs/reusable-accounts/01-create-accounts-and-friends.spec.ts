@@ -10,6 +10,7 @@ import InputBar from "../../screenobjects/chats/InputBar";
 import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import Messages from "../../screenobjects/chats/Messages";
 import Topbar from "../../screenobjects/chats/Topbar";
+import SettingsGeneralScreen from "../../screenobjects/settings/SettingsGeneralScreen";
 import SettingsNotificationsScreen from "../../screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
@@ -24,6 +25,8 @@ let chatsTopbarFirstUser = new Topbar("userA");
 let chatsTopbarSecondUser = new Topbar("userB");
 let friendsScreenFirstUser = new FriendsScreen("userA");
 let friendsScreenSecondUser = new FriendsScreen("userB");
+let settingsGeneralFirstUser = new SettingsGeneralScreen("userA");
+let settingsGeneralSecondUser = new SettingsGeneralScreen("userB");
 let settingsNotificationsFirstUser = new SettingsNotificationsScreen("userA");
 let settingsNotificationsSecondUser = new SettingsNotificationsScreen("userB");
 let settingsProfileFirstUser = new SettingsProfileScreen("userA");
@@ -54,8 +57,11 @@ export default async function createChatAccountsTests() {
     await saveTestKeys(username, didkey, "userA");
   });
 
-  it("Chat User A - Disable notifications", async () => {
-    await settingsProfileFirstUser.goToNotificationsSettings();
+  it("Chat User A - Disable notifications and reduce font size", async () => {
+    await settingsProfileFirstUser.goToGeneralSettings();
+    await settingsGeneralFirstUser.waitForIsShown(true);
+    await settingsGeneralFirstUser.clickOnFontScalingMinus();
+    await settingsGeneralFirstUser.goToNotificationsSettings();
     await settingsNotificationsFirstUser.waitForIsShown(true);
     await settingsNotificationsFirstUser.clickOnFriendsNotifications();
     await settingsNotificationsFirstUser.clickOnMessagesNotifications();
@@ -85,8 +91,11 @@ export default async function createChatAccountsTests() {
     await saveTestKeys(username, didkey, "userB");
   });
 
-  it("Chat User B - Disable notifications", async () => {
-    await settingsProfileSecondUser.goToNotificationsSettings();
+  it("Chat User B - Disable notifications and reduce font size", async () => {
+    await settingsProfileSecondUser.goToGeneralSettings();
+    await settingsGeneralSecondUser.waitForIsShown(true);
+    await settingsGeneralSecondUser.clickOnFontScalingMinus();
+    await settingsGeneralSecondUser.goToNotificationsSettings();
     await settingsNotificationsSecondUser.waitForIsShown(true);
     await settingsNotificationsSecondUser.clickOnFriendsNotifications();
     await settingsNotificationsSecondUser.clickOnMessagesNotifications();
