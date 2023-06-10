@@ -48,7 +48,7 @@ export default async function groupChatTests() {
 
   it("Chat User A - Attempt to create group chat with alphanumeric chars in name", async () => {
     await createGroupFirstUser.typeOnGroupName("&*!@#^&!@^#!");
-    await expect(createGroupFirstUser.createGroupInputError).toBeDisplayed();
+    await createGroupFirstUser.createGroupInputError.waitForDisplayed();
     await createGroupFirstUser.clearGroupNameInput();
   });
 
@@ -56,7 +56,7 @@ export default async function groupChatTests() {
     await createGroupFirstUser.typeOnGroupName(
       "01234567890123456789012345678901234567890123456789012345678912345"
     );
-    await expect(createGroupFirstUser.createGroupInputError).toBeDisplayed();
+    await createGroupFirstUser.createGroupInputError.waitForDisplayed();
     await createGroupFirstUser.clearGroupNameInput();
   });
 
