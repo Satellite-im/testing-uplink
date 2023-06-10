@@ -26,6 +26,8 @@ let welcomeScreenSecondUser = new WelcomeScreen("userB");
 export default async function sidebarChatsTests() {
   it("Chat User A - Unblock the other Chat User", async () => {
     // Unblock Chat User B and go to Friends List to send a new friend request
+    await friendsScreenFirstUser.waitForIsShown(true);
+    await friendsScreenFirstUser.hoverOnBlockedListButton();
     await friendsScreenFirstUser.goToBlockedList();
     await friendsScreenFirstUser.blockedList.waitForDisplayed();
     await friendsScreenFirstUser.removeOrCancelUser("ChatUserB");
