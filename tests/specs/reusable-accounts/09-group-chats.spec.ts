@@ -89,6 +89,7 @@ export default async function groupChatTests() {
     await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
       "My First Group"
     );
+    await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 
   it("User B - Group Chat is displayed on remote participant users sidebar", async () => {
@@ -104,12 +105,14 @@ export default async function groupChatTests() {
     await expect(chatsTopbarSecondUser.topbarUserName).toHaveTextContaining(
       "My First Group"
     );
+    await chatsTopbarSecondUser.switchToOtherUserWindow();
   });
 
   it("Group Chat - User A sends a message in group chat", async () => {
     await chatsInputFirstUser.typeMessageOnInput("Hi Group!");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Hi Group!");
+    await chatsMessagesFirstUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingMessage("Hi Group!");
   });
 }

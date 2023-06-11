@@ -8,7 +8,7 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   CREATE_GROUP_CHAT_BUTTON: '[name="create-dm-button"]',
   CREATE_GROUP_CHAT_SECTION: '[name="Create Group"]',
-  CREATE_GROUP_INPUT_ERROR: '//Group[@Name="input-error"]',
+  CREATE_GROUP_INPUT_ERROR: '[name="input-error"]',
   CREATE_GROUP_INPUT_ERROR_TEXT: "//Text",
   CREATE_GROUP_NAME: '[name="create-group-name"]',
   CREATE_GROUP_NAME_LABEL: '[name="group-name-label"]',

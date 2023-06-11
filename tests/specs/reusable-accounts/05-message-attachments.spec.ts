@@ -86,6 +86,7 @@ export default async function messageAttachmentsTests() {
     const fileDownloadButton =
       await chatsMessagesFirstUser.getLastMessageSentDownloadButton();
     await expect(fileDownloadButton).toBeDisplayed();
+    await chatsMessagesFirstUser.switchToOtherUserWindow();
 
     // With User B - Validate that message with attachment was received
     await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForDisplayed();
@@ -123,5 +124,6 @@ export default async function messageAttachmentsTests() {
     const fileDownloadButton =
       await chatsMessagesSecondUser.getLastMessageReceivedDownloadButton();
     await expect(fileDownloadButton).toBeDisplayed();
+    await chatsMessagesSecondUser.switchToOtherUserWindow();
   });
 }

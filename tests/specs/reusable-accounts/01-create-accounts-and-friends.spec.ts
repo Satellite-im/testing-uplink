@@ -114,13 +114,16 @@ export default async function createChatAccountsTests() {
     await friendsScreenSecondUser.waitUntilNotificationIsClosed();
 
     // Validate friend request appears on pending list
+    await friendsScreenSecondUser.hoverOnPendingListButton();
     await friendsScreenSecondUser.goToPendingFriendsList();
     const pendingList = await friendsScreenSecondUser.getOutgoingList();
     const includesFriend = await pendingList.includes("ChatUserA");
     await expect(includesFriend).toEqual(true);
     await friendsScreenSecondUser.goToAllFriendsList();
+    await friendsScreenSecondUser.switchToOtherUserWindow();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
+    await friendsScreenFirstUser.hoverOnPendingListButton();
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.waitUntilFriendRequestIsReceived();
     await friendsScreenFirstUser.acceptIncomingRequest("ChatUserB");
@@ -135,6 +138,7 @@ export default async function createChatAccountsTests() {
 
     // Go to Chat with User B
     await friendsScreenFirstUser.chatWithFriendButton.click();
+    await friendsScreenFirstUser.switchToOtherUserWindow();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenSecondUser.waitUntilUserAcceptedFriendRequest();
@@ -146,6 +150,7 @@ export default async function createChatAccountsTests() {
     const friendsList = await friendsScreenSecondUser.getAllFriendsList();
     const includesFriend = await friendsList.includes("ChatUserA");
     await expect(includesFriend).toEqual(true);
+    await friendsScreenSecondUser.switchToOtherUserWindow();
   });
 
   it("Chat User A - Go to chat with friend and wait until user is online", async () => {
@@ -230,11 +235,13 @@ export default async function createChatAccountsTests() {
     // Remove user from favorites
     await chatsTopbarFirstUser.removeFromFavorites();
     await chatsTopbarFirstUser.favorites.waitForExist({ reverse: true });
+    await chatsInputFirstUser.switchToOtherUserWindow();
   });
 
   it("Chat User B - Wait until the other user is online", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
+    await friendsScreenSecondUser.hoverOnChatWithFriendButton("ChatUserA");
     await friendsScreenSecondUser.chatWithFriendButton.click();
     await chatsLayoutSecondUser.waitForIsShown(true);
 
