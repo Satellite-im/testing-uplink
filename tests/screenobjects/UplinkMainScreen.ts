@@ -399,7 +399,8 @@ export default class UplinkMainScreen extends AppScreen {
 
   // Multiremote functions
   async switchToOtherUserWindow() {
-    await this.instance.pause(1000);
+    const currentInstance = await this.instance.getWindowHandle();
+    await this.instance.switchToWindow(currentInstance);
   }
 
   async showUplinkWindow() {

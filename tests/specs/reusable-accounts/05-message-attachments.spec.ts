@@ -1,10 +1,12 @@
 import ComposeAttachment from "../../screenobjects/chats/ComposeAttachment";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
+import Topbar from "../../screenobjects/chats/Topbar";
 let chatsAttachmentFirstUser = new ComposeAttachment("userA");
 let chatsInputFirstUser = new InputBar("userA");
 let chatsMessagesFirstUser = new Messages("userA");
 let chatsMessagesSecondUser = new Messages("userB");
+let chatsTopbarFirstUser = new Topbar("userA");
 
 export default async function messageAttachmentsTests() {
   it("Chat User A - Validate compose attachments contents", async () => {
@@ -86,7 +88,7 @@ export default async function messageAttachmentsTests() {
     const fileDownloadButton =
       await chatsMessagesFirstUser.getLastMessageSentDownloadButton();
     await expect(fileDownloadButton).toBeDisplayed();
-    await chatsMessagesFirstUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.switchToOtherUserWindow();
 
     // With User B - Validate that message with attachment was received
     await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForDisplayed();
@@ -124,6 +126,6 @@ export default async function messageAttachmentsTests() {
     const fileDownloadButton =
       await chatsMessagesSecondUser.getLastMessageReceivedDownloadButton();
     await expect(fileDownloadButton).toBeDisplayed();
-    await chatsMessagesSecondUser.switchToOtherUserWindow();
+    await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 }

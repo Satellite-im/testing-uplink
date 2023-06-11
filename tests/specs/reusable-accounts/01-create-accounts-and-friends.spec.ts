@@ -120,7 +120,7 @@ export default async function createChatAccountsTests() {
     const includesFriend = await pendingList.includes("ChatUserA");
     await expect(includesFriend).toEqual(true);
     await friendsScreenSecondUser.goToAllFriendsList();
-    await friendsScreenSecondUser.switchToOtherUserWindow();
+    await friendsScreenFirstUser.switchToOtherUserWindow();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenFirstUser.hoverOnPendingListButton();
@@ -138,7 +138,7 @@ export default async function createChatAccountsTests() {
 
     // Go to Chat with User B
     await friendsScreenFirstUser.chatWithFriendButton.click();
-    await friendsScreenFirstUser.switchToOtherUserWindow();
+    await friendsScreenSecondUser.switchToOtherUserWindow();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenSecondUser.waitUntilUserAcceptedFriendRequest();
@@ -150,7 +150,7 @@ export default async function createChatAccountsTests() {
     const friendsList = await friendsScreenSecondUser.getAllFriendsList();
     const includesFriend = await friendsList.includes("ChatUserA");
     await expect(includesFriend).toEqual(true);
-    await friendsScreenSecondUser.switchToOtherUserWindow();
+    await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 
   it("Chat User A - Go to chat with friend and wait until user is online", async () => {
@@ -235,7 +235,7 @@ export default async function createChatAccountsTests() {
     // Remove user from favorites
     await chatsTopbarFirstUser.removeFromFavorites();
     await chatsTopbarFirstUser.favorites.waitForExist({ reverse: true });
-    await chatsInputFirstUser.switchToOtherUserWindow();
+    await friendsScreenSecondUser.switchToOtherUserWindow();
   });
 
   it("Chat User B - Wait until the other user is online", async () => {
