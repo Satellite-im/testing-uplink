@@ -396,4 +396,15 @@ export default class UplinkMainScreen extends AppScreen {
     const element = await this.settingsButton;
     await this.hoverOnElement(element);
   }
+
+  // Multiremote functions
+  async switchToOtherUserWindow() {
+    const currentInstance = await this.instance.getWindowHandle();
+    await this.instance.switchToWindow(currentInstance);
+  }
+
+  async showUplinkWindow() {
+    await this.instance.window.click();
+    await this.instance.window.waitForIsShown(true);
+  }
 }

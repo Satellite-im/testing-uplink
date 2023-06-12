@@ -619,6 +619,24 @@ export default class FriendsScreen extends UplinkMainScreen {
     await this.hoverOnElement(secondButtonLocator);
   }
 
+  async hoverOnBlockedListButton() {
+    const locator = await this.blockedListButton;
+    await this.hoverOnElement(locator);
+  }
+
+  async hoverOnChatWithFriendButton(username: string) {
+    const userLocator = await this.getFriendRecordByName(username);
+    const buttonLocator = await userLocator.$(
+      SELECTORS.CHAT_WITH_FRIEND_BUTTON
+    );
+    await this.hoverOnElement(buttonLocator);
+  }
+
+  async hoverOnPendingListButton() {
+    const locator = await this.pendingFriendsButton;
+    await this.hoverOnElement(locator);
+  }
+
   async hoverOnUnfriendDenyUnblockButton(username: string) {
     const userLocator = await this.getFriendRecordByName(username);
     const firstButtonLocator = await userLocator.$(

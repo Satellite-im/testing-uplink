@@ -58,9 +58,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   get createGroupChatButton() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_CHAT_BUTTON);
+    return this.createGroupChatSection.$(SELECTORS.CREATE_GROUP_CHAT_BUTTON);
   }
 
   get createGroupChatSection() {
@@ -68,125 +66,77 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   get createGroupInputError() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_INPUT_ERROR);
+    return this.instance.$(SELECTORS.CREATE_GROUP_INPUT_ERROR);
   }
 
   get createGroupInputErrorText() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_INPUT_ERROR)
-      .$(SELECTORS.CREATE_GROUP_INPUT_ERROR_TEXT);
+    return this.createGroupInputError.$(
+      SELECTORS.CREATE_GROUP_INPUT_ERROR_TEXT
+    );
   }
 
   get createGroupName() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_NAME);
+    return this.createGroupChatSection.$(SELECTORS.CREATE_GROUP_NAME);
   }
 
   get createGroupNameLabel() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_NAME)
-      .$(SELECTORS.CREATE_GROUP_NAME_LABEL);
+    return this.createGroupName.$(SELECTORS.CREATE_GROUP_NAME_LABEL);
   }
 
   get createGroupUsersLabel() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.CREATE_GROUP_USERS_LABEL);
+    return this.createGroupChatSection.$(SELECTORS.CREATE_GROUP_USERS_LABEL);
   }
 
   get friendContainer() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SEECTORS.FRIENDS_LIST)
-      .$(SELECTORS.FRIEND_CONTAINER);
+    return this.friendsList.$$(SELECTORS.FRIEND_CONTAINER);
   }
 
   get friendUserImage() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SEECTORS.FRIENDS_LIST)
-      .$(SELECTORS.FRIEND_CONTAINER)
-      .$(SELECTORS.FRIEND_USER_IMAGE);
+    return this.friendContainer.$(SELECTORS.FRIEND_USER_IMAGE);
   }
 
   get friendUserImageProfile() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SEECTORS.FRIENDS_LIST)
-      .$(SELECTORS.FRIEND_CONTAINER)
-      .$(SELECTORS.FRIEND_USER_IMAGE_PROFILE);
+    return this.friendContainer.$(SELECTORS.FRIEND_USER_IMAGE_PROFILE);
   }
 
   get friendUserImageWrap() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SEECTORS.FRIENDS_LIST)
-      .$(SELECTORS.FRIEND_CONTAINER)
-      .$(SELECTORS.FRIEND_USER_IMAGE_WRAP);
+    return this.friendContainer.$(SELECTORS.FRIEND_USER_IMAGE_WRAP);
   }
 
   get friendIndicatorOffline() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SEECTORS.FRIENDS_LIST)
-      .$(SELECTORS.FRIEND_CONTAINER)
-      .$(SELECTORS.FRIEND_INDICATOR_OFFLINE);
+    return this.friendContainer.$(SELECTORS.FRIEND_INDICATOR_OFFLINE);
   }
 
   get friendIndicatorOnline() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SEECTORS.FRIENDS_LIST)
-      .$(SELECTORS.FRIEND_CONTAINER)
-      .$(SELECTORS.FRIEND_INDICATOR_ONLINE);
+    return this.friendContainer.$(SELECTORS.FRIEND_INDICATOR_ONLINE);
   }
 
   get friendUserName() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SEECTORS.FRIENDS_LIST)
-      .$(SELECTORS.FRIEND_CONTAINER)
-      .$(SELECTORS.FRIEND_USER_NAME);
+    return this.friendContainer.$(SELECTORS.FRIEND_USER_NAME);
   }
 
   get friendUserNameText() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SEECTORS.FRIENDS_LIST)
-      .$(SELECTORS.FRIEND_CONTAINER)
-      .$(SELECTORS.FRIEND_USER_NAME)
-      .$(SELECTORS.FRIEND_USER_NAME_TEXT);
+    return this.friendUserName.$(SELECTORS.FRIEND_USER_NAME_TEXT);
   }
 
   get friendsList() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.FRIENDS_LIST);
+    return this.createGroupChatSection.$(SELECTORS.FRIENDS_LIST);
   }
 
   get groupNameInput() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.GROUP_NAME_INPUT);
+    return this.createGroupChatSection.$(SELECTORS.GROUP_NAME_INPUT);
   }
 
   get userSearchInput() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.USER_SEARCH_INPUT);
+    return this.createGroupChatSection.$(SELECTORS.USER_SEARCH_INPUT);
   }
 
   async clearGroupNameInput() {
-    await this.groupNameInput.clear();
+    await this.groupNameInput.setValue("");
   }
 
   async clearUserSearchInput() {
-    await this.userSearchInput.clear();
+    await this.userSearchInput.setValue("");
   }
 
   async clickOnCreateGroupChat() {
@@ -254,13 +204,13 @@ export default class CreateGroupChat extends UplinkMainScreen {
 
   async getFriendFromListUsername(username: string) {
     const locator = await this.getFriendFromListLocator(username);
-    const username = await locator
+    const usernameLocator = await locator
       .$(SELECTORS.FRIEND_USER_NAME)
       .$(SELECTORS.FRIEND_USER_NAME_TEXT);
-    return username;
+    return usernameLocator;
   }
 
-  async selectUserFromList(name: string) {
+  async selectUserFromList(username: string) {
     const locator = await this.getFriendFromListLocator(username);
     await locator.click();
   }
@@ -271,5 +221,29 @@ export default class CreateGroupChat extends UplinkMainScreen {
 
   async typeOnUsersSearchInput(name: string) {
     await this.userSearchInput.setValue(name);
+  }
+
+  // Validations
+
+  async getNumberOfUsersInListFromCreateGroup() {
+    const numberOfUsersInList = await this.friendContainer.length;
+    return numberOfUsersInList;
+  }
+
+  async getListOfUsersInCreateGroup() {
+    const usersInList = await this.friendContainer;
+    let users = [];
+    for (let user in usersInList) {
+      const username = await user
+        .$(SELECTORS.FRIEND_USER_NAME)
+        .$(SELECTORS.FRIEND_USER_NAME_TEXT);
+      users.push(username.getText());
+    }
+    return users;
+  }
+
+  async getInputErrorText() {
+    const result = await this.createGroupInputErrorText.getText();
+    return result.toString();
   }
 }

@@ -10,6 +10,7 @@ import InputBar from "../../screenobjects/chats/InputBar";
 import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import Messages from "../../screenobjects/chats/Messages";
 import Topbar from "../../screenobjects/chats/Topbar";
+import SettingsGeneralScreen from "../../screenobjects/settings/SettingsGeneralScreen";
 import SettingsNotificationsScreen from "../../screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
@@ -24,6 +25,8 @@ let chatsTopbarFirstUser = new Topbar("userA");
 let chatsTopbarSecondUser = new Topbar("userB");
 let friendsScreenFirstUser = new FriendsScreen("userA");
 let friendsScreenSecondUser = new FriendsScreen("userB");
+let settingsGeneralFirstUser = new SettingsGeneralScreen("userA");
+let settingsGeneralSecondUser = new SettingsGeneralScreen("userB");
 let settingsNotificationsFirstUser = new SettingsNotificationsScreen("userA");
 let settingsNotificationsSecondUser = new SettingsNotificationsScreen("userB");
 let settingsProfileFirstUser = new SettingsProfileScreen("userA");
@@ -54,8 +57,11 @@ export default async function createChatAccountsTests() {
     await saveTestKeys(username, didkey, "userA");
   });
 
-  it("Chat User A - Disable notifications", async () => {
-    await settingsProfileFirstUser.goToNotificationsSettings();
+  it("Chat User A - Disable notifications and reduce font size", async () => {
+    await settingsProfileFirstUser.goToGeneralSettings();
+    await settingsGeneralFirstUser.waitForIsShown(true);
+    await settingsGeneralFirstUser.clickOnFontScalingMinus();
+    await settingsGeneralFirstUser.goToNotificationsSettings();
     await settingsNotificationsFirstUser.waitForIsShown(true);
     await settingsNotificationsFirstUser.clickOnFriendsNotifications();
     await settingsNotificationsFirstUser.clickOnMessagesNotifications();
@@ -85,8 +91,11 @@ export default async function createChatAccountsTests() {
     await saveTestKeys(username, didkey, "userB");
   });
 
-  it("Chat User B - Disable notifications", async () => {
-    await settingsProfileSecondUser.goToNotificationsSettings();
+  it("Chat User B - Disable notifications and reduce font size", async () => {
+    await settingsProfileSecondUser.goToGeneralSettings();
+    await settingsGeneralSecondUser.waitForIsShown(true);
+    await settingsGeneralSecondUser.clickOnFontScalingMinus();
+    await settingsGeneralSecondUser.goToNotificationsSettings();
     await settingsNotificationsSecondUser.waitForIsShown(true);
     await settingsNotificationsSecondUser.clickOnFriendsNotifications();
     await settingsNotificationsSecondUser.clickOnMessagesNotifications();
@@ -105,13 +114,16 @@ export default async function createChatAccountsTests() {
     await friendsScreenSecondUser.waitUntilNotificationIsClosed();
 
     // Validate friend request appears on pending list
+    await friendsScreenSecondUser.hoverOnPendingListButton();
     await friendsScreenSecondUser.goToPendingFriendsList();
     const pendingList = await friendsScreenSecondUser.getOutgoingList();
     const includesFriend = await pendingList.includes("ChatUserA");
     await expect(includesFriend).toEqual(true);
     await friendsScreenSecondUser.goToAllFriendsList();
+    await friendsScreenFirstUser.switchToOtherUserWindow();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
+    await friendsScreenFirstUser.hoverOnPendingListButton();
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.waitUntilFriendRequestIsReceived();
     await friendsScreenFirstUser.acceptIncomingRequest("ChatUserB");
@@ -126,6 +138,7 @@ export default async function createChatAccountsTests() {
 
     // Go to Chat with User B
     await friendsScreenFirstUser.chatWithFriendButton.click();
+    await friendsScreenSecondUser.switchToOtherUserWindow();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenSecondUser.waitUntilUserAcceptedFriendRequest();
@@ -137,6 +150,7 @@ export default async function createChatAccountsTests() {
     const friendsList = await friendsScreenSecondUser.getAllFriendsList();
     const includesFriend = await friendsList.includes("ChatUserA");
     await expect(includesFriend).toEqual(true);
+    await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 
   it("Chat User A - Go to chat with friend and wait until user is online", async () => {
@@ -221,11 +235,13 @@ export default async function createChatAccountsTests() {
     // Remove user from favorites
     await chatsTopbarFirstUser.removeFromFavorites();
     await chatsTopbarFirstUser.favorites.waitForExist({ reverse: true });
+    await friendsScreenSecondUser.switchToOtherUserWindow();
   });
 
   it("Chat User B - Wait until the other user is online", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
+    await friendsScreenSecondUser.hoverOnChatWithFriendButton("ChatUserA");
     await friendsScreenSecondUser.chatWithFriendButton.click();
     await chatsLayoutSecondUser.waitForIsShown(true);
 
