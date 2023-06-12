@@ -166,6 +166,10 @@ export default class Topbar extends UplinkMainScreen {
     await this.topbarAddToFavorites.click();
   }
 
+  async clickOnTopbar() {
+    await this.topbar.click();
+  }
+
   async editGroup() {
     await this.hoverOnEditGroupButton();
     await this.topbarEditGroup.click();
