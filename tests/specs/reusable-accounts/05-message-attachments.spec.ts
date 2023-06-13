@@ -4,6 +4,7 @@ import Messages from "../../screenobjects/chats/Messages";
 import Topbar from "../../screenobjects/chats/Topbar";
 let chatsAttachmentFirstUser = new ComposeAttachment("userA");
 let chatsInputFirstUser = new InputBar("userA");
+let chatsInputSecondUser = new InputBar("userB");
 let chatsMessagesFirstUser = new Messages("userA");
 let chatsMessagesSecondUser = new Messages("userB");
 let chatsTopbarFirstUser = new Topbar("userA");
@@ -91,7 +92,8 @@ export default async function messageAttachmentsTests() {
     await chatsMessagesSecondUser.switchToOtherUserWindow();
 
     // With User B - Validate that message with attachment was received
-    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForDisplayed();
+    await chatsInputSecondUser.clickOnInputBar();
+    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForExist();
   });
 
   it("Chat User B - Received Message with Attachment - Text Message contents", async () => {
