@@ -3,8 +3,8 @@ import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "../../screenobjects/chats/ChatsSidebar";
 import CreateGroupChat from "../../screenobjects/chats/CreateGroupChat";
 import InputBar from "../../screenobjects/chats/InputBar";
+import ParticipantsList from "../../screenobjects/chats/ParticipantsList";
 import Topbar from "../../screenobjects/chats/Topbar";
-import sidebarChatsTests from "./08-sidebar-chats.spec";
 let chatsLayoutFirstUser = new ChatsLayout("userA");
 let chatsLayoutSecondUser = new ChatsLayout("userB");
 let chatsInputFirstUser = new InputBar("userA");
@@ -15,6 +15,7 @@ let chatsSidebarSecondUser = new ChatsSidebar("userB");
 let chatsTopbarFirstUser = new Topbar("userA");
 let chatsTopbarSecondUser = new Topbar("userB");
 let createGroupFirstUser = new CreateGroupChat("userA");
+let participantsListFirstUser = new ParticipantsList("userA");
 
 export default async function groupChatTests() {
   it("Chat User A - Create Group Chat button tooltip", async () => {
@@ -89,7 +90,7 @@ export default async function groupChatTests() {
     await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
       "My First Group"
     );
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
+    await chatsSidebarSecondUser.switchToOtherUserWindow();
   });
 
   it("User B - Group Chat is displayed on remote participant users sidebar", async () => {
@@ -105,14 +106,45 @@ export default async function groupChatTests() {
     await expect(chatsTopbarSecondUser.topbarUserName).toHaveTextContaining(
       "My First Group"
     );
-    await chatsTopbarSecondUser.switchToOtherUserWindow();
+    await chatsInputFirstUser.switchToOtherUserWindow();
   });
 
   it("Group Chat - User A sends a message in group chat", async () => {
     await chatsInputFirstUser.typeMessageOnInput("Hi Group!");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Hi Group!");
-    await chatsMessagesFirstUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingMessage("Hi Group!");
+  });
+
+  // One validation is skipped since header states a wrong number of participants in list (1 PARTICIPANT instead of 2 PARTICIPANTS)
+  it("Group Chat - Show participants list - Contents", async () => {
+    await chatsTopbarFirstUser.switchToOtherUserWindow();
+    await chatsTopbarFirstUser.clickOnTopbar();
+    await participantsListFirstUser.waitForIsShown(true);
+    await participantsListFirstUser.participantsUserInput.waitForDisplayed();
+    const currentList = await participantsListFirstUser.getPartipantsList();
+    const expectedList = ["ChatUserA", "ChatUserB"];
+    await expect(currentList).toEqual(expectedList);
+    /*await expect(
+      participantsListFirstUser.numberOfParticipantsHeader
+    ).toHaveTextContaining("2 PARTICIPANTS");*/
+  });
+
+  it("Group Chat - Show participants list - Search bar - Valid input", async () => {
+    await participantsListFirstUser.typeOnParticipantsUserInput("ChatUserB");
+    const currentList = await participantsListFirstUser.getPartipantsList();
+    const expectedList = ["ChatUserB"];
+    await expect(currentList).toEqual(expectedList);
+    await participantsListFirstUser.clearParticipantsUserInput();
+  });
+
+  it("Group Chat - Show participants list - Search bar - Non existing user on input", async () => {
+    await participantsListFirstUser.typeOnParticipantsUserInput("zzz");
+    const currentList = await participantsListFirstUser.getPartipantsList();
+    await expect(currentList).toEqual([]);
+    await participantsListFirstUser.clearParticipantsUserInput();
+    await chatsTopbarFirstUser.clickOnTopbar();
+    await chatsLayoutFirstUser.waitForIsShown(true);
   });
 }

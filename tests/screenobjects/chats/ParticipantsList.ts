@@ -131,7 +131,7 @@ export default class ParticipantsList extends UplinkMainScreen {
   }
 
   async clearParticipantsUserInput() {
-    await this.participantsUserInput.clear();
+    await this.participantsUserInput.setValue("");
   }
 
   async getPartipantsList() {
