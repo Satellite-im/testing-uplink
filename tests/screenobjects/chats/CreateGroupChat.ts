@@ -22,8 +22,8 @@ const SELECTORS_WINDOWS = {
   FRIEND_USER_NAME: '[name="friend-name"]',
   FRIEND_USER_NAME_TEXT: "//Text",
   FRIENDS_LIST: '[name="friends-list"]',
-  GROUP_NAME_INPUT: '[name="groupname-input"]',
-  USER_SEARCH_INPUT: '[name="friend-search-input"]',
+  GROUP_NAME_INPUT: '//Edit[@Name="groupname-input"]',
+  USER_SEARCH_INPUT: '//Edit[@Name="friend-search-input"]',
 };
 
 const SELECTORS_MACOS = {
@@ -66,13 +66,16 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   get createGroupInputError() {
-    return this.instance.$(SELECTORS.CREATE_GROUP_INPUT_ERROR);
+    return this.instance
+      .$(SELECTORS.CREATE_GROUP_NAME)
+      .$(SELECTORS.CREATE_GROUP_INPUT_ERROR);
   }
 
   get createGroupInputErrorText() {
-    return this.createGroupInputError.$(
-      SELECTORS.CREATE_GROUP_INPUT_ERROR_TEXT
-    );
+    return this.instance
+      .$(SELECTORS.CREATE_GROUP_NAME)
+      .$(SELECTORS.CREATE_GROUP_INPUT_ERROR)
+      .$(SELECTORS.CREATE_GROUP_INPUT_ERROR_TEXT);
   }
 
   get createGroupName() {
@@ -124,18 +127,24 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   get groupNameInput() {
-    return this.createGroupChatSection.$(SELECTORS.GROUP_NAME_INPUT);
+    return this.instance
+      .$(SELECTORS.CREATE_GROUP_NAME)
+      .$(SELECTORS.GROUP_NAME_INPUT);
   }
 
   get userSearchInput() {
-    return this.createGroupChatSection.$(SELECTORS.USER_SEARCH_INPUT);
+    return this.instance
+      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.USER_SEARCH_INPUT);
   }
 
   async clearGroupNameInput() {
+    await this.groupNameInput.click();
     await this.groupNameInput.setValue("");
   }
 
   async clearUserSearchInput() {
+    await this.userSearchInput.click();
     await this.userSearchInput.setValue("");
   }
 
@@ -216,10 +225,12 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   async typeOnGroupName(name: string) {
+    await this.groupNameInput.click();
     await this.groupNameInput.setValue(name);
   }
 
   async typeOnUsersSearchInput(name: string) {
+    await this.userSearchInput.click();
     await this.userSearchInput.setValue(name);
   }
 
