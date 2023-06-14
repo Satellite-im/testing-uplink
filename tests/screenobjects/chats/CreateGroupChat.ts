@@ -1,3 +1,5 @@
+const robot = require("robotjs");
+import { getClipboardMacOS } from "../../helpers/commands";
 import UplinkMainScreen from "../UplinkMainScreen";
 
 const currentOS = driver["userA"].capabilities.automationName;
@@ -139,7 +141,15 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   async clearGroupNameInput() {
-    await this.groupNameInput.click();
+    const locator = await this.groupNameInput;
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await this.groupNameInput.click();
+    } else if (currentDriver === "windows") {
+      await driver[this.executor].touchAction([
+        { action: "press", element: locator },
+      ]);
+    }
     await this.groupNameInput.setValue("");
   }
 
@@ -224,14 +234,36 @@ export default class CreateGroupChat extends UplinkMainScreen {
     await locator.click();
   }
 
+  async typeLongerTextInGroupName() {
+    // Assuming that user already clicked on Copy ID button
+    // If driver is macos, then get clipboard and pass it to enterStatus function
+    const locator = await this.groupNameInput;
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await this.groupNameInput.click();
+      const userKey = await getClipboardMacOS();
+      await this.groupNameInput.setValue(userKey + userKey);
+    } else if (currentDriver === "windows") {
+      await driver[this.executor].touchAction([
+        { action: "press", element: locator },
+      ]);
+      // If driver is windows, then click on status input to place cursor there and simulate a control + v
+      await robot.keyTap("v", ["control"]);
+      await driver[this.executor].touchAction([
+        { action: "press", element: locator },
+      ]);
+      await robot.keyTap("v", ["control"]);
+    }
+  }
+
   async typeOnGroupName(name: string) {
-    await this.groupNameInput.click();
-    await this.groupNameInput.setValue(name);
+    const element = await this.groupNameInput;
+    await this.typeOnElement(element, name);
   }
 
   async typeOnUsersSearchInput(name: string) {
-    await this.userSearchInput.click();
-    await this.userSearchInput.setValue(name);
+    const element = await this.userSearchInput;
+    await this.typeOnElement(element, name);
   }
 
   // Validations
