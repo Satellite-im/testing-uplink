@@ -141,7 +141,15 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   async clearGroupNameInput() {
-    await this.groupNameInput.click();
+    const locator = await this.groupNameInput;
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await this.groupNameInput.click();
+    } else if (currentDriver === "windows") {
+      await driver[this.executor].touchAction([
+        { action: "press", element: locator },
+      ]);
+    }
     await this.groupNameInput.setValue("");
   }
 
@@ -229,14 +237,21 @@ export default class CreateGroupChat extends UplinkMainScreen {
   async typeLongerTextInGroupName() {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
-    await this.groupNameInput.click();
+    const locator = await this.groupNameInput;
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === "mac2") {
+      await this.groupNameInput.click();
       const userKey = await getClipboardMacOS();
       await this.groupNameInput.setValue(userKey + userKey);
     } else if (currentDriver === "windows") {
+      await driver[this.executor].touchAction([
+        { action: "press", element: locator },
+      ]);
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
       await robot.keyTap("v", ["control"]);
+      await driver[this.executor].touchAction([
+        { action: "press", element: locator },
+      ]);
       await robot.keyTap("v", ["control"]);
     }
   }
