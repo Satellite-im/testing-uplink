@@ -17,6 +17,8 @@ const SELECTORS_WINDOWS = {
   FRIENDS_LIST: '[name="friends-list"]',
   GROUP_NAME_HEADER: '[name="group-name-label"]',
   GROUP_NAME_INPUT: '[name="groupname-input"]',
+  GROUP_NAME_INPUT_ERROR: '[name="input-error"]',
+  GROUP_NAME_INPUT_ERROR_TEXT: "//Text",
   PARTICIPANT_USER_CONTAINER: '[name="Friend Container"]',
   PARTICIPANT_USER_IMAGE: '[name="User Image"]',
   PARTICIPANT_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
@@ -45,6 +47,8 @@ const SELECTORS_MACOS = {
   FRIENDS_LIST: "~friends-list",
   GROUP_NAME_HEADER: "~group-name-label",
   GROUP_NAME_INPUT: "~groupname-input",
+  GROUP_NAME_INPUT_ERROR: "~input-error",
+  GROUP_NAME_INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   PARTICIPANT_USER_CONTAINER: "~Friend Container",
   PARTICIPANT_USER_IMAGE: "~User Image",
   PARTICIPANT_USER_IMAGE_PROFILE: "~user-image-profile",
@@ -115,6 +119,19 @@ export default class EditGroup extends UplinkMainScreen {
     return this.instance
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$(SELECTORS.GROUP_NAME_INPUT);
+  }
+
+  get groupNameInputError() {
+    return this.instance
+      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.GROUP_NAME_INPUT_ERROR);
+  }
+
+  get groupNameInputErrorText() {
+    return this.instance
+      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.GROUP_NAME_INPUT_ERROR)
+      .$(SELECTORS.GROUP_NAME_INPUT_ERROR_TEXT);
   }
 
   get participantUserContainer() {
@@ -196,11 +213,11 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async clearGroupNameInput() {
-    await this.groupNameInput.clear();
+    await this.groupNameInput.setValue("");
   }
 
   async clearSearchUserInput() {
-    await this.userInput.clear();
+    await this.userInput.setValue("");
   }
 
   async clickOnAddWithSidebarButton() {
@@ -213,6 +230,10 @@ export default class EditGroup extends UplinkMainScreen {
 
   async clickOnAddButtonBelow() {
     await this.addBottomButton.click();
+  }
+
+  async clickOnGroupNameHeader() {
+    await this.groupNameHeader.click();
   }
 
   async clickOnRemoveWithSidebarButton() {
@@ -304,11 +325,18 @@ export default class EditGroup extends UplinkMainScreen {
     return userImageWrap;
   }
 
+  async selectUserFromList(participant: string) {
+    const userLocator = await this.getParticipantContainerLocator(participant);
+    await userLocator.click();
+  }
+
   async typeOnGroupNameInput(name: string) {
+    await this.groupNameInput.click();
     await this.groupNameInput.setValue(name);
   }
 
   async typeOnSearchUserInput(username: string) {
+    await this.userInput.click();
     await this.userInput.setValue(username);
   }
 }
