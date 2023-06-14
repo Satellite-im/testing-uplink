@@ -47,19 +47,21 @@ export default async function groupChatTests() {
     await expect(createGroupFirstUser.createGroupChatButton).toBeDisplayed();
   });
 
-  // Skipping test failing on CI because Appium starts typing in correct field but suddenly jumps to other input field throwing issues
-  xit("Chat User A - Attempt to create group chat with alphanumeric chars in name", async () => {
+  it("Chat User A - Attempt to create group chat with alphanumeric chars in name", async () => {
     await createGroupFirstUser.typeOnGroupName("&!");
+    await expect(
+      createGroupFirstUser.createGroupInputErrorText
+    ).toHaveTextContaining("Only alphanumeric characters are accepted.");
     await createGroupFirstUser.createGroupInputError.waitForDisplayed();
     await createGroupFirstUser.clearGroupNameInput();
   });
 
-  // Skipping test failing on CI because Appium starts typing in correct field but suddenly jumps to other input field throwing issues
-  xit("Chat User A - Attempt to create group chat with more than 64 chars in name", async () => {
-    await createGroupFirstUser.typeOnGroupName(
-      "01234567890123456789012345678901234567890123456789012345678912345"
-    );
+  it("Chat User A - Attempt to create group chat with more than 64 chars in name", async () => {
+    await createGroupFirstUser.typeLongerTextInGroupName();
     await createGroupFirstUser.createGroupInputError.waitForDisplayed();
+    await expect(
+      createGroupFirstUser.createGroupInputErrorText
+    ).toHaveTextContaining("Maximum of 64 characters exceeded.");
     await createGroupFirstUser.clearGroupNameInput();
   });
 

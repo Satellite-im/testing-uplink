@@ -1,3 +1,5 @@
+const robot = require("robotjs");
+import { getClipboardMacOS } from "../../helpers/commands";
 import UplinkMainScreen from "../UplinkMainScreen";
 
 const currentOS = driver["userA"].capabilities.automationName;
@@ -224,14 +226,29 @@ export default class CreateGroupChat extends UplinkMainScreen {
     await locator.click();
   }
 
-  async typeOnGroupName(name: string) {
+  async typeLongerTextInGroupName() {
+    // Assuming that user already clicked on Copy ID button
+    // If driver is macos, then get clipboard and pass it to enterStatus function
     await this.groupNameInput.click();
-    await this.groupNameInput.setValue(name);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      const userKey = await getClipboardMacOS();
+      await this.groupNameInput.setValue(userKey + userKey);
+    } else if (currentDriver === "windows") {
+      // If driver is windows, then click on status input to place cursor there and simulate a control + v
+      await robot.keyTap("v", ["control"]);
+      await robot.keyTap("v", ["control"]);
+    }
+  }
+
+  async typeOnGroupName(name: string) {
+    const element = await this.groupNameInput;
+    await this.typeOnElement(element, name);
   }
 
   async typeOnUsersSearchInput(name: string) {
-    await this.userSearchInput.click();
-    await this.userSearchInput.setValue(name);
+    const element = await this.userSearchInput;
+    await this.typeOnElement(element, name);
   }
 
   // Validations
