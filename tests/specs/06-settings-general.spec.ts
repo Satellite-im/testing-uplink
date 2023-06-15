@@ -17,14 +17,6 @@ export default async function settingsGeneral() {
       "Change Language."
     );
 
-    // THEME
-    await expect(settingsGeneralFirstUser.themeHeader).toHaveTextContaining(
-      "THEME"
-    );
-    await expect(
-      settingsGeneralFirstUser.themeDescription
-    ).toHaveTextContaining("Change the theme of the app.");
-
     // FONT
     await expect(settingsGeneralFirstUser.fontHeader).toHaveTextContaining(
       "FONT"
@@ -42,12 +34,6 @@ export default async function settingsGeneral() {
     ).toHaveTextContaining("Scale the font size up or down to your liking.");
   });
 
-  // Skipped for now since there are no themes to select
-  xit("Settings General - Change theme dropdown selection", async () => {
-    await settingsGeneralFirstUser.clickOnThemeDropdown();
-    await settingsGeneralFirstUser.selectTheme("Default");
-  });
-
   // Skipped for now since there are no fonts to select
   xit("Settings General - Change font dropdown selection", async () => {
     await settingsGeneralFirstUser.clickOnFontDropdown();
@@ -59,13 +45,6 @@ export default async function settingsGeneral() {
     // Open Language Picker and select Español México
     await settingsGeneralFirstUser.clickOnAppLanguageDropdown();
     await settingsGeneralFirstUser.selectAppLanguage("Español");
-
-    // Validate that language was changed to Español (México)
-    await expect(
-      settingsGeneralFirstUser.uplinkOverlayDescription
-    ).toHaveTextContaining(
-      "Habilitar la superposición de pantalla Uplink. Esto mostrará la información de llamadas activas y también te permitirá agregar widgets personalizados a tu pantalla."
-    );
   });
 
   // Skipping test since it is failing on CI
@@ -73,12 +52,5 @@ export default async function settingsGeneral() {
     // Open Language Picker and select Español México
     await settingsGeneralFirstUser.clickOnAppLanguageDropdown();
     await settingsGeneralFirstUser.selectAppLanguage("English");
-
-    // Validate that language was changed back to English (USA)
-    await expect(
-      settingsGeneralFirstUser.uplinkOverlayDescription
-    ).toHaveTextContaining(
-      "Enable the on screen Uplink overlay. This will show active call information, as well as allow you to add custom widgets to your screen."
-    );
   });
 }

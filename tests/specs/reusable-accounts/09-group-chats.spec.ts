@@ -121,7 +121,6 @@ export default async function groupChatTests() {
     await chatsMessagesSecondUser.waitForReceivingMessage("Hi Group!");
   });
 
-  // One validation is skipped since header states a wrong number of participants in list (1 PARTICIPANT instead of 2 PARTICIPANTS)
   it("Group Chat - Show participants list - Contents", async () => {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.clickOnTopbar();
@@ -130,9 +129,6 @@ export default async function groupChatTests() {
     const currentList = await participantsListFirstUser.getPartipantsList();
     const expectedList = ["ChatUserA", "ChatUserB"];
     await expect(currentList).toEqual(expectedList);
-    /*await expect(
-      participantsListFirstUser.numberOfParticipantsHeader
-    ).toHaveTextContaining("2 PARTICIPANTS");*/
   });
 
   it("Group Chat - Show participants list - Search bar - Valid input", async () => {
