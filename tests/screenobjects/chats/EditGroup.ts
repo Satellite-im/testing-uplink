@@ -7,16 +7,19 @@ const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   ADD_BOTTOM_BUTTON: '[name="add-button"]',
-  ADD_PARTICIPANTS__WITH_SIDEBAR_BUTTON:
+  ADD_PARTICIPANTS_WITH_SIDEBAR_BUTTON:
     '[name="edit-group-add-friends-button-with_sidebar"]',
-  ADD_PARTICIPANTS__WITHOUT_SIDEBAR_BUTTON:
+  ADD_PARTICIPANTS_WITHOUT_SIDEBAR_BUTTON:
     '[name="edit-group-add-friends-button-without-sidebar"]',
   ADD_OR_REMOVE_BUTTONS_CONTAINER: '[name="Topbar"]',
-  EDIT_GROUP_SECTION: '[name="edit-group"]',
+  EDIT_GROUP_SECTION: '//Group[@Name="edit-group"]',
   FRIENDS_GROUP: '[name="friend-group"]',
   FRIENDS_LIST: '[name="friends-list"]',
   GROUP_NAME_HEADER: '[name="group-name-label"]',
+  GROUP_NAME_HEADER_TEXT: "//Text",
   GROUP_NAME_INPUT: '[name="groupname-input"]',
+  GROUP_NAME_INPUT_ERROR: '[name="input-error"]',
+  GROUP_NAME_INPUT_ERROR_TEXT: "//Text",
   PARTICIPANT_USER_CONTAINER: '[name="Friend Container"]',
   PARTICIPANT_USER_IMAGE: '[name="User Image"]',
   PARTICIPANT_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
@@ -40,11 +43,15 @@ const SELECTORS_MACOS = {
   ADD_PARTICIPANTS_WITHOUT_SIDEBAR_BUTTON:
     "~edit-group-add-friends-button-without-sidebar",
   ADD_OR_REMOVE_BUTTONS_CONTAINER: "~Topbar",
-  EDIT_GROUP_SECTION: "~edit-group",
+  EDIT_GROUP_SECTION:
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "edit-group"`]',
   FRIENDS_GROUP: "~friend-group",
   FRIENDS_LIST: "~friends-list",
   GROUP_NAME_HEADER: "~group-name-label",
+  GROUP_NAME_HEADER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   GROUP_NAME_INPUT: "~groupname-input",
+  GROUP_NAME_INPUT_ERROR: "~input-error",
+  GROUP_NAME_INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   PARTICIPANT_USER_CONTAINER: "~Friend Container",
   PARTICIPANT_USER_IMAGE: "~User Image",
   PARTICIPANT_USER_IMAGE_PROFILE: "~user-image-profile",
@@ -111,10 +118,30 @@ export default class EditGroup extends UplinkMainScreen {
       .$(SELECTORS.GROUP_NAME_HEADER);
   }
 
+  get groupNameHeaderText() {
+    return this.instance
+      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.GROUP_NAME_HEADER)
+      .$(SELECTORS.GROUP_NAME_HEADER_TEXT);
+  }
+
   get groupNameInput() {
     return this.instance
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$(SELECTORS.GROUP_NAME_INPUT);
+  }
+
+  get groupNameInputError() {
+    return this.instance
+      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.GROUP_NAME_INPUT_ERROR);
+  }
+
+  get groupNameInputErrorText() {
+    return this.instance
+      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.GROUP_NAME_INPUT_ERROR)
+      .$(SELECTORS.GROUP_NAME_INPUT_ERROR_TEXT);
   }
 
   get participantUserContainer() {
@@ -196,11 +223,11 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async clearGroupNameInput() {
-    await this.groupNameInput.clear();
+    await this.groupNameInput.setValue("");
   }
 
   async clearSearchUserInput() {
-    await this.userInput.clear();
+    await this.userInput.setValue("");
   }
 
   async clickOnAddWithSidebarButton() {
@@ -213,6 +240,10 @@ export default class EditGroup extends UplinkMainScreen {
 
   async clickOnAddButtonBelow() {
     await this.addBottomButton.click();
+  }
+
+  async clickOnGroupNameHeader() {
+    await this.groupNameHeader.click();
   }
 
   async clickOnRemoveWithSidebarButton() {
@@ -304,11 +335,18 @@ export default class EditGroup extends UplinkMainScreen {
     return userImageWrap;
   }
 
+  async selectUserFromList(participant: string) {
+    const userLocator = await this.getParticipantContainerLocator(participant);
+    await userLocator.click();
+  }
+
   async typeOnGroupNameInput(name: string) {
+    await this.groupNameInput.click();
     await this.groupNameInput.setValue(name);
   }
 
   async typeOnSearchUserInput(username: string) {
+    await this.userInput.click();
     await this.userInput.setValue(username);
   }
 }

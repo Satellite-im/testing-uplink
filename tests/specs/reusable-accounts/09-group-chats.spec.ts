@@ -5,6 +5,7 @@ import CreateGroupChat from "../../screenobjects/chats/CreateGroupChat";
 import InputBar from "../../screenobjects/chats/InputBar";
 import ParticipantsList from "../../screenobjects/chats/ParticipantsList";
 import Topbar from "../../screenobjects/chats/Topbar";
+import { setupBeforeCreateGroupTests } from "../../helpers/debugging";
 let chatsLayoutFirstUser = new ChatsLayout("userA");
 let chatsLayoutSecondUser = new ChatsLayout("userB");
 let chatsInputFirstUser = new InputBar("userA");
@@ -94,6 +95,9 @@ export default async function groupChatTests() {
     await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
       "FirstGroup"
     );
+    await expect(chatsTopbarFirstUser.topbarUserStatus).toHaveTextContaining(
+      "Members (2)"
+    );
     await chatsSidebarSecondUser.switchToOtherUserWindow();
   });
 
@@ -109,6 +113,9 @@ export default async function groupChatTests() {
     await chatsTopbarSecondUser.waitForIsShown(true);
     await expect(chatsTopbarSecondUser.topbarUserName).toHaveTextContaining(
       "FirstGroup"
+    );
+    await expect(chatsTopbarSecondUser.topbarUserStatus).toHaveTextContaining(
+      "Members (2)"
     );
     await chatsInputFirstUser.switchToOtherUserWindow();
   });
