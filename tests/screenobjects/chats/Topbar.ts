@@ -11,7 +11,7 @@ const SELECTORS_WINDOWS = {
   TOPBAR: '[name="Topbar"]',
   TOPBAR_ADD_TO_FAVORITES: '[name="Favorites"]',
   TOPBAR_CALL: '[name="Call"]',
-  TOPBAR_EDIT_GROUP: '[name="edit-group"]',
+  TOPBAR_EDIT_GROUP: '//Button[@Name="edit-group"]',
   TOPBAR_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   TOPBAR_INDICATOR_ONLINE: '[name="indicator-online"]',
   TOPBAR_REMOVE_FROM_FAVORITES: '[name="Remove from Favorites"]',
@@ -30,7 +30,8 @@ const SELECTORS_MACOS = {
   TOPBAR: "~Topbar",
   TOPBAR_ADD_TO_FAVORITES: "~Favorites",
   TOPBAR_CALL: "~Call",
-  TOPBAR_EDIT_GROUP: "~edit-group",
+  TOPBAR_EDIT_GROUP:
+    '-ios class chain:**/XCUIElementTypeButton[`label == "edit-group"`]',
   TOPBAR_INDICATOR_OFFLINE: "~indicator-offline",
   TOPBAR_INDICATOR_ONLINE: "~indicator-online",
   TOPBAR_REMOVE_FROM_FAVORITES: "~Remove from Favorites",
@@ -141,7 +142,11 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarUserName() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_NAME);
+    return this.instance.$(SELECTORS.TOPBAR).$$(SELECTORS.TOPBAR_USER_NAME)[0];
+  }
+
+  get topbarUserStatus() {
+    return this.instance.$(SELECTORS.TOPBAR).$$(SELECTORS.TOPBAR_USER_NAME)[1];
   }
 
   get topbarVideocall() {
