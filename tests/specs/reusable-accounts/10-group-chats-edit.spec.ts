@@ -1,5 +1,7 @@
 import EditGroup from "../../screenobjects/chats/EditGroup";
 import ChatsSidebar from "../../screenobjects/chats/ChatsSidebar";
+import FilesScreen from "../../screenobjects/files/FilesScreen";
+import ParticipantsList from "../../screenobjects/chats/ParticipantsList";
 import Topbar from "../../screenobjects/chats/Topbar";
 import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
 let chatsSidebarFirstUser = new ChatsSidebar("userA");
@@ -7,6 +9,8 @@ let chatsSidebarSecondUser = new ChatsSidebar("userB");
 let chatsTopbarFirstUser = new Topbar("userA");
 let chatsTopbarSecondUser = new Topbar("userB");
 let editGroupFirstUser = new EditGroup("userA");
+let filesScreenSecondUser = new FilesScreen("userB");
+let participantsListFirstUser = new ParticipantsList("userA");
 let welcomeScreenSecondUser = new WelcomeScreen("userB");
 
 export default async function groupChatEditTests() {
@@ -65,6 +69,7 @@ export default async function groupChatEditTests() {
   });
 
   it("Edit Group - Attempt to change Group Name for a name with more than 64 characters", async () => {
+    await editGroupFirstUser.groupNameInput.click();
     await editGroupFirstUser.typeOnGroupNameInput(
       "12345678901234567890123456789012345678901234567890123456789012345"
     );
@@ -152,7 +157,7 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.clearSearchUserInput();
   });
 
-  it("Edit Group - Add someone to the group", async () => {
+  it("Edit Group - Add someone to the group - Add Chat User B again", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
     await editGroupFirstUser.clickOnAddButtonBelow();
@@ -160,7 +165,20 @@ export default async function groupChatEditTests() {
       reverse: true,
     });
 
+    await chatsTopbarFirstUser.clickOnTopbar();
+    await participantsListFirstUser.waitForIsShown(true);
+    await participantsListFirstUser.participantsUserInput.waitForDisplayed();
+    const currentList = await participantsListFirstUser.getPartipantsList();
+    const expectedList = ["ChatUserA", "ChatUserB"];
+    await expect(currentList).toEqual(expectedList);
+  });
+
+  it("Edit Group - Ensure that Chat User B was added back to the group", async () => {
     await chatsSidebarSecondUser.switchToOtherUserWindow();
+    await chatsSidebarSecondUser.goToFiles();
+    await filesScreenSecondUser.waitForIsShown(true);
+    await filesScreenSecondUser.goToMainScreen();
+    await chatsSidebarSecondUser.waitForIsShown(true);
     await chatsSidebarSecondUser.waitForGroupToBeCreated("NewNameGroup");
     await chatsSidebarSecondUser.goToSidebarGroupChat("NewNameGroup");
     await chatsTopbarSecondUser.topbar.waitForDisplayed();
