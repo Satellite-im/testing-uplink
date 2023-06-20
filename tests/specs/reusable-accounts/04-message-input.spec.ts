@@ -6,6 +6,7 @@ let chatsMessagesFirstUser = new Messages("userA");
 export default async function messageInputTests() {
   it("Chat User A - Message Input - User cannot send empty messages", async () => {
     // Ensure that input bar is empty and click on send message button
+    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.clearInputBar();
     await chatsInputFirstUser.clearInputBar();
     await chatsInputFirstUser.clickOnInputBar();

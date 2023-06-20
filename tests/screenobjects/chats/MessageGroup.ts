@@ -237,46 +237,6 @@ export default class MessageGroup extends UplinkMainScreen {
     return lastGroupLocator;
   }
 
-  async getLastMessageReceivedReactionsContainer() {
-    const lastGroupReceived = await this.getLastReceivedGroup();
-    const reactionsContainer = await lastGroupReceived.$(
-      SELECTORS.MESSAGE_REACTION_CONTAINER
-    );
-    return reactionsContainer;
-  }
-
-  async getLastMessageReceivedRemoteReactions() {
-    const reactionsContainer =
-      await this.getLastMessageReceivedReactionsContainer();
-    const remoteReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_REMOTE
-    );
-    let results = [];
-    for (let reaction of remoteReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
-    }
-    return results;
-  }
-
-  async getLastMessageReceivedSelfReactions() {
-    const reactionsContainer =
-      await this.getLastMessageReceivedReactionsContainer();
-    const selfReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_SELF
-    );
-    let results = [];
-    for (let reaction of selfReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
-    }
-    return results;
-  }
-
   async getLastMessageReceivedTimeAgo() {
     const lastGroupReceived = await this.getLastReceivedGroup();
     const timeAgoText = await lastGroupReceived
@@ -303,46 +263,6 @@ export default class MessageGroup extends UplinkMainScreen {
     const lastGroupIndex = (await messageGroupsSent.length) - 1;
     const lastGroupLocator = await messageGroupsSent[lastGroupIndex];
     return lastGroupLocator;
-  }
-
-  async getLastMessageSentReactionsContainer() {
-    const lastGroupSent = await this.getLastSentGroup();
-    const reactionsContainer = await lastGroupSent.$(
-      SELECTORS.MESSAGE_REACTION_CONTAINER
-    );
-    return reactionsContainer;
-  }
-
-  async getLastMessageSentRemoteReactions() {
-    const reactionsContainer =
-      await this.getLastMessageSentReactionsContainer();
-    const remoteReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_REMOTE
-    );
-    let results = [];
-    for (let reaction of remoteReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
-    }
-    return results;
-  }
-
-  async getLastMessageSentSelfReactions() {
-    const reactionsContainer =
-      await this.getLastMessageSentReactionsContainer();
-    const selfReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_SELF
-    );
-    let results = [];
-    for (let reaction of selfReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
-    }
-    return results;
   }
 
   async getLastMessageSentTimeAgo() {
@@ -390,73 +310,120 @@ export default class MessageGroup extends UplinkMainScreen {
   }
 
   // Reactions Methods
-  async getLocatorOfReactionOnReceivedMessage(emoji: string, reactor: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let locator;
-    if (currentDriver === "mac2") {
-      locator = await this.messageGroupReceived
-        .$(SELECTORS.MESSAGE_REACTION_CONTAINER)
-        .$(
-          '//XCUIElementTypeGroup[@label="emoji-reaction-' +
-            reactor +
-            '"]/XCUIElementTypeStaticText[contains(@value, "' +
-            emoji +
-            '")]'
-        );
-    } else if (currentDriver === "windows") {
-      locator = await this.messageGroupReceived
-        .$(SELECTORS.MESSAGE_REACTION_CONTAINER)
-        .$(
-          '//Group[@Name="emoji-reaction-' +
-            reactor +
-            '"]/Text[contains(@Name, "' +
-            emoji +
-            '")]'
-        );
-    }
-    return locator;
-  }
 
-  async getLocatorOfReactionOnSentMessage(emoji: string, reactor: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let locator;
-    if (currentDriver === "mac2") {
-      locator = await this.messageGroupSent
-        .$(SELECTORS.MESSAGE_REACTION_CONTAINER)
-        .$(
-          '//XCUIElementTypeGroup[@label="emoji-reaction-' +
-            reactor +
-            '"]/XCUIElementTypeStaticText[contains(@value, "' +
-            emoji +
-            '")]'
-        );
-    } else if (currentDriver === "windows") {
-      locator = await this.messageGroupSent
-        .$(SELECTORS.MESSAGE_REACTION_CONTAINER)
-        .$(
-          '//Group[@Name="emoji-reaction-' +
-            reactor +
-            '"]/Text[contains(@Name, "' +
-            emoji +
-            '")]'
-        );
-    }
-    return locator;
-  }
-
-  async clickOnReactionOnReceivedMessage(emoji: string, reactor: string) {
-    const locator = await this.getLocatorOfReactionOnReceivedMessage(
-      emoji,
-      reactor
+  async getLastMessageReceivedReactionsContainer() {
+    const lastGroupReceived = await this.getLastReceivedGroup();
+    const reactionContainers = await lastGroupReceived.$$(
+      SELECTORS.MESSAGE_REACTION_CONTAINER
     );
-    await locator.click();
+    const lastContainerIndex = (await reactionContainers.length) - 1;
+    const lastContainerLocator = await reactionContainers[lastContainerIndex];
+    return lastContainerLocator;
   }
 
-  async clickOnReactionOnSentMessage(emoji: string, reactor: string) {
-    const locator = await this.getLocatorOfReactionOnSentMessage(
-      emoji,
-      reactor
+  async getLastMessageReceivedRemoteReactions() {
+    const reactionsContainer =
+      await this.getLastMessageReceivedReactionsContainer();
+    const remoteReactions = await reactionsContainer.$$(
+      SELECTORS.EMOJI_REACTION_REMOTE
     );
-    await locator.click();
+    let results = [];
+    for (let reaction of remoteReactions) {
+      const reactionValue = await reaction
+        .$(SELECTORS.EMOJI_REACTION_VALUE)
+        .getText();
+      results.push(reactionValue);
+    }
+    return results;
+  }
+
+  async getLastMessageReceivedSelfReactions() {
+    const reactionsContainer =
+      await this.getLastMessageReceivedReactionsContainer();
+    const selfReactions = await reactionsContainer.$$(
+      SELECTORS.EMOJI_REACTION_SELF
+    );
+    let results = [];
+    for (let reaction of selfReactions) {
+      const reactionValue = await reaction
+        .$(SELECTORS.EMOJI_REACTION_VALUE)
+        .getText();
+      results.push(reactionValue);
+    }
+    return results;
+  }
+
+  async getLastMessageSentReactionsContainer() {
+    const lastGroupSent = await this.getLastSentGroup();
+    const reactionContainers = await lastGroupSent.$$(
+      SELECTORS.MESSAGE_REACTION_CONTAINER
+    );
+    const lastContainerIndex = (await reactionContainers.length) - 1;
+    const lastContainerLocator = await reactionContainers[lastContainerIndex];
+    return lastContainerLocator;
+  }
+
+  async getLastMessageSentRemoteReactions() {
+    const reactionsContainer =
+      await this.getLastMessageSentReactionsContainer();
+    const remoteReactions = await reactionsContainer.$$(
+      SELECTORS.EMOJI_REACTION_REMOTE
+    );
+    let results = [];
+    for (let reaction of remoteReactions) {
+      const reactionValue = await reaction
+        .$(SELECTORS.EMOJI_REACTION_VALUE)
+        .getText();
+      results.push(reactionValue);
+    }
+    return results;
+  }
+
+  async getLastMessageSentSelfReactions() {
+    const reactionsContainer =
+      await this.getLastMessageSentReactionsContainer();
+    const selfReactions = await reactionsContainer.$$(
+      SELECTORS.EMOJI_REACTION_SELF
+    );
+    let results = [];
+    for (let reaction of selfReactions) {
+      const reactionValue = await reaction
+        .$(SELECTORS.EMOJI_REACTION_VALUE)
+        .getText();
+      results.push(reactionValue);
+    }
+    return results;
+  }
+
+  async removeReactionOnLastSentMessage(reaction: string) {
+    const reactionsContainer =
+      await this.getLastMessageSentReactionsContainer();
+    const selfReactions = await reactionsContainer.$$(
+      SELECTORS.EMOJI_REACTION_SELF
+    );
+    for (let reaction of selfReactions) {
+      const reactionValue = await reaction
+        .$(SELECTORS.EMOJI_REACTION_VALUE)
+        .getText();
+      if (reactionValue.includes(reaction)) {
+        await reaction.click();
+      }
+    }
+  }
+
+  async removeReactionOnLastReceivedMessage(reaction: string) {
+    const reactionsContainer =
+      await this.getLastMessageReceivedReactionsContainer();
+    const selfReactions = await reactionsContainer.$$(
+      SELECTORS.EMOJI_REACTION_SELF
+    );
+    for (let reaction of selfReactions) {
+      const reactionValue = await reaction
+        .$(SELECTORS.EMOJI_REACTION_VALUE)
+        .getText();
+      if (reactionValue.includes(reaction)) {
+        await reaction.click();
+      }
+    }
   }
 }
