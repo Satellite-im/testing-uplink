@@ -208,58 +208,6 @@ export default class Messages extends UplinkMainScreen {
     return this.instance.$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
-  get messageGroupReceived() {
-    return this.instance.$$(SELECTORS.MESSAGE_GROUP_REMOTE);
-  }
-
-  get messageGroupSent() {
-    return this.instance.$$(SELECTORS.MESSAGE_GROUP_SENT);
-  }
-
-  get messageGroupWrap() {
-    return this.instance.$$(SELECTORS.MESSAGE_GROUP_WRAP);
-  }
-
-  get messageGroupTimeAgo() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO);
-  }
-
-  get messageGroupTimeAgoValue() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
-  }
-
-  get messageGroupUserImage() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
-  }
-
-  get messageGroupUserImageWrap() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP);
-  }
-
-  get messageGroupUserIndicatorOffline() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE);
-  }
-
-  get messageGroupUserIndicatorOnline() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
-  }
-
   // Messages Received Methods
 
   async getMessageReceivedLocator(
