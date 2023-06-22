@@ -3,14 +3,14 @@ import chats from "../../specs/02-chats.spec";
 import files from "../../specs/03-files.spec";
 import settingsProfile from "../../specs/05-settings-profile.spec";
 import settingsGeneral from "../../specs/06-settings-general.spec";
-import settingsAudio from "../../specs/08-settings-audio.spec";
-import settingsExtensions from "../../specs/10-settings-extensions.spec";
-import settingsNotifications from "../../specs/11-settings-notifications.spec";
-import settingsDeveloper from "../../specs/12-settings-developer.spec";
-import settingsAccessibility from "../../specs/13-settings-accessibility.spec";
-import settingsAbout from "../../specs/14-settings-about.spec";
+import settingsAudio from "../../specs/07-settings-audio.spec";
+import settingsExtensions from "../../specs/08-settings-extensions.spec";
+import settingsNotifications from "../../specs/09-settings-notifications.spec";
+import settingsDeveloper from "../../specs/10-settings-developer.spec";
+import settingsAccessibility from "../../specs/11-settings-accessibility.spec";
+import settingsAbout from "../../specs/12-settings-about.spec";
 import friends from "../../specs/04-friends.spec";
-import createReusableAccounts from "../../specs/15-create-reusable-accounts.spec";
+import createReusableAccounts from "../../specs/13-create-reusable-accounts.spec";
 
 describe("Uplink UI Automated Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));

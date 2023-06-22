@@ -67,23 +67,6 @@ export default async function chats() {
     ).toHaveTextContaining("Settings");
   });
 
-  it("Reduce font size before continuing execution", async () => {
-    // Execute only on MacOS
-    const currentDriver = await welcomeScreenFirstUser.getCurrentDriver();
-    if (currentDriver === "mac2") {
-      // Go to Settings and then to General Settings
-      await welcomeScreenFirstUser.goToSettings();
-      await settingsProfileFirstUser.waitForIsShown(true);
-      await settingsProfileFirstUser.goToGeneralSettings();
-      await settingsGeneralFirstUser.waitForIsShown(true);
-
-      // Reduce the font size and return to Welcome Screen
-      await settingsGeneralFirstUser.clickOnFontScalingMinus();
-      await settingsGeneralFirstUser.goToMainScreen();
-      await welcomeScreenFirstUser.waitForIsShown(true);
-    }
-  });
-
   it("Click on add someone redirects to Friends Page", async () => {
     await welcomeScreenFirstUser.clickAddSomeone();
     await friendsScreenFirstUser.waitForIsShown(true);

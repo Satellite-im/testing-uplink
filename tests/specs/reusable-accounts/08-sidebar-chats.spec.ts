@@ -7,6 +7,7 @@ import Messages from "../../screenobjects/chats/Messages";
 import Topbar from "../../screenobjects/chats/Topbar";
 import FilesScreen from "../../screenobjects/files/FilesScreen";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
+import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
 let chatsInputFirstUser = new InputBar("userA");
 let chatsInputSecondUser = new InputBar("userB");
@@ -20,6 +21,7 @@ let contextMenuSidebarFirstUser = new ContextMenuSidebar("userA");
 let filesScreenFirstUser = new FilesScreen("userA");
 let friendsScreenFirstUser = new FriendsScreen("userA");
 let friendsScreenSecondUser = new FriendsScreen("userB");
+let settingsProfileFirstUser = new SettingsProfileScreen("userA");
 let welcomeScreenFirstUser = new WelcomeScreen("userA");
 let welcomeScreenSecondUser = new WelcomeScreen("userB");
 
@@ -149,14 +151,27 @@ export default async function sidebarChatsTests() {
     await chatsLayoutFirstUser.switchToOtherUserWindow();
   });
 
-  it("Chat User A - Sidebar - Persists between different sections of the app", async () => {
+  it("Chat User A - Sidebar - Persists between different sections of the app - Files Screen", async () => {
     // Validate on Files Screen that sidebar is displayed
     await chatsLayoutFirstUser.goToFiles();
     await filesScreenFirstUser.waitForIsShown(true);
     await chatsSidebarFirstUser.sidebarChatsUser.waitForExist();
+  });
 
+  it("Chat User A - Chats Sidebar is hidden when entering to Settings Screen", async () => {
+    // Go to Settings Profile Screen
+    await filesScreenFirstUser.goToSettings();
+    await settingsProfileFirstUser.waitForIsShown(true);
+
+    // Validate that Chats Sidebar is not displayed on Settings Screen
+    await settingsProfileFirstUser.sidebarChatsSection.waitForExist({
+      reverse: true,
+    });
+  });
+
+  it("Chat User A - Chats Sidebar is displayed again when opening Friends Screen", async () => {
     // Validate on Friends Screen that sidebar is displayed
-    await filesScreenFirstUser.goToFriends();
+    await settingsProfileFirstUser.goToFriends();
     await friendsScreenFirstUser.waitForIsShown(true);
     await chatsSidebarFirstUser.sidebarChatsUser.waitForExist();
 
