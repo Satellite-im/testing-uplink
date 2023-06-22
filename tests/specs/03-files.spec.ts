@@ -164,4 +164,46 @@ export default async function files() {
     // Ensure that file deleted does not exist anymore
     await filesScreenFirstUser.validateFileOrFolderNotExist("newname.jpg");
   });
+
+  it("Files - File Size Indicators without files show 1 GB Max and 0 bytes as current space", async () => {
+    await expect(
+      filesScreenFirstUser.filesInfoMaxSizeLabel
+    ).toHaveTextContaining("Max Size:");
+    await expect(
+      filesScreenFirstUser.filesInfoMaxSizeValue
+    ).toHaveTextContaining("1 GB");
+    await expect(
+      filesScreenFirstUser.filesInfoCurrentSizeLabel
+    ).toHaveTextContaining("Current Space:");
+    await expect(
+      filesScreenFirstUser.filesInfoCurrentSizeValue
+    ).toHaveTextContaining("0 bytes");
+  });
+
+  it("Files - File Size Indicators after uploading a file are updated", async () => {
+    // Upload app-macos.zip file
+    await filesScreenFirstUser.uploadFile("./tests/fixtures/app-macos.zip");
+
+    // Wait until progress indicator disappears
+    await filesScreenFirstUser.uploadFileIndicatorProgress.waitForExist({
+      reverse: true,
+    });
+
+    // Once that progress indicator disappears, validate that file is loaded
+    await filesScreenFirstUser.validateFileOrFolderExist("app-macos.zip");
+
+    // Finally, ensure that file size indicators are updated
+    await expect(
+      filesScreenFirstUser.filesInfoMaxSizeLabel
+    ).toHaveTextContaining("Max Size:");
+    await expect(
+      filesScreenFirstUser.filesInfoMaxSizeValue
+    ).toHaveTextContaining("1 GB");
+    await expect(
+      filesScreenFirstUser.filesInfoCurrentSizeLabel
+    ).toHaveTextContaining("Current Space:");
+    await expect(
+      filesScreenFirstUser.filesInfoCurrentSizeValue
+    ).toHaveTextContaining("13.2 MB");
+  });
 }
