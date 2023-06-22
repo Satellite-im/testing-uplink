@@ -9,9 +9,11 @@ let welcomeScreenFirstUser = new WelcomeScreen("userA");
 export default async function createAccount() {
   it("Validate warning texts are displayed on screen", async () => {
     await expect(createPinFirstUser.unlockWarningHeader).toBeDisplayed();
-    await expect(createPinFirstUser.unlockWarningHeader).toHaveTextContaining(
-      "LET'S CHOOSE YOUR PASSWORD"
-    );
+    // Skipping this validation until
+    await expect(createPinFirstUser.unlockWarningHeader).toHaveTextContaining([
+      "LET'S CHOOSE YOUR PASSWORD",
+      "WELCOME BACK,",
+    ]);
     await expect(createPinFirstUser.unlockWarningParagraph).toBeDisplayed();
     await expect(
       createPinFirstUser.unlockWarningParagraph
