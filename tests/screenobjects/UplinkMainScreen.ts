@@ -40,6 +40,8 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SKELETAL_USER: '[name="skeletal-user"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
+  TOAST_NOTIFICATION_CLOSE: '[name="close-toast"]',
+  TOAST_NOTIFICATION_TEXT: '[name="toast-content"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   UPDATE_AVAILABLE: '[name="update-available"]',
@@ -83,6 +85,8 @@ const SELECTORS_MACOS = {
   SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
   TOAST_NOTIFICATION: "~Toast Notification",
+  TOAST_NOTIFICATION_CLOSE: "~close-toast",
+  TOAST_NOTIFICATION_TEXT: "~toast-content",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -290,6 +294,22 @@ export default class UplinkMainScreen extends AppScreen {
     return this.instance.$$(SELECTORS.TOAST_NOTIFICATION);
   }
 
+  get toastNotification() {
+    return this.instance.$(SELECTORS.TOAST_NOTIFICATION);
+  }
+
+  get toastNotificationClose() {
+    return this.instance
+      .$(SELECTORS.TOAST_NOTIFICATION)
+      .$(SELECTORS.TOAST_NOTIFICATION_CLOSE);
+  }
+
+  get toastNotificationText() {
+    return this.instance
+      .$(SELECTORS.TOAST_NOTIFICATION)
+      .$(SELECTORS.TOAST_NOTIFICATION_TEXT);
+  }
+
   get updateAvailable() {
     return this.instance.$(SELECTORS.UPDATE_AVAILABLE);
   }
@@ -310,6 +330,23 @@ export default class UplinkMainScreen extends AppScreen {
 
   get window() {
     return this.instance.$(SELECTORS.WINDOW);
+  }
+
+  // Toast Notifications methods
+
+  async closeToastNotification() {
+    await this.toastNotificationClose.click();
+  }
+
+  async getToastNotificationText() {
+    const toastText = await this.toastNotificationText.getText();
+    return toastText;
+  }
+
+  async waitUntilNotificationIsClosed() {
+    await this.toastNotification.waitForDisplayed({
+      reverse: true,
+    });
   }
 
   // Clicking on common elements methods

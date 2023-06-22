@@ -30,9 +30,6 @@ const SELECTORS_WINDOWS = {
   PROFILE_PICTURE_CLEAR: '[name="clear-avatar"]',
   STATUS_INPUT: '[name="status-input"]',
   STATUS_LABEL: '//Text[@Name="profile-status-label"]/Text',
-  TOAST_NOTIFICATION: '[name="Toast Notification"]',
-  TOAST_NOTIFICATION_CLOSE: '[name="close-toast"]',
-  TOAST_NOTIFICATION_TEXT: '[name="toast-content"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   USERNAME_INPUT: '[name="username-input"]',
@@ -62,9 +59,6 @@ const SELECTORS_MACOS = {
   PROFILE_PICTURE_CLEAR: "~clear-avatar",
   STATUS_INPUT: "~status-input",
   STATUS_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[2]",
-  TOAST_NOTIFICATION: "~Toast Notification",
-  TOAST_NOTIFICATION_CLOSE: "~close-toast",
-  TOAST_NOTIFICATION_TEXT: "~toast-content",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -168,22 +162,6 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     return this.instance.$(SELECTORS.PROFILE_CONTENT).$(SELECTORS.STATUS_LABEL);
   }
 
-  get toastNotification() {
-    return this.instance.$(SELECTORS.TOAST_NOTIFICATION);
-  }
-
-  get toastNotificationClose() {
-    return this.instance
-      .$(SELECTORS.TOAST_NOTIFICATION)
-      .$(SELECTORS.TOAST_NOTIFICATION_CLOSE);
-  }
-
-  get toastNotificationText() {
-    return this.instance
-      .$(SELECTORS.TOAST_NOTIFICATION)
-      .$(SELECTORS.TOAST_NOTIFICATION_TEXT);
-  }
-
   get usernameInput() {
     return this.instance.$(SELECTORS.USERNAME_INPUT);
   }
@@ -240,10 +218,6 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await this.dismissButton.click();
   }
 
-  async closeToastNotification() {
-    await this.toastNotificationClose.click();
-  }
-
   async deleteStatus() {
     await this.statusInput.click();
     await this.statusInput.clearValue();
@@ -277,10 +251,6 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   async getStatusInputValue() {
     return await this.statusInput.getText();
-  }
-
-  async getToastNotificationText() {
-    return await this.toastNotificationText.getText();
   }
 
   async hoverOnBanner() {
@@ -341,11 +311,5 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
     // Validate that profile banner is displayed on screen
     await this.profilePicture.waitForDisplayed();
-  }
-
-  async waitUntilNotificationIsClosed() {
-    await this.toastNotification.waitForExist({
-      reverse: true,
-    });
   }
 }
