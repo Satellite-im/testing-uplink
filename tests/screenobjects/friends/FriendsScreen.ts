@@ -63,9 +63,6 @@ const SELECTORS_WINDOWS = {
   OUTGOING_REQUESTS_LIST_LABEL: '[name="outgoing-list-label"]',
   PENDING_FRIENDS_BUTTON: '[name="pending-friends-button"]',
   REMOVE_OR_DENY_FRIEND_BUTTON: '[name="Remove or Deny Friend"]',
-  TOAST_NOTIFICATION: '[name="Toast Notification"]',
-  TOAST_NOTIFICATION_CLOSE: '[name="close-toast"]',
-  TOAST_NOTIFICATION_TEXT: '[name="toast-content"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   TOPBAR: '[name="Topbar"]',
@@ -119,9 +116,6 @@ const SELECTORS_MACOS = {
   OUTGOING_REQUESTS_LIST_LABEL: "~outgoing-list-label",
   PENDING_FRIENDS_BUTTON: "~pending-friends-button",
   REMOVE_OR_DENY_FRIEND_BUTTON: "~Remove or Deny Friend",
-  TOAST_NOTIFICATION: "~Toast Notification",
-  TOAST_NOTIFICATION_CLOSE: "~close-toast",
-  TOAST_NOTIFICATION_TEXT: "~toast-content",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -338,22 +332,6 @@ export default class FriendsScreen extends UplinkMainScreen {
     return this.instance.$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON);
   }
 
-  get toastNotification() {
-    return this.instance.$(SELECTORS.TOAST_NOTIFICATION);
-  }
-
-  get toastNotificationClose() {
-    return this.instance
-      .$(SELECTORS.TOAST_NOTIFICATION)
-      .$(SELECTORS.TOAST_NOTIFICATION_CLOSE);
-  }
-
-  get toastNotificationText() {
-    return this.instance
-      .$(SELECTORS.TOAST_NOTIFICATION)
-      .$(SELECTORS.TOAST_NOTIFICATION_TEXT);
-  }
-
   get topbar() {
     return this.instance.$(SELECTORS.TOPBAR);
   }
@@ -379,10 +357,6 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async clickOnCopyID() {
     await this.copyIdButton.click();
-  }
-
-  async closeToastNotification() {
-    await this.toastNotificationClose.click();
   }
 
   async deleteAddFriendInput() {
@@ -503,11 +477,6 @@ export default class FriendsScreen extends UplinkMainScreen {
       results.push(friendName);
     }
     return results;
-  }
-
-  async getToastNotificationText() {
-    const toastText = await this.toastNotificationText.getText();
-    return toastText;
   }
 
   async getUserFromAllFriendsList() {
@@ -694,12 +663,6 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async waitUntilFriendRequestIsReceived(timeout: number = 90000) {
     await this.acceptFriendRequestButton.waitForExist({ timeout: timeout });
-  }
-
-  async waitUntilNotificationIsClosed() {
-    await this.toastNotification.waitForDisplayed({
-      reverse: true,
-    });
   }
 
   async waitUntilUserAcceptedFriendRequest(timeout: number = 90000) {

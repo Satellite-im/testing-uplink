@@ -252,6 +252,10 @@ export default class FilesScreen extends UplinkMainScreen {
     return this.instance.$(SELECTORS.UPLOAD_FILE_INDICATOR_PROGRESS);
   }
 
+  async clickOnCreateFolder() {
+    await this.addFolderButton.click();
+  }
+
   async clickOnFileOrFolder(locator: string) {
     const element = await this.getLocatorOfFolderFile(locator);
     await this.instance.$(element).click();
@@ -281,7 +285,7 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async createFolder(name: string) {
     const currentDriver = await this.getCurrentDriver();
-    await this.addFolderButton.click();
+    await this.clickOnCreateFolder();
     if (currentDriver === "mac2") {
       await this.inputFolderFileName.setValue(name + "\n");
     } else if (currentDriver === "windows") {
@@ -289,6 +293,15 @@ export default class FilesScreen extends UplinkMainScreen {
     }
     const newFolder = await this.getLocatorOfFolderFile(name);
     await this.instance.$(newFolder).waitForExist({ timeout: 15000 });
+  }
+
+  async typeOnFileFolderNameInput(name: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await this.inputFolderFileName.setValue(name + "\n");
+    } else if (currentDriver === "windows") {
+      await this.inputFolderFileName.setValue(name + "\uE007");
+    }
   }
 
   async downloadFile(filename: string) {

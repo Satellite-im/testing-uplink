@@ -206,4 +206,62 @@ export default async function files() {
       filesScreenFirstUser.filesInfoCurrentSizeValue
     ).toHaveTextContaining("13.2 MB");
   });
+
+  it("Files - File is renamed when uploading a file with existing file name", async () => {
+    // Upload app-macos.zip file again
+    await filesScreenFirstUser.uploadFile("./tests/fixtures/app-macos.zip");
+
+    // Wait until progress indicator disappears
+    await filesScreenFirstUser.uploadFileIndicatorProgress.waitForExist({
+      reverse: true,
+    });
+
+    // Once that progress indicator disappears, validate that file is loaded and is automatically renamed to avoid name conflicts
+    await filesScreenFirstUser.validateFileOrFolderExist("app-macos (1).zip");
+  });
+
+  it("Files - Attempt to rename a file with existing file name", async () => {
+    // Open context menu for app-macos (1).zip file and select the option "Rename"
+    await filesScreenFirstUser.openFilesContextMenu("app-macos (1).zip");
+    await filesScreenFirstUser.clickOnFilesRename();
+
+    // Attempt to set the new name for the file as app-macos.zip and wait for error toast notification to be closed
+    await filesScreenFirstUser.typeOnFileFolderNameInput("app-macos");
+    await filesScreenFirstUser.waitUntilNotificationIsClosed();
+
+    // Type the previous filename for app-macos (1) so it can keep the original name. Ensure that file still exists in Screen
+    await filesScreenFirstUser.typeOnFileFolderNameInput("app-macos (1)");
+    await filesScreenFirstUser.validateFileOrFolderExist("app-macos (1).zip");
+  });
+
+  it("Files - Attempt to create a folder with existing folder name", async () => {
+    // First, create a folder named "testfolder01"
+    await filesScreenFirstUser.createFolder("testfolder01");
+    await filesScreenFirstUser.validateFileOrFolderExist("testfolder01");
+
+    // Click on Create Folder and type the existing folder name "testfolder01"
+    await filesScreenFirstUser.clickOnCreateFolder();
+    await filesScreenFirstUser.typeOnFileFolderNameInput("testfolder01");
+
+    // Wait until error toast notification is closed and type a valid name for the new folder
+    await filesScreenFirstUser.waitUntilNotificationIsClosed();
+    await filesScreenFirstUser.typeOnFileFolderNameInput("testfolder02");
+
+    // Ensure that new folder was created with name "testfolder02"
+    await filesScreenFirstUser.validateFileOrFolderExist("testfolder02");
+  });
+
+  it("Files - Attempt to rename a folder with existing folder name", async () => {
+    // Open context menu for testfolder02 and select the first option "Rename"
+    await filesScreenFirstUser.openFilesContextMenu("testfolder02");
+    await filesScreenFirstUser.clickOnFolderRename();
+
+    // Attempt to change the name of testfolder02 to existing folder name testfolder01
+    await filesScreenFirstUser.typeOnFileFolderNameInput("testfolder01");
+
+    // Wait until error toast notification is closed and type the existing folder name for testfolder02
+    await filesScreenFirstUser.waitUntilNotificationIsClosed();
+    await filesScreenFirstUser.typeOnFileFolderNameInput("testfolder02");
+    await filesScreenFirstUser.validateFileOrFolderExist("testfolder02");
+  });
 }
