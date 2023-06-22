@@ -278,6 +278,10 @@ export default class UplinkMainScreen extends AppScreen {
     return this.instance.$(SELECTORS.SIDEBAR);
   }
 
+  get sidebarChatsSection() {
+    return this.instance.$(SELECTORS.SIDEBAR_CHATS_SECTION);
+  }
+
   get sidebarChildren() {
     return this.instance.$(SELECTORS.SIDEBAR_CHILDREN);
   }

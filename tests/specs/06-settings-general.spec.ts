@@ -53,4 +53,25 @@ export default async function settingsGeneral() {
     await settingsGeneralFirstUser.clickOnAppLanguageDropdown();
     await settingsGeneralFirstUser.selectAppLanguage("English");
   });
+
+  it("Settings General - Increase font scaling to 1.25", async () => {
+    // Click on increase font scaling button once
+    await settingsGeneralFirstUser.clickOnFontScalingPlus();
+
+    // Validate that current font size is changed to 1.25
+    await expect(
+      settingsGeneralFirstUser.fontScalingValue
+    ).toHaveTextContaining("1.25");
+  });
+
+  it("Settings General - Reduce font scaling to 0.75", async () => {
+    // Click on decrease font scaling button twice
+    await settingsGeneralFirstUser.clickOnFontScalingMinus();
+    await settingsGeneralFirstUser.clickOnFontScalingMinus();
+
+    // Validate that current font size is changed to 0.75
+    await expect(
+      settingsGeneralFirstUser.fontScalingValue
+    ).toHaveTextContaining("0.75");
+  });
 }
