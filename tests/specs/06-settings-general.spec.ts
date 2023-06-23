@@ -18,6 +18,14 @@ export default async function settingsGeneral() {
       "Change Language."
     );
 
+    // THEME
+    await expect(settingsGeneralFirstUser.themeHeader).toHaveTextContaining(
+      "THEME"
+    );
+    await expect(
+      settingsGeneralFirstUser.themeDescription
+    ).toHaveTextContaining("Change the theme of the app.");
+
     // FONT
     await expect(settingsGeneralFirstUser.fontHeader).toHaveTextContaining(
       "FONT"
