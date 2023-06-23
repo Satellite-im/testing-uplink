@@ -1,8 +1,10 @@
-import { USER_A_INSTANCE } from "../../helpers/constants";
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
+import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
 
 export default async function messageInputTests() {
   it("Chat User A - Message Input - User cannot send empty messages", async () => {
@@ -36,5 +38,20 @@ export default async function messageInputTests() {
 
     // Clear input bar to finish test
     await chatsInputFirstUser.clearInputBar();
+  });
+
+  it("Chat User B - Validate Typing Indicator is displayed if remote user is typing", async () => {
+    // With User A
+    // Generate a random text with 100 chars
+    const shortText = await chatsInputFirstUser.generateShortRandomText();
+    // Type the text with 90 chars on input bar
+    await chatsInputFirstUser.typeMessageOnInput(shortText + "efgh");
+
+    // Switch to second user and validate that Typing Indicator is displayed
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
+    await chatsLayoutSecondUser.typingIndicator.waitForDisplayed();
+
+    // Switch back to first user window to continue with test execution
+    await chatsInputFirstUser.switchToOtherUserWindow();
   });
 }
