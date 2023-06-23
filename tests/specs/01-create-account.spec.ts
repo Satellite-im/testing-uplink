@@ -1,10 +1,11 @@
 import { maximizeWindow } from "../helpers/commands";
+import { WINDOWS_DRIVER, USER_A_INSTANCE } from "../helpers/constants";
 import CreatePinScreen from "../screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/account-creation/CreateUserScreen";
 import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
-let createPinFirstUser = new CreatePinScreen("userA");
-let createUserFirstUser = new CreateUserScreen("userA");
-let welcomeScreenFirstUser = new WelcomeScreen("userA");
+let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
+let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function createAccount() {
   it("Validate warning texts are displayed on screen", async () => {
@@ -157,8 +158,8 @@ export default async function createAccount() {
 
     // Maximize Window on Execution
     const currentDriver = await welcomeScreenFirstUser.getCurrentDriver();
-    if (currentDriver === "windows") {
-      await maximizeWindow("userA");
+    if (currentDriver === WINDOWS_DRIVER) {
+      await maximizeWindow(USER_A_INSTANCE);
     }
   });
 }

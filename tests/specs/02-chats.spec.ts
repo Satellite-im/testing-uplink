@@ -2,10 +2,11 @@ import FriendsScreen from "../screenobjects/friends/FriendsScreen";
 import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
 import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
-let friendsScreenFirstUser = new FriendsScreen("userA");
-let settingsGeneralFirstUser = new SettingsGeneralScreen("userA");
-let settingsProfileFirstUser = new SettingsProfileScreen("userA");
-let welcomeScreenFirstUser = new WelcomeScreen("userA");
+import { USER_A_INSTANCE } from "../helpers/constants";
+let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function chats() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {

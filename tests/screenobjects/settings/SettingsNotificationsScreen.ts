@@ -1,7 +1,12 @@
 import { clickOnSwitchMacOS } from "../../helpers/commands";
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -31,7 +36,7 @@ const SELECTORS_MACOS = {
   SWITCH_SLIDER: "~Switch Slider",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -150,9 +155,9 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
 
   async clickOnEnabledNotifications() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.enabledNotificationsCheckbox.click();
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       const locator = await this.enabledNotificationsCheckbox;
       await clickOnSwitchMacOS(locator, this.executor);
     }
@@ -160,9 +165,9 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
 
   async clickOnFriendsNotifications() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.friendsNotificationsCheckbox.click();
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       const locator = await this.friendsNotificationsCheckbox;
       await clickOnSwitchMacOS(locator, this.executor);
     }
@@ -170,9 +175,9 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
 
   async clickOnMessagesNotifications() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.messagesNotificationsCheckbox.click();
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       const locator = await this.messagesNotificationsCheckbox;
       await clickOnSwitchMacOS(locator, this.executor);
     }
@@ -180,9 +185,9 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
 
   async clickOnSettingsNotifications() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.settingsNotificationsCheckbox.click();
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       const locator = await this.settingsNotificationsCheckbox;
       await clickOnSwitchMacOS(locator, this.executor);
     }

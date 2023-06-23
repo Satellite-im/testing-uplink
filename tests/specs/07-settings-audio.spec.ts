@@ -1,7 +1,8 @@
 import SettingsAudioScreen from "../screenobjects/settings/SettingsAudioScreen";
 import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
-let settingsAudioFirstUser = new SettingsAudioScreen("userA");
-let settingsGeneralFirstUser = new SettingsGeneralScreen("userA");
+import { USER_A_INSTANCE } from "../helpers/constants";
+let settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
+let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
 
 export default async function settingsAudio() {
   it("Settings Audio - Assert screen texts", async () => {

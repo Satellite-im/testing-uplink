@@ -1,15 +1,16 @@
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 import ContextMenu from "../../screenobjects/chats/ContextMenu";
 import InputBar from "../../screenobjects/chats/InputBar";
 import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import Messages from "../../screenobjects/chats/Messages";
 import ReplyPrompt from "../../screenobjects/chats/ReplyPrompt";
-let chatsContextMenuSecondUser = new ContextMenu("userB");
-let chatsInputSecondUser = new InputBar("userB");
-let chatsMessageGroupsFirstUser = new MessageGroup("userA");
-let chatsMessageGroupsSecondUser = new MessageGroup("userB");
-let chatsMessagesFirstUser = new Messages("userA");
-let chatsMessagesSecondUser = new Messages("userB");
-let chatsReplyPromptSecondUser = new ReplyPrompt("userB");
+let chatsContextMenuSecondUser = new ContextMenu(USER_B_INSTANCE);
+let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
+let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
+let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
+let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
+let chatsReplyPromptSecondUser = new ReplyPrompt(USER_B_INSTANCE);
 
 export default async function repliesTests() {
   it("Chat User B - Reply popup - Validate contents and close it", async () => {

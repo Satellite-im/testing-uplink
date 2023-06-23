@@ -1,6 +1,11 @@
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -44,7 +49,7 @@ const SELECTORS_MACOS = {
   SWITCH_SLIDER: "~Switch Slider",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -186,11 +191,11 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
 
   async selectAppLanguage(language: string) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$$("-ios class chain:**/XCUIElementTypePopUpButton")[0]
         .addValue(language + "\n");
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$$('[name="settings-control"]')[0]
         .addValue(language + "\uE007");
@@ -199,11 +204,11 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
 
   async selectFont(font: string) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$$("-ios class chain:**/XCUIElementTypePopUpButton")[2]
         .addValue(font + "\n");
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$$('[name="settings-control"]')[2]
         .addValue(font + "\uE007");

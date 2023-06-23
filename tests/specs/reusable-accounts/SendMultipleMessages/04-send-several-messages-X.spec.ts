@@ -6,11 +6,12 @@ import InputBar from "../../../screenobjects/chats/InputBar";
 import Topbar from "../../../screenobjects/chats/Topbar";
 import FriendsScreen from "../../../screenobjects/friends/FriendsScreen";
 import WelcomeScreen from "../../../screenobjects/welcome-screen/WelcomeScreen";
-let chatsInputFirstUser = new InputBar("userA");
-let chatsLayoutFirstUser = new ChatsLayout("userA");
-let chatsTopbarFirstUser = new Topbar("userA");
-let friendsScreenFirstUser = new FriendsScreen("userA");
-let welcomeScreenFirstUser = new WelcomeScreen("userA");
+import { USER_A_INSTANCE } from "../../../helpers/constants";
+let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
+let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 describe("Two users at the same time - Chat User A", async () => {
   it("Load Chat User A account and go to friends screen", async () => {
@@ -134,6 +135,6 @@ describe("Two users at the same time - Chat User A", async () => {
   }*/
 
   it("Chats - Grab cache folder", async () => {
-    await grabCacheFolder(userToTestWith, "userA");
+    await grabCacheFolder(userToTestWith, USER_A_INSTANCE);
   });
 });

@@ -1,8 +1,13 @@
 const robot = require("robotjs");
 import { getClipboardMacOS } from "../../helpers/commands";
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -50,7 +55,7 @@ const SELECTORS_MACOS = {
   USER_SEARCH_INPUT: "~friend-search-input",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -143,9 +148,9 @@ export default class CreateGroupChat extends UplinkMainScreen {
   async clearGroupNameInput() {
     const locator = await this.groupNameInput;
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.groupNameInput.click();
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await driver[this.executor].touchAction([
         { action: "press", element: locator },
       ]);
@@ -187,7 +192,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   async getFriendFromListLocator(username: string) {
     const currentDriver = await this.getCurrentDriver();
     let element;
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       element = await this.instance
         .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
         .$(SELECTORS.FRIENDS_LIST)
@@ -196,7 +201,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
             username +
             '")]/../..'
         );
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       element = await this.instance
         .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
         .$(SELECTORS.FRIENDS_LIST)
@@ -239,11 +244,11 @@ export default class CreateGroupChat extends UplinkMainScreen {
     // If driver is macos, then get clipboard and pass it to enterStatus function
     const locator = await this.groupNameInput;
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.groupNameInput.click();
       const userKey = await getClipboardMacOS();
       await this.groupNameInput.setValue(userKey + userKey);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await driver[this.executor].touchAction([
         { action: "press", element: locator },
       ]);

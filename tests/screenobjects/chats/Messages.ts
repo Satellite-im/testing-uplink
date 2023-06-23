@@ -1,7 +1,12 @@
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "../../helpers/commands";
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -50,7 +55,7 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -215,7 +220,7 @@ export default class Messages extends UplinkMainScreen {
     timeoutMsg: number = 30000
   ) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
           '//XCUIElementTypeStaticText[contains(@value, "' +
@@ -223,7 +228,7 @@ export default class Messages extends UplinkMainScreen {
             '")]/../..'
         )
         .waitForExist({ timeout: timeoutMsg });
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$('//Text[contains(@Name, "' + expectedMessage + '")]/../..')
         .waitForExist({ timeout: timeoutMsg });
@@ -264,7 +269,7 @@ export default class Messages extends UplinkMainScreen {
     timeoutMsg: number = 60000
   ) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
           '//XCUIElementTypeStaticText[contains(@value, "' +
@@ -272,7 +277,7 @@ export default class Messages extends UplinkMainScreen {
             '")]'
         )
         .waitForExist({ timeout: timeoutMsg, reverse: true });
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$('//Text[contains(@Name, "' + expectedMessage + '")]')
         .waitForExist({ timeout: timeoutMsg, reverse: true });
@@ -284,7 +289,7 @@ export default class Messages extends UplinkMainScreen {
     timeoutMsg: number = 150000
   ) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$$(SELECTORS.CHAT_MESSAGE_LOCAL)
         .$(
@@ -293,7 +298,7 @@ export default class Messages extends UplinkMainScreen {
             '")]'
         )
         .waitForExist({ timeout: timeoutMsg });
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$('//Text[contains(@Name, "' + expectedMessage + '")]')
         .waitForExist({ timeout: timeoutMsg });
@@ -305,7 +310,7 @@ export default class Messages extends UplinkMainScreen {
     timeoutMsg: number = 150000
   ) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
           '//XCUIElementTypeStaticText[contains(@value, "' +
@@ -313,7 +318,7 @@ export default class Messages extends UplinkMainScreen {
             '")]'
         )
         .waitForExist({ timeout: timeoutMsg });
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$('//Text[contains(@Name, "' + expectedMessage + '")]')
         .waitForExist({ timeout: timeoutMsg });
@@ -327,7 +332,7 @@ export default class Messages extends UplinkMainScreen {
     timeoutMsg: number = 30000
   ) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
           '//XCUIElementTypeStaticText[contains(@value, "' +
@@ -335,7 +340,7 @@ export default class Messages extends UplinkMainScreen {
             '")]/../..'
         )
         .waitForExist({ timeout: timeoutMsg });
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$('//Text[contains(@Name, "' + expectedMessage + '")]/../..')
         .waitForExist({ timeout: timeoutMsg });
@@ -472,9 +477,9 @@ export default class Messages extends UplinkMainScreen {
     const messageToClick = await this.getMessageReceivedLocator(message);
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(messageToClick, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(messageToClick, this.executor);
     }
   }
@@ -483,9 +488,9 @@ export default class Messages extends UplinkMainScreen {
     const messageToClick = await this.getMessageSentLocator(message);
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(messageToClick, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(messageToClick, this.executor);
     }
   }
@@ -494,9 +499,9 @@ export default class Messages extends UplinkMainScreen {
     const messageToClick = await this.getLastMessageReceivedLocator();
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(messageToClick, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(messageToClick, this.executor);
     }
   }
@@ -505,9 +510,9 @@ export default class Messages extends UplinkMainScreen {
     const messageToClick = await this.getLastMessageSentLocator();
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(messageToClick, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(messageToClick, this.executor);
     }
   }

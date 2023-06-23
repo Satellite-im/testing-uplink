@@ -1,5 +1,6 @@
 import { homedir } from "os";
 import { join } from "path";
+import { MACOS_DRIVER, MACOS_USER_A_BUNDLE_ID, MACOS_USER_B_BUNDLE_ID } from "../tests/helpers/constants";
 const fsp = require("fs").promises;
 
 exports.config = {
@@ -59,8 +60,8 @@ exports.config = {
       userA: {
         capabilities: {
           platformName: "mac",
-          "appium:automationName": "mac2",
-          "appium:bundleId": "im.satellite.uplinkChatUserA",
+          "appium:automationName": MACOS_DRIVER,
+          "appium:bundleId": MACOS_USER_A_BUNDLE_ID,
           "appium:arguments": ["--path", homedir() + "/.uplinkUserA"],
           "appium:systemPort": 4725,
         }
@@ -68,8 +69,8 @@ exports.config = {
       userB: {
         capabilities: {
           platformName: "mac",
-          "appium:automationName": "mac2",
-          "appium:bundleId": "im.satellite.uplinkChatUserB",
+          "appium:automationName": MACOS_DRIVER,
+          "appium:bundleId": MACOS_USER_B_BUNDLE_ID,
           "appium:arguments": ["--path", homedir() + "/.uplinkUserB"],
           "appium:systemPort": 4726,
         }

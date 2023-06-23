@@ -1,5 +1,5 @@
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "../helpers/constants";
 const robot = require("robotjs");
-
 export default class AppScreen {
   public executor;
   private locator;
@@ -27,12 +27,12 @@ export default class AppScreen {
 
   async typeOnElement(locator: WebdriverIO.Element, textToAdd: string) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await driver[this.executor].touchAction([
         { action: "press", element: locator },
       ]);
       await robot.typeStringDelayed(textToAdd, 360);
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       await this.instance.$(locator).click();
       await this.instance.$(locator).setValue(textToAdd);
     }

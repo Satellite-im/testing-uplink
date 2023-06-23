@@ -4,6 +4,7 @@ import {
   getUserKey,
   saveTestKeys,
 } from "../../helpers/commands";
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
 import InputBar from "../../screenobjects/chats/InputBar";
@@ -14,25 +15,29 @@ import SettingsGeneralScreen from "../../screenobjects/settings/SettingsGeneralS
 import SettingsNotificationsScreen from "../../screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
-let chatsInputFirstUser = new InputBar("userA");
-let chatsLayoutFirstUser = new ChatsLayout("userA");
-let chatsLayoutSecondUser = new ChatsLayout("userB");
-let chatsMessageGroupsFirstUser = new MessageGroup("userA");
-let chatsMessageGroupsSecondUser = new MessageGroup("userB");
-let chatsMessagesFirstUser = new Messages("userA");
-let chatsMessagesSecondUser = new Messages("userB");
-let chatsTopbarFirstUser = new Topbar("userA");
-let chatsTopbarSecondUser = new Topbar("userB");
-let friendsScreenFirstUser = new FriendsScreen("userA");
-let friendsScreenSecondUser = new FriendsScreen("userB");
-let settingsGeneralFirstUser = new SettingsGeneralScreen("userA");
-let settingsGeneralSecondUser = new SettingsGeneralScreen("userB");
-let settingsNotificationsFirstUser = new SettingsNotificationsScreen("userA");
-let settingsNotificationsSecondUser = new SettingsNotificationsScreen("userB");
-let settingsProfileFirstUser = new SettingsProfileScreen("userA");
-let settingsProfileSecondUser = new SettingsProfileScreen("userB");
-let welcomeScreenFirstUser = new WelcomeScreen("userA");
-let welcomeScreenSecondUser = new WelcomeScreen("userB");
+let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
+let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
+let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
+let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
+let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
+let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
+let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
+let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
+let settingsGeneralSecondUser = new SettingsGeneralScreen(USER_B_INSTANCE);
+let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
+  USER_A_INSTANCE
+);
+let settingsNotificationsSecondUser = new SettingsNotificationsScreen(
+  USER_B_INSTANCE
+);
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let settingsProfileSecondUser = new SettingsProfileScreen(USER_B_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export default async function createChatAccountsTests() {
   it("Chat User A - Create Account", async () => {
@@ -54,7 +59,7 @@ export default async function createChatAccountsTests() {
     const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey, "userA");
+    await saveTestKeys(username, didkey, USER_A_INSTANCE);
   });
 
   it("Chat User A - Disable notifications and reduce font size", async () => {
@@ -88,7 +93,7 @@ export default async function createChatAccountsTests() {
     const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey, "userB");
+    await saveTestKeys(username, didkey, USER_B_INSTANCE);
   });
 
   it("Chat User B - Disable notifications and reduce font size", async () => {
@@ -106,7 +111,7 @@ export default async function createChatAccountsTests() {
     await settingsNotificationsSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
     // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey("ChatUserA", "userB");
+    const friendDidKey = await getUserKey("ChatUserA", USER_B_INSTANCE);
     await friendsScreenSecondUser.enterFriendDidKey(friendDidKey);
     await friendsScreenSecondUser.clickOnAddSomeoneButton();
 

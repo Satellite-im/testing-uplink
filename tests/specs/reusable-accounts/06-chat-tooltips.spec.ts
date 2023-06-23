@@ -1,7 +1,8 @@
 import InputBar from "../../screenobjects/chats/InputBar";
 import Topbar from "../../screenobjects/chats/Topbar";
-let chatsInputFirstUser = new InputBar("userA");
-let chatsTopbarFirstUser = new Topbar("userA");
+import { USER_A_INSTANCE } from "../../helpers/constants";
+let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 
 export default async function chatTooltipsTests() {
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {

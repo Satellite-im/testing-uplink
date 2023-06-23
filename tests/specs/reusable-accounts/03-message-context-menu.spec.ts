@@ -1,19 +1,19 @@
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 import ContextMenu from "../../screenobjects/chats/ContextMenu";
 import InputBar from "../../screenobjects/chats/InputBar";
 import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import Messages from "../../screenobjects/chats/Messages";
 import ReactionPicker from "../../screenobjects/chats/ReactionPicker";
-import FilesScreen from "../../screenobjects/files/FilesScreen";
-let chatsContextMenuFirstUser = new ContextMenu("userA");
-let chatsContextMenuSecondUser = new ContextMenu("userB");
-let chatsInputFirstUser = new InputBar("userA");
-let chatsInputSecondUser = new InputBar("userB");
-let chatsMessagesFirstUser = new Messages("userA");
-let chatsMessagesSecondUser = new Messages("userB");
-let chatsMessageGroupsFirstUser = new MessageGroup("userA");
-let chatsMessageGroupsSecondUser = new MessageGroup("userB");
-let reactionPickerFirstUser = new ReactionPicker("userA");
-let reactionPickerSecondUser = new ReactionPicker("userB");
+let chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
+let chatsContextMenuSecondUser = new ContextMenu(USER_B_INSTANCE);
+let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
+let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
+let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
+let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
+let reactionPickerFirstUser = new ReactionPicker(USER_A_INSTANCE);
+let reactionPickerSecondUser = new ReactionPicker(USER_B_INSTANCE);
 
 export default async function messageContextMenuTests() {
   it("Chat User A - Send two more messages to Chat User B", async () => {

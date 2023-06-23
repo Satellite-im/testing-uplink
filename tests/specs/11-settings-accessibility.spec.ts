@@ -1,7 +1,10 @@
 import SettingsAccessibilityScreen from "../screenobjects/settings/SettingsAccessibilityScreen";
 import SettingsExtensionsScreen from "../screenobjects/settings/SettingsExtensionsScreen";
-let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen("userA");
-let settingsExtensionsFirstUser = new SettingsExtensionsScreen("userA");
+import { USER_A_INSTANCE } from "../helpers/constants";
+let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
+  USER_A_INSTANCE
+);
+let settingsExtensionsFirstUser = new SettingsExtensionsScreen(USER_A_INSTANCE);
 
 export default async function settingsAccessibility() {
   it("Settings Accessibility - Assert screen texts", async () => {

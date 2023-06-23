@@ -5,9 +5,14 @@ import {
   selectFileOnMacos,
   selectFileOnWindows,
 } from "../../helpers/commands";
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 const robot = require("robotjs");
 let SELECTORS = {};
 
@@ -76,7 +81,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -256,9 +261,9 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   async hoverOnBanner() {
     const bannerLocator = await this.profileBanner;
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await hoverOnMacOS(bannerLocator, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await hoverOnWindows(bannerLocator, this.executor);
     }
   }
@@ -272,10 +277,10 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       const userKey = await getClipboardMacOS();
       await this.enterStatus(userKey);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
       await this.statusInput.click();
       await this.statusInput.clearValue();
@@ -288,9 +293,9 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
     await this.profileBanner.click();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await selectFileOnMacos(relativePath, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await selectFileOnWindows(relativePath);
     }
 
@@ -303,9 +308,9 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
     await this.clickOnAddPictureButton();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await selectFileOnMacos(relativePath, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await selectFileOnWindows(relativePath);
     }
 

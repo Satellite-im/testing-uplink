@@ -1,7 +1,12 @@
 import { clickOnSwitchMacOS } from "../../helpers/commands";
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -56,7 +61,7 @@ const SELECTORS_MACOS = {
   SWITCH_SLIDER: "~Switch Slider",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -155,9 +160,9 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
 
   async clickOnEnableAutomatically() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.enableAutomaticallyCheckbox.click();
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       const element = await this.enableAutomaticallyCheckbox;
       await clickOnSwitchMacOS(element, this.executor);
     }
@@ -182,7 +187,7 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
   async getPlaceholderFromExtensionsInput() {
     const currentDriver = await this.getCurrentDriver();
     let result;
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       result = await this.extensionsSearchInput.getAttribute("HelpText");
     } else {
       result = await this.extensionsSearchInput.getAttribute(

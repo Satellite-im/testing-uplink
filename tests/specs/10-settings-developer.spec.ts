@@ -1,7 +1,10 @@
 import SettingsDeveloperScreen from "../screenobjects/settings/SettingsDeveloperScreen";
 import SettingsNotificationsScreen from "../screenobjects/settings/SettingsNotificationsScreen";
-let settingsDeveloperFirstUser = new SettingsDeveloperScreen("userA");
-let settingsNotificationsFirstUser = new SettingsNotificationsScreen("userA");
+import { USER_A_INSTANCE } from "../helpers/constants";
+let settingsDeveloperFirstUser = new SettingsDeveloperScreen(USER_A_INSTANCE);
+let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
+  USER_A_INSTANCE
+);
 
 export default async function settingsDeveloper() {
   it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {

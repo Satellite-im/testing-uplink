@@ -1,6 +1,7 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
+import { USER_A_INSTANCE, WINDOWS_DRIVER } from "../../helpers/constants";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -28,7 +29,7 @@ const SELECTORS_MACOS = {
   SETTINGS_SECTION: "~settings-section",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 

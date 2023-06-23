@@ -4,14 +4,15 @@ import {
   resetApp,
   saveTestKeys,
 } from "../helpers/commands";
+import { USER_A_INSTANCE } from "../helpers/constants";
 import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
-let settingsProfileFirstUser = new SettingsProfileScreen("userA");
-let welcomeScreenFirstUser = new WelcomeScreen("userA");
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function createReusableAccounts() {
   it("Create reusable account - Chat User A", async () => {
-    await resetApp("userA");
+    await resetApp(USER_A_INSTANCE);
     // Create New User and go to Settings Profile Screen
     const username = "ChatUserA";
     await createNewUser(username);
@@ -48,13 +49,13 @@ export default async function createReusableAccounts() {
     const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey, "userA");
+    await saveTestKeys(username, didkey, USER_A_INSTANCE);
 
     // Update profile picture from user A
 
     // Update banner picture from user A
-    await grabCacheFolder(username, "userA");
-    await resetApp("userA");
+    await grabCacheFolder(username, USER_A_INSTANCE);
+    await resetApp(USER_A_INSTANCE);
   });
 
   it("Create reusable account - Chat User B", async () => {
@@ -94,7 +95,7 @@ export default async function createReusableAccounts() {
     const didkey = await inputTextElement.getText();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey, "userA");
-    await grabCacheFolder(username, "userA");
+    await saveTestKeys(username, didkey, USER_A_INSTANCE);
+    await grabCacheFolder(username, USER_A_INSTANCE);
   });
 }

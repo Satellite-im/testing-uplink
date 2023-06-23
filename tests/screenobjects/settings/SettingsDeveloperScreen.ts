@@ -1,7 +1,13 @@
 import SettingsBaseScreen from "./SettingsBaseScreen";
 import { clickOnSwitchMacOS } from "../../helpers/commands";
+import {
+  MACOS_BUNDLE_ID,
+  MACOS_DRIVER,
+  USER_A_INSTANCE,
+  WINDOWS_DRIVER,
+} from "../../helpers/constants";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -39,7 +45,7 @@ const SELECTORS_MACOS = {
   TEST_NOTIFICATIONS_BUTTON: "~test-notifications-button",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -204,9 +210,9 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   async clickOnDeveloperMode() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.developerModeCheckbox.click();
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       const element = await this.developerModeCheckbox;
       await clickOnSwitchMacOS(element, this.executor);
     }
@@ -222,9 +228,9 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   async clickOnSaveLogs() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.saveLogsCheckbox.click();
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       const element = await this.saveLogsCheckbox;
       await clickOnSwitchMacOS(element, this.executor);
     }
@@ -236,13 +242,13 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   async returnToApp() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await driver.executeScript("macos: launchApp", [
         {
-          bundleId: "im.satellite.uplink",
+          bundleId: MACOS_BUNDLE_ID,
         },
       ]);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       const uplinkWindow = await driver.getWindowHandle();
       await driver.switchToWindow(uplinkWindow);
     }

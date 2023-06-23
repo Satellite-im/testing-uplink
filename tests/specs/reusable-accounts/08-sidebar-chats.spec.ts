@@ -1,4 +1,5 @@
 import { getUserKey } from "../../helpers/commands";
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "../../screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "../../screenobjects/chats/ContextMenuSidebar";
@@ -9,21 +10,21 @@ import FilesScreen from "../../screenobjects/files/FilesScreen";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
 import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
-let chatsInputFirstUser = new InputBar("userA");
-let chatsInputSecondUser = new InputBar("userB");
-let chatsLayoutFirstUser = new ChatsLayout("userA");
-let chatsLayoutSecondUser = new ChatsLayout("userB");
-let chatsMessagesSecondUser = new Messages("userB");
-let chatsSidebarFirstUser = new ChatsSidebar("userA");
-let chatsTopbarFirstUser = new Topbar("userA");
-let chatsTopbarSecondUser = new Topbar("userB");
-let contextMenuSidebarFirstUser = new ContextMenuSidebar("userA");
-let filesScreenFirstUser = new FilesScreen("userA");
-let friendsScreenFirstUser = new FriendsScreen("userA");
-let friendsScreenSecondUser = new FriendsScreen("userB");
-let settingsProfileFirstUser = new SettingsProfileScreen("userA");
-let welcomeScreenFirstUser = new WelcomeScreen("userA");
-let welcomeScreenSecondUser = new WelcomeScreen("userB");
+let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
+let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
+let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
+let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
+let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
+let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
+let contextMenuSidebarFirstUser = new ContextMenuSidebar(USER_A_INSTANCE);
+let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
+let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export default async function sidebarChatsTests() {
   it("Chat User A - Unblock the other Chat User", async () => {
@@ -41,7 +42,7 @@ export default async function sidebarChatsTests() {
 
   it("Chat User A - Send friend request again to Chat User B", async () => {
     // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey("ChatUserB", "userA");
+    const friendDidKey = await getUserKey("ChatUserB", USER_A_INSTANCE);
     await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
     await friendsScreenFirstUser.clickOnAddSomeoneButton();
 

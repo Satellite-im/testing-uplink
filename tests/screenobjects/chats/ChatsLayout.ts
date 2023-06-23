@@ -1,6 +1,10 @@
 import UplinkMainScreen from "../UplinkMainScreen";
+import {
+  USER_A_INSTANCE as firstUserInstance,
+  WINDOWS_DRIVER as windowsDriver,
+} from "../../helpers/constants";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[firstUserInstance].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -20,7 +24,7 @@ const SELECTORS_MACOS = {
   TYPING_INDICATOR: "~message-typing-indicator",
 };
 
-currentOS === "windows"
+currentOS === windowsDriver
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 

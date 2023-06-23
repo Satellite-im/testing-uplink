@@ -1,7 +1,12 @@
 import { clickOnSwitchMacOS } from "../../helpers/commands";
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -29,7 +34,7 @@ const SELECTORS_MACOS = {
   SWITCH_SLIDER: "~Switch Slider",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -148,9 +153,9 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
 
   async clickOnCallTimer() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.callTimerCheckbox.click();
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       const element = await this.callTimerCheckbox;
       await clickOnSwitchMacOS(element, this.executor);
     }
@@ -158,9 +163,9 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
 
   async clickOnInterfaceSounds() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.interfaceSoundsCheckbox.click();
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       const element = await this.interfaceSoundsCheckbox;
       await clickOnSwitchMacOS(element, this.executor);
     }
@@ -168,9 +173,9 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
 
   async clickOnMediaSounds() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.mediaSoundsCheckbox.click();
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       const element = await this.mediaSoundsCheckbox;
       await clickOnSwitchMacOS(element, this.executor);
     }
@@ -178,9 +183,9 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
 
   async clickOnMessageSounds() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.messageSoundsCheckbox.click();
-    } else if (currentDriver === "mac2") {
+    } else if (currentDriver === MACOS_DRIVER) {
       const element = await this.messageSoundsCheckbox;
       await clickOnSwitchMacOS(element, this.executor);
     }

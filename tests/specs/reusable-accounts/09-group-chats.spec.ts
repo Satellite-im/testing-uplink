@@ -5,18 +5,18 @@ import CreateGroupChat from "../../screenobjects/chats/CreateGroupChat";
 import InputBar from "../../screenobjects/chats/InputBar";
 import ParticipantsList from "../../screenobjects/chats/ParticipantsList";
 import Topbar from "../../screenobjects/chats/Topbar";
-import { setupBeforeCreateGroupTests } from "../../helpers/debugging";
-let chatsLayoutFirstUser = new ChatsLayout("userA");
-let chatsLayoutSecondUser = new ChatsLayout("userB");
-let chatsInputFirstUser = new InputBar("userA");
-let chatsMessagesFirstUser = new Messages("userA");
-let chatsMessagesSecondUser = new Messages("userB");
-let chatsSidebarFirstUser = new ChatsSidebar("userA");
-let chatsSidebarSecondUser = new ChatsSidebar("userB");
-let chatsTopbarFirstUser = new Topbar("userA");
-let chatsTopbarSecondUser = new Topbar("userB");
-let createGroupFirstUser = new CreateGroupChat("userA");
-let participantsListFirstUser = new ParticipantsList("userA");
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
+let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
+let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
+let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
+let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
+let chatsSidebarSecondUser = new ChatsSidebar(USER_B_INSTANCE);
+let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
+let createGroupFirstUser = new CreateGroupChat(USER_A_INSTANCE);
+let participantsListFirstUser = new ParticipantsList(USER_A_INSTANCE);
 
 export default async function groupChatTests() {
   it("Chat User A - Create Group Chat button tooltip", async () => {

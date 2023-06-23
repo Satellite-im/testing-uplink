@@ -2,21 +2,28 @@ import CreatePinScreen from "../screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/account-creation/CreateUserScreen";
 import FriendsScreen from "../screenobjects/friends/FriendsScreen";
 import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
-import { faker } from "@faker-js/faker";
 import { homedir } from "os";
 import { join } from "path";
+import {
+  MACOS_BUNDLE_ID,
+  MACOS_DRIVER,
+  USER_A_INSTANCE,
+  USER_B_INSTANCE,
+  WINDOWS_APP,
+  WINDOWS_DRIVER,
+} from "./constants";
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
 const robot = require("robotjs");
-let createPinFirstUser = new CreatePinScreen("userA");
-let createPinSecondUser = new CreatePinScreen("userB");
-let createUserFirstUser = new CreateUserScreen("userA");
-let createUserSecondUser = new CreateUserScreen("userB");
-let friendsScreenFirstUser = new FriendsScreen("userA");
-let friendsScreenSecondUser = new FriendsScreen("userB");
-let welcomeScreenFirstUser = new WelcomeScreen("userA");
-let welcomeScreenSecondUser = new WelcomeScreen("userB");
+let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
+let createPinSecondUser = new CreatePinScreen(USER_B_INSTANCE);
+let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
+let createUserSecondUser = new CreateUserScreen(USER_B_INSTANCE);
+let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 // Users cache helper functions
 
@@ -135,8 +142,8 @@ export async function loginWithTestUser() {
 
   // Only maximize if current driver is windows
   const currentDriver = await welcomeScreenFirstUser.getCurrentDriver();
-  if (currentDriver === "windows") {
-    await maximizeWindow("userA");
+  if (currentDriver === WINDOWS_DRIVER) {
+    await maximizeWindow(USER_A_INSTANCE);
   }
 }
 
@@ -150,8 +157,8 @@ export async function loginWithTestUserSecondInstance() {
 
   // Only maximize if current driver is windows
   const currentDriver = await welcomeScreenSecondUser.getCurrentDriver();
-  if (currentDriver === "windows") {
-    await maximizeWindow("userB");
+  if (currentDriver === WINDOWS_DRIVER) {
+    await maximizeWindow(USER_B_INSTANCE);
   }
 }
 
@@ -162,10 +169,10 @@ export async function resetApp(instance: string) {
 }
 
 export async function resetAndLoginWithCache(user: string) {
-  await closeApplication("userA");
+  await closeApplication(USER_A_INSTANCE);
   await deleteCache();
-  await loadTestUserData(user, "userA");
-  await launchApplication("userA");
+  await loadTestUserData(user, USER_A_INSTANCE);
+  await launchApplication(USER_A_INSTANCE);
   await loginWithTestUser();
 }
 
@@ -173,16 +180,16 @@ export async function resetAndLoginWithCache(user: string) {
 
 export async function launchApplication(instance: string) {
   const currentOS = await driver[instance].capabilities.automationName;
-  if (currentOS === "windows") {
+  if (currentOS === WINDOWS_DRIVER) {
     await driver[instance].executeScript("windows: launchApp", [
       {
-        app: join(process.cwd(), "\\apps\\uplink.exe"),
+        app: join(process.cwd(), WINDOWS_APP),
       },
     ]);
-  } else if (currentOS === "mac2") {
+  } else if (currentOS === MACOS_DRIVER) {
     await driver[instance].executeScript("macos: launchApp", [
       {
-        bundleId: "im.satellite.uplink",
+        bundleId: MACOS_BUNDLE_ID,
       },
     ]);
   }
@@ -190,16 +197,16 @@ export async function launchApplication(instance: string) {
 
 export async function closeApplication(instance: string) {
   const currentOS = await driver[instance].capabilities.automationName;
-  if (currentOS === "windows") {
+  if (currentOS === WINDOWS_DRIVER) {
     await driver[instance].executeScript("windows: closeApp", [
       {
-        app: join(process.cwd(), "\\apps\\uplink.exe"),
+        app: join(process.cwd(), WINDOWS_APP),
       },
     ]);
-  } else if (currentOS === "mac2") {
+  } else if (currentOS === MACOS_DRIVER) {
     await driver[instance].executeScript("macos: terminateApp", [
       {
-        bundleId: "im.satellite.uplink",
+        bundleId: MACOS_BUNDLE_ID,
       },
     ]);
   }
@@ -208,9 +215,9 @@ export async function closeApplication(instance: string) {
 export async function maximizeWindow(instance: string) {
   const currentOS = await driver[instance].capabilities.automationName;
   const currentInstance = await browser.getInstance(instance);
-  if (currentOS === "windows") {
+  if (currentOS === WINDOWS_DRIVER) {
     await currentInstance.$('[name="square-button"]').click();
-  } else if (currentOS === "mac2") {
+  } else if (currentOS === MACOS_DRIVER) {
     await currentInstance.$("~_XCUI:FullScreenWindow").click();
   }
 }

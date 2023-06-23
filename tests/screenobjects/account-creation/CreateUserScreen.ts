@@ -1,6 +1,7 @@
-import UplinkMainScreen from "../UplinkMainScreen.ts";
+import UplinkMainScreen from "../UplinkMainScreen";
+import { USER_A_INSTANCE, WINDOWS_DRIVER } from "../../helpers/constants";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -20,7 +21,7 @@ const SELECTORS_MACOS = {
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -60,7 +61,7 @@ export default class CreateUserScreen extends UplinkMainScreen {
   async getStatusOfCreateAccountButton() {
     let result;
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "windows") {
+    if (currentDriver === WINDOWS_DRIVER) {
       result = await this.createAccountButton.getAttribute("IsEnabled");
     } else {
       result = await this.createAccountButton.getAttribute("enabled");
