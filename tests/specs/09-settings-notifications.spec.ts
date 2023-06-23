@@ -1,7 +1,12 @@
 import SettingsAccessibilityScreen from "../screenobjects/settings/SettingsAccessibilityScreen";
 import SettingsNotificationsScreen from "../screenobjects/settings/SettingsNotificationsScreen";
-let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen("userA");
-let settingsNotificationsFirstUser = new SettingsNotificationsScreen("userA");
+import { USER_A_INSTANCE } from "../helpers/constants";
+let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
+  USER_A_INSTANCE
+);
+let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
+  USER_A_INSTANCE
+);
 
 export default async function settingsNotifications() {
   it("Settings - Notifications - Go To Notifications Settings", async () => {

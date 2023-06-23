@@ -1,6 +1,7 @@
-import UplinkMainScreen from "../UplinkMainScreen.ts";
+import UplinkMainScreen from "../UplinkMainScreen";
+import { USER_A_INSTANCE, WINDOWS_DRIVER } from "../../helpers/constants";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -19,7 +20,7 @@ const SELECTORS_MACOS = {
   WELCOME_LAYOUT: "~welcome-screen",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 

@@ -1,6 +1,11 @@
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
 import SettingsBaseScreen from "./SettingsBaseScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -44,7 +49,7 @@ const SELECTORS_MACOS = {
   SWITCH_SLIDER: "~Switch Slider",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -75,55 +80,55 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
 
   get fontDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontDropdown() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.DROPDOWN_MENU);
   }
 
   get fontScalingDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontScalingHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontScalingButtonMinus() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[2]
+      .$$(SELECTORS.SETTINGS_CONTROL)[3]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
   }
 
   get fontScalingButtonPlus() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[2]
+      .$$(SELECTORS.SETTINGS_CONTROL)[3]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
   }
 
   get fontScalingValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[2]
+      .$$(SELECTORS.SETTINGS_CONTROL)[3]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE_TEXT);
@@ -156,6 +161,26 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
       .$(SELECTORS.SLIDE_SELECTOR_VALUE_TEXT);
   }
 
+  get themeDescription() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get themeHeader() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get themeDropdown() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.DROPDOWN_MENU);
+  }
+
   async clickOnAppLanguageDropdown() {
     await this.appLanguageDropdown.click();
   }
@@ -172,6 +197,10 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
     await this.fontScalingButtonPlus.click();
   }
 
+  async clickOnThemeDropdown() {
+    await this.themeDropdown.click();
+  }
+
   async decreaseFontScale() {
     await this.fontScalingButtonMinus.click();
   }
@@ -186,11 +215,11 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
 
   async selectAppLanguage(language: string) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$$("-ios class chain:**/XCUIElementTypePopUpButton")[0]
         .addValue(language + "\n");
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$$('[name="settings-control"]')[0]
         .addValue(language + "\uE007");
@@ -199,14 +228,27 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
 
   async selectFont(font: string) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$$("-ios class chain:**/XCUIElementTypePopUpButton")[2]
         .addValue(font + "\n");
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$$('[name="settings-control"]')[2]
         .addValue(font + "\uE007");
+    }
+  }
+
+  async selectTheme(theme: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$$("-ios class chain:**/XCUIElementTypePopUpButton")[1]
+        .addValue(theme + "\n");
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$$('[name="settings-control"]')[1]
+        .addValue(theme + "\uE007");
     }
   }
 }

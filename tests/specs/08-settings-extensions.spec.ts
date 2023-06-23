@@ -1,7 +1,8 @@
 import SettingsAudioScreen from "../screenobjects/settings/SettingsAudioScreen";
 import SettingsExtensionsScreen from "../screenobjects/settings/SettingsExtensionsScreen";
-let settingsAudioFirstUser = new SettingsAudioScreen("userA");
-let settingsExtensionsFirstUser = new SettingsExtensionsScreen("userA");
+import { USER_A_INSTANCE } from "../helpers/constants";
+let settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
+let settingsExtensionsFirstUser = new SettingsExtensionsScreen(USER_A_INSTANCE);
 
 export default async function settingsExtensions() {
   it("Settings Extensions - Validate that buttons are displayed in front", async () => {

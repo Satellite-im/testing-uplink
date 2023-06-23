@@ -1,4 +1,9 @@
-import UplinkMainScreen from "../UplinkMainScreen.ts";
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
+import UplinkMainScreen from "../UplinkMainScreen";
 
 import {
   getClipboardMacOS,
@@ -6,7 +11,7 @@ import {
   rightClickOnWindows,
 } from "../../helpers/commands";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 const robot = require("robotjs");
 
 let SELECTORS = {};
@@ -122,7 +127,7 @@ const SELECTORS_MACOS = {
   TOPBAR: "~Topbar",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -373,10 +378,10 @@ export default class FriendsScreen extends UplinkMainScreen {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       const userKey = await getClipboardMacOS();
       await this.enterFriendDidKey(userKey);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
       await this.copyIdButton.click();
       await this.addSomeoneInput.clearValue();
@@ -428,13 +433,13 @@ export default class FriendsScreen extends UplinkMainScreen {
   async getFriendRecordByName(name: string) {
     const currentDriver = await this.getCurrentDriver();
     let locator;
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       locator = await this.instance.$(
         '//XCUIElementTypeGroup[@label="friend-username"]/XCUIElementTypeStaticText[contains(@value, "' +
           name +
           '")]/../../..'
       );
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await this.instance.$(
         '//Group[@Name="friend-username"]/Text[contains(@Name, "' +
           name +
@@ -618,10 +623,10 @@ export default class FriendsScreen extends UplinkMainScreen {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       const userKey = await getClipboardMacOS();
       await this.enterFriendDidKey(userKey);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
       await this.addSomeoneInput.click();
       await this.addSomeoneInput.clearValue();
@@ -639,7 +644,7 @@ export default class FriendsScreen extends UplinkMainScreen {
     timeoutUser: number = 90000
   ) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
           '//XCUIElementTypeGroup[@label="friend-username"]/XCUIElementTypeStaticText[contains(@value, "' +
@@ -647,7 +652,7 @@ export default class FriendsScreen extends UplinkMainScreen {
             '")]'
         )
         .waitForExist({ timeout: timeoutUser, reverse: true });
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$(
           '//Group[@Name="friend-username"]/Text[contains(@Name, "' +
@@ -710,9 +715,9 @@ export default class FriendsScreen extends UplinkMainScreen {
   async openFriendContextMenu(name: string) {
     const friendElement = await this.getFriendRecordByName(name);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(friendElement, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(friendElement, this.executor);
     }
     await this.contextMenu.waitForDisplayed();

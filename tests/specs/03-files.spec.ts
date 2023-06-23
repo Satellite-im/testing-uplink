@@ -1,7 +1,8 @@
 import FilesScreen from "../screenobjects/files/FilesScreen";
 import FriendsScreen from "../screenobjects/friends/FriendsScreen";
-let filesScreenFirstUser = new FilesScreen("userA");
-let friendsScreenFirstUser = new FriendsScreen("userA");
+import { USER_A_INSTANCE } from "../helpers/constants";
+let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
+let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 
 export default async function files() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {

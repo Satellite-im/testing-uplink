@@ -1,7 +1,12 @@
-import AppScreen from "./AppScreen.ts";
+import AppScreen from "./AppScreen";
 import { hoverOnMacOS, hoverOnWindows } from "../helpers/commands";
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../helpers/constants";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -97,7 +102,7 @@ const SELECTORS_MACOS = {
   WINDOW: "-ios class chain:**/XCUIElementTypeWindow",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -411,9 +416,9 @@ export default class UplinkMainScreen extends AppScreen {
 
   async hoverOnElement(element: WebdriverIO.Element) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await hoverOnMacOS(element, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await hoverOnWindows(element, this.executor);
     }
   }

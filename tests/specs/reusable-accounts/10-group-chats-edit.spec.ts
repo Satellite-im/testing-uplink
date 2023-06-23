@@ -4,14 +4,15 @@ import FilesScreen from "../../screenobjects/files/FilesScreen";
 import ParticipantsList from "../../screenobjects/chats/ParticipantsList";
 import Topbar from "../../screenobjects/chats/Topbar";
 import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
-let chatsSidebarFirstUser = new ChatsSidebar("userA");
-let chatsSidebarSecondUser = new ChatsSidebar("userB");
-let chatsTopbarFirstUser = new Topbar("userA");
-let chatsTopbarSecondUser = new Topbar("userB");
-let editGroupFirstUser = new EditGroup("userA");
-let filesScreenSecondUser = new FilesScreen("userB");
-let participantsListFirstUser = new ParticipantsList("userA");
-let welcomeScreenSecondUser = new WelcomeScreen("userB");
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
+let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
+let chatsSidebarSecondUser = new ChatsSidebar(USER_B_INSTANCE);
+let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
+let editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
+let filesScreenSecondUser = new FilesScreen(USER_B_INSTANCE);
+let participantsListFirstUser = new ParticipantsList(USER_A_INSTANCE);
+let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export default async function groupChatEditTests() {
   it("Chat User A - Edit Group Chat button tooltip", async () => {

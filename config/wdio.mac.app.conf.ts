@@ -1,5 +1,6 @@
 import { homedir } from "os";
 import { join } from "path";
+import { MACOS_BUNDLE_ID, MACOS_DRIVER } from "../tests/helpers/constants";
 const fsp = require("fs").promises;
 
 exports.config = {
@@ -61,8 +62,8 @@ exports.config = {
       userA: {
         capabilities: {
           platformName: "mac",
-          "appium:automationName": "mac2",
-          "appium:bundleId": "im.satellite.uplink",
+          "appium:automationName": MACOS_DRIVER,
+          "appium:bundleId": MACOS_BUNDLE_ID,
           "appium:arguments": ["--path", homedir() + "/.uplink"],
           "appium:systemPort": 4724,
           "appium:prerun": {

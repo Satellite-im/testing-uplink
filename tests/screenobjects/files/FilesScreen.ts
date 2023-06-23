@@ -1,4 +1,9 @@
 import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
+import {
   rightClickOnMacOS,
   rightClickOnWindows,
   saveFileOnMacOS,
@@ -8,7 +13,7 @@ import {
 } from "../../helpers/commands";
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -91,7 +96,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeWebView/XCUIElementTypeGroup[4]/XCUIElementTypeStaticText",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -286,9 +291,9 @@ export default class FilesScreen extends UplinkMainScreen {
   async createFolder(name: string) {
     const currentDriver = await this.getCurrentDriver();
     await this.clickOnCreateFolder();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.inputFolderFileName.setValue(name + "\n");
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.inputFolderFileName.setValue(name + "\uE007");
     }
     const newFolder = await this.getLocatorOfFolderFile(name);
@@ -297,19 +302,19 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async typeOnFileFolderNameInput(name: string) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.inputFolderFileName.setValue(name + "\n");
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.inputFolderFileName.setValue(name + "\uE007");
     }
   }
 
   async downloadFile(filename: string) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.clickOnFilesDownload();
       await saveFileOnMacOS(filename, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       const uplinkContext = await driver.getWindowHandle();
       await this.clickOnFilesDownload();
       await saveFileOnWindows(filename, uplinkContext, this.executor);
@@ -335,10 +340,10 @@ export default class FilesScreen extends UplinkMainScreen {
   async getLocatorOfDeletedElement(name: string) {
     const currentDriver = await this.getCurrentDriver();
     let locator;
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       locator =
         '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]';
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       locator = '//Group[name="' + name + '"]';
     }
     return locator;
@@ -347,10 +352,10 @@ export default class FilesScreen extends UplinkMainScreen {
   async getLocatorOfFolderFile(name: string) {
     const currentDriver = await this.getCurrentDriver();
     let locator;
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       locator =
         '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]';
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       locator = '//Group[@Name="' + name + '"]';
     }
     await this.instance.$(locator).waitForExist();
@@ -369,9 +374,9 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async updateNameFileFolder(newName: string, extension: string = "") {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await this.inputFolderFileName.setValue(newName + "\n");
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await this.inputFolderFileName.setValue(newName + "\uE007");
     }
     const newFileFolder = await this.getLocatorOfFolderFile(
@@ -383,9 +388,9 @@ export default class FilesScreen extends UplinkMainScreen {
   async uploadFile(relativePath: string) {
     const currentDriver = await this.getCurrentDriver();
     await this.clickOnUploadFile();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await selectFileOnMacos(relativePath, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await selectFileOnWindows(relativePath);
     }
   }
@@ -420,9 +425,9 @@ export default class FilesScreen extends UplinkMainScreen {
       .$(elementLocator)
       .$(SELECTORS.FILE_FOLDER_NAME_TEXT);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(fileFolderToRightClick, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(fileFolderToRightClick, this.executor);
     }
     await this.contextMenu.waitForDisplayed();

@@ -1,9 +1,14 @@
 import { faker } from "@faker-js/faker";
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
 import { selectFileOnMacos, selectFileOnWindows } from "../../helpers/commands";
 import { join } from "path";
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -38,7 +43,7 @@ const SELECTORS_MACOS = {
   UPLOAD_BUTTON: "~upload-button",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -145,7 +150,9 @@ export default class InputBar extends UplinkMainScreen {
   async pressEnterKeyOnInputBar() {
     const currentDriver = await this.getCurrentDriver();
     let enterValue;
-    currentDriver === "windows" ? (enterValue = "\uE007") : (enterValue = "\n");
+    currentDriver === WINDOWS_DRIVER
+      ? (enterValue = "\uE007")
+      : (enterValue = "\n");
     await this.inputText.setValue(enterValue);
   }
 
@@ -162,7 +169,9 @@ export default class InputBar extends UplinkMainScreen {
   async typeOnEditMessageInput(editedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
     let enterValue;
-    currentDriver === "windows" ? (enterValue = "\uE007") : (enterValue = "\n");
+    currentDriver === WINDOWS_DRIVER
+      ? (enterValue = "\uE007")
+      : (enterValue = "\n");
     await browser.pause(1000);
     await this.instance.$$(SELECTORS.INPUT_TEXT)[1].clearValue();
     await this.instance
@@ -173,9 +182,9 @@ export default class InputBar extends UplinkMainScreen {
   async uploadFile(relativePath: string) {
     const currentDriver = await this.getCurrentDriver();
     await this.clickOnUploadFile();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await selectFileOnMacos(relativePath, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await selectFileOnWindows(relativePath);
     }
   }

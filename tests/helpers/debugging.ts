@@ -4,17 +4,18 @@ import {
   getUserKey,
   saveTestKeys,
 } from "./commands";
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "./constants";
 import FriendsScreen from "../screenobjects/friends/FriendsScreen";
 import Topbar from "../screenobjects/chats/Topbar";
 import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
-let chatsTopbarFirstUser = new Topbar("userA");
-let friendsScreenFirstUser = new FriendsScreen("userA");
-let friendsScreenSecondUser = new FriendsScreen("userB");
-let settingsProfileFirstUser = new SettingsProfileScreen("userA");
-let settingsProfileSecondUser = new SettingsProfileScreen("userB");
-let welcomeScreenFirstUser = new WelcomeScreen("userA");
-let welcomeScreenSecondUser = new WelcomeScreen("userB");
+let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let settingsProfileSecondUser = new SettingsProfileScreen(USER_B_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export async function setupBeforeCreateGroupTests() {
   const usernameA = "ChatUserA";
@@ -34,7 +35,7 @@ export async function setupBeforeCreateGroupTests() {
   const didkeyA = await inputTextElementA.getText();
 
   // Grab cache folder and restart
-  await saveTestKeys(usernameA, didkeyA, "userA");
+  await saveTestKeys(usernameA, didkeyA, USER_A_INSTANCE);
   await settingsProfileFirstUser.goToFriends();
   await friendsScreenFirstUser.waitForIsShown(true);
 
@@ -56,14 +57,14 @@ export async function setupBeforeCreateGroupTests() {
   const didkeyB = await inputTextElementB.getText();
 
   // Grab cache folder and restart
-  await saveTestKeys(usernameB, didkeyB, "userB");
+  await saveTestKeys(usernameB, didkeyB, USER_B_INSTANCE);
 
   await settingsProfileSecondUser.goToFriends();
 
   // Go to Friends
   await friendsScreenSecondUser.waitForIsShown(true);
   // Obtain did key from Chat User B
-  const friendDidKey = await getUserKey("ChatUserA", "userB");
+  const friendDidKey = await getUserKey("ChatUserA", USER_B_INSTANCE);
   await friendsScreenSecondUser.enterFriendDidKey(friendDidKey);
   await friendsScreenSecondUser.clickOnAddSomeoneButton();
 

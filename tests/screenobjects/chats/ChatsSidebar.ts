@@ -1,7 +1,12 @@
+import {
+  MACOS_DRIVER as macDriver,
+  WINDOWS_DRIVER as windowsDriver,
+  USER_A_INSTANCE as firstUserInstance,
+} from "../../helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "../../helpers/commands";
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[firstUserInstance].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -67,7 +72,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
 };
 
-currentOS === "windows"
+currentOS === windowsDriver
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -312,12 +317,12 @@ export default class ChatsSidebar extends UplinkMainScreen {
   async waitForGroupToBeCreated(groupname: string) {
     const currentDriver = await this.getCurrentDriver();
     let element;
-    if (currentDriver === "mac2") {
+    if (currentDriver === macDriver) {
       element =
         '//XCUIElementTypeGroup[@label="user-image-group-wrap"]/..//XCUIElementTypeGroup[@label="Username"]/XCUIElementTypeStaticText[contains(@value, "' +
         groupname +
         '")]';
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === windowsDriver) {
       element =
         '//Group[@Name="user-image-group-wrap"]/..//Group[@Name="Username"]/Text[contains(@Name, "' +
         groupname +
@@ -329,12 +334,12 @@ export default class ChatsSidebar extends UplinkMainScreen {
   async waitForGroupToBeDeleted(groupname: string) {
     const currentDriver = await this.getCurrentDriver();
     let element;
-    if (currentDriver === "mac2") {
+    if (currentDriver === macDriver) {
       element =
         '//XCUIElementTypeGroup[@label="user-image-group-wrap"]/..//XCUIElementTypeGroup[@label="Username"]/XCUIElementTypeStaticText[contains(@value, "' +
         groupname +
         '")]';
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === windowsDriver) {
       element =
         '//Group[@Name="user-image-group-wrap"]/..//Group[@Name="Username"]/Text[contains(@Name, "' +
         groupname +
@@ -346,13 +351,13 @@ export default class ChatsSidebar extends UplinkMainScreen {
   async getSidebarGroupLocator(groupname: string) {
     const currentDriver = await this.getCurrentDriver();
     let element;
-    if (currentDriver === "mac2") {
+    if (currentDriver === macDriver) {
       element = await this.instance.$(
         '//XCUIElementTypeGroup[@label="user-image-group-wrap"]/..//XCUIElementTypeGroup[@label="Username"]/XCUIElementTypeStaticText[contains(@value, "' +
           groupname +
           '")]/../../..'
       );
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === windowsDriver) {
       element = await this.instance.$(
         '//Group[@Name="user-image-group-wrap"]/..//Group[@Name="Username"]/Text[contains(@Name, "' +
           groupname +
@@ -383,13 +388,13 @@ export default class ChatsSidebar extends UplinkMainScreen {
   async getSidebarUserLocator(username: string) {
     const currentDriver = await this.getCurrentDriver();
     let element;
-    if (currentDriver === "mac2") {
+    if (currentDriver === macDriver) {
       element = await this.instance.$(
         '//XCUIElementTypeGroup[@label="User Info"]/XCUIElementTypeGroup[@label="Username"]/XCUIElementTypeStaticText[contains(@value, "' +
           username +
           '")]/../../..'
       );
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === windowsDriver) {
       element = await this.instance.$(
         '//Group[@Name="User Info"]/Group[@Name="Username"]/Text[contains(@Name, "' +
           username +
@@ -451,9 +456,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
     );
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === macDriver) {
       await rightClickOnMacOS(imageToRightClick, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === windowsDriver) {
       await rightClickOnWindows(imageToRightClick, this.executor);
     }
   }
@@ -462,9 +467,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const imageToRightClick = await this.sidebarChatsUser;
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === macDriver) {
       await rightClickOnMacOS(imageToRightClick, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === windowsDriver) {
       await rightClickOnWindows(imageToRightClick, this.executor);
     }
   }

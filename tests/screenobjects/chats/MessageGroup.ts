@@ -1,7 +1,12 @@
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "../../helpers/commands";
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -42,7 +47,7 @@ const SELECTORS_MACOS = {
   MESSAGE_REACTION_CONTAINER: "~message-reaction-container",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -250,9 +255,9 @@ export default class MessageGroup extends UplinkMainScreen {
     const imageOnGroup = await lastGroupReceived.$("/..");
     await this.hoverOnElement(imageOnGroup);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(imageOnGroup, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(imageOnGroup, this.executor);
     }
   }
@@ -278,9 +283,9 @@ export default class MessageGroup extends UplinkMainScreen {
     const imageOnGroup = await lastSentGroup.$("/..");
     await this.hoverOnElement(imageOnGroup);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(imageOnGroup, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(imageOnGroup, this.executor);
     }
   }
@@ -291,9 +296,9 @@ export default class MessageGroup extends UplinkMainScreen {
     const imageToRightClick = await this.getLastGroupWrapSentOnline();
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(imageToRightClick, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(imageToRightClick, this.executor);
     }
   }
@@ -302,9 +307,9 @@ export default class MessageGroup extends UplinkMainScreen {
     const imageToRightClick = await this.getLastGroupWrapReceivedOnline();
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(imageToRightClick, this.executor);
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(imageToRightClick, this.executor);
     }
   }

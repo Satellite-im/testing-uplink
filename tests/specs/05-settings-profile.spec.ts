@@ -1,7 +1,8 @@
 import FilesScreen from "../screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
-let filesScreenFirstUser = new FilesScreen("userA");
-let settingsProfileFirstUser = new SettingsProfileScreen("userA");
+import { USER_A_INSTANCE } from "../helpers/constants";
+let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 
 export default async function settingsProfile() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {

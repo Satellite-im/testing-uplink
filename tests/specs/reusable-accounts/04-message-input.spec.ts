@@ -1,7 +1,8 @@
+import { USER_A_INSTANCE } from "../../helpers/constants";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
-let chatsInputFirstUser = new InputBar("userA");
-let chatsMessagesFirstUser = new Messages("userA");
+let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 
 export default async function messageInputTests() {
   it("Chat User A - Message Input - User cannot send empty messages", async () => {

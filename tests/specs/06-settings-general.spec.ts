@@ -1,7 +1,8 @@
 import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
 import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
-let settingsProfileFirstUser = new SettingsProfileScreen("userA");
-let settingsGeneralFirstUser = new SettingsGeneralScreen("userA");
+import { USER_A_INSTANCE } from "../helpers/constants";
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
 
 export default async function settingsGeneral() {
   it("Settings General - Validate header and description texts are correct", async () => {
@@ -16,6 +17,14 @@ export default async function settingsGeneral() {
     await expect(settingsGeneralFirstUser.appLanguageDescription).toHaveText(
       "Change Language."
     );
+
+    // THEME
+    await expect(settingsGeneralFirstUser.themeHeader).toHaveTextContaining(
+      "THEME"
+    );
+    await expect(
+      settingsGeneralFirstUser.themeDescription
+    ).toHaveTextContaining("Change the theme of the app.");
 
     // FONT
     await expect(settingsGeneralFirstUser.fontHeader).toHaveTextContaining(

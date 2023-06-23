@@ -1,6 +1,11 @@
+import {
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+  USER_A_INSTANCE,
+} from "../../helpers/constants";
 import UplinkMainScreen from "../UplinkMainScreen";
 
-const currentOS = driver["userA"].capabilities.automationName;
+const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -68,7 +73,7 @@ const SELECTORS_MACOS = {
   USER_INPUT: "~friend-search-input",
 };
 
-currentOS === "windows"
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -277,7 +282,7 @@ export default class EditGroup extends UplinkMainScreen {
   async getParticipantContainerLocator(participant: string) {
     const currentDriver = await this.getCurrentDriver();
     let locator;
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       locator = await this.instance
         .$(SELECTORS.EDIT_GROUP_SECTION)
         .$(
@@ -285,7 +290,7 @@ export default class EditGroup extends UplinkMainScreen {
             participant +
             '")]/../../..'
         );
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await this.instance
         .$(SELECTORS.EDIT_GROUP_SECTION)
         .$(
