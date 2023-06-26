@@ -143,10 +143,10 @@ export default async function repliesTests() {
     await chatsReplyPromptFirstUser.waitForReplyModalToNotExist();
 
     // Validate reply to self message is displayed on Chat Conversation
-    const replyReceived = await chatsMessagesFirstUser.getLastReply();
-    const replyReceivedText = await chatsMessagesFirstUser.getLastReplyText();
-    await expect(replyReceived).toBeDisplayed();
-    await expect(replyReceivedText).toHaveTextContaining("SelfReply");
+    const repliedMessage = await chatsMessagesFirstUser.getLastReply();
+    const repliedMessageText = await chatsMessagesFirstUser.getLastReplyText();
+    await expect(repliedMessage).toBeDisplayed();
+    await expect(repliedMessageText).toHaveTextContaining("Testing...");
 
     // Validate reply message sent appears as last message
     const message = await chatsMessagesFirstUser.getLastMessageSentText();
