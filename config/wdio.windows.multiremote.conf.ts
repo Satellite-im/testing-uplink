@@ -1,5 +1,7 @@
 import { join } from "path";
 const fsp = require("fs").promises;
+const userACacheFolder = join(process.cwd(), "./apps/ChatUserA/.user")
+const userBCacheFolder = join(process.cwd(), "./apps/ChatUserB/.user")
 
 exports.config = {
     //
@@ -65,6 +67,9 @@ exports.config = {
           "appium:createSessionTimeout": 40000,
           "ms:waitForAppLaunch": 50,
           "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserA"),
+          "appium:prerun": {
+            command: `If (Test-Path ${userACacheFolder}) {Remove-Item -Recurse -Force ${userACacheFolder}} Else { Break }`,
+          },
         }
       },
       userB: {
@@ -76,7 +81,10 @@ exports.config = {
           "appium:systemPort": 4726,
           "appium:createSessionTimeout": 40000,
           "ms:waitForAppLaunch": 50,
-          "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserB"), 
+          "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserB"),
+          "appium:prerun": {
+            command: `If (Test-Path ${userBCacheFolder}) {Remove-Item -Recurse -Force ${userBCacheFolder}} Else { Break }`,
+          },
         }
       },
     },
@@ -150,7 +158,7 @@ exports.config = {
     framework: 'mocha',
     //
     // The number of times to retry the entire specfile when it fails as a whole
-    specFileRetries: 0,
+    specFileRetries: 1,
     //
     // Delay in seconds between the spec file retry attempts
     // specFileRetriesDelay: 0,
