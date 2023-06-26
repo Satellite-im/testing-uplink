@@ -133,6 +133,14 @@ export default class InputBar extends UplinkMainScreen {
     return longParagraph;
   }
 
+  async generateShortRandomText() {
+    // Get a random word of 9 chars and add it a space
+    const wordToRepeat = faker.lorem.word(9) + " ";
+    // Then repeat the same word for 10 times
+    const longText = wordToRepeat.repeat(10);
+    return longText;
+  }
+
   async getFilePath(relativePath: string) {
     return join(process.cwd(), relativePath);
   }

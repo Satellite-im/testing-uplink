@@ -4,12 +4,15 @@ import InputBar from "../../screenobjects/chats/InputBar";
 import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import Messages from "../../screenobjects/chats/Messages";
 import ReplyPrompt from "../../screenobjects/chats/ReplyPrompt";
+let chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
 let chatsContextMenuSecondUser = new ContextMenu(USER_B_INSTANCE);
+let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
 let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
+let chatsReplyPromptFirstUser = new ReplyPrompt(USER_A_INSTANCE);
 let chatsReplyPromptSecondUser = new ReplyPrompt(USER_B_INSTANCE);
 
 export default async function repliesTests() {
@@ -125,5 +128,28 @@ export default async function repliesTests() {
     const onlineIndicator =
       await chatsMessageGroupsFirstUser.getLastGroupWrapReceivedOnline();
     await expect(onlineIndicator).toExist();
+  });
+
+  it("Chat User A - Reply to yourself", async () => {
+    // Open Context Menu on Last Message Sent
+    await chatsMessagesFirstUser.openContextMenuOnLastSent();
+    await chatsContextMenuFirstUser.validateContextMenuIsOpen();
+    await chatsContextMenuFirstUser.selectContextOptionReply();
+
+    // Type a reply and sent it
+    await chatsReplyPromptFirstUser.replyPopUp.waitForDisplayed();
+    await chatsInputFirstUser.typeMessageOnInput("SelfReply");
+    await chatsInputFirstUser.clickOnSendMessage();
+    await chatsReplyPromptFirstUser.waitForReplyModalToNotExist();
+
+    // Validate reply to self message is displayed on Chat Conversation
+    const repliedMessage = await chatsMessagesFirstUser.getLastReply();
+    const repliedMessageText = await chatsMessagesFirstUser.getLastReplyText();
+    await expect(repliedMessage).toBeDisplayed();
+    await expect(repliedMessageText).toHaveTextContaining("Testing...");
+
+    // Validate reply message sent appears as last message
+    const message = await chatsMessagesFirstUser.getLastMessageSentText();
+    await expect(message).toHaveTextContaining("SelfReply");
   });
 }

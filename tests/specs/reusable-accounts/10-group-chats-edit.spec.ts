@@ -72,7 +72,7 @@ export default async function groupChatEditTests() {
   it("Edit Group - Attempt to change Group Name for a name with more than 64 characters", async () => {
     await editGroupFirstUser.groupNameInput.click();
     await editGroupFirstUser.typeOnGroupNameInput(
-      "12345678901234567890123456789012345678901234567890123456789012345"
+      "12345678901234567890123456789012345678901234567890123456789012345678"
     );
     await editGroupFirstUser.groupNameInputError.waitForDisplayed();
     await expect(
