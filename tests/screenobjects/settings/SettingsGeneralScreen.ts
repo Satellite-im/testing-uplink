@@ -80,55 +80,55 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
 
   get fontDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontDropdown() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.DROPDOWN_MENU);
   }
 
   get fontScalingDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontScalingHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontScalingButtonMinus() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[3]
+      .$$(SELECTORS.SETTINGS_CONTROL)[2]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
   }
 
   get fontScalingButtonPlus() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[3]
+      .$$(SELECTORS.SETTINGS_CONTROL)[2]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
   }
 
   get fontScalingValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[3]
+      .$$(SELECTORS.SETTINGS_CONTROL)[2]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE_TEXT);
@@ -163,21 +163,21 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
 
   get themeDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get themeHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get themeDropdown() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.DROPDOWN_MENU);
   }
 
@@ -230,7 +230,7 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
-        .$$("-ios class chain:**/XCUIElementTypePopUpButton")[2]
+        .$$("-ios class chain:**/XCUIElementTypePopUpButton")[1]
         .addValue(font + "\n");
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
@@ -243,7 +243,7 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
-        .$$("-ios class chain:**/XCUIElementTypePopUpButton")[1]
+        .$$("-ios class chain:**/XCUIElementTypePopUpButton")[2]
         .addValue(theme + "\n");
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
