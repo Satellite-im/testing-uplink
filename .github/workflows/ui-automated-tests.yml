@@ -86,9 +86,6 @@ jobs:
         with:
           repository: Satellite-im/Uplink
 
-      - name: Set up cargo cache 🛠️
-        uses: Swatinem/rust-cache@v2
-
       - name: Install Rust 💿
         uses: actions-rs/toolchain@v1
         with:
@@ -100,15 +97,6 @@ jobs:
         uses: arduino/setup-protoc@v1
         with:
           repo-token: ${{env.GITHUB_TOKEN}}
-
-      - name: Cargo update
-        run: cargo update
-
-      - name: Checkout Cargo.lock 🔖
-        uses: actions/checkout@v3
-        with:
-          repository: Satellite-im/Uplink
-          sparse-checkout: Cargo.lock
 
       - name: Build executable 🖥️
         run: cargo build --release --package uplink -F production_mode
