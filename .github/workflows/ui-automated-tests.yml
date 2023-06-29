@@ -86,9 +86,6 @@ jobs:
         with:
           repository: Satellite-im/Uplink
 
-      - name: Set up cargo cache 🛠️
-        uses: Swatinem/rust-cache@v2
-
       - name: Install Rust 💿
         uses: actions-rs/toolchain@v1
         with:
