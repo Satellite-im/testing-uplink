@@ -5,11 +5,41 @@ let settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
 let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
 
 export default async function settingsAudio() {
-  it("Settings Audio - Assert screen texts", async () => {
+  it("Settings Audio - Assert screen texts for input/output device and sample rate selection", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
     await settingsGeneralFirstUser.goToAudioSettings();
     await settingsAudioFirstUser.waitForIsShown(true);
 
+    // Validate texts for Input Device Selection
+    await expect(settingsAudioFirstUser.inputDeviceHeader).toHaveTextContaining(
+      "INPUT DEVICE"
+    );
+    await expect(
+      settingsAudioFirstUser.inputDeviceDescription
+    ).toHaveTextContaining("Select your input device (microphone, usually).");
+
+    // Validate texts for Output Device Selection
+    await expect(
+      settingsAudioFirstUser.outputDeviceHeader
+    ).toHaveTextContaining("OUTPUT DEVICE");
+    await expect(
+      settingsAudioFirstUser.outputDeviceDescription
+    ).toHaveTextContaining(
+      "This is where all sounds will be played. (Usually your headphones)."
+    );
+
+    // Validate texts for Sample Rate selection
+    await expect(settingsAudioFirstUser.sampleRateHeader).toHaveTextContaining(
+      "SAMPLE RATE"
+    );
+    await expect(
+      settingsAudioFirstUser.sampleRateDescription
+    ).toHaveTextContaining(
+      'Higher sample rates will capture more "frames" of your audio and sound "clearer".'
+    );
+  });
+
+  it("Settings Audio - Assert screen texts for switch sliders", async () => {
     // Validate texts for Interface Sounds Settings Section
     await expect(
       settingsAudioFirstUser.interfaceSoundsHeader
