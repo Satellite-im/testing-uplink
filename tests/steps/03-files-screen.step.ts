@@ -5,10 +5,6 @@ import { USER_A_INSTANCE } from "../helpers/constants";
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 
-Given(/^$/, async () => {});
-When(/^$/, async () => {});
-Then(/^$/, async () => {});
-
 Given(/^I go from Friend Screen to Files Screen$/, async () => {
   await friendsScreenFirstUser.goToFiles();
   await filesScreenFirstUser.waitForIsShown(true);
