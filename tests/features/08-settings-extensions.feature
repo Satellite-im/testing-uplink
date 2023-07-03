@@ -4,7 +4,7 @@ Feature: Settings Extensions Tests
     Background:
         Given I go to the Settings Extensions Screen from Settings Audio Screen
     
-    Scenario: As a user, I should see the correct headers and descriptions for settings options on Settings Sounds and Audio screen
+    Scenario: As a user, I should see the correct headers and descriptions for settings options on Settings Extensions
         When I am on the Settings Extensions Screen with a new account
         Then I should see the installed button displayed on Settings Extensions Screen
         And I should see the explore button displayed on Settings Extensions Screen
