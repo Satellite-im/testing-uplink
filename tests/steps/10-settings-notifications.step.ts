@@ -10,7 +10,7 @@ let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
 );
 
 Given(
-  /^I go to the Settings Notifications Screen from Settings Extensions Screen$/,
+  /^I go to the Settings Notifications Screen from Settings Accessibility Screen$/,
   async () => {
     await settingsAccessibilityFirstUser.goToNotificationsSettings();
     await settingsNotificationsFirstUser.waitForIsShown(true);
@@ -52,7 +52,7 @@ When(
   }
 );
 
-When(
+Then(
   /^I should see the current value for Enabled Notifications switch is (.*)$/,
   async (value: string) => {
     const enabledToggle =
@@ -68,7 +68,7 @@ When(
   }
 );
 
-When(
+Then(
   /^I should see the current value for Friends Notifications switch is (.*)$/,
   async (value: string) => {
     const friendsToggle =
@@ -84,7 +84,7 @@ When(
   }
 );
 
-When(
+Then(
   /^I should see the current value for Messages Notifications switch is (.*)$/,
   async (value: string) => {
     const messagesToggle =
@@ -100,7 +100,7 @@ When(
   }
 );
 
-When(
+Then(
   /^I should see the current value for Settings Notifications switch is (.*)$/,
   async (value: string) => {
     const settingsToggle =

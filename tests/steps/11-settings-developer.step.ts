@@ -15,12 +15,9 @@ Given(
   }
 );
 
-When(
-  /^I am on the Settings Notifications Screen with a new account$/,
-  async () => {
-    await settingsDeveloperFirstUser.waitForIsShown(true);
-  }
-);
+When(/^I am on the Settings Developer Screen with a new account$/, async () => {
+  await settingsDeveloperFirstUser.waitForIsShown(true);
+});
 
 When(
   /^I click on the Save Logs switch slider from Settings Developer Screen$/,

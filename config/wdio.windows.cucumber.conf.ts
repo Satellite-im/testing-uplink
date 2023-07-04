@@ -1,6 +1,4 @@
-import { homedir } from "os";
 import { join } from "path";
-import { MACOS_BUNDLE_ID, MACOS_DRIVER } from "../tests/helpers/constants";
 const fsp = require("fs").promises;
 
 exports.config = {
@@ -61,18 +59,19 @@ exports.config = {
     capabilities: {
       userA: {
         capabilities: {
-          platformName: "mac",
-          "appium:automationName": MACOS_DRIVER,
-          "appium:bundleId": MACOS_BUNDLE_ID,
-          "appium:arguments": ["--path", homedir() + "/.uplink"],
-          "appium:systemPort": 4724,
+          platformName: "windows",
+          "appium:deviceName": "WindowsPC",
+          "appium:automationName": "windows",
+          "appium:app": join(process.cwd(), "\\apps\\uplink.exe"),
+          "ms:waitForAppLaunch": 30,
           "appium:prerun": {
-            command: 'do shell script "rm -rf ~/.uplink"',
+            command: 'If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }',
           },  
         }
       },
-    }
-    ,
+    },
+
+
     //
     // ===================
     // Test Configurations
@@ -160,63 +159,75 @@ exports.config = {
       ], ['junit', {
             outputDir: './test-report/',
             outputFileFormat: function (options) {
-                return `test-results-macos-ci-${options.cid}.xml`;
+                return `test-results-windows-app-${options.cid}.xml`;
             }
       }]],
     
     specFileRetries: 1,
+
+    
     //
     // Options to be passed to Cucumber.
     cucumberOpts: {
-       // <boolean> show full backtrace for errors
-       backtrace: false,
-       // <string[]> module used for processing required features
-       requireModule: [],
-       // <boolean< Treat ambiguous definitions as errors
-       failAmbiguousDefinitions: true,
-       // <boolean> invoke formatters without executing steps
-       // dryRun: false,
-       // <boolean> abort the run on first failure
-       failFast: false,
-       // <boolean> Enable this config to treat undefined definitions as
-       // warnings
-       ignoreUndefinedDefinitions: false,
-       // <string[]> ("extension:module") require files with the given
-       // EXTENSION after requiring MODULE (repeatable)
-       names: [],
-       // <boolean> hide step definition snippets for pending steps
-       snippets: true,
-       // <boolean> hide source uris
-       source: true,
-       // <string[]> (name) specify the profile to use
-       profile: [],
-       // <string[]> (file/dir) require files before executing features
-       require: [join(process.cwd(), "./tests/steps/*.step.ts")],
-       scenarioLevelReporter: false,
-       order: 'defined',
-       // <string> specify a custom snippet syntax
-       snippetSyntax: undefined,
-       // <boolean> fail if there are any undefined or pending steps
-       strict: true,
-       // <string> (expression) only execute the features or scenarios with
-       // tags matching the expression, see
-       // https://docs.cucumber.io/tag-expressions/
-       tagExpression: 'not @Pending',
-       // <boolean> add cucumber tags to feature or scenario name
-       tagsInTitle: false,
-       // <number> timeout for step definitions
-       timeout: 20000,
-    },
+        // <boolean> show full backtrace for errors
+        backtrace: false,
+        // <string[]> module used for processing required features
+        requireModule: [],
+        // <boolean< Treat ambiguous definitions as errors
+        failAmbiguousDefinitions: true,
+        // <boolean> invoke formatters without executing steps
+        // dryRun: false,
+        // <boolean> abort the run on first failure
+        failFast: false,
+        // <boolean> Enable this config to treat undefined definitions as
+        // warnings
+        ignoreUndefinedDefinitions: false,
+        // <string[]> ("extension:module") require files with the given
+        // EXTENSION after requiring MODULE (repeatable)
+        names: [],
+        // <boolean> hide step definition snippets for pending steps
+        snippets: true,
+        // <boolean> hide source uris
+        source: true,
+        // <string[]> (name) specify the profile to use
+        profile: [],
+        // <string[]> (file/dir) require files before executing features
+        require: [join(process.cwd(), "./tests/steps/*.step.ts")],
+        scenarioLevelReporter: false,
+        order: 'defined',
+        // <string> specify a custom snippet syntax
+        snippetSyntax: undefined,
+        // <boolean> fail if there are any undefined or pending steps
+        strict: true,
+        // <string> (expression) only execute the features or scenarios with
+        // tags matching the expression, see
+        // https://docs.cucumber.io/tag-expressions/
+        tagExpression: 'not @Pending',
+        // <boolean> add cucumber tags to feature or scenario name
+        tagsInTitle: false,
+        // <number> timeout for step definitions
+        timeout: 20000,
+     },
+    
+    //
+    // =====
+    // Hooks
+    // =====
+    // WebdriverIO provides several hooks you can use to interfere with the test process in order to enhance
+    // it and to build services around it. You can either apply a single function or an array of
+    // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
+    // resolved to continue.
+ 
     afterTest: async function (test, describe, { error }) {
         if (error) {
-            let imageFile = await driver.takeScreenshot();
-            let imageFolder = join(process.cwd(), "./test-results/macos-cucumber", test.parent);
-            await fsp.mkdir(imageFolder, {recursive: true});
-            await fsp.writeFile(
-                imageFolder + "/" + test.title + " - Failed.png",
-                imageFile,
-                "base64"
-            );
+          let imageFile = await driver.takeScreenshot();
+          let imageFolder = join(process.cwd(), "./test-results/windows-app", test.parent);
+          await fsp.mkdir(imageFolder, {recursive: true});
+          await fsp.writeFile(
+            imageFolder + "/" + test.title + " - Failed.png",
+            imageFile,
+            "base64"
+          );
         }
-    }
+      }
 }

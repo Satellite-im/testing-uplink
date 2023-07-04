@@ -5,7 +5,7 @@ Feature: Settings Developer Tests
         Given I go to the Settings Developer Screen from Settings Notifications Screen
     
     Scenario: As a user, I should see the correct headers and descriptions for settings options on Settings Developer screen
-        When I am on the Settings Notifications Screen with a new account
+        When I am on the Settings Developer Screen with a new account
         Then I should see the Developer Mode header and description are correct
         And I should see the Test Notification header and description are correct
         And I should see the Open Cache header and description are correct
