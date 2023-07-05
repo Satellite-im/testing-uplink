@@ -1,13 +1,13 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
-import FilesScreen from "../screenobjects/files/FilesScreen";
+import { Given, When, Then } from "@cucumber/cucumber";
 import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
-let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(/^I go to the Settings Profile Screen from Files Screens$/, async () => {
+When(/^I go to the Settings Profile Screen from Welcome Screen$/, async () => {
   // Go to Settings Screen and select the Settings Screen to validate
-  await filesScreenFirstUser.goToSettings();
+  await welcomeScreenFirstUser.goToSettings();
   await settingsProfileFirstUser.waitForIsShown(true);
 });
 

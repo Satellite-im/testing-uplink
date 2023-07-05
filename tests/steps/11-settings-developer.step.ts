@@ -1,16 +1,18 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
+import { Given, When, Then } from "@cucumber/cucumber";
 import SettingsDeveloperScreen from "../screenobjects/settings/SettingsDeveloperScreen";
-import SettingsNotificationsScreen from "../screenobjects/settings/SettingsNotificationsScreen";
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
 let settingsDeveloperFirstUser = new SettingsDeveloperScreen(USER_A_INSTANCE);
-let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
-  USER_A_INSTANCE
-);
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(
-  /^I go to the Settings Developer Screen from Settings Notifications Screen$/,
+When(
+  /^I go to the Settings Developer Screen from Welcome Screen$/,
   async () => {
-    await settingsNotificationsFirstUser.goToDeveloperSettings();
+    await welcomeScreenFirstUser.goToSettings();
+    await settingsProfileFirstUser.waitForIsShown(true);
+    await settingsProfileFirstUser.goToDeveloperSettings();
     await settingsDeveloperFirstUser.waitForIsShown(true);
   }
 );

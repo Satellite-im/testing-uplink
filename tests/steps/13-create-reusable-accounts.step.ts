@@ -1,4 +1,4 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
+import { Given, When, Then } from "@cucumber/cucumber";
 import {
   createNewUser,
   grabCacheFolder,
@@ -11,7 +11,7 @@ import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(/^I reset the application with clean cache$/, async () => {
+When(/^I reset the application with clean cache$/, async () => {
   await resetApp(USER_A_INSTANCE);
 });
 

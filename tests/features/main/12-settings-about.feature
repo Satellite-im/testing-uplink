@@ -1,11 +1,10 @@
 Feature: Settings About Tests
     As a user, I should be able to use test all the functionalities from Settings About Screen
 
-    Background:
-        Given I go to the Settings About Screen from Settings Developer Screen
-    
     Scenario: As a user, I should see the correct headers and descriptions for settings options on Settings About screen
-        When I am on the Settings About Screen with a new account
+        When I log into the application with the previous account created
+        And I go to the Settings About Screen from Welcome Screen
+        And I am on the Settings About Screen with a new account
         Then I should see the About header and description are correct
         And I should see the Version header and description are correct
         And I should see the Open Website header and description are correct

@@ -1,13 +1,10 @@
 Feature: Create Account
     As a user, I should be able to create a new account on Uplink
 
-    Background:
-        Given I enter to the application for the first time with a fresh user
-
     Scenario: As a user, I should see the warning texts and create account button disabled when entering for the first time
         When I enter to the application for the first time with a fresh user
         Then I should see that warning texts are displayed correctly on Pin Screen
-        And I should see that Create Pin Screen status of button is equal to Disabled
+        And I should see that Create Pin Screen status of button is equal to false
     
     Scenario: As a user, I should see an error message if PIN is empty
         When I leave pin input empty
@@ -68,6 +65,7 @@ Feature: Create Account
     Scenario: As a user, I should be redirected to Create Username screen
         When I click on Create Account Button on Create Username Screen
         Then I should be redirected to Welcome Screen
+
 
     
     

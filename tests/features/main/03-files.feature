@@ -1,14 +1,13 @@
 Feature: Files Screen Tests
     As a user, I should be able to use test all the functionalities from Files Screen
-
-    Background:
-        Given I go from Friend Screen to Files Screen
-    
+  
     Scenario: As a user, I should see the main elements displayed on Files Screen
-        When I am on the Files Screen
-        Then I should see the Pre Release Indicator displayed on Files Screen
-        And I should see the main buttons displayed on Files Screen
-        And I should see the sidebar displayed on Files Screen
+        When I log into the application with the previous account created
+        And I go to Files Screen from Welcome Screen
+        And I am on the Files Screen
+        Then I should see the Pre Release Indicator existing on Files Screen
+        And I should see the main buttons existing on Files Screen
+        And I should see the sidebar existing on Files Screen
         And I should see the Files Space Info displayed on screen
         And I should see the Files Breadcrumbs displayed on screen
         And I should see the Add Folder and Upload Buttons displayed on screen
@@ -46,7 +45,7 @@ Feature: Files Screen Tests
     Scenario: As a user, I should be able to rename a folder
         When I open the context menu for testfolder01 on Files Screen
         And I select the option Rename from Files Context Menu for folder
-        And I update the name to newname on Files Screen
+        And I update the name of folder to newname on Files Screen
         Then I should see newname displayed on Files Screen
     
     Scenario: As a user, I should be able to delete a folder
@@ -57,7 +56,7 @@ Feature: Files Screen Tests
     Scenario: As a user, I should be able to rename a file
         When I open the context menu for logo.jpg on Files Screen
         And I select the option Rename from Files Context Menu for file
-        And I update the name to newname to file with extension .jpg on Files Screen
+        And I update the name of file to newname to file with extension .jpg on Files Screen
         Then I should see newname.jpg displayed on Files Screen
 
     @skip
@@ -89,9 +88,8 @@ Feature: Files Screen Tests
     Scenario: As a user, I should not be allowed to rename a file with existing filename
         When I open the context menu for app-macos (1).zip on Files Screen
         And I select the option Rename from Files Context Menu for file
-        And I type the name app-macos.zip on File or Folder Name Input
+        And I type the name app-macos on File or Folder Name Input
         Then I should see an error toast notification for Duplicated Name
-        And I should type the name app-macos (1) on File or Folder Name Input
         And I should see the file app-macos (1).zip uploaded in Files Section
     
     Scenario: As a user, I should not be allowed to create a folder with existing folder name

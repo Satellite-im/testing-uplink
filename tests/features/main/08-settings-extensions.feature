@@ -1,11 +1,10 @@
 Feature: Settings Extensions Tests
     As a user, I should be able to use test all the functionalities from Settings Extensions Screen
-
-    Background:
-        Given I go to the Settings Extensions Screen from Settings Audio Screen
     
     Scenario: As a user, I should see the correct headers and descriptions for settings options on Settings Extensions
-        When I am on the Settings Extensions Screen with a new account
+        When I log into the application with the previous account created
+        And I go to the Settings Extensions Screen from Welcome Screen
+        And I am on the Settings Extensions Screen with a new account
         Then I should see the installed button displayed on Settings Extensions Screen
         And I should see the explore button displayed on Settings Extensions Screen
         And I should see the search extensions button displayed on Settings Extensions Screen

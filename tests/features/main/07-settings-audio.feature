@@ -1,11 +1,10 @@
 Feature: Settings Sounds & Audio Tests
     As a user, I should be able to use test all the functionalities from Settings Sounds and Audio Screen
 
-    Background:
-        Given I go to the Settings Sounds and Audio Screen from Settings General Screen
-    
     Scenario: As a user, I should see the correct headers and descriptions for settings options on Settings Sounds and Audio screen
-        When I am on the Settings Audio Screen with a new account
+        When I log into the application with the previous account created
+        And I go to the Settings Sounds and Audio Screen from Welcome Screen
+        And I am on the Settings Audio Screen with a new account
         Then I should see the correct header and description displayed for Input Device
         And I should see the correct header and description displayed for Output Device
         And I should see the correct header and description displayed for Sample Rate

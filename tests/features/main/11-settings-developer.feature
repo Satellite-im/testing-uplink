@@ -1,11 +1,10 @@
 Feature: Settings Developer Tests
     As a user, I should be able to use test all the functionalities from Settings Developer Screen
-
-    Background:
-        Given I go to the Settings Developer Screen from Settings Notifications Screen
     
     Scenario: As a user, I should see the correct headers and descriptions for settings options on Settings Developer screen
-        When I am on the Settings Developer Screen with a new account
+        When I log into the application with the previous account created
+        And I go to the Settings Developer Screen from Welcome Screen
+        And I am on the Settings Developer Screen with a new account
         Then I should see the Developer Mode header and description are correct
         And I should see the Test Notification header and description are correct
         And I should see the Open Cache header and description are correct

@@ -1,16 +1,20 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
+import { Given, When, Then } from "@cucumber/cucumber";
 import SettingsAccessibilityScreen from "../screenobjects/settings/SettingsAccessibilityScreen";
-import SettingsExtensionsScreen from "../screenobjects/settings/SettingsExtensionsScreen";
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
 let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
   USER_A_INSTANCE
 );
-let settingsExtensionsFirstUser = new SettingsExtensionsScreen(USER_A_INSTANCE);
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(
-  /^I go to the Settings Accessibility Screen from Settings Extensions Screen$/,
+When(
+  /^I go to the Settings Accessibility Screen from Welcome Screen$/,
   async () => {
-    await settingsExtensionsFirstUser.goToAccessibilitySettings();
+    await welcomeScreenFirstUser.goToSettings();
+    await settingsProfileFirstUser.waitForIsShown(true);
+    await settingsProfileFirstUser.goToAccessibilitySettings();
     await settingsAccessibilityFirstUser.waitForIsShown(true);
   }
 );

@@ -1,4 +1,4 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
+import { Given, When, Then } from "@cucumber/cucumber";
 import { resetAndLoginWithCache } from "../helpers/commands";
 import ChatsLayout from "../screenobjects/chats/ChatsLayout";
 import FriendsScreen from "../screenobjects/friends/FriendsScreen";
@@ -10,15 +10,12 @@ let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(
-  /^I login with Friends Test User account and go to Friends$/,
-  async () => {
-    // Go to Friends Screen
-    await resetAndLoginWithCache("FriendsTestUser");
-    await welcomeScreenFirstUser.goToFriends();
-    await friendsScreenFirstUser.waitForIsShown(true);
-  }
-);
+When(/^I login with Friends Test User account and go to Friends$/, async () => {
+  // Go to Friends Screen
+  await resetAndLoginWithCache("FriendsTestUser");
+  await welcomeScreenFirstUser.goToFriends();
+  await friendsScreenFirstUser.waitForIsShown(true);
+});
 
 When(/^I am on the Friends Screen$/, async () => {
   await friendsScreenFirstUser.waitForIsShown(true);
@@ -176,7 +173,7 @@ When(/^I select the context menu option of Add to Favorites$/, async () => {
 When(
   /^I select the context menu option of Remove from Favorites$/,
   async () => {
-    await friendsScreenFirstUser.clickOnContextMenuRemove();
+    await friendsScreenFirstUser.clickOnContextMenuFavoritesRemove();
   }
 );
 
@@ -254,8 +251,8 @@ Then(
 );
 
 Then(
-  /^I should see a toast notification in Friends Screen showing (.*).$/,
-  async () => {
+  /^I should see a toast notification in Friends Screen showing (.*)$/,
+  async (toastMessage: string) => {
     // Wait for toast notification to disappear
     await friendsScreenFirstUser.waitUntilNotificationIsClosed();
   }
@@ -337,16 +334,6 @@ Then(
       friendName
     );
     await expect(denyTooltipText).toHaveTextContaining("Deny Request");
-  }
-);
-
-Then(
-  /^I should see the Unfriend button tooltip from (.*) is displayed$/,
-  async (outgoingFriendName: string) => {
-    const unfriendTooltipText = await friendsScreenFirstUser.getUserTooltipText(
-      outgoingFriendName
-    );
-    await expect(unfriendTooltipText).toHaveTextContaining("Unfriend");
   }
 );
 

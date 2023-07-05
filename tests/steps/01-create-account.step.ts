@@ -1,4 +1,4 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
+import { Given, When, Then } from "@cucumber/cucumber";
 import { maximizeWindow } from "../helpers/commands";
 import { WINDOWS_DRIVER, USER_A_INSTANCE } from "../helpers/constants";
 import CreatePinScreen from "../screenobjects/account-creation/CreatePinScreen";
@@ -8,7 +8,7 @@ let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
 let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(
+When(
   /^I enter to the application for the first time with a fresh user$/,
   async () => {
     await createPinFirstUser.unlockWarningHeader.waitForDisplayed();
@@ -18,13 +18,6 @@ Given(
 Given(/^I am on the Create Username Screen$/, async () => {
   await createUserFirstUser.unlockLayout.waitForDisplayed();
 });
-
-When(
-  /^I enter to the application for the first time with a fresh user$/,
-  async () => {
-    await createPinFirstUser.unlockWarningHeader.waitForDisplayed();
-  }
-);
 
 When(/^I leave pin input empty$/, async () => {
   await createPinFirstUser.enterPin("1");

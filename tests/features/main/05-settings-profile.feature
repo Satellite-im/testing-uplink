@@ -1,11 +1,10 @@
 Feature: Settings Profile Tests
     As a user, I should be able to use test all the functionalities from Settings Profile Screen
-
-    Background:
-        Given I go to the Settings Profile Screen from Files Screen
     
     Scenario: As a user, I should see the main elements displayed on Settings Profile Screen
-        When I am on the Settings Profile Screen with a new account
+        When I log into the application with the previous account created
+        And I go to the Settings Profile Screen from Welcome Screen
+        And I am on the Settings Profile Screen with a new account
         Then I should see the Pre Release Indicator displayed on Settings Profile Screen
         And I should see the main buttons displayed on Settings Profile Screen
         And I should see the sidebar displayed on Settings Profile Screen
@@ -36,7 +35,7 @@ Feature: Settings Profile Tests
     
     Scenario: As a user, I should be able to paste the copied ID into any text field
         When I paste the copied user key into status input field
-        Then I should see the Settings Profile username input shows did:key:
+        Then I should see the Settings Profile status input shows did:key:
     
     Scenario: As a user, I should be able to add a profile picture
         When I clear the Settings Profile status value
@@ -76,12 +75,12 @@ Feature: Settings Profile Tests
     
     Scenario: As a user, I should see an error message when attempting entering non-alphanumeric characters in username input
         When I enter Test123 in the username field from Settings Profile Screen
-        And I type test&^%*%#$ in the username field from Settings Profile Screen
+        And I enter test&^%*%#$ in the username field from Settings Profile Screen
         Then I should see an input error message displayed on Settings Profile Screen showing Only alphanumeric characters are accepted.
     
     Scenario: As a user, I should see an error message when attempting entering more than 32 characters in username input
         When I enter Test123 in the username field from Settings Profile Screen
-        And I type 12345678901234567890123456789012345 in the username field from Settings Profile Screen
+        And I enter 12345678901234567890123456789012345 in the username field from Settings Profile Screen
         Then I should see an input error message displayed on Settings Profile Screen showing Maximum of 32 characters exceeded.
     
     Scenario: As a user, I should be able to type again the same username on Settings Profile Screen

@@ -1,14 +1,18 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
+import { Given, When, Then } from "@cucumber/cucumber";
 import SettingsAudioScreen from "../screenobjects/settings/SettingsAudioScreen";
-import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
 let settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
-let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(
-  /^I go to the Settings Sounds and Audio Screen from Settings General Screen$/,
+When(
+  /^I go to the Settings Sounds and Audio Screen from Welcome Screen$/,
   async () => {
-    await settingsGeneralFirstUser.goToAudioSettings();
+    await welcomeScreenFirstUser.goToSettings();
+    await settingsProfileFirstUser.waitForIsShown(true);
+    await settingsProfileFirstUser.goToAudioSettings();
     await settingsAudioFirstUser.waitForIsShown(true);
   }
 );
@@ -46,7 +50,7 @@ When(
 );
 
 Then(
-  /^ I should see the correct header and description displayed for Input Device$/,
+  /^I should see the correct header and description displayed for Input Device$/,
   async () => {
     await expect(settingsAudioFirstUser.inputDeviceHeader).toHaveTextContaining(
       "INPUT DEVICE"
@@ -142,7 +146,7 @@ Then(
 );
 
 Then(
-  /^I should see that Interface Sounds switch from Settings Audio is equal to (.*)$/,
+  /^I should see that Interface Sounds switch from Settings Audio is (.*)$/,
   async (value: string) => {
     const toggleElementInterface =
       await settingsAudioFirstUser.interfaceSoundsControllerValue;
@@ -158,7 +162,7 @@ Then(
 );
 
 Then(
-  /^I should see that Media Sounds switch from Settings Audio is equal to (.*)$/,
+  /^I should see that Media Sounds switch from Settings Audio is (.*)$/,
   async (value: string) => {
     const toggleElementMedia =
       await settingsAudioFirstUser.mediaSoundsControllerValue;
@@ -174,7 +178,7 @@ Then(
 );
 
 Then(
-  /^I should see that Message Sounds switch from Settings Audio is equal to (.*)$/,
+  /^I should see that Message Sounds switch from Settings Audio is (.*)$/,
   async (value: string) => {
     const toggleElementMessage =
       await settingsAudioFirstUser.messageSoundsControllerValue;
@@ -190,7 +194,7 @@ Then(
 );
 
 Then(
-  /^I should see that Call Timer switch from Settings Audio is equal to (.*)$/,
+  /^I should see that Call Timer switch from Settings Audio is (.*)$/,
   async (value: string) => {
     const toggleElementCallTimer =
       await settingsAudioFirstUser.callTimerControllerValue;

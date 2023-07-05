@@ -1,13 +1,17 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
+import { Given, When, Then } from "@cucumber/cucumber";
 import FriendsScreen from "../screenobjects/friends/FriendsScreen";
 import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
+import { loginWithTestUser } from "../helpers/commands";
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(/^I am on the Welcome Screen after creating a new account$/, async () => {
-  await welcomeScreenFirstUser.waitForIsShown(true);
-});
+When(
+  /^I log into the application with the previous account created$/,
+  async () => {
+    await loginWithTestUser();
+  }
+);
 
 When(/^I am on the Welcome Screen after creating a new account$/, async () => {
   await welcomeScreenFirstUser.waitForIsShown(true);

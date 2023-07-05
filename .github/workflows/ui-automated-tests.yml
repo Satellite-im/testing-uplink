@@ -184,7 +184,7 @@ jobs:
           cp -r ./tests/fixtures/users/FriendsTestUser/ ./tests/fixtures/users/mac2/FriendsTestUser
 
       - name: Run Tests on MacOS 🧪
-        run: npm run mac.ci
+        run: npm run mac.cucumber
 
       - name: Publish Test Results for MacOS
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
@@ -364,7 +364,7 @@ jobs:
 
       - name: Run Tests on Windows 🧪
         id: test-execution-windows
-        run: npm run windows.ci
+        run: npm run windows.cucumber
 
       - name: Upload Test Report - Windows CI
         if: always()

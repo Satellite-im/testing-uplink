@@ -1,12 +1,12 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
+import { Given, When, Then } from "@cucumber/cucumber";
 import FilesScreen from "../screenobjects/files/FilesScreen";
-import FriendsScreen from "../screenobjects/friends/FriendsScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(/^I go from Friend Screen to Files Screen$/, async () => {
-  await friendsScreenFirstUser.goToFiles();
+When(/^I go to Files Screen from Welcome Screen$/, async () => {
+  await welcomeScreenFirstUser.goToFiles();
   await filesScreenFirstUser.waitForIsShown(true);
 });
 
@@ -65,12 +65,15 @@ When(
   }
 );
 
-When(/^I update the name to (.*) on Files Screen$/, async (name: string) => {
-  await filesScreenFirstUser.updateNameFileFolder(name);
-});
+When(
+  /^I update the name of folder to (.*) on Files Screen$/,
+  async (name: string) => {
+    await filesScreenFirstUser.updateNameFileFolder(name);
+  }
+);
 
 When(
-  /^I update the name to (.*) to file with extension (.*) on Files Screen$/,
+  /^I update the name of file to (.*) to file with extension (.*) on Files Screen$/,
   async (name: string, extension: string) => {
     await filesScreenFirstUser.updateNameFileFolder(name, extension);
   }
@@ -113,7 +116,7 @@ When(/^I click on create folder$/, async () => {
 });
 
 Then(
-  /^I should see the Pre Release Indicator displayed on Files Screen$/,
+  /^I should see the Pre Release Indicator existing on Files Screen$/,
   async () => {
     await expect(filesScreenFirstUser.prereleaseIndicator).toBeDisplayed();
     await expect(
@@ -122,14 +125,14 @@ Then(
   }
 );
 
-Then(/^I should see the main buttons displayed on Files Screen$/, async () => {
+Then(/^I should see the main buttons existing on Files Screen$/, async () => {
   await filesScreenFirstUser.chatsButton.waitForExist();
   await filesScreenFirstUser.filesButton.waitForExist();
   await filesScreenFirstUser.friendsButton.waitForExist();
   await filesScreenFirstUser.settingsButton.waitForExist();
 });
 
-Then(/^I should see the sidebar displayed on Files Screen$/, async () => {
+Then(/^I should see the sidebar existing on Files Screen$/, async () => {
   await expect(filesScreenFirstUser.chatSearchInput).toBeDisplayed();
   await expect(filesScreenFirstUser.sidebar).toBeDisplayed();
   await expect(filesScreenFirstUser.sidebarChildren).toBeDisplayed();
@@ -169,10 +172,6 @@ Then(/^I should see the Upload Button tooltip displayed$/, async () => {
   await expect(filesScreenFirstUser.uploadFileTooltipText).toHaveTextContaining(
     "Upload"
   );
-});
-
-Then(/^I should see (.*) displayed on Files Screen$/, async (name: string) => {
-  await filesScreenFirstUser.validateFileOrFolderExist(name);
 });
 
 Then(

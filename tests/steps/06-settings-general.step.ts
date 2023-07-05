@@ -1,17 +1,18 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
+import { Given, When, Then } from "@cucumber/cucumber";
 import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
-import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
-let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
 let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(
-  /^I go to the Settings General Screen from Settings Profile Screen$/,
-  async () => {
-    await settingsProfileFirstUser.goToGeneralSettings();
-    await settingsGeneralFirstUser.waitForIsShown(true);
-  }
-);
+When(/^I go to the Settings General Screen from Welcome Screen$/, async () => {
+  await welcomeScreenFirstUser.goToSettings();
+  await settingsProfileFirstUser.waitForIsShown(true);
+  await settingsProfileFirstUser.goToGeneralSettings();
+  await settingsGeneralFirstUser.waitForIsShown(true);
+});
 
 When(/^I am on the Settings General Screen with a new account$/, async () => {
   await settingsGeneralFirstUser.waitForIsShown(true);

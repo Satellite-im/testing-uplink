@@ -1,18 +1,20 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
-import SettingsAccessibilityScreen from "../screenobjects/settings/SettingsAccessibilityScreen";
+import { Given, When, Then } from "@cucumber/cucumber";
 import SettingsNotificationsScreen from "../screenobjects/settings/SettingsNotificationsScreen";
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
-let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
-  USER_A_INSTANCE
-);
 let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
   USER_A_INSTANCE
 );
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(
-  /^I go to the Settings Notifications Screen from Settings Accessibility Screen$/,
+When(
+  /^I go to the Settings Notifications Screen from Welcome Screen$/,
   async () => {
-    await settingsAccessibilityFirstUser.goToNotificationsSettings();
+    await welcomeScreenFirstUser.goToSettings();
+    await settingsProfileFirstUser.waitForIsShown(true);
+    await settingsProfileFirstUser.goToNotificationsSettings();
     await settingsNotificationsFirstUser.waitForIsShown(true);
   }
 );
@@ -49,6 +51,56 @@ When(
   /^I click on the Settings Notifications switch slider from Settings Notifications Screen$/,
   async () => {
     await settingsNotificationsFirstUser.clickOnSettingsNotifications();
+  }
+);
+
+Then(
+  /^I should see the Enabled Notifications header and description are correct$/,
+  async () => {
+    await expect(
+      settingsNotificationsFirstUser.enabledNotificationsHeader
+    ).toHaveTextContaining("ENABLED");
+    await expect(
+      settingsNotificationsFirstUser.enabledNotificationsDescription
+    ).toHaveTextContaining(
+      "Enable notifications for incoming calls, messages, and more."
+    );
+  }
+);
+
+Then(
+  /^I should see the Friends Notifications header and description are correct$/,
+  async () => {
+    await expect(
+      settingsNotificationsFirstUser.friendsNotificationsHeader
+    ).toHaveTextContaining("FRIENDS");
+    await expect(
+      settingsNotificationsFirstUser.friendsNotificationsDescription
+    ).toHaveTextContaining("Enable notifications for friend requests.");
+  }
+);
+
+Then(
+  /^I should see the Messages Notifications header and description are correct$/,
+  async () => {
+    await expect(
+      settingsNotificationsFirstUser.messagesNotificationsHeader
+    ).toHaveTextContaining("MESSAGES");
+    await expect(
+      settingsNotificationsFirstUser.messagesNotificationsDescription
+    ).toHaveTextContaining("Enable notifications for new messages.");
+  }
+);
+
+Then(
+  /^I should see the Settings Notifications header and description are correct$/,
+  async () => {
+    await expect(
+      settingsNotificationsFirstUser.settingsNotificationsHeader
+    ).toHaveTextContaining("SETTINGS");
+    await expect(
+      settingsNotificationsFirstUser.settingsNotificationsDescription
+    ).toHaveText("Enable notifications for updates and important alerts.");
   }
 );
 

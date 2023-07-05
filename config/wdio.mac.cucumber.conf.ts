@@ -2,6 +2,7 @@ import { homedir } from "os";
 import { join } from "path";
 import { MACOS_BUNDLE_ID, MACOS_DRIVER } from "../tests/helpers/constants";
 const fsp = require("fs").promises;
+const { rmSync } = require("fs");
 
 exports.config = {
     //
@@ -50,7 +51,7 @@ exports.config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 10,
+    maxInstances: 1,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -66,9 +67,6 @@ exports.config = {
           "appium:bundleId": MACOS_BUNDLE_ID,
           "appium:arguments": ["--path", homedir() + "/.uplink"],
           "appium:systemPort": 4724,
-          "appium:prerun": {
-            command: 'do shell script "rm -rf ~/.uplink"',
-          },  
         }
       },
     }
@@ -191,7 +189,7 @@ exports.config = {
        // <string[]> (name) specify the profile to use
        profile: [],
        // <string[]> (file/dir) require files before executing features
-       require: [join(process.cwd(), "./tests/steps/*.step.ts")],
+       require: ["./tests/steps/**/*.step.ts"],
        scenarioLevelReporter: false,
        order: 'defined',
        // <string> specify a custom snippet syntax
@@ -207,16 +205,26 @@ exports.config = {
        // <number> timeout for step definitions
        timeout: 20000,
     },
-    afterTest: async function (test, describe, { error }) {
-        if (error) {
-            let imageFile = await driver.takeScreenshot();
-            let imageFolder = join(process.cwd(), "./test-results/macos-cucumber", test.parent);
-            await fsp.mkdir(imageFolder, {recursive: true});
-            await fsp.writeFile(
-                imageFolder + "/" + test.title + " - Failed.png",
-                imageFile,
-                "base64"
-            );
-        }
+    onPrepare: async function() {
+      const cacheFolder = homedir() + "/.uplink/.user";
+      const testReportFolder =  join(process.cwd(), "./test-report");
+      const testResultsFolder =  join(process.cwd(), "./test-results");
+      await rmSync(cacheFolder, { recursive: true, force: true });
+      await rmSync(testReportFolder, { recursive: true, force: true });
+      await rmSync(testResultsFolder, { recursive: true, force: true });
+    },
+    afterStep: async function (step, scenario, result) {
+      if (!result.passed) {
+        let imageFile = await driver.takeScreenshot();
+          const scenarioName = scenario.name.replace(/[^a-zA-Z ]/g, "")
+          const stepName = step.text.replace(/[^a-zA-Z ]/g, "")
+          let imageFolder = join(process.cwd(), "./test-results/macos-ci", scenarioName);
+          await fsp.mkdir(imageFolder, {recursive: true});
+          await fsp.writeFile(
+            imageFolder + "/" + stepName + " - Failed.png",
+            imageFile,
+            "base64"
+          );
+      }
     }
 }

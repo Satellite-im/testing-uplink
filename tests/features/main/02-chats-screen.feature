@@ -1,11 +1,9 @@
 Feature: Chats Main Screen
     As a user, I should be able to navigate through the Welcome Screen
-
-    Background:
-        Given I am on the Welcome Screen after creating a new account
     
     Scenario: As a user, I should see the main elements displayed on Welcome Screen
-        When I am on the Welcome Screen after creating a new account
+        When I log into the application with the previous account created
+        And I am on the Welcome Screen after creating a new account
         Then I should see the Pre Release Indicator displayed on Screen
         And I should see the navigation bar with Chats, Files, Friends and Settings buttons displayed
         And I should see the sidebar displayed on screen

@@ -1,11 +1,10 @@
 Feature: Settings General Tests
     As a user, I should be able to use test all the functionalities from Settings General Screen
 
-    Background:
-        Given I go to the Settings General Screen from Settings Profile Screen
-    
     Scenario: As a user, I should see the correct headers and descriptions for settings options on Settings General screen
-        When I am on the Settings General Screen with a new account
+        When I log into the application with the previous account created
+        And I go to the Settings General Screen from Welcome Screen
+        And I am on the Settings General Screen with a new account
         Then I should see the correct header and description displayed for App Language
         And I should see the correct header and description displayed for Theme
         And I should see the correct header and description displayed for Font

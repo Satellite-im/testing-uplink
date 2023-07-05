@@ -1,14 +1,18 @@
-import { Given, When, Then } from "@wdio/cucumber-framework";
-import SettingsAudioScreen from "../screenobjects/settings/SettingsAudioScreen";
+import { Given, When, Then } from "@cucumber/cucumber";
 import SettingsExtensionsScreen from "../screenobjects/settings/SettingsExtensionsScreen";
+import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
-let settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
 let settingsExtensionsFirstUser = new SettingsExtensionsScreen(USER_A_INSTANCE);
+let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-Given(
-  /^I go to the Settings Extensions Screen from Settings Audio Screen$/,
+When(
+  /^I go to the Settings Extensions Screen from Welcome Screen$/,
   async () => {
-    await settingsAudioFirstUser.goToExtensionsSettings();
+    await welcomeScreenFirstUser.goToSettings();
+    await settingsProfileFirstUser.waitForIsShown(true);
+    await settingsProfileFirstUser.goToExtensionsSettings();
     await settingsExtensionsFirstUser.waitForIsShown(true);
   }
 );
