@@ -190,7 +190,7 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         if: always()
         with:
-          junit_files: "./test-report/*.xml"
+          files: "./test-report/**/*.json"
           ignore_runs: true
           job_summary: false
           compare_to_earlier_commit: false
@@ -284,7 +284,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-report-windows-chats
-          path: ./test-report/*.xml
+          path: ./test-report/**/*.json
 
       - name: Upload Screenshots for Windows - Chats 📷
         uses: actions/upload-artifact@v3
@@ -362,6 +362,10 @@ jobs:
         run: If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }
         shell: powershell
 
+      - name: Copy Friends Test User Data
+        run: cp -r ./tests/fixtures/users/FriendsTestUser/ ./tests/fixtures/users/windows/FriendsTestUser
+        shell: powershell
+
       - name: Run Tests on Windows 🧪
         id: test-execution-windows
         run: npm run windows.cucumber
@@ -371,7 +375,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-report-windows-ci
-          path: ./test-report/*.xml
+          path: ./test-report/**/*.json
 
       - name: Upload Screenshots for Windows 📷
         uses: actions/upload-artifact@v3
@@ -422,7 +426,7 @@ jobs:
       - name: Publish Test Results for Windows Tests
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         with:
-          junit_files: "artifacts/**/*.xml"
+          files: "artifacts/**/*.json"
           ignore_runs: true
           job_summary: false
           compare_to_earlier_commit: false

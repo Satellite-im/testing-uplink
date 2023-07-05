@@ -150,17 +150,22 @@ exports.config = {
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [[
+    reporters: [
+      [
         "spec", 
         {
           showPreface: false,
         },
-      ], ['junit', {
-            outputDir: './test-report/',
-            outputFileFormat: function (options) {
-                return `test-results-macos-ci-${options.cid}.xml`;
-            }
-      }]],
+      ], 
+      [
+        'cucumber-json', 
+        {
+          jsonFolder: './test-report/',
+          language: 'en',
+          reportFilePerRetry: true,
+        }
+      ]
+    ],
     
     specFileRetries: 1,
     //
