@@ -1,5 +1,7 @@
+import { homedir } from "os";
 import { join } from "path";
 const fsp = require("fs").promises;
+const { rmSync } = require("fs");
 
 exports.config = {
     //
@@ -161,8 +163,15 @@ exports.config = {
             outputFileFormat: function (options) {
                 return `test-results-windows-ci-${options.cid}.xml`;
             }
-      }]],
-    
+      }],
+      ['allure', 
+      {
+        outputDir: './allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+      }
+    ] 
+    ],
     specFileRetries: 1,
 
     
@@ -185,7 +194,17 @@ exports.config = {
     // it and to build services around it. You can either apply a single function or an array of
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
- 
+    onPrepare: async function() {
+      const allureResultsFolder = join(process.cwd(), "\\allure-results")
+      const cacheFolder = homedir() + "\\.uplink\\.user"
+      const testReportFolder =  join(process.cwd(), "\\test-report")
+      const testResultsFolder =  join(process.cwd(), "\\test-results")
+      await rmSync(allureResultsFolder, { recursive: true, force: true });
+      await rmSync(cacheFolder, { recursive: true, force: true });
+      await rmSync(testReportFolder, { recursive: true, force: true });
+      await rmSync(testResultsFolder, { recursive: true, force: true });
+    },
+
     afterTest: async function (test, describe, { error }) {
         if (error) {
           let imageFile = await driver.takeScreenshot();

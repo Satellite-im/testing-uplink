@@ -28,6 +28,7 @@
     "@faker-js/faker": "^7.6.0",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
+    "@wdio/allure-reporter": "^8.11.0",
     "@wdio/appium-service": "^8.8.7",
     "@wdio/cli": "^8.8.7",
     "@wdio/junit-reporter": "^8.8.7",
@@ -40,5 +41,8 @@
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4",
     "webdriverio": "^8.8.7"
+  },
+  "dependencies": {
+    "allure-commandline": "^2.23.0"
   }
 }

@@ -2,6 +2,7 @@ import { homedir } from "os";
 import { join } from "path";
 import { MACOS_BUNDLE_ID, MACOS_DRIVER } from "../tests/helpers/constants";
 const fsp = require("fs").promises;
+const { rmSync } = require("fs");
 
 exports.config = {
     //
@@ -162,7 +163,15 @@ exports.config = {
             outputFileFormat: function (options) {
                 return `test-results-macos-ci-${options.cid}.xml`;
             }
-      }]],
+      }],
+      ['allure', 
+      {
+        outputDir: './allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+      }
+    ] 
+  ],
     
     specFileRetries: 1,
 
@@ -191,8 +200,16 @@ exports.config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: async function() {
+      const allureResultsFolder = join(process.cwd(), "./allure-results");
+      const cacheFolder = homedir() + "/.uplink/.user";
+      const testReportFolder =  join(process.cwd(), "./test-report");
+      const testResultsFolder =  join(process.cwd(), "./test-results");
+      await rmSync(allureResultsFolder, { recursive: true, force: true });
+      await rmSync(cacheFolder, { recursive: true, force: true });
+      await rmSync(testReportFolder, { recursive: true, force: true });
+      await rmSync(testResultsFolder, { recursive: true, force: true });
+    },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
      * for that worker as well as modify runtime environments in an async fashion.
