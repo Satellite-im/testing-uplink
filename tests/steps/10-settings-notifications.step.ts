@@ -1,8 +1,10 @@
 import { Given, When, Then } from "@cucumber/cucumber";
+import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
 import SettingsNotificationsScreen from "../screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
+let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
 let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
   USER_A_INSTANCE
 );
@@ -15,6 +17,14 @@ When(
     await welcomeScreenFirstUser.goToSettings();
     await settingsProfileFirstUser.waitForIsShown(true);
     await settingsProfileFirstUser.goToNotificationsSettings();
+    await settingsNotificationsFirstUser.waitForIsShown(true);
+  }
+);
+
+When(
+  /^I go to the Settings Notifications Screen from Settings General Screen$/,
+  async () => {
+    await settingsGeneralFirstUser.goToNotificationsSettings();
     await settingsNotificationsFirstUser.waitForIsShown(true);
   }
 );

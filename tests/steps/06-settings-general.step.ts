@@ -14,6 +14,14 @@ When(/^I go to the Settings General Screen from Welcome Screen$/, async () => {
   await settingsGeneralFirstUser.waitForIsShown(true);
 });
 
+When(
+  /^I go to the Settings General Screen from Settings Profile Screen$/,
+  async () => {
+    await settingsProfileFirstUser.goToGeneralSettings();
+    await settingsGeneralFirstUser.waitForIsShown(true);
+  }
+);
+
 When(/^I am on the Settings General Screen with a new account$/, async () => {
   await settingsGeneralFirstUser.waitForIsShown(true);
 });
