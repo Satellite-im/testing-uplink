@@ -39,6 +39,28 @@ export default async function settingsAudio() {
     );
   });
 
+  it("Settings Audio - Assert screen texts for Noise Suppression and Echo Cancellation", async () => {
+    // Validate texts for Noise Suppression Settings Section
+    await expect(
+      settingsAudioFirstUser.noiseSuppressionHeader
+    ).toHaveTextContaining("NOISE SUPPRESSION");
+    await expect(
+      settingsAudioFirstUser.noiseSuppressionDescription
+    ).toHaveTextContaining(
+      "Helps to minimize background noise and focus on your voice."
+    );
+
+    // Validate texts for Echo Cancellation Settings Section
+    await expect(
+      settingsAudioFirstUser.echoCancellationHeader
+    ).toHaveTextContaining("ECHO CANCELLATION");
+    await expect(
+      settingsAudioFirstUser.echoCancellationDescription
+    ).toHaveTextContaining(
+      "Helps to minimize feedback from speakers into your microphone."
+    );
+  });
+
   it("Settings Audio - Assert screen texts for switch sliders", async () => {
     // Validate texts for Interface Sounds Settings Section
     await expect(
@@ -79,6 +101,22 @@ export default async function settingsAudio() {
     ).toHaveTextContaining(
       "When enabled a timer will display when you're in a call showing it's duration."
     );
+  });
+
+  it("Settings Audio - Validate Noise Suppression radio buttons can be selected", async () => {
+    // Change Noise Suppression to Low, Medium, High and return it to None
+    await settingsAudioFirstUser.selectNoiseSuppressionLow();
+    await settingsAudioFirstUser.selectNoiseSuppressionMedium();
+    await settingsAudioFirstUser.selectNoiseSuppressionHigh();
+    await settingsAudioFirstUser.selectNoiseSuppressionNone();
+  });
+
+  it("Settings Audio - Validate Echo Cancellation radio buttons can be selected", async () => {
+    // Change Echo Cancellation to Low, Medium, High and return it to None
+    await settingsAudioFirstUser.selectEchoCancellationLow();
+    await settingsAudioFirstUser.selectEchoCancellationMedium();
+    await settingsAudioFirstUser.selectEchoCancellationHigh();
+    await settingsAudioFirstUser.selectEchoCancellationNone();
   });
 
   it("Settings Audio - Disable switches enabled by default", async () => {
