@@ -158,7 +158,7 @@ exports.config = {
         },
       ], 
       [
-        'cucumber-json', 
+        'cucumberjs-json', 
         {
           jsonFolder: './test-report/',
           language: 'en',
