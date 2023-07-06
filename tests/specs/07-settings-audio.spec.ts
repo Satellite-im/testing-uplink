@@ -40,7 +40,7 @@ export default async function settingsAudio() {
   });
 
   it("Settings Audio - Assert screen texts for Noise Suppression and Echo Cancellation", async () => {
-    // Validate texts for Noise Supression Settings Section
+    // Validate texts for Noise Suppression Settings Section
     await expect(
       settingsAudioFirstUser.noiseSuppressionHeader
     ).toHaveTextContaining("NOISE SUPPRESSION");
@@ -103,8 +103,8 @@ export default async function settingsAudio() {
     );
   });
 
-  it("Settings Audio - Validate Noise Supression radio buttons can be selected", async () => {
-    // Change Noise Supression to Low, Medium, High and return it to None
+  it("Settings Audio - Validate Noise Suppression radio buttons can be selected", async () => {
+    // Change Noise Suppression to Low, Medium, High and return it to None
     await settingsAudioFirstUser.selectNoiseSuppressionLow();
     await settingsAudioFirstUser.selectNoiseSuppressionMedium();
     await settingsAudioFirstUser.selectNoiseSuppressionHigh();
