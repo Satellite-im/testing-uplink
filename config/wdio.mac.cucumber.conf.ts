@@ -139,13 +139,13 @@ exports.config = {
     framework: 'cucumber',
     //
     // The number of times to retry the entire specfile when it fails as a whole
-    // specFileRetries: 1,
+    specFileRetries: 1,
     //
     // Delay in seconds between the spec file retry attempts
-    // specFileRetriesDelay: 0,
+    specFileRetriesDelay: 10,
     //
     // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
-    // specFileRetriesDeferred: false,
+    specFileRetriesDeferred: false,
     //
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
@@ -158,16 +158,15 @@ exports.config = {
         },
       ], 
       [
-        'cucumberjs-json', 
+        'junit', 
         {
-          jsonFolder: './test-report/',
-          language: 'en',
-          reportFilePerRetry: true,
+          outputDir: './test-report/',
+          outputFileFormat: function (options) {
+            return `test-results-macos-ci-${options.cid}.xml`;
+          }
         }
       ]
     ],
-    
-    specFileRetries: 1,
     //
     // Options to be passed to Cucumber.
     cucumberOpts: {
@@ -180,7 +179,7 @@ exports.config = {
        // <boolean> invoke formatters without executing steps
        // dryRun: false,
        // <boolean> abort the run on first failure
-       failFast: false,
+       failFast: true,
        // <boolean> Enable this config to treat undefined definitions as
        // warnings
        ignoreUndefinedDefinitions: false,
@@ -208,7 +207,7 @@ exports.config = {
        // <boolean> add cucumber tags to feature or scenario name
        tagsInTitle: false,
        // <number> timeout for step definitions
-       timeout: 20000,
+       timeout: 30000,
     },
     onPrepare: async function() {
       const cacheFolder = homedir() + "/.uplink/.user";
