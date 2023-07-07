@@ -465,7 +465,7 @@ jobs:
           ignore_runs: true
           job_summary: false
           compare_to_earlier_commit: false
-          check_name: "UI Automated Test Results on Windows Tests"
+          check_name: "UI Automated Test Results for Windows"
 
       - name: Get Allure history
         uses: actions/checkout@v3
@@ -484,6 +484,7 @@ jobs:
           gh_pages: gh-pages
           allure_report: allure-report
           allure_history: allure-history
+          keep_reports: 20
 
       - name: Deploy report to Github Pages
         if: always()
@@ -491,7 +492,13 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: ./allure-history
+
+      - name: Comment PR with the Test Results
+        uses: thollander/actions-comment-pull-request@v2
+        with:
+          message: |
+            UI Automated Test Results Report can be found [here](https://satellite-im.github.io/testing-uplink/allure-history/${{ github.run_number }})"}
 
       - name: Paste the report link into the PR
         uses: Sibz/github-status-action@v1
@@ -501,6 +508,7 @@ jobs:
           description: "Completed"
           state: "success"
           sha: ${{github.event.pull_request.head.sha || github.sha}}
+          target_url: https://satellite-im.github.io/testing-uplink/allure-history/${{ github.run_number }}
 
   remove-artifacts:
     needs:
@@ -526,37 +534,14 @@ jobs:
             Failed Automated Test
           type: remove
 
-      - name: Delete app Windows
+      - name: Delete artifacts
         uses: geekyeggo/delete-artifact@v2
         with:
-          name: Uplink-windows-latest
-
-      - name: Delete app MacOS
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: Uplink-macos-latest
-
-      - name: Delete test reports Windows CI
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: test-report-windows-ci
-
-      - name: Delete test reports Windows Chats
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: test-report-windows-chats
-
-      - name: Delete Allure test reports Mac
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: test-allure-mac-ci
-
-      - name: Delete Allure test reports Windows CI
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: test-allure-windows-ci
-
-      - name: Delete Allure test reports Windows Chats
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: test-allure-windows-chats
+          name: |
+            Uplink-windows-latest
+            Uplink-macos-latest
+            test-report-windows-ci
+            test-report-windows-chats
+            test-allure-mac-ci
+            test-allure-windows-ci
+            test-allure-windows-chats
