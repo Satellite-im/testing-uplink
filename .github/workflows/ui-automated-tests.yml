@@ -488,10 +488,10 @@ jobs:
       - name: Deploy report to Github Pages
         if: always()
         uses: peaceiris/actions-gh-pages@v3
-        env:
-          PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PUBLISH_BRANCH: gh-pages
-          PUBLISH_DIR: allure-history
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: allure-history
 
   remove-artifacts:
     needs:
@@ -536,3 +536,18 @@ jobs:
         uses: geekyeggo/delete-artifact@v2
         with:
           name: test-report-windows-chats
+
+      - name: Delete Allure test reports Mac
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: test-allure-mac-ci
+
+      - name: Delete Allure test reports Windows CI
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: test-allure-windows-ci
+
+      - name: Delete Allure test reports Windows Chats
+        uses: geekyeggo/delete-artifact@v2
+        with:
+          name: test-allure-windows-chats
