@@ -493,6 +493,15 @@ jobs:
           publish_branch: gh-pages
           publish_dir: allure-history
 
+      - name: Paste the report link into the PR
+        uses: Sibz/github-status-action@v1
+        with:
+          authToken: ${{secrets.GITHUB_TOKEN}}
+          context: "Automated Tests Results"
+          description: "Completed"
+          state: "success"
+          sha: ${{github.event.pull_request.head.sha || github.sha}}
+
   remove-artifacts:
     needs:
       [
