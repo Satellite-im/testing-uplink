@@ -186,15 +186,12 @@ jobs:
       - name: Run Tests on MacOS 🧪
         run: npm run mac.ci
 
-      - name: Publish Test Results for MacOS
-        uses: EnricoMi/publish-unit-test-result-action/composite@v2
+      - name: Upload Test Report - MacOS CI
         if: always()
+        uses: actions/upload-artifact@v3
         with:
-          junit_files: "./test-report/*.xml"
-          ignore_runs: true
-          job_summary: false
-          compare_to_earlier_commit: false
-          check_name: "UI Automated Test Results on MacOS"
+          name: test-report-macos-ci
+          path: ./test-report/*.xml
 
       - name: Upload Allure Test Results
         if: always()
@@ -428,6 +425,12 @@ jobs:
       issues: read
 
     steps:
+      - name: Download Test Report for MacOS CI
+        uses: actions/download-artifact@v3
+        with:
+          name: test-report-macos-ci
+          path: artifacts
+
       - name: Download Test Report for Windows Chats
         uses: actions/download-artifact@v3
         with:
@@ -458,14 +461,14 @@ jobs:
           name: test-allure-windows-chats
           path: allure
 
-      - name: Publish Test Results for Windows Tests
+      - name: Publish Test Results for Tests
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
         with:
           junit_files: "artifacts/**/*.xml"
           ignore_runs: true
           job_summary: false
           compare_to_earlier_commit: false
-          check_name: "UI Automated Test Results for Windows"
+          check_name: "UI Automated Test Results Summary for MacOS/Windows"
 
       - name: Get Allure history
         uses: actions/checkout@v3
@@ -493,12 +496,13 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./allure-history
+          destination_dir: allure-report
 
       - name: Comment PR with the Test Results
         uses: thollander/actions-comment-pull-request@v2
         with:
           message: |
-            UI Automated Test Results Report can be found [here](https://satellite-im.github.io/testing-uplink/allure-history/${{ github.run_number }})"}
+            UI Automated Test Results Report can be found [here](https://satellite-im.github.io/testing-uplink/allure-report/${{ github.run_number }})
 
       - name: Paste the report link into the PR
         uses: Sibz/github-status-action@v1
@@ -508,7 +512,7 @@ jobs:
           description: "Completed"
           state: "success"
           sha: ${{github.event.pull_request.head.sha || github.sha}}
-          target_url: https://satellite-im.github.io/testing-uplink/allure-history/${{ github.run_number }}
+          target_url: https://satellite-im.github.io/testing-uplink/allure-report/${{ github.run_number }}
 
   remove-artifacts:
     needs:
@@ -540,6 +544,7 @@ jobs:
           name: |
             Uplink-windows-latest
             Uplink-macos-latest
+            test-report-macos-ci
             test-report-windows-ci
             test-report-windows-chats
             test-allure-mac-ci
