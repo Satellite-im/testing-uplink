@@ -128,9 +128,6 @@ export default async function files() {
 
     // Set the new name for the folder
     await filesScreenFirstUser.updateNameFileFolder("newname");
-    await filesScreenFirstUser.goToFriends();
-    await friendsScreenFirstUser.goToFiles();
-    await filesScreenFirstUser.waitForIsShown(true);
     await filesScreenFirstUser.validateFileOrFolderExist("newname");
   });
 

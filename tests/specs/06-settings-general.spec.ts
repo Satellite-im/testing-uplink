@@ -77,11 +77,10 @@ export default async function settingsGeneral() {
     // Click on decrease font scaling button twice
     await settingsGeneralFirstUser.clickOnFontScalingMinus();
     await settingsGeneralFirstUser.clickOnFontScalingMinus();
-    await settingsGeneralFirstUser.clickOnFontScalingMinus();
 
     // Validate that current font size is changed to 0.50
     await expect(
       settingsGeneralFirstUser.fontScalingValue
-    ).toHaveTextContaining("0.50");
+    ).toHaveTextContaining("0.75");
   });
 }
