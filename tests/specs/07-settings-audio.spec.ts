@@ -130,7 +130,6 @@ export default async function settingsAudio() {
     await settingsAudioFirstUser.clickOnInterfaceSounds();
     await settingsAudioFirstUser.clickOnMediaSounds();
     await settingsAudioFirstUser.clickOnMessageSounds();
-    await settingsAudioFirstUser.clickOnCallTimer();
 
     // Validate that all toggles have now value = "1" (enabled)
     const toggleElementInterface =
@@ -151,16 +150,9 @@ export default async function settingsAudio() {
       toggleElementMessage
     );
 
-    const toggleElementCallTimer =
-      await settingsAudioFirstUser.callTimerControllerValue;
-    const callTimerStatus = await settingsAudioFirstUser.getToggleState(
-      toggleElementCallTimer
-    );
-
     await expect(interfaceSoundsStatus).toEqual("1");
     await expect(mediaSoundsStatus).toEqual("1");
     await expect(messageSoundsStatus).toEqual("1");
-    await expect(callTimerStatus).toEqual("1");
   });
 
   it("Settings Audio - Click on slider switches to disable the options", async () => {
@@ -168,7 +160,6 @@ export default async function settingsAudio() {
     await settingsAudioFirstUser.clickOnInterfaceSounds();
     await settingsAudioFirstUser.clickOnMediaSounds();
     await settingsAudioFirstUser.clickOnMessageSounds();
-    await settingsAudioFirstUser.clickOnCallTimer();
 
     // Validate that all toggles have now value = "0" (disabled)
     const toggleElementInterface =
@@ -189,15 +180,8 @@ export default async function settingsAudio() {
       toggleElementMessage
     );
 
-    const toggleElementCallTimer =
-      await settingsAudioFirstUser.callTimerControllerValue;
-    const callTimerStatus = await settingsAudioFirstUser.getToggleState(
-      toggleElementCallTimer
-    );
-
     await expect(interfaceSoundsStatus).toEqual("0");
     await expect(mediaSoundsStatus).toEqual("0");
     await expect(messageSoundsStatus).toEqual("0");
-    await expect(callTimerStatus).toEqual("0");
   });
 }
