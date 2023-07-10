@@ -1,5 +1,7 @@
 # UI Tests
 appium.log
+allure-report/
+allure-results/
 apps/
 node_modules/
 package-lock.json

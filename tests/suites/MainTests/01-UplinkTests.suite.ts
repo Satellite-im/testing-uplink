@@ -12,7 +12,7 @@ import settingsAbout from "../../specs/12-settings-about.spec";
 import friends from "../../specs/04-friends.spec";
 import createReusableAccounts from "../../specs/13-create-reusable-accounts.spec";
 
-describe("Uplink UI Automated Tests", function () {
+describe("MacOS Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));
   describe("Chats Main Screen Tests", chats.bind(this));
   describe("Files Screen Tests", files.bind(this));

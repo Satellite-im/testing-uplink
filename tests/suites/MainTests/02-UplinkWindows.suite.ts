@@ -10,7 +10,7 @@ import settingsDeveloper from "../../specs/10-settings-developer.spec";
 import settingsAccessibility from "../../specs/11-settings-accessibility.spec";
 import settingsAbout from "../../specs/12-settings-about.spec";
 
-describe("Uplink UI Automated Tests", function () {
+describe("Windows Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));
   describe("Chats Main Screen Tests", chats.bind(this));
   describe("Files Screen Tests", files.bind(this));
