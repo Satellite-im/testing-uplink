@@ -1,6 +1,6 @@
 import { homedir } from "os";
 import { join } from "path";
-import { MACOS_BUNDLE_ID, MACOS_DRIVER } from "../tests/helpers/constants";
+import { MACOS_USER_A_BUNDLE_ID, MACOS_USER_B_BUNDLE_ID, MACOS_DRIVER } from "../tests/helpers/constants";
 const fsp = require("fs").promises;
 const { rmSync } = require("fs");
 
@@ -62,7 +62,7 @@ exports.config = {
         capabilities: {
           platformName: "mac",
           "appium:automationName": MACOS_DRIVER,
-          "appium:bundleId": MACOS_BUNDLE_ID,
+          "appium:bundleId": MACOS_USER_A_BUNDLE_ID,
           "appium:arguments": ["--path", homedir() + "/.uplinkUserA"],
           "appium:systemPort": 4725,
         }
@@ -71,7 +71,7 @@ exports.config = {
         capabilities: {
           platformName: "mac",
           "appium:automationName": MACOS_DRIVER,
-          "appium:bundleId": MACOS_BUNDLE_ID,
+          "appium:bundleId": MACOS_USER_B_BUNDLE_ID,
           "appium:arguments": ["--path", homedir() + "/.uplinkUserB"],
           "appium:systemPort": 4726,
         }
