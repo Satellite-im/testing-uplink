@@ -373,9 +373,6 @@ jobs:
         run: If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }
         shell: powershell
 
-      - name: Copy reusable data
-        run: cp -r ./tests/fixtures/users/FriendsTestUser/ ./tests/fixtures/users/windows/FriendsTestUser
-
       - name: Run Tests on Windows 🧪
         id: test-execution-windows
         run: npm run windows.ci

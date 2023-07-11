@@ -199,10 +199,14 @@ exports.config = {
       const cacheFolder = homedir() + "\\.uplink\\.user"
       const testReportFolder =  join(process.cwd(), "\\test-report")
       const testResultsFolder =  join(process.cwd(), "\\test-results")
+      const sourceReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\FriendsTestUser")
+      const targetReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\windows\\FriendsTestUser")
       await rmSync(allureResultsFolder, { recursive: true, force: true });
       await rmSync(cacheFolder, { recursive: true, force: true });
       await rmSync(testReportFolder, { recursive: true, force: true });
       await rmSync(testResultsFolder, { recursive: true, force: true });
+      await fsp.mkdir(targetReusableData, { recursive: true });
+      await fsp.cp(sourceReusableData, targetReusableData, { recursive: true });
     },
  
     afterTest: async function (test, describe, { error }) {
