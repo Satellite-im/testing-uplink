@@ -1,4 +1,3 @@
-import { homedir } from "os";
 import { join } from "path";
 const fsp = require("fs").promises;
 const userACacheFolder = join(process.cwd(), "./apps/ChatUserA/.user")
