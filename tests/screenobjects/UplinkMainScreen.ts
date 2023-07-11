@@ -115,18 +115,19 @@ export default class UplinkMainScreen extends AppScreen {
     return this.instance.$(SELECTORS.BACK_BUTTON);
   }
 
-  get buttonBadge() {
-    return this.instance.$(SELECTORS.BUTTON_BADGE);
-  }
-
-  get buttonBadgeText() {
-    return this.instance
-      .$(SELECTORS.BUTTON_BADGE)
-      .$(SELECTORS.BUTTON_BADGE_TEXT);
-  }
-
   get buttonNav() {
     return this.instance.$(SELECTORS.BUTTON_NAV);
+  }
+
+  get buttonNavBarButtonBadge() {
+    return this.instance.$(SELECTORS.BUTTON_NAV).$(SELECTORS.BUTTON_BADGE);
+  }
+
+  get buttonNavBarButtonBadgeText() {
+    return this.instance
+      .$(SELECTORS.BUTTON_NAV)
+      .$(SELECTORS.BUTTON_BADGE)
+      .$(SELECTORS.BUTTON_BADGE_TEXT);
   }
 
   get chatSearchInput() {
@@ -403,13 +404,6 @@ export default class UplinkMainScreen extends AppScreen {
 
   async goToSettings() {
     await this.settingsButton.click();
-  }
-
-  // Button Badges methods
-
-  async validateTextFromButtonBadge(expectedText: string) {
-    const badgeText = await this.instance.$('//*[@label="Button Badge"]/*[1]');
-    await expect($(badgeText)).toHaveTextContaining(expectedText);
   }
 
   // Hovering methods

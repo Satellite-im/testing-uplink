@@ -42,6 +42,20 @@ export default async function friends() {
     await expect(friendsScreenFirstUser.settingsButton).toBeDisplayed();
   });
 
+  it("Friends Screen - Displays a badge showing 4 pending requests on Navigation Bar ", async () => {
+    await friendsScreenFirstUser.buttonNavBarButtonBadge.waitForDisplayed();
+    await expect(
+      friendsScreenFirstUser.buttonNavBarButtonBadgeText
+    ).toHaveTextContaining("4");
+  });
+
+  it("Friends Screen - Displays a badge showing 4 pending requests on Pending Friends Button", async () => {
+    await friendsScreenFirstUser.friendsButtonBadge.waitForDisplayed();
+    await expect(
+      friendsScreenFirstUser.friendsButtonBadgeText
+    ).toHaveTextContaining("4");
+  });
+
   it("User can type on user search input bar", async () => {
     await friendsScreenFirstUser.enterFriendDidKey("Hello");
     await expect(friendsScreenFirstUser.addSomeoneInput).toHaveTextContaining(

@@ -10,7 +10,6 @@ import settingsDeveloper from "../../specs/10-settings-developer.spec";
 import settingsAccessibility from "../../specs/11-settings-accessibility.spec";
 import settingsAbout from "../../specs/12-settings-about.spec";
 import friends from "../../specs/04-friends.spec";
-import createReusableAccounts from "../../specs/13-create-reusable-accounts.spec";
 
 describe("MacOS Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));
@@ -25,5 +24,4 @@ describe("MacOS Tests", function () {
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Settings About Tests", settingsAbout.bind(this));
   describe("Friends Screen Tests", friends.bind(this));
-  describe("Create Test Accounts on MacOS", createReusableAccounts.bind(this));
 });
