@@ -11,8 +11,9 @@ let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function friends() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    // Go to Friends Screen
     await resetAndLoginWithCache("FriendsTestUser");
+
+    // Go to Friends Screen
     await welcomeScreenFirstUser.goToFriends();
     await friendsScreenFirstUser.waitForIsShown(true);
 

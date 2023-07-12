@@ -29,7 +29,14 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export async function deleteCache() {
   const target = homedir() + "/.uplink/.user";
-  await rmSync(target, { recursive: true, force: true });
+  try {
+    await rmSync(target, { recursive: true, force: true });
+    console.log("Deleted user cache successfully");
+  } catch (error) {
+    console.error(
+      `Got an error trying to delete the user cache files: ${error.message}`
+    );
+  }
 }
 
 export async function grabCacheFolder(username: string, instance: string) {
@@ -51,18 +58,10 @@ export async function loadTestUserData(user: string, instance: string) {
   // Move files
   const currentDriver = await driver[instance].capabilities.automationName;
   let source, target;
-  if (currentDriver === "mac2") {
-    source = "./tests/fixtures/users/mac2/" + user;
-    target = homedir() + "/.uplink";
-  } else if (currentDriver === "windows") {
-    source = join(
-      process.cwd(),
-      "\\tests\\fixtures\\users\\windows\\" + user + "\\.user"
-    );
-    target = homedir() + "\\.uplink\\.user";
-  }
+  source = "./tests/fixtures/users/" + currentDriver + "/" + user;
+  target = homedir() + "/.uplink";
+  await deleteCache();
   try {
-    await deleteCache();
     await fsp.cp(source, target, { recursive: true }, { force: true });
     console.log("Copied user cache successfully");
   } catch (error) {
@@ -179,9 +178,7 @@ export async function resetApp(instance: string) {
 
 export async function resetAndLoginWithCache(user: string) {
   await closeApplication(USER_A_INSTANCE);
-  await driver[USER_A_INSTANCE].pause(2000);
   await deleteCache();
-  await driver[USER_A_INSTANCE].pause(2000);
   await loadTestUserData(user, USER_A_INSTANCE);
   await launchApplication(USER_A_INSTANCE);
   await loginWithTestUser();
