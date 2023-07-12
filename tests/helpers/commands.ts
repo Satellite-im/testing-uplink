@@ -179,7 +179,9 @@ export async function resetApp(instance: string) {
 
 export async function resetAndLoginWithCache(user: string) {
   await closeApplication(USER_A_INSTANCE);
+  await driver[USER_A_INSTANCE].pause(2000);
   await deleteCache();
+  await driver[USER_A_INSTANCE].pause(2000);
   await loadTestUserData(user, USER_A_INSTANCE);
   await launchApplication(USER_A_INSTANCE);
   await loginWithTestUser();
