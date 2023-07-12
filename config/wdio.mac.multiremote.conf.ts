@@ -135,14 +135,6 @@ exports.config = {
             log: "./appium.log"
           },
         }], 
-        ["appium", { 
-          command: "appium", 
-          args: {
-            port: 4724,
-            relaxedSecurity: true, 
-            log: "./appium2.log"
-          },
-        }], 
       ],
     
     // Framework you want to run your specs with.
