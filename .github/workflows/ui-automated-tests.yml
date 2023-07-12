@@ -244,7 +244,7 @@ jobs:
         working-directory: ./apps
         run: |
           unzip Uplink-Mac-Universal.zip
-          cp -r ./Uplink.app /Uplink2.app
+          cp -r ./Uplink.app ./Uplink2.app
           perl -i -pe 's/im.satellite.uplink/im.satellite.uplinkChatUserA/g' ./Uplink.app/Contents/Info.plist
           perl -i -pe 's/im.satellite.uplink/im.satellite.uplinkChatUserB/g' ./Uplink2.app/Contents/Info.plist
           cp -r ./Uplink.app /Applications/
