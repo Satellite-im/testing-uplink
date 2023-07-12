@@ -287,11 +287,16 @@ jobs:
 
       - name: Open two instances of MacOS application
         run: |
-          /Applications/Uplink.app/Contents/MacOS/uplink --path ~/.uplinkUserA
-          /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserB
+          /Applications/Uplink.app/Contents/MacOS/uplink --path ~/.uplinkUserA &
+          /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserB &
 
       - name: Run Chat Tests on MacOS 🧪
         run: npm run mac.multiremote
+
+      - name: Close open instances from Uplink
+        run: |
+          kill $(ps aux | grep '/Applications/Uplink.app' | awk '{print $2}')
+          kill $(ps aux | grep '/Applications/Uplink2.app' | awk '{print $2}')
 
       - name: Upload Test Report - MacOS Chats
         if: always()
