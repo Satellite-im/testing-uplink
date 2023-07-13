@@ -29,7 +29,7 @@ exports.config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [join(process.cwd(), "./tests/suites/MainTests/**Windows.suite.ts")],
+    specs: [join(process.cwd(), "./tests/suites/MainTests/02-UplinkWindows.suite.ts")],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -50,7 +50,7 @@ exports.config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 1,
+    maxInstances: 10,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -67,9 +67,6 @@ exports.config = {
           "appium:app": join(process.cwd(), "\\apps\\uplink.exe"),
           "ms:waitForAppLaunch": 30,
           "appium:prerun": {
-            command: 'If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }',
-          },
-          "appium:postrun": {
             command: 'If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }',
           },
         }
