@@ -23,6 +23,7 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_FILE_NAME_TEXT: "//Text",
   CHAT_MESSAGE_LINK_EMBED: '[name="link-embed"]',
   CHAT_MESSAGE_LINK_EMBED_DETAILS: '[name="embed-details"]',
+  CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT: "//Text",
   CHAT_MESSAGE_LINK_EMBED_ICON: '[name="embed-icon"]',
   CHAT_MESSAGE_LINK_EMBED_TITLE: '[name="link-title"]',
   CHAT_MESSAGE_LOCAL: '[name="message-local"]',
@@ -45,6 +46,8 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_FILE_NAME_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_LINK_EMBED: "~link-embed",
   CHAT_MESSAGE_LINK_EMBED_DETAILS: "~embed-details",
+  CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_LINK_EMBED_ICON: "~embed-icon",
   CHAT_MESSAGE_LINK_EMBED_TITLE: "~link-title",
   CHAT_MESSAGE_LOCAL: "~message-local",
@@ -469,6 +472,73 @@ export default class Messages extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
     return lastMessageFileName;
+  }
+
+  // Messages With Links Methods
+  async getLastMessageReceivedLinkEmbed() {
+    const lastMessage = await this.getLastMessageReceivedLocator();
+    const lastMessageLinkEmbed = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED
+    );
+    return lastMessageLinkEmbed;
+  }
+
+  async getLastMessageReceivedLinkEmbedDetailsText() {
+    const linkEmbedLastMessage = await this.getLastMessageReceivedLinkEmbed();
+    const linkEmbedDetailsText = await linkEmbedLastMessage
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
+    return linkEmbedDetailsText;
+  }
+
+  async getLastMessageReceivedLinkEmbedIcon() {
+    const linkEmbedLastMessage = await this.getLastMessageReceivedLinkEmbed();
+    const linkEmbedIcon = await linkEmbedLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
+    );
+    return linkEmbedIcon;
+  }
+
+  async getLastMessageReceivedLinkEmbedIconTitle() {
+    const linkEmbedIconLastMessage =
+      await this.getLastMessageReceivedLinkEmbedIcon();
+    const iconTitle = await linkEmbedIconLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
+    );
+    return iconTitle;
+  }
+
+  async getLastMessageSentLinkEmbed() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const lastMessageLinkEmbed = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED
+    );
+    return lastMessageLinkEmbed;
+  }
+
+  async getLastMessageSentLinkEmbedDetailsText() {
+    const linkEmbedLastMessage = await this.getLastMessageSentLinkEmbed();
+    const linkEmbedDetailsText = await linkEmbedLastMessage
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
+    return linkEmbedDetailsText;
+  }
+
+  async getLastMessageSentLinkEmbedIcon() {
+    const linkEmbedLastMessage = await this.getLastMessageSentLinkEmbed();
+    const linkEmbedIcon = await linkEmbedLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
+    );
+    return linkEmbedIcon;
+  }
+
+  async getLastMessageSentLinkEmbedIconTitle() {
+    const linkEmbedIconLastMessage =
+      await this.getLastMessageSentLinkEmbedIcon();
+    const iconTitle = await linkEmbedIconLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
+    );
+    return iconTitle;
   }
 
   // Context Menu Functions
