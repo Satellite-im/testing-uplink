@@ -29,7 +29,14 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export async function deleteCache() {
   const target = homedir() + "/.uplink/.user";
-  await rmSync(target, { recursive: true, force: true });
+  try {
+    await rmSync(target, { recursive: true, force: true });
+    console.log("Deleted user cache successfully");
+  } catch (error) {
+    console.error(
+      `Got an error trying to delete the user cache files: ${error.message}`
+    );
+  }
 }
 
 export async function grabCacheFolder(username: string, instance: string) {
@@ -50,10 +57,11 @@ export async function grabCacheFolder(username: string, instance: string) {
 export async function loadTestUserData(user: string, instance: string) {
   // Move files
   const currentDriver = await driver[instance].capabilities.automationName;
-  const source = "./tests/fixtures/users/" + currentDriver + "/" + user;
-  const target = homedir() + "/.uplink";
+  let source, target;
+  source = "./tests/fixtures/users/" + currentDriver + "/" + user;
+  target = homedir() + "/.uplink";
+  await deleteCache();
   try {
-    await deleteCache();
     await fsp.cp(source, target, { recursive: true }, { force: true });
     console.log("Copied user cache successfully");
   } catch (error) {

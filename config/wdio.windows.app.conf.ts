@@ -68,7 +68,7 @@ exports.config = {
           "ms:waitForAppLaunch": 30,
           "appium:prerun": {
             command: 'If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }',
-          },  
+          },
         }
       },
     },
@@ -195,14 +195,41 @@ exports.config = {
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
     onPrepare: async function() {
+      // Declare constants for folder locations
       const allureResultsFolder = join(process.cwd(), "\\allure-results")
       const cacheFolder = homedir() + "\\.uplink\\.user"
       const testReportFolder =  join(process.cwd(), "\\test-report")
       const testResultsFolder =  join(process.cwd(), "\\test-results")
-      await rmSync(allureResultsFolder, { recursive: true, force: true });
-      await rmSync(cacheFolder, { recursive: true, force: true });
-      await rmSync(testReportFolder, { recursive: true, force: true });
-      await rmSync(testResultsFolder, { recursive: true, force: true });
+      const sourceReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\FriendsTestUser")
+      const targetReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\windows\\FriendsTestUser")
+      // Execute the actions to clean up folders and copy required data
+      try {
+        await rmSync(allureResultsFolder, { recursive: true, force: true });
+        await rmSync(testReportFolder, { recursive: true, force: true });
+        await rmSync(testResultsFolder, { recursive: true, force: true });
+        console.log("Deleted Artifacts Folders Successfully!");
+      } catch (error) {
+        console.error(
+          `Got an error trying to delete artifacts folders: ${error.message}`
+        );
+      }
+      try {
+        await rmSync(cacheFolder, { recursive: true, force: true });
+        console.log("Deleted Cache Folder Successfully!");
+      } catch (error) {
+        console.error(
+          `Got an error trying to delete Cache Folder: ${error.message}`
+        );
+      }
+      try {
+        await fsp.mkdir(targetReusableData, { recursive: true });
+        await fsp.cp(sourceReusableData, targetReusableData, { recursive: true, force: true });
+        console.log("Copied Friends Test User Data successfully!");
+      } catch (error) {
+        console.error(
+          `Got an error trying to copy Friends Test Folder: ${error.message}`
+        );
+      }
     },
  
     afterTest: async function (test, describe, { error }) {
