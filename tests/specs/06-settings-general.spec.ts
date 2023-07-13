@@ -73,12 +73,12 @@ export default async function settingsGeneral() {
     ).toHaveTextContaining("1.25");
   });
 
-  it("Settings General - Reduce font scaling to 0.75", async () => {
+  it("Settings General - Reduce font scaling to 0.50", async () => {
     // Click on decrease font scaling button twice
     await settingsGeneralFirstUser.clickOnFontScalingMinus();
     await settingsGeneralFirstUser.clickOnFontScalingMinus();
 
-    // Validate that current font size is changed to 0.75
+    // Validate that current font size is changed to 0.50
     await expect(
       settingsGeneralFirstUser.fontScalingValue
     ).toHaveTextContaining("0.75");

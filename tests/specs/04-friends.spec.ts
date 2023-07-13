@@ -11,8 +11,9 @@ let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function friends() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    // Go to Friends Screen
     await resetAndLoginWithCache("FriendsTestUser");
+
+    // Go to Friends Screen
     await welcomeScreenFirstUser.goToFriends();
     await friendsScreenFirstUser.waitForIsShown(true);
 
@@ -40,6 +41,20 @@ export default async function friends() {
   it("Go to Friends Screen and validate elements displayed", async () => {
     await expect(friendsScreenFirstUser.friendsLayout).toBeDisplayed();
     await expect(friendsScreenFirstUser.settingsButton).toBeDisplayed();
+  });
+
+  it("Friends Screen - Displays a badge showing 4 pending requests on Navigation Bar ", async () => {
+    await friendsScreenFirstUser.buttonNavBarButtonBadge.waitForDisplayed();
+    await expect(
+      friendsScreenFirstUser.buttonNavBarButtonBadgeText
+    ).toHaveTextContaining("4");
+  });
+
+  it("Friends Screen - Displays a badge showing 4 pending requests on Pending Friends Button", async () => {
+    await friendsScreenFirstUser.friendsButtonBadge.waitForDisplayed();
+    await expect(
+      friendsScreenFirstUser.friendsButtonBadgeText
+    ).toHaveTextContaining("4");
   });
 
   it("User can type on user search input bar", async () => {

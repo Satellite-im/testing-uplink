@@ -2,6 +2,7 @@ import { homedir } from "os";
 import { join } from "path";
 import { MACOS_DRIVER, MACOS_USER_A_BUNDLE_ID, MACOS_USER_B_BUNDLE_ID } from "../tests/helpers/constants";
 const fsp = require("fs").promises;
+const { rmSync } = require("fs");
 
 exports.config = {
     //
@@ -166,10 +167,14 @@ exports.config = {
             outputFileFormat: function (options) {
                 return `test-results-macos-multiremote-${options.cid}.xml`;
             }
-      }]],
-
-
-    
+      }],
+      ['allure', 
+      {
+        outputDir: './allure-results',
+        disableWebdriverStepsReporting: true,
+        disableWebdriverScreenshotsReporting: true,
+      }
+    ]],
     //
     // Options to be passed to Mocha.
     mochaOpts: {
@@ -194,8 +199,18 @@ exports.config = {
      * @param {Object} config wdio configuration object
      * @param {Array.<Object>} capabilities list of capabilities details
      */
-    // onPrepare: function (config, capabilities) {
-    // },
+    onPrepare: async function() {
+      const allureResultsFolder = join(process.cwd(), "./allure-results");
+      const cacheFolderUserA = homedir() + "/.uplinkUserA/.user";
+      const cacheFolderUserB = homedir() + "/.uplinkUserB/.user";
+      const testReportFolder =  join(process.cwd(), "./test-report");
+      const testResultsFolder =  join(process.cwd(), "./test-results");
+      await rmSync(allureResultsFolder, { recursive: true, force: true });
+      await rmSync(cacheFolderUserA, { recursive: true, force: true });
+      await rmSync(cacheFolderUserB, { recursive: true, force: true });
+      await rmSync(testReportFolder, { recursive: true, force: true });
+      await rmSync(testResultsFolder, { recursive: true, force: true });
+    },
     /**
      * Gets executed before a worker process is spawned and can be used to initialise specific service
      * for that worker as well as modify runtime environments in an async fashion.

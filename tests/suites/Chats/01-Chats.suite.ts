@@ -9,7 +9,7 @@ import repliesTests from "../../specs/reusable-accounts/02-chat-replies.spec";
 import quickProfileTests from "../../specs/reusable-accounts/07-quick-profile.spec";
 import sidebarChatsTests from "../../specs/reusable-accounts/08-sidebar-chats.spec";
 
-describe("Chat and Friends Tests with two users", function () {
+describe("Windows Chats Tests", function () {
   describe(
     "Create Accounts and Chat Tests",
     createChatAccountsTests.bind(this)

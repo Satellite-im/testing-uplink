@@ -26,6 +26,7 @@ const SELECTORS_WINDOWS = {
   ADD_SOMEONE_INPUT: '[name="Add Someone Input"]',
   ADD_SOMEONE_LABEL: '[name="add-friend-label"]',
   ALL_FRIENDS_BUTTON: '[name="all-friends-button"]',
+  ALL_FRIENDS_LIST_IMAGE: "//Image[1]",
   BLOCK_FRIEND_BUTTON: '[name="Block Friend"]',
   BLOCKED_LIST: '[name="Blocked List"]',
   BLOCKED_LIST_BUTTON: '[name="blocked-friends-button"]',
@@ -79,6 +80,7 @@ const SELECTORS_MACOS = {
   ADD_SOMEONE_INPUT: "~Add Someone Input",
   ADD_SOMEONE_LABEL: "~add-friend-label",
   ALL_FRIENDS_BUTTON: "~all-friends-button",
+  ALL_FRIENDS_LIST_IMAGE: "-ios class chain:**/XCUIElementTypeImage",
   BLOCK_FRIEND_BUTTON: "~Block Friend",
   BLOCKED_LIST: "~Blocked List",
   BLOCKED_LIST_BUTTON: "~blocked-friends-button",
@@ -172,6 +174,12 @@ export default class FriendsScreen extends UplinkMainScreen {
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.FRIEND)
       .$$(SELECTORS.FRIEND_INFO);
+  }
+
+  get allFriendsListImage() {
+    return this.instance
+      .$(SELECTORS.FRIENDS_LIST)
+      .$(SELECTORS.ALL_FRIENDS_LIST_IMAGE);
   }
 
   get blockFriendButton() {
@@ -397,11 +405,6 @@ export default class FriendsScreen extends UplinkMainScreen {
   async getAbbreviatedFavUser(user: string) {
     const abbreviated = user.substr(0, 4).toUpperCase() + "...";
     return abbreviated;
-  }
-
-  async getButtonBadgeText() {
-    const text = await this.buttonBadgeText.getText();
-    return text;
   }
 
   async getAllFriendsList() {

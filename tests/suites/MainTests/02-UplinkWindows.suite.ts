@@ -1,6 +1,7 @@
 import createAccount from "../../specs/01-create-account.spec";
 import chats from "../../specs/02-chats.spec";
 import files from "../../specs/03-files.spec";
+import friends from "../../specs/04-friends.spec";
 import settingsProfile from "../../specs/05-settings-profile.spec";
 import settingsGeneral from "../../specs/06-settings-general.spec";
 import settingsAudio from "../../specs/07-settings-audio.spec";
@@ -10,7 +11,7 @@ import settingsDeveloper from "../../specs/10-settings-developer.spec";
 import settingsAccessibility from "../../specs/11-settings-accessibility.spec";
 import settingsAbout from "../../specs/12-settings-about.spec";
 
-describe("Uplink UI Automated Tests", function () {
+describe("Windows Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));
   describe("Chats Main Screen Tests", chats.bind(this));
   describe("Files Screen Tests", files.bind(this));
@@ -22,4 +23,5 @@ describe("Uplink UI Automated Tests", function () {
   describe("Settings Notifications Tests", settingsNotifications.bind(this));
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Settings About Tests", settingsAbout.bind(this));
+  describe("Friends Screen Tests", friends.bind(this));
 });
