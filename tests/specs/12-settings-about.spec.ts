@@ -36,7 +36,7 @@ export default async function settingsAbout() {
 
     // Validate the header and description texts from Settings Section - About - Open Source Code
     await expect(settingsAboutFirstUser.openSourceHeader).toHaveTextContaining(
-      "OPEN SOURCE CODE"
+      "OPEN SOURCE CODEE"
     );
     await expect(
       settingsAboutFirstUser.openSourceDescription
