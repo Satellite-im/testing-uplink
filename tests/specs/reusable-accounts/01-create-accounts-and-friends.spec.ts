@@ -170,7 +170,7 @@ export default async function createChatAccountsTests() {
     await expect(
       chatsLayoutFirstUser.encryptedMessagesText
     ).toHaveTextContaining(
-      "Messages are secured by end-to-end encryption and sent over a peer-to-peer network."
+      "MessageZZZ are secured by end-to-end encryption and sent over a peer-to-peer network."
     );
   });
 
