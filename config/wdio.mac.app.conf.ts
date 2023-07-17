@@ -69,6 +69,18 @@ export const config: WebdriverIO.Config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     reporters: [
+      ["spec", 
+        {
+          showPreface: false,
+        },
+      ], 
+      ['allure', 
+        {
+          outputDir: './allure-results',
+          disableWebdriverStepsReporting: true,
+          disableWebdriverScreenshotsReporting: false,
+        }
+      ],
       ['junit', 
         {
           outputDir: './test-report/',
@@ -88,6 +100,19 @@ export const config: WebdriverIO.Config = {
     // resolved to continue.
     onPrepare: async function() {
       const cacheFolder = homedir() + "/.uplink/.user";
+      const allureResultsFolder = join(process.cwd(), "./allure-results");
+      const testReportFolder =  join(process.cwd(), "./test-report");
+      const testResultsFolder =  join(process.cwd(), "./test-results");
+      try {
+        await rmSync(allureResultsFolder, { recursive: true, force: true });
+        await rmSync(testReportFolder, { recursive: true, force: true });
+        await rmSync(testResultsFolder, { recursive: true, force: true });
+        console.log("Deleted Artifacts Folders Successfully!");
+      } catch (error) {
+        console.error(
+            `Got an error trying to delete artifacts folders: ${error.message}`
+        );
+      }
       try {
         await rmSync(cacheFolder, { recursive: true, force: true });
         console.log("Deleted Cache Folder Successfully!");

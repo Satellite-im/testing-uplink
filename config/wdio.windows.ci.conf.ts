@@ -71,6 +71,18 @@ export const config: WebdriverIO.Config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: [
+      ["spec", 
+        {
+          showPreface: false,
+        },
+      ], 
+      ['allure', 
+        {
+          outputDir: './allure-results',
+          disableWebdriverStepsReporting: true,
+          disableWebdriverScreenshotsReporting: false,
+        }
+      ],
       ['junit', 
         {
           outputDir: './test-report/',
@@ -93,6 +105,19 @@ export const config: WebdriverIO.Config = {
       const cacheFolder = homedir() + "\\.uplink\\.user"
       const sourceReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\FriendsTestUser")
       const targetReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\windows\\FriendsTestUser")
+      const allureResultsFolder = join(process.cwd(), "\\allure-results");
+      const testReportFolder =  join(process.cwd(), "\\test-report");
+      const testResultsFolder =  join(process.cwd(), "\\test-results");
+      try {
+        await rmSync(allureResultsFolder, { recursive: true, force: true });
+        await rmSync(testReportFolder, { recursive: true, force: true });
+        await rmSync(testResultsFolder, { recursive: true, force: true });
+        console.log("Deleted Artifacts Folders Successfully!");
+      } catch (error) {
+        console.error(
+            `Got an error trying to delete artifacts folders: ${error.message}`
+        );
+      }
       // Execute the actions to clean up folders and copy required data
       try {
         await rmSync(cacheFolder, { recursive: true, force: true });

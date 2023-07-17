@@ -1,6 +1,3 @@
-import { join } from "path";
-const { rmSync } = require("fs");
-
 // @ts-expect-error
 export const config: WebdriverIO.Config = {
     //
@@ -101,24 +98,6 @@ export const config: WebdriverIO.Config = {
     // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
     specFileRetriesDeferred: false,
     //
-    // Test reporter for stdout.
-    // The only one supported by default is 'dot'
-    // see also: https://webdriver.io/docs/dot-reporter
-    reporters: [
-      ["spec", 
-        {
-          showPreface: false,
-        },
-      ], 
-      ['allure', 
-        {
-          outputDir: './allure-results',
-          disableWebdriverStepsReporting: true,
-          disableWebdriverScreenshotsReporting: false,
-        }
-      ] 
-    ],
-    //
     // Options to be passed to Mocha.
     mochaOpts: {
         ui: "bdd",
@@ -137,19 +116,4 @@ export const config: WebdriverIO.Config = {
     // it and to build services around it. You can either apply a single function or an array of
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
-    onPrepare: async function() {
-      const allureResultsFolder = join(process.cwd(), "./allure-results");
-      const testReportFolder =  join(process.cwd(), "./test-report");
-      const testResultsFolder =  join(process.cwd(), "./test-results");
-      try {
-        await rmSync(allureResultsFolder, { recursive: true, force: true });
-        await rmSync(testReportFolder, { recursive: true, force: true });
-        await rmSync(testResultsFolder, { recursive: true, force: true });
-        console.log("Deleted Artifacts Folders Successfully!");
-      } catch (error) {
-        console.error(
-            `Got an error trying to delete artifacts folders: ${error.message}`
-        );
-      }
-    },
 }
