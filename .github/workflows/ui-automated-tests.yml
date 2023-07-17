@@ -198,7 +198,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-allure-mac-ci
-          path: ./allure-results/*.json
+          path: ./allure-results/
 
       - name: Upload Screenshots for MacOS 📷
         uses: actions/upload-artifact@v3
@@ -295,7 +295,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-allure-windows-chats
-          path: ./allure-results/*.json
+          path: ./allure-results/
 
       - name: Upload Screenshots for Windows - Chats 📷
         uses: actions/upload-artifact@v3
@@ -389,7 +389,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-allure-windows-ci
-          path: ./allure-results/*.json
+          path: ./allure-results/
 
       - name: Upload Screenshots for Windows 📷
         uses: actions/upload-artifact@v3
