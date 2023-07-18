@@ -227,8 +227,10 @@ export default async function createChatAccountsTests() {
     await chatsTopbarFirstUser.favorites.waitForExist();
 
     // Favorites Sidebar should be displayed
-    await chatsTopbarFirstUser.favoritesUserImage.waitForDisplayed();
-    await chatsTopbarFirstUser.favoritesUserIndicatorOnline.waitForDisplayed();
+    await expect(chatsTopbarFirstUser.favoritesUserImage).toBeDisplayed();
+    await expect(
+      chatsTopbarFirstUser.favoritesUserIndicatorOnline
+    ).toBeDisplayed();
     await expect(chatsTopbarFirstUser.favoritesUserName).toHaveTextContaining(
       "CHATUSERB"
     );

@@ -40,8 +40,8 @@ export default async function files() {
   });
 
   it("Validate Files Breadcrumbs are displayed in screen", async () => {
-    await filesScreenFirstUser.filesBreadcrumbs.waitForDisplayed();
-    await filesScreenFirstUser.crumb.waitForDisplayed();
+    await expect(filesScreenFirstUser.filesBreadcrumbs).toBeDisplayed();
+    await expect(filesScreenFirstUser.crumb).toBeDisplayed();
   });
 
   it("Validate add folder and file buttons are displayed in screen", async () => {
