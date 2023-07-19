@@ -33,21 +33,13 @@ export default async function quickProfileTests() {
     await chatsQuickProfileFirstUser.waitForIsShown(true);
 
     // Validate contents from quick profile
-    await expect(
-      chatsQuickProfileFirstUser.quickProfileUserImage
-    ).toBeDisplayed();
-    await expect(
-      chatsQuickProfileFirstUser.quickProfileBannerImage
-    ).toBeDisplayed();
-    await expect(
-      chatsQuickProfileFirstUser.quickProfileIndicatorOnline
-    ).toBeDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileUserImage.waitForDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileIndicatorOnline.waitForDisplayed();
     await expect(
       chatsQuickProfileFirstUser.quickProfileUserNameValueText
     ).toHaveTextContaining("ChatUserA");
-    await expect(
-      chatsQuickProfileFirstUser.quickProfileEditProfile
-    ).toBeDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileEditProfile.waitForDisplayed();
   });
 
   it("Chat User A - Click on Edit Profile", async () => {
@@ -62,24 +54,14 @@ export default async function quickProfileTests() {
     await chatsQuickProfileFirstUser.waitForIsShown(true);
 
     // Validate contents from quick profile
-    await expect(
-      chatsQuickProfileFirstUser.quickProfileUserImage
-    ).toBeDisplayed();
-    await expect(
-      chatsQuickProfileFirstUser.quickProfileBannerImage
-    ).toBeDisplayed();
-    await expect(
-      chatsQuickProfileFirstUser.quickProfileIndicatorOnline
-    ).toBeDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileUserImage.waitForDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileIndicatorOnline.waitForDisplayed();
     await expect(
       chatsQuickProfileFirstUser.quickProfileUserNameValueText
     ).toHaveTextContaining("ChatUserB");
-    await expect(
-      chatsQuickProfileFirstUser.quickProfileRemoveFriend
-    ).toBeDisplayed();
-    await expect(
-      chatsQuickProfileFirstUser.quickProfileBlockUser
-    ).toBeDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileRemoveFriend.waitForDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileBlockUser.waitForDisplayed();
 
     // Click outside to close quick profile
     await chatsInputFirstUser.clickOnInputBar();

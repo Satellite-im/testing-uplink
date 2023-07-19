@@ -358,7 +358,6 @@ export default class FilesScreen extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = '//Group[@Name="' + name + '"]';
     }
-    await this.instance.$(locator).waitForExist();
     return locator;
   }
 

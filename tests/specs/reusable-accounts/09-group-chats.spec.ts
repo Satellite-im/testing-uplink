@@ -42,10 +42,10 @@ export default async function groupChatTests() {
     await createGroupFirstUser.createGroupChatSection.waitForDisplayed();
 
     // Validate contents
-    await expect(createGroupFirstUser.groupNameInput).toBeDisplayed();
-    await expect(createGroupFirstUser.userSearchInput).toBeDisplayed();
-    await expect(createGroupFirstUser.friendsList).toBeDisplayed();
-    await expect(createGroupFirstUser.createGroupChatButton).toBeDisplayed();
+    await createGroupFirstUser.groupNameInput.waitForDisplayed();
+    await createGroupFirstUser.userSearchInput.waitForDisplayed();
+    await createGroupFirstUser.friendsList.waitForDisplayed();
+    await createGroupFirstUser.createGroupChatButton.waitForDisplayed();
   });
 
   it("Chat User A - Attempt to create group chat with alphanumeric chars in name", async () => {

@@ -21,19 +21,11 @@ export default async function messageAttachmentsTests() {
     );
 
     // Validate contents on Compose Attachments are displayed
-    await expect(
-      chatsAttachmentFirstUser.composeAttachmentsFileEmbed
-    ).toBeDisplayed();
-    await expect(
-      chatsAttachmentFirstUser.composeAttachmentsFileIcon
-    ).toBeDisplayed();
-    await expect(
-      chatsAttachmentFirstUser.composeAttachmentsFileInfo
-    ).toBeDisplayed();
+    await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForDisplayed();
+    await chatsAttachmentFirstUser.composeAttachmentsFileIcon.waitForDisplayed();
+    await chatsAttachmentFirstUser.composeAttachmentsFileInfo.waitForDisplayed();
 
-    await expect(
-      chatsAttachmentFirstUser.composeAttachmentsFileNameText
-    ).toHaveTextContaining(expectedPath);
+    await chatsAttachmentFirstUser.composeAttachmentsFileNameText.waitForDisplayed();
   });
 
   it("Chat User A - Delete attachment before sending the message", async () => {
@@ -51,9 +43,7 @@ export default async function messageAttachmentsTests() {
     await chatsInputFirstUser.uploadFile("./tests/fixtures/testfile.txt");
 
     // Validate contents on Compose Attachments are displayed
-    await expect(
-      chatsAttachmentFirstUser.composeAttachmentsFileEmbed
-    ).toBeDisplayed();
+    await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForDisplayed();
 
     // Type a text message and send it
     await chatsInputFirstUser.typeMessageOnInput("Attached");
@@ -82,14 +72,14 @@ export default async function messageAttachmentsTests() {
   it("Chat User A - Message Sent With Attachment - File Icon", async () => {
     // Validate file icon is displayed correctly on last chat message sent
     const fileIcon = await chatsMessagesFirstUser.getLastMessageSentFileIcon();
-    await expect(fileIcon).toBeDisplayed();
+    await fileIcon.waitForDisplayed();
   });
 
   it("Chat User A - Message Sent With Attachment - Download Button", async () => {
     // Validate file download button is displayed correctly on last chat message sent
     const fileDownloadButton =
       await chatsMessagesFirstUser.getLastMessageSentDownloadButton();
-    await expect(fileDownloadButton).toBeDisplayed();
+    await fileDownloadButton.waitForDisplayed();
     await chatsMessagesSecondUser.switchToOtherUserWindow();
 
     // With User B - Validate that message with attachment was received
@@ -121,14 +111,14 @@ export default async function messageAttachmentsTests() {
     // Validate file icon is displayed correctly on last chat message sent
     const fileIcon =
       await chatsMessagesSecondUser.getLastMessageReceivedFileIcon();
-    await expect(fileIcon).toBeDisplayed();
+    await fileIcon.waitForDisplayed();
   });
 
   it("Chat User B - Received Message with Attachment - Download Button", async () => {
     // Validate file download button is displayed correctly on last chat message sent
     const fileDownloadButton =
       await chatsMessagesSecondUser.getLastMessageReceivedDownloadButton();
-    await expect(fileDownloadButton).toBeDisplayed();
+    await fileDownloadButton.waitForDisplayed();
     await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 }

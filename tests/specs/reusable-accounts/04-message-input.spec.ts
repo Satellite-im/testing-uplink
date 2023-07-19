@@ -109,12 +109,12 @@ export default async function messageInputTests() {
     const linkEmbedReceivedIconTitle =
       await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedIconTitle();
 
-    await expect(linkEmbedReceived).toBeDisplayed();
+    await linkEmbedReceived.waitForDisplayed();
     await expect(linkEmbedReceivedDetailsText).toHaveTextContaining(
       "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included."
     );
-    await expect(linkEmbedReceivedIcon).toBeDisplayed();
-    await expect(linkEmbedReceivedIconTitle).toBeDisplayed();
+    await linkEmbedReceivedIcon.waitForDisplayed();
+    await linkEmbedReceivedIconTitle.waitForDisplayed();
   });
 
   it("Chat User - Chat Messages containing links contents on local side", async () => {
@@ -131,12 +131,12 @@ export default async function messageInputTests() {
     const linkEmbedSentIconTitle =
       await chatsMessagesFirstUser.getLastMessageSentLinkEmbedIconTitle();
 
-    await expect(linkEmbedSent).toBeDisplayed();
+    await linkEmbedSent.waitForDisplayed();
     await expect(linkEmbedSentDetailsText).toHaveTextContaining(
       "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included."
     );
-    await expect(linkEmbedSentIcon).toBeDisplayed();
-    await expect(linkEmbedSentIconTitle).toBeDisplayed();
+    await linkEmbedSentIcon.waitForDisplayed();
+    await linkEmbedSentIconTitle.waitForDisplayed();
   });
 
   it("Chat Input Text - Validate text starting with www. is not sent as link", async () => {
