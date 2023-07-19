@@ -214,11 +214,11 @@ export default async function createChatAccountsTests() {
 
   it("Chat User A - Topbar information", async () => {
     // Validate user image, username and online indicator are displayed on Chat Topbar
-    await expect(chatsTopbarFirstUser.topbarUserImage).toBeDisplayed();
+    await chatsTopbarFirstUser.topbarUserImage.waitForDisplayed();
     await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
       "ChatUserB"
     );
-    await expect(chatsTopbarFirstUser.topbarIndicatorOnline).toBeDisplayed();
+    await chatsTopbarFirstUser.topbarIndicatorOnline.waitForDisplayed();
   });
 
   it("Chat User A - Add user with active chat to Favorites", async () => {
@@ -227,10 +227,8 @@ export default async function createChatAccountsTests() {
     await chatsTopbarFirstUser.favorites.waitForExist();
 
     // Favorites Sidebar should be displayed
-    await expect(chatsTopbarFirstUser.favoritesUserImage).toBeDisplayed();
-    await expect(
-      chatsTopbarFirstUser.favoritesUserIndicatorOnline
-    ).toBeDisplayed();
+    await chatsTopbarFirstUser.favoritesUserImage.waitForDisplayed();
+    await chatsTopbarFirstUser.favoritesUserIndicatorOnline.waitForDisplayed();
     await expect(chatsTopbarFirstUser.favoritesUserName).toHaveTextContaining(
       "CHATUSERB"
     );

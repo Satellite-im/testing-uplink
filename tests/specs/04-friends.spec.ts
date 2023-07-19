@@ -18,7 +18,7 @@ export default async function friends() {
     await friendsScreenFirstUser.waitForIsShown(true);
 
     // Validate Pre Release Indicator is displayed
-    await expect(friendsScreenFirstUser.prereleaseIndicator).toBeDisplayed();
+    await friendsScreenFirstUser.prereleaseIndicator.waitForDisplayed();
     await expect(
       friendsScreenFirstUser.prereleaseIndicatorText
     ).toHaveTextContaining("Pre-release | Issues/Feedback");
@@ -32,15 +32,15 @@ export default async function friends() {
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await expect(friendsScreenFirstUser.chatSearchInput).toBeDisplayed();
-    await expect(friendsScreenFirstUser.sidebar).toBeDisplayed();
-    await expect(friendsScreenFirstUser.sidebarChildren).toBeDisplayed();
-    await expect(friendsScreenFirstUser.sidebarSearch).toBeDisplayed();
+    await friendsScreenFirstUser.chatSearchInput.waitForDisplayed();
+    await friendsScreenFirstUser.sidebar.waitForDisplayed();
+    await friendsScreenFirstUser.sidebarChildren.waitForDisplayed();
+    await friendsScreenFirstUser.sidebarSearch.waitForDisplayed();
   });
 
   it("Go to Friends Screen and validate elements displayed", async () => {
-    await expect(friendsScreenFirstUser.friendsLayout).toBeDisplayed();
-    await expect(friendsScreenFirstUser.settingsButton).toBeDisplayed();
+    await friendsScreenFirstUser.friendsLayout.waitForDisplayed();
+    await friendsScreenFirstUser.settingsButton.waitForDisplayed();
   });
 
   it("Friends Screen - Displays a badge showing 4 pending requests on Navigation Bar ", async () => {
@@ -343,10 +343,8 @@ export default async function friends() {
     // Validate that username and user image bubble is now displayed on Favorites Sidebar
     await friendsScreenFirstUser.favorites.waitForDisplayed();
     // Favorites Sidebar should be displayed
-    await expect(chatsLayoutFirstUser.favoritesUserImage).toBeDisplayed();
-    await expect(
-      chatsLayoutFirstUser.favoritesUserIndicatorOffline
-    ).toBeDisplayed();
+    await chatsLayoutFirstUser.favoritesUserImage.waitForDisplayed();
+    await chatsLayoutFirstUser.favoritesUserIndicatorOffline.waitForDisplayed();
     await expect(chatsLayoutFirstUser.favoritesUserName).toHaveTextContaining(
       friendName.toUpperCase()
     );

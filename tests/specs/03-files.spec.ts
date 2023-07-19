@@ -11,7 +11,7 @@ export default async function files() {
     await filesScreenFirstUser.waitForIsShown(true);
 
     // Validate Pre Release Indicator
-    await expect(filesScreenFirstUser.prereleaseIndicator).toBeDisplayed();
+    await filesScreenFirstUser.prereleaseIndicator.waitForDisplayed();
     await expect(
       filesScreenFirstUser.prereleaseIndicatorText
     ).toHaveTextContaining("Pre-release | Issues/Feedback");
@@ -25,32 +25,28 @@ export default async function files() {
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await expect(filesScreenFirstUser.chatSearchInput).toBeDisplayed();
-    await expect(filesScreenFirstUser.sidebar).toBeDisplayed();
-    await expect(filesScreenFirstUser.sidebarChildren).toBeDisplayed();
-    await expect(filesScreenFirstUser.sidebarSearch).toBeDisplayed();
+    await filesScreenFirstUser.chatSearchInput.waitForDisplayed();
+    await filesScreenFirstUser.sidebar.waitForDisplayed();
+    await filesScreenFirstUser.sidebarChildren.waitForDisplayed();
+    await filesScreenFirstUser.sidebarSearch.waitForDisplayed();
   });
 
   it("Validate Files Info is displayed in screen", async () => {
-    await expect(filesScreenFirstUser.filesInfo).toBeDisplayed();
-    await expect(
-      filesScreenFirstUser.filesInfoCurrentSizeLabel
-    ).toBeDisplayed();
-    await expect(
-      filesScreenFirstUser.filesInfoCurrentSizeValue
-    ).toBeDisplayed();
-    await expect(filesScreenFirstUser.filesInfoMaxSizeLabel).toBeDisplayed();
-    await expect(filesScreenFirstUser.filesInfoMaxSizeValue).toBeDisplayed();
+    await filesScreenFirstUser.filesInfo.waitForDisplayed();
+    await filesScreenFirstUser.filesInfoCurrentSizeLabel.waitForDisplayed();
+    await filesScreenFirstUser.filesInfoCurrentSizeValue.waitForDisplayed();
+    await filesScreenFirstUser.filesInfoMaxSizeLabel.waitForDisplayed();
+    await filesScreenFirstUser.filesInfoMaxSizeValue.waitForDisplayed();
   });
 
   it("Validate Files Breadcrumbs are displayed in screen", async () => {
-    await expect(filesScreenFirstUser.filesBreadcrumbs).toBeDisplayed();
-    await expect(filesScreenFirstUser.crumb).toBeDisplayed();
+    await filesScreenFirstUser.filesBreadcrumbs.waitForDisplayed();
+    await filesScreenFirstUser.crumb.waitForDisplayed();
   });
 
   it("Validate add folder and file buttons are displayed in screen", async () => {
-    await expect(filesScreenFirstUser.addFolderButton).toBeDisplayed();
-    await expect(filesScreenFirstUser.uploadFileButton).toBeDisplayed();
+    await filesScreenFirstUser.addFolderButton.waitForDisplayed();
+    await filesScreenFirstUser.uploadFileButton.waitForDisplayed();
   });
 
   it("Validate tooltips for add folder or file buttons are displayed", async () => {

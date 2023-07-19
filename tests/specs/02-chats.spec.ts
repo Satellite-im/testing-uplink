@@ -10,29 +10,29 @@ let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function chats() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    await expect(welcomeScreenFirstUser.prereleaseIndicator).toBeDisplayed();
+    await welcomeScreenFirstUser.prereleaseIndicator.waitForDisplayed();
     await expect(
       welcomeScreenFirstUser.prereleaseIndicatorText
     ).toHaveTextContaining("Pre-release | Issues/Feedback");
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await expect(welcomeScreenFirstUser.chatsButton).toBeDisplayed();
-    await expect(welcomeScreenFirstUser.filesButton).toBeDisplayed();
-    await expect(welcomeScreenFirstUser.friendsButton).toBeDisplayed();
-    await expect(welcomeScreenFirstUser.settingsButton).toBeDisplayed();
+    await welcomeScreenFirstUser.chatsButton.waitForDisplayed();
+    await welcomeScreenFirstUser.filesButton.waitForDisplayed();
+    await welcomeScreenFirstUser.friendsButton.waitForDisplayed();
+    await welcomeScreenFirstUser.settingsButton.waitForDisplayed();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await expect(welcomeScreenFirstUser.chatSearchInput).toBeDisplayed();
-    await expect(welcomeScreenFirstUser.sidebar).toBeDisplayed();
-    await expect(welcomeScreenFirstUser.sidebarChildren).toBeDisplayed();
-    await expect(welcomeScreenFirstUser.sidebarSearch).toBeDisplayed();
+    await welcomeScreenFirstUser.chatSearchInput.waitForDisplayed();
+    await welcomeScreenFirstUser.sidebar.waitForDisplayed();
+    await welcomeScreenFirstUser.sidebarChildren.waitForDisplayed();
+    await welcomeScreenFirstUser.sidebarSearch.waitForDisplayed();
   });
 
   it("Validate Welcome Screen is displayed", async () => {
-    await expect(welcomeScreenFirstUser.welcomeLayout).toBeDisplayed();
-    await expect(welcomeScreenFirstUser.addFriendsButton).toBeDisplayed();
+    await welcomeScreenFirstUser.welcomeLayout.waitForDisplayed();
+    await welcomeScreenFirstUser.addFriendsButton.waitForDisplayed();
     await expect(welcomeScreenFirstUser.addSomeoneText).toHaveTextContaining(
       "Things are better with friends."
     );
