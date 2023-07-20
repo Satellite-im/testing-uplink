@@ -30,11 +30,13 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT: "//Text",
   CHAT_MESSAGE_LINK_EMBED_ICON: '[name="embed-icon"]',
   CHAT_MESSAGE_LINK_EMBED_TITLE: '[name="link-title"]',
-  CHAT_MESSAGE_LOCAL: '[name="message-local"]',
+  CHAT_MESSAGE_LOCAL:
+    '//Group[contains(@Name, "local") and starts-with(@Name, "message")]',
   CHAT_MESSAGE_LOCAL_FIRST: '[name="message-first-local"]',
   CHAT_MESSAGE_LOCAL_LAST: '[name="message-last-local"]',
   CHAT_MESSAGE_LOCAL_MIDDLE: '[name="message-middle-local"]',
-  CHAT_MESSAGE_REMOTE: '[name="message-remote"]',
+  CHAT_MESSAGE_REMOTE:
+    '//Group[contains(@Name, "remote") and starts-with(@Name, "message")]',
   CHAT_MESSAGE_REMOTE_FIRST: '[name="message-first-remote"]',
   CHAT_MESSAGE_REMOTE_LAST: '[name="message-last-remote"]',
   CHAT_MESSAGE_REMOTE_MIDDLE: '[name="message-middle-remote"]',
@@ -64,11 +66,13 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_LINK_EMBED_ICON: "~embed-icon",
   CHAT_MESSAGE_LINK_EMBED_TITLE: "~link-title",
-  CHAT_MESSAGE_LOCAL: "~message-local",
+  CHAT_MESSAGE_LOCAL:
+    '//XCUIElementTypeGroup[contains(@label, "local") and starts-with(@label, "message")]',
   CHAT_MESSAGE_LOCAL_FIRST: "~message-first-local",
   CHAT_MESSAGE_LOCAL_LAST: "~message-last-local",
   CHAT_MESSAGE_LOCAL_MIDDLE: "~message-middle-local",
-  CHAT_MESSAGE_REMOTE: "~message-remote",
+  CHAT_MESSAGE_REMOTE:
+    '//XCUIElementTypeGroup[contains(@label, "remote") and starts-with(@label, "message")]',
   CHAT_MESSAGE_REMOTE_FIRST: "~message-first-remote",
   CHAT_MESSAGE_REMOTE_LAST: "~message-last-remote",
   CHAT_MESSAGE_REMOTE_MIDDLE: "~message-middle-remote",
