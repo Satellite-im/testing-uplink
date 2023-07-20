@@ -118,14 +118,20 @@ export default async function groupChatTests() {
     await expect(chatsTopbarSecondUser.topbarUserStatus).toHaveTextContaining(
       "Members (2)"
     );
-    await chatsInputFirstUser.switchToOtherUserWindow();
+    await chatsSidebarSecondUser.goToSidebarChat("ChatUserA");
+    await chatsLayoutSecondUser.waitForIsShown(true);
   });
 
   it("Group Chat - User A sends a message in group chat", async () => {
+    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("Hi Group!");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Hi Group!");
-    await chatsMessagesSecondUser.switchToOtherUserWindow();
+  });
+
+  it("Group Chat - User B receives the message in group chat", async () => {
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
+    await chatsSidebarSecondUser.goToSidebarGroupChat("Test");
     await chatsMessagesSecondUser.waitForReceivingMessage("Hi Group!");
   });
 
