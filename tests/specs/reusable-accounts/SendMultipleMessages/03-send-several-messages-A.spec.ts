@@ -28,7 +28,7 @@ describe("Two users at the same time - Chat User A", async () => {
     await friendsScreenFirstUser.chatWithFriend("ChatUserB");
     await chatsLayoutFirstUser.waitForIsShown(true);
     await chatsTopbarFirstUser.topbarIndicatorOnline.waitForDisplayed({
-      timeout: 240000,
+      timeout: 60000,
     });
   });
 

@@ -337,7 +337,7 @@ export default class Messages extends UplinkMainScreen {
 
   async waitForMessageToBeDeleted(
     expectedMessage: string,
-    timeoutMsg: number = 60000
+    timeoutMsg: number = 30000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
@@ -357,12 +357,11 @@ export default class Messages extends UplinkMainScreen {
 
   async waitForMessageSentToExist(
     expectedMessage: string,
-    timeoutMsg: number = 150000
+    timeoutMsg: number = 30000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
-        .$$(SELECTORS.CHAT_MESSAGE_LOCAL)
         .$(
           '//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
@@ -378,7 +377,7 @@ export default class Messages extends UplinkMainScreen {
 
   async waitForReceivingMessage(
     expectedMessage: string,
-    timeoutMsg: number = 150000
+    timeoutMsg: number = 60000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {

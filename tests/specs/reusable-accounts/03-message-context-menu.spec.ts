@@ -50,7 +50,7 @@ export default async function messageContextMenuTests() {
     await chatsMessagesSecondUser.switchToOtherUserWindow();
 
     // With User B - Validate that last message is "edited"
-    await chatsMessagesSecondUser.waitForReceivingMessage("Edited...", 240000);
+    await chatsMessagesSecondUser.waitForReceivingMessage("Edited...", 60000);
 
     // With User B - Ensure that message "three.." was deleted
     await chatsMessagesSecondUser.waitForMessageToBeDeleted("Three...", 30000);

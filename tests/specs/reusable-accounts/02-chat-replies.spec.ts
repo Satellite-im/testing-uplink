@@ -85,7 +85,7 @@ export default async function repliesTests() {
 
     // With User A - Validate that reply message is received
     await chatsMessagesFirstUser.chatMessageReply.waitForDisplayed({
-      timeout: 180000,
+      timeout: 90000,
     });
   });
 

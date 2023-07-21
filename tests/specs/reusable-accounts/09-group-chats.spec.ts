@@ -126,6 +126,8 @@ export default async function groupChatTests() {
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("Hi Group!");
     await chatsInputFirstUser.clickOnSendMessage();
+    await chatsInputFirstUser.typeMessageOnInput("test");
+    await chatsInputFirstUser.clearInputBar();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Hi Group!");
   });
 
