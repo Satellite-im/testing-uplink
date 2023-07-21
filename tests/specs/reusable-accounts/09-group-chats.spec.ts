@@ -128,7 +128,10 @@ export default async function groupChatTests() {
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsInputFirstUser.typeMessageOnInput("test");
     await chatsInputFirstUser.clearInputBar();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("Hi Group!");
+
+    // Validate text from message sent to the group
+    const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
+    await expect(textMessage).toHaveTextContaining("Hi Group!");
   });
 
   it("Group Chat - User B receives the message in group chat", async () => {

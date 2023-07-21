@@ -653,4 +653,122 @@ export default class Messages extends UplinkMainScreen {
       await rightClickOnWindows(messageToClick, this.executor);
     }
   }
+
+  // New message locators
+
+  async getFirstLocalMessage() {
+    const lastMessage = await this.chatMessageLocalFirst;
+    return lastMessage;
+  }
+
+  async getLastLocalMessage() {
+    const lastMessage = await this.chatMessageLocalLast;
+    return lastMessage;
+  }
+
+  async getFirstRemoteMessage() {
+    const lastMessage = await this.chatMessageRemoteFirst;
+    return lastMessage;
+  }
+
+  async getLastRemoteMessage() {
+    const lastMessage = await this.chatMessageRemoteLast;
+    return lastMessage;
+  }
+
+  async getMiddleLocalMessageLocator(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@label="message-local-message-middle"]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]/../..'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@Name="message-local-message-middle"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]/../..'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
+  async getMiddleRemoteMessageLocator(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[@label="message-remote-message-middle"]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]/../..'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@Name="message-remote-message-middle"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]/../..'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
+  async waitForMessageRemoteToExist(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[@label="message-remote-message-last"]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@Name="message-remote-message-last"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
+  async waitForMessageLocalToExist(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[@label="message-local-message-last"]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@Name="message-local-message-last"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
 }
