@@ -190,7 +190,7 @@ export default async function sidebarChatsTests() {
     await chatsMessagesSecondUser.switchToOtherUserWindow();
 
     // With User B - Wait until message is received
-    await chatsMessagesSecondUser.waitForReceivingMessage("Hi...", 180000);
+    await chatsMessagesSecondUser.waitForReceivingMessage("Hi...", 60000);
   });
 
   it("Chat User B - Sidebar - Wait for receiving a a new message", async () => {

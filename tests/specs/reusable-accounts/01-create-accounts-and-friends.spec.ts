@@ -252,7 +252,7 @@ export default async function createChatAccountsTests() {
 
     // Wait until Chat User A is online
     await chatsTopbarSecondUser.topbarIndicatorOnline.waitForDisplayed({
-      timeout: 240000,
+      timeout: 90000,
     });
   });
 

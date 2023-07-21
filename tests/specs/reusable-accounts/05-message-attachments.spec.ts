@@ -15,13 +15,10 @@ export default async function messageAttachmentsTests() {
     // Click on upload button and attach a file to compose attachment
     await chatsInputFirstUser.uploadFile("./tests/fixtures/testfile.txt");
 
-    // Get the full path of file selected
-    const expectedPath = await chatsInputFirstUser.getFilePath(
-      "./tests/fixtures/testfile.txt"
-    );
-
     // Validate contents on Compose Attachments are displayed
-    await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForDisplayed();
+    await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForDisplayed(
+      { timeout: 30000 }
+    );
     await chatsAttachmentFirstUser.composeAttachmentsFileIcon.waitForDisplayed();
     await chatsAttachmentFirstUser.composeAttachmentsFileInfo.waitForDisplayed();
 

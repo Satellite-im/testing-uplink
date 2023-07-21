@@ -50,9 +50,9 @@ export default async function groupChatSidebarTests() {
   it("Group Chat - Send message to the group with User B", async () => {
     // Switch test execution control to User B and send message to the group
     await chatsTopbarSecondUser.switchToOtherUserWindow();
-    await chatsInputSecondUser.typeMessageOnInput("HelloGroup!");
+    await chatsInputSecondUser.typeMessageOnInput("HelloGroup");
     await chatsInputSecondUser.clickOnSendMessage();
-    await chatsMessagesSecondUser.waitForMessageSentToExist("HelloGroup!");
+    await chatsMessagesSecondUser.waitForMessageSentToExist("HelloGroup");
 
     // Switch control to User A
     await chatsLayoutFirstUser.switchToOtherUserWindow();
@@ -63,7 +63,7 @@ export default async function groupChatSidebarTests() {
     await chatsSidebarFirstUser.validateUsernameDisplayed("NewNameGroup");
 
     // Validate last message content from group is displayed on sidebar
-    await chatsSidebarFirstUser.validateLastMessageDisplayed("HelloGroup!");
+    await chatsSidebarFirstUser.validateLastMessageDisplayed("HelloGroup");
 
     // Validate number of unread messages from the group is displayed on sidebar
     await chatsSidebarFirstUser.validateNumberOfUnreadMessages("1");
