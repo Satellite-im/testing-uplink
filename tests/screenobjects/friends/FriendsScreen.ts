@@ -644,7 +644,7 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async waitUntilFriendIsRemoved(
     username: string,
-    timeoutUser: number = 90000
+    timeoutUser: number = 60000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {

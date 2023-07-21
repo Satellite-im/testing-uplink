@@ -118,15 +118,26 @@ export default async function groupChatTests() {
     await expect(chatsTopbarSecondUser.topbarUserStatus).toHaveTextContaining(
       "Members (2)"
     );
-    await chatsInputFirstUser.switchToOtherUserWindow();
+    await chatsSidebarSecondUser.goToSidebarChat("ChatUserA");
+    await chatsLayoutSecondUser.waitForIsShown(true);
   });
 
   it("Group Chat - User A sends a message in group chat", async () => {
-    await chatsInputFirstUser.typeMessageOnInput("Hi Group!");
+    await chatsInputFirstUser.switchToOtherUserWindow();
+    await chatsInputFirstUser.typeMessageOnInput("HiGroup");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("Hi Group!");
-    await chatsMessagesSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingMessage("Hi Group!");
+    await chatsInputFirstUser.typeMessageOnInput("test");
+    await chatsInputFirstUser.clearInputBar();
+
+    // Validate text from message sent to the group
+    const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
+    await expect(textMessage).toHaveTextContaining("HiGroup");
+  });
+
+  it("Group Chat - User B receives the message in group chat", async () => {
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
+    await chatsSidebarSecondUser.goToSidebarGroupChat("Test");
+    await chatsMessagesSecondUser.waitForReceivingMessage("HiGroup");
   });
 
   it("Group Chat - Show participants list - Contents", async () => {
