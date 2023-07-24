@@ -12,6 +12,16 @@ export default async function settingsDeveloper() {
     await settingsNotificationsFirstUser.goToDeveloperSettings();
     await settingsDeveloperFirstUser.waitForIsShown(true);
 
+    // Validate EXPERIMENTAL FEATURES section
+    await expect(
+      settingsDeveloperFirstUser.experimentalFeaturesHeader
+    ).toHaveTextContaining("EXPERIMENTAL FEATURES");
+    await expect(
+      settingsDeveloperFirstUser.experimentalFeaturesDescription
+    ).toHaveTextContaining(
+      "Enables features which may be incomplete or non-functional."
+    );
+
     // Validate DEVELOPER MODE section
     await expect(
       settingsDeveloperFirstUser.developerModeHeader

@@ -60,14 +60,14 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   get clearCacheDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[5]
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get clearCacheHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[5]
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -78,38 +78,64 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   get compressAndDownloadCacheDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get compressAndDownloadCacheHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get developerModeCheckbox() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$$(SELECTORS.SETTINGS_CONTROL)[1]
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get developerModeControllerValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$$(SELECTORS.SETTINGS_CONTROL)[1]
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get developerModeDescription() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get developerModeHeader() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get experimentalFeaturesCheckbox() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get experimentalFeaturesControllerValue() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_CONTROL)[0]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+  }
+
+  get experimentalFeaturesDescription() {
     return this.instance
       .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get developerModeHeader() {
+  get experimentalFeaturesHeader() {
     return this.instance
       .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
@@ -122,14 +148,14 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   get openCacheDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openCacheHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -140,40 +166,40 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   get printStateDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get printStateHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get saveLogsCheckbox() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[6]
+      .$$(SELECTORS.SETTINGS_CONTROL)[7]
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get saveLogsControllerValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[6]
+      .$$(SELECTORS.SETTINGS_CONTROL)[7]
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get saveLogsDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
+      .$$(SELECTORS.SETTINGS_SECTION)[7]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get saveLogsHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
+      .$$(SELECTORS.SETTINGS_SECTION)[7]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -188,14 +214,14 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
 
   get testNotificationDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get testNotificationHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
