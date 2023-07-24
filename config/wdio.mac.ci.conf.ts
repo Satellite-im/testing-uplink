@@ -100,10 +100,14 @@ export const config: WebdriverIO.Config = {
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
     onPrepare: async function() {
+      // Declare constants for folder locations
       const cacheFolder = homedir() + "/.uplink/.user";
+      const sourceReusableData = join(process.cwd(), "/tests/fixtures/users/FriendsTestUser")
       const allureResultsFolder = join(process.cwd(), "./allure-results");
       const testReportFolder =  join(process.cwd(), "./test-report");
       const testResultsFolder =  join(process.cwd(), "./test-results");
+      
+      // Delete test report and allure report folders before starting 
       try {
         await rmSync(allureResultsFolder, { recursive: true, force: true });
         await rmSync(testReportFolder, { recursive: true, force: true });
@@ -114,12 +118,25 @@ export const config: WebdriverIO.Config = {
             `Got an error trying to delete artifacts folders: ${error.message}`
         );
       }
+
+      // Execute the actions to clean up folders and copy required data
       try {
         await rmSync(cacheFolder, { recursive: true, force: true });
         console.log("Deleted Cache Folder Successfully!");
       } catch (error) {
         console.error(
           `Got an error trying to delete Cache Folder: ${error.message}`
+        );
+      }
+
+      // Copy the Friends Test User Data to Cache Folder before starting
+      try {
+        await fsp.mkdir(cacheFolder, { recursive: true });
+        await fsp.cp(sourceReusableData, cacheFolder, { recursive: true, force: true });
+        console.log("Copied Friends Test User Data successfully!");
+      } catch (error) {
+        console.error(
+          `Got an error trying to copy Friends Test Folder: ${error.message}`
         );
       }
     },

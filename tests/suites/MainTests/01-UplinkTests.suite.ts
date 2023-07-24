@@ -12,6 +12,7 @@ import settingsAbout from "../../specs/12-settings-about.spec";
 import friends from "../../specs/04-friends.spec";
 
 describe("MacOS Tests", function () {
+  describe("Friends Screen Tests", friends.bind(this));
   describe("Create Pin and Account Tests", createAccount.bind(this));
   describe("Chats Main Screen Tests", chats.bind(this));
   describe("Files Screen Tests", files.bind(this));
@@ -23,5 +24,4 @@ describe("MacOS Tests", function () {
   describe("Settings Notifications Tests", settingsNotifications.bind(this));
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Settings About Tests", settingsAbout.bind(this));
-  describe("Friends Screen Tests", friends.bind(this));
 });

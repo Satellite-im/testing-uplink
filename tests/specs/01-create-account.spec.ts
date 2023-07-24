@@ -8,13 +8,62 @@ let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function createAccount() {
+  it("Unlock Screen - Validate texts displayed", async () => {
+    await createPinFirstUser.unlockWarningHeader.waitForDisplayed();
+    // Skipping this validation until
+    await expect(createPinFirstUser.unlockWarningHeader).toHaveTextContaining(
+      "WELCOME BACK, UNKNOWN"
+    );
+    await createPinFirstUser.unlockWarningParagraph.waitForDisplayed();
+    await expect(
+      createPinFirstUser.unlockWarningParagraph
+    ).toHaveTextContaining(
+      "(this is used to encrypt all of the data Uplink stores on your computer when you're not using it so nobody can read your data.)"
+    );
+  });
+
+  it("Unlock Screen - Unlock button should be disabled if no PIN is entered", async () => {
+    const statusOfButton =
+      await createPinFirstUser.getStatusOfCreateAccountButton();
+    await expect(statusOfButton).toEqual("false");
+  });
+
+  it("Unlock Screen - Unlock button should be enabled after typing the correct PIN", async () => {
+    await createPinFirstUser.enterPin("1234");
+    const statusOfButton =
+      await createPinFirstUser.getStatusOfCreateAccountButton();
+    await expect(statusOfButton).toEqual("true");
+  });
+
+  it("Unlock Screen - Help Button Tooltip", async () => {
+    // Validate Help Button tooltip
+    await createPinFirstUser.hoverOnHelpButton();
+    await createPinFirstUser.helpButtonTooltip.waitForExist();
+    await expect(createPinFirstUser.helpButtonTooltipText).toHaveTextContaining(
+      "Help (right-click)"
+    );
+  });
+
+  it("Unlock Screen - Reset Account", async () => {
+    // Right click on Help Button to show the help menu
+    await createPinFirstUser.openHelpButtonMenu();
+
+    // Click on Reset Account button
+    await createPinFirstUser.clickOnResetAccount();
+
+    // Wait until Unlock Warning Header changes to Let's Choose Your Password, indicating that account was succesfully reset
+    const warningHeader = await createPinFirstUser.unlockWarningHeader;
+    await warningHeader.waitUntil(async () => {
+      return (await this.getText()) === "LET'S CHOOSE YOUR PASSWORD";
+    });
+  });
+
   it("Validate warning texts are displayed on screen", async () => {
     await createPinFirstUser.unlockWarningHeader.waitForDisplayed();
     // Skipping this validation until
-    await expect(createPinFirstUser.unlockWarningHeader).toHaveTextContaining([
-      "LET'S CHOOSE YOUR PASSWORD",
-      "WELCOME BACK,",
-    ]);
+    await expect(createPinFirstUser.unlockWarningHeader).toHaveTextContaining(
+      "LET'S CHOOSE YOUR PASSWORD"
+    );
     await createPinFirstUser.unlockWarningParagraph.waitForDisplayed();
     await expect(
       createPinFirstUser.unlockWarningParagraph

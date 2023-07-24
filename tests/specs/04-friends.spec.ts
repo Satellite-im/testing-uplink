@@ -1,4 +1,4 @@
-import { resetAndLoginWithCache } from "../helpers/commands";
+import { loginWithTestUser, resetPreservingCache } from "../helpers/commands";
 import ChatsLayout from "../screenobjects/chats/ChatsLayout";
 import FriendsScreen from "../screenobjects/friends/FriendsScreen";
 import InputBar from "../screenobjects/chats/InputBar";
@@ -11,7 +11,7 @@ let uplinkMainFirstUser = new UplinkMainScreen(USER_A_INSTANCE);
 
 export default async function friends() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    await resetAndLoginWithCache("FriendsTestUser");
+    await loginWithTestUser();
 
     // Go to Friends Screen
     await uplinkMainFirstUser.goToFriends();
@@ -494,5 +494,9 @@ export default async function friends() {
     const blockedList = await friendsScreenFirstUser.getBlockedList();
     const blockedListIncludes = await blockedList.includes(friendName);
     await expect(blockedListIncludes).toEqual(false);
+  });
+
+  after(async () => {
+    await resetPreservingCache(USER_A_INSTANCE);
   });
 }

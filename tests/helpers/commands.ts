@@ -176,6 +176,12 @@ export async function resetApp(instance: string) {
   await launchApplication(instance);
 }
 
+export async function resetPreservingCache(instance: string) {
+  await closeApplication(instance);
+  await deleteCache();
+  await launchApplication(instance);
+}
+
 export async function resetAndLoginWithCache(user: string) {
   await closeApplication(USER_A_INSTANCE);
   await deleteCache();
