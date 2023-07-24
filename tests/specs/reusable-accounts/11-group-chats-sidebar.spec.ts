@@ -112,6 +112,7 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Sidebar - Leave group", async () => {
     // Switch control to User B
+    await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.openContextMenuOnGroupChat("NewNameGroup");
     await contextMenuSidebarSecondUser.selectChatsLeaveGroup();
     await chatsSidebarSecondUser.validateNoSidebarGroupChatsAreDisplayed();
@@ -119,13 +120,9 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Sidebar - If a user leaves a group, remote user will see the number of group members decreased", async () => {
     // Switch control to User A and go to settings to refresh screen
-    await chatsTopbarFirstUser.goToSettings();
-    await settingsProfileFirstUser.waitForIsShown(true);
-    await settingsProfileFirstUser.goToMainScreen();
+    await chatsTopbarFirstUser.switchToOtherUserWindow();
 
-    // Now, go to the Group Chat and validate that User B is not part of it
-    await chatsSidebarFirstUser.waitForIsShown(true);
-    await chatsSidebarFirstUser.goToSidebarGroupChat("NewNameGroup");
+    // Now, go to the Group Chat and validate that User B is not part of it anymore
     await chatsTopbarFirstUser.waitForIsShown(true);
     await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
       "NewNameGroup"
