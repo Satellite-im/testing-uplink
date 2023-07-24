@@ -2,7 +2,6 @@ import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
-import chats from "../02-chats.spec";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
