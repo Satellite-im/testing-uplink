@@ -198,7 +198,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-allure-mac-ci
-          path: ./allure-results/*.json
+          path: ./allure-results/
 
       - name: Upload Screenshots for MacOS 📷
         uses: actions/upload-artifact@v3
@@ -295,7 +295,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-allure-windows-chats
-          path: ./allure-results/*.json
+          path: ./allure-results/
 
       - name: Upload Screenshots for Windows - Chats 📷
         uses: actions/upload-artifact@v3
@@ -389,7 +389,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: test-allure-windows-ci
-          path: ./allure-results/*.json
+          path: ./allure-results/
 
       - name: Upload Screenshots for Windows 📷
         uses: actions/upload-artifact@v3
@@ -416,7 +416,8 @@ jobs:
 
   publish-test-results:
     if: always()
-    needs: [test-mac, test-windows-chats, test-windows]
+    needs:
+      [build-mac, build-windows, test-mac, test-windows-chats, test-windows]
     runs-on: ubuntu-latest
     permissions:
       checks: write
@@ -463,6 +464,7 @@ jobs:
 
       - name: Publish Test Results for Tests
         uses: EnricoMi/publish-unit-test-result-action/composite@v2
+        if: success()
         with:
           junit_files: "artifacts/**/*.xml"
           ignore_runs: true
@@ -472,7 +474,7 @@ jobs:
 
       - name: Get Allure history
         uses: actions/checkout@v3
-        if: always()
+        if: success()
         continue-on-error: true
         with:
           ref: gh-pages
@@ -480,7 +482,7 @@ jobs:
 
       - name: Allure Report action from marketplace
         uses: simple-elf/allure-report-action@master
-        if: always()
+        if: success()
         id: allure-report
         with:
           gh_pages: gh-pages
@@ -490,7 +492,7 @@ jobs:
           keep_reports: 20
 
       - name: Deploy report to Github Pages
-        if: always()
+        if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -498,7 +500,7 @@ jobs:
           publish_dir: allure-history
 
       - name: Comment PR with the Test Results
-        if: always()
+        if: success()
         uses: mshick/add-pr-comment@v2
         with:
           message: |

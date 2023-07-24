@@ -21,12 +21,25 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_FILE_META_TEXT: "//Text",
   CHAT_MESSAGE_FILE_NAME: '[name="file-name"]',
   CHAT_MESSAGE_FILE_NAME_TEXT: "//Text",
+  CHAT_MESSAGE_IMAGE_CONTAINER: "[name='message-image-container']",
+  CHAT_MESSAGE_IMAGE_FILE: "[name='message-image']",
+  CHAT_MESSAGE_IMAGE_MODAL: "[name='modal']",
+  CHAT_MESSAGE_IMAGE_MODAL_FILE: "[name='image-preview-modal']",
   CHAT_MESSAGE_LINK_EMBED: '[name="link-embed"]',
   CHAT_MESSAGE_LINK_EMBED_DETAILS: '[name="embed-details"]',
+  CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT: "//Text",
   CHAT_MESSAGE_LINK_EMBED_ICON: '[name="embed-icon"]',
   CHAT_MESSAGE_LINK_EMBED_TITLE: '[name="link-title"]',
-  CHAT_MESSAGE_LOCAL: '[name="message-local"]',
-  CHAT_MESSAGE_REMOTE: '[name="message-remote"]',
+  CHAT_MESSAGE_LOCAL:
+    '//Group[contains(@Name, "local") and starts-with(@Name, "message")]',
+  CHAT_MESSAGE_LOCAL_FIRST: '[name="message-local-message-first"]',
+  CHAT_MESSAGE_LOCAL_LAST: '[name="message-local-message-last"]',
+  CHAT_MESSAGE_LOCAL_MIDDLE: '[name="message-local-message-middle"]',
+  CHAT_MESSAGE_REMOTE:
+    '//Group[contains(@Name, "remote") and starts-with(@Name, "message")]',
+  CHAT_MESSAGE_REMOTE_FIRST: '[name="message-remote-message-first"]',
+  CHAT_MESSAGE_REMOTE_LAST: '[name="message-remote-message-last"]',
+  CHAT_MESSAGE_REMOTE_MIDDLE: '[name="message-remote-message-middle"]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
   CHAT_MESSAGE_REPLY_TEXT: "//Text",
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
@@ -43,12 +56,26 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_FILE_META_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_FILE_NAME: "~file-name",
   CHAT_MESSAGE_FILE_NAME_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_IMAGE_CONTAINER: "~message-image-container",
+  CHAT_MESSAGE_IMAGE_FILE: "~message-image",
+  CHAT_MESSAGE_IMAGE_MODAL: "~modal",
+  CHAT_MESSAGE_IMAGE_MODAL_FILE: "~image-preview-modal",
   CHAT_MESSAGE_LINK_EMBED: "~link-embed",
   CHAT_MESSAGE_LINK_EMBED_DETAILS: "~embed-details",
+  CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_LINK_EMBED_ICON: "~embed-icon",
   CHAT_MESSAGE_LINK_EMBED_TITLE: "~link-title",
-  CHAT_MESSAGE_LOCAL: "~message-local",
-  CHAT_MESSAGE_REMOTE: "~message-remote",
+  CHAT_MESSAGE_LOCAL:
+    '//XCUIElementTypeGroup[contains(@label, "local") and starts-with(@label, "message")]',
+  CHAT_MESSAGE_LOCAL_FIRST: "~message-local-message-first",
+  CHAT_MESSAGE_LOCAL_LAST: "~message-local-message-last",
+  CHAT_MESSAGE_LOCAL_MIDDLE: "~message-local-message-middle",
+  CHAT_MESSAGE_REMOTE:
+    '//XCUIElementTypeGroup[contains(@label, "remote") and starts-with(@label, "message")]',
+  CHAT_MESSAGE_REMOTE_FIRST: "~message-remote-message-first",
+  CHAT_MESSAGE_REMOTE_LAST: "~message-remote-message-last",
+  CHAT_MESSAGE_REMOTE_MIDDLE: "~message-remote-message-middle",
   CHAT_MESSAGE_REPLY: "~message-reply",
   CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
@@ -163,6 +190,26 @@ export default class Messages extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
 
+  get chatMessageImageContainer() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_IMAGE_CONTAINER);
+  }
+
+  get chatMessageImageFile() {
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_IMAGE_CONTAINER)
+      .$(SELECTORS.CHAT_MESSAGE_IMAGE_FILE);
+  }
+
+  get chatMessageImageModal() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_IMAGE_MODAL);
+  }
+
+  get chatMessageImageModalFile() {
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_IMAGE_MODAL)
+      .$(SELECTORS.CHAT_MESSAGE_IMAGE_MODAL_FILE);
+  }
+
   get chatMessageLinkEmbed() {
     return this.instance.$(SELECTORS.CHAT_MESSAGE_LINK_EMBED);
   }
@@ -189,8 +236,32 @@ export default class Messages extends UplinkMainScreen {
     return this.instance.$$(SELECTORS.CHAT_MESSAGE_LOCAL);
   }
 
+  get chatMessageLocalFirst() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_LOCAL_FIRST);
+  }
+
+  get chatMessageLocalLast() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_LOCAL_LAST);
+  }
+
+  get chatMessageLocalMiddle() {
+    return this.instance.$$(SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE);
+  }
+
   get chatMessageRemote() {
     return this.instance.$$(SELECTORS.CHAT_MESSAGE_REMOTE);
+  }
+
+  get chatMessageRemoteFirst() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_REMOTE_FIRST);
+  }
+
+  get chatMessageRemoteLast() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_REMOTE_LAST);
+  }
+
+  get chatMessageRemoteMiddle() {
+    return this.instance.$$(SELECTORS.CHAT_MESSAGE_REMOTE_MIDDLE);
   }
 
   get chatMessageReply() {
@@ -266,7 +337,7 @@ export default class Messages extends UplinkMainScreen {
 
   async waitForMessageToBeDeleted(
     expectedMessage: string,
-    timeoutMsg: number = 60000
+    timeoutMsg: number = 30000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
@@ -286,12 +357,11 @@ export default class Messages extends UplinkMainScreen {
 
   async waitForMessageSentToExist(
     expectedMessage: string,
-    timeoutMsg: number = 150000
+    timeoutMsg: number = 30000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
-        .$$(SELECTORS.CHAT_MESSAGE_LOCAL)
         .$(
           '//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
@@ -307,7 +377,7 @@ export default class Messages extends UplinkMainScreen {
 
   async waitForReceivingMessage(
     expectedMessage: string,
-    timeoutMsg: number = 150000
+    timeoutMsg: number = 60000
   ) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
@@ -471,6 +541,73 @@ export default class Messages extends UplinkMainScreen {
     return lastMessageFileName;
   }
 
+  // Messages With Links Methods
+  async getLastMessageReceivedLinkEmbed() {
+    const lastMessage = await this.getLastMessageReceivedLocator();
+    const lastMessageLinkEmbed = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED
+    );
+    return lastMessageLinkEmbed;
+  }
+
+  async getLastMessageReceivedLinkEmbedDetailsText() {
+    const linkEmbedLastMessage = await this.getLastMessageReceivedLinkEmbed();
+    const linkEmbedDetailsText = await linkEmbedLastMessage
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
+    return linkEmbedDetailsText;
+  }
+
+  async getLastMessageReceivedLinkEmbedIcon() {
+    const linkEmbedLastMessage = await this.getLastMessageReceivedLinkEmbed();
+    const linkEmbedIcon = await linkEmbedLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
+    );
+    return linkEmbedIcon;
+  }
+
+  async getLastMessageReceivedLinkEmbedIconTitle() {
+    const linkEmbedIconLastMessage =
+      await this.getLastMessageReceivedLinkEmbedIcon();
+    const iconTitle = await linkEmbedIconLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
+    );
+    return iconTitle;
+  }
+
+  async getLastMessageSentLinkEmbed() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const lastMessageLinkEmbed = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED
+    );
+    return lastMessageLinkEmbed;
+  }
+
+  async getLastMessageSentLinkEmbedDetailsText() {
+    const linkEmbedLastMessage = await this.getLastMessageSentLinkEmbed();
+    const linkEmbedDetailsText = await linkEmbedLastMessage
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
+    return linkEmbedDetailsText;
+  }
+
+  async getLastMessageSentLinkEmbedIcon() {
+    const linkEmbedLastMessage = await this.getLastMessageSentLinkEmbed();
+    const linkEmbedIcon = await linkEmbedLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
+    );
+    return linkEmbedIcon;
+  }
+
+  async getLastMessageSentLinkEmbedIconTitle() {
+    const linkEmbedIconLastMessage =
+      await this.getLastMessageSentLinkEmbedIcon();
+    const iconTitle = await linkEmbedIconLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
+    );
+    return iconTitle;
+  }
+
   // Context Menu Functions
 
   async openContextMenuOnReceivedMessage(message: string) {
@@ -514,6 +651,124 @@ export default class Messages extends UplinkMainScreen {
       await rightClickOnMacOS(messageToClick, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(messageToClick, this.executor);
+    }
+  }
+
+  // New message locators
+
+  async getFirstLocalMessage() {
+    const lastMessage = await this.chatMessageLocalFirst;
+    return lastMessage;
+  }
+
+  async getLastLocalMessage() {
+    const lastMessage = await this.chatMessageLocalLast;
+    return lastMessage;
+  }
+
+  async getFirstRemoteMessage() {
+    const lastMessage = await this.chatMessageRemoteFirst;
+    return lastMessage;
+  }
+
+  async getLastRemoteMessage() {
+    const lastMessage = await this.chatMessageRemoteLast;
+    return lastMessage;
+  }
+
+  async getMiddleLocalMessageLocator(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@label="message-local-message-middle"]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]/../..'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@Name="message-local-message-middle"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]/../..'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
+  async getMiddleRemoteMessageLocator(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[@label="message-remote-message-middle"]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]/../..'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@Name="message-remote-message-middle"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]/../..'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
+  async waitForMessageRemoteToExist(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[@label="message-remote-message-last"]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@Name="message-remote-message-last"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
+  async waitForMessageLocalToExist(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[@label="message-local-message-last"]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@Name="message-local-message-last"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
     }
   }
 }

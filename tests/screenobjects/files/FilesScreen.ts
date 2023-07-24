@@ -50,6 +50,14 @@ const SELECTORS_WINDOWS = {
   UPLOAD_FILE_BUTTON: '[name="upload-file"]',
   UPLOAD_FILE_INDICATOR_FILENAME: "//Document/Group/Text[1]",
   UPLOAD_FILE_INDICATOR_PROGRESS: "//Document/Group/Text[2]",
+  UPLOAD_PROGRESS_BAR: '[name="upload-progress-bar-container"]',
+  UPLOAD_PROGRESS_BAR_CONTENTS_FILENAME:
+    '[name="filename-and-file-queue-text"]',
+  UPLOAD_PROGRESS_BAR_CONTENTS_PERCENTAGE: '[name="progress-percentage"]',
+  UPLOAD_PROGRESS_BAR_CONTENTS_QUEUE: '[name="upload-progress-files-queue"]',
+  UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION:
+    '[name="upload-progress-description"]',
+  UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE: '[name="upload-progress-percentage"]',
 };
 
 const SELECTORS_MACOS = {
@@ -94,6 +102,12 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeWebView/XCUIElementTypeGroup[3]/XCUIElementTypeStaticText",
   UPLOAD_FILE_INDICATOR_PROGRESS:
     "-ios class chain:**/XCUIElementTypeWebView/XCUIElementTypeGroup[4]/XCUIElementTypeStaticText",
+  UPLOAD_PROGRESS_BAR: "~upload-progress-bar-container",
+  UPLOAD_PROGRESS_BAR_CONTENTS_FILENAME: "~filename-and-file-queue-text",
+  UPLOAD_PROGRESS_BAR_CONTENTS_PERCENTAGE: "~progress-percentage",
+  UPLOAD_PROGRESS_BAR_CONTENTS_QUEUE: "~upload-progress-files-queue",
+  UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION: "~upload-progress-description",
+  UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE: "~upload-progress-percentage",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -257,6 +271,39 @@ export default class FilesScreen extends UplinkMainScreen {
     return this.instance.$(SELECTORS.UPLOAD_FILE_INDICATOR_PROGRESS);
   }
 
+  get uploadProgressBar() {
+    return this.instance.$(SELECTORS.UPLOAD_PROGRESS_BAR);
+  }
+
+  get uploadProgressBarContentsFilename() {
+    return this.instance
+      .$(SELECTORS.UPLOAD_PROGRESS_BAR)
+      .$(SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_FILENAME);
+  }
+
+  get uploadProgressBarContentsPercentage() {
+    return this.instance
+      .$(SELECTORS.UPLOAD_PROGRESS_BAR)
+      .$(SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_PERCENTAGE);
+  }
+
+  get uploadProgressBarContentsQueue() {
+    return this.instance
+      .$(SELECTORS.UPLOAD_PROGRESS_BAR)
+      .$(SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_QUEUE);
+  }
+
+  get uploadProgressBarHeaderDescription() {
+    return this.instance
+      .$(SELECTORS.UPLOAD_PROGRESS_BAR)
+      .$(SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION);
+  }
+  get uploadProgressBarHeaderPercentage() {
+    return this.instance
+      .$(SELECTORS.UPLOAD_PROGRESS_BAR)
+      .$(SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE);
+  }
+
   async clickOnCreateFolder() {
     await this.addFolderButton.click();
   }
@@ -358,7 +405,6 @@ export default class FilesScreen extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = '//Group[@Name="' + name + '"]';
     }
-    await this.instance.$(locator).waitForExist();
     return locator;
   }
 

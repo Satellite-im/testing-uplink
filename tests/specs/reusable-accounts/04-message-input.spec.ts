@@ -2,8 +2,10 @@ import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
+import chats from "../02-chats.spec";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
 
 export default async function messageInputTests() {
@@ -40,8 +42,117 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.clearInputBar();
   });
 
-  it("Chat User B - Validate Typing Indicator is displayed if remote user is typing", async () => {
+  it("Chat Input Text - Validate texts with ** markdown are sent in bolds", async () => {
+    // With Chat User A
+    await chatsInputFirstUser.clearInputBar();
+    await chatsInputFirstUser.typeMessageOnInput("**Bolds1**");
+    await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Bolds1");
+
+    // With Chat User B
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.waitForReceivingMessage("Bolds1");
+  });
+
+  it("Chat Input Text - Validate texts with __ markdown are sent in bolds", async () => {
+    // With Chat User A
+    await chatsInputFirstUser.switchToOtherUserWindow();
+    await chatsInputFirstUser.typeMessageOnInput("__Bolds2__");
+    await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Bolds2");
+
+    // With Chat User B
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.waitForReceivingMessage("Bolds2");
+  });
+
+  it("Chat Input Text - Validate text starting with https:// is sent as link", async () => {
+    // With Chat User A
+    await chatsInputFirstUser.switchToOtherUserWindow();
+    await chatsInputFirstUser.typeMessageOnInput("https://www.google.com");
+    await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist(
+      "https://www.google.com"
+    );
+
+    // With Chat User B
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.waitForReceivingMessage(
+      "https://www.google.com"
+    );
+  });
+
+  it("Chat Input Text - Validate text starting with http:// is sent as link", async () => {
+    // With Chat User A
+    await chatsInputFirstUser.switchToOtherUserWindow();
+    await chatsInputFirstUser.typeMessageOnInput("http://www.satellite.im");
+    await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist(
+      "http://www.satellite.im"
+    );
+
+    // With Chat User B
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.waitForReceivingMessage(
+      "http://www.satellite.im"
+    );
+  });
+
+  it("Chat User - Chat Messages containing links contents on remote side", async () => {
+    // Validate link embed contents on chat message
+    const linkEmbedReceived =
+      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbed();
+    const linkEmbedReceivedDetailsText =
+      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedDetailsText();
+    const linkEmbedReceivedIcon =
+      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedIcon();
+    const linkEmbedReceivedIconTitle =
+      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedIconTitle();
+
+    await linkEmbedReceived.waitForDisplayed();
+    await expect(linkEmbedReceivedDetailsText).toHaveTextContaining(
+      "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included."
+    );
+    await linkEmbedReceivedIcon.waitForDisplayed();
+    await linkEmbedReceivedIconTitle.waitForDisplayed();
+  });
+
+  it("Chat User - Chat Messages containing links contents on local side", async () => {
+    // Swith to Chat User A
+    await chatsMessagesFirstUser.switchToOtherUserWindow();
+
+    // Validate link embed contents on chat message
+    const linkEmbedSent =
+      await chatsMessagesFirstUser.getLastMessageSentLinkEmbed();
+    const linkEmbedSentDetailsText =
+      await chatsMessagesFirstUser.getLastMessageSentLinkEmbedDetailsText();
+    const linkEmbedSentIcon =
+      await chatsMessagesFirstUser.getLastMessageSentLinkEmbedIcon();
+    const linkEmbedSentIconTitle =
+      await chatsMessagesFirstUser.getLastMessageSentLinkEmbedIconTitle();
+
+    await linkEmbedSent.waitForDisplayed();
+    await expect(linkEmbedSentDetailsText).toHaveTextContaining(
+      "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included."
+    );
+    await linkEmbedSentIcon.waitForDisplayed();
+    await linkEmbedSentIconTitle.waitForDisplayed();
+  });
+
+  it("Chat Input Text - Validate text starting with www. is not sent as link", async () => {
+    // With Chat User A
+    await chatsInputFirstUser.typeMessageOnInput("www.apple.com");
+    await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist("www.apple.com");
+
+    // With Chat User B
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.waitForReceivingMessage("www.apple.com");
+  });
+
+  it("Validate Typing Indicator is displayed if remote user is typing", async () => {
     // With User A
+    await chatsInputFirstUser.switchToOtherUserWindow();
     // Generate a random text with 100 chars
     const shortText = await chatsInputFirstUser.generateShortRandomText();
     // Type the text with 90 chars on input bar

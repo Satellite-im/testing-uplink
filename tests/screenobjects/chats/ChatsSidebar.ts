@@ -35,6 +35,8 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_CREATE_GROUP_CHAT_BUTTON: '[name="create-group-chat"]',
   SIDEBAR_GROUP_CHAT_IMAGE: '[name="user-image-group-wrap"]',
   SIDEBAR_GROUP_CHAT_PLUS_SOME: '[name="plus-some"]',
+  SIDEBAR_SEARCH_DROPDOWN: '[name="searchbar-dropwdown"]',
+  SIDEBAR_SEARCH_DROPDOWN_RESULT: '[name="search-friends-result"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Text",
 };
@@ -67,6 +69,8 @@ const SELECTORS_MACOS = {
   SIDEBAR_CREATE_GROUP_CHAT_BUTTON: "~create-group-chat",
   SIDEBAR_GROUP_CHAT_IMAGE: "~user-image-group-wrap",
   SIDEBAR_GROUP_CHAT_PLUS_SOME: "~plus-some",
+  SIDEBAR_SEARCH_DROPDOWN: "~searchbar-dropwdown",
+  SIDEBAR_SEARCH_DROPDOWN_RESULT: "~search-friends-result",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -274,6 +278,16 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
   }
 
+  get sidebarSearchDropdown() {
+    return this.instance.$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN);
+  }
+
+  get sidebarSearchDropdownResult() {
+    return this.instance
+      .$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN)
+      .$$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN_RESULT);
+  }
+
   // Validations or assertions
 
   async validateLastMessageDisplayed(message: string) {
@@ -294,6 +308,10 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async validateNoSidebarChatsAreDisplayed() {
     await this.sidebarChatsUser.waitForExist({ reverse: true });
+  }
+
+  async validateNoSidebarGroupChatsAreDisplayed() {
+    await this.sidebarGroupChatImage.waitForExist({ reverse: true });
   }
 
   async validateNumberOfUnreadMessages(badgeNumber: string) {
@@ -465,6 +483,17 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async openContextOnFirstSidebarChat() {
     const imageToRightClick = await this.sidebarChatsUser;
+    await this.hoverOnElement(imageToRightClick);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === macDriver) {
+      await rightClickOnMacOS(imageToRightClick, this.executor);
+    } else if (currentDriver === windowsDriver) {
+      await rightClickOnWindows(imageToRightClick, this.executor);
+    }
+  }
+
+  async openContextMenuOnGroupChat(groupName: string) {
+    const imageToRightClick = await this.getSidebarGroupLocator(groupName);
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {

@@ -2,23 +2,22 @@ import { resetAndLoginWithCache } from "../helpers/commands";
 import ChatsLayout from "../screenobjects/chats/ChatsLayout";
 import FriendsScreen from "../screenobjects/friends/FriendsScreen";
 import InputBar from "../screenobjects/chats/InputBar";
-import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
+import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+let uplinkMainFirstUser = new UplinkMainScreen(USER_A_INSTANCE);
 
 export default async function friends() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     await resetAndLoginWithCache("FriendsTestUser");
 
     // Go to Friends Screen
-    await welcomeScreenFirstUser.goToFriends();
-    await friendsScreenFirstUser.waitForIsShown(true);
+    await uplinkMainFirstUser.goToFriends();
 
     // Validate Pre Release Indicator is displayed
-    await expect(friendsScreenFirstUser.prereleaseIndicator).toBeDisplayed();
+    await friendsScreenFirstUser.prereleaseIndicator.waitForDisplayed();
     await expect(
       friendsScreenFirstUser.prereleaseIndicatorText
     ).toHaveTextContaining("Pre-release | Issues/Feedback");
@@ -32,15 +31,15 @@ export default async function friends() {
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await expect(friendsScreenFirstUser.chatSearchInput).toBeDisplayed();
-    await expect(friendsScreenFirstUser.sidebar).toBeDisplayed();
-    await expect(friendsScreenFirstUser.sidebarChildren).toBeDisplayed();
-    await expect(friendsScreenFirstUser.sidebarSearch).toBeDisplayed();
+    await friendsScreenFirstUser.chatSearchInput.waitForDisplayed();
+    await friendsScreenFirstUser.sidebar.waitForDisplayed();
+    await friendsScreenFirstUser.sidebarChildren.waitForDisplayed();
+    await friendsScreenFirstUser.sidebarSearch.waitForDisplayed();
   });
 
   it("Go to Friends Screen and validate elements displayed", async () => {
-    await expect(friendsScreenFirstUser.friendsLayout).toBeDisplayed();
-    await expect(friendsScreenFirstUser.settingsButton).toBeDisplayed();
+    await friendsScreenFirstUser.friendsLayout.waitForDisplayed();
+    await friendsScreenFirstUser.settingsButton.waitForDisplayed();
   });
 
   it("Friends Screen - Displays a badge showing 4 pending requests on Navigation Bar ", async () => {

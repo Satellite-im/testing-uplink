@@ -11,11 +11,9 @@ export default async function settingsExtensions() {
     await settingsExtensionsFirstUser.waitForIsShown(true);
 
     // Validate that the three buttons are displayed on top of the screen
-    await expect(settingsExtensionsFirstUser.installedButton).toBeDisplayed();
-    await expect(settingsExtensionsFirstUser.exploreButton).toBeDisplayed();
-    await expect(
-      settingsExtensionsFirstUser.extensionsSettingsButton
-    ).toBeDisplayed();
+    await settingsExtensionsFirstUser.installedButton.waitForDisplayed();
+    await settingsExtensionsFirstUser.exploreButton.waitForDisplayed();
+    await settingsExtensionsFirstUser.extensionsSettingsButton.waitForDisplayed();
   });
 
   it("Settings Extensions - Go to Explore panel and assert contents", async () => {
@@ -31,9 +29,7 @@ export default async function settingsExtensions() {
     await expect(
       settingsExtensionsFirstUser.extensionsSearchHeader
     ).toHaveTextContaining("SEARCH EXTENSIONS");
-    await expect(
-      settingsExtensionsFirstUser.extensionsSearchInput
-    ).toBeDisplayed();
+    await settingsExtensionsFirstUser.extensionsSearchInput.waitForDisplayed();
     const placeholder =
       await settingsExtensionsFirstUser.getPlaceholderFromExtensionsInput();
     await expect(placeholder).toEqual("Extension name or description.");
