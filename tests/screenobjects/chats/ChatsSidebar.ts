@@ -310,6 +310,10 @@ export default class ChatsSidebar extends UplinkMainScreen {
     await this.sidebarChatsUser.waitForExist({ reverse: true });
   }
 
+  async validateNoSidebarGroupChatsAreDisplayed() {
+    await this.sidebarGroupChatImage.waitForExist({ reverse: true });
+  }
+
   async validateNumberOfUnreadMessages(badgeNumber: string) {
     await expect(this.sidebarChatsUserBadgeNumberValue).toHaveTextContaining(
       badgeNumber
@@ -479,6 +483,17 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async openContextOnFirstSidebarChat() {
     const imageToRightClick = await this.sidebarChatsUser;
+    await this.hoverOnElement(imageToRightClick);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === macDriver) {
+      await rightClickOnMacOS(imageToRightClick, this.executor);
+    } else if (currentDriver === windowsDriver) {
+      await rightClickOnWindows(imageToRightClick, this.executor);
+    }
+  }
+
+  async openContextMenuOnGroupChat(groupName: string) {
+    const imageToRightClick = await this.getSidebarGroupLocator(groupName);
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {
