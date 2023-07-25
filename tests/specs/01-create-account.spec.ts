@@ -29,7 +29,28 @@ export default async function createAccount() {
     await expect(statusOfButton).toEqual("false");
   });
 
+  it("Unlock Screen - Help Button Tooltip", async () => {
+    // Wait until app is reset
+    await createPinFirstUser.unlockWarningHeader.waitForDisplayed();
+
+    // Validate Help Button tooltip
+    await createPinFirstUser.hoverOnHelpButton();
+    await createPinFirstUser.helpButtonTooltip.waitForExist();
+    await expect(createPinFirstUser.helpButtonTooltipText).toHaveTextContaining(
+      "Help (right-click)"
+    );
+  });
+
+  it("Unlock Screen - Reset Account", async () => {
+    // Right click on Help Button to show the help menu
+    await createPinFirstUser.openHelpButtonMenu();
+
+    // Click on Reset Account button
+    await createPinFirstUser.clickOnResetAccount();
+  });
+
   it("Enter an empty pin", async () => {
+    await createPinFirstUser.unlockWarningParagraph.waitForDisplayed();
     await createPinFirstUser.enterPin("1");
     await createPinFirstUser.pinInput.clearValue();
     await createPinFirstUser.inputError.waitForDisplayed();
