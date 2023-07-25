@@ -1,4 +1,4 @@
-import { maximizeWindow } from "../helpers/commands";
+import { maximizeWindow, resetPreservingCache } from "../helpers/commands";
 import { WINDOWS_DRIVER, USER_A_INSTANCE } from "../helpers/constants";
 import CreatePinScreen from "../screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "../screenobjects/account-creation/CreateUserScreen";
@@ -12,7 +12,7 @@ export default async function createAccount() {
     await createPinFirstUser.unlockWarningHeader.waitForDisplayed();
     // Skipping this validation until
     await expect(createPinFirstUser.unlockWarningHeader).toHaveTextContaining(
-      "WELCOME BACK, UNKNOWN"
+      "WELCOME BACK, CHATUSERA"
     );
     await createPinFirstUser.unlockWarningParagraph.waitForDisplayed();
     await expect(
@@ -28,14 +28,16 @@ export default async function createAccount() {
     await expect(statusOfButton).toEqual("false");
   });
 
-  it("Unlock Screen - Unlock button should be enabled after typing the correct PIN", async () => {
+  it("Unlock Screen - User should be able to login after typing the correct PIN", async () => {
     await createPinFirstUser.enterPin("1234");
-    const statusOfButton =
-      await createPinFirstUser.getStatusOfCreateAccountButton();
-    await expect(statusOfButton).toEqual("true");
+    await welcomeScreenFirstUser.waitForIsShown(true);
+    await resetPreservingCache(USER_A_INSTANCE);
   });
 
   it("Unlock Screen - Help Button Tooltip", async () => {
+    // Wait until app is reset
+    await createPinFirstUser.unlockWarningHeader.waitForDisplayed();
+
     // Validate Help Button tooltip
     await createPinFirstUser.hoverOnHelpButton();
     await createPinFirstUser.helpButtonTooltip.waitForExist();
@@ -50,12 +52,6 @@ export default async function createAccount() {
 
     // Click on Reset Account button
     await createPinFirstUser.clickOnResetAccount();
-
-    // Wait until Unlock Warning Header changes to Let's Choose Your Password, indicating that account was succesfully reset
-    const warningHeader = await createPinFirstUser.unlockWarningHeader;
-    await warningHeader.waitUntil(async () => {
-      return (await this.getText()) === "LET'S CHOOSE YOUR PASSWORD";
-    });
   });
 
   it("Validate warning texts are displayed on screen", async () => {

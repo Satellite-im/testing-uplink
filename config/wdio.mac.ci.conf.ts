@@ -54,9 +54,6 @@ export const config: WebdriverIO.Config = {
           "appium:bundleId": MACOS_BUNDLE_ID,
           "appium:arguments": ["--path", homedir() + "/.uplink"],
           "appium:systemPort": 4724,
-          "appium:prerun": {
-            command: 'do shell script "rm -rf ~/.uplink"',
-          },  
         }
       },
     }
