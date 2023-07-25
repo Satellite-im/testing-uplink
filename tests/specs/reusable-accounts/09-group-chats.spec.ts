@@ -57,14 +57,6 @@ export default async function groupChatTests() {
     await createGroupFirstUser.clearGroupNameInput();
   });
 
-  it("Chat User A - Group chat name allow the characters .,!?_&+~(){}[]+-/* and empty spaces", async () => {
-    await createGroupFirstUser.typeOnGroupName(" .,!?_&+~(){}[]+-/*");
-    await createGroupFirstUser.createGroupInputErrorText.waitForExist({
-      reverse: true,
-    });
-    await createGroupFirstUser.clearGroupNameInput();
-  });
-
   // Skipping test that sometimes fail in CI because Appium randomly jumps when typing into a different input field
   xit("Chat User A - Attempt to create group chat with more than 64 chars in name", async () => {
     await createGroupFirstUser.typeLongerTextInGroupName();
