@@ -49,11 +49,19 @@ export default async function groupChatTests() {
   });
 
   it("Chat User A - Attempt to create group chat with alphanumeric chars in name", async () => {
-    await createGroupFirstUser.typeOnGroupName("&!");
+    await createGroupFirstUser.typeOnGroupName("@");
     await expect(
       createGroupFirstUser.createGroupInputErrorText
     ).toHaveTextContaining("Only alphanumeric characters are accepted.");
     await createGroupFirstUser.createGroupInputError.waitForDisplayed();
+    await createGroupFirstUser.clearGroupNameInput();
+  });
+
+  it("Chat User A - Group chat name allow the characters .,!?_&+~(){}[]+-/* and empty spaces", async () => {
+    await createGroupFirstUser.typeOnGroupName(" .,!?_&+~(){}[]+-/*");
+    await createGroupFirstUser.createGroupInputErrorText.waitForExist({
+      reverse: true,
+    });
     await createGroupFirstUser.clearGroupNameInput();
   });
 
