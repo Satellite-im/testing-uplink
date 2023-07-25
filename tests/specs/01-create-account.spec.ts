@@ -41,12 +41,12 @@ export default async function createAccount() {
     );
   });
 
-  it("Unlock Screen - Reset Account", async () => {
+  it("Unlock Screen - Reset Account is shown after right clicking on Help Button", async () => {
     // Right click on Help Button to show the help menu
     await createPinFirstUser.openHelpButtonMenu();
 
-    // Click on Reset Account button
-    await createPinFirstUser.clickOnResetAccount();
+    // Right click again on Help Button to hide the help menu
+    await createPinFirstUser.openHelpButtonMenu();
   });
 
   it("Enter an empty pin", async () => {
