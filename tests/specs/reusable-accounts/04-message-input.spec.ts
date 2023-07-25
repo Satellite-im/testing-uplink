@@ -160,8 +160,5 @@ export default async function messageInputTests() {
     // Switch to second user and validate that Typing Indicator is displayed
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsLayoutSecondUser.typingIndicator.waitForDisplayed();
-
-    // Switch back to first user window to continue with test execution
-    await chatsInputFirstUser.switchToOtherUserWindow();
   });
 }

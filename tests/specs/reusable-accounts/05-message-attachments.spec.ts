@@ -12,6 +12,10 @@ let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 
 export default async function messageAttachmentsTests() {
   it("Chat User A - Validate compose attachments contents", async () => {
+    // Switch back to first user window to continue with test execution and clear input bar
+    await chatsInputFirstUser.switchToOtherUserWindow();
+    await chatsInputFirstUser.clearInputBar();
+
     // Click on upload button and attach a file to compose attachment
     await chatsInputFirstUser.uploadFile("./tests/fixtures/testfile.txt");
 
