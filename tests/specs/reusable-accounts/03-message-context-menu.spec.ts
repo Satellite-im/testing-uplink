@@ -118,7 +118,7 @@ export default async function messageContextMenuTests() {
   });
 
   it("Chat User B - Users can add a new reaction to a message already containing reactions", async () => {
-    // React with Laugh emoji
+    // React with laugh emoji
     await chatsMessagesSecondUser.openContextMenuOnLastSent();
     await chatsContextMenuSecondUser.validateContextMenuIsOpen();
     await chatsContextMenuSecondUser.selectReactionLaugh();
