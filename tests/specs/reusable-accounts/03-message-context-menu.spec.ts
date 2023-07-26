@@ -114,7 +114,7 @@ export default async function messageContextMenuTests() {
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
-    await expect(reaction.includes("👍 2")).toEqual(true);
+    await expect(reaction.includes("🖖 2")).toEqual(true);
   });
 
   it("Chat User B - Users can add a new reaction to a message already containing reactions", async () => {
@@ -126,7 +126,7 @@ export default async function messageContextMenuTests() {
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
-    await expect(reaction.includes("👍 2")).toEqual(true);
+    await expect(reaction.includes("🖖 2")).toEqual(true);
     await expect(reaction.includes("😂 1")).toEqual(true);
   });
 }
