@@ -5,6 +5,7 @@ import {
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
 } from "../helpers/constants";
+import { rightClickOnMacOS, rightClickOnWindows } from "../helpers/commands";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
@@ -22,6 +23,7 @@ const SELECTORS_WINDOWS = {
   BUTTON_NAV_TOOLTIP_TEXT: "//Text",
   CHAT_SEARCH_INPUT: '[name="chat-search-input"]',
   CHATS_BUTTON: '[name="chats-button"]',
+  CONTEXT_MENU: '[name="Context Menu"]',
   FAVORITES: '[name="Favorites"]',
   FAVORITES_CONTEXT_CHAT: '[name="favorites-chat"]',
   FAVORITES_CONTEXT_REMOVE: '[name="favorites-remove"]',
@@ -66,6 +68,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   CHAT_SEARCH_INPUT: "~chat-search-input",
   CHATS_BUTTON: "~chats-button",
+  CONTEXT_MENU: "~Context Menu",
   FAVORITES: "~Favorites",
   FAVORITES_CONTEXT_CHAT: "~favorites-chat",
   FAVORITES_CONTEXT_REMOVE: "~favorites-remove",
@@ -146,6 +149,10 @@ export default class UplinkMainScreen extends AppScreen {
     return this.instance
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+  }
+
+  get contextMenu() {
+    return this.instance.$(SELECTORS.CONTEXT_MENU);
   }
 
   get favorites() {
@@ -379,6 +386,14 @@ export default class UplinkMainScreen extends AppScreen {
 
   // Favorites methods
 
+  async clickOnContextMenuFavoritesChat() {
+    await this.favoritesChat.click();
+  }
+
+  async clickOnContextMenuFavoriteRemove() {
+    await this.favoritesRemove.click();
+  }
+
   async getUsersFromFavorites() {
     const favoriteUsers = await this.favoritesUserName;
     let currentFavoriteUsers = [];
@@ -386,6 +401,35 @@ export default class UplinkMainScreen extends AppScreen {
       currentFavoriteUsers.push(await this.instance.$(name).getText());
     }
     return currentFavoriteUsers;
+  }
+
+  async getLocatorOfFavoritesUser(name: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let locator;
+    if (currentDriver === MACOS_DRIVER) {
+      locator =
+        '-ios class chain:**//XCUIElementTypeGroup[`label == "' + name + '"`]';
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      locator = '//Group[@Name="' + name + '"]';
+    }
+    return locator;
+  }
+
+  async openContextMenuOnFavoritesUser(name: string) {
+    const locator = await this.getLocatorOfFavoritesUser(name);
+    const element = await this.favorites.$(locator);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await rightClickOnMacOS(element, this.executor);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await rightClickOnWindows(element, this.executor);
+    }
+    await this.contextMenu.waitForDisplayed();
+  }
+
+  async validateUserIsInFavorites(locator: string) {
+    const element = await this.getLocatorOfFavoritesUser(locator);
+    await this.favorites.$(element).waitForExist({ timeout: 10000 });
   }
 
   // NavBar methods
