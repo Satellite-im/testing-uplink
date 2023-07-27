@@ -49,7 +49,9 @@ export default async function groupChatSidebarTests() {
   it("Group Chat - Remove group from favorites", async () => {
     // Remove user from favorites and ensure that Favorites bar is hidden now
     await chatsTopbarFirstUser.removeFromFavorites();
-    await favoritesSidebarFirstUser.favorites.waitForExist({ reverse: true });
+    await favoritesSidebarFirstUser.favorites.waitForExist({
+      reverse: true,
+    });
 
     // Go to another chat conversation
     await chatsTopbarFirstUser.goToFriends();

@@ -263,6 +263,8 @@ export default async function sidebarChatsTests() {
   it("Sidebar - Favorites - Context Menu - Remove user from Favorites", async () => {
     await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("CHATUSERB");
     await favoritesSidebarFirstUser.clickOnContextMenuFavoriteRemove();
-    await favoritesSidebarFirstUser.favorites.waitForExist({ reverse: true });
+    await favoritesSidebarFirstUser.favorites.waitForExist({
+      reverse: true,
+    });
   });
 }
