@@ -21,6 +21,7 @@ const SELECTORS_WINDOWS = {
   EMOJI_SELECTOR: '[name="emoji-selector"]',
   EMOJIS_CONTAINER: '[name="emojis-container"]',
   INPUT_CHAR_COUNTER: '[name="input-char-counter"]',
+  INPUT_CHAR_COUNTER_TEXT: "//Text",
   INPUT_GROUP: '[name="input-group"]',
   INPUT_TEXT: "//Edit",
   SEND_MESSAGE_BUTTON: '[name="send-message-button"]',
@@ -36,6 +37,7 @@ const SELECTORS_MACOS = {
   EMOJI_SELECTOR: "~emoji-selector",
   EMOJIS_CONTAINER: "~emojis-container",
   INPUT_CHAR_COUNTER: "~input-char-counter",
+  INPUT_CHAR_COUNTER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   INPUT_GROUP: "~input-group",
   INPUT_TEXT: "-ios class chain:**/XCUIElementTypeTextView",
   SEND_MESSAGE_BUTTON: "~send-message-button",
@@ -72,6 +74,12 @@ export default class InputBar extends UplinkMainScreen {
 
   get inputCharCounter() {
     return this.instance.$(SELECTORS.INPUT_CHAR_COUNTER);
+  }
+
+  get inputCharCounterText() {
+    return this.instance
+      .$(SELECTORS.INPUT_CHAR_COUNTER)
+      .$(SELECTORS.INPUT_CHAR_COUNTER_TEXT);
   }
 
   get inputGroup() {

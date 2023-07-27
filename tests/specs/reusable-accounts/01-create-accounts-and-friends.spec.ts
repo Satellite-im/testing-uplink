@@ -174,14 +174,32 @@ export default async function createChatAccountsTests() {
     );
   });
 
-  it("Chat User A - Send a message to the other user", async () => {
+  it("Input Bar - Chars Counter on Input Bar displays 0/1024 before typing a text", async () => {
+    await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
+      "0/1024"
+    );
+  });
+
+  it("Input Bar - Chars Counter on Input Bar displays the number of chars of text entered", async () => {
     await chatsInputFirstUser.typeMessageOnInput("Testing...");
+    await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
+      "10/1024"
+    );
+  });
+
+  it("Input Bar - Click on send button will send the message to the other user", async () => {
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Testing...");
 
     const textFromMessage =
       await chatsMessagesFirstUser.getLastMessageSentText();
     await expect(textFromMessage).toHaveTextContaining("Testing...");
+  });
+
+  it("Input Bar - Chars Counter on Input Bar displays 0/1024 after sending a message", async () => {
+    await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
+      "0/1024"
+    );
   });
 
   it("Chat User A - Validate Chat Message displays timestamp and user who sent it", async () => {

@@ -13,6 +13,11 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MESSAGES_EDIT: '[name="messages-edit"]',
   CONTEXT_MESSAGES_REACT: '[name="messages-react"]',
   CONTEXT_MESSAGES_REPLY: '[name="messages-reply"]',
+  REACTION_PICKER_DISLIKE: '//Button[@Name="👎"]',
+  REACTION_PICKER_HEART: '//Button[@Name="❤️"]',
+  REACTION_PICKER_HI: '//Button[@Name="🖖"]',
+  REACTION_PICKER_LAUGH: '//Button[@Name="😂"]',
+  REACTION_PICKER_LIKE: '//Button[@Name="👍"]',
 };
 
 const SELECTORS_MACOS = {
@@ -22,7 +27,11 @@ const SELECTORS_MACOS = {
   CONTEXT_MESSAGES_EDIT: "~messages-edit",
   CONTEXT_MESSAGES_REACT: "~messages-react",
   CONTEXT_MESSAGES_REPLY: "~messages-reply",
-  TOOLTIP: "~tooltip",
+  REACTION_PICKER_DISLIKE: '//XCUIElementTypeGroup[@title="👎"]',
+  REACTION_PICKER_HEART: '//XCUIElementTypeGroup[@title="❤️"]',
+  REACTION_PICKER_HI: '//XCUIElementTypeGroup[@title="🖖"]',
+  REACTION_PICKER_LAUGH: '//XCUIElementTypeGroup[@title="😂"]',
+  REACTION_PICKER_LIKE: '//XCUIElementTypeGroup[@title="👍"]',
 };
 
 currentOS === WINDOWS_DRIVER
@@ -68,6 +77,36 @@ export default class ContextMenu extends UplinkMainScreen {
       .$(SELECTORS.CONTEXT_MESSAGES_REPLY);
   }
 
+  get reactionPickerDislike() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.REACTION_PICKER_DISLIKE);
+  }
+
+  get reactionPickerHeart() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.REACTION_PICKER_HEART);
+  }
+
+  get reactionPickerHi() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.REACTION_PICKER_HI);
+  }
+
+  get reactionPickerLaugh() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.REACTION_PICKER_LAUGH);
+  }
+
+  get reactionPickerLike() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.REACTION_PICKER_LIKE);
+  }
+
   async selectContextOptionCancelEdit() {
     await this.contextMessagesCancelEdit.click();
   }
@@ -86,6 +125,26 @@ export default class ContextMenu extends UplinkMainScreen {
 
   async selectContextOptionReply() {
     await this.contextMessagesReply.click();
+  }
+
+  async selectReactionDislike() {
+    await this.reactionPickerDislike.click();
+  }
+
+  async selectReactionHeart() {
+    await this.reactionPickerHeart.click();
+  }
+
+  async selectReactionHi() {
+    await this.reactionPickerHi.click();
+  }
+
+  async selectReactionLaugh() {
+    await this.reactionPickerLaugh.click();
+  }
+
+  async selectReactionLike() {
+    await this.reactionPickerLike.click();
   }
 
   async validateContextMenuIsOpen() {

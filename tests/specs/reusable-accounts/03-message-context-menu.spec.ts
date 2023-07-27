@@ -3,7 +3,6 @@ import ContextMenu from "../../screenobjects/chats/ContextMenu";
 import InputBar from "../../screenobjects/chats/InputBar";
 import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import Messages from "../../screenobjects/chats/Messages";
-import ReactionPicker from "../../screenobjects/chats/ReactionPicker";
 let chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
 let chatsContextMenuSecondUser = new ContextMenu(USER_B_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
@@ -12,8 +11,6 @@ let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
 let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
-let reactionPickerFirstUser = new ReactionPicker(USER_A_INSTANCE);
-let reactionPickerSecondUser = new ReactionPicker(USER_B_INSTANCE);
 
 export default async function messageContextMenuTests() {
   it("Chat User A - Send two more messages to Chat User B", async () => {
@@ -54,43 +51,37 @@ export default async function messageContextMenuTests() {
 
     // With User B - Ensure that message "three.." was deleted
     await chatsMessagesSecondUser.waitForMessageToBeDeleted("Three...", 30000);
-    await chatsInputFirstUser.switchToOtherUserWindow();
   });
 
   it("Chat User A - React to sent message and multiple reactions in a message", async () => {
     // React with heart emoji
+    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
-    await chatsContextMenuFirstUser.selectContextOptionReact();
-    await reactionPickerFirstUser.waitForIsShown(true);
-    await reactionPickerFirstUser.reactionHeart.click();
+    await chatsContextMenuFirstUser.selectReactionHeart();
 
-    // React with heart eyes emoji
+    // React with like emoji
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
-    await chatsContextMenuFirstUser.selectContextOptionReact();
-    await reactionPickerFirstUser.waitForIsShown(true);
-    await reactionPickerFirstUser.reactionHeartEyes.click();
+    await chatsContextMenuFirstUser.selectReactionLike();
 
     // Validate reactions are displayed correctly
     const reactions =
       await chatsMessageGroupsFirstUser.getLastMessageSentSelfReactions();
     await expect(reactions.includes("❤️ 1")).toEqual(true);
-    await expect(reactions.includes("😍 1")).toEqual(true);
+    await expect(reactions.includes("👍 1")).toEqual(true);
   });
 
   it("Chat User A - React to received message", async () => {
-    // React with cry emoji
+    // React with Hi emoji
     await chatsMessagesFirstUser.openContextMenuOnLastReceived();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
-    await chatsContextMenuFirstUser.selectContextOptionReact();
-    await reactionPickerFirstUser.waitForIsShown(true);
-    await reactionPickerFirstUser.reactionCry.click();
+    await chatsContextMenuFirstUser.selectReactionHi();
 
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsFirstUser.getLastMessageReceivedSelfReactions();
-    await expect(reaction.includes("😢 1")).toEqual(true);
+    await expect(reaction.includes("🖖 1")).toEqual(true);
   });
 
   it("Chat User B - Receive reaction in sent message", async () => {
@@ -103,7 +94,7 @@ export default async function messageContextMenuTests() {
     // Validate reactions received on sent message
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentRemoteReactions();
-    await expect(reaction.includes("😢 1")).toEqual(true);
+    await expect(reaction.includes("🖖 1")).toEqual(true);
   });
 
   it("Chat User B - Receive reaction in received message", async () => {
@@ -111,35 +102,31 @@ export default async function messageContextMenuTests() {
     const reactions =
       await chatsMessageGroupsSecondUser.getLastMessageReceivedRemoteReactions();
     await expect(reactions.includes("❤️ 1")).toEqual(true);
-    await expect(reactions.includes("😍 1")).toEqual(true);
+    await expect(reactions.includes("👍 1")).toEqual(true);
   });
 
   it("Chat User B - Both users can react with the same emoji to a message", async () => {
-    // React with cry emoji
+    // React with Hi emoji
     await chatsMessagesSecondUser.openContextMenuOnLastSent();
     await chatsContextMenuSecondUser.validateContextMenuIsOpen();
-    await chatsContextMenuSecondUser.selectContextOptionReact();
-    await reactionPickerSecondUser.waitForIsShown(true);
-    await reactionPickerSecondUser.reactionCry.click();
+    await chatsContextMenuSecondUser.selectReactionHi();
 
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
-    await expect(reaction.includes("😢 2")).toEqual(true);
+    await expect(reaction.includes("🖖 2")).toEqual(true);
   });
 
   it("Chat User B - Users can add a new reaction to a message already containing reactions", async () => {
-    // React with 100 emoji
+    // React with laugh emoji
     await chatsMessagesSecondUser.openContextMenuOnLastSent();
     await chatsContextMenuSecondUser.validateContextMenuIsOpen();
-    await chatsContextMenuSecondUser.selectContextOptionReact();
-    await reactionPickerSecondUser.waitForIsShown(true);
-    await reactionPickerSecondUser.reaction100.click();
+    await chatsContextMenuSecondUser.selectReactionLaugh();
 
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
-    await expect(reaction.includes("😢 2")).toEqual(true);
-    await expect(reaction.includes("💯 1")).toEqual(true);
+    await expect(reaction.includes("🖖 2")).toEqual(true);
+    await expect(reaction.includes("😂 1")).toEqual(true);
   });
 }
