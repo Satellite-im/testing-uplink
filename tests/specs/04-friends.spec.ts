@@ -10,7 +10,7 @@ let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let uplinkMainFirstUser = new UplinkMainScreen(USER_A_INSTANCE);
-const users = ["ChatUserB", "ChatUserC", "ChatUserD", "ChatUserE", "ChatUserF"];
+const users = ["ChatUserB", "ChatUserC", "ChatUserD"];
 
 export default async function friends() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
@@ -137,6 +137,56 @@ export default async function friends() {
     await friendsScreenFirstUser.friendsList.waitForDisplayed();
   });
 
+  it("Favorites - Open Chat conversations with multiple users on Sidebar", async () => {
+    for (let user of users) {
+      // Open friend Context Menu
+      await friendsScreenFirstUser.openFriendContextMenu(user);
+
+      // Select first option "Chat" from Context Menu and validate Chat is displayed
+      await friendsScreenFirstUser.clickOnContextMenuChat();
+      await chatsLayoutFirstUser.waitForIsShown(true);
+      await chatsInputFirstUser.typeMessageOnInput("Testing...");
+      await chatsInputFirstUser.clearInputBar();
+
+      // Go back to Friends Screen
+      await chatsLayoutFirstUser.goToFriends();
+      await friendsScreenFirstUser.waitForIsShown(true);
+    }
+  });
+
+  it("Favorites - Add multiple users to Favorites", async () => {
+    for (let user of users) {
+      // Open friend Context Menu
+      await friendsScreenFirstUser.openFriendContextMenu(user);
+
+      // Select "Favorites" from Context Menu to Add the user to Favorites
+      await friendsScreenFirstUser.clickOnContextMenuFavoritesAdd();
+    }
+  });
+
+  it("Favorites - Validate Favorites were added correctly to Sidebar Favorites", async () => {
+    // Validate that Favorites Sidebar is displayed
+    await favoritesSidebarFirstUser.waitForIsShown(true);
+
+    for (let user of users) {
+      // Validate all favorites are listed in Favorites Sidebar
+      await favoritesSidebarFirstUser.validateUserIsInFavorites(user);
+    }
+  });
+
+  it("Favorites - Remove all users from Favorites", async () => {
+    for (let user of users) {
+      // Open Context Menu from first user listed in Friends List
+      await friendsScreenFirstUser.openFriendContextMenu(user);
+
+      // Select second option "Remove from Favorites" from Context Menu
+      await friendsScreenFirstUser.clickOnContextMenuFavoritesRemove();
+    }
+
+    // Validate that favorites is hidden now
+    await favoritesSidebarFirstUser.favorites.waitForExist({ reverse: true });
+  });
+
   it("Go to Chat with Friend from Friends List", async () => {
     const friendName = await friendsScreenFirstUser.getUserFromAllFriendsList();
     await friendsScreenFirstUser.chatWithFriend(friendName);
@@ -167,59 +217,6 @@ export default async function friends() {
       friendName
     );
     await expect(blockTooltipText).toHaveTextContaining("Block");
-  });
-
-  it("Favorites - Open Chat conversations with multiple users on Sidebar", async () => {
-    for (let user of users) {
-      // Open friend Context Menu
-      await friendsScreenFirstUser.openFriendContextMenu(user);
-
-      // Select first option "Chat" from Context Menu and validate Chat is displayed
-      await friendsScreenFirstUser.clickOnContextMenuChat();
-      await chatsLayoutFirstUser.waitForIsShown(true);
-      await chatsInputFirstUser.typeMessageOnInput("Testing...");
-      await chatsInputFirstUser.clearInputBar();
-
-      // Go back to Friends Screen
-      await chatsLayoutFirstUser.goToFriends();
-      await friendsScreenFirstUser.waitForIsShown(true);
-    }
-  });
-
-  it("Favorites - Add multiple users to Favorites", async () => {
-    for (let user of users) {
-      // Open friend Context Menu
-      await friendsScreenFirstUser.openFriendContextMenu(user);
-
-      // Select "Favorites" from Context Menu to Add the user to Favorites
-      await friendsScreenFirstUser.clickOnContextMenuFavoritesAdd();
-    }
-  });
-
-  it("Favorites - Validate Favorites were added correctly to Sidebar Favorites", async () => {
-    // Validate that Favorites Sidebar is displayed
-    await favoritesSidebarFirstUser.favorites.waitForDisplayed();
-
-    for (let user of users) {
-      // Open friend Context Menu
-      await friendsScreenFirstUser.openFriendContextMenu(user);
-
-      // Validate all favorites are listed in Favorites Sidebar
-      await favoritesSidebarFirstUser.validateUserIsInFavorites(user);
-    }
-  });
-
-  it("Favorites - Remove all users from Favorites", async () => {
-    for (let user of users) {
-      // Open Context Menu from first user listed in Friends List
-      await friendsScreenFirstUser.openFriendContextMenu(user);
-
-      // Select second option "Remove from Favorites" from Context Menu
-      await friendsScreenFirstUser.clickOnContextMenuFavoritesRemove();
-    }
-
-    // Validate that Sidebar Favorites is hidden now after all users where removed from Favorites
-    await favoritesSidebarFirstUser.favorites.waitForExist({ reverse: true });
   });
 
   it("Unfriend someone from Friends List", async () => {

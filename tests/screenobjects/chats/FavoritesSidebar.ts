@@ -42,7 +42,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
 };
 
-currentOS === windowsDriver
+currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -52,7 +52,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   }
 
   get favorites() {
-    return this.instance.$(SELECTORS.SIDEBAR).$(SELECTORS.FAVORITES);
+    return this.instance.$(SELECTORS.FAVORITES);
   }
 
   get favoritesChat() {
@@ -64,65 +64,52 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   }
 
   get favoritesHeader() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_HEADER);
+    return this.instance.$(SELECTORS.FAVORITES).$(SELECTORS.FAVORITES_HEADER);
   }
 
   get favoritesHeaderText() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$(SELECTORS.FAVORITES_HEADER)
       .$(SELECTORS.FAVORITES_HEADER_TEXT);
   }
 
   get favoriteUsers() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$$(SELECTORS.FAVORITES_USER);
+    return this.instance.$(SELECTORS.FAVORITES).$$(SELECTORS.FAVORITES_USER);
   }
 
   get favoritesUserImage() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE);
   }
 
   get favoritesUserImageProfile() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
   }
 
   get favoritesUserImageWrap() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_WRAP);
   }
 
   get favoritesUserIndicatorOffline() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE);
+      .$$(SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE);
   }
 
   get favoritesUserIndicatorOnline() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
+      .$$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
   }
 
   get favoritesUserName() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
       .$(SELECTORS.FAVORITES)
       .$(SELECTORS.FAVORITES_USER_NAME);
   }
@@ -150,17 +137,19 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === MACOS_DRIVER) {
-      locator =
-        '-ios class chain:**//XCUIElementTypeGroup[`label == "' + name + '"`]';
+      locator = await this.instance
+        .$(SELECTORS.FAVORITES)
+        .$('//XCUIElementTypeStaticText[@label="' + name + '"]');
     } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = '//Group[@Name="' + name + '"]';
+      locator = await this.instance
+        .$(SELECTORS.FAVORITES)
+        .$('//Group[@Name="Favorites"]//Text[@Name="' + name + '"]');
     }
     return locator;
   }
 
   async openContextMenuOnFavoritesUser(name: string) {
-    const locator = await this.getLocatorOfFavoritesUser(name);
-    const element = await this.favorites.$(locator);
+    const element = await this.getLocatorOfFavoritesUser(name);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(element, this.executor);
@@ -170,8 +159,8 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     await this.contextMenu.waitForDisplayed();
   }
 
-  async validateUserIsInFavorites(locator: string) {
-    const element = await this.getLocatorOfFavoritesUser(locator);
-    await this.favorites.$(element).waitForExist({ timeout: 10000 });
+  async validateUserIsInFavorites(name: string) {
+    const element = await this.getLocatorOfFavoritesUser(name);
+    await element.waitForExist({ timeout: 10000 });
   }
 }
