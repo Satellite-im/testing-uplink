@@ -20,7 +20,6 @@ const SELECTORS_WINDOWS = {
   BUTTON_NAV: '[name="button-nav"]',
   BUTTON_NAV_TOOLTIP: '[name="tooltip"]',
   BUTTON_NAV_TOOLTIP_TEXT: "//Text",
-  CHAT_SEARCH_INPUT: '[name="chat-search-input"]',
   CHATS_BUTTON: '[name="chats-button"]',
   CONTEXT_MENU: '[name="Context Menu"]',
   FILES_BUTTON: '[name="files-button"]',
@@ -28,10 +27,6 @@ const SELECTORS_WINDOWS = {
   HAMBURGER_BUTTON: '[name="hamburger-button"]',
   PRE_RELEASE_INDICATOR_TEXT: "//Text",
   SETTINGS_BUTTON: '[name="settings-button"]',
-  SIDEBAR: '[name="sidebar"]',
-  SIDEBAR_CHATS_SECTION: "~chats",
-  SIDEBAR_CHILDREN: '[name="sidebar-children"]',
-  SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SKELETAL_USER: '[name="skeletal-user"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
   TOAST_NOTIFICATION_CLOSE: '[name="close-toast"]',
@@ -53,7 +48,6 @@ const SELECTORS_MACOS = {
   BUTTON_NAV_TOOLTIP: "~tooltip",
   BUTTON_NAV_TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
-  CHAT_SEARCH_INPUT: "~chat-search-input",
   CHATS_BUTTON: "~chats-button",
   CONTEXT_MENU: "~Context Menu",
   FILES_BUTTON: "~files-button",
@@ -61,10 +55,6 @@ const SELECTORS_MACOS = {
   HAMBURGER_BUTTON: "~hamburger-button",
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
-  SIDEBAR: "~sidebar",
-  SIDEBAR_CHATS_SECTION: "~Chats",
-  SIDEBAR_CHILDREN: "~sidebar-children",
-  SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
   TOAST_NOTIFICATION: "~Toast Notification",
   TOAST_NOTIFICATION_CLOSE: "~close-toast",
@@ -105,10 +95,6 @@ export default class UplinkMainScreen extends AppScreen {
       .$(SELECTORS.BUTTON_NAV)
       .$(SELECTORS.BUTTON_BADGE)
       .$(SELECTORS.BUTTON_BADGE_TEXT);
-  }
-
-  get chatSearchInput() {
-    return this.instance.$(SELECTORS.CHAT_SEARCH_INPUT);
   }
 
   get chatsButton() {
@@ -183,22 +169,6 @@ export default class UplinkMainScreen extends AppScreen {
     return this.instance
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
-  }
-
-  get sidebar() {
-    return this.instance.$(SELECTORS.SIDEBAR);
-  }
-
-  get sidebarChatsSection() {
-    return this.instance.$(SELECTORS.SIDEBAR_CHATS_SECTION);
-  }
-
-  get sidebarChildren() {
-    return this.instance.$(SELECTORS.SIDEBAR_CHILDREN);
-  }
-
-  get sidebarSearch() {
-    return this.instance.$(SELECTORS.SIDEBAR_SEARCH);
   }
 
   get skeletalUser() {

@@ -1,6 +1,8 @@
+import ChatsSidebar from "../screenobjects/chats/ChatsSidebar";
 import FilesScreen from "../screenobjects/files/FilesScreen";
 import FriendsScreen from "../screenobjects/friends/FriendsScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
+let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 
@@ -25,10 +27,10 @@ export default async function files() {
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await filesScreenFirstUser.chatSearchInput.waitForDisplayed();
-    await filesScreenFirstUser.sidebar.waitForDisplayed();
-    await filesScreenFirstUser.sidebarChildren.waitForDisplayed();
-    await filesScreenFirstUser.sidebarSearch.waitForDisplayed();
+    await chatsSidebarFirstUser.chatSearchInput.waitForDisplayed();
+    await chatsSidebarFirstUser.sidebar.waitForDisplayed();
+    await chatsSidebarFirstUser.sidebarChildren.waitForDisplayed();
+    await chatsSidebarFirstUser.sidebarSearch.waitForDisplayed();
   });
 
   it("Validate Files Info is displayed in screen", async () => {

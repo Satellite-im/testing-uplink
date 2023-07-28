@@ -172,7 +172,7 @@ export default async function sidebarChatsTests() {
     await settingsProfileFirstUser.waitForIsShown(true);
 
     // Validate that Chats Sidebar is not displayed on Settings Screen
-    await settingsProfileFirstUser.sidebarChatsSection.waitForExist({
+    await chatsSidebarFirstUser.sidebarChatsSection.waitForExist({
       reverse: true,
     });
   });

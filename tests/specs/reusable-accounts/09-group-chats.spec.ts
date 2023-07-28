@@ -140,8 +140,45 @@ export default async function groupChatTests() {
     await chatsMessagesSecondUser.waitForReceivingMessage("HiGroup");
   });
 
-  it("Group Chat - Show participants list - Contents", async () => {
+  it("Sidebar - Return to conversation with ChatUserB", async () => {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
+    await chatsSidebarFirstUser.goToSidebarChat("ChatUserB");
+    await chatsTopbarFirstUser.topbar.waitForDisplayed();
+    await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
+      "ChatUserB"
+    );
+  });
+
+  it("Sidebar - Search Bar - Search for a string matching a single username", async () => {
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Chat");
+    const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
+    await expect(searchResults).toEqual(["ChatUserB"]);
+    await chatsSidebarFirstUser.clearSidebarSearchInput();
+  });
+
+  it("Sidebar - Search Bar - Search for a string matching a single group chat", async () => {
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Test");
+    const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
+    await expect(searchResults).toEqual(["Test"]);
+    await chatsSidebarFirstUser.clearSidebarSearchInput();
+  });
+
+  // Skipped since it is a pending test to add
+  xit("Sidebar - Search Bar - Search for a string matching both username and group chat", async () => {});
+
+  xit("Sidebar - Search Bar - Search for a string not matching any result", async () => {
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("z");
+    await chatsSidebarFirstUser.validateSidebarSearchResultsIsEmpty();
+    await chatsSidebarFirstUser.clearSidebarSearchInput();
+  });
+
+  it("Sidebar - Search Bar - Search bar result will redirect to the Chat Conversation", async () => {
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("ChatUserB");
+    await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
+    await chatsSidebarFirstUser.clickOnResultFromSidebarSearch("ChatUserB");
+  });
+
+  it("Group Chat - Show participants list - Contents", async () => {
     await chatsTopbarFirstUser.clickOnTopbar();
     await participantsListFirstUser.waitForIsShown(true);
     await participantsListFirstUser.participantsUserInput.waitForDisplayed();

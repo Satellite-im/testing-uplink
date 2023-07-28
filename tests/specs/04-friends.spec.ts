@@ -1,5 +1,6 @@
 import { resetAndLoginWithCache } from "../helpers/commands";
 import ChatsLayout from "../screenobjects/chats/ChatsLayout";
+import ChatsSidebar from "../screenobjects/chats/ChatsSidebar";
 import FavoritesSidebar from "../screenobjects/chats/FavoritesSidebar";
 import FriendsScreen from "../screenobjects/friends/FriendsScreen";
 import InputBar from "../screenobjects/chats/InputBar";
@@ -7,6 +8,7 @@ import { USER_A_INSTANCE } from "../helpers/constants";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
+let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
 let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let uplinkMainFirstUser = new UplinkMainScreen(USER_A_INSTANCE);
@@ -34,10 +36,10 @@ export default async function friends() {
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await friendsScreenFirstUser.chatSearchInput.waitForDisplayed();
-    await friendsScreenFirstUser.sidebar.waitForDisplayed();
-    await friendsScreenFirstUser.sidebarChildren.waitForDisplayed();
-    await friendsScreenFirstUser.sidebarSearch.waitForDisplayed();
+    await chatsSidebarFirstUser.chatSearchInput.waitForDisplayed();
+    await chatsSidebarFirstUser.sidebar.waitForDisplayed();
+    await chatsSidebarFirstUser.sidebarChildren.waitForDisplayed();
+    await chatsSidebarFirstUser.sidebarSearch.waitForDisplayed();
   });
 
   it("Go to Friends Screen and validate elements displayed", async () => {
