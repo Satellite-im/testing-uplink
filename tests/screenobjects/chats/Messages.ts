@@ -294,22 +294,24 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]/../..'
         )
         .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]/../..')
+        .$(
+          '//Group[@Name="message-text"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]/../..'
+        )
         .waitForExist({ timeout: timeoutMsg });
     }
   }
 
   async getLastMessageReceivedLocator() {
-    const messages = await this.chatMessageRemote;
-    const lastMessageIndex = (await messages.length) - 1;
-    const lastMessage = await messages[lastMessageIndex];
+    const lastMessage = await this.chatMessageRemoteLast;
     return lastMessage;
   }
 
@@ -322,8 +324,7 @@ export default class Messages extends UplinkMainScreen {
   }
 
   async getFirstMessageReceivedLocator() {
-    const messages = await this.chatMessageRemote;
-    const firstMessage = await messages[0];
+    const firstMessage = await this.chatMessageRemoteFirst;
     return firstMessage;
   }
 
@@ -343,19 +344,23 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]'
         )
         .waitForExist({ timeout: timeoutMsg, reverse: true });
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .$(
+          '//Group[@Name="message-text"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
         .waitForExist({ timeout: timeoutMsg, reverse: true });
     }
   }
 
-  async waitForMessageSentToExist(
+  async waitForFirstMessageSentToExist(
     expectedMessage: string,
     timeoutMsg: number = 30000
   ) {
@@ -363,19 +368,47 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[@label="message-local-message-first"]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]'
         )
         .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .$(
+          '//Group[@Name="message-local-message-first"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
         .waitForExist({ timeout: timeoutMsg });
     }
   }
 
-  async waitForReceivingMessage(
+  async waitForLastMessageSentToExist(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[@label="message-local-message-last"]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@Name="message-local-message-last"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
+  async waitForReceivingFirstMessage(
     expectedMessage: string,
     timeoutMsg: number = 60000
   ) {
@@ -383,14 +416,42 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[@label="message-remote-message-first"]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]'
         )
         .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .$(
+          '//Group[@Name="message-remote-message-first"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
+  async waitForReceivingLastMessage(
+    expectedMessage: string,
+    timeoutMsg: number = 60000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[@label="message-remote-message-last"]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[@Name="message-remote-message-last"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
         .waitForExist({ timeout: timeoutMsg });
     }
   }
@@ -405,22 +466,24 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]/../..'
         )
         .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]/../..')
+        .$(
+          '//Group[@Name="message-text"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]/../..'
+        )
         .waitForExist({ timeout: timeoutMsg });
     }
   }
 
   async getLastMessageSentLocator() {
-    const messages = await this.chatMessageLocal;
-    const lastMessageIndex = (await messages.length) - 1;
-    const lastMessage = await messages[lastMessageIndex];
+    const lastMessage = await this.chatMessageLocalLast;
     return lastMessage;
   }
 
@@ -433,8 +496,7 @@ export default class Messages extends UplinkMainScreen {
   }
 
   async getFirstMessageSentLocator() {
-    const messages = await this.chatMessageLocal;
-    const firstMessage = await messages[0];
+    const firstMessage = await this.chatMessageLocalFirst;
     return firstMessage;
   }
 

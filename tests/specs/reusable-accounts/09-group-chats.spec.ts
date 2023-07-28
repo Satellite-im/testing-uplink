@@ -137,7 +137,7 @@ export default async function groupChatTests() {
   it("Group Chat - User B receives the message in group chat", async () => {
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.goToSidebarGroupChat("Test");
-    await chatsMessagesSecondUser.waitForReceivingMessage("HiGroup");
+    await chatsMessagesSecondUser.waitForReceivingLastMessage("HiGroup");
   });
 
   it("Sidebar - Return to conversation with ChatUserB", async () => {

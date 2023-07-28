@@ -41,13 +41,16 @@ export default async function messageContextMenuTests() {
     await chatsInputFirstUser.typeOnEditMessageInput("Edited...");
 
     // Validate message edited contents is shown on Chat Screen
-    await chatsMessagesFirstUser.waitForMessageSentToExist("Edited...");
+    await chatsMessagesFirstUser.waitForLastMessageSentToExist("Edited...");
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
     await expect(textMessage).toHaveTextContaining("Edited...");
     await chatsMessagesSecondUser.switchToOtherUserWindow();
 
     // With User B - Validate that last message is "edited"
-    await chatsMessagesSecondUser.waitForReceivingMessage("Edited...", 60000);
+    await chatsMessagesSecondUser.waitForReceivingLastMessage(
+      "Edited...",
+      60000
+    );
 
     // With User B - Ensure that message "three.." was deleted
     await chatsMessagesSecondUser.waitForMessageToBeDeleted("Three...", 30000);
