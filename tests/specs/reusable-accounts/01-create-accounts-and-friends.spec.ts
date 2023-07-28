@@ -6,6 +6,7 @@ import {
 } from "../../helpers/commands";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
+import FavoritesSidebar from "../../screenobjects/chats/FavoritesSidebar";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
 import InputBar from "../../screenobjects/chats/InputBar";
 import MessageGroup from "../../screenobjects/chats/MessageGroup";
@@ -24,6 +25,7 @@ let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
+let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
 let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
@@ -242,22 +244,24 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Add user with active chat to Favorites", async () => {
     // Add user to favorites
     await chatsTopbarFirstUser.addToFavorites();
-    await chatsTopbarFirstUser.favorites.waitForExist();
+    await favoritesSidebarFirstUser.favorites.waitForExist();
 
     // Favorites Sidebar should be displayed
-    await expect(chatsTopbarFirstUser.favoritesUserImage).toBeDisplayed();
+    await expect(favoritesSidebarFirstUser.favoritesUserImage).toBeDisplayed();
     await expect(
-      chatsTopbarFirstUser.favoritesUserIndicatorOnline
+      favoritesSidebarFirstUser.favoritesUserIndicatorOnline
     ).toBeDisplayed();
-    await expect(chatsTopbarFirstUser.favoritesUserName).toHaveTextContaining(
-      "CHATUSERB"
-    );
+    await expect(
+      favoritesSidebarFirstUser.favoritesUserName
+    ).toHaveTextContaining("CHATUSERB");
   });
 
   it("Chat User A - Remove user with active chat from Favorites", async () => {
     // Remove user from favorites
     await chatsTopbarFirstUser.removeFromFavorites();
-    await chatsTopbarFirstUser.favorites.waitForExist({ reverse: true });
+    await favoritesSidebarFirstUser.favorites.waitForExist({
+      reverse: true,
+    });
     await friendsScreenSecondUser.switchToOtherUserWindow();
   });
 
