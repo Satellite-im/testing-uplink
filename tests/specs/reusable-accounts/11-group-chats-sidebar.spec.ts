@@ -67,7 +67,7 @@ export default async function groupChatSidebarTests() {
     await chatsTopbarSecondUser.switchToOtherUserWindow();
     await chatsInputSecondUser.typeMessageOnInput("HelloGroup");
     await chatsInputSecondUser.clickOnSendMessage();
-    await chatsMessagesSecondUser.waitForFirstMessageSentToExist("HelloGroup");
+    await chatsMessagesSecondUser.waitForMessageSentToExist("HelloGroup");
 
     // Switch control to User A
     await chatsLayoutFirstUser.switchToOtherUserWindow();
@@ -104,7 +104,7 @@ export default async function groupChatSidebarTests() {
     await chatsInputSecondUser.switchToOtherUserWindow();
     await chatsInputSecondUser.typeMessageOnInput("Hey!");
     await chatsInputSecondUser.clickOnSendMessage();
-    await chatsMessagesSecondUser.waitForLastMessageSentToExist("Hey!");
+    await chatsMessagesSecondUser.waitForMessageSentToExist("Hey!");
 
     // Switch control to User A
     await chatsLayoutFirstUser.switchToOtherUserWindow();

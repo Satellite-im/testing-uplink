@@ -191,7 +191,7 @@ export default async function createChatAccountsTests() {
 
   it("Input Bar - Click on send button will send the message to the other user", async () => {
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForFirstMessageSentToExist("Testing...");
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Testing...");
 
     const textFromMessage =
       await chatsMessagesFirstUser.getFirstMessageSentText();
@@ -279,7 +279,7 @@ export default async function createChatAccountsTests() {
   });
 
   it("Chat User B - Assert message received from Chat User A", async () => {
-    await chatsMessagesSecondUser.waitForReceivingFirstMessage("Testing...");
+    await chatsMessagesSecondUser.waitForReceivingMessage("Testing...");
   });
 
   it("Chat User B - Validate Chat Message received contents", async () => {

@@ -294,7 +294,7 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]/../..'
         )
@@ -302,7 +302,7 @@ export default class Messages extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$(
-          '//Group[@Name="message-text"]//Text[contains(@Name, "' +
+          '//Group[contains(@Name, "remote"]//Text[contains(@Name, "' +
             expectedMessage +
             '")]/../..'
         )
@@ -311,7 +311,9 @@ export default class Messages extends UplinkMainScreen {
   }
 
   async getLastMessageReceivedLocator() {
-    const lastMessage = await this.chatMessageRemoteLast;
+    const messages = await this.chatMessageRemote;
+    const lastMessageIndex = (await messages.length) - 1;
+    const lastMessage = await messages[lastMessageIndex];
     return lastMessage;
   }
 
@@ -324,7 +326,8 @@ export default class Messages extends UplinkMainScreen {
   }
 
   async getFirstMessageReceivedLocator() {
-    const firstMessage = await this.chatMessageRemoteFirst;
+    const messages = await this.chatMessageRemote;
+    const firstMessage = await messages[0];
     return firstMessage;
   }
 
@@ -360,7 +363,7 @@ export default class Messages extends UplinkMainScreen {
     }
   }
 
-  async waitForFirstMessageSentToExist(
+  async waitForLinkSentToExist(
     expectedMessage: string,
     timeoutMsg: number = 30000
   ) {
@@ -368,7 +371,7 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeGroup[@label="message-local-message-first"]//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeLink[contains(@value, "' +
             expectedMessage +
             '")]'
         )
@@ -376,7 +379,7 @@ export default class Messages extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$(
-          '//Group[@Name="message-local-message-first"]//Text[contains(@Name, "' +
+          '//Group[contains(@Name, "local")]//HyperLink[contains(@Name, "' +
             expectedMessage +
             '")]'
         )
@@ -384,7 +387,7 @@ export default class Messages extends UplinkMainScreen {
     }
   }
 
-  async waitForLastMessageSentToExist(
+  async waitForMessageSentToExist(
     expectedMessage: string,
     timeoutMsg: number = 30000
   ) {
@@ -392,7 +395,7 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeGroup[@label="message-local-message-last"]//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]'
         )
@@ -400,7 +403,7 @@ export default class Messages extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$(
-          '//Group[@Name="message-local-message-last"]//Text[contains(@Name, "' +
+          '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
             expectedMessage +
             '")]'
         )
@@ -408,7 +411,7 @@ export default class Messages extends UplinkMainScreen {
     }
   }
 
-  async waitForReceivingFirstMessage(
+  async waitForReceivingLink(
     expectedMessage: string,
     timeoutMsg: number = 60000
   ) {
@@ -416,7 +419,7 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeGroup[@label="message-remote-message-first"]//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeLink[contains(@value, "' +
             expectedMessage +
             '")]'
         )
@@ -424,7 +427,7 @@ export default class Messages extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$(
-          '//Group[@Name="message-remote-message-first"]//Text[contains(@Name, "' +
+          '//Group[contains(@Name, "remote")]//HyperLink[contains(@Name, "' +
             expectedMessage +
             '")]'
         )
@@ -432,7 +435,7 @@ export default class Messages extends UplinkMainScreen {
     }
   }
 
-  async waitForReceivingLastMessage(
+  async waitForReceivingMessage(
     expectedMessage: string,
     timeoutMsg: number = 60000
   ) {
@@ -440,7 +443,7 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeGroup[@label="message-remote-message-last"]//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]'
         )
@@ -448,7 +451,7 @@ export default class Messages extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$(
-          '//Group[@Name="message-remote-message-last"]//Text[contains(@Name, "' +
+          '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
             expectedMessage +
             '")]'
         )
@@ -466,7 +469,7 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[contains, (@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]/../..'
         )
@@ -474,7 +477,7 @@ export default class Messages extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
         .$(
-          '//Group[@Name="message-text"]//Text[contains(@Name, "' +
+          '//Group[contains, (@Name, "local")]//Text[contains(@Name, "' +
             expectedMessage +
             '")]/../..'
         )
@@ -483,7 +486,9 @@ export default class Messages extends UplinkMainScreen {
   }
 
   async getLastMessageSentLocator() {
-    const lastMessage = await this.chatMessageLocalLast;
+    const messages = await this.chatMessageLocal;
+    const lastMessageIndex = (await messages.length) - 1;
+    const lastMessage = await messages[lastMessageIndex];
     return lastMessage;
   }
 
@@ -496,7 +501,8 @@ export default class Messages extends UplinkMainScreen {
   }
 
   async getFirstMessageSentLocator() {
-    const firstMessage = await this.chatMessageLocalFirst;
+    const messages = await this.chatMessageLocal;
+    const firstMessage = await messages[0];
     return firstMessage;
   }
 

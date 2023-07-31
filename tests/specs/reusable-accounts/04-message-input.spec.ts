@@ -46,11 +46,11 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.clearInputBar();
     await chatsInputFirstUser.typeMessageOnInput("**Bolds1**");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForLastMessageSentToExist("Bolds1");
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Bolds1");
 
     // With Chat User B
     await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingLastMessage("Bolds1");
+    await chatsMessagesSecondUser.waitForReceivingMessage("Bolds1");
   });
 
   it("Chat Input Text - Validate texts with __ markdown are sent in bolds", async () => {
@@ -58,11 +58,11 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("__Bolds2__");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForLastMessageSentToExist("Bolds2");
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Bolds2");
 
     // With Chat User B
     await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingLastMessage("Bolds2");
+    await chatsMessagesSecondUser.waitForReceivingMessage("Bolds2");
   });
 
   it("Chat Input Text - Validate text starting with https:// is sent as link", async () => {
@@ -70,13 +70,13 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("https://www.google.com");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForLastMessageSentToExist(
+    await chatsMessagesFirstUser.waitForLinkSentToExist(
       "https://www.google.com"
     );
 
     // With Chat User B
     await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingLastMessage(
+    await chatsMessagesSecondUser.waitForReceivingLink(
       "https://www.google.com"
     );
   });
@@ -86,13 +86,13 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("http://www.satellite.im");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForLastMessageSentToExist(
+    await chatsMessagesFirstUser.waitForLinkSentToExist(
       "http://www.satellite.im"
     );
 
     // With Chat User B
     await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingLastMessage(
+    await chatsMessagesSecondUser.waitForReceivingLink(
       "http://www.satellite.im"
     );
   });
@@ -142,11 +142,11 @@ export default async function messageInputTests() {
     // With Chat User A
     await chatsInputFirstUser.typeMessageOnInput("www.apple.com");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForLastMessageSentToExist("www.apple.com");
+    await chatsMessagesFirstUser.waitForLinkSentToExist("www.apple.com");
 
     // With Chat User B
     await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingLastMessage("www.apple.com");
+    await chatsMessagesSecondUser.waitForReceivingLink("www.apple.com");
   });
 
   it("Validate Typing Indicator is displayed if remote user is typing", async () => {

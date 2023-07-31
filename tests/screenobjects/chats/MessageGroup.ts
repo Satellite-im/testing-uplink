@@ -318,6 +318,9 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async getLastMessageReceivedReactionsContainer() {
     const lastGroupReceived = await this.getLastReceivedGroup();
+    await lastGroupReceived
+      .$(SELECTORS.MESSAGE_REACTION_CONTAINER)
+      .waitForExist();
     const reactionContainers = await lastGroupReceived.$$(
       SELECTORS.MESSAGE_REACTION_CONTAINER
     );
@@ -360,6 +363,7 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async getLastMessageSentReactionsContainer() {
     const lastGroupSent = await this.getLastSentGroup();
+    await lastGroupSent.$(SELECTORS.MESSAGE_REACTION_CONTAINER).waitForExist();
     const reactionContainers = await lastGroupSent.$$(
       SELECTORS.MESSAGE_REACTION_CONTAINER
     );

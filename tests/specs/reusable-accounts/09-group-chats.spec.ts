@@ -137,45 +137,49 @@ export default async function groupChatTests() {
   it("Group Chat - User B receives the message in group chat", async () => {
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.goToSidebarGroupChat("Test");
-    await chatsMessagesSecondUser.waitForReceivingLastMessage("HiGroup");
+    await chatsMessagesSecondUser.waitForReceivingMessage("HiGroup");
   });
 
-  it("Sidebar - Return to conversation with ChatUserB", async () => {
+  it("Sidebar - Search Bar - Search bar result will redirect to a User Chat Conversation", async () => {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
-    await chatsSidebarFirstUser.goToSidebarChat("ChatUserB");
-    await chatsTopbarFirstUser.topbar.waitForDisplayed();
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("ChatUserB");
+    await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
+    await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
+
+    //Validate conversation displayed is now the one with ChatUserB
+    await chatsTopbarFirstUser.validateTopbarExists();
     await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
       "ChatUserB"
     );
   });
 
-  it("Sidebar - Search Bar - Search for a string matching a single username", async () => {
-    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Chat");
+  it("Sidebar - Search Bar - Search for a string matching a username and group", async () => {
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("ChatUserB");
     const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
-    await expect(searchResults).toEqual(["ChatUserB"]);
+    await expect(searchResults).toEqual([
+      "https://dioxus.index.html/#ChatUserB",
+      "https://dioxus.index.html/#Test",
+    ]);
     await chatsSidebarFirstUser.clearSidebarSearchInput();
   });
 
   it("Sidebar - Search Bar - Search for a string matching a single group chat", async () => {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Test");
     const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
-    await expect(searchResults).toEqual(["Test"]);
+    await expect(searchResults).toEqual(["https://dioxus.index.html/#Test"]);
     await chatsSidebarFirstUser.clearSidebarSearchInput();
   });
 
-  // Skipped since it is a pending test to add
-  xit("Sidebar - Search Bar - Search for a string matching both username and group chat", async () => {});
-
-  xit("Sidebar - Search Bar - Search for a string not matching any result", async () => {
+  it("Sidebar - Search Bar - Search for a string not matching any result", async () => {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("z");
     await chatsSidebarFirstUser.validateSidebarSearchResultsIsEmpty();
     await chatsSidebarFirstUser.clearSidebarSearchInput();
   });
 
-  it("Sidebar - Search Bar - Search bar result will redirect to the Chat Conversation", async () => {
-    await chatsSidebarFirstUser.typeOnSidebarSearchInput("ChatUserB");
+  it("Sidebar - Search Bar - Search bar result will redirect to a Group Chat Conversation", async () => {
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Test");
     await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
-    await chatsSidebarFirstUser.clickOnResultFromSidebarSearch("ChatUserB");
+    await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
   });
 
   it("Group Chat - Show participants list - Contents", async () => {

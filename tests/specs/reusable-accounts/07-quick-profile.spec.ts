@@ -162,11 +162,11 @@ export default async function quickProfileTests() {
     // Send message to Chat User B
     await chatsInputSecondUser.typeMessageOnInput("Accepted...");
     await chatsInputSecondUser.clickOnSendMessage();
-    await chatsMessagesSecondUser.waitForFirstMessageSentToExist("Accepted...");
+    await chatsMessagesSecondUser.waitForMessageSentToExist("Accepted...");
     await chatsMessagesFirstUser.switchToOtherUserWindow();
 
     // With User A - Validate that message was received
-    await chatsMessagesFirstUser.waitForReceivingFirstMessage("Accepted...");
+    await chatsMessagesFirstUser.waitForReceivingMessage("Accepted...");
   });
 
   it("Chat User A - Block Friend", async () => {

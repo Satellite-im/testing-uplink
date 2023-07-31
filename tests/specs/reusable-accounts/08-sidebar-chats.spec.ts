@@ -15,6 +15,7 @@ let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
+let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
@@ -96,7 +97,7 @@ export default async function sidebarChatsTests() {
     // Send message with markdown to Chat User B
     await chatsInputSecondUser.typeMessageOnInput("__hello__");
     await chatsInputSecondUser.clickOnSendMessage();
-    await chatsMessagesSecondUser.waitForFirstMessageSentToExist("hello");
+    await chatsMessagesSecondUser.waitForMessageSentToExist("hello");
 
     // Validate last message contents on Sidebar displays hello on bolds and not __hello__
     await chatsSidebarFirstUser.validateLastMessageDisplayed("hello");
@@ -155,7 +156,7 @@ export default async function sidebarChatsTests() {
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForFirstMessageSentToExist("Hi...");
+    await chatsMessagesSecondUser.waitForReceivingMessage("Hi...");
     await chatsLayoutFirstUser.switchToOtherUserWindow();
   });
 
@@ -197,7 +198,7 @@ export default async function sidebarChatsTests() {
     await chatsMessagesSecondUser.switchToOtherUserWindow();
 
     // With User B - Wait until message is received
-    await chatsMessagesSecondUser.waitForReceivingLastMessage("Hi...", 60000);
+    await chatsMessagesSecondUser.waitForReceivingMessage("Hi...", 60000);
   });
 
   it("Chat User B - Sidebar - Wait for receiving a a new message", async () => {

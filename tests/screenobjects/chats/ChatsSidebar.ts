@@ -41,7 +41,6 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SIDEBAR_SEARCH_DROPDOWN: '[name="searchbar-dropwdown"]',
   SIDEBAR_SEARCH_DROPDOWN_RESULT: '[name="search-friends-result"]',
-  SIDEBAR_SEARCH_DROPDOWN_RESULT_TEXT: "//Text",
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Text",
 };
@@ -80,8 +79,6 @@ const SELECTORS_MACOS = {
   SIDEBAR_SEARCH: "~sidebar-search",
   SIDEBAR_SEARCH_DROPDOWN: "~searchbar-dropwdown",
   SIDEBAR_SEARCH_DROPDOWN_RESULT: "~search-friends-result",
-  SIDEBAR_SEARCH_DROPDOWN_RESULT_TEXT:
-    "-ios class chain:**/XCUIElementTypeStaticText",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -97,7 +94,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   get chatSearchInput() {
-    return this.instance.$(SELECTORS.CHAT_SEARCH_INPUT);
+    return this.instance
+      .$(SELECTORS.SIDEBAR_SEARCH)
+      .$(SELECTORS.CHAT_SEARCH_INPUT);
   }
 
   get siderbarChatsHeader() {
@@ -313,13 +312,6 @@ export default class ChatsSidebar extends UplinkMainScreen {
     return this.instance
       .$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN)
       .$$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN_RESULT);
-  }
-
-  get sidebarSearchDropdownResultText() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN)
-      .$$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN_RESULT)
-      .$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN_RESULT_TEXT);
   }
 
   // Validations or assertions
@@ -566,7 +558,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   // Search bar methods
 
-  async clickOnResultFromSidebarSearch(result: string) {
+  async clickOnResultFromSidebarSearch(result: number) {
     const elementToClick = await this.getSidebarSearchResultLocator(result);
     await elementToClick.click();
   }
@@ -578,34 +570,16 @@ export default class ChatsSidebar extends UplinkMainScreen {
     );
     let results = [];
     for (let item of list) {
-      const resultName = await item
-        .$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN_RESULT_TEXT)
-        .getText();
+      const resultName = await item.getText();
       results.push(resultName);
     }
     return results;
   }
 
-  async getSidebarSearchResultLocator(result: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let element;
-    if (currentDriver === macDriver) {
-      element = await this.instance
-        .$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN)
-        .$(
-          '//XCUIElementTypeLink[@label="search-friends-result"]/XCUIElementTypeStaticText[contains(@value, "' +
-            result +
-            '")]/'
-        );
-    } else if (currentDriver === windowsDriver) {
-      element = await this.instance
-        .$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN)
-        .$(
-          '//Link[@Name="search-friends-result"]/Text[contains(@Name, "' +
-            result +
-            '")]'
-        );
-    }
+  async getSidebarSearchResultLocator(result: number) {
+    let element = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN)[
+      result
+    ];
     return element;
   }
 
@@ -614,8 +588,8 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async typeOnSidebarSearchInput(text: string) {
-    await this.chatSearchInput.click();
-    await this.chatSearchInput.setValue(text);
+    const element = await this.chatSearchInput;
+    await this.typeOnElement(element, text);
   }
 
   async validateSidebarSearchResultsIsEmpty() {
