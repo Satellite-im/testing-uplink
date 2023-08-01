@@ -142,9 +142,9 @@ export default async function groupChatTests() {
 
   it("Sidebar - Search Bar - Search bar result will redirect to a User Chat Conversation", async () => {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
-    await chatsSidebarFirstUser.typeOnSidebarSearchInput("ChatUserB");
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");
     await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
-    await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
+    await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(1);
 
     //Validate conversation displayed is now the one with ChatUserB
     await chatsTopbarFirstUser.validateTopbarExists();
@@ -154,9 +154,10 @@ export default async function groupChatTests() {
   });
 
   it("Sidebar - Search Bar - Search for a string matching a username and group", async () => {
-    await chatsSidebarFirstUser.typeOnSidebarSearchInput("ChatUserB");
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");
     const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
     await expect(searchResults).toEqual([
+      "https://dioxus.index.html/#ChatUserA",
       "https://dioxus.index.html/#ChatUserB",
       "https://dioxus.index.html/#Test",
     ]);
@@ -164,7 +165,7 @@ export default async function groupChatTests() {
   });
 
   it("Sidebar - Search Bar - Search for a string matching a single group chat", async () => {
-    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Test");
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
     const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
     await expect(searchResults).toEqual(["https://dioxus.index.html/#Test"]);
     await chatsSidebarFirstUser.clearSidebarSearchInput();
@@ -177,7 +178,7 @@ export default async function groupChatTests() {
   });
 
   it("Sidebar - Search Bar - Search bar result will redirect to a Group Chat Conversation", async () => {
-    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Test");
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
     await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
     await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
   });
