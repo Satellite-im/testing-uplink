@@ -194,7 +194,7 @@ export default async function createChatAccountsTests() {
     await chatsMessagesFirstUser.waitForMessageSentToExist("Testing...");
 
     const textFromMessage =
-      await chatsMessagesFirstUser.getLastMessageSentText();
+      await chatsMessagesFirstUser.getFirstMessageSentText();
     await expect(textFromMessage).toHaveTextContaining("Testing...");
   });
 
@@ -216,7 +216,7 @@ export default async function createChatAccountsTests() {
 
   it("Chat User A - Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const messageText = await chatsMessagesFirstUser.getLastMessageSentText();
+    const messageText = await chatsMessagesFirstUser.getFirstMessageSentText();
     await expect(messageText).toHaveTextContaining("Testing...");
   });
 

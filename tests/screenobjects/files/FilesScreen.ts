@@ -338,6 +338,7 @@ export default class FilesScreen extends UplinkMainScreen {
   async createFolder(name: string) {
     const currentDriver = await this.getCurrentDriver();
     await this.clickOnCreateFolder();
+    await this.inputFolderFileName.click();
     if (currentDriver === MACOS_DRIVER) {
       await this.inputFolderFileName.setValue(name + "\n");
     } else if (currentDriver === WINDOWS_DRIVER) {
@@ -349,6 +350,7 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async typeOnFileFolderNameInput(name: string) {
     const currentDriver = await this.getCurrentDriver();
+    await this.inputFolderFileName.click();
     if (currentDriver === MACOS_DRIVER) {
       await this.inputFolderFileName.setValue(name + "\n");
     } else if (currentDriver === WINDOWS_DRIVER) {
@@ -420,6 +422,7 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async updateNameFileFolder(newName: string, extension: string = "") {
     const currentDriver = await this.getCurrentDriver();
+    await this.inputFolderFileName.click();
     if (currentDriver === MACOS_DRIVER) {
       await this.inputFolderFileName.setValue(newName + "\n");
     } else if (currentDriver === WINDOWS_DRIVER) {

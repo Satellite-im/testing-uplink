@@ -294,14 +294,18 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]/../..'
         )
         .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]/../..')
+        .$(
+          '//Group[contains(@Name, "remote"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]/../..'
+        )
         .waitForExist({ timeout: timeoutMsg });
     }
   }
@@ -343,15 +347,43 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]'
         )
         .waitForExist({ timeout: timeoutMsg, reverse: true });
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .$(
+          '//Group[@Name="message-text"]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
         .waitForExist({ timeout: timeoutMsg, reverse: true });
+    }
+  }
+
+  async waitForLinkSentToExist(
+    expectedMessage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeLink[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[contains(@Name, "local")]//HyperLink[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
     }
   }
 
@@ -363,14 +395,42 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]'
         )
         .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .$(
+          '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
+  async waitForReceivingLink(
+    expectedMessage: string,
+    timeoutMsg: number = 60000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeLink[contains(@value, "' +
+            expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[contains(@Name, "remote")]//HyperLink[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
         .waitForExist({ timeout: timeoutMsg });
     }
   }
@@ -383,14 +443,18 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]'
         )
         .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]')
+        .$(
+          '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]'
+        )
         .waitForExist({ timeout: timeoutMsg });
     }
   }
@@ -405,14 +469,18 @@ export default class Messages extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.instance
         .$(
-          '//XCUIElementTypeStaticText[contains(@value, "' +
+          '//XCUIElementTypeGroup[contains, (@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
             expectedMessage +
             '")]/../..'
         )
         .waitForExist({ timeout: timeoutMsg });
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.instance
-        .$('//Text[contains(@Name, "' + expectedMessage + '")]/../..')
+        .$(
+          '//Group[contains, (@Name, "local")]//Text[contains(@Name, "' +
+            expectedMessage +
+            '")]/../..'
+        )
         .waitForExist({ timeout: timeoutMsg });
     }
   }

@@ -15,6 +15,7 @@ let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
+let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
@@ -155,7 +156,7 @@ export default async function sidebarChatsTests() {
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForMessageSentToExist("Hi...");
+    await chatsMessagesSecondUser.waitForReceivingMessage("Hi...");
     await chatsLayoutFirstUser.switchToOtherUserWindow();
   });
 
@@ -172,7 +173,7 @@ export default async function sidebarChatsTests() {
     await settingsProfileFirstUser.waitForIsShown(true);
 
     // Validate that Chats Sidebar is not displayed on Settings Screen
-    await settingsProfileFirstUser.sidebarChatsSection.waitForExist({
+    await chatsSidebarFirstUser.sidebarChatsSection.waitForExist({
       reverse: true,
     });
   });

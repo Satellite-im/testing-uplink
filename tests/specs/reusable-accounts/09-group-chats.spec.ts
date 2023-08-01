@@ -140,8 +140,38 @@ export default async function groupChatTests() {
     await chatsMessagesSecondUser.waitForReceivingMessage("HiGroup");
   });
 
-  it("Group Chat - Show participants list - Contents", async () => {
+  it("Sidebar - Search Bar - Search for a string matching a username and group", async () => {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");
+    const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
+    await expect(searchResults).toEqual([
+      "https://dioxus.index.html/#ChatUserA",
+      "https://dioxus.index.html/#ChatUserB",
+      "https://dioxus.index.html/#Test",
+    ]);
+    await chatsSidebarFirstUser.clearSidebarSearchInput();
+  });
+
+  it("Sidebar - Search Bar - Search for a string matching a single group chat", async () => {
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
+    const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
+    await expect(searchResults).toEqual(["https://dioxus.index.html/#Test"]);
+    await chatsSidebarFirstUser.clearSidebarSearchInput();
+  });
+
+  it("Sidebar - Search Bar - Search for a string not matching any result", async () => {
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("z");
+    await chatsSidebarFirstUser.validateSidebarSearchResultsIsEmpty();
+    await chatsSidebarFirstUser.clearSidebarSearchInput();
+  });
+
+  it("Sidebar - Search Bar - Search bar result will redirect to a Group Chat Conversation", async () => {
+    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
+    await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
+    await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
+  });
+
+  it("Group Chat - Show participants list - Contents", async () => {
     await chatsTopbarFirstUser.clickOnTopbar();
     await participantsListFirstUser.waitForIsShown(true);
     await participantsListFirstUser.participantsUserInput.waitForDisplayed();
