@@ -43,6 +43,29 @@ export default async function settingsGeneral() {
     ).toHaveTextContaining("Scale the font size up or down to your liking.");
   });
 
+  it("Settins General - Validate tooltips from buttons", async () => {
+    // Validate Open Fonts Folder button tooltip
+    await settingsGeneralFirstUser.hoverOnOpenFontsFolder();
+    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
+    await expect(
+      settingsGeneralFirstUser.settingsGeneralElementTooltipText
+    ).toHaveTextContaining("Open Folder");
+
+    // Validate Open Themes Folder button tooltip
+    await settingsGeneralFirstUser.hoverOnOpenThemesFolder();
+    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
+    await expect(
+      settingsGeneralFirstUser.settingsGeneralElementTooltipText
+    ).toHaveTextContaining("Open Folder");
+
+    // Validate Clear Accent Color button tooltip
+    await settingsGeneralFirstUser.hoverOnClearAccentColor();
+    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
+    await expect(
+      settingsGeneralFirstUser.settingsGeneralElementTooltipText
+    ).toHaveTextContaining("Clear accent color");
+  });
+
   // Skipped for now since there are no fonts to select
   xit("Settings General - Change font dropdown selection", async () => {
     await settingsGeneralFirstUser.clickOnFontDropdown();
@@ -82,5 +105,29 @@ export default async function settingsGeneral() {
     await expect(
       settingsGeneralFirstUser.fontScalingValue
     ).toHaveTextContaining("0.75");
+  });
+
+  it("Settins General - Change theme to Light Theme", async () => {
+    await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
+  });
+
+  it("Settins General - Validate user can change accent color", async () => {
+    // Click on all the accent colors (red, orange, yellow, green, blue, violet, pink and finally grey)
+    await settingsGeneralFirstUser.selectRedAccentColor();
+    await settingsGeneralFirstUser.selectOrangeAccentColor();
+    await settingsGeneralFirstUser.selectYellowAccentColor();
+    await settingsGeneralFirstUser.selectGreenAccentColor();
+    await settingsGeneralFirstUser.selectBlueAccentColor();
+    await settingsGeneralFirstUser.selectVioletAccentColor();
+    await settingsGeneralFirstUser.selectPinkAccentColor();
+    await settingsGeneralFirstUser.selectGreyAccentColor();
+  });
+
+  it("Settins General - Validate user can clear accent color", async () => {
+    await settingsGeneralFirstUser.clickOnClearAccentColor();
+  });
+
+  it("Settins General - Return theme to Dark Theme", async () => {
+    await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
   });
 }

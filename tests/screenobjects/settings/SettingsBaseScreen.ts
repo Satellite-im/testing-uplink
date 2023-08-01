@@ -20,6 +20,7 @@ const SELECTORS_WINDOWS = {
   EXTENSIONS_BUTTON: '[name="extensions-button"]',
   FILES_BUTTON: '[name="files-button"]',
   GENERAL_BUTTON: '[name="general-button"]',
+  LICENSES_BUTTON: '[name="licenses-button"]',
   NOTIFICATIONS_BUTTON: '[name="notifications-button"]',
   PRIVACY_BUTTON: '[name="privacy-button"]',
   PROFILE_BUTTON: '[name="profile-button"]',
@@ -34,6 +35,7 @@ const SELECTORS_MACOS = {
   EXTENSIONS_BUTTON: "~extensions-button",
   FILES_BUTTON: "~files-button",
   GENERAL_BUTTON: "~general-button",
+  LICENSES_BUTTON: "~licenses-button",
   NOTIFICATIONS_BUTTON: "~notifications-button",
   PRIVACY_BUTTON: "~privacy-button",
   PROFILE_BUTTON: "~profile-button",
@@ -93,6 +95,10 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
     return this.instance.$(SELECTORS.GENERAL_BUTTON);
   }
 
+  get licensesButton() {
+    return this.instance.$(SELECTORS.LICENSES_BUTTON);
+  }
+
   get notificationsButton() {
     return this.instance.$(SELECTORS.NOTIFICATIONS_BUTTON);
   }
@@ -139,6 +145,10 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
 
   async goToGeneralSettings() {
     await this.generalButton.click();
+  }
+
+  async goToLicensesSettings() {
+    await this.licensesButton.click();
   }
 
   async goToNotificationsSettings() {

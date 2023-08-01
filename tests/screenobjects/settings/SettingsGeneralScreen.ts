@@ -13,9 +13,13 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
-  CLEAR_THEME_BUTTON: '[name="clear-theme-button"]',
+  ACCENT_COLOR_BUTTON: "//Group",
+  CLEAR_ACCENT_COLOR_BUTTON: "//Button",
+  DARK_LIGHT_THEME_TOGGLE: '[name="dark-light-toggle"]',
   DROPDOWN_MENU: "//ComboBox",
   DROPDOWN_OPTION: '[name="Selector Option"]',
+  OPEN_FONTS_FOLDER_BUTTON: '[name="open-fonts-folder-button"]',
+  OPEN_THEMES_FOLDER_BUTTON: '[name="open-themes-folder-button"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
@@ -28,12 +32,18 @@ const SELECTORS_WINDOWS = {
   SLIDE_SELECTOR_VALUE: '[name="slide-selector-value"]',
   SLIDE_SELECTOR_VALUE_TEXT: "//Text",
   SWITCH_SLIDER: '[name="Switch Slider"]',
+  TOOLTIP: '[name="tooltip"]',
+  TOOLTIP_TEXT: "//Group/Text",
 };
 
 const SELECTORS_MACOS = {
-  CLEAR_THEME_BUTTON: "~clear-theme-button",
+  ACCENT_COLOR_BUTTON: "-ios class chain:**/XCUIElementTypeGroup",
+  CLEAR_ACCENT_COLOR_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
+  DARK_LIGHT_THEME_TOGGLE: "~dark-light-toggle",
   DROPDOWN_MENU: "~Selector",
   DROPDOWN_OPTION: "~Selector Option",
+  OPEN_FONTS_FOLDER_BUTTON: "~open-fonts-folder-button",
+  OPEN_THEMES_FOLDER_BUTTON: "~open-themes-folder-button",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
@@ -47,6 +57,9 @@ const SELECTORS_MACOS = {
   SLIDE_SELECTOR_VALUE: "~slide-selector-value",
   SLIDE_SELECTOR_VALUE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SWITCH_SLIDER: "~Switch Slider",
+  TOOLTIP: "~tooltip",
+  TOOLTIP_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -56,6 +69,62 @@ currentOS === WINDOWS_DRIVER
 export default class SettingsGeneralScreen extends SettingsBaseScreen {
   constructor(executor: string) {
     super(executor, SELECTORS.SETTINGS_GENERAL);
+  }
+
+  get accentColorButtonBlue() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$$(SELECTORS.ACCENT_COLOR_BUTTON)[4];
+  }
+
+  get accentColorButtonGreen() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$$(SELECTORS.ACCENT_COLOR_BUTTON)[3];
+  }
+
+  get accentColorButtonGrey() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$$(SELECTORS.ACCENT_COLOR_BUTTON)[7];
+  }
+
+  get accentColorButtonOrange() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$$(SELECTORS.ACCENT_COLOR_BUTTON)[1];
+  }
+
+  get accentColorButtonPink() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$$(SELECTORS.ACCENT_COLOR_BUTTON)[6];
+  }
+
+  get accentColorButtonRed() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$$(SELECTORS.ACCENT_COLOR_BUTTON)[0];
+  }
+
+  get accentColorButtonViolet() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$$(SELECTORS.ACCENT_COLOR_BUTTON)[5];
+  }
+
+  get accentColorButtonYellow() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$$(SELECTORS.ACCENT_COLOR_BUTTON)[2];
   }
 
   get appLanguageDescription() {
@@ -76,6 +145,20 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
     return this.instance
       .$$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.DROPDOWN_MENU);
+  }
+
+  get clearAccentColorButton() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$(SELECTORS.CLEAR_ACCENT_COLOR_BUTTON);
+  }
+
+  get darkLightThemeToggle() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$(SELECTORS.DARK_LIGHT_THEME_TOGGLE);
   }
 
   get fontDescription() {
@@ -134,8 +217,33 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
       .$(SELECTORS.SLIDE_SELECTOR_VALUE_TEXT);
   }
 
+  get openFontsFolderButton() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$(SELECTORS.OPEN_FONTS_FOLDER_BUTTON);
+  }
+
+  get openThemesFolderButton() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$(SELECTORS.OPEN_THEMES_FOLDER_BUTTON);
+  }
+
   get settingsGeneral() {
     return this.instance.$(SELECTORS.SETTINGS_GENERAL);
+  }
+
+  get settingsGeneralElementTooltip() {
+    return this.instance.$(SELECTORS.SETTINGS_GENERAL).$(SELECTORS.TOOLTIP);
+  }
+
+  get settingsGeneralElementTooltipText() {
+    return this.instance
+      .$(SELECTORS.SETTINGS_GENERAL)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get slideSelector() {
@@ -181,8 +289,14 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
       .$(SELECTORS.DROPDOWN_MENU);
   }
 
+  // Click on buttons methods
+
   async clickOnAppLanguageDropdown() {
     await this.appLanguageDropdown.click();
+  }
+
+  async clickOnDarkLightThemeToggle() {
+    await this.darkLightThemeToggle.click();
   }
 
   async clickOnFontDropdown() {
@@ -195,6 +309,14 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
 
   async clickOnFontScalingPlus() {
     await this.fontScalingButtonPlus.click();
+  }
+
+  async clickOnOpenFontsFolder() {
+    await this.openFontsFolderButton.click();
+  }
+
+  async clickOnOpenThemesFolder() {
+    await this.openThemesFolderButton.click();
   }
 
   async clickOnThemeDropdown() {
@@ -212,6 +334,46 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
   async increaseFontScale() {
     await this.fontScalingButtonPlus.click();
   }
+
+  // Accent Color Selection Methods
+
+  async clickOnClearAccentColor() {
+    await this.clearAccentColorButton.click();
+  }
+
+  async selectBlueAccentColor() {
+    await this.accentColorButtonBlue.click();
+  }
+
+  async selectGreenAccentColor() {
+    await this.accentColorButtonGreen.click();
+  }
+
+  async selectGreyAccentColor() {
+    await this.accentColorButtonGrey.click();
+  }
+
+  async selectOrangeAccentColor() {
+    await this.accentColorButtonOrange.click();
+  }
+
+  async selectPinkAccentColor() {
+    await this.accentColorButtonPink.click();
+  }
+
+  async selectRedAccentColor() {
+    await this.accentColorButtonRed.click();
+  }
+
+  async selectVioletAccentColor() {
+    await this.accentColorButtonViolet.click();
+  }
+
+  async selectYellowAccentColor() {
+    await this.accentColorButtonYellow.click();
+  }
+
+  // Dropdown Selectors Methods
 
   async selectAppLanguage(language: string) {
     const currentDriver = await this.getCurrentDriver();
@@ -250,5 +412,22 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
         .$$('[name="settings-control"]')[1]
         .addValue(theme + "\uE007");
     }
+  }
+
+  // Hovering methods
+
+  async hoverOnClearAccentColor() {
+    const element = await this.clearAccentColorButton;
+    await this.hoverOnElement(element);
+  }
+
+  async hoverOnOpenFontsFolder() {
+    const element = await this.openFontsFolderButton;
+    await this.hoverOnElement(element);
+  }
+
+  async hoverOnOpenThemesFolder() {
+    const element = await this.openThemesFolderButton;
+    await this.hoverOnElement(element);
   }
 }
