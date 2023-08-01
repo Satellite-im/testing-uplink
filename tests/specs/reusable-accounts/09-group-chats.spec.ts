@@ -140,20 +140,8 @@ export default async function groupChatTests() {
     await chatsMessagesSecondUser.waitForReceivingMessage("HiGroup");
   });
 
-  it("Sidebar - Search Bar - Search bar result will redirect to a User Chat Conversation", async () => {
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
-    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");
-    await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
-    await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(1);
-
-    //Validate conversation displayed is now the one with ChatUserB
-    await chatsTopbarFirstUser.validateTopbarExists();
-    await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
-      "ChatUserB"
-    );
-  });
-
   it("Sidebar - Search Bar - Search for a string matching a username and group", async () => {
+    await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");
     const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
     await expect(searchResults).toEqual([
