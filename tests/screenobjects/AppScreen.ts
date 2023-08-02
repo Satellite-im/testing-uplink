@@ -31,7 +31,7 @@ export default class AppScreen {
       await driver[this.executor].touchAction([
         { action: "press", element: locator },
       ]);
-      await robot.typeStringDelayed(textToAdd, 360);
+      await robot.typeStringDelayed(textToAdd, 500);
     } else if (currentDriver === MACOS_DRIVER) {
       await this.instance.$(locator).click();
       await this.instance.$(locator).setValue(textToAdd);
