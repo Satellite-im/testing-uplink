@@ -65,7 +65,7 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.groupNameInputError.waitForDisplayed();
     await expect(
       editGroupFirstUser.groupNameInputErrorText
-    ).toHaveTextContaining("Only alphanumeric characters are accepted");
+    ).toHaveTextContaining("Disallowed character(s): $#");
     await editGroupFirstUser.clearGroupNameInput();
   });
 
