@@ -107,7 +107,8 @@ export default async function settingsGeneral() {
     ).toHaveTextContaining("0.75");
   });
 
-  it("Settings General - Change theme to Light Theme", async () => {
+  // Skipped since we need to find a way to copy assets on Windows Appium CI. Right now, just works on MacOS
+  xit("Settings General - Change theme to Light Theme", async () => {
     await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
   });
 
@@ -127,7 +128,8 @@ export default async function settingsGeneral() {
     await settingsGeneralFirstUser.clickOnClearAccentColor();
   });
 
-  it("Settings General - Return theme to Dark Theme", async () => {
+  // Skipped since we need to find a way to copy assets on Windows Appium CI. Right now, just works on MacOS
+  xit("Settings General - Return theme to Dark Theme", async () => {
     await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
   });
 }
