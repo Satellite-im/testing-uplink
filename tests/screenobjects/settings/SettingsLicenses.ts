@@ -19,7 +19,7 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   SETTINGS_CONTROL: "~settings-control",
-  SETTINGS_CONTROL_BUTTON: "**/XCUIElementTypeButton",
+  SETTINGS_CONTROL_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
