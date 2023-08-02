@@ -107,29 +107,48 @@ export default async function settingsGeneral() {
     ).toHaveTextContaining("0.75");
   });
 
-  // Skipped since we need to find a way to copy assets on Windows Appium CI. Right now, just works on MacOS
-  xit("Settings General - Change theme to Light Theme", async () => {
-    await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
+  it("Settings General - Change theme to Light Theme", async () => {
+    const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
+    } else if (currentDriver === "windows") {
+      console.log(
+        "Skipping test on Windows since it needs assets copied before to be implemented"
+      );
+    }
   });
 
   it("Settings General - Validate user can change accent color", async () => {
-    // Click on all the accent colors (red, orange, yellow, green, blue, violet, pink and finally grey)
-    await settingsGeneralFirstUser.selectRedAccentColor();
-    await settingsGeneralFirstUser.selectOrangeAccentColor();
-    await settingsGeneralFirstUser.selectYellowAccentColor();
-    await settingsGeneralFirstUser.selectGreenAccentColor();
-    await settingsGeneralFirstUser.selectBlueAccentColor();
-    await settingsGeneralFirstUser.selectVioletAccentColor();
-    await settingsGeneralFirstUser.selectPinkAccentColor();
-    await settingsGeneralFirstUser.selectGreyAccentColor();
+    const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      // Click on all the accent colors (red, orange, yellow, green, blue, violet, pink and finally grey)
+      await settingsGeneralFirstUser.selectRedAccentColor();
+      await settingsGeneralFirstUser.selectOrangeAccentColor();
+      await settingsGeneralFirstUser.selectYellowAccentColor();
+      await settingsGeneralFirstUser.selectGreenAccentColor();
+      await settingsGeneralFirstUser.selectBlueAccentColor();
+      await settingsGeneralFirstUser.selectVioletAccentColor();
+      await settingsGeneralFirstUser.selectPinkAccentColor();
+      await settingsGeneralFirstUser.selectGreyAccentColor();
+    } else if (currentDriver === "windows") {
+      console.log(
+        "Skipping test on Windows since it needs visual implementation"
+      );
+    }
   });
 
   it("Settings General - Validate user can clear accent color", async () => {
     await settingsGeneralFirstUser.clickOnClearAccentColor();
   });
 
-  // Skipped since we need to find a way to copy assets on Windows Appium CI. Right now, just works on MacOS
-  xit("Settings General - Return theme to Dark Theme", async () => {
-    await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
+  it("Settings General - Return theme to Dark Theme", async () => {
+    const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
+    } else if (currentDriver === "windows") {
+      console.log(
+        "Skipping test on Windows since it needs assets copied before to be implemented"
+      );
+    }
   });
 }
