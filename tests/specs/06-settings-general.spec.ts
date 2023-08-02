@@ -43,7 +43,7 @@ export default async function settingsGeneral() {
     ).toHaveTextContaining("Scale the font size up or down to your liking.");
   });
 
-  it("Settins General - Validate tooltips from buttons", async () => {
+  it("Settings General - Validate tooltips from buttons", async () => {
     // Validate Open Fonts Folder button tooltip
     await settingsGeneralFirstUser.hoverOnOpenFontsFolder();
     await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
@@ -107,11 +107,11 @@ export default async function settingsGeneral() {
     ).toHaveTextContaining("0.75");
   });
 
-  it("Settins General - Change theme to Light Theme", async () => {
+  it("Settings General - Change theme to Light Theme", async () => {
     await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
   });
 
-  it("Settins General - Validate user can change accent color", async () => {
+  it("Settings General - Validate user can change accent color", async () => {
     // Click on all the accent colors (red, orange, yellow, green, blue, violet, pink and finally grey)
     await settingsGeneralFirstUser.selectRedAccentColor();
     await settingsGeneralFirstUser.selectOrangeAccentColor();
@@ -123,11 +123,11 @@ export default async function settingsGeneral() {
     await settingsGeneralFirstUser.selectGreyAccentColor();
   });
 
-  it("Settins General - Validate user can clear accent color", async () => {
+  it("Settings General - Validate user can clear accent color", async () => {
     await settingsGeneralFirstUser.clickOnClearAccentColor();
   });
 
-  it("Settins General - Return theme to Dark Theme", async () => {
+  it("Settings General - Return theme to Dark Theme", async () => {
     await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
   });
 }
