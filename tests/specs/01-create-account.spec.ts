@@ -159,13 +159,13 @@ export default async function createAccount() {
   });
 
   it("Username with non-alphanumeric characters", async () => {
-    await createUserFirstUser.enterUsername("test...");
+    await createUserFirstUser.enterUsername("test..%@");
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
     await createUserFirstUser.inputError.waitForDisplayed();
     await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
-      "Only alphanumeric characters are accepted."
+      "Disallowed character(s): .%@"
     );
   });
 
