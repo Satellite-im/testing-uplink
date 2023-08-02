@@ -28,8 +28,10 @@ export default class AppScreen {
   async typeOnElement(locator: WebdriverIO.Element, textToAdd: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance.$(locator).clearValue();
-      await robot.typeStringDelayed(textToAdd, 200);
+      await driver[this.executor].touchAction([
+        { action: "press", element: locator },
+      ]);
+      await robot.typeStringDelayed(textToAdd, 500);
     } else if (currentDriver === MACOS_DRIVER) {
       await this.instance.$(locator).click();
       await this.instance.$(locator).setValue(textToAdd);
