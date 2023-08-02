@@ -9,6 +9,7 @@ import settingsNotifications from "../../specs/09-settings-notifications.spec";
 import settingsDeveloper from "../../specs/10-settings-developer.spec";
 import settingsAccessibility from "../../specs/11-settings-accessibility.spec";
 import settingsAbout from "../../specs/12-settings-about.spec";
+import settingsLicenses from "../../specs/13-settings-licenses.spec";
 
 describe("Windows Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));
@@ -22,4 +23,5 @@ describe("Windows Tests", function () {
   describe("Settings Notifications Tests", settingsNotifications.bind(this));
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Settings About Tests", settingsAbout.bind(this));
+  describe("Settings Licenses Tests", settingsLicenses.bind(this));
 });

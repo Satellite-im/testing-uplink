@@ -43,6 +43,29 @@ export default async function settingsGeneral() {
     ).toHaveTextContaining("Scale the font size up or down to your liking.");
   });
 
+  it("Settings General - Validate tooltips from buttons", async () => {
+    // Validate Open Fonts Folder button tooltip
+    await settingsGeneralFirstUser.hoverOnOpenFontsFolder();
+    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
+    await expect(
+      settingsGeneralFirstUser.settingsGeneralElementTooltipText
+    ).toHaveTextContaining("Open Folder");
+
+    // Validate Open Themes Folder button tooltip
+    await settingsGeneralFirstUser.hoverOnOpenThemesFolder();
+    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
+    await expect(
+      settingsGeneralFirstUser.settingsGeneralElementTooltipText
+    ).toHaveTextContaining("Open Folder");
+
+    // Validate Clear Accent Color button tooltip
+    await settingsGeneralFirstUser.hoverOnClearAccentColor();
+    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
+    await expect(
+      settingsGeneralFirstUser.settingsGeneralElementTooltipText
+    ).toHaveTextContaining("Clear accent color");
+  });
+
   // Skipped for now since there are no fonts to select
   xit("Settings General - Change font dropdown selection", async () => {
     await settingsGeneralFirstUser.clickOnFontDropdown();
@@ -82,5 +105,50 @@ export default async function settingsGeneral() {
     await expect(
       settingsGeneralFirstUser.fontScalingValue
     ).toHaveTextContaining("0.75");
+  });
+
+  it("Settings General - Change theme to Light Theme", async () => {
+    const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
+    } else if (currentDriver === "windows") {
+      console.log(
+        "Skipping test on Windows since it needs assets copied before to be implemented"
+      );
+    }
+  });
+
+  it("Settings General - Validate user can change accent color", async () => {
+    const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      // Click on all the accent colors (red, orange, yellow, green, blue, violet, pink and finally grey)
+      await settingsGeneralFirstUser.selectRedAccentColor();
+      await settingsGeneralFirstUser.selectOrangeAccentColor();
+      await settingsGeneralFirstUser.selectYellowAccentColor();
+      await settingsGeneralFirstUser.selectGreenAccentColor();
+      await settingsGeneralFirstUser.selectBlueAccentColor();
+      await settingsGeneralFirstUser.selectVioletAccentColor();
+      await settingsGeneralFirstUser.selectPinkAccentColor();
+      await settingsGeneralFirstUser.selectGreyAccentColor();
+    } else if (currentDriver === "windows") {
+      console.log(
+        "Skipping test on Windows since it needs visual implementation"
+      );
+    }
+  });
+
+  it("Settings General - Validate user can clear accent color", async () => {
+    await settingsGeneralFirstUser.clickOnClearAccentColor();
+  });
+
+  it("Settings General - Return theme to Dark Theme", async () => {
+    const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
+    if (currentDriver === "mac2") {
+      await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
+    } else if (currentDriver === "windows") {
+      console.log(
+        "Skipping test on Windows since it needs assets copied before to be implemented"
+      );
+    }
   });
 }
