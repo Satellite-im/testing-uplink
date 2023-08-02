@@ -52,7 +52,7 @@ export default async function groupChatTests() {
     await createGroupFirstUser.typeOnGroupName("@");
     await expect(
       createGroupFirstUser.createGroupInputErrorText
-    ).toHaveTextContaining("Only alphanumeric characters are accepted.");
+    ).toHaveTextContaining("Disallowed character(s): @");
     await createGroupFirstUser.createGroupInputError.waitForDisplayed();
     await createGroupFirstUser.clearGroupNameInput();
   });

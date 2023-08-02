@@ -191,7 +191,7 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.inputError.waitForDisplayed();
     await expect(
       settingsProfileFirstUser.inputErrorMessage
-    ).toHaveTextContaining("Only alphanumeric characters are accepted.");
+    ).toHaveTextContaining("Disallowed character(s): &^%*#$");
 
     // Clear value from username input, then enter a valid value again
     await settingsProfileFirstUser.enterUsername("Test123");
