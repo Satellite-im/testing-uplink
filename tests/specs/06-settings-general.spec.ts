@@ -108,14 +108,7 @@ export default async function settingsGeneral() {
   });
 
   it("Settings General - Change theme to Light Theme", async () => {
-    const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
-    if (currentDriver === "mac2") {
-      await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
-    } else if (currentDriver === "windows") {
-      console.log(
-        "Skipping test on Windows since it needs assets copied before to be implemented"
-      );
-    }
+    await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
   });
 
   it("Settings General - Validate user can change accent color", async () => {
@@ -142,13 +135,6 @@ export default async function settingsGeneral() {
   });
 
   it("Settings General - Return theme to Dark Theme", async () => {
-    const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
-    if (currentDriver === "mac2") {
-      await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
-    } else if (currentDriver === "windows") {
-      console.log(
-        "Skipping test on Windows since it needs assets copied before to be implemented"
-      );
-    }
+    await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
   });
 }

@@ -111,6 +111,16 @@ jobs:
           name: Uplink-windows-latest
           path: uplinkWindows.zip
 
+      - name: Upload Windows Assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: uplink-windows-assets
+          path: |
+            target/debug/emoji_selector.dll
+            ui/extra/images/
+            ui/extra/prism_langs/
+            ui/extra/themes/
+
       - name: Add label if any of build jobs failed
         if: failure()
         uses: buildsville/add-remove-label@v2.0.0
@@ -249,6 +259,16 @@ jobs:
         run: |
           cp -r ./uplink.exe ./uplink2.exe
 
+      - name: Move Windows assets to correct locations 💿
+        working-directory: ./apps
+        run: |
+          mv ./uplink.exe ./bin/
+          mv ./uplink2.exe ./bin/
+          mv ./emoji_selector.dll ./extensions/
+          mv ./images/ ./bin/extra/
+          mv ./prism_langs/ ./bin/extra
+          mv ./themes/ ./extra/
+
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
@@ -338,6 +358,21 @@ jobs:
         with:
           name: Uplink-windows-latest
           path: ./apps
+
+      - name: Download the Windows app assets
+        uses: actions/download-artifact@v3
+        with:
+          name: uplink-windows-assets
+          path: ./apps
+
+      - name: Move assets to correct locations
+        working-directory: ./apps
+        run: |
+          mv ./uplink.exe ./bin/
+          mv ./emoji_selector.dll ./extensions/
+          mv ./images/ ./bin/extra/
+          mv ./prism_langs/ ./bin/extra
+          mv ./themes/ ./extra/
 
       - name: Extract .zip into apps Directory 🗳️
         run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
