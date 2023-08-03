@@ -116,6 +116,7 @@ jobs:
         with:
           name: uplink-windows-assets
           path: |
+            target/release/emoji_selector.dll
             ui/extra/images/
             ui/extra/prism_langs/
             ui/extra/themes/
@@ -248,7 +249,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Uplink-windows-latest
-          path: ./apps/bin
+          path: ./apps
 
       - name: Extract .zip into apps Directory 🗳️
         run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
@@ -256,13 +257,17 @@ jobs:
       - name: Copy app to have two instances 💿
         working-directory: ./apps/bin
         run: |
-          cp -r ./uplink.exe ./uplink2.exe
+          Get-ChildItem -Recurse
+          cp -r ./uplink.exe ./bin/uplink.exe
+          cp -r ./uplink.exe ./bin/uplink2.exe
 
       - name: Move Windows assets to correct locations 💿
         working-directory: ./apps
         run: |
-          cp -r ./ui/extras/ ./bin/extra/
-          cp -r ./bin/extra/ ./extra/
+          Get-ChildItem -Recurse
+          cp -r ./target/release/emoji_selector.dll ./extensions/
+          cp -r ./ui/extras/* ./bin/extra/
+          cp -r ./bin/extra/* ./extra/
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -352,7 +357,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Uplink-windows-latest
-          path: ./apps/bin
+          path: ./apps
 
       - name: Download the Windows app assets
         uses: actions/download-artifact@v3
@@ -363,8 +368,11 @@ jobs:
       - name: Move Windows assets to correct locations 💿
         working-directory: ./apps
         run: |
-          cp -r ./ui/extras/ ./bin/extra/
-          cp -r ./bin/extra/ ./extra/
+          Get-ChildItem -Recurse
+          cp -r ./uplink.exe ./bin/uplink.exe
+          cp -r ./target/release/emoji_selector.dll ./extensions/
+          cp -r ./ui/extras/* ./bin/extra/
+          cp -r ./bin/extra/* ./extra/
 
       - name: Extract .zip into apps Directory 🗳️
         run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
