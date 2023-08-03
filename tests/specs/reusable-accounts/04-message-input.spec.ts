@@ -70,13 +70,13 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("https://www.google.com");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist(
+    await chatsMessagesFirstUser.waitForLinkSentToExist(
       "https://www.google.com"
     );
 
     // With Chat User B
     await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingMessage(
+    await chatsMessagesSecondUser.waitForReceivingLink(
       "https://www.google.com"
     );
   });
@@ -86,13 +86,13 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("http://www.satellite.im");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist(
+    await chatsMessagesFirstUser.waitForLinkSentToExist(
       "http://www.satellite.im"
     );
 
     // With Chat User B
     await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingMessage(
+    await chatsMessagesSecondUser.waitForReceivingLink(
       "http://www.satellite.im"
     );
   });
@@ -142,11 +142,11 @@ export default async function messageInputTests() {
     // With Chat User A
     await chatsInputFirstUser.typeMessageOnInput("www.apple.com");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("www.apple.com");
+    await chatsMessagesFirstUser.waitForLinkSentToExist("www.apple.com");
 
     // With Chat User B
     await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingMessage("www.apple.com");
+    await chatsMessagesSecondUser.waitForReceivingLink("www.apple.com");
   });
 
   it("Validate Typing Indicator is displayed if remote user is typing", async () => {

@@ -20,29 +20,13 @@ const SELECTORS_WINDOWS = {
   BUTTON_NAV: '[name="button-nav"]',
   BUTTON_NAV_TOOLTIP: '[name="tooltip"]',
   BUTTON_NAV_TOOLTIP_TEXT: "//Text",
-  CHAT_SEARCH_INPUT: '[name="chat-search-input"]',
   CHATS_BUTTON: '[name="chats-button"]',
-  FAVORITES: '[name="Favorites"]',
-  FAVORITES_CONTEXT_CHAT: '[name="favorites-chat"]',
-  FAVORITES_CONTEXT_REMOVE: '[name="favorites-remove"]',
-  FAVORITES_HEADER: '[name="favorites-label"]',
-  FAVORITES_HEADER_TEXT: "//Text",
-  FAVORITES_USER: "//Group",
-  FAVORITES_USER_IMAGE: '[name="User Image"]',
-  FAVORITES_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
-  FAVORITES_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
-  FAVORITES_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
-  FAVORITES_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
-  FAVORITES_USER_NAME: "//Text[2]/Text",
+  CONTEXT_MENU: '[name="Context Menu"]',
   FILES_BUTTON: '[name="files-button"]',
   FRIENDS_BUTTON: '[name="friends-button"]',
   HAMBURGER_BUTTON: '[name="hamburger-button"]',
   PRE_RELEASE_INDICATOR_TEXT: "//Text",
   SETTINGS_BUTTON: '[name="settings-button"]',
-  SIDEBAR: '[name="sidebar"]',
-  SIDEBAR_CHATS_SECTION: "~chats",
-  SIDEBAR_CHILDREN: '[name="sidebar-children"]',
-  SIDEBAR_SEARCH: '[name="sidebar-search"]',
   SKELETAL_USER: '[name="skeletal-user"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
   TOAST_NOTIFICATION_CLOSE: '[name="close-toast"]',
@@ -64,30 +48,13 @@ const SELECTORS_MACOS = {
   BUTTON_NAV_TOOLTIP: "~tooltip",
   BUTTON_NAV_TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
-  CHAT_SEARCH_INPUT: "~chat-search-input",
   CHATS_BUTTON: "~chats-button",
-  FAVORITES: "~Favorites",
-  FAVORITES_CONTEXT_CHAT: "~favorites-chat",
-  FAVORITES_CONTEXT_REMOVE: "~favorites-remove",
-  FAVORITES_HEADER: "~favorites-label",
-  FAVORITES_HEADER_TEXT: "-ios class chain:**/XXCUIElementTypeStaticText",
-  FAVORITES_USER: "-ios class chain:**/XCUIElementTypeGroup",
-  FAVORITES_USER_IMAGE: "~User Image",
-  FAVORITES_USER_IMAGE_PROFILE: "~user-image-profile",
-  FAVORITES_USER_IMAGE_WRAP: "~user-image-wrap",
-  FAVORITES_USER_INDICATOR_OFFLINE: "~indicator-offline",
-  FAVORITES_USER_INDICATOR_ONLINE: "~indicator-online",
-  FAVORITES_USER_NAME:
-    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
+  CONTEXT_MENU: "~Context Menu",
   FILES_BUTTON: "~files-button",
   FRIENDS_BUTTON: "~friends-button",
   HAMBURGER_BUTTON: "~hamburger-button",
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
-  SIDEBAR: "~sidebar",
-  SIDEBAR_CHATS_SECTION: "~Chats",
-  SIDEBAR_CHILDREN: "~sidebar-children",
-  SIDEBAR_SEARCH: "~sidebar-search",
   SKELETAL_USER: "~skeletal-user",
   TOAST_NOTIFICATION: "~Toast Notification",
   TOAST_NOTIFICATION_CLOSE: "~close-toast",
@@ -130,10 +97,6 @@ export default class UplinkMainScreen extends AppScreen {
       .$(SELECTORS.BUTTON_BADGE_TEXT);
   }
 
-  get chatSearchInput() {
-    return this.instance.$(SELECTORS.CHAT_SEARCH_INPUT);
-  }
-
   get chatsButton() {
     return this.instance.$(SELECTORS.CHATS_BUTTON);
   }
@@ -148,80 +111,8 @@ export default class UplinkMainScreen extends AppScreen {
       .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
-  get favorites() {
-    return this.instance.$(SELECTORS.SIDEBAR).$(SELECTORS.FAVORITES);
-  }
-
-  get favoritesChat() {
-    return this.instance.$(SELECTORS.FAVORITES_CONTEXT_CHAT);
-  }
-
-  get favoritesRemove() {
-    return this.instance.$(SELECTORS.FAVORITES_CONTEXT_REMOVE);
-  }
-
-  get favoritesHeader() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_HEADER);
-  }
-
-  get favoritesHeaderText() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_HEADER)
-      .$(SELECTORS.FAVORITES_HEADER_TEXT);
-  }
-
-  get favoriteUsers() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$$(SELECTORS.FAVORITES_USER);
-  }
-
-  get favoritesUserImage() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$$(SELECTORS.FAVORITES_USER_IMAGE);
-  }
-
-  get favoritesUserImageProfile() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
-  }
-
-  get favoritesUserImageWrap() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$$(SELECTORS.FAVORITES_USER_IMAGE_WRAP);
-  }
-
-  get favoritesUserIndicatorOffline() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE);
-  }
-
-  get favoritesUserIndicatorOnline() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
-  }
-
-  get favoritesUserName() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_USER_NAME);
+  get contextMenu() {
+    return this.instance.$(SELECTORS.CONTEXT_MENU);
   }
 
   get filesButton() {
@@ -278,22 +169,6 @@ export default class UplinkMainScreen extends AppScreen {
     return this.instance
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
-  }
-
-  get sidebar() {
-    return this.instance.$(SELECTORS.SIDEBAR);
-  }
-
-  get sidebarChatsSection() {
-    return this.instance.$(SELECTORS.SIDEBAR_CHATS_SECTION);
-  }
-
-  get sidebarChildren() {
-    return this.instance.$(SELECTORS.SIDEBAR_CHILDREN);
-  }
-
-  get sidebarSearch() {
-    return this.instance.$(SELECTORS.SIDEBAR_SEARCH);
   }
 
   get skeletalUser() {
@@ -375,17 +250,6 @@ export default class UplinkMainScreen extends AppScreen {
 
   async clickOnUpdateAvailable() {
     await this.updateAvailable.click();
-  }
-
-  // Favorites methods
-
-  async getUsersFromFavorites() {
-    const favoriteUsers = await this.favoritesUserName;
-    let currentFavoriteUsers = [];
-    for (let name of favoriteUsers) {
-      currentFavoriteUsers.push(await this.instance.$(name).getText());
-    }
-    return currentFavoriteUsers;
   }
 
   // NavBar methods

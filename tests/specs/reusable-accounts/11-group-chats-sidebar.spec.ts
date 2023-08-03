@@ -2,6 +2,7 @@ import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "../../screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "../../screenobjects/chats/ContextMenuSidebar";
 import EditGroup from "../../screenobjects/chats/EditGroup";
+import FavoritesSidebar from "../../screenobjects/chats/FavoritesSidebar";
 import FilesScreen from "../../screenobjects/files/FilesScreen";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
 import InputBar from "../../screenobjects/chats/InputBar";
@@ -20,10 +21,10 @@ let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
 let contextMenuSidebarFirstUser = new ContextMenuSidebar(USER_A_INSTANCE);
 let contextMenuSidebarSecondUser = new ContextMenuSidebar(USER_B_INSTANCE);
 let editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
+let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let filesScreenSecondUser = new FilesScreen(USER_B_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let participantsListFirstUser = new ParticipantsList(USER_A_INSTANCE);
-let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 
 export default async function groupChatSidebarTests() {
   it("Group Chat - Add group to favorites", async () => {
@@ -33,22 +34,24 @@ export default async function groupChatSidebarTests() {
 
     // Click on Favorites button for Group Chat
     await chatsTopbarFirstUser.addToFavorites();
-    await chatsTopbarFirstUser.favorites.waitForExist();
+    await favoritesSidebarFirstUser.favorites.waitForExist();
 
     // Favorites Sidebar should be displayed and showing the name of the group added to Favorites
-    await expect(chatsTopbarFirstUser.favoritesUserImage).toBeDisplayed();
+    await expect(favoritesSidebarFirstUser.favoritesUserImage).toBeDisplayed();
     await expect(
-      chatsTopbarFirstUser.favoritesUserIndicatorOnline
+      favoritesSidebarFirstUser.favoritesUserIndicatorOnline
     ).toBeDisplayed();
-    await expect(chatsTopbarFirstUser.favoritesUserName).toHaveTextContaining(
-      "NEWNAMEGROUP"
-    );
+    await expect(
+      favoritesSidebarFirstUser.favoritesUserName
+    ).toHaveTextContaining("NEWNAMEGROUP");
   });
 
   it("Group Chat - Remove group from favorites", async () => {
     // Remove user from favorites and ensure that Favorites bar is hidden now
     await chatsTopbarFirstUser.removeFromFavorites();
-    await chatsTopbarFirstUser.favorites.waitForExist({ reverse: true });
+    await favoritesSidebarFirstUser.favorites.waitForExist({
+      reverse: true,
+    });
 
     // Go to another chat conversation
     await chatsTopbarFirstUser.goToFriends();

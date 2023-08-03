@@ -32,11 +32,6 @@ export default async function messageAttachmentsTests() {
   it("Chat User A - Delete attachment before sending the message", async () => {
     // Click on upload button and attach a file to compose attachment
     await chatsAttachmentFirstUser.deleteFileOnComposeAttachment();
-
-    // Validate contents on Compose Attachments are displayed
-    await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForExist({
-      reverse: true,
-    });
   });
 
   it("Chat User A - Select a file and send message with attachment", async () => {

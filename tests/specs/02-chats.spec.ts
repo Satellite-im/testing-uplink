@@ -1,11 +1,9 @@
+import ChatsSidebar from "../screenobjects/chats/ChatsSidebar";
 import FriendsScreen from "../screenobjects/friends/FriendsScreen";
-import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
-import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "../helpers/constants";
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
-let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function chats() {
@@ -24,10 +22,10 @@ export default async function chats() {
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await welcomeScreenFirstUser.chatSearchInput.waitForDisplayed();
-    await welcomeScreenFirstUser.sidebar.waitForDisplayed();
-    await welcomeScreenFirstUser.sidebarChildren.waitForDisplayed();
-    await welcomeScreenFirstUser.sidebarSearch.waitForDisplayed();
+    await chatsSidebarFirstUser.chatSearchInput.waitForDisplayed();
+    await chatsSidebarFirstUser.sidebar.waitForDisplayed();
+    await chatsSidebarFirstUser.sidebarChildren.waitForDisplayed();
+    await chatsSidebarFirstUser.sidebarSearch.waitForDisplayed();
   });
 
   it("Validate Welcome Screen is displayed", async () => {

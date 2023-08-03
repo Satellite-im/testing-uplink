@@ -3,6 +3,7 @@ import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "../../screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "../../screenobjects/chats/ContextMenuSidebar";
+import FavoritesSidebar from "../../screenobjects/chats/FavoritesSidebar";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
 import Topbar from "../../screenobjects/chats/Topbar";
@@ -14,11 +15,13 @@ let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
+let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
 let contextMenuSidebarFirstUser = new ContextMenuSidebar(USER_A_INSTANCE);
+let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
@@ -91,10 +94,13 @@ export default async function sidebarChatsTests() {
 
     await chatsTopbarSecondUser.waitUntilRemoteUserIsOnline();
 
-    // Send message to Chat User B
-    await chatsInputSecondUser.typeMessageOnInput("Hello...");
+    // Send message with markdown to Chat User B
+    await chatsInputSecondUser.typeMessageOnInput("__hello__");
     await chatsInputSecondUser.clickOnSendMessage();
-    await chatsMessagesSecondUser.waitForMessageSentToExist("Hello...");
+    await chatsMessagesSecondUser.waitForMessageSentToExist("hello");
+
+    // Validate last message contents on Sidebar displays hello on bolds and not __hello__
+    await chatsSidebarFirstUser.validateLastMessageDisplayed("hello");
     await friendsScreenFirstUser.switchToOtherUserWindow();
 
     // With User A - Wait until user B accepts the friend request
@@ -113,14 +119,16 @@ export default async function sidebarChatsTests() {
     // Validate Sidebar shows Username
     await chatsSidebarFirstUser.validateUsernameDisplayed("ChatUserB");
 
-    // Validate last message contents
-    await chatsSidebarFirstUser.validateLastMessageDisplayed("Hello...");
-
     // Validate number of unread messages is displayed on sidebar
     await chatsSidebarFirstUser.validateNumberOfUnreadMessages("1");
 
     // Validate time ago displayed on sidebar
     await chatsSidebarFirstUser.validateLastMessageTimeAgo();
+  });
+
+  it("Sidebar - Message preview on Sidebar should display the message without the markdown characters", async () => {
+    // Validate last message contents on Sidebar displays hello on bolds and not __hello__
+    await chatsSidebarFirstUser.validateLastMessageDisplayed("hello");
   });
 
   it("Chat User A - Sidebar - Context Menu - Clear Unreads", async () => {
@@ -148,7 +156,7 @@ export default async function sidebarChatsTests() {
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForMessageSentToExist("Hi...");
+    await chatsMessagesSecondUser.waitForReceivingMessage("Hi...");
     await chatsLayoutFirstUser.switchToOtherUserWindow();
   });
 
@@ -165,7 +173,7 @@ export default async function sidebarChatsTests() {
     await settingsProfileFirstUser.waitForIsShown(true);
 
     // Validate that Chats Sidebar is not displayed on Settings Screen
-    await settingsProfileFirstUser.sidebarChatsSection.waitForExist({
+    await chatsSidebarFirstUser.sidebarChatsSection.waitForExist({
       reverse: true,
     });
   });
@@ -226,5 +234,38 @@ export default async function sidebarChatsTests() {
     await expect(
       chatsSidebarFirstUser.sidebarChatsUserStatusValue
     ).toHaveTextContaining("No messages sent yet, send one!");
+  });
+
+  it("Sidebar - Favorites - Add user to Favorites", async () => {
+    // Add user to favorites
+    await chatsTopbarFirstUser.addToFavorites();
+    await favoritesSidebarFirstUser.favorites.waitForExist();
+
+    // Favorites Sidebar should be displayed
+    await expect(favoritesSidebarFirstUser.favoritesUserImage).toBeDisplayed();
+    await expect(
+      favoritesSidebarFirstUser.favoritesUserIndicatorOnline
+    ).toBeDisplayed();
+    await expect(
+      favoritesSidebarFirstUser.favoritesUserName
+    ).toHaveTextContaining("CHATUSERB");
+  });
+
+  it("Sidebar - Favorites - Context Menu - Chat with user", async () => {
+    await favoritesSidebarFirstUser.goToFiles();
+    await filesScreenFirstUser.waitForIsShown(true);
+    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("CHATUSERB");
+    await favoritesSidebarFirstUser.clickOnContextMenuFavoritesChat();
+    await chatsInputFirstUser.waitForIsShown(true);
+    await chatsInputFirstUser.typeMessageOnInput("Hi...");
+    await chatsInputFirstUser.clearInputBar();
+  });
+
+  it("Sidebar - Favorites - Context Menu - Remove user from Favorites", async () => {
+    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("CHATUSERB");
+    await favoritesSidebarFirstUser.clickOnContextMenuFavoriteRemove();
+    await favoritesSidebarFirstUser.favorites.waitForExist({
+      reverse: true,
+    });
   });
 }
