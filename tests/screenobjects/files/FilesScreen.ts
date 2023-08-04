@@ -305,7 +305,9 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async clickOnCreateFolder() {
-    await this.addFolderButton.click();
+    const element = await this.addFolderButton;
+    await this.hoverOnElement(element);
+    await element.click();
   }
 
   async clickOnFileOrFolder(locator: string) {
@@ -332,7 +334,9 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async clickOnUploadFile() {
-    await this.uploadFileButton.click();
+    const element = await this.uploadFileButton;
+    await this.hoverOnElement(element);
+    await element.click();
   }
 
   async createFolder(name: string) {

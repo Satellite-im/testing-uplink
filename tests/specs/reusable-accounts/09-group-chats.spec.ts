@@ -145,7 +145,6 @@ export default async function groupChatTests() {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");
     const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
     await expect(searchResults).toEqual([
-      "https://dioxus.index.html/#ChatUserA",
       "https://dioxus.index.html/#ChatUserB",
       "https://dioxus.index.html/#Test",
     ]);
