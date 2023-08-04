@@ -105,6 +105,11 @@ jobs:
       - name: Create ZIP archive on Windows 🗳️
         run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
 
+      - name: Copy Extensions 🗳️
+        run: |
+          mkdir ./extensions
+          cp -r ./target/release/emoji_selector.dll ./extensions/
+
       - name: Upload Executable ⬆️
         uses: actions/upload-artifact@v3
         with:
@@ -119,7 +124,7 @@ jobs:
             ui/extra/images/
             ui/extra/prism_langs/
             ui/extra/themes/
-            target/release/emoji_selector.dll
+            extensions/
 
       - name: Add label if any of build jobs failed
         if: failure()
@@ -270,13 +275,11 @@ jobs:
         run: |
           mkdir ./bin/extra
           mkdir ./extra
-          mkdir ./extensions
           mv ./uplink.exe ./bin/
           mv ./uplink2.exe ./bin/
           mv ./images/ ./bin/extra/
           mv ./prism_langs/ ./bin/extra/
           mv ./themes/ ./extra/
-          mv ./emoji_selector.dll ./extensions/
           Get-ChildItem -Recurse
 
       - name: Setup Node.js 🔨
@@ -383,12 +386,10 @@ jobs:
         run: |
           mkdir ./bin/extra
           mkdir ./extra
-          mkdir ./extensions
           mv ./uplink.exe ./bin/
           mv ./images/ ./bin/extra/
           mv ./prism_langs/ ./bin/extra/
           mv ./themes/ ./extra/
-          mv ./emoji_selector.dll ./extensions/
           Get-ChildItem -Recurse
 
       - name: Setup Node.js 🔨
