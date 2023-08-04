@@ -16,6 +16,46 @@ export default async function settingsExtensions() {
     await settingsExtensionsFirstUser.extensionsSettingsButton.waitForDisplayed();
   });
 
+  it("Settings Extensions - Validate Emoji Selector extension contents", async () => {
+    await expect(
+      settingsExtensionsFirstUser.emojiSelectorTitle
+    ).toHaveTextContaining("Emoji Selector");
+    await expect(
+      settingsExtensionsFirstUser.emojiSelectorDeveloper
+    ).toHaveTextContaining("SATELLITE <DEVS@SATELLITE.IM>");
+    await expect(
+      settingsExtensionsFirstUser.emojiSelectorDescription
+    ).toHaveTextContaining(
+      "Browse the standard unicode library of emoji's and send them to friends."
+    );
+  });
+
+  it("Settings Extensions - Enable Emoji Selector extension", async () => {
+    // Click on Switch from Emoji Selector to activate it
+    await settingsExtensionsFirstUser.clickOnEmojiSelectorCheckbox();
+
+    // Validate that switch from Emoji Selector now has value = '1' (active)
+    const toggleElement =
+      await settingsExtensionsFirstUser.emojiSelectorCheckboxValue;
+    const emojiSelectorState = await settingsExtensionsFirstUser.getToggleState(
+      toggleElement
+    );
+    await expect(emojiSelectorState).toEqual("1");
+  });
+
+  it("Settings Extensions - Disable Emoji Selector extension", async () => {
+    // Click again on Switch from Emoji Selector to deactivate it
+    await settingsExtensionsFirstUser.clickOnEmojiSelectorCheckbox();
+
+    // Validate that switch from Emoji Selector now has value = '0' (disabled)
+    const toggleElement =
+      await settingsExtensionsFirstUser.emojiSelectorCheckboxValue;
+    const emojiSelectorState = await settingsExtensionsFirstUser.getToggleState(
+      toggleElement
+    );
+    await expect(emojiSelectorState).toEqual("0");
+  });
+
   it("Settings Extensions - Go to Explore panel and assert contents", async () => {
     // Go to Explore Extensions
     await settingsExtensionsFirstUser.clickOnExploreButton();

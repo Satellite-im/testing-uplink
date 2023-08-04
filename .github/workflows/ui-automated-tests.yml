@@ -107,8 +107,8 @@ jobs:
 
       - name: Copy Extensions 🗳️
         run: |
-          mkdir ./extensions
-          cp -r ./target/release/emoji_selector.dll ./extensions/
+          mkdir ./ui/extra/extensions
+          cp -r ./target/release/emoji_selector.dll ./ui/extra/extensions/
 
       - name: Upload Executable ⬆️
         uses: actions/upload-artifact@v3
@@ -124,7 +124,7 @@ jobs:
             ui/extra/images/
             ui/extra/prism_langs/
             ui/extra/themes/
-            extensions/
+            ui/extra/extensions/
 
       - name: Add label if any of build jobs failed
         if: failure()
