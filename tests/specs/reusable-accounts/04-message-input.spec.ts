@@ -149,8 +149,7 @@ export default async function messageInputTests() {
     await chatsMessagesSecondUser.waitForReceivingLink("www.apple.com");
   });
 
-  // Test skipped for now since the typing indicator is not shown
-  xit("Validate Typing Indicator is displayed if remote user is typing", async () => {
+  it("Validate Typing Indicator is displayed if remote user is typing", async () => {
     // With User A
     await chatsInputFirstUser.switchToOtherUserWindow();
     // Generate a random text with 100 chars
@@ -161,5 +160,8 @@ export default async function messageInputTests() {
     // Switch to second user and validate that Typing Indicator is displayed
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsLayoutSecondUser.typingIndicator.waitForDisplayed();
+    await expect(
+      chatsLayoutSecondUser.typingIndicatorTextValue
+    ).toHaveTextContaining("ChatUserA is typing");
   });
 }
