@@ -116,7 +116,6 @@ jobs:
         with:
           name: uplink-windows-assets
           path: |
-            target/release/emoji_selector.dll
             ui/extra/images/
             ui/extra/prism_langs/
             ui/extra/themes/
@@ -258,6 +257,8 @@ jobs:
         working-directory: ./apps
         run: |
           Get-ChildItem -Recurse
+          mkdir \bin\extra
+          mkdir \extra
           cp -r ./uplink.exe ./bin/uplink.exe
           cp -r ./uplink.exe ./bin/uplink2.exe
 
@@ -265,7 +266,6 @@ jobs:
         working-directory: ./apps
         run: |
           Get-ChildItem -Recurse
-          cp -r ./target/release/emoji_selector.dll ./extensions/
           cp -r ./ui/extras/* ./bin/extra/
           cp -r ./bin/extra/* ./extra/
           Get-ChildItem -Recurse
@@ -373,8 +373,9 @@ jobs:
         working-directory: ./apps
         run: |
           Get-ChildItem -Recurse
+          mkdir \bin\extra
+          mkdir \extra
           cp -r ./uplink.exe ./bin/uplink.exe
-          cp -r ./target/release/emoji_selector.dll ./extensions/
           cp -r ./ui/extras/* ./bin/extra/
           cp -r ./bin/extra/* ./extra/
           Get-ChildItem -Recurse
