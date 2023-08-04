@@ -34,11 +34,6 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - name: Install Protobuf 💿
-        uses: arduino/setup-protoc@v1
-        with:
-          repo-token: ${{env.GITHUB_TOKEN}}
-
       - name: Add Targets for MacOS
         env:
           MACOSX_DEPLOYMENT_TARGET: "10.13"
@@ -93,13 +88,8 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - name: Install Protobuf 💿
-        uses: arduino/setup-protoc@v1
-        with:
-          repo-token: ${{env.GITHUB_TOKEN}}
-
       - name: Build executable 🖥️
-        run: cargo build --release --package uplink -F production_mode
+        run: cargo build --release -F production_mode
         continue-on-error: true
 
       - name: Create ZIP archive on Windows 🗳️
