@@ -119,6 +119,7 @@ jobs:
             ui/extra/images/
             ui/extra/prism_langs/
             ui/extra/themes/
+            target/release/emoji_selector.dll
 
       - name: Add label if any of build jobs failed
         if: failure()
@@ -253,6 +254,12 @@ jobs:
       - name: Extract .zip into apps Directory 🗳️
         run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
 
+      - name: Download the Windows app assets
+        uses: actions/download-artifact@v3
+        with:
+          name: uplink-windows-assets
+          path: ./apps
+
       - name: Copy app to have two instances 💿
         working-directory: ./apps
         run: |
@@ -263,11 +270,14 @@ jobs:
         run: |
           mkdir ./bin/extra
           mkdir ./extra
+          mkdir ./extensions
           mv ./uplink.exe ./bin/
           mv ./uplink2.exe ./bin/
           mv ./images/ ./bin/extra/
           mv ./prism_langs/ ./bin/extra/
           mv ./themes/ ./extra/
+          mv ./emoji_selector.dll ./extensions/
+          Get-ChildItem -Recurse
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -373,10 +383,13 @@ jobs:
         run: |
           mkdir ./bin/extra
           mkdir ./extra
+          mkdir ./extensions
           mv ./uplink.exe ./bin/
           mv ./images/ ./bin/extra/
           mv ./prism_langs/ ./bin/extra/
           mv ./themes/ ./extra/
+          mv ./emoji_selector.dll ./extensions/
+          Get-ChildItem -Recurse
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
