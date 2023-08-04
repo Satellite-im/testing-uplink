@@ -256,19 +256,18 @@ jobs:
       - name: Copy app to have two instances 💿
         working-directory: ./apps
         run: |
-          Get-ChildItem -Recurse
-          mkdir \bin\extra
-          mkdir \extra
-          cp -r ./uplink.exe ./bin/uplink.exe
-          cp -r ./uplink.exe ./bin/uplink2.exe
+          cp -r ./uplink.exe ./uplink2.exe
 
       - name: Move Windows assets to correct locations 💿
         working-directory: ./apps
         run: |
-          Get-ChildItem -Recurse
-          cp -r ./ui/extras/* ./bin/extra/
-          cp -r ./bin/extra/* ./extra/
-          Get-ChildItem -Recurse
+          mkdir ./bin/extra
+          mkdir ./extra
+          mv ./uplink.exe ./bin/
+          mv ./uplink2.exe ./bin/
+          mv ./images/ ./bin/extra/
+          mv ./prism_langs/ ./bin/extra/
+          mv ./themes/ ./extra/
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -372,13 +371,12 @@ jobs:
       - name: Move Windows assets to correct locations 💿
         working-directory: ./apps
         run: |
-          Get-ChildItem -Recurse
-          mkdir \bin\extra
-          mkdir \extra
-          cp -r ./uplink.exe ./bin/uplink.exe
-          cp -r ./ui/extras/* ./bin/extra/
-          cp -r ./bin/extra/* ./extra/
-          Get-ChildItem -Recurse
+          mkdir ./bin/extra
+          mkdir ./extra
+          mv ./uplink.exe ./bin/
+          mv ./images/ ./bin/extra/
+          mv ./prism_langs/ ./bin/extra/
+          mv ./themes/ ./extra/
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
