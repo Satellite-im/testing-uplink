@@ -165,7 +165,7 @@ export default async function createAccount() {
     await expect(statusOfButton).toEqual("false");
     await createUserFirstUser.inputError.waitForDisplayed();
     await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
-      "Disallowed character(s): .%@"
+      "Not allowed character(s): .%@"
     );
   });
 

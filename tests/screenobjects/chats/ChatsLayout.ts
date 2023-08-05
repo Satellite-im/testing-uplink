@@ -15,6 +15,8 @@ const SELECTORS_WINDOWS = {
   ENCRYPTED_MESSAGES: '[name="messages-secured-alert"]',
   ENCRYPTED_MESSAGES_TEXT: "//Group/Text",
   TYPING_INDICATOR: '[name="message-typing-indicator"]',
+  TYPING_INDICATOR_TEXT: '[name="typing-message"]',
+  TYPING_INDICATOR_TEXT_VALUE: "//Text",
 };
 
 const SELECTORS_MACOS = {
@@ -22,6 +24,8 @@ const SELECTORS_MACOS = {
   ENCRYPTED_MESSAGES_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   TYPING_INDICATOR: "~message-typing-indicator",
+  TYPING_INDICATOR_TEXT: "~typing-message",
+  TYPING_INDICATOR_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
 currentOS === windowsDriver
@@ -39,7 +43,7 @@ export default class ChatsLayout extends UplinkMainScreen {
 
   get encryptedMessages() {
     return this.instance.$(SELECTORS.ENCRYPTED_MESSAGES);
-  }
+  } //
 
   get encryptedMessagesText() {
     return this.instance
@@ -49,5 +53,19 @@ export default class ChatsLayout extends UplinkMainScreen {
 
   get typingIndicator() {
     return this.instance.$(SELECTORS.CHAT_LAYOUT).$(SELECTORS.TYPING_INDICATOR);
+  }
+
+  get typingIndicatorText() {
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.TYPING_INDICATOR)
+      .$(SELECTORS.TYPING_INDICATOR_TEXT);
+  }
+  get typingIndicatorTextValue() {
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.TYPING_INDICATOR)
+      .$(SELECTORS.TYPING_INDICATOR_TEXT)
+      .$(SELECTORS.TYPING_INDICATOR_TEXT_VALUE);
   }
 }

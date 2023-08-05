@@ -1,8 +1,9 @@
-import Messages from "../../screenobjects/chats/Messages";
 import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "../../screenobjects/chats/ChatsSidebar";
 import CreateGroupChat from "../../screenobjects/chats/CreateGroupChat";
+import FilesScreen from "../../screenobjects/files/FilesScreen";
 import InputBar from "../../screenobjects/chats/InputBar";
+import Messages from "../../screenobjects/chats/Messages";
 import ParticipantsList from "../../screenobjects/chats/ParticipantsList";
 import Topbar from "../../screenobjects/chats/Topbar";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
@@ -16,6 +17,7 @@ let chatsSidebarSecondUser = new ChatsSidebar(USER_B_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
 let createGroupFirstUser = new CreateGroupChat(USER_A_INSTANCE);
+let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let participantsListFirstUser = new ParticipantsList(USER_A_INSTANCE);
 
 export default async function groupChatTests() {
@@ -52,7 +54,7 @@ export default async function groupChatTests() {
     await createGroupFirstUser.typeOnGroupName("@");
     await expect(
       createGroupFirstUser.createGroupInputErrorText
-    ).toHaveTextContaining("Disallowed character(s): @");
+    ).toHaveTextContaining("Not allowed character(s): @");
     await createGroupFirstUser.createGroupInputError.waitForDisplayed();
     await createGroupFirstUser.clearGroupNameInput();
   });
@@ -142,16 +144,28 @@ export default async function groupChatTests() {
 
   it("Sidebar - Search Bar - Search for a string matching a username and group", async () => {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
+    await chatsTopbarFirstUser.goToFiles();
+    await filesScreenFirstUser.waitForIsShown(true);
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");
     const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
     await expect(searchResults).toEqual([
       "https://dioxus.index.html/#ChatUserB",
       "https://dioxus.index.html/#Test",
     ]);
-    await chatsSidebarFirstUser.clearSidebarSearchInput();
+  });
+
+  it("Sidebar - Sarch bar - Result will redirect to a User Conversation", async () => {
+    await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
+    await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
+    await chatsTopbarFirstUser.waitForIsShown(true);
+    await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
+      "ChatUserB"
+    );
   });
 
   it("Sidebar - Search Bar - Search for a string matching a single group chat", async () => {
+    await chatsTopbarFirstUser.goToFiles();
+    await filesScreenFirstUser.waitForIsShown(true);
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
     const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
     await expect(searchResults).toEqual(["https://dioxus.index.html/#Test"]);
@@ -164,13 +178,14 @@ export default async function groupChatTests() {
     await chatsSidebarFirstUser.clearSidebarSearchInput();
   });
 
-  it("Sidebar - Search Bar - Search bar result will redirect to a Group Chat Conversation", async () => {
+  it("Sidebar - Search Bar - Result will redirect to a Group Chat Conversation", async () => {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
     await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
     await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
   });
 
   it("Group Chat - Show participants list - Contents", async () => {
+    await chatsTopbarFirstUser.waitForIsShown(true);
     await chatsTopbarFirstUser.clickOnTopbar();
     await participantsListFirstUser.waitForIsShown(true);
     await participantsListFirstUser.participantsUserInput.waitForDisplayed();
