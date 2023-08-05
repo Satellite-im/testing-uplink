@@ -117,7 +117,7 @@ export default async function messageInputTests() {
   });
 
   it("Chat User - Chat Messages containing links contents on local side", async () => {
-    // Swith to Chat User A
+    // Switch to Chat User A
     await chatsMessagesFirstUser.switchToOtherUserWindow();
 
     // Validate link embed contents on chat message
