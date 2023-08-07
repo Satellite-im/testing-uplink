@@ -1,6 +1,10 @@
 import SettingsAudioScreen from "../screenobjects/settings/SettingsAudioScreen";
 import SettingsExtensionsScreen from "../screenobjects/settings/SettingsExtensionsScreen";
-import { USER_A_INSTANCE } from "../helpers/constants";
+import {
+  USER_A_INSTANCE,
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+} from "../helpers/constants";
 let settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
 let settingsExtensionsFirstUser = new SettingsExtensionsScreen(USER_A_INSTANCE);
 
@@ -14,6 +18,65 @@ export default async function settingsExtensions() {
     await settingsExtensionsFirstUser.installedButton.waitForDisplayed();
     await settingsExtensionsFirstUser.exploreButton.waitForDisplayed();
     await settingsExtensionsFirstUser.extensionsSettingsButton.waitForDisplayed();
+  });
+
+  it("Settings Extensions - Validate Emoji Selector extension contents", async () => {
+    const currentDriver = await settingsExtensionsFirstUser.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await expect(
+        settingsExtensionsFirstUser.emojiSelectorTitle
+      ).toHaveTextContaining("Emoji Selector");
+      await expect(
+        settingsExtensionsFirstUser.emojiSelectorDeveloper
+      ).toHaveTextContaining("SATELLITE <DEVS@SATELLITE.IM>");
+      await expect(
+        settingsExtensionsFirstUser.emojiSelectorDescription
+      ).toHaveTextContaining(
+        "Browse the standard unicode library of emoji's and send them to friends."
+      );
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      console.log(
+        "Skipping test on Windows since it needs assets copied before to be implemented"
+      );
+    }
+  });
+
+  it("Settings Extensions - Enable Emoji Selector extension", async () => {
+    const currentDriver = await settingsExtensionsFirstUser.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      // Click on Switch from Emoji Selector to activate it
+      await settingsExtensionsFirstUser.clickOnEmojiSelectorCheckbox();
+
+      // Validate that switch from Emoji Selector now has value = '1' (active)
+      const toggleElement =
+        await settingsExtensionsFirstUser.emojiSelectorCheckboxValue;
+      const emojiSelectorState =
+        await settingsExtensionsFirstUser.getToggleState(toggleElement);
+      await expect(emojiSelectorState).toEqual("1");
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      console.log(
+        "Skipping test on Windows since it needs assets copied before to be implemented"
+      );
+    }
+  });
+
+  it("Settings Extensions - Disable Emoji Selector extension", async () => {
+    const currentDriver = await settingsExtensionsFirstUser.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      // Click again on Switch from Emoji Selector to deactivate it
+      await settingsExtensionsFirstUser.clickOnEmojiSelectorCheckbox();
+
+      // Validate that switch from Emoji Selector now has value = '0' (disabled)
+      const toggleElement =
+        await settingsExtensionsFirstUser.emojiSelectorCheckboxValue;
+      const emojiSelectorState =
+        await settingsExtensionsFirstUser.getToggleState(toggleElement);
+      await expect(emojiSelectorState).toEqual("0");
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      console.log(
+        "Skipping test on Windows since it needs assets copied before to be implemented"
+      );
+    }
   });
 
   it("Settings Extensions - Go to Explore panel and assert contents", async () => {
