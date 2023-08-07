@@ -270,7 +270,6 @@ jobs:
           mv ./images/ ./bin/extra/
           mv ./prism_langs/ ./bin/extra/
           mv ./themes/ ./extra/
-          Get-ChildItem -Recurse
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -380,7 +379,6 @@ jobs:
           mv ./images/ ./bin/extra/
           mv ./prism_langs/ ./bin/extra/
           mv ./themes/ ./extra/
-          Get-ChildItem -Recurse
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -575,6 +573,7 @@ jobs:
         with:
           name: |
             Uplink-windows-latest
+            uplink-windows-assets
             Uplink-macos-latest
             test-report-macos-ci
             test-report-windows-ci
