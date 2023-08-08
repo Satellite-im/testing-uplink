@@ -12,6 +12,7 @@ import InputBar from "../../screenobjects/chats/InputBar";
 import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import Messages from "../../screenobjects/chats/Messages";
 import Topbar from "../../screenobjects/chats/Topbar";
+import SettingsExtensionsScreen from "../../screenobjects/settings/SettingsExtensionsScreen";
 import SettingsGeneralScreen from "../../screenobjects/settings/SettingsGeneralScreen";
 import SettingsNotificationsScreen from "../../screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
@@ -28,6 +29,10 @@ let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
 let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
+let settingsExtensionsFirstUser = new SettingsExtensionsScreen(USER_A_INSTANCE);
+let settingsExtensionsSecondUser = new SettingsExtensionsScreen(
+  USER_B_INSTANCE
+);
 let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
 let settingsGeneralSecondUser = new SettingsGeneralScreen(USER_B_INSTANCE);
 let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
@@ -64,15 +69,31 @@ export default async function createChatAccountsTests() {
     await saveTestKeys(username, didkey, USER_A_INSTANCE);
   });
 
-  it("Chat User A - Disable notifications and reduce font size", async () => {
+  it("Chat User A - Settings General - Reduce font size", async () => {
+    // Go to General Settings and reduce Font Size by 0.5
     await settingsProfileFirstUser.goToGeneralSettings();
     await settingsGeneralFirstUser.waitForIsShown(true);
     await settingsGeneralFirstUser.clickOnFontScalingMinus();
+  });
+
+  it("Chat User A - Settings Notifications - Disable notifications", async () => {
+    // Go to Notifications Settings and disable all notifications
     await settingsGeneralFirstUser.goToNotificationsSettings();
     await settingsNotificationsFirstUser.waitForIsShown(true);
     await settingsNotificationsFirstUser.clickOnFriendsNotifications();
     await settingsNotificationsFirstUser.clickOnMessagesNotifications();
-    await settingsNotificationsFirstUser.goToFriends();
+  });
+
+  it("Chat User A - Settings Extensions - Enable Emoji Selector extension", async () => {
+    // Go to Extensions Settings
+    await settingsNotificationsFirstUser.goToExtensionsSettings();
+    await settingsExtensionsFirstUser.waitForIsShown(true);
+
+    // Click on Switch from Emoji Selector to activate it
+    await settingsExtensionsFirstUser.clickOnEmojiSelectorCheckbox();
+
+    // Go to Friends Screen
+    await settingsExtensionsFirstUser.goToFriends();
     await friendsScreenFirstUser.waitForIsShown(true);
   });
 
@@ -98,20 +119,35 @@ export default async function createChatAccountsTests() {
     await saveTestKeys(username, didkey, USER_B_INSTANCE);
   });
 
-  it("Chat User B - Disable notifications and reduce font size", async () => {
+  it("Chat User B - Settings General - Reduce font size", async () => {
+    // Go to General Settings and reduce Font Size by 0.5
     await settingsProfileSecondUser.goToGeneralSettings();
     await settingsGeneralSecondUser.waitForIsShown(true);
     await settingsGeneralSecondUser.clickOnFontScalingMinus();
+  });
+
+  it("Chat User B - Settings Notifications - Disable notifications", async () => {
+    // Go to Notifications Settings and disable all notifications
     await settingsGeneralSecondUser.goToNotificationsSettings();
     await settingsNotificationsSecondUser.waitForIsShown(true);
     await settingsNotificationsSecondUser.clickOnFriendsNotifications();
     await settingsNotificationsSecondUser.clickOnMessagesNotifications();
   });
 
-  it("Chat User B - Send friend request to User A", async () => {
-    // Go to Friends
-    await settingsNotificationsSecondUser.goToFriends();
+  it("Chat User B - Settings Extensions - Enable Emoji Selector extension", async () => {
+    // Go to Extensions Settings
+    await settingsNotificationsSecondUser.goToExtensionsSettings();
+    await settingsExtensionsSecondUser.waitForIsShown(true);
+
+    // Click on Switch from Emoji Selector to activate it
+    await settingsExtensionsSecondUser.clickOnEmojiSelectorCheckbox();
+
+    // Go to Friends Screen
+    await settingsExtensionsSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
+  });
+
+  it("Chat User B - Send friend request to User A", async () => {
     // Obtain did key from Chat User B
     const friendDidKey = await getUserKey("ChatUserA", USER_B_INSTANCE);
     await friendsScreenSecondUser.enterFriendDidKey(friendDidKey);
