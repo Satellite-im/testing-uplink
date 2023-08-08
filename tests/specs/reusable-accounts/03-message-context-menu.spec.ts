@@ -76,12 +76,12 @@ export default async function messageContextMenuTests() {
     // React with Hi emoji
     await chatsMessagesFirstUser.openContextMenuOnLastReceived();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
-    await chatsContextMenuFirstUser.selectReactionHi();
+    await chatsContextMenuFirstUser.selectReactionDislike();
 
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsFirstUser.getLastMessageReceivedSelfReactions();
-    await expect(reaction.includes("🖖 1")).toEqual(true);
+    await expect(reaction.includes("👎 1")).toEqual(true);
   });
 
   it("Chat User B - Receive reaction in sent message", async () => {
@@ -94,7 +94,7 @@ export default async function messageContextMenuTests() {
     // Validate reactions received on sent message
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentRemoteReactions();
-    await expect(reaction.includes("🖖 1")).toEqual(true);
+    await expect(reaction.includes("👎 1")).toEqual(true);
   });
 
   it("Chat User B - Receive reaction in received message", async () => {
@@ -109,24 +109,24 @@ export default async function messageContextMenuTests() {
     // React with Hi emoji
     await chatsMessagesSecondUser.openContextMenuOnLastSent();
     await chatsContextMenuSecondUser.validateContextMenuIsOpen();
-    await chatsContextMenuSecondUser.selectReactionHi();
+    await chatsContextMenuSecondUser.selectReactionDislike();
 
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
-    await expect(reaction.includes("🖖 2")).toEqual(true);
+    await expect(reaction.includes("👎 2")).toEqual(true);
   });
 
   it("Chat User B - Users can add a new reaction to a message already containing reactions", async () => {
     // React with laugh emoji
     await chatsMessagesSecondUser.openContextMenuOnLastSent();
     await chatsContextMenuSecondUser.validateContextMenuIsOpen();
-    await chatsContextMenuSecondUser.selectReactionLaugh();
+    await chatsContextMenuSecondUser.selectReactionHeart();
 
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
-    await expect(reaction.includes("🖖 2")).toEqual(true);
-    await expect(reaction.includes("😂 1")).toEqual(true);
+    await expect(reaction.includes("👎 2")).toEqual(true);
+    await expect(reaction.includes("❤️ 1")).toEqual(true);
   });
 }
