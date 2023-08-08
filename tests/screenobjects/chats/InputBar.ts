@@ -16,10 +16,7 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
-  EMOJI: '[name="emoji"]',
   EMOJI_BUTTON: '//Group[@Name="chat-layout"]//Group[9]/Button',
-  EMOJI_SELECTOR: '[name="emoji-selector"]',
-  EMOJIS_CONTAINER: '[name="emojis-container"]',
   INPUT_CHAR_COUNTER: '[name="input-char-counter"]',
   INPUT_CHAR_COUNTER_TEXT: "//Text",
   INPUT_GROUP: '[name="input-group"]',
@@ -31,11 +28,8 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
-  EMOJI: "~emoji",
   EMOJI_BUTTON:
     '-ios class chain:**/XCUIElementTypeGroup[`label == "chat-layout"`]/XCUIElementTypeGroup[9]/XCUIElementTypeButton',
-  EMOJI_SELECTOR: "~emoji-selector",
-  EMOJIS_CONTAINER: "~emojis-container",
   INPUT_CHAR_COUNTER: "~input-char-counter",
   INPUT_CHAR_COUNTER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   INPUT_GROUP: "~input-group",
@@ -54,18 +48,6 @@ currentOS === WINDOWS_DRIVER
 export default class InputBar extends UplinkMainScreen {
   constructor(executor: string) {
     super(executor, SELECTORS.INPUT_GROUP);
-  }
-
-  get emoji() {
-    return this.instance.$(SELECTORS.EMOJI);
-  }
-
-  get emojiSelector() {
-    return this.instance.$(SELECTORS.EMOJI_SELECTOR);
-  }
-
-  get emojisContainer() {
-    return this.instance.$(SELECTORS.EMOJIS_CONTAINER);
   }
 
   get emojiButton() {
