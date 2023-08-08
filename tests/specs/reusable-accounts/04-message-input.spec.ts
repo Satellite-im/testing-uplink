@@ -21,9 +21,9 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.clickOnInputBar();
     await chatsInputFirstUser.pressEnterKeyOnInputBar();
 
-    // Validate latest message sent displayed on Chat Conversation is still "edited..."
+    // Validate latest message sent displayed on Chat Conversation is still "Two...Edited"
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("Edited...");
+    await expect(textMessage).toHaveTextContaining("Two...Edited");
   });
 
   // Skipping test failing on CI due to slowness on driver typing 1024 characters
