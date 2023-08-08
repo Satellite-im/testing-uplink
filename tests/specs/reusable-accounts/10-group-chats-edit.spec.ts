@@ -1,7 +1,6 @@
 import EditGroup from "../../screenobjects/chats/EditGroup";
 import ChatsSidebar from "../../screenobjects/chats/ChatsSidebar";
 import FilesScreen from "../../screenobjects/files/FilesScreen";
-import ParticipantsList from "../../screenobjects/chats/ParticipantsList";
 import Topbar from "../../screenobjects/chats/Topbar";
 import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
@@ -11,7 +10,6 @@ let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
 let editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
 let filesScreenSecondUser = new FilesScreen(USER_B_INSTANCE);
-let participantsListFirstUser = new ParticipantsList(USER_A_INSTANCE);
 let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export default async function groupChatEditTests() {
@@ -35,10 +33,10 @@ export default async function groupChatEditTests() {
   it("Chat User B - You are not the group creator tooltip is displayed", async () => {
     await chatsTopbarSecondUser.switchToOtherUserWindow();
     await chatsTopbarSecondUser.hoverOnEditGroupButton();
-    await chatsTopbarSecondUser.topbarEditGroupTooltip.waitForDisplayed();
+    await chatsTopbarSecondUser.viewGroupTooltip.waitForDisplayed();
     await expect(
-      chatsTopbarSecondUser.topbarEditGroupTooltipText
-    ).toHaveTextContaining("You're not the group creator");
+      chatsTopbarSecondUser.viewGroupTooltipText
+    ).toHaveTextContaining("View Group");
   });
 
   it("Edit Group - Group Name Edit - Contents displayed", async () => {
@@ -46,26 +44,16 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
     await editGroupFirstUser.groupNameInput.waitForDisplayed();
-    await editGroupFirstUser.addParticipantsWithSidebarButton.waitForDisplayed();
-    await editGroupFirstUser.removeParticipantsWithSidebarButton.waitForDisplayed();
+    await editGroupFirstUser.friendsList.waitForDisplayed();
     await editGroupFirstUser.userInput.waitForDisplayed();
   });
 
-  it("Edit Group - Add and Remove middle buttons are displayed when sidebar is hidden", async () => {
-    await editGroupFirstUser.clickOnHamburgerButton();
-    await editGroupFirstUser.backButton.waitForDisplayed();
-    await editGroupFirstUser.addParticipantsWithoutSidebarButton.waitForDisplayed();
-    await editGroupFirstUser.removeParticipantsWithoutSidebarButton.waitForDisplayed();
-    await editGroupFirstUser.clickOnBackButton();
-    await editGroupFirstUser.hamburgerButton.waitForDisplayed();
-  });
-
   it("Edit Group - Attempt to change Group Name for a name containing non-alphanumeric characters", async () => {
-    await editGroupFirstUser.typeOnGroupNameInput("$#");
+    await editGroupFirstUser.typeOnGroupNameInput("@");
     await editGroupFirstUser.groupNameInputError.waitForDisplayed();
     await expect(
       editGroupFirstUser.groupNameInputErrorText
-    ).toHaveTextContaining("Not allowed character(s): $#");
+    ).toHaveTextContaining("Not allowed character(s): @");
     await editGroupFirstUser.clearGroupNameInput();
   });
 
@@ -83,7 +71,6 @@ export default async function groupChatEditTests() {
 
   it("Edit Group - Change Group Name for a valid name", async () => {
     await editGroupFirstUser.typeOnGroupNameInput("NewNameGroup");
-    await editGroupFirstUser.clickOnGroupNameHeader();
     await chatsTopbarFirstUser.editGroup();
     await chatsSidebarFirstUser.waitForGroupToBeCreated("NewNameGroup");
     await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
