@@ -34,11 +34,6 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - name: Install Protobuf 💿
-        uses: arduino/setup-protoc@v1
-        with:
-          repo-token: ${{env.GITHUB_TOKEN}}
-
       - name: Add Targets for MacOS
         env:
           MACOSX_DEPLOYMENT_TARGET: "10.13"
@@ -93,23 +88,33 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - name: Install Protobuf 💿
-        uses: arduino/setup-protoc@v1
-        with:
-          repo-token: ${{env.GITHUB_TOKEN}}
-
       - name: Build executable 🖥️
-        run: cargo build --release --package uplink -F production_mode
+        run: cargo build --release -F production_mode
         continue-on-error: true
 
       - name: Create ZIP archive on Windows 🗳️
         run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
+
+      - name: Copy Extensions 🗳️
+        run: |
+          mkdir ./ui/extra/extensions
+          cp -r ./target/release/emoji_selector.dll ./ui/extra/extensions/
 
       - name: Upload Executable ⬆️
         uses: actions/upload-artifact@v3
         with:
           name: Uplink-windows-latest
           path: uplinkWindows.zip
+
+      - name: Upload Windows Assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: uplink-windows-assets
+          path: |
+            ui/extra/images/
+            ui/extra/prism_langs/
+            ui/extra/themes/
+            ui/extra/extensions/
 
       - name: Add label if any of build jobs failed
         if: failure()
@@ -244,10 +249,27 @@ jobs:
       - name: Extract .zip into apps Directory 🗳️
         run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
 
+      - name: Download the Windows app assets
+        uses: actions/download-artifact@v3
+        with:
+          name: uplink-windows-assets
+          path: ./apps
+
       - name: Copy app to have two instances 💿
         working-directory: ./apps
         run: |
           cp -r ./uplink.exe ./uplink2.exe
+
+      - name: Move Windows assets to correct locations 💿
+        working-directory: ./apps
+        run: |
+          mkdir ./bin/extra
+          mkdir ./extra
+          mv ./uplink.exe ./bin/
+          mv ./uplink2.exe ./bin/
+          mv ./images/ ./bin/extra/
+          mv ./prism_langs/ ./bin/extra/
+          mv ./themes/ ./extra/
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -341,6 +363,22 @@ jobs:
 
       - name: Extract .zip into apps Directory 🗳️
         run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
+
+      - name: Download the Windows app assets
+        uses: actions/download-artifact@v3
+        with:
+          name: uplink-windows-assets
+          path: ./apps
+
+      - name: Move Windows assets to correct locations 💿
+        working-directory: ./apps
+        run: |
+          mkdir ./bin/extra
+          mkdir ./extra
+          mv ./uplink.exe ./bin/
+          mv ./images/ ./bin/extra/
+          mv ./prism_langs/ ./bin/extra/
+          mv ./themes/ ./extra/
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
@@ -535,6 +573,7 @@ jobs:
         with:
           name: |
             Uplink-windows-latest
+            uplink-windows-assets
             Uplink-macos-latest
             test-report-macos-ci
             test-report-windows-ci

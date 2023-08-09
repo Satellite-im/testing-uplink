@@ -190,15 +190,12 @@ export default class InputBar extends UplinkMainScreen {
 
   async typeOnEditMessageInput(editedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
+    const locator = await this.window;
     let enterValue;
     currentDriver === WINDOWS_DRIVER
       ? (enterValue = "\uE007")
       : (enterValue = "\n");
-    await browser.pause(1000);
-    await this.instance.$$(SELECTORS.INPUT_TEXT)[1].clearValue();
-    await this.instance
-      .$$(SELECTORS.INPUT_TEXT)[1]
-      .setValue(editedMessage + enterValue);
+    await locator.setValue(editedMessage + enterValue);
   }
 
   async uploadFile(relativePath: string) {

@@ -78,7 +78,7 @@ export default async function friends() {
   it("Add Friend Input - Error is displayed when non-alphanumeric chars are provided", async () => {
     await friendsScreenFirstUser.enterFriendDidKey("%%%%%%%%%%");
     await expect(friendsScreenFirstUser.inputErrorText).toHaveTextContaining(
-      "Disallowed character(s): %"
+      "Not allowed character(s): %"
     );
     await friendsScreenFirstUser.deleteAddFriendInput();
   });
