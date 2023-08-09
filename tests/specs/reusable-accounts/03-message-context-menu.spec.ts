@@ -1,5 +1,6 @@
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 import ContextMenu from "../../screenobjects/chats/ContextMenu";
+import EmojiSelector from "../../screenobjects/chats/EmojiSelector";
 import InputBar from "../../screenobjects/chats/InputBar";
 import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import Messages from "../../screenobjects/chats/Messages";
@@ -11,6 +12,8 @@ let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
 let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
+let emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
+let emojiSelectorSecondUser = new EmojiSelector(USER_B_INSTANCE);
 
 export default async function messageContextMenuTests() {
   it("Chat User A - Send two more messages to Chat User B", async () => {
@@ -55,35 +58,38 @@ export default async function messageContextMenuTests() {
 
   // Skipping for now since it needs reimplementation to handle better the constantly changing recently used emojis
   xit("Chat User A - React to sent message and multiple reactions in a message", async () => {
-    // React with heart emoji
+    // React with 😀 emoji
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
-    await chatsContextMenuFirstUser.selectReactionHeart();
+    await chatsContextMenuFirstUser.selectContextOptionReact();
+    await emojiSelectorFirstUser.clickOnEmoji("😀");
 
-    // React with like emoji
+    // React with 😂 emoji
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
-    await chatsContextMenuFirstUser.selectReactionLike();
+    await chatsContextMenuFirstUser.selectContextOptionReact();
+    await emojiSelectorFirstUser.clickOnEmoji("😂");
 
     // Validate reactions are displayed correctly
     const reactions =
       await chatsMessageGroupsFirstUser.getLastMessageSentSelfReactions();
-    await expect(reactions.includes("❤️ 1")).toEqual(true);
-    await expect(reactions.includes("👍 1")).toEqual(true);
+    await expect(reactions.includes("😀 1")).toEqual(true);
+    await expect(reactions.includes("😂 1")).toEqual(true);
   });
 
   // Skipping for now since it needs reimplementation to handle better the constantly changing recently used emojis
   xit("Chat User A - React to received message", async () => {
-    // React with Hi emoji
+    // React with 🥰 emoji
     await chatsMessagesFirstUser.openContextMenuOnLastReceived();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
-    await chatsContextMenuFirstUser.selectReactionHi();
+    await chatsContextMenuFirstUser.selectContextOptionReact();
+    await emojiSelectorFirstUser.clickOnEmoji("🥰");
 
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsFirstUser.getLastMessageReceivedSelfReactions();
-    await expect(reaction.includes("🖖 1")).toEqual(true);
+    await expect(reaction.includes("🥰 1")).toEqual(true);
   });
 
   // Skipping for now since it needs reimplementation to handle better the constantly changing recently used emojis
@@ -97,7 +103,7 @@ export default async function messageContextMenuTests() {
     // Validate reactions received on sent message
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentRemoteReactions();
-    await expect(reaction.includes("🖖 1")).toEqual(true);
+    await expect(reaction.includes("🥰 1")).toEqual(true);
   });
 
   // Skipping for now since it needs reimplementation to handle better the constantly changing recently used emojis
@@ -105,34 +111,36 @@ export default async function messageContextMenuTests() {
     // Validate reactions received on sent message
     const reactions =
       await chatsMessageGroupsSecondUser.getLastMessageReceivedRemoteReactions();
-    await expect(reactions.includes("❤️ 1")).toEqual(true);
-    await expect(reactions.includes("👍 1")).toEqual(true);
+    await expect(reactions.includes("😀 1")).toEqual(true);
+    await expect(reactions.includes("😂 1")).toEqual(true);
   });
 
   // Skipping for now since it needs reimplementation to handle better the constantly changing recently used emojis
   xit("Chat User B - Both users can react with the same emoji to a message", async () => {
-    // React with Hi emoji
+    // React with 🥰 emoji
     await chatsMessagesSecondUser.openContextMenuOnLastSent();
     await chatsContextMenuSecondUser.validateContextMenuIsOpen();
-    await chatsContextMenuSecondUser.selectReactionHi();
+    await chatsContextMenuFirstUser.selectContextOptionReact();
+    await emojiSelectorFirstUser.clickOnEmoji("🥰");
 
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
-    await expect(reaction.includes("🖖 2")).toEqual(true);
+    await expect(reaction.includes("🥰 2")).toEqual(true);
   });
 
   // Skipping for now since it needs reimplementation to handle better the constantly changing recently used emojis
   xit("Chat User B - Users can add a new reaction to a message already containing reactions", async () => {
-    // React with laugh emoji
+    // React with 🤑 emoji
     await chatsMessagesSecondUser.openContextMenuOnLastSent();
     await chatsContextMenuSecondUser.validateContextMenuIsOpen();
-    await chatsContextMenuSecondUser.selectReactionLaugh();
+    await chatsContextMenuSecondUser.selectContextOptionReact();
+    await emojiSelectorSecondUser.clickOnEmoji("🤑");
 
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
-    await expect(reaction.includes("🖖 2")).toEqual(true);
-    await expect(reaction.includes("😂 1")).toEqual(true);
+    await expect(reaction.includes("🥰 2")).toEqual(true);
+    await expect(reaction.includes("🤑 1")).toEqual(true);
   });
 }
