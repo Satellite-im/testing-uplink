@@ -56,11 +56,9 @@ export default async function messageContextMenuTests() {
     await chatsMessagesSecondUser.waitForMessageToBeDeleted("Three...", 30000);
   });
 
-  it("Chat User A - React to sent message and multiple reactions in a message", async () => {
-    // React with 😀 emoji
   // Skipping for now since it needs reimplementation to handle better the constantly changing recently used emojis
   xit("Chat User A - React to sent message and multiple reactions in a message", async () => {
-    // React with heart emoji
+    // React with 😀 emoji
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
@@ -80,11 +78,9 @@ export default async function messageContextMenuTests() {
     await expect(reactions.includes("😂 1")).toEqual(true);
   });
 
-  it("Chat User A - React to received message", async () => {
-    // React with 🥰 emoji
   // Skipping for now since it needs reimplementation to handle better the constantly changing recently used emojis
   xit("Chat User A - React to received message", async () => {
-    // React with Hi emoji
+    // React with 🥰 emoji
     await chatsMessagesFirstUser.openContextMenuOnLastReceived();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.selectContextOptionReact();
@@ -119,11 +115,9 @@ export default async function messageContextMenuTests() {
     await expect(reactions.includes("😂 1")).toEqual(true);
   });
 
-  it("Chat User B - Both users can react with the same emoji to a message", async () => {
-    // React with 🥰 emoji
   // Skipping for now since it needs reimplementation to handle better the constantly changing recently used emojis
   xit("Chat User B - Both users can react with the same emoji to a message", async () => {
-    // React with Hi emoji
+    // React with 🥰 emoji
     await chatsMessagesSecondUser.openContextMenuOnLastSent();
     await chatsContextMenuSecondUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.selectContextOptionReact();
@@ -135,11 +129,9 @@ export default async function messageContextMenuTests() {
     await expect(reaction.includes("🥰 2")).toEqual(true);
   });
 
-  it("Chat User B - Users can add a new reaction to a message already containing reactions", async () => {
-    // React with 🤑 emoji
   // Skipping for now since it needs reimplementation to handle better the constantly changing recently used emojis
   xit("Chat User B - Users can add a new reaction to a message already containing reactions", async () => {
-    // React with laugh emoji
+    // React with 🤑 emoji
     await chatsMessagesSecondUser.openContextMenuOnLastSent();
     await chatsContextMenuSecondUser.validateContextMenuIsOpen();
     await chatsContextMenuSecondUser.selectContextOptionReact();
