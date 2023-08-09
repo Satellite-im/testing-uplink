@@ -1,5 +1,9 @@
 import UplinkMainScreen from "../UplinkMainScreen";
-import { USER_A_INSTANCE, WINDOWS_DRIVER } from "../../helpers/constants";
+import {
+  MACOS_DRIVER,
+  USER_A_INSTANCE,
+  WINDOWS_DRIVER,
+} from "../../helpers/constants";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
@@ -13,11 +17,7 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MESSAGES_EDIT: '[name="messages-edit"]',
   CONTEXT_MESSAGES_REACT: '[name="messages-react"]',
   CONTEXT_MESSAGES_REPLY: '[name="messages-reply"]',
-  REACTION_PICKER_DISLIKE: '//Button[@Name="👎"]',
-  REACTION_PICKER_HEART: '//Button[@Name="❤️"]',
-  REACTION_PICKER_HI: '//Button[@Name="🖖"]',
-  REACTION_PICKER_LAUGH: '//Button[@Name="😂"]',
-  REACTION_PICKER_LIKE: '//Button[@Name="👍"]',
+  EMOJI_BUTTON: "//Button",
 };
 
 const SELECTORS_MACOS = {
@@ -27,11 +27,7 @@ const SELECTORS_MACOS = {
   CONTEXT_MESSAGES_EDIT: "~messages-edit",
   CONTEXT_MESSAGES_REACT: "~messages-react",
   CONTEXT_MESSAGES_REPLY: "~messages-reply",
-  REACTION_PICKER_DISLIKE: '//XCUIElementTypeGroup[@title="👎"]',
-  REACTION_PICKER_HEART: '//XCUIElementTypeGroup[@title="❤️"]',
-  REACTION_PICKER_HI: '//XCUIElementTypeGroup[@title="🖖"]',
-  REACTION_PICKER_LAUGH: '//XCUIElementTypeGroup[@title="😂"]',
-  REACTION_PICKER_LIKE: '//XCUIElementTypeGroup[@title="👍"]',
+  EMOJI_BUTTON: "//XCUIElementTypeButton",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -77,34 +73,46 @@ export default class ContextMenu extends UplinkMainScreen {
       .$(SELECTORS.CONTEXT_MESSAGES_REPLY);
   }
 
-  get reactionPickerDislike() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.REACTION_PICKER_DISLIKE);
+  get emojiButton() {
+    return this.instance.$(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON);
   }
 
-  get reactionPickerHeart() {
+  get openEmojiSelector() {
     return this.instance
       .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.REACTION_PICKER_HEART);
+      .$$(SELECTORS.EMOJI_BUTTON)[4];
   }
 
-  get reactionPickerHi() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.REACTION_PICKER_HI);
+  async clickOnOpenEmojiSelector() {
+    await this.openEmojiSelector.click();
   }
 
-  get reactionPickerLaugh() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.REACTION_PICKER_LAUGH);
+  async clickOnRecentReactionButton(reaction: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let locator;
+    if (currentDriver === MACOS_DRIVER) {
+      locator = await this.instance.$(
+        '//XCUIElementTypeGroup[@label="Context Menu"]/XCUIElementTypeButton[@Value="' +
+          reaction +
+          '"]'
+      );
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      locator = await this.instance.$(
+        '//Group[@Name="Context Menu"]/Button[@Name="' + reaction + '"]'
+      );
+    }
+    await locator.click();
   }
 
-  get reactionPickerLike() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.REACTION_PICKER_LIKE);
+  async getRecentReactionsList() {
+    const recentReactionButtons = await this.emojiButton;
+    let results = [];
+    for (let i = 0; i < 4; i++) {
+      const reactionValue = await recentReactionButtons[i].getText();
+      results.push(reactionValue);
+    }
+
+    return results;
   }
 
   async selectContextOptionCancelEdit() {
@@ -125,26 +133,6 @@ export default class ContextMenu extends UplinkMainScreen {
 
   async selectContextOptionReply() {
     await this.contextMessagesReply.click();
-  }
-
-  async selectReactionDislike() {
-    await this.reactionPickerDislike.click();
-  }
-
-  async selectReactionHeart() {
-    await this.reactionPickerHeart.click();
-  }
-
-  async selectReactionHi() {
-    await this.reactionPickerHi.click();
-  }
-
-  async selectReactionLaugh() {
-    await this.reactionPickerLaugh.click();
-  }
-
-  async selectReactionLike() {
-    await this.reactionPickerLike.click();
   }
 
   async validateContextMenuIsOpen() {
