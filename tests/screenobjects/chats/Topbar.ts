@@ -166,11 +166,14 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get viewGroupTooltip() {
-    return this.instance.(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP)
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get viewGroupTooltipText() {
-    return this.instance.(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT)
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
   }
 
   // Top Bar Methods

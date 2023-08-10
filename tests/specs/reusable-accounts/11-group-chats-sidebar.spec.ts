@@ -7,7 +7,6 @@ import FilesScreen from "../../screenobjects/files/FilesScreen";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
-import ParticipantsList from "../../screenobjects/chats/ParticipantsList";
 import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
 import Topbar from "../../screenobjects/chats/Topbar";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
@@ -24,7 +23,6 @@ let editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
 let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let filesScreenSecondUser = new FilesScreen(USER_B_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let participantsListFirstUser = new ParticipantsList(USER_A_INSTANCE);
 
 export default async function groupChatSidebarTests() {
   it("Group Chat - Add group to favorites", async () => {

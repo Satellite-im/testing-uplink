@@ -56,19 +56,22 @@ export default class EmojiSelector extends UplinkMainScreen {
 
   async clickOnEmoji(emojiToClick: string) {
     const currentDriver = await this.getCurrentDriver();
-    let emojiLocator;
     if (currentDriver === MACOS_DRIVER) {
-      emojiLocator = await this.instance.$(
-        '//XCUIElementTypeGroup[@label="emoji"]/XCUIElementTypeStaticText[@value="' +
-          emojiToClick +
-          '"]'
-      );
+      await this.instance
+        .$(
+          '-ios class chain:**/XCUIElementTypeGroup[`label == "emoji"`]/XCUIElementTypeStaticText[`value == "' +
+            emojiToClick +
+            '"`]'
+        )
+        .click();
     } else if (currentDriver === WINDOWS_DRIVER) {
-      emojiLocator = await this.instance.$(
-        '//Group[@Name="emoji"]/Text[@Name="' + emojiToClick + '"]'
-      );
+      await this.instance.$(emojiToClick).click();
     }
-    await emojiLocator.click();
     await this.emojiSelector.waitForExist({ reverse: true });
+  }
+
+  async clickOnEmojiByPositionInList(position: number) {
+    const locator = await this.instance.$$(SELECTORS.EMOJI)[position];
+    await locator.click();
   }
 }
