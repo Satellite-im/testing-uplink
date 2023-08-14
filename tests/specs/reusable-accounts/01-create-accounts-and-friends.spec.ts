@@ -2,6 +2,7 @@ import {
   createNewUser,
   createNewUserSecondInstance,
   getUserKey,
+  maximizeWindow,
   saveTestKeys,
 } from "../../helpers/commands";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
@@ -52,6 +53,7 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Create Account", async () => {
     const username = "ChatUserA";
     await createNewUser(username);
+    await maximizeWindow(USER_A_INSTANCE);
     await welcomeScreenFirstUser.goToSettings();
     await settingsProfileFirstUser.waitForIsShown(true);
 
@@ -102,6 +104,7 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Create Account", async () => {
     const username = "ChatUserB";
     await createNewUserSecondInstance(username);
+    await maximizeWindow(USER_B_INSTANCE);
     await welcomeScreenSecondUser.goToSettings();
     await settingsProfileSecondUser.waitForIsShown(true);
 
