@@ -6,6 +6,7 @@ import {
 } from "../../helpers/commands";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
+import EmojiSelector from "../../screenobjects/chats/EmojiSelector";
 import FavoritesSidebar from "../../screenobjects/chats/FavoritesSidebar";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
 import InputBar from "../../screenobjects/chats/InputBar";
@@ -26,6 +27,7 @@ let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
+let emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
 let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
@@ -225,13 +227,19 @@ export default async function createChatAccountsTests() {
     );
   });
 
+  it("Input Bar - Add emoji to the message to be sent", async () => {
+    await chatsInputFirstUser.clickOnEmojiButton();
+    await emojiSelectorFirstUser.emojiSelector.waitForExist();
+    await emojiSelectorFirstUser.clickOnEmoji("😀");
+  });
+
   it("Input Bar - Click on send button will send the message to the other user", async () => {
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("Testing...");
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Testing...😀");
 
     const textFromMessage =
       await chatsMessagesFirstUser.getFirstMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining("Testing...");
+    await expect(textFromMessage).toHaveTextContaining("Testing...😀");
   });
 
   it("Input Bar - Chars Counter on Input Bar displays 0/1024 after sending a message", async () => {
@@ -253,7 +261,7 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
     const messageText = await chatsMessagesFirstUser.getFirstMessageSentText();
-    await expect(messageText).toHaveTextContaining("Testing...");
+    await expect(messageText).toHaveTextContaining("Testing...😀");
   });
 
   it("Chat User A - Validate Chat Message Group displays username picture and online indicator", async () => {
@@ -271,7 +279,7 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Topbar information", async () => {
     // Validate user image, username and online indicator are displayed on Chat Topbar
     await chatsTopbarFirstUser.topbarUserImage.waitForDisplayed();
-    await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
+    await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "ChatUserB"
     );
     await chatsTopbarFirstUser.topbarIndicatorOnline.waitForDisplayed();
@@ -315,14 +323,14 @@ export default async function createChatAccountsTests() {
   });
 
   it("Chat User B - Assert message received from Chat User A", async () => {
-    await chatsMessagesSecondUser.waitForReceivingMessage("Testing...");
+    await chatsMessagesSecondUser.waitForReceivingMessage("Testing...😀");
   });
 
   it("Chat User B - Validate Chat Message received contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
     const textFromMessage =
       await chatsMessagesSecondUser.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("Testing...");
+    await expect(textFromMessage).toHaveTextContaining("Testing...😀");
   });
 
   it("Chat User B - Validate Chat Message Group from remote user displays username picture and online indicator", async () => {

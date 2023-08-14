@@ -11,15 +11,18 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
-  ADD_MEMBERS_TEXT: '//Text[@Name="Add Members"]',
-  ADD_PARTICIPANT_BUTTON: '//Button[@Name="Add"]',
-  CURRENT_MEMBERS_TEXT: '//Text[@Name="Current Members"]',
+  ADD_MEMBERS: '[name="edit-group-add-members"]',
+  ADD_MEMBERS_TEXT: "//Text",
+  ADD_PARTICIPANT_BUTTON: '[name="Add"]',
+  CURRENT_MEMBERS: '[name="edit-group-current-members"]',
+  CURRENT_MEMBERS_TEXT: "//Text",
   EDIT_GROUP_SECTION: '[name="edit-group"]',
   FRIENDS_GROUP: '[name="friend-group"]',
   FRIENDS_LIST: '[name="friends-list"]',
   GROUP_NAME_INPUT: '[name="groupname-input"]',
   GROUP_NAME_INPUT_ERROR: '[name="input-error"]',
   GROUP_NAME_INPUT_ERROR_TEXT: "//Text",
+  NOTHING_HERE_TEXT: '//Text[@Name="Nothing Here..."]',
   PARTICIPANT_USER_CONTAINER: '[name="Friend Container"]',
   PARTICIPANT_USER_CREATOR_BADGE_IMAGE: "//Image",
   PARTICIPANT_USER_CREATOR_BADGE_TEXT: '//Text[@Name="Group Creator"]',
@@ -30,21 +33,24 @@ const SELECTORS_WINDOWS = {
   PARTICIPANT_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   PARTICIPANT_USER_NAME: '[name="friend-username"]',
   PARTICIPANT_USER_NAME_TEXT: "//Text",
-  REMOVE_PARTICIPANT_BUTTON: '//Button[@Name="Remove"]',
+  REMOVE_PARTICIPANT_BUTTON: '[name="Remove"]',
   TOPBAR: '[name="Topbar"]',
   USER_INPUT: '[name="friend-search-input"]',
 };
 
 const SELECTORS_MACOS = {
-  ADD_MEMBERS_TEXT: '//XCUIElementTypeStaticText[@label="Add Members"]',
-  ADD_PARTICIPANT_BUTTON: '//XCUIElementTypeButton[@label="Add"]',
-  CURRENT_MEMBERS_TEXT: '//XCUIElementTypeStaticText[@value="Current Members"]',
+  ADD_MEMBERS: "~edit-group-add-members",
+  ADD_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  ADD_PARTICIPANT_BUTTON: "~Add",
+  CURRENT_MEMBERS: "~edit-group-current-members",
+  CURRENT_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   EDIT_GROUP_SECTION: "~edit-group",
   FRIENDS_GROUP: "~friend-group",
   FRIENDS_LIST: "~friends-list",
   GROUP_NAME_INPUT: "~groupname-input",
   GROUP_NAME_INPUT_ERROR: "~input-error",
   GROUP_NAME_INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  NOTHING_HERE_TEXT: '//XCUIElementTypeStaticText[@value="Nothing Here..."]',
   PARTICIPANT_USER_CONTAINER: "~Friend Container",
   PARTICIPANT_USER_CREATOR_BADGE_IMAGE:
     "-ios class chain:**/XCUIElementTypeImage",
@@ -71,11 +77,12 @@ export default class EditGroup extends UplinkMainScreen {
     super(executor, SELECTORS.EDIT_GROUP_SECTION);
   }
 
+  get addMembers() {
+    return this.instance.$(SELECTORS.ADD_MEMBERS);
+  }
+
   get addMembersText() {
-    return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.ADD_MEMBERS_TEXT);
+    return this.instance.$(SELECTORS.ADD_MEMBERS).$(SELECTORS.ADD_MEMBERS_TEXT);
   }
 
   get addParticipantButton() {
@@ -84,10 +91,13 @@ export default class EditGroup extends UplinkMainScreen {
       .$$(SELECTORS.ADD_PARTICIPANT_BUTTON);
   }
 
+  get currentMembers() {
+    return this.instance.$(SELECTORS.CURRENT_MEMBERS);
+  }
+
   get currentMembersText() {
     return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
-      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.CURRENT_MEMBERS)
       .$(SELECTORS.CURRENT_MEMBERS_TEXT);
   }
 
@@ -123,6 +133,12 @@ export default class EditGroup extends UplinkMainScreen {
       .$$(SELECTORS.TOPBAR)
       .$(SELECTORS.GROUP_NAME_INPUT_ERROR)
       .$(SELECTORS.GROUP_NAME_INPUT_ERROR_TEXT);
+  }
+
+  get nothingHereText() {
+    return this.instance
+      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.NOTHING_HERE_TEXT);
   }
 
   get participantUserContainer() {

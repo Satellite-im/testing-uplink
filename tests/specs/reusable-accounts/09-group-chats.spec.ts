@@ -93,12 +93,12 @@ export default async function groupChatTests() {
     await chatsSidebarFirstUser.goToSidebarGroupChat("Test");
     await chatsLayoutFirstUser.waitForIsShown(true);
     await chatsTopbarFirstUser.waitForIsShown(true);
-    await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
+    await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "Test"
     );
-    await expect(chatsTopbarFirstUser.topbarUserStatus).toHaveTextContaining(
-      "Members (2)"
-    );
+    await expect(
+      chatsTopbarFirstUser.topbarUserStatusValue
+    ).toHaveTextContaining("Members (2)");
     await chatsSidebarSecondUser.switchToOtherUserWindow();
   });
 
@@ -112,12 +112,12 @@ export default async function groupChatTests() {
     await chatsSidebarSecondUser.goToSidebarGroupChat("Test");
     await chatsLayoutSecondUser.waitForIsShown(true);
     await chatsTopbarSecondUser.waitForIsShown(true);
-    await expect(chatsTopbarSecondUser.topbarUserName).toHaveTextContaining(
-      "Test"
-    );
-    await expect(chatsTopbarSecondUser.topbarUserStatus).toHaveTextContaining(
-      "Members (2)"
-    );
+    await expect(
+      chatsTopbarSecondUser.topbarUserNameValue
+    ).toHaveTextContaining("Test");
+    await expect(
+      chatsTopbarSecondUser.topbarUserStatusValue
+    ).toHaveTextContaining("Members (2)");
     await chatsSidebarSecondUser.goToSidebarChat("ChatUserA");
     await chatsLayoutSecondUser.waitForIsShown(true);
   });
@@ -156,7 +156,7 @@ export default async function groupChatTests() {
     await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
     await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
     await chatsTopbarFirstUser.waitForIsShown(true);
-    await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
+    await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "ChatUserB"
     );
   });
@@ -180,8 +180,8 @@ export default async function groupChatTests() {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
     await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
     await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
-    await expect(chatsTopbarSecondUser.topbarUserName).toHaveTextContaining(
-      "Test"
-    );
+    await expect(
+      chatsTopbarSecondUser.topbarUserNameValue
+    ).toHaveTextContaining("Test");
   });
 }

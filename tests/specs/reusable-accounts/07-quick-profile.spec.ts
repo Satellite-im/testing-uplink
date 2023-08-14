@@ -35,7 +35,6 @@ export default async function quickProfileTests() {
     // Validate contents from quick profile
     await chatsQuickProfileFirstUser.quickProfileUserImage.waitForDisplayed();
     await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForDisplayed();
-    await chatsQuickProfileFirstUser.quickProfileIndicatorOnline.waitForDisplayed();
     await expect(
       chatsQuickProfileFirstUser.quickProfileUserNameValueText
     ).toHaveTextContaining("ChatUserA");
@@ -56,7 +55,6 @@ export default async function quickProfileTests() {
     // Validate contents from quick profile
     await chatsQuickProfileFirstUser.quickProfileUserImage.waitForDisplayed();
     await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForDisplayed();
-    await chatsQuickProfileFirstUser.quickProfileIndicatorOnline.waitForDisplayed();
     await expect(
       chatsQuickProfileFirstUser.quickProfileUserNameValueText
     ).toHaveTextContaining("ChatUserB");

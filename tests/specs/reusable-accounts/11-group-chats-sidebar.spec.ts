@@ -125,12 +125,12 @@ export default async function groupChatSidebarTests() {
 
     // Now, go to the Group Chat and validate that User B is not part of it anymore
     await chatsTopbarFirstUser.waitForIsShown(true);
-    await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
+    await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "NewNameGroup"
     );
-    await expect(chatsTopbarFirstUser.topbarUserStatus).toHaveTextContaining(
-      "Members (1)"
-    );
+    await expect(
+      chatsTopbarFirstUser.topbarUserStatusValue
+    ).toHaveTextContaining("Members (1)");
   });
 
   it("Group Chat - Add Chat User B again to the group", async () => {
@@ -164,9 +164,9 @@ export default async function groupChatSidebarTests() {
     await chatsSidebarSecondUser.waitForGroupToBeCreated("NewNameGroup");
     await chatsSidebarSecondUser.goToSidebarGroupChat("NewNameGroup");
     await chatsTopbarSecondUser.topbar.waitForDisplayed();
-    await expect(chatsTopbarSecondUser.topbarUserName).toHaveTextContaining(
-      "NewNameGroup"
-    );
+    await expect(
+      chatsTopbarSecondUser.topbarUserNameValue
+    ).toHaveTextContaining("NewNameGroup");
   });
 
   it("Group Chat - Sidebar - Delete group", async () => {
