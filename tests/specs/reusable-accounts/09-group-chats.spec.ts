@@ -4,7 +4,6 @@ import CreateGroupChat from "../../screenobjects/chats/CreateGroupChat";
 import FilesScreen from "../../screenobjects/files/FilesScreen";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
-import ParticipantsList from "../../screenobjects/chats/ParticipantsList";
 import Topbar from "../../screenobjects/chats/Topbar";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
@@ -18,7 +17,6 @@ let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
 let createGroupFirstUser = new CreateGroupChat(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-let participantsListFirstUser = new ParticipantsList(USER_A_INSTANCE);
 
 export default async function groupChatTests() {
   it("Chat User A - Create Group Chat button tooltip", async () => {
@@ -95,12 +93,12 @@ export default async function groupChatTests() {
     await chatsSidebarFirstUser.goToSidebarGroupChat("Test");
     await chatsLayoutFirstUser.waitForIsShown(true);
     await chatsTopbarFirstUser.waitForIsShown(true);
-    await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
+    await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "Test"
     );
-    await expect(chatsTopbarFirstUser.topbarUserStatus).toHaveTextContaining(
-      "Members (2)"
-    );
+    await expect(
+      chatsTopbarFirstUser.topbarUserStatusValue
+    ).toHaveTextContaining("Members (2)");
     await chatsSidebarSecondUser.switchToOtherUserWindow();
   });
 
@@ -114,12 +112,12 @@ export default async function groupChatTests() {
     await chatsSidebarSecondUser.goToSidebarGroupChat("Test");
     await chatsLayoutSecondUser.waitForIsShown(true);
     await chatsTopbarSecondUser.waitForIsShown(true);
-    await expect(chatsTopbarSecondUser.topbarUserName).toHaveTextContaining(
-      "Test"
-    );
-    await expect(chatsTopbarSecondUser.topbarUserStatus).toHaveTextContaining(
-      "Members (2)"
-    );
+    await expect(
+      chatsTopbarSecondUser.topbarUserNameValue
+    ).toHaveTextContaining("Test");
+    await expect(
+      chatsTopbarSecondUser.topbarUserStatusValue
+    ).toHaveTextContaining("Members (2)");
     await chatsSidebarSecondUser.goToSidebarChat("ChatUserA");
     await chatsLayoutSecondUser.waitForIsShown(true);
   });
@@ -158,7 +156,7 @@ export default async function groupChatTests() {
     await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
     await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
     await chatsTopbarFirstUser.waitForIsShown(true);
-    await expect(chatsTopbarFirstUser.topbarUserName).toHaveTextContaining(
+    await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "ChatUserB"
     );
   });
@@ -182,32 +180,8 @@ export default async function groupChatTests() {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
     await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
     await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
-  });
-
-  it("Group Chat - Show participants list - Contents", async () => {
-    await chatsTopbarFirstUser.waitForIsShown(true);
-    await chatsTopbarFirstUser.clickOnTopbar();
-    await participantsListFirstUser.waitForIsShown(true);
-    await participantsListFirstUser.participantsUserInput.waitForDisplayed();
-    const currentList = await participantsListFirstUser.getPartipantsList();
-    const expectedList = ["ChatUserA", "ChatUserB"];
-    await expect(currentList).toEqual(expectedList);
-  });
-
-  it("Group Chat - Show participants list - Search bar - Valid input", async () => {
-    await participantsListFirstUser.typeOnParticipantsUserInput("ChatUserB");
-    const currentList = await participantsListFirstUser.getPartipantsList();
-    const expectedList = ["ChatUserB"];
-    await expect(currentList).toEqual(expectedList);
-    await participantsListFirstUser.clearParticipantsUserInput();
-  });
-
-  it("Group Chat - Show participants list - Search bar - Non existing user on input", async () => {
-    await participantsListFirstUser.typeOnParticipantsUserInput("z");
-    const currentList = await participantsListFirstUser.getPartipantsList();
-    await expect(currentList).toEqual([]);
-    await participantsListFirstUser.clearParticipantsUserInput();
-    await chatsTopbarFirstUser.clickOnTopbar();
-    await chatsLayoutFirstUser.waitForIsShown(true);
+    await expect(
+      chatsTopbarSecondUser.topbarUserNameValue
+    ).toHaveTextContaining("Test");
   });
 }

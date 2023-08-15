@@ -13,7 +13,7 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   EMOJI: '[name="emoji"]',
   EMOJI_VALUE: "//Text",
-  EMOJI_SELECTOR: '[name="emoji-selector"]',
+  EMOJI_SELECTOR: "~emoji_selector",
   EMOJIS_CONTAINER: '[name="emojis-container"]',
 };
 
@@ -55,20 +55,17 @@ export default class EmojiSelector extends UplinkMainScreen {
   }
 
   async clickOnEmoji(emojiToClick: string) {
+    await this.emojiSelector.waitForDisplayed();
     const currentDriver = await this.getCurrentDriver();
-    let emojiLocator;
+    let locator, element;
     if (currentDriver === MACOS_DRIVER) {
-      emojiLocator = await this.instance.$(
-        '//XCUIElementTypeGroup[@label="emoji"]/XCUIElementTypeStaticText[@value="' +
-          emojiToClick +
-          '"]'
-      );
+      locator = "~" + emojiToClick;
+      element = await this.instance.$(SELECTORS.EMOJI_SELECTOR).$(locator);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      emojiLocator = await this.instance.$(
-        '//Group[@Name="emoji"]/Text[@Name="' + emojiToClick + '"]'
-      );
+      locator = await this.instance.findElement("name", emojiToClick);
+      element = await this.instance.$(SELECTORS.EMOJI_SELECTOR).$(locator);
     }
-    await emojiLocator.click();
-    await this.emojiSelector.waitForExist({ reverse: true });
+    await this.hoverOnElement(element);
+    await element.click();
   }
 }

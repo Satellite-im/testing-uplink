@@ -16,7 +16,7 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
-  EMOJI_BUTTON: '//Group[@Name="chat-layout"]//Group[9]/Button',
+  EMOJI_BUTTON: '//Group[@Name="chat-layout"]/Button[2]',
   INPUT_CHAR_COUNTER: '[name="input-char-counter"]',
   INPUT_CHAR_COUNTER_TEXT: "//Text",
   INPUT_GROUP: '[name="input-group"]',
@@ -29,7 +29,7 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   EMOJI_BUTTON:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "chat-layout"`]/XCUIElementTypeGroup[9]/XCUIElementTypeButton',
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "chat-layout"`]/XCUIElementTypeButton[2]',
   INPUT_CHAR_COUNTER: "~input-char-counter",
   INPUT_CHAR_COUNTER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   INPUT_GROUP: "~input-group",
@@ -104,7 +104,9 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   async clickOnEmojiButton() {
-    await this.emojiButton.click();
+    const element = await this.emojiButton;
+    await this.hoverOnElement(element);
+    await element.click();
   }
 
   async clickOnInputBar() {

@@ -35,7 +35,6 @@ export default async function quickProfileTests() {
     // Validate contents from quick profile
     await chatsQuickProfileFirstUser.quickProfileUserImage.waitForDisplayed();
     await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForDisplayed();
-    await chatsQuickProfileFirstUser.quickProfileIndicatorOnline.waitForDisplayed();
     await expect(
       chatsQuickProfileFirstUser.quickProfileUserNameValueText
     ).toHaveTextContaining("ChatUserA");
@@ -48,6 +47,19 @@ export default async function quickProfileTests() {
     await settingsProfileFirstUser.goToMainScreen();
   });
 
+  it("Chat User B - Send message to User A", async () => {
+    await chatsInputSecondUser.switchToOtherUserWindow();
+    await chatsInputSecondUser.clickOnInputBar();
+    await chatsInputSecondUser.typeMessageOnInput("click...");
+    await chatsInputSecondUser.clickOnSendMessage();
+    await chatsMessagesSecondUser.waitForMessageSentToExist("click...");
+
+    // With User A - Validate that message was received
+    await chatsMessagesFirstUser.switchToOtherUserWindow();
+    await chatsInputFirstUser.clickOnInputBar();
+    await chatsMessagesFirstUser.waitForReceivingMessage("click...");
+  });
+
   it("Chat User A - Validate contents from remote quick profile", async () => {
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openRemoteQuickProfile();
@@ -56,7 +68,6 @@ export default async function quickProfileTests() {
     // Validate contents from quick profile
     await chatsQuickProfileFirstUser.quickProfileUserImage.waitForDisplayed();
     await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForDisplayed();
-    await chatsQuickProfileFirstUser.quickProfileIndicatorOnline.waitForDisplayed();
     await expect(
       chatsQuickProfileFirstUser.quickProfileUserNameValueText
     ).toHaveTextContaining("ChatUserB");

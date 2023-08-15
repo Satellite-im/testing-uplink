@@ -189,6 +189,9 @@ export default async function sidebarChatsTests() {
   });
 
   it("Chat User A - Sidebar - Validate Hamburger button and back buttons can hide or display the sidebar", async () => {
+    // Click on back button and validate that Sidebar is displayed again
+    await chatsLayoutFirstUser.clickOnBackButton();
+
     // Click on hamburger button and validate that Sidebar is hidden
     await chatsLayoutFirstUser.clickOnHamburgerButton();
 

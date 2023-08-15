@@ -17,7 +17,8 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MESSAGES_EDIT: '[name="messages-edit"]',
   CONTEXT_MESSAGES_REACT: '[name="messages-react"]',
   CONTEXT_MESSAGES_REPLY: '[name="messages-reply"]',
-  EMOJI_BUTTON: "//Button",
+  EMOJI_BUTTON: '[name="frequent-emoji"]',
+  OPEN_EMOJI_PICKER: '[name="open-emoji-picker"]',
 };
 
 const SELECTORS_MACOS = {
@@ -27,7 +28,8 @@ const SELECTORS_MACOS = {
   CONTEXT_MESSAGES_EDIT: "~messages-edit",
   CONTEXT_MESSAGES_REACT: "~messages-react",
   CONTEXT_MESSAGES_REPLY: "~messages-reply",
-  EMOJI_BUTTON: "//XCUIElementTypeButton",
+  EMOJI_BUTTON: "~frequent-emoji",
+  OPEN_EMOJI_PICKER: "~open-emoji-picker",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -73,14 +75,34 @@ export default class ContextMenu extends UplinkMainScreen {
       .$(SELECTORS.CONTEXT_MESSAGES_REPLY);
   }
 
-  get emojiButton() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON);
+  get emojiRecentFirst() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$$(SELECTORS.EMOJI_BUTTON)[0];
+  }
+
+  get emojiRecentSecond() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$$(SELECTORS.EMOJI_BUTTON)[1];
+  }
+
+  get emojiRecentThird() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$$(SELECTORS.EMOJI_BUTTON)[2];
+  }
+
+  get emojiRecentFourth() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$$(SELECTORS.EMOJI_BUTTON)[3];
   }
 
   get openEmojiSelector() {
     return this.instance
       .$(SELECTORS.CONTEXT_MENU)
-      .$$(SELECTORS.EMOJI_BUTTON)[4];
+      .$(SELECTORS.OPEN_EMOJI_PICKER);
   }
 
   async clickOnOpenEmojiSelector() {
