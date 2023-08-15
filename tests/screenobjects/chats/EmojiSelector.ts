@@ -55,7 +55,6 @@ export default class EmojiSelector extends UplinkMainScreen {
   }
 
   async clickOnEmoji(emojiToClick: string) {
-    await this.emojiSelector.waitForExist();
     const currentDriver = await this.getCurrentDriver();
     let locator, element;
     if (currentDriver === MACOS_DRIVER) {
@@ -67,6 +66,5 @@ export default class EmojiSelector extends UplinkMainScreen {
     }
     await this.hoverOnElement(element);
     await element.click();
-    await this.emojiSelector.waitForExist({ reverse: true });
   }
 }
