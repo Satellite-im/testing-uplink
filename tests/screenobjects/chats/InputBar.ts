@@ -104,7 +104,9 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   async clickOnEmojiButton() {
-    await this.emojiButton.click();
+    const element = await this.emojiButton;
+    await this.hoverOnElement(element);
+    await element.click();
   }
 
   async clickOnInputBar() {

@@ -232,7 +232,6 @@ export default async function createChatAccountsTests() {
 
   it("Input Bar - Add emoji to the message to be sent", async () => {
     await chatsInputFirstUser.clickOnEmojiButton();
-    await emojiSelectorFirstUser.emojiSelector.waitForExist({ timeout: 30000 });
     await emojiSelectorFirstUser.clickOnEmoji("😀");
   });
 
