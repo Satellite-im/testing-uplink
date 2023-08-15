@@ -340,14 +340,10 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async createFolder(name: string) {
-    const currentDriver = await this.getCurrentDriver();
     await this.clickOnCreateFolder();
     await this.inputFolderFileName.click();
-    if (currentDriver === MACOS_DRIVER) {
-      await this.inputFolderFileName.setValue(name + "\n");
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.inputFolderFileName.setValue(name + "\uE007");
-    }
+    await this.inputFolderFileName.setValue(name);
+    await this.clickOnCreateFolder();
     const newFolder = await this.getLocatorOfFolderFile(name);
     await this.instance.$(newFolder).waitForExist({ timeout: 15000 });
   }
