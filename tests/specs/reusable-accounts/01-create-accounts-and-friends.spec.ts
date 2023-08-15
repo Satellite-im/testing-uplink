@@ -230,18 +230,19 @@ export default async function createChatAccountsTests() {
     );
   });
 
-  it("Input Bar - Add emoji to the message to be sent", async () => {
+  // Skipping test for now, since it will be implemented again when emoji selector is not build as an extension
+  xit("Input Bar - Add emoji to the message to be sent", async () => {
     await chatsInputFirstUser.clickOnEmojiButton();
     await emojiSelectorFirstUser.clickOnEmoji("😀");
   });
 
   it("Input Bar - Click on send button will send the message to the other user", async () => {
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("Testing...😀");
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Testing...");
 
     const textFromMessage =
       await chatsMessagesFirstUser.getFirstMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining("Testing...😀");
+    await expect(textFromMessage).toHaveTextContaining("Testing...");
   });
 
   it("Input Bar - Chars Counter on Input Bar displays 0/1024 after sending a message", async () => {
@@ -263,7 +264,7 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
     const messageText = await chatsMessagesFirstUser.getFirstMessageSentText();
-    await expect(messageText).toHaveTextContaining("Testing...😀");
+    await expect(messageText).toHaveTextContaining("Testing...");
   });
 
   it("Chat User A - Validate Chat Message Group displays username picture and online indicator", async () => {
@@ -325,14 +326,14 @@ export default async function createChatAccountsTests() {
   });
 
   it("Chat User B - Assert message received from Chat User A", async () => {
-    await chatsMessagesSecondUser.waitForReceivingMessage("Testing...😀");
+    await chatsMessagesSecondUser.waitForReceivingMessage("Testing...");
   });
 
   it("Chat User B - Validate Chat Message received contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
     const textFromMessage =
       await chatsMessagesSecondUser.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("Testing...😀");
+    await expect(textFromMessage).toHaveTextContaining("Testing...");
   });
 
   it("Chat User B - Validate Chat Message Group from remote user displays username picture and online indicator", async () => {
