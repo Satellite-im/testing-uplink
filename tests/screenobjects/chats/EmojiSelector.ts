@@ -13,7 +13,7 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   EMOJI: '[name="emoji"]',
   EMOJI_VALUE: "//Text",
-  EMOJI_SELECTOR: '[name="emoji-selector"]',
+  EMOJI_SELECTOR: "~emoji_selector",
   EMOJIS_CONTAINER: '[name="emojis-container"]',
 };
 
@@ -55,6 +55,7 @@ export default class EmojiSelector extends UplinkMainScreen {
   }
 
   async clickOnEmoji(emojiToClick: string) {
+    await this.emojiSelector.waitForDisplayed();
     const currentDriver = await this.getCurrentDriver();
     let locator, element;
     if (currentDriver === MACOS_DRIVER) {
