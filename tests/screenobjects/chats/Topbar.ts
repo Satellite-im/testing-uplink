@@ -165,7 +165,7 @@ export default class Topbar extends UplinkMainScreen {
   get topbarUserStatusValue() {
     return this.instance
       .$(SELECTORS.TOPBAR_USER_STATUS)
-      .$(SELECTORS.TOPBAR.TOPBAR_USER_STATUS_VALUE);
+      .$(SELECTORS.TOPBAR_USER_STATUS_VALUE);
   }
 
   get topbarVideocall() {

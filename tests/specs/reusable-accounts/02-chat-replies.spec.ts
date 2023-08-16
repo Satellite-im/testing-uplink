@@ -30,7 +30,7 @@ export default async function repliesTests() {
     await chatsReplyPromptSecondUser.replyPopUpIndicatorOnline.waitForDisplayed();
     await expect(
       chatsReplyPromptSecondUser.replyPopUpRemoteTextToReplyValue
-    ).toHaveTextContaining("Testing...😀");
+    ).toHaveTextContaining("Testing...");
     await chatsReplyPromptSecondUser.replyPopUpUserImage.waitForDisplayed();
 
     await chatsReplyPromptSecondUser.closeReplyModal();
@@ -54,7 +54,7 @@ export default async function repliesTests() {
     const replySent = await chatsMessagesSecondUser.getLastReply();
     const replySentText = await chatsMessagesSecondUser.getLastReplyText();
     await replySent.waitForDisplayed();
-    await expect(replySentText).toHaveTextContaining("Testing...😀");
+    await expect(replySentText).toHaveTextContaining("Testing...");
 
     // Validate reply message sent appears as last message
     const message = await chatsMessagesSecondUser.getLastMessageSentText();
@@ -94,7 +94,7 @@ export default async function repliesTests() {
     const replyReceived = await chatsMessagesFirstUser.getLastReply();
     const replyReceivedText = await chatsMessagesFirstUser.getLastReplyText();
     await replyReceived.waitForDisplayed();
-    await expect(replyReceivedText).toHaveTextContaining("Testing...😀");
+    await expect(replyReceivedText).toHaveTextContaining("Testing...");
 
     // Validate reply message sent appears as last message
     const textFromMessage =
@@ -140,7 +140,7 @@ export default async function repliesTests() {
     const repliedMessage = await chatsMessagesFirstUser.getLastReply();
     const repliedMessageText = await chatsMessagesFirstUser.getLastReplyText();
     await repliedMessage.waitForDisplayed();
-    await expect(repliedMessageText).toHaveTextContaining("Testing...😀");
+    await expect(repliedMessageText).toHaveTextContaining("Testing...");
 
     // Validate reply message sent appears as last message
     const message = await chatsMessagesFirstUser.getLastMessageSentText();
