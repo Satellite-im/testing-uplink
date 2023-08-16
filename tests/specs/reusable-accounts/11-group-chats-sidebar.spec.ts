@@ -136,22 +136,19 @@ export default async function groupChatSidebarTests() {
   it("Group Chat - Add Chat User B again to the group", async () => {
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
-    await editGroupFirstUser.clickOnAddWithSidebarButton();
+    await editGroupFirstUser.clickOnAddMembersText();
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
-    await editGroupFirstUser.clickOnAddButtonBelow();
-    await editGroupFirstUser.editGroupSection.waitForDisplayed({
-      reverse: true,
-    });
+    await editGroupFirstUser.clickOnAddButton();
+    await editGroupFirstUser.nothingHereText.waitForDisplayed();
   });
 
   it("Group Chat - Ensure in local side that User B was added again to the group", async () => {
-    await chatsTopbarFirstUser.clickOnTopbar();
-    await participantsListFirstUser.waitForIsShown(true);
-    await participantsListFirstUser.participantsUserInput.waitForDisplayed();
-    const currentList = await participantsListFirstUser.getPartipantsList();
-    const expectedList = ["ChatUserA", "ChatUserB"];
-    await expect(currentList).toEqual(expectedList);
+    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.topbar.waitForDisplayed();
+    await expect(
+      chatsTopbarFirstUser.topbarUserStatusValue
+    ).toHaveTextContaining("Members (2)");
   });
 
   it("Group Chat - Ensure in remote side that user was added again to the group", async () => {
