@@ -119,18 +119,15 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   get groupNameInput() {
-    return this.instance.$$(SELECTORS.TOPBAR).$(SELECTORS.GROUP_NAME_INPUT);
+    return this.instance.$(SELECTORS.GROUP_NAME_INPUT);
   }
 
   get groupNameInputError() {
-    return this.instance
-      .$$(SELECTORS.TOPBAR)
-      .$(SELECTORS.GROUP_NAME_INPUT_ERROR);
+    return this.instance.$(SELECTORS.GROUP_NAME_INPUT_ERROR);
   }
 
   get groupNameInputErrorText() {
     return this.instance
-      .$$(SELECTORS.TOPBAR)
       .$(SELECTORS.GROUP_NAME_INPUT_ERROR)
       .$(SELECTORS.GROUP_NAME_INPUT_ERROR_TEXT);
   }

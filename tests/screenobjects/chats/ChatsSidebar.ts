@@ -577,9 +577,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async getSidebarSearchResultLocator(result: number) {
-    let element = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN)[
-      result
-    ];
+    let element = await this.instance.$$(
+      SELECTORS.SIDEBAR_SEARCH_DROPDOWN_RESULT
+    )[result];
     return element;
   }
 

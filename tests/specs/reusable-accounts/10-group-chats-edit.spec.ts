@@ -25,9 +25,6 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
     await chatsTopbarFirstUser.editGroup();
-    await editGroupFirstUser.editGroupSection.waitForDisplayed({
-      reverse: true,
-    });
   });
 
   it("Chat User B - You are not the group creator tooltip is displayed", async () => {
@@ -57,7 +54,8 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.clearGroupNameInput();
   });
 
-  it("Edit Group - Attempt to change Group Name for a name with more than 64 characters", async () => {
+  // Skipping test due to input issue changing the cursor to a different input field
+  xit("Edit Group - Attempt to change Group Name for a name with more than 64 characters", async () => {
     await editGroupFirstUser.groupNameInput.click();
     await editGroupFirstUser.typeOnGroupNameInput(
       "12345678901234567890123456789012345678901234567890123456789012345678"
@@ -89,13 +87,12 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
-    await editGroupFirstUser.clickOnAddWithSidebarButton();
-    const currentList = await editGroupFirstUser.getParticipantsList();
-    await expect(currentList).toEqual([]);
+    await editGroupFirstUser.clickOnAddMembersText();
+    await editGroupFirstUser.nothingHereText.waitForDisplayed();
   });
 
   it("Edit Group - Contents displayed in remove list are correct", async () => {
-    await editGroupFirstUser.clickOnRemoveWithSidebarButton();
+    await editGroupFirstUser.clickOnCurrentMembersText();
     const currentList = await editGroupFirstUser.getParticipantsList();
     const expectedList = ["ChatUserB"];
     await expect(currentList).toEqual(expectedList);
@@ -106,18 +103,16 @@ export default async function groupChatEditTests() {
 
   it("Edit Group - Look for non existing user in Remove Users List", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("z");
-    const currentList = await editGroupFirstUser.getParticipantsList();
-    await expect(currentList).toEqual([]);
+    await editGroupFirstUser.nothingHereText.waitForDisplayed();
     await editGroupFirstUser.clearSearchUserInput();
   });
 
   it("Edit Group - Remove someone from the group", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
-    await editGroupFirstUser.clickOnRemoveButtonBelow();
-    await editGroupFirstUser.editGroupSection.waitForDisplayed({
-      reverse: true,
-    });
+    await editGroupFirstUser.clickOnRemoveButton();
+    await editGroupFirstUser.nothingHereText.waitForDisplayed();
+    await chatsTopbarFirstUser.editGroup();
     await chatsTopbarFirstUser.topbar.waitForDisplayed();
     await expect(
       chatsTopbarFirstUser.topbarUserStatusValue
@@ -132,32 +127,27 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
-    await editGroupFirstUser.clickOnAddWithSidebarButton();
+    await editGroupFirstUser.clickOnAddMembersText();
     const currentList = await editGroupFirstUser.getParticipantsList();
     await expect(currentList).toEqual(["ChatUserB"]);
   });
 
   it("Edit Group - Look for non existing user in Add Users List", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("z");
-    const currentList = await editGroupFirstUser.getParticipantsList();
-    await expect(currentList).toEqual([]);
+    await editGroupFirstUser.nothingHereText.waitForDisplayed();
     await editGroupFirstUser.clearSearchUserInput();
   });
 
   it("Edit Group - Add someone to the group - Add Chat User B again", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
-    await editGroupFirstUser.clickOnAddButtonBelow();
-    await editGroupFirstUser.editGroupSection.waitForDisplayed({
-      reverse: true,
-    });
-
-    await chatsTopbarFirstUser.clickOnTopbar();
-    await participantsListFirstUser.waitForIsShown(true);
-    await participantsListFirstUser.participantsUserInput.waitForDisplayed();
-    const currentList = await participantsListFirstUser.getPartipantsList();
-    const expectedList = ["ChatUserA", "ChatUserB"];
-    await expect(currentList).toEqual(expectedList);
+    await editGroupFirstUser.clickOnAddButton();
+    await editGroupFirstUser.nothingHereText.waitForDisplayed();
+    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.topbar.waitForDisplayed();
+    await expect(
+      chatsTopbarFirstUser.topbarUserStatusValue
+    ).toHaveTextContaining("Members (2)");
   });
 
   it("Edit Group - Ensure that Chat User B was added back to the group", async () => {

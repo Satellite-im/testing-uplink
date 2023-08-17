@@ -341,7 +341,7 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async createFolder(name: string) {
     await this.clickOnCreateFolder();
-    await this.inputFolderFileName.click();
+    await this.inputFolderFileName.waitForExist();
     await this.inputFolderFileName.setValue(name);
     await this.filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(name);
@@ -349,7 +349,7 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async typeOnFileFolderNameInput(name: string) {
-    await this.inputFolderFileName.click();
+    await this.inputFolderFileName.waitForExist();
     await this.inputFolderFileName.setValue(name);
     await this.filesInfoCurrentSizeLabel.click();
   }
@@ -417,7 +417,7 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async updateNameFileFolder(newName: string, extension: string = "") {
-    await this.inputFolderFileName.click();
+    await this.inputFolderFileName.waitForExist();
     await this.inputFolderFileName.setValue(newName);
     await this.filesInfoCurrentSizeLabel.click();
     const newFileFolder = await this.getLocatorOfFolderFile(
