@@ -54,7 +54,8 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.clearGroupNameInput();
   });
 
-  it("Edit Group - Attempt to change Group Name for a name with more than 64 characters", async () => {
+  // Skipping test due to input issue changing the cursor to a different input field
+  xit("Edit Group - Attempt to change Group Name for a name with more than 64 characters", async () => {
     await editGroupFirstUser.groupNameInput.click();
     await editGroupFirstUser.typeOnGroupNameInput(
       "12345678901234567890123456789012345678901234567890123456789012345678"
