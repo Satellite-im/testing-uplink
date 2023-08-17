@@ -66,8 +66,16 @@ export default async function chats() {
     ).toHaveTextContaining("Settings");
   });
 
+  it("Welcome Screen - Welcome Image is displayed when no conversations are available", async () => {
+    await welcomeScreenFirstUser.welcomeImage.waitForExist();
+  });
+
   it("Click on add someone redirects to Friends Page", async () => {
     await welcomeScreenFirstUser.clickAddSomeone();
     await friendsScreenFirstUser.waitForIsShown(true);
+  });
+
+  it("Friends Screen - Image is displayed when no friends have been added yet", async () => {
+    await friendsScreenFirstUser.allFriendsListImage.waitForExist();
   });
 }
