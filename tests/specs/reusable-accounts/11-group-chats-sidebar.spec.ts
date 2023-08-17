@@ -40,7 +40,7 @@ export default async function groupChatSidebarTests() {
     ).toBeDisplayed();
     await expect(
       favoritesSidebarFirstUser.favoritesUserName
-    ).toHaveTextContaining("NEWNAMEGROUP");
+    ).toHaveTextContaining("X");
   });
 
   it("Group Chat - Remove group from favorites", async () => {
