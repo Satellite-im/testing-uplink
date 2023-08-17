@@ -110,7 +110,7 @@ export default async function groupChatEditTests() {
   it("Edit Group - Remove someone from the group", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
-    await editGroupFirstUser.clickOnRemoveButton();
+    await editGroupFirstUser.clickOnFirstRemoveButton();
     await editGroupFirstUser.nothingHereText.waitForDisplayed();
     await chatsTopbarFirstUser.editGroup();
     await chatsTopbarFirstUser.topbar.waitForDisplayed();
@@ -141,7 +141,7 @@ export default async function groupChatEditTests() {
   it("Edit Group - Add someone to the group - Add Chat User B again", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
-    await editGroupFirstUser.clickOnAddButton();
+    await editGroupFirstUser.clickOnFirstAddButton();
     await editGroupFirstUser.nothingHereText.waitForDisplayed();
     await chatsTopbarFirstUser.editGroup();
     await chatsTopbarFirstUser.topbar.waitForDisplayed();
