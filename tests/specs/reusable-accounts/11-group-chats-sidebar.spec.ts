@@ -7,7 +7,6 @@ import FilesScreen from "../../screenobjects/files/FilesScreen";
 import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
-import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
 import Topbar from "../../screenobjects/chats/Topbar";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
@@ -73,7 +72,7 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Sidebar - Any new messages received in group should appear in Sidebar", async () => {
     // Validate Sidebar shows Group Name
-    await chatsSidebarFirstUser.validateUsernameDisplayed("NewNameGroup");
+    await chatsSidebarFirstUser.validateUsernameDisplayed("X");
 
     // Validate last message content from group is displayed on sidebar
     await chatsSidebarFirstUser.validateLastMessageDisplayed("HelloGroup");
@@ -86,13 +85,13 @@ export default async function groupChatSidebarTests() {
   });
 
   it("Group Chat - Sidebar - Context Menu - Clear Unreads", async () => {
-    await chatsSidebarFirstUser.openContextMenuOnGroupChat("NewNameGroup");
+    await chatsSidebarFirstUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarFirstUser.selectChatsClearUnreads();
     await chatsSidebarFirstUser.validateNoUnreadMessages();
   });
 
   it("Group Chat - Sidebar - Context Menu - Hide chat", async () => {
-    await chatsSidebarFirstUser.openContextMenuOnGroupChat("NewNameGroup");
+    await chatsSidebarFirstUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarFirstUser.selectChatsHideChat();
     await chatsSidebarFirstUser.validateNoSidebarGroupChatsAreDisplayed();
   });
@@ -106,15 +105,15 @@ export default async function groupChatSidebarTests() {
 
     // Switch control to User A
     await chatsLayoutFirstUser.switchToOtherUserWindow();
-    await chatsSidebarFirstUser.waitForGroupToBeCreated("NewNameGroup");
-    await chatsSidebarFirstUser.goToSidebarGroupChat("NewNameGroup");
+    await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
+    await chatsSidebarFirstUser.goToSidebarGroupChat("X");
     await chatsTopbarFirstUser.topbar.waitForDisplayed();
   });
 
   it("Group Chat - Sidebar - Leave group", async () => {
     // Switch control to User B
     await chatsSidebarSecondUser.switchToOtherUserWindow();
-    await chatsSidebarSecondUser.openContextMenuOnGroupChat("NewNameGroup");
+    await chatsSidebarSecondUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarSecondUser.selectChatsLeaveGroup();
     await chatsSidebarSecondUser.validateNoSidebarGroupChatsAreDisplayed();
   });
@@ -126,7 +125,7 @@ export default async function groupChatSidebarTests() {
     // Now, go to the Group Chat and validate that User B is not part of it anymore
     await chatsTopbarFirstUser.waitForIsShown(true);
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
-      "NewNameGroup"
+      "X"
     );
     await expect(
       chatsTopbarFirstUser.topbarUserStatusValue
@@ -158,18 +157,18 @@ export default async function groupChatSidebarTests() {
     await filesScreenSecondUser.waitForIsShown(true);
     await filesScreenSecondUser.goToMainScreen();
     await chatsSidebarSecondUser.waitForIsShown(true);
-    await chatsSidebarSecondUser.waitForGroupToBeCreated("NewNameGroup");
-    await chatsSidebarSecondUser.goToSidebarGroupChat("NewNameGroup");
+    await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
+    await chatsSidebarSecondUser.goToSidebarGroupChat("X");
     await chatsTopbarSecondUser.topbar.waitForDisplayed();
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue
-    ).toHaveTextContaining("NewNameGroup");
+    ).toHaveTextContaining("X");
   });
 
   it("Group Chat - Sidebar - Delete group", async () => {
     // Switch execution to User A and delete the group
     await chatsSidebarFirstUser.switchToOtherUserWindow();
-    await chatsSidebarFirstUser.openContextMenuOnGroupChat("NewNameGroup");
+    await chatsSidebarFirstUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarFirstUser.selectChatsDeleteGroup();
 
     // Ensure that group was removed on local side
