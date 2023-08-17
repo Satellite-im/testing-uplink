@@ -68,19 +68,19 @@ export default async function groupChatEditTests() {
   });
 
   it("Edit Group - Change Group Name for a valid name", async () => {
-    await editGroupFirstUser.typeOnGroupNameInput("NewNameGroup");
+    await editGroupFirstUser.typeOnGroupNameInput("X");
     await chatsTopbarFirstUser.editGroup();
-    await chatsSidebarFirstUser.waitForGroupToBeCreated("NewNameGroup");
+    await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
-      "NewNameGroup"
+      "X"
     );
-    await chatsSidebarFirstUser.waitForGroupToBeCreated("NewNameGroup");
+    await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
 
     await chatsSidebarSecondUser.switchToOtherUserWindow();
-    await chatsSidebarSecondUser.waitForGroupToBeCreated("NewNameGroup");
+    await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue
-    ).toHaveTextContaining("NewNameGroup");
+    ).toHaveTextContaining("X");
   });
 
   it("Edit Group - Contents displayed in add list are correct", async () => {
@@ -110,7 +110,7 @@ export default async function groupChatEditTests() {
   it("Edit Group - Remove someone from the group", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
-    await editGroupFirstUser.clickOnRemoveButton();
+    await editGroupFirstUser.clickOnFirstRemoveButton();
     await editGroupFirstUser.nothingHereText.waitForDisplayed();
     await chatsTopbarFirstUser.editGroup();
     await chatsTopbarFirstUser.topbar.waitForDisplayed();
@@ -119,7 +119,7 @@ export default async function groupChatEditTests() {
     ).toHaveTextContaining("Members (1)");
 
     await chatsSidebarSecondUser.switchToOtherUserWindow();
-    await chatsSidebarSecondUser.waitForGroupToBeDeleted("NewNameGroup");
+    await chatsSidebarSecondUser.waitForGroupToBeDeleted("X");
     await welcomeScreenSecondUser.waitForIsShown(true);
   });
 
@@ -141,7 +141,7 @@ export default async function groupChatEditTests() {
   it("Edit Group - Add someone to the group - Add Chat User B again", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
-    await editGroupFirstUser.clickOnAddButton();
+    await editGroupFirstUser.clickOnFirstAddButton();
     await editGroupFirstUser.nothingHereText.waitForDisplayed();
     await chatsTopbarFirstUser.editGroup();
     await chatsTopbarFirstUser.topbar.waitForDisplayed();
@@ -156,11 +156,11 @@ export default async function groupChatEditTests() {
     await filesScreenSecondUser.waitForIsShown(true);
     await filesScreenSecondUser.goToMainScreen();
     await chatsSidebarSecondUser.waitForIsShown(true);
-    await chatsSidebarSecondUser.waitForGroupToBeCreated("NewNameGroup");
-    await chatsSidebarSecondUser.goToSidebarGroupChat("NewNameGroup");
+    await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
+    await chatsSidebarSecondUser.goToSidebarGroupChat("X");
     await chatsTopbarSecondUser.topbar.waitForDisplayed();
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue
-    ).toHaveTextContaining("NewNameGroup");
+    ).toHaveTextContaining("X");
   });
 }

@@ -243,6 +243,14 @@ export default class EditGroup extends UplinkMainScreen {
     await this.currentMembersText.click();
   }
 
+  async clickOnFirstAddButton() {
+    await this.instance.$(SELECTORS.ADD_PARTICIPANT_BUTTON).click();
+  }
+
+  async clickOnFirstRemoveButton() {
+    await this.instance.$(SELECTORS.REMOVE_PARTICIPANT_BUTTON).click();
+  }
+
   async clickOnRemoveButton() {
     await this.removeParticipantButton.click();
   }
