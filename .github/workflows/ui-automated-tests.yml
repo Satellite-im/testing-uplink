@@ -232,6 +232,113 @@ jobs:
             Failed Automated Test
           type: add
 
+  test-mac-chats:
+    needs: build-mac
+    runs-on: macos-13
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Download the MacOS app 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-macos-latest
+          path: ./apps
+
+      - name: Enable opening app not codesigned 🖥️
+        run: sudo spctl --master-disable
+
+      - name: Copy DMG to Appium Apps Directory 💿
+        working-directory: ./apps
+        run: |
+          unzip Uplink-Mac-Universal.zip
+          cp -r ./Uplink.app ./Uplink2.app
+          perl -i -pe 's/im.satellite.uplink/im.satellite.uplinkChatUserA/g' ./Uplink.app/Contents/Info.plist
+          perl -i -pe 's/im.satellite.uplink/im.satellite.uplinkChatUserB/g' ./Uplink.app/Contents/Info.plist
+          cp -r ./Uplink.app /Applications/
+          cp -r ./Uplink2.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink2.app
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-mac
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-mac.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Install Appium Server 💻
+        run: |
+          npm install -g appium@next
+          appium -v
+
+      - name: Install Appium Driver 💻
+        run: |
+          appium driver install mac2
+          appium driver list
+
+      - name: Update MacOS runner to not autocorrect text
+        run: |
+          defaults write -g NSAutomaticCapitalizationEnabled -bool false
+          defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
+          defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
+
+      - name: Open two instances of MacOS application
+        run: |
+          /Applications/Uplink.app/Contents/MacOS/uplink --path ~/.uplinkUserA &
+          /Applications/Uplink2.app/Contents/MacOS/uplink --path ~/.uplinkUserB &
+
+      - name: Run Tests on MacOS 🧪
+        run: npm run mac.multiremote
+
+      - name: Upload Test Report - MacOS CI
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report-macos-chats
+          path: ./test-report/*.xml
+
+      - name: Upload Allure Test Results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-allure-mac-chats
+          path: ./allure-results/
+
+      - name: Upload Screenshots for MacOS 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-screenshots-MacOS-chats
+          path: ./test-results
+
+      - name: Upload Appium Log for MacOS 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-log-macos-chats
+          path: ./appium.log
+
+      - name: Add label if any of test jobs failed
+        if: failure()
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            Failed Automated Test
+          type: add
+
   test-windows-chats:
     needs: build-windows
     runs-on: windows-latest
@@ -459,7 +566,14 @@ jobs:
   publish-test-results:
     if: always()
     needs:
-      [build-mac, build-windows, test-mac, test-windows-chats, test-windows]
+      [
+        build-mac,
+        build-windows,
+        test-mac,
+        test-mac-chats,
+        test-windows-chats,
+        test-windows,
+      ]
     runs-on: ubuntu-latest
     permissions:
       checks: write
@@ -472,6 +586,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: test-report-macos-ci
+          path: artifacts
+
+      - name: Download Test Report for MacOS Chats
+        uses: actions/download-artifact@v3
+        with:
+          name: test-report-macos-chats
           path: artifacts
 
       - name: Download Test Report for Windows Chats
@@ -490,6 +610,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: test-allure-mac-ci
+          path: allure
+
+      - name: Download Allure Results for MacOS CHats
+        uses: actions/download-artifact@v3
+        with:
+          name: test-allure-mac-chats
           path: allure
 
       - name: Download Allure Results for Windows CI
@@ -554,6 +680,7 @@ jobs:
         build-mac,
         build-windows,
         test-mac,
+        test-mac-chats,
         test-windows-chats,
         test-windows,
         publish-test-results,
@@ -580,8 +707,10 @@ jobs:
             uplink-windows-assets
             Uplink-macos-latest
             test-report-macos-ci
+            test-report-macos-chats
             test-report-windows-ci
             test-report-windows-chats
             test-allure-mac-ci
+            test-allure-mac-chats
             test-allure-windows-ci
             test-allure-windows-chats
