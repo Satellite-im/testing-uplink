@@ -21,9 +21,9 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.clickOnInputBar();
     await chatsInputFirstUser.pressEnterKeyOnInputBar();
 
-    // Validate latest message sent displayed on Chat Conversation is still "edited..."
+    // Validate latest message sent displayed on Chat Conversation is still "Two..."
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("Edited...");
+    await expect(textMessage).toHaveTextContaining("Two...");
   });
 
   // Skipping test failing on CI due to slowness on driver typing 1024 characters
@@ -117,7 +117,7 @@ export default async function messageInputTests() {
   });
 
   it("Chat User - Chat Messages containing links contents on local side", async () => {
-    // Swith to Chat User A
+    // Switch to Chat User A
     await chatsMessagesFirstUser.switchToOtherUserWindow();
 
     // Validate link embed contents on chat message
@@ -160,5 +160,8 @@ export default async function messageInputTests() {
     // Switch to second user and validate that Typing Indicator is displayed
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsLayoutSecondUser.typingIndicator.waitForDisplayed();
+    await expect(
+      chatsLayoutSecondUser.typingIndicatorTextValue
+    ).toHaveTextContaining("ChatUserA is typing");
   });
 }

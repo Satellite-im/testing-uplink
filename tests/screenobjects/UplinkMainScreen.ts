@@ -229,7 +229,7 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   async waitUntilNotificationIsClosed() {
-    await this.toastNotification.waitForDisplayed({
+    await this.toastNotification.waitForExist({
       reverse: true,
     });
   }

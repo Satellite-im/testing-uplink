@@ -11,21 +11,21 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
-  ADD_BOTTOM_BUTTON: '[name="add-button"]',
-  ADD_PARTICIPANTS_WITH_SIDEBAR_BUTTON:
-    '[name="edit-group-add-friends-button-with_sidebar"]',
-  ADD_PARTICIPANTS_WITHOUT_SIDEBAR_BUTTON:
-    '[name="edit-group-add-friends-button-without-sidebar"]',
-  ADD_OR_REMOVE_BUTTONS_CONTAINER: '[name="Topbar"]',
-  EDIT_GROUP_SECTION: '//Group[@Name="edit-group"]',
+  ADD_MEMBERS: '[name="edit-group-add-members"]',
+  ADD_MEMBERS_TEXT: "//Text",
+  ADD_PARTICIPANT_BUTTON: '[name="Add"]',
+  CURRENT_MEMBERS: '[name="edit-group-current-members"]',
+  CURRENT_MEMBERS_TEXT: "//Text",
+  EDIT_GROUP_SECTION: '[name="edit-group"]',
   FRIENDS_GROUP: '[name="friend-group"]',
   FRIENDS_LIST: '[name="friends-list"]',
-  GROUP_NAME_HEADER: '[name="group-name-label"]',
-  GROUP_NAME_HEADER_TEXT: "//Text",
   GROUP_NAME_INPUT: '[name="groupname-input"]',
   GROUP_NAME_INPUT_ERROR: '[name="input-error"]',
   GROUP_NAME_INPUT_ERROR_TEXT: "//Text",
+  NOTHING_HERE_TEXT: '//Text[@Name="Nothing Here..."]',
   PARTICIPANT_USER_CONTAINER: '[name="Friend Container"]',
+  PARTICIPANT_USER_CREATOR_BADGE_IMAGE: "//Image",
+  PARTICIPANT_USER_CREATOR_BADGE_TEXT: '//Text[@Name="Group Creator"]',
   PARTICIPANT_USER_IMAGE: '[name="User Image"]',
   PARTICIPANT_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   PARTICIPANT_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
@@ -33,31 +33,29 @@ const SELECTORS_WINDOWS = {
   PARTICIPANT_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   PARTICIPANT_USER_NAME: '[name="friend-username"]',
   PARTICIPANT_USER_NAME_TEXT: "//Text",
-  REMOVE_BOTTOM_BUTTON: '[name="remove-button"]',
-  REMOVE_PARTICIPANTS_WITH_SIDEBAR_BUTTON:
-    '[name="edit-group-remove_friends_with_sidebar"]',
-  REMOVE_PARTICIPANTS_WITHOUT_SIDEBAR_BUTTON:
-    '[name="edit-group-remove-friends-without-sidebar"]',
+  REMOVE_PARTICIPANT_BUTTON: '[name="Remove"]',
+  TOPBAR: '[name="Topbar"]',
   USER_INPUT: '[name="friend-search-input"]',
 };
 
 const SELECTORS_MACOS = {
-  ADD_BOTTOM_BUTTON: "~add-button",
-  ADD_PARTICIPANTS_WITH_SIDEBAR_BUTTON:
-    "~edit-group-add-friends-button-with_sidebar",
-  ADD_PARTICIPANTS_WITHOUT_SIDEBAR_BUTTON:
-    "~edit-group-add-friends-button-without-sidebar",
-  ADD_OR_REMOVE_BUTTONS_CONTAINER: "~Topbar",
-  EDIT_GROUP_SECTION:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "edit-group"`]',
+  ADD_MEMBERS: "~edit-group-add-members",
+  ADD_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  ADD_PARTICIPANT_BUTTON: "~Add",
+  CURRENT_MEMBERS: "~edit-group-current-members",
+  CURRENT_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  EDIT_GROUP_SECTION: "~edit-group",
   FRIENDS_GROUP: "~friend-group",
   FRIENDS_LIST: "~friends-list",
-  GROUP_NAME_HEADER: "~group-name-label",
-  GROUP_NAME_HEADER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   GROUP_NAME_INPUT: "~groupname-input",
   GROUP_NAME_INPUT_ERROR: "~input-error",
   GROUP_NAME_INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  NOTHING_HERE_TEXT: '//XCUIElementTypeStaticText[@value="Nothing Here..."]',
   PARTICIPANT_USER_CONTAINER: "~Friend Container",
+  PARTICIPANT_USER_CREATOR_BADGE_IMAGE:
+    "-ios class chain:**/XCUIElementTypeImage",
+  PARTICIPANT_USER_CREATOR_BADGE_TEXT:
+    '//XCUIElementTypeStaticText[@value="Group Creator"]',
   PARTICIPANT_USER_IMAGE: "~User Image",
   PARTICIPANT_USER_IMAGE_PROFILE: "~user-image-profile",
   PARTICIPANT_USER_IMAGE_WRAP: "~user-image-wrap",
@@ -65,11 +63,8 @@ const SELECTORS_MACOS = {
   PARTICIPANT_USER_INDICATOR_ONLINE: "~indicator-online",
   PARTICIPANT_USER_NAME: "~friend-username",
   PARTICIPANT_USER_NAME_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  REMOVE_BOTTOM_BUTTON: "~remove-button",
-  REMOVE_PARTICIPANTS_WITH_SIDEBAR_BUTTON:
-    "~edit-group-remove_friends_with_sidebar",
-  REMOVE_PARTICIPANTS_WITHOUT_SIDEBAR_BUTTON:
-    "~edit-group-remove-friends-without-sidebar",
+  REMOVE_PARTICIPANT_BUTTON: "~Remove",
+  TOPBAR: "~Topbar",
   USER_INPUT: "~friend-search-input",
 };
 
@@ -82,22 +77,28 @@ export default class EditGroup extends UplinkMainScreen {
     super(executor, SELECTORS.EDIT_GROUP_SECTION);
   }
 
-  get addBottomButton() {
+  get addMembers() {
+    return this.instance.$(SELECTORS.ADD_MEMBERS);
+  }
+
+  get addMembersText() {
+    return this.instance.$(SELECTORS.ADD_MEMBERS).$(SELECTORS.ADD_MEMBERS_TEXT);
+  }
+
+  get addParticipantButton() {
     return this.instance
       .$(SELECTORS.EDIT_GROUP_SECTION)
-      .$(SELECTORS.ADD_BOTTOM_BUTTON);
+      .$$(SELECTORS.ADD_PARTICIPANT_BUTTON);
   }
 
-  get addParticipantsWithSidebarButton() {
-    return this.instance.$(SELECTORS.ADD_PARTICIPANTS_WITH_SIDEBAR_BUTTON);
+  get currentMembers() {
+    return this.instance.$(SELECTORS.CURRENT_MEMBERS);
   }
 
-  get addParticipantsWithoutSidebarButton() {
-    return this.instance.$(SELECTORS.ADD_PARTICIPANTS_WITHOUT_SIDEBAR_BUTTON);
-  }
-
-  get addOrRemoveButtonsContainer() {
-    return this.instance.$(SELECTORS.ADD_OR_REMOVE_BUTTONS_CONTAINER);
+  get currentMembersText() {
+    return this.instance
+      .$(SELECTORS.CURRENT_MEMBERS)
+      .$(SELECTORS.CURRENT_MEMBERS_TEXT);
   }
 
   get editGroupSection() {
@@ -117,42 +118,43 @@ export default class EditGroup extends UplinkMainScreen {
       .$(SELECTORS.FRIENDS_LIST);
   }
 
-  get groupNameHeader() {
-    return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
-      .$(SELECTORS.GROUP_NAME_HEADER);
-  }
-
-  get groupNameHeaderText() {
-    return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
-      .$(SELECTORS.GROUP_NAME_HEADER)
-      .$(SELECTORS.GROUP_NAME_HEADER_TEXT);
-  }
-
   get groupNameInput() {
-    return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
-      .$(SELECTORS.GROUP_NAME_INPUT);
+    return this.instance.$(SELECTORS.GROUP_NAME_INPUT);
   }
 
   get groupNameInputError() {
-    return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
-      .$(SELECTORS.GROUP_NAME_INPUT_ERROR);
+    return this.instance.$(SELECTORS.GROUP_NAME_INPUT_ERROR);
   }
 
   get groupNameInputErrorText() {
     return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
       .$(SELECTORS.GROUP_NAME_INPUT_ERROR)
       .$(SELECTORS.GROUP_NAME_INPUT_ERROR_TEXT);
+  }
+
+  get nothingHereText() {
+    return this.instance
+      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.NOTHING_HERE_TEXT);
   }
 
   get participantUserContainer() {
     return this.instance
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER);
+  }
+
+  get participantUserCreatorBadgeImage() {
+    return this.instance
+      .$(SELECTORS.FRIENDS_LIST)
+      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE);
+  }
+  get participantUserCreatorBadgeText() {
+    return this.instance
+      .$(SELECTORS.FRIENDS_LIST)
+      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT);
   }
 
   get participantUserImage() {
@@ -205,20 +207,14 @@ export default class EditGroup extends UplinkMainScreen {
       .$(SELECTORS.PARTICIPANT_USER_NAME_TEXT);
   }
 
-  get removeBottomButton() {
+  get removeParticipantButton() {
     return this.instance
       .$(SELECTORS.EDIT_GROUP_SECTION)
-      .$(SELECTORS.REMOVE_BOTTOM_BUTTON);
+      .$$(SELECTORS.REMOVE_PARTICIPANT_BUTTON);
   }
 
-  get removeParticipantsWithSidebarButton() {
-    return this.instance.$(SELECTORS.REMOVE_PARTICIPANTS_WITH_SIDEBAR_BUTTON);
-  }
-
-  get removeParticipantsWithoutSidebarButton() {
-    return this.instance.$(
-      SELECTORS.REMOVE_PARTICIPANTS_WITHOUT_SIDEBAR_BUTTON
-    );
+  get topbar() {
+    return this.instance.$$(SELECTORS.TOPBAR);
   }
 
   get userInput() {
@@ -235,32 +231,28 @@ export default class EditGroup extends UplinkMainScreen {
     await this.userInput.setValue("");
   }
 
-  async clickOnAddWithSidebarButton() {
-    await this.addParticipantsWithSidebarButton.click();
+  async clickOnAddButton() {
+    await this.addParticipantButton.click();
   }
 
-  async clickOnAddWithoutSidebarButton() {
-    await this.addParticipantsWithoutSidebarButton.click();
+  async clickOnAddMembersText() {
+    await this.addMembersText.click();
   }
 
-  async clickOnAddButtonBelow() {
-    await this.addBottomButton.click();
+  async clickOnCurrentMembersText() {
+    await this.currentMembersText.click();
   }
 
-  async clickOnGroupNameHeader() {
-    await this.groupNameHeader.click();
+  async clickOnFirstAddButton() {
+    await this.instance.$(SELECTORS.ADD_PARTICIPANT_BUTTON).click();
   }
 
-  async clickOnRemoveWithSidebarButton() {
-    await this.removeParticipantsWithSidebarButton.click();
+  async clickOnFirstRemoveButton() {
+    await this.instance.$(SELECTORS.REMOVE_PARTICIPANT_BUTTON).click();
   }
 
-  async clickOnRemoveWithoutSidebarButton() {
-    await this.removeParticipantsWithoutSidebarButton.click();
-  }
-
-  async clickOnRemoveButtonBelow() {
-    await this.removeBottomButton.click();
+  async clickOnRemoveButton() {
+    await this.removeParticipantButton.click();
   }
 
   async getParticipantsList() {
@@ -288,7 +280,7 @@ export default class EditGroup extends UplinkMainScreen {
         .$(
           '//XCUIElementTypeGroup[@label="Friend Container"]/XCUIElementTypeGroup/XCUIElementTypeStaticText[contains(@value, "' +
             participant +
-            '")]/../../..'
+            '")]/../..'
         );
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await this.instance
@@ -296,7 +288,7 @@ export default class EditGroup extends UplinkMainScreen {
         .$(
           '//Group[@Name="Friend Container"]/Group/Text[contains(@Name, "' +
             participant +
-            '")]/../../..'
+            '")]/../..'
         );
     }
     return locator;
@@ -316,6 +308,22 @@ export default class EditGroup extends UplinkMainScreen {
       SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE
     );
     return indicatorOnline;
+  }
+
+  async getParticipantUserCreatorBadgeImage(participant: string) {
+    const userLocator = await this.getParticipantContainerLocator(participant);
+    const badgeImage = await userLocator.$(
+      SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE
+    );
+    return badgeImage;
+  }
+
+  async getParticipantUserCreatorBadgeText(participant: string) {
+    const userLocator = await this.getParticipantContainerLocator(participant);
+    const badgeText = await userLocator.$(
+      SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT
+    );
+    return badgeText;
   }
 
   async getParticipantUserImage(participant: string) {

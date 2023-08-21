@@ -305,7 +305,9 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async clickOnCreateFolder() {
-    await this.addFolderButton.click();
+    const element = await this.addFolderButton;
+    await this.hoverOnElement(element);
+    await element.click();
   }
 
   async clickOnFileOrFolder(locator: string) {
@@ -332,30 +334,24 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async clickOnUploadFile() {
-    await this.uploadFileButton.click();
+    const element = await this.uploadFileButton;
+    await this.hoverOnElement(element);
+    await element.click();
   }
 
   async createFolder(name: string) {
-    const currentDriver = await this.getCurrentDriver();
     await this.clickOnCreateFolder();
-    await this.inputFolderFileName.click();
-    if (currentDriver === MACOS_DRIVER) {
-      await this.inputFolderFileName.setValue(name + "\n");
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.inputFolderFileName.setValue(name + "\uE007");
-    }
+    await this.inputFolderFileName.waitForExist();
+    await this.inputFolderFileName.setValue(name);
+    await this.filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(name);
     await this.instance.$(newFolder).waitForExist({ timeout: 15000 });
   }
 
   async typeOnFileFolderNameInput(name: string) {
-    const currentDriver = await this.getCurrentDriver();
-    await this.inputFolderFileName.click();
-    if (currentDriver === MACOS_DRIVER) {
-      await this.inputFolderFileName.setValue(name + "\n");
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.inputFolderFileName.setValue(name + "\uE007");
-    }
+    await this.inputFolderFileName.waitForExist();
+    await this.inputFolderFileName.setValue(name);
+    await this.filesInfoCurrentSizeLabel.click();
   }
 
   async downloadFile(filename: string) {
@@ -421,13 +417,9 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async updateNameFileFolder(newName: string, extension: string = "") {
-    const currentDriver = await this.getCurrentDriver();
-    await this.inputFolderFileName.click();
-    if (currentDriver === MACOS_DRIVER) {
-      await this.inputFolderFileName.setValue(newName + "\n");
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.inputFolderFileName.setValue(newName + "\uE007");
-    }
+    await this.inputFolderFileName.waitForExist();
+    await this.inputFolderFileName.setValue(newName);
+    await this.filesInfoCurrentSizeLabel.click();
     const newFileFolder = await this.getLocatorOfFolderFile(
       newName + extension
     );

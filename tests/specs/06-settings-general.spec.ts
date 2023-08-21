@@ -1,6 +1,10 @@
 import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
 import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
-import { USER_A_INSTANCE } from "../helpers/constants";
+import {
+  USER_A_INSTANCE,
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+} from "../helpers/constants";
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
 
@@ -108,19 +112,12 @@ export default async function settingsGeneral() {
   });
 
   it("Settings General - Change theme to Light Theme", async () => {
-    const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
-    if (currentDriver === "mac2") {
-      await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
-    } else if (currentDriver === "windows") {
-      console.log(
-        "Skipping test on Windows since it needs assets copied before to be implemented"
-      );
-    }
+    await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
   });
 
   it("Settings General - Validate user can change accent color", async () => {
     const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
-    if (currentDriver === "mac2") {
+    if (currentDriver === MACOS_DRIVER) {
       // Click on all the accent colors (red, orange, yellow, green, blue, violet, pink and finally grey)
       await settingsGeneralFirstUser.selectRedAccentColor();
       await settingsGeneralFirstUser.selectOrangeAccentColor();
@@ -130,7 +127,7 @@ export default async function settingsGeneral() {
       await settingsGeneralFirstUser.selectVioletAccentColor();
       await settingsGeneralFirstUser.selectPinkAccentColor();
       await settingsGeneralFirstUser.selectGreyAccentColor();
-    } else if (currentDriver === "windows") {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       console.log(
         "Skipping test on Windows since it needs visual implementation"
       );
@@ -142,13 +139,6 @@ export default async function settingsGeneral() {
   });
 
   it("Settings General - Return theme to Dark Theme", async () => {
-    const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
-    if (currentDriver === "mac2") {
-      await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
-    } else if (currentDriver === "windows") {
-      console.log(
-        "Skipping test on Windows since it needs assets copied before to be implemented"
-      );
-    }
+    await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
   });
 }

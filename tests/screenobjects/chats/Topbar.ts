@@ -20,7 +20,10 @@ const SELECTORS_WINDOWS = {
   TOPBAR_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   TOPBAR_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   TOPBAR_USER_INFO: '[name="user-info"]',
-  TOPBAR_USER_NAME: "//Text",
+  TOPBAR_USER_NAME: '[name="user-info-username"]',
+  TOPBAR_USER_NAME_VALUE: "//Text",
+  TOPBAR_USER_STATUS: '[name="user-info-status"]',
+  TOPBAR_USER_STATUS_VALUE: "//Text",
   TOPBAR_VIDEOCALL: '[name="Videocall"]',
 };
 
@@ -40,7 +43,10 @@ const SELECTORS_MACOS = {
   TOPBAR_USER_IMAGE_PROFILE: "~user-image-profile",
   TOPBAR_USER_IMAGE_WRAP: "~user-image-wrap",
   TOPBAR_USER_INFO: "~user-info",
-  TOPBAR_USER_NAME: "-ios class chain:**/XCUIElementTypeStaticText",
+  TOPBAR_USER_NAME: "~user-info-username",
+  TOPBAR_USER_NAME_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
+  TOPBAR_USER_STATUS: "~user-info-status",
+  TOPBAR_USER_STATUS_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   TOPBAR_VIDEOCALL: "~Videocall",
 };
 
@@ -143,11 +149,23 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarUserName() {
-    return this.instance.$(SELECTORS.TOPBAR).$$(SELECTORS.TOPBAR_USER_NAME)[0];
+    return this.instance.$(SELECTORS.TOPBAR_USER_NAME);
+  }
+
+  get topbarUserNameValue() {
+    return this.instance
+      .$(SELECTORS.TOPBAR_USER_NAME)
+      .$(SELECTORS.TOPBAR_USER_NAME_VALUE);
   }
 
   get topbarUserStatus() {
-    return this.instance.$(SELECTORS.TOPBAR).$$(SELECTORS.TOPBAR_USER_NAME)[1];
+    return this.instance.$(SELECTORS.TOPBAR_USER_STATUS);
+  }
+
+  get topbarUserStatusValue() {
+    return this.instance
+      .$(SELECTORS.TOPBAR_USER_STATUS)
+      .$(SELECTORS.TOPBAR_USER_STATUS_VALUE);
   }
 
   get topbarVideocall() {
@@ -159,6 +177,17 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarVideocallTooltipText() {
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
+  }
+
+  get viewGroupTooltip() {
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+  }
+
+  get viewGroupTooltipText() {
     return this.instance
       .$(SELECTORS.TOPBAR)
       .$(SELECTORS.TOOLTIP)

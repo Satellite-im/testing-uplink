@@ -16,10 +16,7 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
-  EMOJI: '[name="emoji"]',
-  EMOJI_BUTTON: '//Group[@Name="chat-layout"]//Group[9]/Button',
-  EMOJI_SELECTOR: '[name="emoji-selector"]',
-  EMOJIS_CONTAINER: '[name="emojis-container"]',
+  EMOJI_BUTTON: '//Group[@Name="chat-layout"]/Button[2]',
   INPUT_CHAR_COUNTER: '[name="input-char-counter"]',
   INPUT_CHAR_COUNTER_TEXT: "//Text",
   INPUT_GROUP: '[name="input-group"]',
@@ -31,11 +28,8 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
-  EMOJI: "~emoji",
   EMOJI_BUTTON:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "chat-layout"`]/XCUIElementTypeGroup[9]/XCUIElementTypeButton',
-  EMOJI_SELECTOR: "~emoji-selector",
-  EMOJIS_CONTAINER: "~emojis-container",
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "chat-layout"`]/XCUIElementTypeButton[2]',
   INPUT_CHAR_COUNTER: "~input-char-counter",
   INPUT_CHAR_COUNTER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   INPUT_GROUP: "~input-group",
@@ -54,18 +48,6 @@ currentOS === WINDOWS_DRIVER
 export default class InputBar extends UplinkMainScreen {
   constructor(executor: string) {
     super(executor, SELECTORS.INPUT_GROUP);
-  }
-
-  get emoji() {
-    return this.instance.$(SELECTORS.EMOJI);
-  }
-
-  get emojiSelector() {
-    return this.instance.$(SELECTORS.EMOJI_SELECTOR);
-  }
-
-  get emojisContainer() {
-    return this.instance.$(SELECTORS.EMOJIS_CONTAINER);
   }
 
   get emojiButton() {
@@ -122,7 +104,9 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   async clickOnEmojiButton() {
-    await this.emojiButton.click();
+    const element = await this.emojiButton;
+    await this.hoverOnElement(element);
+    await element.click();
   }
 
   async clickOnInputBar() {
@@ -190,15 +174,12 @@ export default class InputBar extends UplinkMainScreen {
 
   async typeOnEditMessageInput(editedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
+    const locator = await this.window;
     let enterValue;
     currentDriver === WINDOWS_DRIVER
       ? (enterValue = "\uE007")
       : (enterValue = "\n");
-    await browser.pause(1000);
-    await this.instance.$$(SELECTORS.INPUT_TEXT)[1].clearValue();
-    await this.instance
-      .$$(SELECTORS.INPUT_TEXT)[1]
-      .setValue(editedMessage + enterValue);
+    await locator.setValue(editedMessage + enterValue);
   }
 
   async uploadFile(relativePath: string) {

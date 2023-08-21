@@ -4,7 +4,12 @@ import ChatsSidebar from "../screenobjects/chats/ChatsSidebar";
 import FavoritesSidebar from "../screenobjects/chats/FavoritesSidebar";
 import FriendsScreen from "../screenobjects/friends/FriendsScreen";
 import InputBar from "../screenobjects/chats/InputBar";
-import { USER_A_INSTANCE } from "../helpers/constants";
+import {
+  CHAT_USER_B_ID,
+  CHAT_USER_C_ID,
+  CHAT_USER_L_ID,
+  USER_A_INSTANCE,
+} from "../helpers/constants";
 import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
@@ -78,7 +83,7 @@ export default async function friends() {
   it("Add Friend Input - Error is displayed when non-alphanumeric chars are provided", async () => {
     await friendsScreenFirstUser.enterFriendDidKey("%%%%%%%%%%");
     await expect(friendsScreenFirstUser.inputErrorText).toHaveTextContaining(
-      "Disallowed character(s): %"
+      "Not allowed character(s): %"
     );
     await friendsScreenFirstUser.deleteAddFriendInput();
   });
@@ -122,6 +127,22 @@ export default async function friends() {
       "Maximum of 56 characters exceeded."
     );
     await friendsScreenFirstUser.deleteAddFriendInput();
+  });
+
+  it("Add Friend Input - Attempt to send friend request to a user with outgoing pending request", async () => {
+    // Attempt to send a friend request to ChatUserL, who already received a not accepted yet friend request before
+    await friendsScreenFirstUser.enterFriendDidKey(CHAT_USER_L_ID);
+
+    // Wait for error toast notification with text "Friend request is already pending!" is gone
+    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
+  });
+
+  it("Add Friend Input - Attempt to send friend request again to a user who is already your friend", async () => {
+    // Attempt to send a friend request to ChatUserB, who is already a friend
+    await friendsScreenFirstUser.enterFriendDidKey(CHAT_USER_B_ID);
+
+    // Wait for error toast notification with text "You are already friends!" is gone
+    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
   });
 
   it("Switch to Pending Friends view and validate elements displayed", async () => {
@@ -254,6 +275,14 @@ export default async function friends() {
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
     const allListIncludesFriend = allFriendsList.includes(friendName);
     await expect(allListIncludesFriend).toEqual(false);
+  });
+
+  it("Add Friend Input - Attempt to send friend request to a blocked user", async () => {
+    // Attempt to send a friend request to ChatUserC, who was recently blocked
+    await friendsScreenFirstUser.enterFriendDidKey(CHAT_USER_C_ID);
+
+    // Wait for error toast notification with text "Key Blocked" is gone
+    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
   });
 
   it("Validate tooltip for Deny Request button is displayed", async () => {

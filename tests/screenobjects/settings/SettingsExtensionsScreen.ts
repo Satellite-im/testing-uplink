@@ -14,6 +14,10 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  EMOJI_SELECTOR_DEVELOPER: '//Text[starts-with(@Name, "SATELLITE")]',
+  EMOJI_SELECTOR_DESCRIPTION:
+    '//Text[starts-with(@Name, "Browse the standard unicode")]',
+  EMOJI_SELECTOR_TITLE: '//Text[starts-with(@Name, "Emoji Selector")]',
   EXPLORE_BUTTON: '[name="explore-button"]',
   EXTENSIONS_BROWSER: '[name="extensions-browser"]',
   EXTENSIONS_EXPLORE_BANNER: '[name="extensions-explore-banner"]',
@@ -33,9 +37,16 @@ const SELECTORS_WINDOWS = {
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
   SETTINGS_SECTION: '[name="settings-section"]',
   SWITCH_SLIDER: '[name="Switch Slider"]',
+  SWITCH_SLIDER_VALUE: '[name="switch-slider-value"]',
 };
 
 const SELECTORS_MACOS = {
+  EMOJI_SELECTOR_DEVELOPER:
+    '//XCUIElementTypeStaticText[starts-with(@value, "SATELLITE")][1]',
+  EMOJI_SELECTOR_DESCRIPTION:
+    '//XCUIElementTypeStaticText[starts-with(@value, "Browse the standard unicode")]',
+  EMOJI_SELECTOR_TITLE:
+    '//XCUIElementTypeStaticText[starts-with(@value, "Emoji Selector")]',
   EXPLORE_BUTTON: "~explore-button",
   EXTENSIONS_BROWSER: "~extensions-browser",
   EXTENSIONS_EXPLORE_BANNER: "~extensions-explore-banner",
@@ -59,6 +70,7 @@ const SELECTORS_MACOS = {
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
+  SWITCH_SLIDER_VALUE: "~switch-slider-value",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -68,6 +80,37 @@ currentOS === WINDOWS_DRIVER
 export default class SettingsExtensionsScreen extends SettingsBaseScreen {
   constructor(executor: string) {
     super(executor, SELECTORS.SETTINGS_EXTENSIONS);
+  }
+
+  get emojiSelectorCheckbox() {
+    return this.instance
+      .$(SELECTORS.EXTENSIONS_BROWSER)
+      .$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get emojiSelectorCheckboxValue() {
+    return this.instance
+      .$(SELECTORS.EXTENSIONS_BROWSER)
+      .$(SELECTORS.SWITCH_SLIDER)
+      .$(SELECTORS.SWITCH_SLIDER_VALUE);
+  }
+
+  get emojiSelectorDescription() {
+    return this.instance
+      .$(SELECTORS.EXTENSIONS_BROWSER)
+      .$(SELECTORS.EMOJI_SELECTOR_DESCRIPTION);
+  }
+
+  get emojiSelectorDeveloper() {
+    return this.instance
+      .$(SELECTORS.EXTENSIONS_BROWSER)
+      .$(SELECTORS.EMOJI_SELECTOR_DEVELOPER);
+  }
+
+  get emojiSelectorTitle() {
+    return this.instance
+      .$(SELECTORS.EXTENSIONS_BROWSER)
+      .$(SELECTORS.EMOJI_SELECTOR_TITLE);
   }
 
   get enableAutomaticallyCheckbox() {
@@ -156,6 +199,16 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
 
   get settingsExtensions() {
     return this.instance.$(SELECTORS.SETTINGS_EXTENSIONS);
+  }
+
+  async clickOnEmojiSelectorCheckbox() {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === WINDOWS_DRIVER) {
+      await this.emojiSelectorCheckbox.click();
+    } else if (currentDriver === MACOS_DRIVER) {
+      const element = await this.emojiSelectorCheckbox;
+      await clickOnSwitchMacOS(element, this.executor);
+    }
   }
 
   async clickOnEnableAutomatically() {
