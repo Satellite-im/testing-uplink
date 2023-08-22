@@ -15,33 +15,31 @@ const SELECTORS_WINDOWS = {
   FAVORITES: '[name="Favorites"]',
   FAVORITES_CONTEXT_CHAT: '[name="favorites-chat"]',
   FAVORITES_CONTEXT_REMOVE: '[name="favorites-remove"]',
-  FAVORITES_HEADER: '[name="favorites-label"]',
-  FAVORITES_HEADER_TEXT: "//Text",
   FAVORITES_USER: "//Group",
   FAVORITES_USER_IMAGE: '[name="User Image"]',
   FAVORITES_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   FAVORITES_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   FAVORITES_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FAVORITES_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
-  FAVORITES_USER_NAME: "//Text[2]/Text",
   SLIMBAR: '[name="slimbar"]',
+  TOOLTIP: '[name="tooltip"]',
+  TOOLTIP_TEXT: "//Group/Text",
 };
 
 const SELECTORS_MACOS = {
   FAVORITES: "~Favorites",
   FAVORITES_CONTEXT_CHAT: "~favorites-chat",
   FAVORITES_CONTEXT_REMOVE: "~favorites-remove",
-  FAVORITES_HEADER: "~favorites-label",
-  FAVORITES_HEADER_TEXT: "-ios class chain:**/XXCUIElementTypeStaticText",
   FAVORITES_USER: "-ios class chain:**/XCUIElementTypeGroup",
   FAVORITES_USER_IMAGE: "~User Image",
   FAVORITES_USER_IMAGE_PROFILE: "~user-image-profile",
   FAVORITES_USER_IMAGE_WRAP: "~user-image-wrap",
   FAVORITES_USER_INDICATOR_OFFLINE: "~indicator-offline",
   FAVORITES_USER_INDICATOR_ONLINE: "~indicator-online",
-  FAVORITES_USER_NAME:
-    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   SLIMBAR: "~slimbar",
+  TOOLTIP: "~tooltip",
+  TOOLTIP_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -67,21 +65,6 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     return this.instance
       .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES_CONTEXT_REMOVE);
-  }
-
-  get favoritesHeader() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_HEADER);
-  }
-
-  get favoritesHeaderText() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_HEADER)
-      .$(SELECTORS.FAVORITES_HEADER_TEXT);
   }
 
   get favoriteUsers() {
@@ -126,11 +109,15 @@ export default class FavoritesSidebar extends UplinkMainScreen {
       .$$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
   }
 
-  get favoritesUserName() {
+  get favoritesUserTooltip() {
+    return this.instance.$(SELECTORS.SLIMBAR).$(SELECTORS.TOOLTIP);
+  }
+
+  get favoritesUserTooltipText() {
     return this.instance
       .$(SELECTORS.SLIMBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_USER_NAME);
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get slimbar() {
@@ -147,34 +134,20 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     await this.favoritesRemove.click();
   }
 
-  async getUsersFromFavorites() {
-    const favoriteUsers = await this.favoritesUserName;
-    let currentFavoriteUsers = [];
-    for (let name of favoriteUsers) {
-      currentFavoriteUsers.push(await this.instance.$(name).getText());
-    }
-    return currentFavoriteUsers;
-  }
-
-  async getLocatorOfFavoritesUser(name: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let locator;
-    if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance
-        .$(SELECTORS.SLIMBAR)
-        .$(SELECTORS.FAVORITES)
-        .$('//XCUIElementTypeStaticText[@label="' + name + '"]');
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = await this.instance
-        .$(SELECTORS.SLIMBAR)
-        .$(SELECTORS.FAVORITES)
-        .$('//Group[@Name="Favorites"]//Text[@Name="' + name + '"]');
-    }
+  async getLocatorOfFavoritesUser(position: number) {
+    let locator = await this.instance
+      .$(SELECTORS.SLIMBAR)
+      .$$(SELECTORS.FAVORITES)[position];
     return locator;
   }
 
-  async openContextMenuOnFavoritesUser(name: string) {
-    const element = await this.getLocatorOfFavoritesUser(name);
+  async hoverOnFavoritesBubble(position: number) {
+    const element = await this.getLocatorOfFavoritesUser(position);
+    await this.hoverOnElement(element);
+  }
+
+  async openContextMenuOnFavoritesUser(position: number) {
+    const element = await this.getLocatorOfFavoritesUser(position);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(element, this.executor);
@@ -182,10 +155,5 @@ export default class FavoritesSidebar extends UplinkMainScreen {
       await rightClickOnWindows(element, this.executor);
     }
     await this.contextMenu.waitForDisplayed();
-  }
-
-  async validateUserIsInFavorites(name: string) {
-    const element = await this.getLocatorOfFavoritesUser(name);
-    await element.waitForExist({ timeout: 10000 });
   }
 }

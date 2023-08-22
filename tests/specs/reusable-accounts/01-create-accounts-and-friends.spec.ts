@@ -297,9 +297,11 @@ export default async function createChatAccountsTests() {
     await expect(
       favoritesSidebarFirstUser.favoritesUserIndicatorOnline
     ).toBeDisplayed();
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(0);
+    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
     await expect(
-      favoritesSidebarFirstUser.favoritesUserName
-    ).toHaveTextContaining("CHATUSERB");
+      favoritesSidebarFirstUser.favoritesUserTooltipText
+    ).toHaveTextContaining("ChatUserB");
   });
 
   it("Chat User A - Remove user with active chat from Favorites", async () => {

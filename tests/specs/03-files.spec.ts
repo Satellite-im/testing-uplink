@@ -29,8 +29,6 @@ export default async function files() {
   it("Validate Sidebar is displayed in screen", async () => {
     await chatsSidebarFirstUser.chatSearchInput.waitForDisplayed();
     await chatsSidebarFirstUser.sidebar.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarChildren.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarSearch.waitForDisplayed();
   });
 
   it("Validate Files Info is displayed in screen", async () => {

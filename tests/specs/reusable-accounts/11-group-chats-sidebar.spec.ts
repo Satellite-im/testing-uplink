@@ -38,8 +38,10 @@ export default async function groupChatSidebarTests() {
     await expect(
       favoritesSidebarFirstUser.favoritesUserIndicatorOnline
     ).toBeDisplayed();
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(0);
+    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
     await expect(
-      favoritesSidebarFirstUser.favoritesUserName
+      favoritesSidebarFirstUser.favoritesUserTooltipText
     ).toHaveTextContaining("X");
   });
 
