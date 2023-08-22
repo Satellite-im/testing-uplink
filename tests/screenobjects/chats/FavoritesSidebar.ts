@@ -24,7 +24,7 @@ const SELECTORS_WINDOWS = {
   FAVORITES_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FAVORITES_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   FAVORITES_USER_NAME: "//Text[2]/Text",
-  SIDEBAR: '[name="sidebar"]',
+  SLIMBAR: '[name="slimbar"]',
 };
 
 const SELECTORS_MACOS = {
@@ -41,7 +41,7 @@ const SELECTORS_MACOS = {
   FAVORITES_USER_INDICATOR_ONLINE: "~indicator-online",
   FAVORITES_USER_NAME:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
-  SIDEBAR: "~sidebar",
+  SLIMBAR: "~slimbar",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -50,35 +50,35 @@ currentOS === WINDOWS_DRIVER
 
 export default class FavoritesSidebar extends UplinkMainScreen {
   constructor(executor: string) {
-    super(executor, SELECTORS.FAVORITES);
+    super(executor, SELECTORS.SLIMBAR);
   }
 
   get favorites() {
-    return this.instance.$(SELECTORS.SIDEBAR).$(SELECTORS.FAVORITES);
+    return this.instance.$(SELECTORS.SLIMBAR).$(SELECTORS.FAVORITES);
   }
 
   get favoritesChat() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES_CONTEXT_CHAT);
   }
 
   get favoritesRemove() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES_CONTEXT_REMOVE);
   }
 
   get favoritesHeader() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$(SELECTORS.FAVORITES_HEADER);
   }
 
   get favoritesHeaderText() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$(SELECTORS.FAVORITES_HEADER)
       .$(SELECTORS.FAVORITES_HEADER_TEXT);
@@ -86,55 +86,55 @@ export default class FavoritesSidebar extends UplinkMainScreen {
 
   get favoriteUsers() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER);
   }
 
   get favoritesUserImage() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE);
   }
 
   get favoritesUserImageProfile() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
   }
 
   get favoritesUserImageWrap() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_WRAP);
   }
 
   get favoritesUserIndicatorOffline() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE);
   }
 
   get favoritesUserIndicatorOnline() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
   }
 
   get favoritesUserName() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$(SELECTORS.FAVORITES_USER_NAME);
   }
 
-  get sidebar() {
-    return this.instance.$(SELECTORS.SIDEBAR);
+  get slimbar() {
+    return this.instance.$(SELECTORS.SLIMBAR);
   }
 
   // Favorites methods
@@ -161,12 +161,12 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     let locator;
     if (currentDriver === MACOS_DRIVER) {
       locator = await this.instance
-        .$(SELECTORS.SIDEBAR)
+        .$(SELECTORS.SLIMBAR)
         .$(SELECTORS.FAVORITES)
         .$('//XCUIElementTypeStaticText[@label="' + name + '"]');
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await this.instance
-        .$(SELECTORS.SIDEBAR)
+        .$(SELECTORS.SLIMBAR)
         .$(SELECTORS.FAVORITES)
         .$('//Group[@Name="Favorites"]//Text[@Name="' + name + '"]');
     }

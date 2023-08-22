@@ -157,11 +157,11 @@ export default async function files() {
 
   it("Context Menu - File - Delete", async () => {
     // Open context menu for logo.jpg file and select the second option "Delete"
-    await filesScreenFirstUser.openFilesContextMenu("logo.jpg");
+    await filesScreenFirstUser.openFilesContextMenu("newname.jpg");
     await filesScreenFirstUser.clickOnFilesDelete();
 
     // Ensure that file deleted does not exist anymore
-    await filesScreenFirstUser.validateFileOrFolderNotExist("logo.jpg");
+    await filesScreenFirstUser.validateFileOrFolderNotExist("newname.jpg");
   });
 
   it("Files - File Size Indicators without files show 1 GB Max and 0 bytes as current space", async () => {

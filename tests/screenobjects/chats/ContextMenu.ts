@@ -99,6 +99,12 @@ export default class ContextMenu extends UplinkMainScreen {
       .$$(SELECTORS.EMOJI_BUTTON)[3];
   }
 
+  get emojiRecentFifth() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$$(SELECTORS.EMOJI_BUTTON)[4];
+  }
+
   get openEmojiSelector() {
     return this.instance
       .$(SELECTORS.CONTEXT_MENU)
@@ -107,6 +113,26 @@ export default class ContextMenu extends UplinkMainScreen {
 
   async clickOnOpenEmojiSelector() {
     await this.openEmojiSelector.click();
+  }
+
+  async clickOnFirstReaction() {
+    await this.emojiRecentFirst.click();
+  }
+
+  async clickOnSecondReaction() {
+    await this.emojiRecentSecond.click();
+  }
+
+  async clickOnThirdReaction() {
+    await this.emojiRecentThird.click();
+  }
+
+  async clickOnFourthReaction() {
+    await this.emojiRecentFourth.click();
+  }
+
+  async clickOnFifthReaction() {
+    await this.emojiRecentFifth.click();
   }
 
   async clickOnRecentReactionButton(reaction: string) {
