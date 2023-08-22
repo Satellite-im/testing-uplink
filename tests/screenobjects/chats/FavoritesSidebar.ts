@@ -144,7 +144,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   async getLocatorOfFavoritesUserBubble(position: number) {
     const favoritesLocator = await this.getLocatorOfFavoritesUser(position);
     const bubbleLocator = await favoritesLocator.$(
-      SELECTORS.FAVORITES_USER_IMAGE
+      SELECTORS.FAVORITES_USER_IMAGE_PROFILE
     );
     return bubbleLocator;
   }
