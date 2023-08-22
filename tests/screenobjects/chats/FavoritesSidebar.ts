@@ -141,13 +141,21 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     return locator;
   }
 
+  async getLocatorOfFavoritesUserBubble(position: number) {
+    const favoritesLocator = await this.getLocatorOfFavoritesUser(position);
+    const bubbleLocator = await favoritesLocator.$(
+      SELECTORS.FAVORITES_USER_IMAGE
+    );
+    return bubbleLocator;
+  }
+
   async hoverOnFavoritesBubble(position: number) {
-    const element = await this.getLocatorOfFavoritesUser(position);
+    const element = await this.getLocatorOfFavoritesUserBubble(position);
     await this.hoverOnElement(element);
   }
 
   async openContextMenuOnFavoritesUser(position: number) {
-    const element = await this.getLocatorOfFavoritesUser(position);
+    const element = await this.getLocatorOfFavoritesUserBubble(position);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(element, this.executor);
