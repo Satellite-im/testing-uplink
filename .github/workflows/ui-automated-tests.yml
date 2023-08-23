@@ -16,6 +16,105 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  build-and-test-ubuntu:
+    runs-on: ubuntu-latest
+    container:
+      image: vangabriele/tauri:debian-bullseye-18
+    steps:
+      - name: Checkout App directory 🔖
+        uses: actions/checkout@v3
+        with:
+          repository: Satellite-im/Uplink
+
+      - name: Checkout Tests directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Set up cargo cache 🛠️
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.70.0
+          override: true
+          components: rustfmt, clippy
+
+      - name: Install dependencies
+        run: |
+          sudo apt install build-essential
+          sudo apt-get install pkg-config 
+          sudo apt install librust-alsa-sys-dev 
+          sudo apt-get libgtk-3-dev 
+          sudo apt install libsoup-3.0-dev
+          sudo apt install libwebkit2gtk-4.1-dev build-essential curl wget libssl-dev libgtk-3-dev libayatana-appindicator3-dev librsvg2-dev
+          sudo apt-get install ffmpeg
+          sudo apt-get install libopus-dev
+
+      - name: Build executable 🖥️
+        run: cargo build --release -F production_mode
+        continue-on-error: true
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-ubuntu
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-ubuntu.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Delete Cache Folder
+        run: |
+          rm -rf ~/.uplink
+
+      - name: Run Ubuntu tests
+        uses: nick-fields/retry@v2
+        with:
+          timeout_seconds: 600
+          max_attempts: 3
+          retry_on: error
+          command: |
+            fuser -n tcp -k 4445
+            npm run tauri.app
+
+      - name: Upload Test Report - MacOS CI
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report-ubuntu-ci
+          path: ./test-report/*.xml
+
+      - name: Upload Allure Test Results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-allure-ubuntu-ci
+          path: ./allure-results/
+
+      - name: Upload Screenshots for Ubuntu 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: appium-screenshots-ubuntu
+          path: ./test-results
+
+      - name: Add label if any of build jobs failed
+        if: failure()
+        uses: buildsville/add-remove-label@v2.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: |
+            Failed Automated Test
+          type: add
+
   build-mac:
     runs-on: macos-13
     steps:
@@ -459,7 +558,14 @@ jobs:
   publish-test-results:
     if: always()
     needs:
-      [build-mac, build-windows, test-mac, test-windows-chats, test-windows]
+      [
+        build-and-test-ubuntu,
+        build-mac,
+        build-windows,
+        test-mac,
+        test-windows-chats,
+        test-windows,
+      ]
     runs-on: ubuntu-latest
     permissions:
       checks: write
@@ -468,6 +574,12 @@ jobs:
       issues: read
 
     steps:
+      - name: Download Test Report for Ubuntu CI
+        uses: actions/download-artifact@v3
+        with:
+          name: test-report-ubuntu-ci
+          path: artifacts
+
       - name: Download Test Report for MacOS CI
         uses: actions/download-artifact@v3
         with:
@@ -485,6 +597,12 @@ jobs:
         with:
           name: test-report-windows-ci
           path: artifacts
+
+      - name: Download Allure Results for Ubuntu CI
+        uses: actions/download-artifact@v3
+        with:
+          name: test-allure-ubuntu-ci
+          path: allure
 
       - name: Download Allure Results for MacOS CI
         uses: actions/download-artifact@v3
@@ -512,7 +630,7 @@ jobs:
           ignore_runs: true
           job_summary: false
           compare_to_earlier_commit: false
-          check_name: "UI Automated Test Results Summary for MacOS/Windows"
+          check_name: "UI Automated Test Results Summary for Ubuntu/MacOS/Windows"
 
       - name: Get Allure history
         uses: actions/checkout@v3
@@ -551,6 +669,7 @@ jobs:
   remove-artifacts:
     needs:
       [
+        build-and-test-ubuntu,
         build-mac,
         build-windows,
         test-mac,
@@ -579,9 +698,11 @@ jobs:
             Uplink-windows-latest
             uplink-windows-assets
             Uplink-macos-latest
+            test-report-ubuntu-ci
             test-report-macos-ci
             test-report-windows-ci
             test-report-windows-chats
+            test-allure-ubuntu-ci
             test-allure-mac-ci
             test-allure-windows-ci
             test-allure-windows-chats

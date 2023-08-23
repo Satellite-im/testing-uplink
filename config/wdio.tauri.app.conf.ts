@@ -17,7 +17,7 @@ export const config: WebdriverIO.Config = {
     {
       maxInstances: 1,
       'tauri:options': {
-        application: '../Uplink/target/release/uplink.exe',
+        application: './target/release/uplink',
       },
     },
   ],
@@ -61,10 +61,10 @@ export const config: WebdriverIO.Config = {
   // ensure the rust project is built since we expect this binary to exist for the webdriver sessions
   onPrepare: async function() {
     // Declare constants for folder locations
-    const cacheFolder = homedir() + "\\.uplink\\.user"
-    const allureResultsFolder = join(process.cwd(), "\\allure-results");
-    const testReportFolder =  join(process.cwd(), "\\test-report");
-    const testResultsFolder =  join(process.cwd(), "\\test-results");
+    const cacheFolder = homedir() + "/.uplink/.user"
+    const allureResultsFolder = join(process.cwd(), "/allure-results");
+    const testReportFolder =  join(process.cwd(), "/test-report");
+    const testResultsFolder =  join(process.cwd(), "/test-results");
     try {
       await rmSync(allureResultsFolder, { recursive: true, force: true });
       await rmSync(testReportFolder, { recursive: true, force: true });
