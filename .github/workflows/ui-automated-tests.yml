@@ -19,16 +19,14 @@ jobs:
   build-and-test-ubuntu:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Tests directory 🔖
+        uses: actions/checkout@v3
+
       - name: Checkout App directory 🔖
         uses: actions/checkout@v3
         with:
           repository: Satellite-im/Uplink
-
-      - name: Checkout Tests directory 🔖
-        uses: actions/checkout@v3
-
-      - name: Set up cargo cache 🛠️
-        uses: Swatinem/rust-cache@v2
+          path: Uplink
 
       - name: Get latest package list
         run: sudo apt-get update
@@ -42,9 +40,9 @@ jobs:
           profile: minimal
           toolchain: 1.70.0
           override: true
-      - run: cargo build --release -F production_mode
 
       - name: Build executable 🖥️
+        working-directory: ./Uplink
         run: cargo build --release -F production_mode
         continue-on-error: true
 
