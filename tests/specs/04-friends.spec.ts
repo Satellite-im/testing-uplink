@@ -133,6 +133,9 @@ export default async function friends() {
     // Attempt to send a friend request to ChatUserL, who already received a not accepted yet friend request before
     await friendsScreenFirstUser.enterFriendDidKey(CHAT_USER_L_ID);
 
+    // Click on Add Someone Button
+    await friendsScreenFirstUser.clickOnAddSomeoneButton();
+
     // Wait for error toast notification with text "Friend request is already pending!" is gone
     await friendsScreenFirstUser.waitUntilNotificationIsClosed();
   });
@@ -140,6 +143,9 @@ export default async function friends() {
   it("Add Friend Input - Attempt to send friend request again to a user who is already your friend", async () => {
     // Attempt to send a friend request to ChatUserB, who is already a friend
     await friendsScreenFirstUser.enterFriendDidKey(CHAT_USER_B_ID);
+
+    // Click on Add Someone Button
+    await friendsScreenFirstUser.clickOnAddSomeoneButton();
 
     // Wait for error toast notification with text "You are already friends!" is gone
     await friendsScreenFirstUser.waitUntilNotificationIsClosed();
@@ -296,6 +302,9 @@ export default async function friends() {
   it("Add Friend Input - Attempt to send friend request to a blocked user", async () => {
     // Attempt to send a friend request to ChatUserC, who was recently blocked
     await friendsScreenFirstUser.enterFriendDidKey(CHAT_USER_C_ID);
+
+    // Click on Add Someone Button
+    await friendsScreenFirstUser.clickOnAddSomeoneButton();
 
     // Wait for error toast notification with text "Key Blocked" is gone
     await friendsScreenFirstUser.waitUntilNotificationIsClosed();

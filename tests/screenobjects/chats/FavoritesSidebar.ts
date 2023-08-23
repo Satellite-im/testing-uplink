@@ -17,6 +17,7 @@ const SELECTORS_WINDOWS = {
   FAVORITES_CONTEXT_REMOVE: '[name="favorites-remove"]',
   FAVORITES_USER: "//Group",
   FAVORITES_USER_IMAGE: '[name="User Image"]',
+  FAVORITES_USER_IMAGE_GROUP_WRAP: '[name="user-image-group-wrap"]',
   FAVORITES_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   FAVORITES_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   FAVORITES_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
@@ -32,6 +33,7 @@ const SELECTORS_MACOS = {
   FAVORITES_CONTEXT_REMOVE: "~favorites-remove",
   FAVORITES_USER: "-ios class chain:**/XCUIElementTypeGroup",
   FAVORITES_USER_IMAGE: "~User Image",
+  FAVORITES_USER_IMAGE_GROUP_WRAP: "~user-image-group-wrap",
   FAVORITES_USER_IMAGE_PROFILE: "~user-image-profile",
   FAVORITES_USER_IMAGE_WRAP: "~user-image-wrap",
   FAVORITES_USER_INDICATOR_OFFLINE: "~indicator-offline",
@@ -79,6 +81,13 @@ export default class FavoritesSidebar extends UplinkMainScreen {
       .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE);
+  }
+
+  get favoritesUserImageGroupWrap() {
+    return this.instance
+      .$(SELECTORS.SLIMBAR)
+      .$(SELECTORS.FAVORITES)
+      .$$(SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP);
   }
 
   get favoritesUserImageProfile() {
@@ -136,26 +145,19 @@ export default class FavoritesSidebar extends UplinkMainScreen {
 
   async getLocatorOfFavoritesUser(position: number) {
     let locator = await this.instance
-      .$(SELECTORS.SLIMBAR)
-      .$$(SELECTORS.FAVORITES)[position];
+      .$(SELECTORS.FAVORITES)
+      .$$(SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP)
+      [position].$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
     return locator;
   }
 
-  async getLocatorOfFavoritesUserBubble(position: number) {
-    const favoritesLocator = await this.getLocatorOfFavoritesUser(position);
-    const bubbleLocator = await favoritesLocator.$(
-      SELECTORS.FAVORITES_USER_IMAGE_PROFILE
-    );
-    return bubbleLocator;
-  }
-
   async hoverOnFavoritesBubble(position: number) {
-    const element = await this.getLocatorOfFavoritesUserBubble(position);
+    const element = await this.getLocatorOfFavoritesUser(position);
     await this.hoverOnElement(element);
   }
 
   async openContextMenuOnFavoritesUser(position: number) {
-    const element = await this.getLocatorOfFavoritesUserBubble(position);
+    const element = await this.getLocatorOfFavoritesUser(position);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(element, this.executor);
