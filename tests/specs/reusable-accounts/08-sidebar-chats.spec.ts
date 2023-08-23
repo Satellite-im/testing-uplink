@@ -15,7 +15,6 @@ let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
-let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
@@ -246,15 +245,17 @@ export default async function sidebarChatsTests() {
     await expect(
       favoritesSidebarFirstUser.favoritesUserIndicatorOnline
     ).toBeDisplayed();
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(0);
+    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
     await expect(
-      favoritesSidebarFirstUser.favoritesUserName
-    ).toHaveTextContaining("CHATUSERB");
+      favoritesSidebarFirstUser.favoritesUserTooltipText
+    ).toHaveTextContaining("ChatUserB");
   });
 
   it("Sidebar - Favorites - Context Menu - Chat with user", async () => {
     await favoritesSidebarFirstUser.goToFiles();
     await filesScreenFirstUser.waitForIsShown(true);
-    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("CHATUSERB");
+    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser(0);
     await favoritesSidebarFirstUser.clickOnContextMenuFavoritesChat();
     await chatsInputFirstUser.waitForIsShown(true);
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
@@ -262,7 +263,7 @@ export default async function sidebarChatsTests() {
   });
 
   it("Sidebar - Favorites - Context Menu - Remove user from Favorites", async () => {
-    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("CHATUSERB");
+    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser(0);
     await favoritesSidebarFirstUser.clickOnContextMenuFavoriteRemove();
     await favoritesSidebarFirstUser.favorites.waitForExist({
       reverse: true,

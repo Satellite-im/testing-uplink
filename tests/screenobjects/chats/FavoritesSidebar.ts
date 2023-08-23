@@ -15,33 +15,33 @@ const SELECTORS_WINDOWS = {
   FAVORITES: '[name="Favorites"]',
   FAVORITES_CONTEXT_CHAT: '[name="favorites-chat"]',
   FAVORITES_CONTEXT_REMOVE: '[name="favorites-remove"]',
-  FAVORITES_HEADER: '[name="favorites-label"]',
-  FAVORITES_HEADER_TEXT: "//Text",
   FAVORITES_USER: "//Group",
   FAVORITES_USER_IMAGE: '[name="User Image"]',
+  FAVORITES_USER_IMAGE_GROUP_WRAP: '[name="user-image-group-wrap"]',
   FAVORITES_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   FAVORITES_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   FAVORITES_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FAVORITES_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
-  FAVORITES_USER_NAME: "//Text[2]/Text",
-  SIDEBAR: '[name="sidebar"]',
+  SLIMBAR: '[name="slimbar"]',
+  TOOLTIP: '[name="tooltip"]',
+  TOOLTIP_TEXT: "//Group/Text",
 };
 
 const SELECTORS_MACOS = {
   FAVORITES: "~Favorites",
   FAVORITES_CONTEXT_CHAT: "~favorites-chat",
   FAVORITES_CONTEXT_REMOVE: "~favorites-remove",
-  FAVORITES_HEADER: "~favorites-label",
-  FAVORITES_HEADER_TEXT: "-ios class chain:**/XXCUIElementTypeStaticText",
   FAVORITES_USER: "-ios class chain:**/XCUIElementTypeGroup",
   FAVORITES_USER_IMAGE: "~User Image",
+  FAVORITES_USER_IMAGE_GROUP_WRAP: "~user-image-group-wrap",
   FAVORITES_USER_IMAGE_PROFILE: "~user-image-profile",
   FAVORITES_USER_IMAGE_WRAP: "~user-image-wrap",
   FAVORITES_USER_INDICATOR_OFFLINE: "~indicator-offline",
   FAVORITES_USER_INDICATOR_ONLINE: "~indicator-online",
-  FAVORITES_USER_NAME:
-    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
-  SIDEBAR: "~sidebar",
+  SLIMBAR: "~slimbar",
+  TOOLTIP: "~tooltip",
+  TOOLTIP_TEXT:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -50,91 +50,87 @@ currentOS === WINDOWS_DRIVER
 
 export default class FavoritesSidebar extends UplinkMainScreen {
   constructor(executor: string) {
-    super(executor, SELECTORS.FAVORITES);
+    super(executor, SELECTORS.SLIMBAR);
   }
 
   get favorites() {
-    return this.instance.$(SELECTORS.SIDEBAR).$(SELECTORS.FAVORITES);
+    return this.instance.$(SELECTORS.SLIMBAR).$(SELECTORS.FAVORITES);
   }
 
   get favoritesChat() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES_CONTEXT_CHAT);
   }
 
   get favoritesRemove() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES_CONTEXT_REMOVE);
-  }
-
-  get favoritesHeader() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_HEADER);
-  }
-
-  get favoritesHeaderText() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_HEADER)
-      .$(SELECTORS.FAVORITES_HEADER_TEXT);
   }
 
   get favoriteUsers() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER);
   }
 
   get favoritesUserImage() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE);
   }
 
+  get favoritesUserImageGroupWrap() {
+    return this.instance
+      .$(SELECTORS.SLIMBAR)
+      .$(SELECTORS.FAVORITES)
+      .$$(SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP);
+  }
+
   get favoritesUserImageProfile() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
   }
 
   get favoritesUserImageWrap() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_WRAP);
   }
 
   get favoritesUserIndicatorOffline() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE);
   }
 
   get favoritesUserIndicatorOnline() {
     return this.instance
-      .$(SELECTORS.SIDEBAR)
+      .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
   }
 
-  get favoritesUserName() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(SELECTORS.FAVORITES)
-      .$(SELECTORS.FAVORITES_USER_NAME);
+  get favoritesUserTooltip() {
+    return this.instance.$(SELECTORS.SLIMBAR).$(SELECTORS.TOOLTIP);
   }
 
-  get sidebar() {
-    return this.instance.$(SELECTORS.SIDEBAR);
+  get favoritesUserTooltipText() {
+    return this.instance
+      .$(SELECTORS.SLIMBAR)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
+  }
+
+  get slimbar() {
+    return this.instance.$(SELECTORS.SLIMBAR);
   }
 
   // Favorites methods
@@ -147,34 +143,21 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     await this.favoritesRemove.click();
   }
 
-  async getUsersFromFavorites() {
-    const favoriteUsers = await this.favoritesUserName;
-    let currentFavoriteUsers = [];
-    for (let name of favoriteUsers) {
-      currentFavoriteUsers.push(await this.instance.$(name).getText());
-    }
-    return currentFavoriteUsers;
-  }
-
-  async getLocatorOfFavoritesUser(name: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let locator;
-    if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance
-        .$(SELECTORS.SIDEBAR)
-        .$(SELECTORS.FAVORITES)
-        .$('//XCUIElementTypeStaticText[@label="' + name + '"]');
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = await this.instance
-        .$(SELECTORS.SIDEBAR)
-        .$(SELECTORS.FAVORITES)
-        .$('//Group[@Name="Favorites"]//Text[@Name="' + name + '"]');
-    }
+  async getLocatorOfFavoritesUser(position: number) {
+    let locator = await this.instance
+      .$(SELECTORS.FAVORITES)
+      .$$(SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP)
+      [position].$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
     return locator;
   }
 
-  async openContextMenuOnFavoritesUser(name: string) {
-    const element = await this.getLocatorOfFavoritesUser(name);
+  async hoverOnFavoritesBubble(position: number) {
+    const element = await this.getLocatorOfFavoritesUser(position);
+    await this.hoverOnElement(element);
+  }
+
+  async openContextMenuOnFavoritesUser(position: number) {
+    const element = await this.getLocatorOfFavoritesUser(position);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(element, this.executor);
@@ -182,10 +165,5 @@ export default class FavoritesSidebar extends UplinkMainScreen {
       await rightClickOnWindows(element, this.executor);
     }
     await this.contextMenu.waitForDisplayed();
-  }
-
-  async validateUserIsInFavorites(name: string) {
-    const element = await this.getLocatorOfFavoritesUser(name);
-    await element.waitForExist({ timeout: 10000 });
   }
 }
