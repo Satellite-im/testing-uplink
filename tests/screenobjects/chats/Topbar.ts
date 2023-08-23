@@ -15,6 +15,7 @@ const SELECTORS_WINDOWS = {
   TOPBAR_EDIT_GROUP: '//Button[@Name="edit-group"]',
   TOPBAR_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   TOPBAR_INDICATOR_ONLINE: '[name="indicator-online"]',
+  TOPBAR_PINNED_MESSAGES: '[name="pin-label"]',
   TOPBAR_REMOVE_FROM_FAVORITES: '[name="Remove from Favorites"]',
   TOPBAR_USER_IMAGE: '[name="User Image"]',
   TOPBAR_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
@@ -38,6 +39,7 @@ const SELECTORS_MACOS = {
     '-ios class chain:**/XCUIElementTypeButton[`label == "edit-group"`]',
   TOPBAR_INDICATOR_OFFLINE: "~indicator-offline",
   TOPBAR_INDICATOR_ONLINE: "~indicator-online",
+  TOPBAR_PINNED_MESSAGES: "~pin-label",
   TOPBAR_REMOVE_FROM_FAVORITES: "~Remove from Favorites",
   TOPBAR_USER_IMAGE: "~User Image",
   TOPBAR_USER_IMAGE_PROFILE: "~user-image-profile",
@@ -120,6 +122,23 @@ export default class Topbar extends UplinkMainScreen {
     return this.instance
       .$(SELECTORS.TOPBAR)
       .$(SELECTORS.TOPBAR_INDICATOR_ONLINE);
+  }
+
+  get topbarPinnedMessages() {
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOPBAR_PINNED_MESSAGES);
+  }
+
+  get topbarPinnedMessagesTooltip() {
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+  }
+
+  get topbarPinnedMessagesTooltipText() {
+    return this.instance
+      .$(SELECTORS.TOPBAR)
+      .$(SELECTORS.TOOLTIP)
+      .$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarRemoveFromFavorites() {
@@ -210,6 +229,11 @@ export default class Topbar extends UplinkMainScreen {
     await this.topbarEditGroup.click();
   }
 
+  async goToPinnedMessages() {
+    await this.hoverOnPinnedMessagesButton();
+    await this.topbarPinnedMessages.click();
+  }
+
   async hoverOnCallButton() {
     const element = await this.topbarCall;
     await this.hoverOnElement(element);
@@ -227,6 +251,11 @@ export default class Topbar extends UplinkMainScreen {
 
   async hoverOnFavoritesRemoveButton() {
     const element = await this.topbarRemoveFromFavorites;
+    await this.hoverOnElement(element);
+  }
+
+  async hoverOnPinnedMessagesButton() {
+    const element = await this.topbarPinnedMessages;
     await this.hoverOnElement(element);
   }
 

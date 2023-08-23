@@ -29,8 +29,6 @@ export default async function files() {
   it("Validate Sidebar is displayed in screen", async () => {
     await chatsSidebarFirstUser.chatSearchInput.waitForDisplayed();
     await chatsSidebarFirstUser.sidebar.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarChildren.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarSearch.waitForDisplayed();
   });
 
   it("Validate Files Info is displayed in screen", async () => {
@@ -51,8 +49,7 @@ export default async function files() {
     await filesScreenFirstUser.uploadFileButton.waitForDisplayed();
   });
 
-  // Skipping test failing on CI
-  xit("Validate tooltips for add folder or file buttons are displayed", async () => {
+  it("Validate tooltips for add folder or file buttons are displayed", async () => {
     // Validate New Folder button tooltip
     await filesScreenFirstUser.hoverOnNewFolderButton();
     await filesScreenFirstUser.addFolderTooltip.waitForExist();
@@ -139,8 +136,7 @@ export default async function files() {
     await filesScreenFirstUser.validateFileOrFolderNotExist("newname");
   });
 
-  // Skipping tests on files due to rename issue
-  xit("Context Menu - File - Rename", async () => {
+  it("Context Menu - File - Rename", async () => {
     // Open context menu for logo.jpg file and select the first option "Rename"
     await filesScreenFirstUser.openFilesContextMenu("logo.jpg");
     await filesScreenFirstUser.clickOnFilesRename();
@@ -159,11 +155,11 @@ export default async function files() {
 
   it("Context Menu - File - Delete", async () => {
     // Open context menu for logo.jpg file and select the second option "Delete"
-    await filesScreenFirstUser.openFilesContextMenu("logo.jpg");
+    await filesScreenFirstUser.openFilesContextMenu("newname.jpg");
     await filesScreenFirstUser.clickOnFilesDelete();
 
     // Ensure that file deleted does not exist anymore
-    await filesScreenFirstUser.validateFileOrFolderNotExist("logo.jpg");
+    await filesScreenFirstUser.validateFileOrFolderNotExist("newname.jpg");
   });
 
   it("Files - File Size Indicators without files show 1 GB Max and 0 bytes as current space", async () => {
@@ -221,8 +217,7 @@ export default async function files() {
     await filesScreenFirstUser.validateFileOrFolderExist("app-macos (1).zip");
   });
 
-  // Skipping test due to rename files issue
-  xit("Files - Attempt to rename a file with existing file name", async () => {
+  it("Files - Attempt to rename a file with existing file name", async () => {
     // Open context menu for app-macos (1).zip file and select the option "Rename"
     await filesScreenFirstUser.openFilesContextMenu("app-macos (1).zip");
     await filesScreenFirstUser.clickOnFilesRename();
@@ -234,6 +229,20 @@ export default async function files() {
     // Type the previous filename for app-macos (1) so it can keep the original name. Ensure that file still exists in Screen
     await filesScreenFirstUser.typeOnFileFolderNameInput("app-macos (1)");
     await filesScreenFirstUser.validateFileOrFolderExist("app-macos (1).zip");
+  });
+
+  it("Files - Attempt to create a folder with empty name", async () => {
+    // Click on Create Folder button, wait for input to be displayed and hit enter on keyboard
+    await filesScreenFirstUser.createEmptyNameFolder();
+
+    // Validate that error message is displayed
+    await filesScreenFirstUser.inputError.waitForDisplayed();
+    await expect(filesScreenFirstUser.inputErrorText).toHaveTextContaining(
+      "Please enter at least 1 character."
+    );
+
+    // Click again on Create Folder button to cancel operation
+    await filesScreenFirstUser.clickOnCreateFolder();
   });
 
   it("Files - Attempt to create a folder with existing folder name", async () => {
@@ -253,8 +262,7 @@ export default async function files() {
     await filesScreenFirstUser.validateFileOrFolderExist("testfolder02");
   });
 
-  // Skipping test due to rename issue
-  xit("Files - Attempt to rename a folder with existing folder name", async () => {
+  it("Files - Attempt to rename a folder with existing folder name", async () => {
     // Open context menu for testfolder02 and select the first option "Rename"
     await filesScreenFirstUser.openFilesContextMenu("testfolder02");
     await filesScreenFirstUser.clickOnFolderRename();

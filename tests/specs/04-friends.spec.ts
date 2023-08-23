@@ -133,6 +133,9 @@ export default async function friends() {
     // Attempt to send a friend request to ChatUserL, who already received a not accepted yet friend request before
     await friendsScreenFirstUser.enterFriendDidKey(CHAT_USER_L_ID);
 
+    // Click on Add Someone Button
+    await friendsScreenFirstUser.clickOnAddSomeoneButton();
+
     // Wait for error toast notification with text "Friend request is already pending!" is gone
     await friendsScreenFirstUser.waitUntilNotificationIsClosed();
   });
@@ -140,6 +143,9 @@ export default async function friends() {
   it("Add Friend Input - Attempt to send friend request again to a user who is already your friend", async () => {
     // Attempt to send a friend request to ChatUserB, who is already a friend
     await friendsScreenFirstUser.enterFriendDidKey(CHAT_USER_B_ID);
+
+    // Click on Add Someone Button
+    await friendsScreenFirstUser.clickOnAddSomeoneButton();
 
     // Wait for error toast notification with text "You are already friends!" is gone
     await friendsScreenFirstUser.waitUntilNotificationIsClosed();
@@ -187,14 +193,30 @@ export default async function friends() {
     }
   });
 
-  it("Favorites - Validate Favorites were added correctly to Sidebar Favorites", async () => {
+  it("Favorites - Hover on Favorites bubbles to validate users were added correctly to Sidebar Favorites", async () => {
     // Validate that Favorites Sidebar is displayed
     await favoritesSidebarFirstUser.waitForIsShown(true);
 
-    for (let user of users) {
-      // Validate all favorites are listed in Favorites Sidebar
-      await favoritesSidebarFirstUser.validateUserIsInFavorites(user);
-    }
+    // Hover on first bubble from Favorites and ensure tooltip displays ChatUserB
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(0);
+    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
+    await expect(
+      favoritesSidebarFirstUser.favoritesUserTooltipText
+    ).toHaveTextContaining("ChatUserB");
+
+    // Hover on second bubble from Favorites and ensure tooltip displays ChatUserC
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(1);
+    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
+    await expect(
+      favoritesSidebarFirstUser.favoritesUserTooltipText
+    ).toHaveTextContaining("ChatUserC");
+
+    // Hover on third bubble from Favorites and ensure tooltip displays ChatUserD
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(2);
+    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
+    await expect(
+      favoritesSidebarFirstUser.favoritesUserTooltipText
+    ).toHaveTextContaining("ChatUserD");
   });
 
   it("Favorites - Remove all users from Favorites", async () => {
@@ -280,6 +302,9 @@ export default async function friends() {
   it("Add Friend Input - Attempt to send friend request to a blocked user", async () => {
     // Attempt to send a friend request to ChatUserC, who was recently blocked
     await friendsScreenFirstUser.enterFriendDidKey(CHAT_USER_C_ID);
+
+    // Click on Add Someone Button
+    await friendsScreenFirstUser.clickOnAddSomeoneButton();
 
     // Wait for error toast notification with text "Key Blocked" is gone
     await friendsScreenFirstUser.waitUntilNotificationIsClosed();
@@ -432,9 +457,11 @@ export default async function friends() {
     await expect(
       favoritesSidebarFirstUser.favoritesUserIndicatorOffline
     ).toBeDisplayed();
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(0);
+    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
     await expect(
-      favoritesSidebarFirstUser.favoritesUserName
-    ).toHaveTextContaining(friendName.toUpperCase());
+      favoritesSidebarFirstUser.favoritesUserTooltipText
+    ).toHaveTextContaining(friendName);
   });
 
   it("Context Menu - Remove Friend from Favorites", async () => {
