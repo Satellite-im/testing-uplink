@@ -30,6 +30,10 @@ export const config: WebdriverIO.Config = {
     exclude: [
         // 'path/to/excluded/files'
     ],
+    // Default timeout for all waitFor* commands.
+    waitforTimeout: 15000,
+    // The number of times to retry the entire specfile when it fails as a whole
+    specFileRetries: 2,
     //
     // ============
     // Capabilities
