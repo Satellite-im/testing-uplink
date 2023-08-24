@@ -400,47 +400,16 @@ export async function saveFileOnWindows(
   return;
 }
 
-export async function selectFileOnWindowsInstance(relativePath: string) {
-  // Get the filepath to select on browser
-  const filepath = join(process.cwd(), relativePath);
-  await browser.pause(1000);
-  await robot.typeString(filepath);
-  await robot.keyTap("enter");
-  await browser.pause(1000);
-}
-
 export async function selectFileOnWindows(
   relativePath: string,
-  uplinkContext: string,
   instance: string
 ) {
-  // Get the filepath to select on browser
   const currentInstance = await browser.getInstance(instance);
+
+  // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
-
-  // Pause for one second until explorer window is displayed and switch to it
-  const windows = await driver[instance].getWindowHandles();
-  let explorerWindow;
-  if (windows[0] === uplinkContext) {
-    explorerWindow = windows[1];
-  } else {
-    explorerWindow = windows[0];
-  }
-
-  await driver[instance].switchToWindow(explorerWindow);
-
-  // Wait for Save Panel to be displayed
-  await currentInstance.$("~TitleBar").waitForDisplayed();
-
-  // Type file location and hit enter
-  await currentInstance.$("/Window/Pane[1]/ComboBox[1]/Edit").clearValue();
-
-  await currentInstance
-    .$("/Window/Pane[1]/ComboBox[1]/Edit")
-    .setValue(filepath + "\uE007");
-
-  // Wait for Save Panel not to be displayed
-  await currentInstance.$("~TitleBar").waitForExist({ reverse: true });
-  await driver[instance].switchToWindow(uplinkContext);
-  return;
+  await currentInstance.pause(1000);
+  await robot.typeStringDelayed(filepath, 500);
+  await robot.keyTap("enter");
+  await currentInstance.pause(1000);
 }
