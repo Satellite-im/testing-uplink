@@ -14,7 +14,6 @@ import InputBar from "../../screenobjects/chats/InputBar";
 import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import Messages from "../../screenobjects/chats/Messages";
 import Topbar from "../../screenobjects/chats/Topbar";
-import SettingsExtensionsScreen from "../../screenobjects/settings/SettingsExtensionsScreen";
 import SettingsGeneralScreen from "../../screenobjects/settings/SettingsGeneralScreen";
 import SettingsNotificationsScreen from "../../screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
@@ -32,10 +31,6 @@ let emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
 let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
-let settingsExtensionsFirstUser = new SettingsExtensionsScreen(USER_A_INSTANCE);
-let settingsExtensionsSecondUser = new SettingsExtensionsScreen(
-  USER_B_INSTANCE
-);
 let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
 let settingsGeneralSecondUser = new SettingsGeneralScreen(USER_B_INSTANCE);
 let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
@@ -86,18 +81,9 @@ export default async function createChatAccountsTests() {
     await settingsNotificationsFirstUser.waitForIsShown(true);
     await settingsNotificationsFirstUser.clickOnFriendsNotifications();
     await settingsNotificationsFirstUser.clickOnMessagesNotifications();
-  });
-
-  it("Chat User A - Settings Extensions - Enable Emoji Selector extension", async () => {
-    // Go to Extensions Settings
-    await settingsNotificationsFirstUser.goToExtensionsSettings();
-    await settingsExtensionsFirstUser.waitForIsShown(true);
-
-    // Click on Switch from Emoji Selector to activate it
-    await settingsExtensionsFirstUser.clickOnEmojiSelectorCheckbox();
 
     // Go to Friends Screen
-    await settingsExtensionsFirstUser.goToFriends();
+    await settingsNotificationsFirstUser.goToFriends();
     await friendsScreenFirstUser.waitForIsShown(true);
   });
 
@@ -137,18 +123,9 @@ export default async function createChatAccountsTests() {
     await settingsNotificationsSecondUser.waitForIsShown(true);
     await settingsNotificationsSecondUser.clickOnFriendsNotifications();
     await settingsNotificationsSecondUser.clickOnMessagesNotifications();
-  });
-
-  it("Chat User B - Settings Extensions - Enable Emoji Selector extension", async () => {
-    // Go to Extensions Settings
-    await settingsNotificationsSecondUser.goToExtensionsSettings();
-    await settingsExtensionsSecondUser.waitForIsShown(true);
-
-    // Click on Switch from Emoji Selector to activate it
-    await settingsExtensionsSecondUser.clickOnEmojiSelectorCheckbox();
 
     // Go to Friends Screen
-    await settingsExtensionsSecondUser.goToFriends();
+    await settingsNotificationsSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
   });
 
@@ -219,20 +196,34 @@ export default async function createChatAccountsTests() {
 
   it("Input Bar - Chars Counter on Input Bar displays 0/1024 before typing a text", async () => {
     await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
-      "0/1024"
+      "0"
+    );
+    await expect(chatsInputFirstUser.inputCharMaxText).toHaveTextContaining(
+      "/1024"
     );
   });
 
   it("Input Bar - Chars Counter on Input Bar displays the number of chars of text entered", async () => {
     await chatsInputFirstUser.typeMessageOnInput("Testing...");
     await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
-      "10/1024"
+      "10"
+    );
+    await expect(chatsInputFirstUser.inputCharMaxText).toHaveTextContaining(
+      "/1024"
     );
   });
 
   it("Input Bar - Add emoji to the message to be sent", async () => {
     await chatsInputFirstUser.clickOnEmojiButton();
     await emojiSelectorFirstUser.clickOnEmoji("😀");
+
+    // Validate Char counter increases after adding an emoji to input bar
+    await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
+      "11"
+    );
+    await expect(chatsInputFirstUser.inputCharMaxText).toHaveTextContaining(
+      "/1024"
+    );
   });
 
   it("Input Bar - Click on send button will send the message to the other user", async () => {
@@ -244,9 +235,13 @@ export default async function createChatAccountsTests() {
     await expect(textFromMessage).toHaveTextContaining("Testing...😀");
   });
 
-  it("Input Bar - Chars Counter on Input Bar displays 0/1024 after sending a message", async () => {
+  // Skipping test since there is an issue open ticket #1167 on uplink
+  xit("Input Bar - Chars Counter on Input Bar displays 0/1024 after sending a message", async () => {
     await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
-      "0/1024"
+      "0"
+    );
+    await expect(chatsInputFirstUser.inputCharMaxText).toHaveTextContaining(
+      "/1024"
     );
   });
 

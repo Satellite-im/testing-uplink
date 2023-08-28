@@ -30,19 +30,6 @@ export default async function settingsExtensions() {
     );
   });
 
-  it("Settings Extensions - Enable Emoji Selector extension", async () => {
-    // Click on Switch from Emoji Selector to activate it
-    await settingsExtensionsFirstUser.clickOnEmojiSelectorCheckbox();
-
-    // Validate that switch from Emoji Selector now has value = '1' (active)
-    const toggleElement =
-      await settingsExtensionsFirstUser.emojiSelectorCheckboxValue;
-    const emojiSelectorState = await settingsExtensionsFirstUser.getToggleState(
-      toggleElement
-    );
-    await expect(emojiSelectorState).toEqual("1");
-  });
-
   it("Settings Extensions - Disable Emoji Selector extension", async () => {
     // Click again on Switch from Emoji Selector to deactivate it
     await settingsExtensionsFirstUser.clickOnEmojiSelectorCheckbox();
@@ -54,6 +41,19 @@ export default async function settingsExtensions() {
       toggleElement
     );
     await expect(emojiSelectorState).toEqual("0");
+  });
+
+  it("Settings Extensions - Enable Emoji Selector extension", async () => {
+    // Click on Switch from Emoji Selector to activate it
+    await settingsExtensionsFirstUser.clickOnEmojiSelectorCheckbox();
+
+    // Validate that switch from Emoji Selector now has value = '1' (active)
+    const toggleElement =
+      await settingsExtensionsFirstUser.emojiSelectorCheckboxValue;
+    const emojiSelectorState = await settingsExtensionsFirstUser.getToggleState(
+      toggleElement
+    );
+    await expect(emojiSelectorState).toEqual("1");
   });
 
   it("Settings Extensions - Go to Explore panel and assert contents", async () => {
