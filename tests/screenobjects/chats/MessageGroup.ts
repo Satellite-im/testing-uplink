@@ -27,6 +27,7 @@ const SELECTORS_WINDOWS = {
   MESSAGE_GROUP_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   MESSAGE_GROUP_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   MESSAGE_REACTION_CONTAINER: '[name="message-reaction-container"]',
+  PIN_INDICATOR: '[name="pin-indicator"]',
 };
 
 const SELECTORS_MACOS = {
@@ -45,6 +46,7 @@ const SELECTORS_MACOS = {
   MESSAGE_GROUP_USER_INDICATOR_OFFLINE: "~indicator-offline",
   MESSAGE_GROUP_USER_INDICATOR_ONLINE: "~indicator-online",
   MESSAGE_REACTION_CONTAINER: "~message-reaction-container",
+  PIN_INDICATOR: "~pin-indicator",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -149,6 +151,10 @@ export default class MessageGroup extends UplinkMainScreen {
 
   get messageReactionContainer() {
     return this.instance.$$(SELECTORS.MESSAGE_REACTION_CONTAINER);
+  }
+
+  get pinIndicator() {
+    return this.instance.$$(SELECTORS.PIN_INDICATOR);
   }
 
   // Message Group Wraps Received Methods
