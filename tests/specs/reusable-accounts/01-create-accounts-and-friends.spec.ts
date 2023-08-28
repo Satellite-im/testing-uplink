@@ -14,7 +14,6 @@ import InputBar from "../../screenobjects/chats/InputBar";
 import MessageGroup from "../../screenobjects/chats/MessageGroup";
 import Messages from "../../screenobjects/chats/Messages";
 import Topbar from "../../screenobjects/chats/Topbar";
-import SettingsExtensionsScreen from "../../screenobjects/settings/SettingsExtensionsScreen";
 import SettingsGeneralScreen from "../../screenobjects/settings/SettingsGeneralScreen";
 import SettingsNotificationsScreen from "../../screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
@@ -32,10 +31,6 @@ let emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
 let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
-let settingsExtensionsFirstUser = new SettingsExtensionsScreen(USER_A_INSTANCE);
-let settingsExtensionsSecondUser = new SettingsExtensionsScreen(
-  USER_B_INSTANCE
-);
 let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
 let settingsGeneralSecondUser = new SettingsGeneralScreen(USER_B_INSTANCE);
 let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
@@ -86,18 +81,9 @@ export default async function createChatAccountsTests() {
     await settingsNotificationsFirstUser.waitForIsShown(true);
     await settingsNotificationsFirstUser.clickOnFriendsNotifications();
     await settingsNotificationsFirstUser.clickOnMessagesNotifications();
-  });
-
-  it("Chat User A - Settings Extensions - Enable Emoji Selector extension", async () => {
-    // Go to Extensions Settings
-    await settingsNotificationsFirstUser.goToExtensionsSettings();
-    await settingsExtensionsFirstUser.waitForIsShown(true);
-
-    // Click on Switch from Emoji Selector to activate it
-    await settingsExtensionsFirstUser.clickOnEmojiSelectorCheckbox();
 
     // Go to Friends Screen
-    await settingsExtensionsFirstUser.goToFriends();
+    await settingsNotificationsFirstUser.goToFriends();
     await friendsScreenFirstUser.waitForIsShown(true);
   });
 
@@ -137,18 +123,9 @@ export default async function createChatAccountsTests() {
     await settingsNotificationsSecondUser.waitForIsShown(true);
     await settingsNotificationsSecondUser.clickOnFriendsNotifications();
     await settingsNotificationsSecondUser.clickOnMessagesNotifications();
-  });
-
-  it("Chat User B - Settings Extensions - Enable Emoji Selector extension", async () => {
-    // Go to Extensions Settings
-    await settingsNotificationsSecondUser.goToExtensionsSettings();
-    await settingsExtensionsSecondUser.waitForIsShown(true);
-
-    // Click on Switch from Emoji Selector to activate it
-    await settingsExtensionsSecondUser.clickOnEmojiSelectorCheckbox();
 
     // Go to Friends Screen
-    await settingsExtensionsSecondUser.goToFriends();
+    await settingsNotificationsSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
   });
 
