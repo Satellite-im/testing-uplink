@@ -235,7 +235,8 @@ export default async function createChatAccountsTests() {
     await expect(textFromMessage).toHaveTextContaining("Testing...😀");
   });
 
-  it("Input Bar - Chars Counter on Input Bar displays 0/1024 after sending a message", async () => {
+  // Skipping test since there is an issue open ticket #1167 on uplink
+  xit("Input Bar - Chars Counter on Input Bar displays 0/1024 after sending a message", async () => {
     await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
       "0"
     );

@@ -19,8 +19,7 @@ const SELECTORS_WINDOWS = {
   EMOJI_BUTTON: '//Group[@Name="chat-layout"]/Button[2]',
   INPUT_CHAR_COUNTER: '[name="input-char-counter"]',
   INPUT_CHAR_COUNTER_TEXT: "//Text",
-  INPUT_CHAR_MAX: '//Group[@Name="input-group"]/Group[2]',
-  INPUT_CHAR_MAX_TEXT: "//Text",
+  INPUT_CHAR_MAX_TEXT: '//Group[@Name="input-group"]/Text',
   INPUT_GROUP: '[name="input-group"]',
   INPUT_TEXT: "//Edit",
   SEND_MESSAGE_BUTTON: '[name="send-message-button"]',
@@ -34,9 +33,8 @@ const SELECTORS_MACOS = {
     '-ios class chain:**/XCUIElementTypeGroup[`label == "chat-layout"`]/XCUIElementTypeButton[2]',
   INPUT_CHAR_COUNTER: "~input-char-counter",
   INPUT_CHAR_COUNTER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  INPUT_CHAR_MAX:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "input-group"`]/XCUIElementTypeGroup[2]',
-  INPUT_CHAR_MAX_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  INPUT_CHAR_MAX_TEXT:
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "input-group"`]/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText',
   INPUT_GROUP: "~input-group",
   INPUT_TEXT: "-ios class chain:**/XCUIElementTypeTextView",
   SEND_MESSAGE_BUTTON: "~send-message-button",
@@ -69,14 +67,8 @@ export default class InputBar extends UplinkMainScreen {
       .$(SELECTORS.INPUT_CHAR_COUNTER_TEXT);
   }
 
-  get inputCharMax() {
-    return this.instance.$(SELECTORS.INPUT_CHAR_MAX);
-  }
-
   get inputCharMaxText() {
-    return this.instance
-      .$(SELECTORS.INPUT_CHAR_MAX)
-      .$(SELECTORS.INPUT_CHAR_MAX_TEXT);
+    return this.instance.$(SELECTORS.INPUT_CHAR_MAX_TEXT);
   }
 
   get inputGroup() {
