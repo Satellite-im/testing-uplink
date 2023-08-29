@@ -131,7 +131,7 @@ jobs:
 
   test-mac:
     needs: build-mac
-    runs-on: macos-13
+    runs-on: macos-latest
 
     steps:
       - name: Checkout testing directory 🔖
@@ -195,9 +195,8 @@ jobs:
       - name: Run Tests on MacOS 🧪
         uses: nick-fields/retry@v2
         with:
-          timeout_minutes: 20
+          timeout_minutes: 30
           max_attempts: 2
-          shell:
           command: npm run mac.ci
 
       - name: Upload Test Report - MacOS CI
