@@ -32,7 +32,7 @@ export const config: WebdriverIO.Config = {
         // 'path/to/excluded/files'
     ],
     // The number of times to retry the entire specfile when it fails as a whole
-    specFileRetries: 0,
+    specFileRetries: 1,
     //
     // ============
     // Capabilities
