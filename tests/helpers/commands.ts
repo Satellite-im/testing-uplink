@@ -405,12 +405,13 @@ export async function selectFileOnWindows(
   instance: string
 ) {
   // Get the filepath to select on browser
-  const filepath = join(process.cwd(), relativePath);
+  const filepath = join(process.cwd(), relativePath).toString("base64");
   await browser.pause(1000);
   // Set clippoard to filepath
   await driver[instance].executeScript("windows: setClipboard", [
     {
       b64Content: filepath,
+      contentType: "plaintext",
     },
   ]);
   // Press Ctrl + V to paste filepath and hit enter
