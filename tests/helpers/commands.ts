@@ -400,11 +400,35 @@ export async function saveFileOnWindows(
   return;
 }
 
-export async function selectFileOnWindows(relativePath: string) {
+export async function selectFileOnWindows(
+  relativePath: string,
+  uplinkContext: string,
+  instance: string
+) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
+
+  // Pause for one second until explorer window is displayed and switch to it
   await browser.pause(1000);
-  await robot.typeString(filepath);
-  await robot.keyTap("enter");
+  const windows = await driver[instance].getWindowHandles();
+  let explorerWindow;
+  windows[0] === uplinkContext
+    ? (explorerWindow = windows[1])
+    : (explorerWindow = windows[0]);
   await browser.pause(1000);
+  await driver[instance].switchToWindow(explorerWindow);
+
+  // Wait for Save Panel to be displayed
+  await driver[instance].$("~listview").waitForDisplayed();
+
+  // Type file location and hit enter
+  await driver[instance].$("//Window/ComboBox/Edit").clearValue();
+
+  await driver[instance]
+    .$("//Window/ComboBox/Edit")
+    .setValue(filepath + "\uE007");
+
+  // Wait for Save Panel not to be displayed
+  await driver[instance].$("~listview").waitForExist({ reverse: true });
+  await driver[instance].switchToWindow(uplinkContext);
 }
