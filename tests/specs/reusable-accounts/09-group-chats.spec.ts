@@ -159,7 +159,6 @@ export default async function groupChatTests() {
   });
 
   it("Sidebar - Sarch bar - Result will redirect to a User Conversation", async () => {
-    await sidebarSearchFirstUser.sidebarResultDropdownName.waitForDisplayed();
     await sidebarSearchFirstUser.clickOnUserResultFromSidebarSearch(0);
     await chatsTopbarFirstUser.waitForIsShown(true);
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
@@ -185,7 +184,6 @@ export default async function groupChatTests() {
 
   it("Sidebar - Search Bar - Result will redirect to a Group Chat Conversation", async () => {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
-    await sidebarSearchFirstUser.sidebarResultDropdownName.waitForDisplayed();
     await sidebarSearchFirstUser.clickOnGroupResultFromSidebarSearch(0);
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue

@@ -50,11 +50,12 @@ const SELECTORS_MACOS = {
   GROUP_NAME_INPUT: "~groupname-input",
   GROUP_NAME_INPUT_ERROR: "~input-error",
   GROUP_NAME_INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  NOTHING_HERE_TEXT: `-ios predicate string:type == 'XCUIElementTypeStaticText' && value CONTAINS 'Nothing Here...'`,
+  NOTHING_HERE_TEXT: '//XCUIElementTypeStaticText[@value="Nothing Here..."]',
   PARTICIPANT_USER_CONTAINER: "~Friend Container",
   PARTICIPANT_USER_CREATOR_BADGE_IMAGE:
     "-ios class chain:**/XCUIElementTypeImage",
-  PARTICIPANT_USER_CREATOR_BADGE_TEXT: `-ios predicate string:type == 'XCUIElementTypeStaticText' && value CONTAINS 'Group Creator'`,
+  PARTICIPANT_USER_CREATOR_BADGE_TEXT:
+    '//XCUIElementTypeStaticText[@value="Group Creator"]',
   PARTICIPANT_USER_IMAGE: "~User Image",
   PARTICIPANT_USER_IMAGE_PROFILE: "~user-image-profile",
   PARTICIPANT_USER_IMAGE_WRAP: "~user-image-wrap",

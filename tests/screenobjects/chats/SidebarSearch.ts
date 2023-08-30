@@ -330,7 +330,6 @@ export default class SidebarSearch extends UplinkMainScreen {
 
   async getSidebarSearchResultsUsers() {
     const list = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT);
-    console.log("Sidebar Search Result found: " + list);
     let results = [];
     for (let item of list) {
       const resultHighlighted = await item
@@ -338,15 +337,11 @@ export default class SidebarSearch extends UplinkMainScreen {
         .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS)
         .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT)
         .getText();
-      console.log(
-        "Sidebar Search Result Highlighted found: " + resultHighlighted
-      );
       const remainingResult = await item
         .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
         .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS)
         .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT)
         .getText();
-      console.log("Sidebar Search Remainin Result found: " + remainingResult);
       results.push(resultHighlighted + remainingResult);
     }
     return results;

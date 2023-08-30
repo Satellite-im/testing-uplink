@@ -66,11 +66,13 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_LINK_EMBED_ICON: "~embed-icon",
   CHAT_MESSAGE_LINK_EMBED_TITLE: "~link-title",
-  CHAT_MESSAGE_LOCAL: `-ios predicate string:type == 'XCUIElementTypeGroup' && label CONTAINS 'local' && label BEGINSWITH 'message'`,
+  CHAT_MESSAGE_LOCAL:
+    '//XCUIElementTypeGroup[contains(@label, "local") and starts-with(@label, "message")]',
   CHAT_MESSAGE_LOCAL_FIRST: "~message-local-message-first",
   CHAT_MESSAGE_LOCAL_LAST: "~message-local-message-last",
   CHAT_MESSAGE_LOCAL_MIDDLE: "~message-local-message-middle",
-  CHAT_MESSAGE_REMOTE: `-ios predicate string:type == 'XCUIElementTypeGroup' && label CONTAINS 'remote' && label BEGINSWITH 'message'`,
+  CHAT_MESSAGE_REMOTE:
+    '//XCUIElementTypeGroup[contains(@label, "remote") and starts-with(@label, "message")]',
   CHAT_MESSAGE_REMOTE_FIRST: "~message-remote-message-first",
   CHAT_MESSAGE_REMOTE_LAST: "~message-remote-message-last",
   CHAT_MESSAGE_REMOTE_MIDDLE: "~message-remote-message-middle",

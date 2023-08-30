@@ -39,7 +39,8 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   UNLOCK_IMAGE: "-ios class chain:**/XCUIElementTypeImage",
   UNLOCK_WARNING_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  UNLOCK_WARNING_PARAGRAPH: `-ios predicate string:type == 'XCUIElementTypeStaticText' && value CONTAINS 'this is used to encrypt'`,
+  UNLOCK_WARNING_PARAGRAPH:
+    '//XCUIElementTypeStaticText[contains(@value, "this is used to encrypt")]',
 };
 
 currentOS === WINDOWS_DRIVER
