@@ -25,15 +25,15 @@ const SELECTORS_WINDOWS = {
   EXTENSIONS_SEARCH_HEADER: '//Text[@Name="SEARCH EXTENSIONS"]',
   EXTENSIONS_SEARCH_INPUT: '[name="extensions-search-input"]',
   EXTENSIONS_SETTINGS_BUTTON: '[name="settings-button"]',
-  INSTALLED_ALERT_TEXT: "//Text",
+  INSTALLED_ALERT_TEXT: "<Text>",
   INSTALLED_BUTTON: '[name="installed-button"]',
-  OPEN_EXTENSIONS_DESCRIPTION_TEXT: "//Text[2]",
+  OPEN_EXTENSIONS_DESCRIPTION_TEXT: "<Text>[2]",
   OPEN_EXTENSIONS_FOLDER_BUTTON: '[name="open-extensions-folder-button"]',
   OPEN_EXTENSIONS_HEADER_TEXT: "//Text[1]/Text",
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
-  SETTINGS_INFO_DESCRIPTION: "//Text[2]",
+  SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
   SETTINGS_SECTION: '[name="settings-section"]',
   SWITCH_SLIDER: '[name="Switch Slider"]',
@@ -43,10 +43,8 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   EMOJI_SELECTOR_DEVELOPER:
     '//XCUIElementTypeStaticText[starts-with(@value, "SATELLITE")][1]',
-  EMOJI_SELECTOR_DESCRIPTION:
-    '//XCUIElementTypeStaticText[starts-with(@value, "Browse the standard unicode")]',
-  EMOJI_SELECTOR_TITLE:
-    '//XCUIElementTypeStaticText[starts-with(@value, "Emoji Selector")]',
+  EMOJI_SELECTOR_DESCRIPTION: `-ios predicate string:type == 'XCUIElementTypeStaticText' && value BEGINSWITH 'Browse the standard unicode'`,
+  EMOJI_SELECTOR_TITLE: `-ios predicate string:type == 'XCUIElementTypeStaticText' && value BEGINSWITH 'Emoji Selector'`,
   EXPLORE_BUTTON: "~explore-button",
   EXTENSIONS_BROWSER: "~extensions-browser",
   EXTENSIONS_EXPLORE_BANNER: "~extensions-explore-banner",

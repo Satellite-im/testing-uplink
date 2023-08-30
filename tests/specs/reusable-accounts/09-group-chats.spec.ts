@@ -32,7 +32,7 @@ export default async function groupChatTests() {
     await createGroupFirstUser.createGroupChatSection.waitForDisplayed();
 
     // Click again on create group chat and modal will be closed
-    await chatsSidebarFirstUser.clickOnCreateGroupChat();
+    await chatsTopbarFirstUser.clickOnTopbar();
     await createGroupFirstUser.createGroupChatSection.waitForExist({
       reverse: true,
     });
@@ -147,18 +147,20 @@ export default async function groupChatTests() {
     await chatsTopbarFirstUser.goToFiles();
     await filesScreenFirstUser.waitForIsShown(true);
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");
-    const searchResults =
-      await sidebarSearchFirstUser.getSidebarSearchResults();
-    await expect(searchResults).toEqual([
-      "https://dioxus.index.html/#ChatUserB",
-      "https://dioxus.index.html/#Test",
-      "https://dioxus.index.html/#ChatUserB",
-    ]);
+    const searchResultsUsers =
+      await sidebarSearchFirstUser.getSidebarSearchResultsUsers();
+    const searchResultsGroupsNotMatchingName =
+      await sidebarSearchFirstUser.getSidebarSearchResultsGroupsNotMatchingName();
+    const searchResultsParticipantsInGroups =
+      await sidebarSearchFirstUser.getSidebarSearchResultsParticipantsInGroups();
+    await expect(searchResultsUsers).toEqual(["ChatUserB"]);
+    await expect(searchResultsGroupsNotMatchingName).toEqual(["Test"]);
+    await expect(searchResultsParticipantsInGroups).toEqual(["ChatUserB"]);
   });
 
   it("Sidebar - Sarch bar - Result will redirect to a User Conversation", async () => {
     await sidebarSearchFirstUser.sidebarResultDropdownName.waitForDisplayed();
-    await sidebarSearchFirstUser.clickOnResultFromSidebarSearch(0);
+    await sidebarSearchFirstUser.clickOnUserResultFromSidebarSearch(0);
     await chatsTopbarFirstUser.waitForIsShown(true);
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "ChatUserB"
@@ -170,8 +172,8 @@ export default async function groupChatTests() {
     await filesScreenFirstUser.waitForIsShown(true);
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
     const searchResults =
-      await sidebarSearchFirstUser.getSidebarSearchResults();
-    await expect(searchResults).toEqual(["https://dioxus.index.html/#Test"]);
+      await sidebarSearchFirstUser.getSidebarSearchResultsGroupsMatchingName();
+    await expect(searchResults).toEqual(["Test"]);
     await chatsSidebarFirstUser.clearSidebarSearchInput();
   });
 
@@ -184,7 +186,7 @@ export default async function groupChatTests() {
   it("Sidebar - Search Bar - Result will redirect to a Group Chat Conversation", async () => {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
     await sidebarSearchFirstUser.sidebarResultDropdownName.waitForDisplayed();
-    await sidebarSearchFirstUser.clickOnResultFromSidebarSearch(0);
+    await sidebarSearchFirstUser.clickOnGroupResultFromSidebarSearch(0);
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue
     ).toHaveTextContaining("Test");

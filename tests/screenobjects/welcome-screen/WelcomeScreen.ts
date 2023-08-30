@@ -8,7 +8,7 @@ const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   ADD_FRIENDS_BUTTON: '[name="add-friends-button"]',
-  ADD_SOMEONE_TEXT: "//Text",
+  ADD_SOMEONE_TEXT: "<Text>",
   WELCOME_IMAGE: '[name="welcome-image"]',
   WELCOME_LAYOUT: "~welcome",
 };

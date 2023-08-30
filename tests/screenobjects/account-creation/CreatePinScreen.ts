@@ -18,13 +18,13 @@ const SELECTORS_WINDOWS = {
   CREATE_ACCOUNT_BUTTON: '[name="create-account-button"]',
   HELP_BUTTON: '[name="help-button"]',
   INPUT_ERROR: '[name="input-error"]',
-  INPUT_ERROR_TEXT: "//Text",
+  INPUT_ERROR_TEXT: "<Text>",
   PIN_INPUT: "~unlock-input",
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
-  UNLOCK_IMAGE: "//Image[1]",
+  UNLOCK_IMAGE: "<Image>[1]",
   UNLOCK_WARNING_HEADER: "//Text[1]/Text",
-  UNLOCK_WARNING_PARAGRAPH: "//Text[2]",
+  UNLOCK_WARNING_PARAGRAPH: "<Text>[2]",
 };
 
 const SELECTORS_MACOS = {
@@ -39,8 +39,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   UNLOCK_IMAGE: "-ios class chain:**/XCUIElementTypeImage",
   UNLOCK_WARNING_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  UNLOCK_WARNING_PARAGRAPH:
-    '//XCUIElementTypeStaticText[contains(@value, "this is used to encrypt")]',
+  UNLOCK_WARNING_PARAGRAPH: `-ios predicate string:type == 'XCUIElementTypeStaticText' && value CONTAINS 'this is used to encrypt'`,
 };
 
 currentOS === WINDOWS_DRIVER

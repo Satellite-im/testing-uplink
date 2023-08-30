@@ -12,11 +12,11 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   SIDEBAR_RESULT_DROPDOWN_NAME: '[name="search-friends-dropdown-name"]',
   SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS: '[name="highlight-search-typed-chars"]',
-  SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT: "//Text",
+  SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT: "<Text>",
   SIDEBAR_RESULT_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   SIDEBAR_RESULT_INDICATOR_ONLINE: '[name="indicator-online"]',
   SIDEBAR_RESULT_REMAINING_CHARS: '[name="remaining-match-search"]',
-  SIDEBAR_RESULT_REMAINING_CHARS_TEXT: "//Text",
+  SIDEBAR_RESULT_REMAINING_CHARS_TEXT: "<Text>",
   SIDEBAR_RESULT_USER_IMAGE: '[name="User Image"]',
   SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP: '[name="user-image-group-wrap"]',
   SIDEBAR_RESULT_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
@@ -25,10 +25,10 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_SEARCH_CONTAINER_RESULTS: '[name="searchbar-dropwdown"]',
   SIDEBAR_SEARCH_GROUP_RESULT: '[name="search-result-group"]',
   SIDEBAR_SEARCH_HEADER: '[name="users-groups-label"]',
-  SIDEBAR_SEARCH_HEADER_TEXT_GROUPS: '//Group/Text[@Name="Groups"]',
-  SIDEBAR_SEARCH_HEADER_TEXT_USERS: '//Group/Text[@Name="Users"]',
+  SIDEBAR_SEARCH_HEADER_TEXT_GROUPS: '[name="Groups"]',
+  SIDEBAR_SEARCH_HEADER_TEXT_USERS: '[name="Users"]',
   SIDEBAR_SEARCH_MEMBERS_LABEL: '[name="members-searchdropdown-label"]',
-  SIDEBAR_SEARCH_MEMBERS_LABEL_TEXT: '//Group/Text[@Name="Members"]',
+  SIDEBAR_SEARCH_MEMBERS_LABEL_TEXT: '[name="Members"]',
   SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT:
     '[name="search-result-participant-in-group"]',
   SIDEBAR_SEARCH_USER_RESULT: '[name="search-result-user"]',
@@ -278,25 +278,119 @@ export default class SidebarSearch extends UplinkMainScreen {
 
   // Search bar methods
 
-  async clickOnResultFromSidebarSearch(result: number) {
-    const elementToClick = await this.getSidebarSearchResultLocator(result);
+  async clickOnGroupResultFromSidebarSearch(result: number) {
+    const elementToClick = await this.getSidebarSearchGroupResultLocator(
+      result
+    );
     await elementToClick.click();
   }
 
-  async getSidebarSearchResults() {
-    const list = await this.instance.$$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME);
+  async clickOnParticipantResultFromSidebarSearch(result: number) {
+    const elementToClick =
+      await this.getSidebarSearchParticipantInGroupResultLocator(result);
+    await elementToClick.click();
+  }
+
+  async clickOnUserResultFromSidebarSearch(result: number) {
+    const elementToClick = await this.getSidebarSearchUserResultLocator(result);
+    await elementToClick.click();
+  }
+
+  async getSidebarSearchResultsGroupsNotMatchingName() {
+    const list = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT);
     let results = [];
     for (let item of list) {
-      const resultName = await item.getText();
-      results.push(resultName);
+      const result = await item
+        .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
+        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT)
+        .getText();
+      results.push(result);
     }
     return results;
   }
 
-  async getSidebarSearchResultLocator(result: number) {
+  async getSidebarSearchResultsGroupsMatchingName() {
+    const list = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT);
+    let results = [];
+    for (let item of list) {
+      const resultHighlighted = await item
+        .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
+        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS)
+        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT)
+        .getText();
+      const remainingResult = await item
+        .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
+        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS)
+        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT)
+        .getText();
+      results.push(resultHighlighted + remainingResult);
+    }
+    return results;
+  }
+
+  async getSidebarSearchResultsUsers() {
+    const list = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT);
+    console.log("Sidebar Search Result found: " + list);
+    let results = [];
+    for (let item of list) {
+      const resultHighlighted = await item
+        .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
+        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS)
+        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT)
+        .getText();
+      console.log(
+        "Sidebar Search Result Highlighted found: " + resultHighlighted
+      );
+      const remainingResult = await item
+        .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
+        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS)
+        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT)
+        .getText();
+      console.log("Sidebar Search Remainin Result found: " + remainingResult);
+      results.push(resultHighlighted + remainingResult);
+    }
+    return results;
+  }
+
+  async getSidebarSearchResultsParticipantsInGroups() {
+    const list = await this.instance.$$(
+      SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT
+    );
+    let results = [];
+    for (let item of list) {
+      const resultHighlighted = await item
+        .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
+        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS)
+        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT)
+        .getText();
+      const remainingResult = await item
+        .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
+        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS)
+        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT)
+        .getText();
+      results.push(resultHighlighted + remainingResult);
+    }
+    return results;
+  }
+
+  async getSidebarSearchGroupResultLocator(result: number) {
+    let element = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)[
+      result
+    ];
+    return element;
+  }
+
+  async getSidebarSearchParticipantInGroupResultLocator(result: number) {
     let element = await this.instance.$$(
-      SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME
+      SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT
     )[result];
+    return element;
+  }
+
+  async getSidebarSearchUserResultLocator(result: number) {
+    let element = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)[
+      result
+    ];
     return element;
   }
 

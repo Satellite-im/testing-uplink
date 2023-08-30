@@ -16,7 +16,7 @@ const SELECTORS_WINDOWS = {
   ENCRYPTED_MESSAGES_TEXT: "//Group/Text",
   TYPING_INDICATOR: '[name="message-typing-indicator"]',
   TYPING_INDICATOR_TEXT: '[name="typing-message"]',
-  TYPING_INDICATOR_TEXT_VALUE: "//Text",
+  TYPING_INDICATOR_TEXT_VALUE: "<Text>",
 };
 
 const SELECTORS_MACOS = {
@@ -43,7 +43,7 @@ export default class ChatsLayout extends UplinkMainScreen {
 
   get encryptedMessages() {
     return this.instance.$(SELECTORS.ENCRYPTED_MESSAGES);
-  } //
+  }
 
   get encryptedMessagesText() {
     return this.instance

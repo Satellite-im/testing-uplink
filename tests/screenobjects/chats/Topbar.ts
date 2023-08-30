@@ -12,7 +12,7 @@ const SELECTORS_WINDOWS = {
   TOPBAR: '[name="Topbar"]',
   TOPBAR_ADD_TO_FAVORITES: '[name="Favorites"]',
   TOPBAR_CALL: '[name="Call"]',
-  TOPBAR_EDIT_GROUP: '//Button[@Name="edit-group"]',
+  TOPBAR_EDIT_GROUP: '[Name="edit-group"]',
   TOPBAR_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   TOPBAR_INDICATOR_ONLINE: '[name="indicator-online"]',
   TOPBAR_PINNED_MESSAGES: '[name="pin-label"]',
@@ -22,9 +22,9 @@ const SELECTORS_WINDOWS = {
   TOPBAR_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   TOPBAR_USER_INFO: '[name="user-info"]',
   TOPBAR_USER_NAME: '[name="user-info-username"]',
-  TOPBAR_USER_NAME_VALUE: "//Text",
+  TOPBAR_USER_NAME_VALUE: "<Text>",
   TOPBAR_USER_STATUS: '[name="user-info-status"]',
-  TOPBAR_USER_STATUS_VALUE: "//Text",
+  TOPBAR_USER_STATUS_VALUE: "<Text>",
   TOPBAR_VIDEOCALL: '[name="Videocall"]',
 };
 
