@@ -443,7 +443,7 @@ export default class FilesScreen extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await selectFileOnWindows(relativePath);
+      await selectFileOnWindows(relativePath, this.executor);
     }
   }
 

@@ -296,7 +296,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     if (currentDriver === MACOS_DRIVER) {
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await selectFileOnWindows(relativePath);
+      await selectFileOnWindows(relativePath, this.executor);
     }
 
     // Validate that profile banner is displayed on screen
@@ -311,7 +311,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     if (currentDriver === MACOS_DRIVER) {
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await selectFileOnWindows(relativePath);
+      await selectFileOnWindows(relativePath, this.executor);
     }
 
     // Validate that profile banner is displayed on screen

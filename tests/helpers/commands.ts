@@ -400,11 +400,21 @@ export async function saveFileOnWindows(
   return;
 }
 
-export async function selectFileOnWindows(relativePath: string) {
+export async function selectFileOnWindows(
+  relativePath: string,
+  instance: string
+) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
   await browser.pause(1000);
-  await robot.typeString(filepath);
+  // Set clippoard to filepath
+  await driver[instance].executeScript("windows: setClipboard", [
+    {
+      b64Content: filepath,
+    },
+  ]);
+  // Press Ctrl + V to paste filepath and hit enter
+  await robot.keyTap("v", ["control"]);
   await robot.keyTap("enter");
   await browser.pause(1000);
 }
