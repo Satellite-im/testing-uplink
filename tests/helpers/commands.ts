@@ -402,20 +402,33 @@ export async function saveFileOnWindows(
 
 export async function selectFileOnWindows(
   relativePath: string,
+  uplinkContext: string,
   instance: string
 ) {
   // Get the filepath to select on browser
-  const filepath = btoa(join(process.cwd(), relativePath));
+  const filepath = join(process.cwd(), relativePath);
+
+  // Pause for one second until explorer window is displayed and switch to it
   await browser.pause(1000);
-  // Set clippoard to filepath
-  await driver[instance].executeScript("windows: setClipboard", [
-    {
-      b64Content: filepath,
-      contentType: "plaintext",
-    },
-  ]);
-  // Press Ctrl + V to paste filepath and hit enter
-  await robot.keyTap("v", ["control"]);
-  await robot.keyTap("enter");
+  const windows = await driver[instance].getWindowHandles();
+  let explorerWindow;
+  windows[0] === uplinkContext
+    ? (explorerWindow = windows[1])
+    : (explorerWindow = windows[0]);
   await browser.pause(1000);
+  await driver[instance].switchToWindow(explorerWindow);
+
+  // Wait for Save Panel to be displayed
+  await driver[instance].$("~listview").waitForDisplayed();
+
+  // Type file location and hit enter
+  await driver[instance].$("//Window/ComboBox/Edit").clearValue();
+
+  await driver[instance]
+    .$("//Window/ComboBox/Edit")
+    .setValue(filepath + "\uE007");
+
+  // Wait for Save Panel not to be displayed
+  await driver[instance].$("~listview").waitForExist({ reverse: true });
+  await driver[instance].switchToWindow(uplinkContext);
 }

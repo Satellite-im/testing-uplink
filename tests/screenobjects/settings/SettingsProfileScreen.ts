@@ -292,11 +292,13 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // Invoke File Selection method depending on current OS driver
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
-    await this.profileBanner.click();
     if (currentDriver === MACOS_DRIVER) {
+      await this.profileBanner.click();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await selectFileOnWindows(relativePath, this.executor);
+      await this.profileBanner.click();
+      const uplinkContext = await driver[this.executor].getWindowHandle();
+      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
     }
 
     // Validate that profile banner is displayed on screen
@@ -307,11 +309,13 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // Invoke File Selection method depending on current OS driver
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
-    await this.clickOnAddPictureButton();
     if (currentDriver === MACOS_DRIVER) {
+      await this.clickOnAddPictureButton();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await selectFileOnWindows(relativePath, this.executor);
+      await this.clickOnAddPictureButton();
+      const uplinkContext = await driver[this.executor].getWindowHandle();
+      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
     }
 
     // Validate that profile banner is displayed on screen
