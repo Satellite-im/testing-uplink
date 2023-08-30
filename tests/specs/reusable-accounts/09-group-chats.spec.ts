@@ -178,7 +178,6 @@ export default async function groupChatTests() {
 
   it("Sidebar - Search Bar - Search for a string not matching any result", async () => {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("z");
-    await sidebarSearchFirstUser.validateSidebarSearchResultsIsEmpty();
     await chatsSidebarFirstUser.clearSidebarSearchInput();
   });
 

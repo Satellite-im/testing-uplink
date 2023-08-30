@@ -388,8 +388,4 @@ export default class SidebarSearch extends UplinkMainScreen {
     ];
     return element;
   }
-
-  async validateSidebarSearchResultsIsEmpty() {
-    await this.sidebarResultDropdownName.waitForExist({ reverse: true });
-  }
 }
