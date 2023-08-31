@@ -157,6 +157,10 @@ jobs:
         uses: FedericoCarboni/setup-ffmpeg@v2
         id: setup-ffmpeg
 
+      - name: List FFMPEG devices
+        run: ffmpeg -f avfoundation -list_devices true -i ""
+        continue-on-error: true
+
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
