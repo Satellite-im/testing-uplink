@@ -4,6 +4,7 @@ import CreateGroupChat from "../../screenobjects/chats/CreateGroupChat";
 import FilesScreen from "../../screenobjects/files/FilesScreen";
 import InputBar from "../../screenobjects/chats/InputBar";
 import Messages from "../../screenobjects/chats/Messages";
+import SidebarSearch from "../../screenobjects/chats/SidebarSearch";
 import Topbar from "../../screenobjects/chats/Topbar";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
@@ -17,6 +18,7 @@ let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
 let createGroupFirstUser = new CreateGroupChat(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
+let sidebarSearchFirstUser = new SidebarSearch(USER_A_INSTANCE);
 
 export default async function groupChatTests() {
   it("Chat User A - Create Group Chat button tooltip", async () => {
@@ -30,7 +32,7 @@ export default async function groupChatTests() {
     await createGroupFirstUser.createGroupChatSection.waitForDisplayed();
 
     // Click again on create group chat and modal will be closed
-    await chatsSidebarFirstUser.clickOnCreateGroupChat();
+    await chatsTopbarFirstUser.clickOnTopbar();
     await createGroupFirstUser.createGroupChatSection.waitForExist({
       reverse: true,
     });
@@ -145,16 +147,19 @@ export default async function groupChatTests() {
     await chatsTopbarFirstUser.goToFiles();
     await filesScreenFirstUser.waitForIsShown(true);
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");
-    const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
-    await expect(searchResults).toEqual([
-      "https://dioxus.index.html/#ChatUserB",
-      "https://dioxus.index.html/#Test",
-    ]);
+    const searchResultsUsers =
+      await sidebarSearchFirstUser.getSidebarSearchResultsUsers();
+    const searchResultsGroupsNotMatchingName =
+      await sidebarSearchFirstUser.getSidebarSearchResultsGroupsNotMatchingName();
+    const searchResultsParticipantsInGroups =
+      await sidebarSearchFirstUser.getSidebarSearchResultsParticipantsInGroups();
+    await expect(searchResultsUsers).toEqual(["ChatUserB"]);
+    await expect(searchResultsGroupsNotMatchingName).toEqual(["Test"]);
+    await expect(searchResultsParticipantsInGroups).toEqual(["ChatUserB"]);
   });
 
   it("Sidebar - Sarch bar - Result will redirect to a User Conversation", async () => {
-    await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
-    await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
+    await sidebarSearchFirstUser.clickOnUserResultFromSidebarSearch(0);
     await chatsTopbarFirstUser.waitForIsShown(true);
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "ChatUserB"
@@ -165,21 +170,20 @@ export default async function groupChatTests() {
     await chatsTopbarFirstUser.goToFiles();
     await filesScreenFirstUser.waitForIsShown(true);
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
-    const searchResults = await chatsSidebarFirstUser.getSidebarSearchResults();
-    await expect(searchResults).toEqual(["https://dioxus.index.html/#Test"]);
+    const searchResults =
+      await sidebarSearchFirstUser.getSidebarSearchResultsGroupsMatchingName();
+    await expect(searchResults).toEqual(["Test"]);
     await chatsSidebarFirstUser.clearSidebarSearchInput();
   });
 
   it("Sidebar - Search Bar - Search for a string not matching any result", async () => {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("z");
-    await chatsSidebarFirstUser.validateSidebarSearchResultsIsEmpty();
     await chatsSidebarFirstUser.clearSidebarSearchInput();
   });
 
   it("Sidebar - Search Bar - Result will redirect to a Group Chat Conversation", async () => {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
-    await chatsSidebarFirstUser.sidebarSearchDropdown.waitForDisplayed();
-    await chatsSidebarFirstUser.clickOnResultFromSidebarSearch(0);
+    await sidebarSearchFirstUser.clickOnGroupResultFromSidebarSearch(0);
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue
     ).toHaveTextContaining("Test");

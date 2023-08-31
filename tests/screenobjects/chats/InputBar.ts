@@ -16,12 +16,13 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  EDIT_MESSAGE_INPUT: '[name="edit-message-input"]',
   EMOJI_BUTTON: '//Group[@Name="chat-layout"]/Button[2]',
   INPUT_CHAR_COUNTER: '[name="input-char-counter"]',
-  INPUT_CHAR_COUNTER_TEXT: "//Text",
+  INPUT_CHAR_COUNTER_TEXT: "<Text>",
   INPUT_CHAR_MAX_TEXT: '//Group[@Name="input-group"]/Text',
   INPUT_GROUP: '[name="input-group"]',
-  INPUT_TEXT: "//Edit",
+  INPUT_TEXT: "<Edit>",
   SEND_MESSAGE_BUTTON: '[name="send-message-button"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
@@ -29,6 +30,7 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  EDIT_MESSAGE_INPUT: "~edit-message-input",
   EMOJI_BUTTON:
     '-ios class chain:**/XCUIElementTypeGroup[`label == "chat-layout"`]/XCUIElementTypeButton[2]',
   INPUT_CHAR_COUNTER: "~input-char-counter",
@@ -51,6 +53,10 @@ currentOS === WINDOWS_DRIVER
 export default class InputBar extends UplinkMainScreen {
   constructor(executor: string) {
     super(executor, SELECTORS.INPUT_GROUP);
+  }
+
+  get editMessageInput() {
+    return this.instance.$(SELECTORS.EDIT_MESSAGE_INPUT);
   }
 
   get emojiButton() {
@@ -168,7 +174,7 @@ export default class InputBar extends UplinkMainScreen {
       : (enterValue = "\n");
     await this.inputText.setValue(enterValue);
   }
-  //
+
   async typeMessageOnInput(text: string) {
     for (let i = 0; i < 3; i++) {
       i += 1;

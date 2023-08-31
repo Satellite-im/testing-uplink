@@ -12,7 +12,7 @@ const SELECTORS_WINDOWS = {
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
-  SETTINGS_INFO_DESCRIPTION: "//Text[2]",
+  SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
   SETTINGS_SECTION: '[name="settings-section"]',
 };

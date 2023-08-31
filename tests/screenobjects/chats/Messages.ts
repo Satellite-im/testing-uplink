@@ -18,16 +18,16 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_FILE_ICON: '[name="file-icon"]',
   CHAT_MESSAGE_FILE_INFO: '[name="file-info"]',
   CHAT_MESSAGE_FILE_META: '[name="file-meta"]',
-  CHAT_MESSAGE_FILE_META_TEXT: "//Text",
+  CHAT_MESSAGE_FILE_META_TEXT: "<Text>",
   CHAT_MESSAGE_FILE_NAME: '[name="file-name"]',
-  CHAT_MESSAGE_FILE_NAME_TEXT: "//Text",
+  CHAT_MESSAGE_FILE_NAME_TEXT: "<Text>",
   CHAT_MESSAGE_IMAGE_CONTAINER: "[name='message-image-container']",
   CHAT_MESSAGE_IMAGE_FILE: "[name='message-image']",
   CHAT_MESSAGE_IMAGE_MODAL: "[name='modal']",
   CHAT_MESSAGE_IMAGE_MODAL_FILE: "[name='image-preview-modal']",
   CHAT_MESSAGE_LINK_EMBED: '[name="link-embed"]',
   CHAT_MESSAGE_LINK_EMBED_DETAILS: '[name="embed-details"]',
-  CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT: "//Text",
+  CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT: "<Text>",
   CHAT_MESSAGE_LINK_EMBED_ICON: '[name="embed-icon"]',
   CHAT_MESSAGE_LINK_EMBED_TITLE: '[name="link-title"]',
   CHAT_MESSAGE_LOCAL:
@@ -41,9 +41,9 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_REMOTE_LAST: '[name="message-remote-message-last"]',
   CHAT_MESSAGE_REMOTE_MIDDLE: '[name="message-remote-message-middle"]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
-  CHAT_MESSAGE_REPLY_TEXT: "//Text",
+  CHAT_MESSAGE_REPLY_TEXT: "<Text>",
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
-  CHAT_MESSAGE_TEXT_VALUE: "//Text",
+  CHAT_MESSAGE_TEXT_VALUE: "<Text>",
 };
 
 const SELECTORS_MACOS = {

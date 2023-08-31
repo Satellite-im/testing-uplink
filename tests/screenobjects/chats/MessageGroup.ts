@@ -14,19 +14,20 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   EMOJI_REACTION_REMOTE: '[name="emoji-reaction-remote"]',
   EMOJI_REACTION_SELF: '[name="emoji-reaction-self"]',
-  EMOJI_REACTION_VALUE: "//Text",
+  EMOJI_REACTION_VALUE: "<Text>",
   MESSAGE_GROUP_REMOTE: '[name="message-group-remote"]',
   MESSAGE_GROUP_SENT: '[name="message-group"]',
   MESSAGE_GROUP_WRAP_LOCAL: '[name="message-group-wrap-local"]',
   MESSAGE_GROUP_WRAP_REMOTE: '[name="message-group-wrap-remote"]',
   MESSAGE_GROUP_TIME_AGO: '[name="time-ago"]',
-  MESSAGE_GROUP_TIME_AGO_TEXT: "//Text",
+  MESSAGE_GROUP_TIME_AGO_TEXT: "<Text>",
   MESSAGE_GROUP_USER_IMAGE: '[name="User Image"]',
   MESSAGE_GROUP_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   MESSAGE_GROUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   MESSAGE_GROUP_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   MESSAGE_GROUP_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   MESSAGE_REACTION_CONTAINER: '[name="message-reaction-container"]',
+  PIN_INDICATOR: '[name="pin-indicator"]',
 };
 
 const SELECTORS_MACOS = {
@@ -45,6 +46,7 @@ const SELECTORS_MACOS = {
   MESSAGE_GROUP_USER_INDICATOR_OFFLINE: "~indicator-offline",
   MESSAGE_GROUP_USER_INDICATOR_ONLINE: "~indicator-online",
   MESSAGE_REACTION_CONTAINER: "~message-reaction-container",
+  PIN_INDICATOR: "~pin-indicator",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -149,6 +151,10 @@ export default class MessageGroup extends UplinkMainScreen {
 
   get messageReactionContainer() {
     return this.instance.$$(SELECTORS.MESSAGE_REACTION_CONTAINER);
+  }
+
+  get pinIndicator() {
+    return this.instance.$$(SELECTORS.PIN_INDICATOR);
   }
 
   // Message Group Wraps Received Methods

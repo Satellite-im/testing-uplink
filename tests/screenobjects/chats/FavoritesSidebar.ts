@@ -15,7 +15,7 @@ const SELECTORS_WINDOWS = {
   FAVORITES: '[name="Favorites"]',
   FAVORITES_CONTEXT_CHAT: '[name="favorites-chat"]',
   FAVORITES_CONTEXT_REMOVE: '[name="favorites-remove"]',
-  FAVORITES_USER: "//Group",
+  FAVORITES_USER: "<Group>",
   FAVORITES_USER_IMAGE: '[name="User Image"]',
   FAVORITES_USER_IMAGE_GROUP_WRAP: '[name="user-image-group-wrap"]',
   FAVORITES_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
