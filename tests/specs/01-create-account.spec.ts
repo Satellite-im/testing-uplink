@@ -55,7 +55,7 @@ export default async function createAccount() {
     await createPinFirstUser.pinInput.clearValue();
     await createPinFirstUser.inputError.waitForDisplayed();
     await expect(createPinFirstUser.inputErrorText).toHaveTextContaining(
-      "Please enter at least 4 characters"
+      "Please enter at least 4 charactersZZ"
     );
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();

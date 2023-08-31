@@ -153,6 +153,13 @@ jobs:
           cp -r ./Uplink.app /Applications/
           sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
 
+      - name: Setup FFMPEG to record screen
+        uses: FedericoCarboni/setup-ffmpeg@v2
+        id: setup-ffmpeg
+
+      - name: List FFMPEG devices
+        run: ffmpeg -f avfoundation -list_devices true -i ""
+
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
