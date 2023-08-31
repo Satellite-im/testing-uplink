@@ -130,7 +130,7 @@ export const config: WebdriverIO.Config = {
       // Start video recording for each test
       await driver.executeScript("macos: startRecordingScreen", [
         {
-          deviceId: 1
+          deviceId: 0
         },
       ]);
     },
