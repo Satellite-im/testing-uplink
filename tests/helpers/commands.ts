@@ -356,7 +356,7 @@ export async function rightClickOnWindows(
   locator: WebdriverIO.Element,
   instance: string
 ) {
-  await driver[instance].touchAction([{ action: "press", element: locator }]);
+  await driver[instance].moveToElement(locator.elementId);
   await robot.mouseClick("right");
 }
 
