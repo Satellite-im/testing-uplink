@@ -108,6 +108,7 @@ export default class EditGroup extends UplinkMainScreen {
   get friendsGroup() {
     return this.instance
       .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIENDS_GROUP);
   }
 
