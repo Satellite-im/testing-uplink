@@ -115,7 +115,7 @@ export default class EditGroup extends UplinkMainScreen {
   get friendsList() {
     return this.instance
       .$(SELECTORS.EDIT_GROUP_SECTION)
-      .$$(SELECTORS.FRIENDS_LIST)[0];
+      .$(SELECTORS.FRIENDS_LIST);
   }
 
   get groupNameInput() {
