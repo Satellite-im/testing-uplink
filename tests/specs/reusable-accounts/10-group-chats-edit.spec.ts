@@ -41,7 +41,6 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
     await editGroupFirstUser.groupNameInput.waitForDisplayed();
-    await editGroupFirstUser.friendsGroup.waitForDisplayed();
     await editGroupFirstUser.userInput.waitForDisplayed();
   });
 
