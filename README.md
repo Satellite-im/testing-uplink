@@ -112,8 +112,8 @@ https://user-images.githubusercontent.com/35935591/212192292-86782549-da25-4f90-
 
 ## Test Coverage Matrix
 
-Right now, we are working hard to match the existing functionalities from Uplink. You can find [here](./TEST_COVERAGE.md) a test coverage matrix with the list of UI tests already implemented (marked with "X") and the ones that will be added soon to the UI testing framework
+Right now, we are working hard to match the existing functionalities from Uplink. You can find [here](./docs/TEST_COVERAGE.md) a test coverage matrix with the list of UI tests already implemented (marked with "X") and the ones that will be added soon to the UI testing framework
 
 ## Aria Labels/UI Locators Guide
 
-Wow, putting all the comments inside the README file would have taken a lot of space, so we decided to have separate section to share some tips and guides to help to avoid breaking tests when an Aria Label from Uplink is modified, and also to contribute to add new aria labels on UI elements. Also, in order to have a better understanding on the impact of these UI Locators, a detailed description of screenobject and spec files purposes is shared inside the following [document](/ARIA_LABELS.md). 
+Wow, putting all the comments inside the README file would have taken a lot of space, so we decided to have separate section to share some tips and guides to help to avoid breaking tests when an Aria Label from Uplink is modified, and also to contribute to add new aria labels on UI elements. Also, in order to have a better understanding on the impact of these UI Locators, a detailed description of screenobject and spec files purposes is shared inside the following [document](./docs/ARIA_LABELS.md). 
