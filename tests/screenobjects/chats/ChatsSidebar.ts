@@ -177,7 +177,6 @@ export default class ChatsSidebar extends UplinkMainScreen {
   get sidebarChatsUserImageProfile() {
     return this.instance
       .$(SELECTORS.SIDEBAR_CHATS_SECTION)
-      .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_PROFILE);
   }
 
@@ -319,7 +318,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateNoSidebarChatsAreDisplayed() {
-    await this.sidebarChatsUser.waitForExist({ reverse: true });
+    await this.sidebarChatsUserImageProfile.waitForExist({ reverse: true });
   }
 
   async validateNoSidebarGroupChatsAreDisplayed() {
