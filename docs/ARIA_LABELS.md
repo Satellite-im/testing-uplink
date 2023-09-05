@@ -85,7 +85,7 @@ First, you will find a comment added into your PR sharing the number of tests ex
 
 ### Allure Test Report on UI Automated Tests
 
-Allure Report is a tool designed to report test results from CI automated tests execution in a manner that is friendly to any user, regardless of their technical background. A comment containing a link to a github pages site containing the Allure Test Results will be found in the PR. Comment is auto-updated every time a new commit under the PR triggers the test worklow. It is recommended to wait for at least 5 minutes after the Automated Test workflow completes to review the link from the report (you might see an error page if you check it out immedeately).
+Allure Report is a tool designed to report test results from CI automated tests execution in a manner that is friendly to any user, regardless of their technical background. A comment containing a link to a github pages site containing the Allure Test Results will be found in the PR. Comment is auto-updated every time a new commit under the PR triggers the test worklow. It is recommended to wait for at least 5 minutes after the Automated Test workflow completes to review the link from the report (you might see an error page if you check it out immediately).
 
 ![UI Automated Tests Report Link Comment Example](./resources/comment-link.png)
 
@@ -97,7 +97,7 @@ Allure Report is a tool designed to report test results from CI automated tests 
 
 ![Allure Report Suites Page](./resources/allure-02.png)
 
-3. Click on the test suite containing the yellow/red number greater than zero, to find the test that it is failing on the execution. A tree containing the tests inside the test suite (each test is a row) will be displayed. If you click on the row containg the yellow or red indicator, you will see in the right side highlighted the error found during test (in this example "Can't call $ on element with selector "\[name="User"]" because element wasn't found"). Also, if you go to the botton right section "Test Body", you can see an image attached that you can click to display in the report. This is the screenshot of the test failure. We are currently working on adding videos from the execution, so at some point we will be able to see the error screenshot and a video of the execution of the test failed (work in progress).
+3. Click on the test suite containing the yellow/red number greater than zero, to find the test that it is failing on the execution. A tree containing the tests inside the test suite (each test is a row) will be displayed. If you click on the row containing the yellow or red indicator, you will see in the right side highlighted the error found during test (in this example "Can't call $ on element with selector "\[name="User"]" because element wasn't found"). Also, if you go to the botton right section "Test Body", you can see an image attached that you can click to display in the report. This is the screenshot of the test failure. We are currently working on adding videos from the execution, so at some point we will be able to see the error screenshot and a video of the execution of the test failed (work in progress).
 
 ![Allure Report Results Failed](./resources/allure-03.png)
 
