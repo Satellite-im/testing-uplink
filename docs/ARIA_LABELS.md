@@ -83,7 +83,7 @@ First, you will find a comment added into your PR sharing the number of tests ex
 
 ![UI Automated Tests Summary Comment Example](./resources/comment-summary.png)
 
-### UI Automated Test Report Comment
+### Allure Test Report on UI Automated Tests
 
 Allure Report is a tool designed to report test results from CI automated tests execution in a manner that is friendly to any user, regardless of their technical background. A comment containing a link to a github pages site containing the Allure Test Results will be found in the PR. Comment is auto-updated every time a new commit under the PR triggers the test worklow. It is recommended to wait for at least 5 minutes after the Automated Test workflow completes to review the link from the report (you might see an error page if you check it out immedeately).
 
@@ -97,14 +97,121 @@ Allure Report is a tool designed to report test results from CI automated tests 
 
 ![Allure Report Suites Page](./resources/allure-02.png)
 
-3. Click
+3. Click on the test suite containing the yellow/red number greater than zero, to find the test that it is failing on the execution. A tree containing the tests inside the test suite (each test is a row) will be displayed. If you click on the row containg the yellow or red indicator, you will see in the right side highlighted the error found during test (in this example "Can't call $ on element with selector "\[name="User"]" because element wasn't found"). Also, if you go to the botton right section "Test Body", you can see an image attached that you can click to display in the report. This is the screenshot of the test failure. We are currently working on adding videos from the execution, so at some point we will be able to see the error screenshot and a video of the execution of the test failed (work in progress).
 
-- How to identify if a change is breaking an existing test
-- How to browse the Allure Report to find the screenshot of failed test
-- How to identify the broken test in the testing framework
-- How to ensure if the change breaking the test is expected or there is something wrong with your change
-- How to add an aria label for a new UI/Src element
-- How to add an aria label for a new UI/Src element based on Kit
-- How to add an aria label for a new Kit UI element
-- How to update the aria label in the screenobject file
-- How to add a new UI locator in the screenobject file
+![Allure Report Results Failed](./resources/allure-03.png)
+
+In this case, we can see that the test is breaking because the UI element previously with Aria Label = "User" now has a different Aria Label/UI Locator or does not have one, then the testing framework cannot find it.
+
+### Reasons for tests breaking
+
+There could be different reasons causing a test to fail, for example:
+
+- Aria Label modified in the source code - Example provided above. Screenobject file will have to be updated in the testing repository in order to change the SELECTORS_WINDOWS and SELECTORS_MACOS to use the new aria label.
+- Texts modified in one section - There are tests asserting texts in UI elements, so if a UI element text is modified, then the associated test will break. Texts will have to be updated in the spec files in order to reflect the latest changes in the application.
+- UI elements from tests removed or changed - Improvements during developing of the application are expected, then it is possible that due to a refactor in the code, a UI element is changed or removed completely, and therefore the tests associated to this element are going to break. In these cases, tests could be updated by adding the new UI locators into the corresponding screenobject file, or deleted from the testing repository, since these are no longer valid.
+- If an automated test is failing in a section that is not related to the one that your code changes are changing, then there is a possibility that the code is introducing an issue into the application. It is recommended to manually verify if the automated test failing is also failing doing manual execution on the platform specified (MacOS or Windows).
+- Same, if none of the previous reasons listed is the root cause of the test failing, it is an indicator that something in the code change might be introducing an issue into the application. Same, it is recommended to manually verify if the automated test failing is also failing doing manual execution on the platform specified (MacOS or Windows).
+
+### How to add/update an aria label for a new UI/Src element on Uplink
+
+When adding new elements in /UI/Src files from Uplink repository using common HTML elements, then you can easily add a new aria label to the element, by adding the property "aria_label" and assign a short value separated by dashes identifying the action performed by the element. Example on Uplink Repo (ui/src/layouts/storage/mod.rs - Line 287):
+
+```
+rsx!(
+    p {
+        class: "free-space",
+        aria_label: "free-space-max-size",
+        format!("{}", get_local_text("files.storage-max-size")),
+        span {
+            class: "count",
+            format!("{}", storage_controller.read().storage_size.0),
+        }
+    },
+```
+
+### How to add/update an aria label for a new UI/Src element defined on UI/Kit
+
+There are elements from UI/Src in Uplink repository which already have the property aria label assigned as optional. 
+
+Examples:
+
+- kit/src/components/context_menu
+- kit/src/components/friends/friend
+- kit/src/components/user
+- kit/src/components/user_image_group
+- kit/src/elements/button
+- kit/src/elements/file
+- kit/src/elements/folder
+- kit/src/elements/input
+- kit/src/elements/label
+- kit/src/elements/textarea
+
+For the following elements, it is possible to add an aria label by assigning the aria label property to the element and then adding the method .into(). For example, the following UI element based on the Button from kit/src/elements, the aria label added is declared as "aria-value".into(). Example from kit/src/components/embeds/file_embed/mod.rs - Line 294.
+
+```
+if with_download_button {
+    rsx!(
+        Button {
+            icon: btn_icon,
+            appearance: Appearance::Primary,
+            aria_label: "attachment-button".into(),
+            onpress: move |_| cx.props.on_press.call(()),
+        }
+    )
+}
+```
+
+### How to add an aria label for a new Kit UI element
+
+This is the most complex case on adding aria labels, when you need to add an aria label into an element from kit/src which can be assigned later to elements using this structure. In this cases, you need to follow the next steps:
+
+1. Add the property aria_label as optional string into the definition of the public struct defined in the kit/src file. Below, you can find an example from kit/src/components/context_menu/mod.rs - Line 23
+
+```
+#[derive(Props)]
+pub struct ItemProps<'a> {
+    #[props(optional)]
+    onpress: Option<EventHandler<'a, MouseEvent>>,
+    text: String,
+    disabled: Option<bool>,
+    #[props(optional)]
+    icon: Option<icons::outline::Shape>,
+    #[props(optional)]
+    danger: Option<bool>,
+    should_render: Option<bool>,
+    aria_label: Option<String>,
+    #[props(optional)]
+    children: Option<Element<'a>>,
+}
+```
+
+2. Declare a variable named aria_label that will hold the value assigned to the label. This variable unwrap the value if exists or return a default value if it does not exist. In order, to handle optional values in case that aria label is not defined for all the elements using this structure. Below, you can find an example from kit/src/components/context_menu/mod.rs - Line 51
+
+```
+let aria_label = cx.props.aria_label.clone().unwrap_or_default();
+```
+
+3. Inside the rendering part of the code, when you declare the attributes from the HTML element, add a placeholder for the aria_label property, like the example below from kit/src/components/context_menu/mod.rs - Line 62:
+
+```
+cx.render(rsx!(
+    button {
+        class: format_args!("{class} {}", if disabled {"context-item-disabled"} else {""}),
+        aria_label: "{aria_label}",
+        onclick: move |e| {
+            if !disabled {
+                emit(&cx, e);
+            }
+        },
+```
+
+4. Once that you have defined the aria label property in the kit/src files, you can follow the steps from "How to add an aria label for a new Kit UI element" to assign the label value into the elements based on the same structure.
+
+### How to update the aria label in the screenobject file
+
+To be added soon...
+
+### How to add a new UI locator in the screenobject file
+
+To be added soon...
