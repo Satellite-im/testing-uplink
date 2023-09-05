@@ -173,21 +173,26 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     await this.favoritesRemove.click();
   }
 
-  async getLocatorOfFavoritesUser(position: number) {
-    let locator = await this.instance
-      .$(SELECTORS.FAVORITES)
-      .$$(SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP)
-      [position].$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
+  async getFavoritesUserByAriaLabel(username: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let locator;
+    if (currentDriver === MACOS_DRIVER) {
+      locator = await this.instance.$(SELECTORS.FAVORITES).$("~" + username);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      locator = await this.instance
+        .$(SELECTORS.FAVORITES)
+        .$('[name="' + username + '"]');
+    }
     return locator;
   }
 
-  async hoverOnFavoritesBubble(position: number) {
-    const element = await this.getLocatorOfFavoritesUser(position);
+  async hoverOnFavoritesBubble(name: string) {
+    const element = await this.getFavoritesUserByAriaLabel(name);
     await this.hoverOnElement(element);
   }
 
-  async openContextMenuOnFavoritesUser(position: number) {
-    const element = await this.getLocatorOfFavoritesUser(position);
+  async openContextMenuOnFavoritesUser(name: string) {
+    const element = await this.getFavoritesUserByAriaLabel(name);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(element, this.executor);
