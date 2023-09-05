@@ -57,20 +57,20 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [x] User Profile Pic should appear next to their message and be up to date.
 - [x] Username should appear above each message or bulk of messages sent or received.
 - [x] Clicking the _Heart_ should add the friend to your _Favorites_.
-- [ ]  Current chat should be displayed at the top of the list in the Sidebar.
+- [x]  Current chat should be displayed at the top of the list in the Sidebar.
 - [x] Timestamps should update in chat and sidebar. (now, then goes by minutes-hours-days)
 - [ ] Clicking _Phone_ icon should open call modal.
 - [ ] Chat should close if the User blocks the friend they are in the current chat with.
-- [ ] Typing indicator appears (if the user has that extension toggled on).
+- [x] Typing indicator appears (if the user has that extension toggled on).
 - [ ] Usernames are both displayed in the call modal.
-- [ ] Friends Username/Profile Pic/Status should be displayed at the top of the active chat.
+- [x] Friends Username/Profile Pic/Status should be displayed at the top of the active chat.
 - [x] Tooltip should appear for _Call_ button.
 - [x] Tooltip should appear for _Video_ button.
 - [x] Tooltip should appear for _Upload_ button.
 - [x] Tooltip should appear for _Favorites_ button.
-- [ ] User can reply to a message by right+clicking and selecting in the context menu.
-- [ ] User can react to a message by right+clicking and selecting in the context menu.
-- [ ] User should enter chat at the bottom with the most recent messages.
+- [x] User can reply to a message by right+clicking and selecting in the context menu.
+- [x] User can react to a message by right+clicking and selecting in the context menu.
+- [x] User should enter chat at the bottom with the most recent messages.
 
 ### Calling & Video
 
@@ -93,7 +93,7 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [ ] Friends are ordered alphabetically.
 - [x] Profile picture should be next to Username if a friend has one.
 - [ ] Profile Picture should update if a friend changes it.
-- [ ] Online/Offline status should update when friends log in or off.
+- [x] Online/Offline status should update when friends log in or off.
 - [x] Tooltip should appear when hovering the cursor over _Unfriend_.
 - [x] Tooltip should appear when hovering the cursor over _Block_.
 - [x] Tooltip should appear when hovering the cursor over _All Friends_.
@@ -102,29 +102,29 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [x] Tooltip should appear when hovering the cursor over _Add_.
 - [x] Tooltip should appear when hovering the cursor over _Chat_.
 - [x] Clicking _Chat_ should navigate the user to active chat with that friend.
-- [ ] Friend Status should appear underneath the username.
+- [x] Friend Status should appear underneath the username.
 - [x] Clicking _Unfriend_ should remove that person from your friend's list.
 - [x] Clicking _Block_ should move that person to the blocked user's list.
 - [ ] Scrollbar should appear when users scroll through the friend list.
-- [ ] User#short_id should appear after the friend's username.
+- [x] User#short_id should appear after the friend's username.
 - [x] Right+Clicking on a friend should bring up the context menu.
 - [x] Friend should be added to Favorites when the user adds them with the context menu.
 - [x] When the user clicks _Chat_ in the context menu, they should be navigated to active chat with that friend.
 - [ ] When the user starts a call with the context menu, they should be navigated to an active call with that friend.
 - [x] User should be able to remove a friend using the context menu.
 - [x] User should also be able to block a friend by using the context menu.
-- [ ] Green indicator should appear when the user pastes a correct did key in the Add Friend input field.
-- [ ] Online status / Device indicator should appear next to the friend's profile pic. (This should appear anywhere a friends profile pic is throughout the entire app)
+- [x] Green indicator should appear when the user pastes a correct did key in the Add Friend input field.
+- [x] Online status / Device indicator should appear next to the friend's profile pic. (This should appear anywhere a friends profile pic is throughout the entire app)
 
 ### Adding Friends
 
-- [ ] Search Bar should display _Username#0000_ when user is not clicked into it.
-- [ ] Error should appear when the user has less than 4 chars typed.
-- [ ] Search Input should display a green indicator when the user types more than 4 chars.
-- [ ] Request should appear under _Pending_ after sending it.
+- [x] Search Bar should display _Username#0000_ when user is not clicked into it.
+- [x] Error should appear when the user has less than 4 chars typed.
+- [x] Search Input should display a green indicator when the user types more than 4 chars.
+- [x] Request should appear under _Pending_ after sending it.
 - [x] If the user cancels the request, the request should no longer appear in _Pending_.
-- [ ] Error should appear if a user sends 2nd friend request to the same person.
-- [ ] Error should appear when the user tries to add themselves.
+- [x] Error should appear if a user sends 2nd friend request to the same person.
+- [x] Error should appear when the user tries to add themselves.
 
 **Pending Requests**
 
@@ -132,8 +132,8 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [x] Incoming Friend Request should have an _Deny_ or _Accept_ next it.
 - [x] Profile Picture should appear with username next to it.
 - [ ] Incoming requests should be ordered by _Most Relevant_.
-- [ ] Notification counter should display the correct amount of requests on _Pending_.
-- [ ] Notification counter should display the correct amount of requests on _Friends Page Button_
+- [x] Notification counter should display the correct amount of requests on _Pending_.
+- [x] Notification counter should display the correct amount of requests on _Friends Page Button_
 - [x] After accepting a friend request, the pending request should clear, and they should be added to the All Friends list.
 - [x] After denying a friend request, the pending request should clear, and they should NOT be added to the All Friends list.
 - [x] After canceling an outgoing friend request, the pending request should clear, and they should NOT be added to the All Friends list.
@@ -153,7 +153,7 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [x] Preview should be shown for Uploaded Files.
 - [ ] Folder should highlight when the user is drag+dropping a file into it.
 - [ ] Folder should also be highlighted when the user hovers the cursor.
-- [ ] Upload % should show when the user is uploading Files
+- [x] Upload % should show when the user is uploading Files
 - [x] Clicking the _Home_ button in Directory should take you to the Files Home page.
 - [x] When the user clicks, the New Folder typing indicator should appear, and the user can start typing without clicking into the textbox first.
 - [x] Right-clicking folder should open Context Menu with the option to rename or delete.
@@ -173,7 +173,7 @@ This document provides a test coverage matrix of the Uplink features already aut
 
 **Profile Page**
 
-- [ ] _Change Avatar_ should appear when the user hovers the cursor over Profile Pic.
+- [x] _Change Avatar_ should appear when the user hovers the cursor over Profile Pic.
 - [x] _Change Banner_ should appear when the user hovers the cursor over the Banner area.
 - [x] Clicking the Banner should open Users local files browser.
 - [x] Clicking the Profile Picture should open the user's local files browser.
@@ -192,28 +192,17 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [x] Text descriptions from the settings section should be displayed
 - [x] User should be able to toggle _Uplink Overlay_.
 - [x] User should be able to toggle _Splash Screen_.
-- [ ] Clicking Theme should open the Themes Dropdown.
-- [ ] Clicking _Reset Theme_ should set the theme back to default.
-- [ ] UI should change accordingly when the user sets a new theme.
+- [x] Clicking Theme should open the Themes Dropdown.
+- [x] Clicking _Reset Theme_ should set the theme back to default.
+- [x] UI should change accordingly when the user sets a new theme.
 - [x] User should be able to change the language by selecting from the Language Dropdown menu.
 - [x] User should be able to switch back the language to English US by selecting from the Language Dropdown menu.
-
-**Privacy**
-
-- [ ] Clicking _Backup Phrase_ in the _Privacy_ tab should backup users account phrase.
-- [x] Text descriptions from the settings section should be displayed
 
 **Audio**
 
 - [x] User should be able to toggle _Interface Sounds_ on and off.
 - [x] User should be able to toggle _Media Sounds_ on and off.
 - [x] User should be able to toggle _Call Timer_ on and off.
-- [x] Text descriptions from the settings section should be displayed
-
-**Files**
-
-- [x] User should be able to toggle _Local Sync_ on and off.
-- [ ] Clicking _Open Sync Folder_ should open the folder to where the user's local files are synced to.
 - [x] Text descriptions from the settings section should be displayed
 
 **Extensions**
@@ -236,38 +225,34 @@ This document provides a test coverage matrix of the Uplink features already aut
 **Developer**
 
 - [x] Text descriptions from the settings section should be displayed - Right now, only placeholders
-- [ ] Clicking _Developer Mode_ should open the debugger
+- [x] Clicking _Developer Mode_ should open the debugger
 - [x] Clicking _Open Codebase_ should take the user to Github Codebase
-- [ ] Clicking _Test Notification_ should display a test notification from the OS triggered by the application
+- [x] Clicking _Test Notification_ should display a test notification from the OS triggered by the application
 - [ ] Clicking _Open Cache_ should open the .Cache folder within Uplink.
 - [ ] Clicking _Compress & Download Cache_ should compress the Users .Cache into a zip file.
 - [ ] User can clear .Cache by clicking _Clear Cache_
 - [x] Logs should save in a file when the user toggles on _Save Logs In A File_
 - [x] Chat Sidebar should not appear when the user is in Settings
 - [ ] Dev tools should appear when toggled on in the top right corner.
-- [ ] Clicking the Mobile dev tool should resize the window to replicate a Mobile device.
-- [ ] Clicking the Tablet dev tool should resize the window to replicate a Tablet.
-- [ ] Clicking the Desktop dev tool should resize the window to the original Desktop view.
-- [ ] Clicking the fullscreen dev tool should resize the window to take up the entire screen.
 
 ### Sidebar
 
 **Basics**
 
 - [x] Sidebar should persist through Chat, Files, and Friends pages.
-- [ ] Any active chats the user has created should appear in Sidebar.
+- [x] Any active chats the user has created should appear in Sidebar.
 - [x] Sidebar should be hidden when the user enters Settings.
 - [x] Sidebar should display the user's favorite chats (If the user has any).
-- [ ] Users should be navigated to chat when they click a friend in their favorites.
-- [ ] Sidebar should display all of the user's chats with the most relevant ones at the top.
-- [ ] Notification bubble should appear on the Chat icon if the user has any.
-- [ ] Notification bubble should appear on the Friends icon if the user has any.
-- [ ] User can clear unread messages by right+clicking to open the context menu.
-- [ ] User can call a friend by right+clicking to open the context menu.
-- [ ] User can hide chat by right+clicking to open the context menu.
+- [x] Users should be navigated to chat when they click a friend in their favorites.
+- [x] Sidebar should display all of the user's chats with the most relevant ones at the top.
+- [x] Notification bubble should appear on the Chat icon if the user has any.
+- [x] Notification bubble should appear on the Friends icon if the user has any.
+- [x] User can clear unread messages by right+clicking to open the context menu.
+- [x] User can call a friend by right+clicking to open the context menu.
+- [x] User can hide chat by right+clicking to open the context menu.
 - [x] Tooltip should appear when hovering cursor over _Chat Page_ icon.
 - [x] Tooltip should appear when hovering cursor over _Files Page_ icon.
 - [x] Tooltip should appear when hovering cursor over _Friends Page_ icon.
 - [x] Tooltip should appear when hovering cursor over _Settings Page_ icon.
-- [ ] User can search within Settings by clicking on Settings Search Bar.
-- [ ] Call controls should appear in Sidebar when the user enters a call.
+- [x] User can search within Settings by clicking on Settings Search Bar.
+- [x] Call controls should appear in Sidebar when the user enters a call.
