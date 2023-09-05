@@ -131,13 +131,13 @@ export default async function sidebarChatsTests() {
   });
 
   it("Chat User A - Sidebar - Context Menu - Clear Unreads", async () => {
-    await chatsSidebarFirstUser.openContextOnFirstSidebarChat();
+    await chatsSidebarFirstUser.openContextMenuOnSidebar("ChatUserB");
     await contextMenuSidebarFirstUser.selectChatsClearUnreads();
     await chatsSidebarFirstUser.validateNoUnreadMessages();
   });
 
   it("Chat User A - Sidebar - Context Menu - Hide chat", async () => {
-    await chatsSidebarFirstUser.openContextOnFirstSidebarChat();
+    await chatsSidebarFirstUser.openContextMenuOnSidebar("ChatUserB");
     await contextMenuSidebarFirstUser.selectChatsHideChat();
     await chatsSidebarFirstUser.validateNoSidebarChatsAreDisplayed();
   });
@@ -209,7 +209,7 @@ export default async function sidebarChatsTests() {
 
   it("Chat User A - Sidebar - Context Menu - Delete chat", async () => {
     // Open context menu and right click on Delete chat
-    await chatsSidebarFirstUser.openContextOnFirstSidebarChat();
+    await chatsSidebarFirstUser.openContextMenuOnSidebar("ChatUserB");
     await contextMenuSidebarFirstUser.selectChatsDeleteConversation();
     await welcomeScreenFirstUser.waitForIsShown(true);
     await welcomeScreenSecondUser.switchToOtherUserWindow();
