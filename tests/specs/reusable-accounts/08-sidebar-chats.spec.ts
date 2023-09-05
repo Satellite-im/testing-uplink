@@ -245,7 +245,7 @@ export default async function sidebarChatsTests() {
     await expect(
       favoritesSidebarFirstUser.favoritesUserIndicatorOnline
     ).toBeDisplayed();
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(0);
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserB");
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
     await expect(
       favoritesSidebarFirstUser.favoritesUserTooltipText
@@ -255,7 +255,7 @@ export default async function sidebarChatsTests() {
   it("Sidebar - Favorites - Context Menu - Chat with user", async () => {
     await favoritesSidebarFirstUser.goToFiles();
     await filesScreenFirstUser.waitForIsShown(true);
-    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser(0);
+    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("ChatUserB");
     await favoritesSidebarFirstUser.clickOnContextMenuFavoritesChat();
     await chatsInputFirstUser.waitForIsShown(true);
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
@@ -263,7 +263,7 @@ export default async function sidebarChatsTests() {
   });
 
   it("Sidebar - Favorites - Context Menu - Remove user from Favorites", async () => {
-    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser(0);
+    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("ChatUserB");
     await favoritesSidebarFirstUser.clickOnContextMenuFavoriteRemove();
     await favoritesSidebarFirstUser.favorites.waitForExist({
       reverse: true,

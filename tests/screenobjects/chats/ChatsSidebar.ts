@@ -17,7 +17,7 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_CHATS_HEADER: "~chats-label",
   SIDEBAR_CHATS_HEADER_TEXT: "<Text>",
   SIDEBAR_CHATS_SECTION: "~chats",
-  SIDEBAR_CHATS_USER: '<Group>',
+  SIDEBAR_CHATS_USER: "<Group>",
   SIDEBAR_CHATS_USER_BADGE: '[name="User Badge"]',
   SIDEBAR_CHATS_USER_BADGE_NUMBER: '[name="badge-count"]',
   SIDEBAR_CHATS_USER_BADGE_NUMBER_VALUE: "<Text>",
@@ -370,7 +370,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async waitForGroupToBeCreated(groupname: string) {
     const element = await this.getExistingElementByAriaLabel(groupname);
-    await this.instance..$(SELECTORS.SIDEBAR).$(element).waitForExist();
+    await this.instance.$(SELECTORS.SIDEBAR).$(element).waitForExist();
   }
 
   async waitForGroupToBeDeleted(groupname: string) {
@@ -470,7 +470,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async openContextMenuOnGroupChat(groupName: string) {
-    const imageToRightClick = await this.getExistingElementByAriaLabel(groupName);
+    const imageToRightClick = await this.getExistingElementByAriaLabel(
+      groupName
+    );
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {
