@@ -12,7 +12,7 @@ const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   EMOJI: '[name="emoji"]',
-  EMOJI_VALUE: "//Text",
+  EMOJI_VALUE: "<Text>",
   EMOJI_SELECTOR: "~emoji_selector",
   EMOJIS_CONTAINER: '[name="emojis-container"]',
 };

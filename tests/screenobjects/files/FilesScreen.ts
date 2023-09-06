@@ -28,21 +28,21 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU_FOLDER_RENAME: '[name="folder-rename"]',
   CRUMB: '[name="crumb"]',
   CRUMB_HOME_FOLDER: '[name="home-dir"]',
-  CRUMB_TEXT: "//Text",
+  CRUMB_TEXT: "<Text>",
   FILE_FOLDER_NAME_TEXT: "//Text/Text",
   FILES_BODY: '[name="files-body"]',
   FILES_BREADCRUMBS: '[name="files-breadcrumbs"]',
   FILES_INFO: '[name="files-info"]',
   FILES_INFO_CURRENT_SIZE: '[name="free-space-current-size"]',
-  FILES_INFO_CURRENT_SIZE_HEADER: "//Text[1]",
-  FILES_INFO_CURRENT_SIZE_VALUE: "//Text[2]",
+  FILES_INFO_CURRENT_SIZE_HEADER: "<Text>[1]",
+  FILES_INFO_CURRENT_SIZE_VALUE: "<Text>[2]",
   FILES_INFO_MAX_SIZE: '[name="free-space-max-size"]',
-  FILES_INFO_MAX_SIZE_HEADER: "//Text[1]",
-  FILES_INFO_MAX_SIZE_VALUE: "//Text[2]",
+  FILES_INFO_MAX_SIZE_HEADER: "<Text>[1]",
+  FILES_INFO_MAX_SIZE_VALUE: "<Text>[2]",
   FILES_LAYOUT: '[name=files-layout"]',
   FILES_LIST: '[name="files-list"]',
   INPUT_ERROR: '[name="input-error"]',
-  INPUT_ERROR_TEXT: "//Text",
+  INPUT_ERROR_TEXT: "<Text>",
   INPUT_FOLDER_FILE_NAME: "//Group/Edit",
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
@@ -439,11 +439,13 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async uploadFile(relativePath: string) {
     const currentDriver = await this.getCurrentDriver();
-    await this.clickOnUploadFile();
     if (currentDriver === MACOS_DRIVER) {
+      await this.clickOnUploadFile();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await selectFileOnWindows(relativePath);
+      await this.clickOnUploadFile();
+      const uplinkContext = await driver[this.executor].getWindowHandle();
+      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
     }
   }
 

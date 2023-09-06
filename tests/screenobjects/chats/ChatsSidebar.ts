@@ -15,34 +15,32 @@ const SELECTORS_WINDOWS = {
   CHAT_SEARCH_INPUT: '[name="chat-search-input"]',
   SIDEBAR: '[name="sidebar"]',
   SIDEBAR_CHATS_HEADER: "~chats-label",
-  SIDEBAR_CHATS_HEADER_TEXT: "//Text",
+  SIDEBAR_CHATS_HEADER_TEXT: "<Text>",
   SIDEBAR_CHATS_SECTION: "~chats",
   SIDEBAR_CHATS_USER: '[name="User"]',
   SIDEBAR_CHATS_USER_BADGE: '[name="User Badge"]',
   SIDEBAR_CHATS_USER_BADGE_NUMBER: '[name="badge-count"]',
-  SIDEBAR_CHATS_USER_BADGE_NUMBER_VALUE: "//Text",
+  SIDEBAR_CHATS_USER_BADGE_NUMBER_VALUE: "<Text>",
   SIDEBAR_CHATS_USER_BADGE_TIME_AGO: '[name="badge-prefix"]',
-  SIDEBAR_CHATS_USER_BADGE_TIME_AGO_VALUE: "//Text",
+  SIDEBAR_CHATS_USER_BADGE_TIME_AGO_VALUE: "<Text>",
   SIDEBAR_CHATS_USER_IMAGE: '[name="User Image"]',
   SIDEBAR_CHATS_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   SIDEBAR_CHATS_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
   SIDEBAR_CHATS_USER_INFO: '[name="User Info"]',
   SIDEBAR_CHATS_USER_NAME: '[name="Username"]',
-  SIDEBAR_CHATS_USER_NAME_VALUE: "//Text",
+  SIDEBAR_CHATS_USER_NAME_VALUE: "<Text>",
   SIDEBAR_CHATS_USER_OFFLINE_INDICATOR: '[name="indicator-offline"]',
   SIDEBAR_CHATS_USER_ONLINE_INDICATOR: '[name="indicator-online"]',
   SIDEBAR_CHATS_USER_PROFILE_TYPING: '[name="profile-typing"]',
   SIDEBAR_CHATS_USER_STATUS: '[name="User Status"]',
-  SIDEBAR_CHATS_USER_STATUS_VALUE: "//Text",
+  SIDEBAR_CHATS_USER_STATUS_VALUE: "<Text>",
   SIDEBAR_CHILDREN: '[name="sidebar-children"]',
   SIDEBAR_CREATE_GROUP_CHAT_BUTTON: '[name="create-group-chat"]',
   SIDEBAR_GROUP_CHAT_IMAGE: '[name="user-image-group-wrap"]',
   SIDEBAR_GROUP_CHAT_PLUS_SOME: '[name="plus-some"]',
   SIDEBAR_SEARCH: '[name="sidebar-search"]',
-  SIDEBAR_SEARCH_DROPDOWN: '[name="searchbar-dropwdown"]',
-  SIDEBAR_SEARCH_DROPDOWN_RESULT: '[name="search-friends-result"]',
   TOOLTIP: '[name="tooltip"]',
-  TOOLTIP_TEXT: "//Text",
+  TOOLTIP_TEXT: "<Text>",
 };
 
 const SELECTORS_MACOS = {
@@ -77,8 +75,6 @@ const SELECTORS_MACOS = {
   SIDEBAR_GROUP_CHAT_IMAGE: "~user-image-group-wrap",
   SIDEBAR_GROUP_CHAT_PLUS_SOME: "~plus-some",
   SIDEBAR_SEARCH: "~sidebar-search",
-  SIDEBAR_SEARCH_DROPDOWN: "~searchbar-dropwdown",
-  SIDEBAR_SEARCH_DROPDOWN_RESULT: "~search-friends-result",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -122,10 +118,6 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   get sidebarChildren() {
     return this.instance.$(SELECTORS.SIDEBAR_CHILDREN);
-  }
-
-  get sidebarSearch() {
-    return this.instance.$(SELECTORS.SIDEBAR_SEARCH);
   }
 
   get sidebarChatsUser() {
@@ -304,14 +296,8 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
   }
 
-  get sidebarSearchDropdown() {
-    return this.instance.$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN);
-  }
-
-  get sidebarSearchDropdownResult() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN)
-      .$$(SELECTORS.SIDEBAR_SEARCH_DROPDOWN_RESULT);
+  get sidebarSearch() {
+    return this.instance.$(SELECTORS.SIDEBAR_SEARCH);
   }
 
   // Validations or assertions
@@ -558,31 +544,6 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   // Search bar methods
 
-  async clickOnResultFromSidebarSearch(result: number) {
-    const elementToClick = await this.getSidebarSearchResultLocator(result);
-    await elementToClick.click();
-  }
-
-  async getSidebarSearchResults() {
-    await this.sidebarSearchDropdown.waitForExist();
-    const list = await this.instance.$$(
-      SELECTORS.SIDEBAR_SEARCH_DROPDOWN_RESULT
-    );
-    let results = [];
-    for (let item of list) {
-      const resultName = await item.getText();
-      results.push(resultName);
-    }
-    return results;
-  }
-
-  async getSidebarSearchResultLocator(result: number) {
-    let element = await this.instance.$$(
-      SELECTORS.SIDEBAR_SEARCH_DROPDOWN_RESULT
-    )[result];
-    return element;
-  }
-
   async clearSidebarSearchInput() {
     await this.chatSearchInput.clearValue();
   }
@@ -590,9 +551,5 @@ export default class ChatsSidebar extends UplinkMainScreen {
   async typeOnSidebarSearchInput(text: string) {
     const element = await this.chatSearchInput;
     await this.typeOnElement(element, text);
-  }
-
-  async validateSidebarSearchResultsIsEmpty() {
-    await this.sidebarSearchDropdown.waitForExist({ reverse: true });
   }
 }

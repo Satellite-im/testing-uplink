@@ -12,7 +12,7 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   CREATE_ACCOUNT_BUTTON: '[name="create-account-button"]',
   INPUT_ERROR: '[name="input-error"]',
-  INPUT_ERROR_TEXT: "//Text",
+  INPUT_ERROR_TEXT: "<Text>",
 };
 
 const SELECTORS_MACOS = {

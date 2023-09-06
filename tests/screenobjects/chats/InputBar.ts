@@ -16,19 +16,23 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  EDIT_MESSAGE_INPUT: '[name="edit-message-input"]',
   EMOJI_BUTTON: '//Group[@Name="chat-layout"]/Button[2]',
   INPUT_CHAR_COUNTER: '[name="input-char-counter"]',
-  INPUT_CHAR_COUNTER_TEXT: "//Text",
+  INPUT_CHAR_COUNTER_TEXT: "<Text>",
   INPUT_CHAR_MAX_TEXT: '//Group[@Name="input-group"]/Text',
   INPUT_GROUP: '[name="input-group"]',
-  INPUT_TEXT: "//Edit",
+  INPUT_TEXT: "<Edit>",
   SEND_MESSAGE_BUTTON: '[name="send-message-button"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   UPLOAD_BUTTON: '[name="upload-button"]',
+  UPLOAD_BUTTON_LOCAL_DISK: '[name="quick-profile-self-edit"]',
+  UPLOAD_BUTTON_CLOUD: '[name="quick-profile-self-edit"]',
 };
 
 const SELECTORS_MACOS = {
+  EDIT_MESSAGE_INPUT: "~edit-message-input",
   EMOJI_BUTTON:
     '-ios class chain:**/XCUIElementTypeGroup[`label == "chat-layout"`]/XCUIElementTypeButton[2]',
   INPUT_CHAR_COUNTER: "~input-char-counter",
@@ -42,6 +46,8 @@ const SELECTORS_MACOS = {
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   UPLOAD_BUTTON: "~upload-button",
+  UPLOAD_BUTTON_LOCAL_DISK: '[name="quick-profile-self-edit"]',
+  UPLOAD_BUTTON_CLOUD: '[name="quick-profile-self-edit"]',
 };
 
 currentOS === WINDOWS_DRIVER
@@ -51,6 +57,10 @@ currentOS === WINDOWS_DRIVER
 export default class InputBar extends UplinkMainScreen {
   constructor(executor: string) {
     super(executor, SELECTORS.INPUT_GROUP);
+  }
+
+  get editMessageInput() {
+    return this.instance.$(SELECTORS.EDIT_MESSAGE_INPUT);
   }
 
   get emojiButton() {
@@ -104,6 +114,14 @@ export default class InputBar extends UplinkMainScreen {
 
   get uploadTooltipText() {
     return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+  }
+
+  get uploadButtonCloud() {
+    return this.instance.$$(SELECTORS.UPLOAD_BUTTON_LOCAL_DISK)[1];
+  }
+
+  get uploadButtonLocalDisk() {
+    return this.instance.$$(SELECTORS.UPLOAD_BUTTON_LOCAL_DISK)[0];
   }
 
   async clearInputBar() {
@@ -168,7 +186,15 @@ export default class InputBar extends UplinkMainScreen {
       : (enterValue = "\n");
     await this.inputText.setValue(enterValue);
   }
-  //
+
+  async selectUploadFromCloud() {
+    await this.uploadButtonCloud.click();
+  }
+
+  async selectUploadFromLocalDisk() {
+    await this.uploadButtonLocalDisk.click();
+  }
+
   async typeMessageOnInput(text: string) {
     for (let i = 0; i < 3; i++) {
       i += 1;
@@ -189,13 +215,17 @@ export default class InputBar extends UplinkMainScreen {
     await locator.setValue(editedMessage + enterValue);
   }
 
-  async uploadFile(relativePath: string) {
+  async uploadFileFromLocalDisk(relativePath: string) {
     const currentDriver = await this.getCurrentDriver();
-    await this.clickOnUploadFile();
     if (currentDriver === MACOS_DRIVER) {
+      await this.clickOnUploadFile();
+      await this.selectUploadFromLocalDisk();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await selectFileOnWindows(relativePath);
+      await this.clickOnUploadFile();
+      await this.selectUploadFromLocalDisk();
+      const uplinkContext = await driver[this.executor].getWindowHandle();
+      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
     }
   }
 }
