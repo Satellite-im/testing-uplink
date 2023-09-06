@@ -17,7 +17,9 @@ export default async function messageAttachmentsTests() {
     await chatsInputFirstUser.clearInputBar();
 
     // Click on upload button and attach a file to compose attachment
-    await chatsInputFirstUser.uploadFile("./tests/fixtures/testfile.txt");
+    await chatsInputFirstUser.uploadFileFromLocalDisk(
+      "./tests/fixtures/testfile.txt"
+    );
 
     // Validate contents on Compose Attachments are displayed
     await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForDisplayed(
@@ -36,7 +38,9 @@ export default async function messageAttachmentsTests() {
 
   it("Chat User A - Select a file and send message with attachment", async () => {
     // Click on upload button and attach a file to compose attachment
-    await chatsInputFirstUser.uploadFile("./tests/fixtures/testfile.txt");
+    await chatsInputFirstUser.uploadFileFromLocalDisk(
+      "./tests/fixtures/testfile.txt"
+    );
 
     // Validate contents on Compose Attachments are displayed
     await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForDisplayed();

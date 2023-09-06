@@ -27,6 +27,8 @@ const SELECTORS_WINDOWS = {
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   UPLOAD_BUTTON: '[name="upload-button"]',
+  UPLOAD_BUTTON_LOCAL_DISK: '[name="quick-profile-self-edit"]',
+  UPLOAD_BUTTON_CLOUD: '[name="quick-profile-self-edit"]',
 };
 
 const SELECTORS_MACOS = {
@@ -44,6 +46,8 @@ const SELECTORS_MACOS = {
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   UPLOAD_BUTTON: "~upload-button",
+  UPLOAD_BUTTON_LOCAL_DISK: '[name="quick-profile-self-edit"]',
+  UPLOAD_BUTTON_CLOUD: '[name="quick-profile-self-edit"]',
 };
 
 currentOS === WINDOWS_DRIVER
@@ -112,6 +116,14 @@ export default class InputBar extends UplinkMainScreen {
     return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
+  get uploadButtonCloud() {
+    return this.instance.$$(SELECTORS.UPLOAD_BUTTON_LOCAL_DISK)[1];
+  }
+
+  get uploadButtonLocalDisk() {
+    return this.instance.$$(SELECTORS.UPLOAD_BUTTON_LOCAL_DISK)[0];
+  }
+
   async clearInputBar() {
     await this.inputText.clearValue();
   }
@@ -175,6 +187,14 @@ export default class InputBar extends UplinkMainScreen {
     await this.inputText.setValue(enterValue);
   }
 
+  async selectUploadFromCloud() {
+    await this.uploadButtonCloud.click();
+  }
+
+  async selectUploadFromLocalDisk() {
+    await this.uploadButtonLocalDisk.click();
+  }
+
   async typeMessageOnInput(text: string) {
     for (let i = 0; i < 3; i++) {
       i += 1;
@@ -195,13 +215,15 @@ export default class InputBar extends UplinkMainScreen {
     await locator.setValue(editedMessage + enterValue);
   }
 
-  async uploadFile(relativePath: string) {
+  async uploadFileFromLocalDisk(relativePath: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await this.clickOnUploadFile();
+      await this.selectUploadFromLocalDisk();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await this.clickOnUploadFile();
+      await this.selectUploadFromLocalDisk();
       const uplinkContext = await driver[this.executor].getWindowHandle();
       await selectFileOnWindows(relativePath, uplinkContext, this.executor);
     }

@@ -131,10 +131,6 @@ export default class ContextMenu extends UplinkMainScreen {
     await this.emojiRecentFourth.click();
   }
 
-  async clickOnFifthReaction() {
-    await this.emojiRecentFifth.click();
-  }
-
   async clickOnRecentReactionButton(reaction: string) {
     const currentDriver = await this.getCurrentDriver();
     let locator;

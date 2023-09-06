@@ -109,15 +109,15 @@ export default async function messageContextMenuTests() {
   });
 
   it("Chat User B - Users can add a new reaction to a message already containing reactions", async () => {
-    // React with ❤️ emoji
+    // React with 👍 emoji
     await chatsMessagesSecondUser.openContextMenuOnLastSent();
     await chatsContextMenuSecondUser.validateContextMenuIsOpen();
-    await chatsContextMenuSecondUser.clickOnFifthReaction();
+    await chatsContextMenuSecondUser.clickOnFourthReaction();
 
     // Validate reaction is displayed correctly
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
     await expect(reaction.includes("👎 2")).toEqual(true);
-    await expect(reaction.includes("❤️ 1")).toEqual(true);
+    await expect(reaction.includes("👍 1")).toEqual(true);
   });
 }
