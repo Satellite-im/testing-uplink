@@ -1,7 +1,8 @@
-import ChatsSidebar from "../screenobjects/chats/ChatsSidebar";
-import FilesScreen from "../screenobjects/files/FilesScreen";
-import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
-import { USER_A_INSTANCE } from "../helpers/constants";
+import "module-alias/register";
+import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
+import FilesScreen from "@screenobjects/files/FilesScreen";
+import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
+import { USER_A_INSTANCE } from "@helpers/constants";
 let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);

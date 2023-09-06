@@ -1,6 +1,7 @@
-import SettingsAudioScreen from "../screenobjects/settings/SettingsAudioScreen";
-import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
-import { USER_A_INSTANCE } from "../helpers/constants";
+import "module-alias/register";
+import SettingsAudioScreen from "@screenobjects/settings/SettingsAudioScreen";
+import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
+import { USER_A_INSTANCE } from "@helpers/constants";
 let settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
 let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
 

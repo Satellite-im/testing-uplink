@@ -1,6 +1,7 @@
-import SettingsAccessibilityScreen from "../screenobjects/settings/SettingsAccessibilityScreen";
-import SettingsExtensionsScreen from "../screenobjects/settings/SettingsExtensionsScreen";
-import { USER_A_INSTANCE } from "../helpers/constants";
+import "module-alias/register";
+import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
+import SettingsExtensionsScreen from "@screenobjects/settings/SettingsExtensionsScreen";
+import { USER_A_INSTANCE } from "@helpers/constants";
 let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
   USER_A_INSTANCE
 );

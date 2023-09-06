@@ -1,9 +1,10 @@
-import EditGroup from "../../screenobjects/chats/EditGroup";
-import ChatsSidebar from "../../screenobjects/chats/ChatsSidebar";
-import FilesScreen from "../../screenobjects/files/FilesScreen";
-import Topbar from "../../screenobjects/chats/Topbar";
-import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
-import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
+import "module-alias/register";
+import EditGroup from "@screenobjects/chats/EditGroup";
+import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
+import FilesScreen from "@screenobjects/files/FilesScreen";
+import Topbar from "@screenobjects/chats/Topbar";
+import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
 let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
 let chatsSidebarSecondUser = new ChatsSidebar(USER_B_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);

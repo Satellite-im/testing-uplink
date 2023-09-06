@@ -1,23 +1,24 @@
+import "module-alias/register";
 import {
   createNewUser,
   createNewUserSecondInstance,
   getUserKey,
   maximizeWindow,
   saveTestKeys,
-} from "../../helpers/commands";
-import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
-import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
-import EmojiSelector from "../../screenobjects/chats/EmojiSelector";
-import FavoritesSidebar from "../../screenobjects/chats/FavoritesSidebar";
-import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
-import InputBar from "../../screenobjects/chats/InputBar";
-import MessageGroup from "../../screenobjects/chats/MessageGroup";
-import Messages from "../../screenobjects/chats/Messages";
-import Topbar from "../../screenobjects/chats/Topbar";
-import SettingsGeneralScreen from "../../screenobjects/settings/SettingsGeneralScreen";
-import SettingsNotificationsScreen from "../../screenobjects/settings/SettingsNotificationsScreen";
-import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
-import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
+} from "@helpers/commands";
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
+import ChatsLayout from "@screenobjects/chats/ChatsLayout";
+import EmojiSelector from "@screenobjects/chats/EmojiSelector";
+import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
+import FriendsScreen from "@screenobjects/friends/FriendsScreen";
+import InputBar from "@screenobjects/chats/InputBar";
+import MessageGroup from "@screenobjects/chats/MessageGroup";
+import Messages from "@screenobjects/chats/Messages";
+import Topbar from "@screenobjects/chats/Topbar";
+import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
+import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
+import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
