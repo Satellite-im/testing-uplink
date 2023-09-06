@@ -15,7 +15,7 @@ const SELECTORS_WINDOWS = {
   FAVORITES: '[name="Favorites"]',
   FAVORITES_CONTEXT_CHAT: '[name="favorites-chat"]',
   FAVORITES_CONTEXT_REMOVE: '[name="favorites-remove"]',
-  FAVORITES_USER: "//Group",
+  FAVORITES_USER: "<Group>",
   FAVORITES_USER_IMAGE: '[name="User Image"]',
   FAVORITES_USER_IMAGE_GROUP_WRAP: '[name="user-image-group-wrap"]',
   FAVORITES_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
@@ -23,6 +23,11 @@ const SELECTORS_WINDOWS = {
   FAVORITES_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FAVORITES_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   SLIMBAR: '[name="slimbar"]',
+  SLIMBAR_BUTTON_NAV: '[name="button-nav"]',
+  SLIMBAR_CHATS_BUTTON: '[name="chats-button"]',
+  SLIMBAR_FILES_BUTTON: '[name="files-button"]',
+  SLIMBAR_FRIENDS_BUTTON: '[name="friends-button"]',
+  SLIMBAR_SETTINGS_BUTTON: '[name="settings-button"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
 };
@@ -39,6 +44,11 @@ const SELECTORS_MACOS = {
   FAVORITES_USER_INDICATOR_OFFLINE: "~indicator-offline",
   FAVORITES_USER_INDICATOR_ONLINE: "~indicator-online",
   SLIMBAR: "~slimbar",
+  SLIMBAR_BUTTON_NAV: "~button-nav",
+  SLIMBAR_CHATS_BUTTON: "~chats-button",
+  SLIMBAR_FILES_BUTTON: "~files-button",
+  SLIMBAR_FRIENDS_BUTTON: "~friends-button",
+  SLIMBAR_SETTINGS_BUTTON: "~settings-button",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -133,6 +143,26 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     return this.instance.$(SELECTORS.SLIMBAR);
   }
 
+  get slimbarButtonNav() {
+    return this.slimbar.$(SELECTORS.SLIMBAR_BUTTON_NAV);
+  }
+
+  get slimbarChatsButton() {
+    return this.slimbarButtonNav.$(SELECTORS.SLIMBAR_CHATS_BUTTON);
+  }
+
+  get slimbarFilesButton() {
+    return this.slimbarButtonNav.$(SELECTORS.SLIMBAR_FILES_BUTTON);
+  }
+
+  get slimbarFriendsButton() {
+    return this.slimbarButtonNav.$(SELECTORS.SLIMBAR_FRIENDS_BUTTON);
+  }
+
+  get slimbarSettingsButton() {
+    return this.slimbarButtonNav.$(SELECTORS.SLIMBAR_SETTINGS_BUTTON);
+  }
+
   // Favorites methods
 
   async clickOnContextMenuFavoritesChat() {
@@ -165,5 +195,45 @@ export default class FavoritesSidebar extends UplinkMainScreen {
       await rightClickOnWindows(element, this.executor);
     }
     await this.contextMenu.waitForDisplayed();
+  }
+
+  // Slimbar NavBar methods
+
+  async clickOnSlimbarChatsButton() {
+    await this.slimbarChatsButton.click();
+  }
+
+  async clickOnSlimbarFilesButton() {
+    await this.slimbarFilesButton.click();
+  }
+
+  async clickOnSlimbarFriendsButton() {
+    await this.slimbarFriendsButton.click();
+  }
+
+  async clickOnSlimbarSettingsButton() {
+    await this.slimbarSettingsButton.click();
+  }
+
+  // Hovering methods
+
+  async hoverOnSlimbarChatsButton() {
+    const element = await this.slimbarChatsButton;
+    await this.hoverOnElement(element);
+  }
+
+  async hoverOnSlimbarFilesButton() {
+    const element = await this.slimbarFilesButton;
+    await this.hoverOnElement(element);
+  }
+
+  async hoverOnSlimbarFriendsButton() {
+    const element = await this.slimbarFriendsButton;
+    await this.hoverOnElement(element);
+  }
+
+  async hoverOnSlimbarSettingsButton() {
+    const element = await this.slimbarSettingsButton;
+    await this.hoverOnElement(element);
   }
 }

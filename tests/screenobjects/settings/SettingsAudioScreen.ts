@@ -14,7 +14,7 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
-  DROPDOWN_MENU: "//ComboBox",
+  DROPDOWN_MENU: "<ComboBox>",
   DROPDOWN_OPTION: '[name="Selector Option"]',
   RADIO_OPTION_HIGH: '[name="radio-option-High"]',
   RADIO_OPTION_LOW: '[name="radio-option-Low"]',
@@ -23,13 +23,13 @@ const SELECTORS_WINDOWS = {
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
-  SETTINGS_INFO_DESCRIPTION: "//Text[2]",
+  SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
   SETTINGS_SECTION: '[name="settings-section"]',
   SELECTOR: '[name="Switch Slider"]',
-  SLIDER: "-ios class chain:**/XCUIElementTypeSlider",
-  SLIDER_VALUE_INDICATOR: "-ios class chain:**/XCUIElementTypeValueIndicator",
-  SLIDER_VALUE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  SLIDER: "<Slider>",
+  SLIDER_VALUE_INDICATOR: "<Image>[1]",
+  SLIDER_VALUE_TEXT: "<Text>",
   SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 

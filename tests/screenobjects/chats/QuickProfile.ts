@@ -22,7 +22,7 @@ const SELECTORS_WINDOWS = {
   QUICK_PROFILE_USER_IMAGE: '[name="profile-image"]',
   QUICK_PROFILE_USER_NAME: '[name="profile-name"]',
   QUICK_PROFILE_USER_NAME_VALUE: '[name="profile-name-value"]',
-  QUICK_PROFILE_USER_NAME_VALUE_TEXT: "//Text",
+  QUICK_PROFILE_USER_NAME_VALUE_TEXT: "<Text>",
 };
 
 const SELECTORS_MACOS = {

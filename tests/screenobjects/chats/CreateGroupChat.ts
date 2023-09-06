@@ -16,7 +16,7 @@ const SELECTORS_WINDOWS = {
   CREATE_GROUP_CHAT_BUTTON: '[name="create-dm-button"]',
   CREATE_GROUP_CHAT_SECTION: '[name="Create Group"]',
   CREATE_GROUP_INPUT_ERROR: '[name="input-error"]',
-  CREATE_GROUP_INPUT_ERROR_TEXT: "//Text",
+  CREATE_GROUP_INPUT_ERROR_TEXT: "<Text>",
   CREATE_GROUP_NAME: '[name="create-group-name"]',
   CREATE_GROUP_NAME_LABEL: '[name="group-name-label"]',
   CREATE_GROUP_USERS_LABEL: '[name="users-label"]',
@@ -27,10 +27,10 @@ const SELECTORS_WINDOWS = {
   FRIEND_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FRIEND_INDICATOR_ONLINE: '[name="indicator-online"]',
   FRIEND_USER_NAME: '[name="friend-name"]',
-  FRIEND_USER_NAME_TEXT: "//Text",
+  FRIEND_USER_NAME_TEXT: "<Text>",
   FRIENDS_LIST: '[name="friends-list"]',
-  GROUP_NAME_INPUT: '//Edit[@Name="groupname-input"]',
-  USER_SEARCH_INPUT: '//Edit[@Name="friend-search-input"]',
+  GROUP_NAME_INPUT: '[name="groupname-input"]',
+  USER_SEARCH_INPUT: '[name="friend-search-input"]',
 };
 
 const SELECTORS_MACOS = {

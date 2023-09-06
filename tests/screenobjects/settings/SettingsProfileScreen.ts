@@ -25,10 +25,10 @@ const SELECTORS_WINDOWS = {
   COPY_ID_BUTTON: '[name="copy-id-button"]',
   DISMISS_BUTTON: '[name="welcome-message-dismiss"]',
   INPUT_ERROR: '[name="input-error"]',
-  INPUT_ERROR_MESSAGE: "//Text",
+  INPUT_ERROR_MESSAGE: "<Text>",
   PROFILE_BANNER: '[name="profile-banner"]',
   PROFILE_BANNER_CLEAR: '[name="clear-banner"]',
-  PROFILE_BANNER_TOOLTIP: "//Text",
+  PROFILE_BANNER_TOOLTIP: "<Text>",
   PROFILE_CONTENT: '[name="profile-content"]',
   PROFILE_HEADER: '[name="profile-header"]',
   PROFILE_PICTURE: '[name="profile-picture"]',
@@ -41,9 +41,9 @@ const SELECTORS_WINDOWS = {
   USERNAME_LABEL: '//Text[@Name="profile-username-label"]/Text',
   YOUR_NEW_PROFILE: '[name="new-profile-welcome"]',
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE: '[name="welcome-message-desc"]',
-  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE_VALUE: "//Text",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE_VALUE: "<Text>",
   YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO: '[name="welcome-message-cta"]',
-  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO_VALUE: "//Text",
+  YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO_VALUE: "<Text>",
   YOUR_NEW_PROFILE_HEADER_TEXT: '[name="welcome-message"]',
   YOUR_NEW_PROFILE_HEADER_TEXT_VALUE: '//Text[@Name="YOUR NEW PROFILE!"]',
 };
@@ -292,11 +292,13 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // Invoke File Selection method depending on current OS driver
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
-    await this.profileBanner.click();
     if (currentDriver === MACOS_DRIVER) {
+      await this.profileBanner.click();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await selectFileOnWindows(relativePath);
+      await this.profileBanner.click();
+      const uplinkContext = await driver[this.executor].getWindowHandle();
+      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
     }
 
     // Validate that profile banner is displayed on screen
@@ -307,11 +309,13 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // Invoke File Selection method depending on current OS driver
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
-    await this.clickOnAddPictureButton();
     if (currentDriver === MACOS_DRIVER) {
+      await this.clickOnAddPictureButton();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await selectFileOnWindows(relativePath);
+      await this.clickOnAddPictureButton();
+      const uplinkContext = await driver[this.executor].getWindowHandle();
+      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
     }
 
     // Validate that profile banner is displayed on screen
