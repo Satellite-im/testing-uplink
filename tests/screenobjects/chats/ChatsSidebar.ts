@@ -321,6 +321,14 @@ export default class ChatsSidebar extends UplinkMainScreen {
     await this.sidebarChatsUserImageProfile.waitForExist({ reverse: true });
   }
 
+  async validateSidebarChatIsNotDisplayed(username: string) {
+    const locator = await this.getNonExistingElementByAriaLabel(username);
+    await this.instance
+      .$(SELECTORS.SIDEBAR)
+      .$(locator)
+      .waitForExist({ reverse: true });
+  }
+
   async validateNoSidebarGroupChatsAreDisplayed() {
     await this.sidebarGroupChatImage.waitForExist({ reverse: true });
   }

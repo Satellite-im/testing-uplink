@@ -139,7 +139,7 @@ export default async function sidebarChatsTests() {
   it("Chat User A - Sidebar - Context Menu - Hide chat", async () => {
     await chatsSidebarFirstUser.openContextMenuOnSidebar("ChatUserB");
     await contextMenuSidebarFirstUser.selectChatsHideChat();
-    await chatsSidebarFirstUser.validateNoSidebarChatsAreDisplayed();
+    await chatsSidebarFirstUser.validateSidebarChatIsNotDisplayed("ChatUserB");
   });
 
   it("Chat User A - Sidebar - Send a message to User B", async () => {
