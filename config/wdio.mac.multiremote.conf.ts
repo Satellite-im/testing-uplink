@@ -1,8 +1,9 @@
+import "module-alias/register";
 import allureReporter from '@wdio/allure-reporter'
-import { config as sharedConfig } from './wdio.shared.conf';
+import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { homedir } from "os";
 import { join } from "path";
-import { MACOS_DRIVER, MACOS_USER_A_BUNDLE_ID, MACOS_USER_B_BUNDLE_ID } from "../tests/helpers/constants";
+import { MACOS_DRIVER, MACOS_USER_A_BUNDLE_ID, MACOS_USER_B_BUNDLE_ID } from "@helpers/constants";
 const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
 

@@ -1,12 +1,13 @@
+import "module-alias/register";
 import { faker } from "@faker-js/faker";
 import {
   MACOS_DRIVER,
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
-} from "../../helpers/constants";
-import { selectFileOnMacos, selectFileOnWindows } from "../../helpers/commands";
+} from "@helpers/constants";
+import { selectFileOnMacos, selectFileOnWindows } from "@helpers/commands";
 import { join } from "path";
-import UplinkMainScreen from "../UplinkMainScreen";
+import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};

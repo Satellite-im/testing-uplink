@@ -1,10 +1,11 @@
-import UplinkMainScreen from "../UplinkMainScreen";
+import "module-alias/register";
+import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import {
   USER_A_INSTANCE,
   MACOS_DRIVER,
   WINDOWS_DRIVER,
-} from "../../helpers/constants";
-import { rightClickOnMacOS, rightClickOnWindows } from "../../helpers/commands";
+} from "@helpers/constants";
+import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};

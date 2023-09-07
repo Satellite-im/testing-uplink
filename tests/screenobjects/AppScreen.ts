@@ -1,4 +1,5 @@
-import { MACOS_DRIVER, WINDOWS_DRIVER } from "../helpers/constants";
+import "module-alias/register";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 const robot = require("robotjs");
 export default class AppScreen {
   public executor;

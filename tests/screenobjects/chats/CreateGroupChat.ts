@@ -1,11 +1,12 @@
+import "module-alias/register";
 const robot = require("robotjs");
-import { getClipboardMacOS } from "../../helpers/commands";
+import { getClipboardMacOS } from "@helpers/commands";
 import {
   MACOS_DRIVER,
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
-} from "../../helpers/constants";
-import UplinkMainScreen from "../UplinkMainScreen";
+} from "@helpers/constants";
+import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};

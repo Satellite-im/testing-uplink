@@ -1,6 +1,7 @@
-import SettingsDeveloperScreen from "../screenobjects/settings/SettingsDeveloperScreen";
-import SettingsNotificationsScreen from "../screenobjects/settings/SettingsNotificationsScreen";
-import { USER_A_INSTANCE } from "../helpers/constants";
+import "module-alias/register";
+import SettingsDeveloperScreen from "@screenobjects/settings/SettingsDeveloperScreen";
+import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
+import { USER_A_INSTANCE } from "@helpers/constants";
 let settingsDeveloperFirstUser = new SettingsDeveloperScreen(USER_A_INSTANCE);
 let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
   USER_A_INSTANCE

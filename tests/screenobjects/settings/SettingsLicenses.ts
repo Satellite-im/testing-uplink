@@ -1,5 +1,6 @@
-import SettingsBaseScreen from "./SettingsBaseScreen";
-import { USER_A_INSTANCE, WINDOWS_DRIVER } from "../../helpers/constants";
+import "module-alias/register";
+import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
+import { USER_A_INSTANCE, WINDOWS_DRIVER } from "@helpers/constants";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};

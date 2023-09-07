@@ -1,16 +1,17 @@
-import { resetAndLoginWithCache } from "../helpers/commands";
-import ChatsLayout from "../screenobjects/chats/ChatsLayout";
-import ChatsSidebar from "../screenobjects/chats/ChatsSidebar";
-import FavoritesSidebar from "../screenobjects/chats/FavoritesSidebar";
-import FriendsScreen from "../screenobjects/friends/FriendsScreen";
-import InputBar from "../screenobjects/chats/InputBar";
+import "module-alias/register";
+import { resetAndLoginWithCache } from "@helpers/commands";
+import ChatsLayout from "@screenobjects/chats/ChatsLayout";
+import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
+import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
+import FriendsScreen from "@screenobjects/friends/FriendsScreen";
+import InputBar from "@screenobjects/chats/InputBar";
 import {
   CHAT_USER_B_ID,
   CHAT_USER_C_ID,
   CHAT_USER_L_ID,
   USER_A_INSTANCE,
-} from "../helpers/constants";
-import UplinkMainScreen from "../screenobjects/UplinkMainScreen";
+} from "@helpers/constants";
+import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
