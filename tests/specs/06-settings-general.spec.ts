@@ -1,10 +1,11 @@
-import SettingsGeneralScreen from "../screenobjects/settings/SettingsGeneralScreen";
-import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
+import "module-alias/register";
+import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
+import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import {
   USER_A_INSTANCE,
   MACOS_DRIVER,
   WINDOWS_DRIVER,
-} from "../helpers/constants";
+} from "@helpers/constants";
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
 

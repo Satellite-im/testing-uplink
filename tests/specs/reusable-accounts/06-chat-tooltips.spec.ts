@@ -1,6 +1,7 @@
-import InputBar from "../../screenobjects/chats/InputBar";
-import Topbar from "../../screenobjects/chats/Topbar";
-import { USER_A_INSTANCE } from "../../helpers/constants";
+import "module-alias/register";
+import InputBar from "@screenobjects/chats/InputBar";
+import Topbar from "@screenobjects/chats/Topbar";
+import { USER_A_INSTANCE } from "@helpers/constants";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 

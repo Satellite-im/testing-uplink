@@ -1,12 +1,13 @@
+import "module-alias/register";
 import {
   createNewUser,
   grabCacheFolder,
   resetApp,
   saveTestKeys,
-} from "../helpers/commands";
-import { USER_A_INSTANCE } from "../helpers/constants";
-import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
-import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
+} from "@helpers/commands";
+import { USER_A_INSTANCE } from "@helpers/constants";
+import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 

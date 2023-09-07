@@ -1,5 +1,6 @@
+import "module-alias/register";
 import allureReporter from '@wdio/allure-reporter'
-import { config as sharedConfig } from './wdio.shared.conf';
+import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { homedir } from "os";
 import { join } from "path";
 const fsp = require("fs").promises;

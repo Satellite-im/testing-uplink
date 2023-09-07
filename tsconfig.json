@@ -16,7 +16,15 @@
       "expect-webdriverio",
       "@wdio/globals/types",
       "@wdio/sauce-service"
-    ]
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@config/*": ["./config/*"],
+      "@fixtures/*": ["./tests/fixtures/*"],
+      "@helpers/*": ["./tests/helpers/*"],
+      "@screenobjects/*": ["./tests/screenobjects/*"],
+      "@specs/*": ["./tests/specs/*"],
+    }
   },
-  "include": ["./config/**/*.ts", "./tests/**/*.ts"]
+  "include": ["./config/**/*.ts", "./tests/**/*.ts"],
 }
