@@ -1,8 +1,9 @@
-import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
-import ContextMenu from "../../screenobjects/chats/ContextMenu";
-import InputBar from "../../screenobjects/chats/InputBar";
-import MessageGroup from "../../screenobjects/chats/MessageGroup";
-import Messages from "../../screenobjects/chats/Messages";
+import "module-alias/register";
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
+import ContextMenu from "@screenobjects/chats/ContextMenu";
+import InputBar from "@screenobjects/chats/InputBar";
+import MessageGroup from "@screenobjects/chats/MessageGroup";
+import Messages from "@screenobjects/chats/Messages";
 let chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
 let chatsContextMenuSecondUser = new ContextMenu(USER_B_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);

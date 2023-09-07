@@ -1,3 +1,4 @@
+import "module-alias/register";
 import {
   createNewUser,
   createNewUserSecondInstance,
@@ -5,15 +6,15 @@ import {
   saveTestKeys,
 } from "./commands";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "./constants";
-import InputBar from "../screenobjects/chats/InputBar";
-import ChatsLayout from "../screenobjects/chats/ChatsLayout";
-import FriendsScreen from "../screenobjects/friends/FriendsScreen";
-import Messages from "../screenobjects/chats/Messages";
-import MessageGroup from "../screenobjects/chats/MessageGroup";
-import QuickProfile from "../screenobjects/chats/QuickProfile";
-import Topbar from "../screenobjects/chats/Topbar";
-import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
-import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
+import InputBar from "@screenobjects/chats/InputBar";
+import ChatsLayout from "@screenobjects/chats/ChatsLayout";
+import FriendsScreen from "@screenobjects/friends/FriendsScreen";
+import Messages from "@screenobjects/chats/Messages";
+import MessageGroup from "@screenobjects/chats/MessageGroup";
+import QuickProfile from "@screenobjects/chats/QuickProfile";
+import Topbar from "@screenobjects/chats/Topbar";
+import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
