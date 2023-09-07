@@ -1,10 +1,11 @@
-import ChatsSidebar from "../screenobjects/chats/ChatsSidebar";
-import FavoritesSidebar from "../screenobjects/chats/FavoritesSidebar";
-import FilesScreen from "../screenobjects/files/FilesScreen";
-import FriendsScreen from "../screenobjects/friends/FriendsScreen";
-import SettingsProfileScreen from "../screenobjects/settings/SettingsProfileScreen";
-import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
-import { USER_A_INSTANCE } from "../helpers/constants";
+import "module-alias/register";
+import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
+import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
+import FilesScreen from "@screenobjects/files/FilesScreen";
+import FriendsScreen from "@screenobjects/friends/FriendsScreen";
+import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
+import { USER_A_INSTANCE } from "@helpers/constants";
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);

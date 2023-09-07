@@ -1,8 +1,9 @@
-import { maximizeWindow } from "../helpers/commands";
-import { WINDOWS_DRIVER, USER_A_INSTANCE } from "../helpers/constants";
-import CreatePinScreen from "../screenobjects/account-creation/CreatePinScreen";
-import CreateUserScreen from "../screenobjects/account-creation/CreateUserScreen";
-import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
+import "module-alias/register";
+import { maximizeWindow } from "@helpers/commands";
+import { WINDOWS_DRIVER, USER_A_INSTANCE } from "@helpers/constants";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
+import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
+import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
 let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);

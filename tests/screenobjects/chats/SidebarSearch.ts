@@ -1,8 +1,9 @@
+import "module-alias/register";
 import {
   WINDOWS_DRIVER as windowsDriver,
   USER_A_INSTANCE as firstUserInstance,
-} from "../../helpers/constants";
-import UplinkMainScreen from "../UplinkMainScreen";
+} from "@helpers/constants";
+import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
 const currentOS = driver[firstUserInstance].capabilities.automationName;
 let SELECTORS = {};

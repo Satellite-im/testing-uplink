@@ -1,16 +1,17 @@
-import createAccount from "../../specs/01-create-account.spec";
-import chats from "../../specs/02-chats.spec";
-import files from "../../specs/03-files.spec";
-import settingsProfile from "../../specs/05-settings-profile.spec";
-import settingsGeneral from "../../specs/06-settings-general.spec";
-import settingsAudio from "../../specs/07-settings-audio.spec";
-import settingsExtensions from "../../specs/08-settings-extensions.spec";
-import settingsNotifications from "../../specs/09-settings-notifications.spec";
-import settingsDeveloper from "../../specs/10-settings-developer.spec";
-import settingsAccessibility from "../../specs/11-settings-accessibility.spec";
-import settingsAbout from "../../specs/12-settings-about.spec";
-import settingsLicenses from "../../specs/13-settings-licenses.spec";
-import friends from "../../specs/04-friends.spec";
+import "module-alias/register";
+import createAccount from "@specs/01-create-account.spec";
+import chats from "@specs/02-chats.spec";
+import files from "@specs/03-files.spec";
+import settingsProfile from "@specs/05-settings-profile.spec";
+import settingsGeneral from "@specs/06-settings-general.spec";
+import settingsAudio from "@specs/07-settings-audio.spec";
+import settingsExtensions from "@specs/08-settings-extensions.spec";
+import settingsNotifications from "@specs/09-settings-notifications.spec";
+import settingsDeveloper from "@specs/10-settings-developer.spec";
+import settingsAccessibility from "@specs/11-settings-accessibility.spec";
+import settingsAbout from "@specs/12-settings-about.spec";
+import settingsLicenses from "@specs/13-settings-licenses.spec";
+import friends from "@specs/04-friends.spec";
 
 describe("MacOS Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));

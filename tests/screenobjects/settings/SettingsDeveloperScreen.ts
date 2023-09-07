@@ -1,11 +1,12 @@
-import SettingsBaseScreen from "./SettingsBaseScreen";
-import { clickOnSwitchMacOS } from "../../helpers/commands";
+import "module-alias/register";
+import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
+import { clickOnSwitchMacOS } from "@helpers/commands";
 import {
   MACOS_BUNDLE_ID,
   MACOS_DRIVER,
   USER_A_INSTANCE,
   WINDOWS_DRIVER,
-} from "../../helpers/constants";
+} from "@helpers/constants";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
