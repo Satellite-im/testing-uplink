@@ -2,7 +2,7 @@
 
 ## Aria Labels
 
-Under Uplink repository code, you will find several "aria_label" attributed added into elements from kit/src and UI/src inside the *.rs files. These attributes are added to the UI elements from Uplink in order to be used later when creating locators to interact with the same elements inside the automated tests from Appium/WebdriverIO. When creating desktop builds for the application, these aria labels are added as "Accessibility ID" on MacOS and Class Name/Automation ID into Windows, and these are one of the preferred localization strategies used in automated frameworks, due to reliability to identify a single element and faster execution on tests, instead of using Xpath, which is an alternative when no UI locators have been added to the elements yet
+Under Uplink repository code, you will find several "aria_label" attributed added into elements from kit/src and UI/src inside the \*.rs files. These attributes are added to the UI elements from Uplink in order to be used later when creating locators to interact with the same elements inside the automated tests from Appium/WebdriverIO. When creating desktop builds for the application, these aria labels are added as "Accessibility ID" on MacOS and Class Name/Automation ID into Windows, and these are one of the preferred localization strategies used in automated frameworks, due to reliability to identify a single element and faster execution on tests, instead of using Xpath, which is an alternative when no UI locators have been added to the elements yet
 
 ## Screenobject Files
 
@@ -72,10 +72,9 @@ Job that executes all tests under Windows application requiring only a single in
 
 Job that executes all tests under Windows application requiring two instances of Uplink. For now, there are more than 100 tests executed using two instances at the same time, including validations on create two accounts under execution, passing the friend request process, validations on Chat Screen between the two users and on group chats.
 
-
 ### How to find if a test is failing under your Pull Request
 
-Automated testing framework is designed to provide the more feedback as possible to developers. When the test jobs described above are completed, there are other supplementary steps in the workflow in charge of posting test results and deleting artifacts if tests are completed. 
+Automated testing framework is designed to provide the more feedback as possible to developers. When the test jobs described above are completed, there are other supplementary steps in the workflow in charge of posting test results and deleting artifacts if tests are completed.
 
 #### UI Tests Results Summary Comment
 
@@ -117,7 +116,7 @@ There could be different reasons causing a test to fail, for example:
 
 When adding new elements in /UI/Src files from Uplink repository using common HTML elements, then you can easily add a new aria label to the element, by adding the property "aria_label" and assign a short value separated by dashes identifying the action performed by the element. Example on Uplink Repo (ui/src/layouts/storage/mod.rs - Line 287):
 
-```
+```rs
 rsx!(
     p {
         class: "free-space",
@@ -132,7 +131,7 @@ rsx!(
 
 ### How to add/update an aria label for a new UI/Src element defined on UI/Kit
 
-There are elements from UI/Src in Uplink repository which already have the property aria label assigned as optional. 
+There are elements from UI/Src in Uplink repository which already have the property aria label assigned as optional.
 
 Examples:
 
@@ -149,7 +148,7 @@ Examples:
 
 For the following elements, it is possible to add an aria label by assigning the aria label property to the element and then adding the method .into(). For example, the following UI element based on the Button from kit/src/elements, the aria label added is declared as "aria-value".into(). Example from kit/src/components/embeds/file_embed/mod.rs - Line 294.
 
-```
+```rs
 if with_download_button {
     rsx!(
         Button {
@@ -168,7 +167,7 @@ This is the most complex case on adding aria labels, when you need to add an ari
 
 1. Add the property aria_label as optional string into the definition of the public struct defined in the kit/src file. Below, you can find an example from kit/src/components/context_menu/mod.rs - Line 23
 
-```
+```rs
 #[derive(Props)]
 pub struct ItemProps<'a> {
     #[props(optional)]
@@ -188,13 +187,13 @@ pub struct ItemProps<'a> {
 
 2. Declare a variable named aria_label that will hold the value assigned to the label. This variable unwrap the value if exists or return a default value if it does not exist. In order, to handle optional values in case that aria label is not defined for all the elements using this structure. Below, you can find an example from kit/src/components/context_menu/mod.rs - Line 51
 
-```
+```rs
 let aria_label = cx.props.aria_label.clone().unwrap_or_default();
 ```
 
 3. Inside the rendering part of the code, when you declare the attributes from the HTML element, add a placeholder for the aria_label property, like the example below from kit/src/components/context_menu/mod.rs - Line 62:
 
-```
+```rs
 cx.render(rsx!(
     button {
         class: format_args!("{class} {}", if disabled {"context-item-disabled"} else {""}),
@@ -210,8 +209,109 @@ cx.render(rsx!(
 
 ### How to update the aria label in the screenobject file
 
-To be added soon...
+1. First, go to the [`Screenobject files`](../tests/screenobjects/) and identify the file containing the selector declarations, depending on which component is being modified. Using the same example from above adding an aria label for Attachment Button on file embeds on chat messages, you can find the selectors assignments in the [`Compose Attachment screenobject file`](../tests/screenobjects/chats/ComposeAttachment.ts)
 
-### How to add a new UI locator in the screenobject file
+2. Now with the file open, look for the selector declarations of the UI Element being affected. In this case, COMPOSE_ATTACHMENTS_BUTTON:
 
-To be added soon...
+Windows Selectors:
+
+```js
+const SELECTORS_WINDOWS = {
+  COMPOSE_ATTACHMENTS_BUTTON: "to-be-assigned",
+};
+```
+
+MacOS Selectors:
+
+```js
+const SELECTORS_MACOS = {
+  COMPOSE_ATTACHMENTS_BUTTON: "to-be-assigned",
+};
+```
+
+3. You can add the aria label locator to each selector definition, by using the pattern from below. Using the same example from above with aria label "attachment-button":
+
+For Windows selectors:
+
+```js
+const SELECTORS_WINDOWS = {
+  COMPOSE_ATTACHMENTS_BUTTON: '[name="attachment-button"]',
+};
+```
+
+For MacOS selectors:
+
+```js
+const SELECTORS_WINDOWS = {
+  COMPOSE_ATTACHMENTS_BUTTON: "~attachment-button",
+};
+```
+
+4. After that, in the getter methods section from the file, create a getter method to access locate the element:
+
+```js
+get composeAttachmentsButton() {
+    return this.instance
+      .$(SELECTORS.COMPOSE_ATTACHMENTS)
+      .$(SELECTORS.COMPOSE_ATTACHMENTS_BUTTON);
+  }
+```
+
+Notes:
+
+- Instance (UserA or UserB) will be automatically obtained using the getter "instance" from the parent class "AppScreen"
+- ".$()" is a function from webdriverIO to findElement and ".$$()" is the function to findElements.
+- If the code chains multiple findElement functions, then the code will traverse the DOM tree to find the elements
+
+5. Finally, in the methods to interact with the class section from the screen object file, you can create functions to interact with the elements declared before, by using the WebdriverIO API methods. For example, to click on our composeAttachmentsButtons element, we can create the following method:
+
+```js
+async clickOnComposeButton() {
+    await this.composeAttachmentsButton.click();
+  }
+```
+
+Find more information about the WebdriverIO API methods in the following [`link`](https://webdriver.io/docs/api/element)
+
+6. Any changes proposed to the testing-uplink repository will require to be sent within a pull request.
+
+### How to add a new UI locator from an existing component in the screenobject file
+
+1. If the new UI locator to be added is part of a component from a screenobject class previously declared, you can just follow the steps mentioned above
+2. However, if the new UI locator to be added is not part of a component from a screenobject class previously declared, then there are no tests being affected by this and therefore will be added in the future by the time the tests for this new component are created
+
+### How to update a test file being affected by aria label change
+
+1. If a test is failing due to a recent change from aria label assigned to the UI element, usually following the process from above to update the screenobject selector should be enough to fix the tests interacting with the element
+2. However, there are cases when the UI locator is not modified, but a property from the UI element is changed (the most common example, is the text or default value). In this case, usually the change that should be added to a test should be applied inside the [`Spec files`](../tests/specs/)
+3. For example, as an example, there is one text display when no friends have been added yet in the application stating "Things are better with friends.". Imagine that someday this message is changed to "No friends added yet!"
+
+4. First, you would need to identify the test spec file containing the test failing. In this case is [`Create Account Spec File`](../tests/specs/01-create-account.spec.ts)
+
+```js
+it("Validate Welcome Screen is displayed", async () => {
+  await expect(welcomeScreenFirstUser.addSomeoneText).toHaveTextContaining(
+    "Things are better with friends."
+  );
+});
+```
+
+5. Following the same example, there is one assertion validating that addSomeoneText contains the text "Things are better with friends.". This is the piece that should be updated to the new text from the UI element. Our final code would look like this:
+
+```js
+it("Validate Welcome Screen is displayed", async () => {
+  await expect(welcomeScreenFirstUser.addSomeoneText).toHaveTextContaining(
+    "No friends added yet!"
+  );
+});
+```
+
+6. There are less common cases when the tests failing are not related to aria label/ui locator or element property changes. In these cases, it is recommended to skip the test initially (by adding the prefix "xit" to the test) and do a further research to find the reason of failure and then apply the required changes into the spec or screenobject files being affected. Here is an example on how to skip a test:
+
+```js
+xit("Validate Welcome Screen is displayed", async () => {
+  // Steps executed in the test
+});
+```
+
+7. Any changes proposed to the testing-uplink repository will require to be sent within a pull request.
