@@ -127,28 +127,12 @@ export const config: WebdriverIO.Config = {
     /**
      * Function to be executed after a test (in Mocha/Jasmine).
      */
-    beforeTest: async function (test) {
-      // Start video recording for each test
-      await driver.executeScript("macos: startRecordingScreen", [
-        {
-          deviceId: 1
-        },
-      ]);
-    },
-
     afterTest: async function (test, describe, { error }) {
-        // Stop video recording and saved it into base64 format
-        const base64Video = await driver.executeScript("macos: stopRecordingScreen", [
-          {
-            remotePath: ""
-          },
-        ]);
         if (error) {
           // If test fails, take a screenshot, make a folder with the test name and save it there
           let imageFile = await driver.takeScreenshot();
           const imageFolder = join(process.cwd(), "./test-results/macos-ci", test.parent);
           const imageTitle = test.title + " - Failed.png";
-          const videoTitle = test.title + " - Failed.mp4"
           await fsp.mkdir(imageFolder, {recursive: true});
           await fsp.writeFile(
             imageFolder + "/" + imageTitle,
@@ -156,18 +140,9 @@ export const config: WebdriverIO.Config = {
             "base64"
           );
 
-          // Write Video File if test failure and add it to failed screenshots folder
-          await fsp.writeFile(
-            imageFolder + "/" + videoTitle,
-            base64Video,
-            "base64"
-          );
-
-          // Add to Screenshot and Video to Allure Reporter
+          // Add to Screenshot to Allure Reporter
           const dataImage = await readFileSync(`${imageFolder}/${imageTitle}`);
-          const dataVideo = await readFileSync(`${imageFolder}/${videoTitle}`);
           allureReporter.addAttachment(imageTitle, dataImage, 'image/png')
-          allureReporter.addAttachment(videoTitle, dataVideo, 'video/mp4')
         }
       },
   }
