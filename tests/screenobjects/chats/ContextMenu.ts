@@ -1,9 +1,10 @@
-import UplinkMainScreen from "../UplinkMainScreen";
+import "module-alias/register";
+import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import {
   MACOS_DRIVER,
   USER_A_INSTANCE,
   WINDOWS_DRIVER,
-} from "../../helpers/constants";
+} from "@helpers/constants";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};

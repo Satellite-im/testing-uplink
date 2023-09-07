@@ -1,16 +1,17 @@
+import "module-alias/register";
 import {
   getClipboardMacOS,
   hoverOnMacOS,
   hoverOnWindows,
   selectFileOnMacos,
   selectFileOnWindows,
-} from "../../helpers/commands";
+} from "@helpers/commands";
 import {
   MACOS_DRIVER,
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
-} from "../../helpers/constants";
-import SettingsBaseScreen from "./SettingsBaseScreen";
+} from "@helpers/constants";
+import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 const robot = require("robotjs");

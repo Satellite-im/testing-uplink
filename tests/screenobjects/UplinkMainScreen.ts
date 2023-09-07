@@ -1,10 +1,11 @@
-import AppScreen from "./AppScreen";
-import { hoverOnMacOS, hoverOnWindows } from "../helpers/commands";
+import "module-alias/register";
+import AppScreen from "@screenobjects/AppScreen";
+import { hoverOnMacOS, hoverOnWindows } from "@helpers/commands";
 import {
   MACOS_DRIVER,
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
-} from "../helpers/constants";
+} from "@helpers/constants";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};

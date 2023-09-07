@@ -1,6 +1,7 @@
-import SettingsAboutScreen from "../screenobjects/settings/SettingsAboutScreen";
-import SettingsLicensesScreen from "../screenobjects/settings/SettingsLicenses";
-import { USER_A_INSTANCE } from "../helpers/constants";
+import "module-alias/register";
+import SettingsAboutScreen from "@screenobjects/settings/SettingsAboutScreen";
+import SettingsLicensesScreen from "@screenobjects/settings/SettingsLicenses";
+import { USER_A_INSTANCE } from "@helpers/constants";
 let settingsAboutFirstUser = new SettingsAboutScreen(USER_A_INSTANCE);
 let settingsLicensesFirstUser = new SettingsLicensesScreen(USER_A_INSTANCE);
 

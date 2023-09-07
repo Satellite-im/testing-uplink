@@ -1,14 +1,15 @@
-import { getUserKey } from "../../helpers/commands";
-import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
-import ChatsLayout from "../../screenobjects/chats/ChatsLayout";
-import FriendsScreen from "../../screenobjects/friends/FriendsScreen";
-import InputBar from "../../screenobjects/chats/InputBar";
-import MessageGroup from "../../screenobjects/chats/MessageGroup";
-import Messages from "../../screenobjects/chats/Messages";
-import QuickProfile from "../../screenobjects/chats/QuickProfile";
-import Topbar from "../../screenobjects/chats/Topbar";
-import SettingsProfileScreen from "../../screenobjects/settings/SettingsProfileScreen";
-import WelcomeScreen from "../../screenobjects/welcome-screen/WelcomeScreen";
+import "module-alias/register";
+import { getUserKey } from "@helpers/commands";
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
+import ChatsLayout from "@screenobjects/chats/ChatsLayout";
+import FriendsScreen from "@screenobjects/friends/FriendsScreen";
+import InputBar from "@screenobjects/chats/InputBar";
+import MessageGroup from "@screenobjects/chats/MessageGroup";
+import Messages from "@screenobjects/chats/Messages";
+import QuickProfile from "@screenobjects/chats/QuickProfile";
+import Topbar from "@screenobjects/chats/Topbar";
+import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
+import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);

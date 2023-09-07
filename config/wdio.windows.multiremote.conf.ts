@@ -1,5 +1,6 @@
+import "module-alias/register";
 import allureReporter from '@wdio/allure-reporter'
-import { config as sharedConfig } from './wdio.shared.conf';
+import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { join } from "path";
 const fsp = require("fs").promises;
 const userACacheFolder = join(process.cwd(), "./apps/ChatUserA/.user")

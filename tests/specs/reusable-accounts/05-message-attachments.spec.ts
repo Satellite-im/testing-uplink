@@ -1,8 +1,9 @@
-import { USER_A_INSTANCE, USER_B_INSTANCE } from "../../helpers/constants";
-import ComposeAttachment from "../../screenobjects/chats/ComposeAttachment";
-import InputBar from "../../screenobjects/chats/InputBar";
-import Messages from "../../screenobjects/chats/Messages";
-import Topbar from "../../screenobjects/chats/Topbar";
+import "module-alias/register";
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
+import ComposeAttachment from "@screenobjects/chats/ComposeAttachment";
+import InputBar from "@screenobjects/chats/InputBar";
+import Messages from "@screenobjects/chats/Messages";
+import Topbar from "@screenobjects/chats/Topbar";
 let chatsAttachmentFirstUser = new ComposeAttachment(USER_A_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);

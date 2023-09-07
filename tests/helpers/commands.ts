@@ -1,7 +1,8 @@
-import CreatePinScreen from "../screenobjects/account-creation/CreatePinScreen";
-import CreateUserScreen from "../screenobjects/account-creation/CreateUserScreen";
-import FriendsScreen from "../screenobjects/friends/FriendsScreen";
-import WelcomeScreen from "../screenobjects/welcome-screen/WelcomeScreen";
+import "module-alias/register";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
+import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
+import FriendsScreen from "@screenobjects/friends/FriendsScreen";
+import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import { homedir } from "os";
 import { join } from "path";
 import {
