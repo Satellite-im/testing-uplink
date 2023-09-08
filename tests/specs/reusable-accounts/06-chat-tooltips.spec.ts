@@ -12,7 +12,7 @@ export default async function chatTooltipsTests() {
     await chatsTopbarFirstUser.topbarAddToFavoritesTooltip.waitForDisplayed();
     await expect(
       chatsTopbarFirstUser.topbarAddToFavoritesTooltipText
-    ).toHaveTextContaining("Add to Favorites");
+    ).toHaveTextContaining("Add to FavoritesZZZ");
 
     // Validate Pinned Messages button tooltip
     await chatsTopbarFirstUser.hoverOnPinnedMessagesButton();
