@@ -2,7 +2,7 @@
 
 ## Aria Labels
 
-Under the Uplink repository code, several "aria_label" are added to elements from kit/src and UI/src inside the \*.rs files. These attributes are added to the UI elements from Uplink to be used later when creating locators to interact with the same elements inside the automated tests from Appium/WebdriverIO. When creating desktop builds for the application, these aria labels are added as "Accessibility ID" on MacOS and Class Name/Automation ID on Windows. These are some of the preferred localization strategies used in automated frameworks due to reliability in identifying a single element and faster execution on tests instead of using Xpath, an alternative when no UI locators have been added to the elements yet.
+Under the Uplink repository code, several "aria_label" are added to elements from kit/src and UI/src inside the \*.rs files. These attributes are added to the UI elements from Uplink to be used later when creating locators to interact with the same elements inside the automated tests from Appium/WebdriverIO. When creating desktop builds for the application, these aria labels are added as "Accessibility ID" on macOS and Class Name/Automation ID on Windows. These are some of the preferred localization strategies used in automated frameworks due to reliability in identifying a single element and faster execution on tests instead of using Xpath, an alternative when no UI locators have been added to the elements yet.
 
 ## Screenobject Files
 
@@ -18,7 +18,7 @@ Here, import statements with various constants and functions from other modules.
 
 #### Selectors declarations
 
-As you can see, three objects are declared as constants containing the UI Selectors definition. One for standard selectors, which includes the selector definitions that are the same for Windows and MacOS. One named SELECTORS_MACOS contains the selector definitions used only to locate MacOS elements (usually starting with "~" and the accessibility ID/aria-label of the element). Finally, one named SELECTORS_WINDOWS contains the selector definitions used only to locate Windows UI elements (usually starting with '\[name="ARIA_LABEL"]'). The code determines the current operating system (currentOS) based on the driver and constants imported at the beginning. It selects different UI element selectors (SELECTORS) based on the operating system. It uses these selectors later to interact with UI elements.
+As you can see, three objects are declared as constants containing the UI Selectors definition. One for standard selectors, which includes the selector definitions that are the same for Windows and macOS. One named SELECTORS_MACOS contains the selector definitions used only to locate macOS elements (usually starting with "~" and the accessibility ID/aria-label of the element). Finally, one named SELECTORS_WINDOWS contains the selector definitions used only to locate Windows UI elements (usually starting with '\[name="ARIA_LABEL"]'). The code determines the current operating system (currentOS) based on the driver and constants imported at the beginning. It selects different UI element selectors (SELECTORS) based on the operating system. It uses these selectors later to interact with UI elements.
 
 #### Screen object Class declaration
 
