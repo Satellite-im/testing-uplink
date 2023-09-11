@@ -2,6 +2,7 @@ import "module-alias/register";
 import allureReporter from '@wdio/allure-reporter'
 import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { join } from "path";
+import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
 const fsp = require("fs").promises;
 const userACacheFolder = join(process.cwd(), "./apps/ChatUserA/.user")
 const userBCacheFolder = join(process.cwd(), "./apps/ChatUserB/.user")
@@ -156,8 +157,14 @@ export const config: WebdriverIO.Config = {
     },
 
     beforeTest: async function (test) {
-      // Start video recording for each test
-      await driver.executeScript("windows: startRecordingScreen", [
+      // Start video recording for each test and instance
+      await driver[USER_A_INSTANCE].executeScript("windows: startRecordingScreen", [
+        {
+          deviceId: 1
+        },
+      ]);
+
+      await driver[USER_B_INSTANCE].executeScript("windows: startRecordingScreen", [
         {
           deviceId: 1
         },
@@ -165,8 +172,13 @@ export const config: WebdriverIO.Config = {
     },
 
     afterTest: async function (test, describe, { error }) {
-        // Stop video recording and saved it into base64 format
-        const base64Video = await driver.executeScript("windows: stopRecordingScreen", [
+        // Stop video recording for each instance and saved videos into base64 format
+        const base64VideoUserA = await driver[USER_A_INSTANCE].executeScript("windows: stopRecordingScreen", [
+          {
+            remotePath: ""
+          },
+        ]);
+        const base64VideoUserB = await driver[USER_B_INSTANCE].executeScript("windows: stopRecordingScreen", [
           {
             remotePath: ""
           },
@@ -175,7 +187,8 @@ export const config: WebdriverIO.Config = {
           let imageFile = await driver.takeScreenshot();
           let imageFolder = join(process.cwd(), "./test-results/windows-chats", test.parent);
           const imageTitle = test.title + " - Failed.png";
-          const videoTitle = test.title + " - Failed.mp4"
+          const videoTitleUserA = test.title + " - User A - Failed.mp4"
+          const videoTitleUserB = test.title + " - User B - Failed.mp4"
           await fsp.mkdir(imageFolder, {recursive: true});
           await fsp.writeFile(
             imageFolder + "/" + imageTitle,
@@ -183,18 +196,26 @@ export const config: WebdriverIO.Config = {
             "base64"
           );
 
-           // Write Video File if test failure and add it to failed screenshots folder
+           // Write Video Files if test failure and add them to failed screenshots folder
            await fsp.writeFile(
-            imageFolder + "/" + videoTitle,
-            base64Video,
+            imageFolder + "/" + videoTitleUserA,
+            base64VideoUserA,
+            "base64"
+          );
+
+          await fsp.writeFile(
+            imageFolder + "/" + videoTitleUserB,
+            base64VideoUserB,
             "base64"
           );
 
           // Add to Screenshot to Allure Reporter
           const data = await readFileSync(`${imageFolder}/${imageTitle}`);
-          const dataVideo = await readFileSync(`${imageFolder}/${videoTitle}`);
+          const dataVideoUserA = await readFileSync(`${imageFolder}/${videoTitleUserA}`);
+          const dataVideoUserB = await readFileSync(`${imageFolder}/${videoTitleUserB}`);
           allureReporter.addAttachment(imageTitle, data, 'image/png')
-          allureReporter.addAttachment(videoTitle, dataVideo, 'video/mp4')
+          allureReporter.addAttachment(videoTitleUserA, dataVideoUserA, 'video/mp4')
+          allureReporter.addAttachment(videoTitleUserB, dataVideoUserB, 'video/mp4')
         }
       }
   }
