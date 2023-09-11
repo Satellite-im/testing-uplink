@@ -129,6 +129,7 @@ export const config: WebdriverIO.Config = {
      */
     afterTest: async function (test, describe, { error }) {
         if (error) {
+          // If test fails, take a screenshot, make a folder with the test name and save it there
           let imageFile = await driver.takeScreenshot();
           const imageFolder = join(process.cwd(), "./test-results/macos-ci", test.parent);
           const imageTitle = test.title + " - Failed.png";
@@ -140,8 +141,8 @@ export const config: WebdriverIO.Config = {
           );
 
           // Add to Screenshot to Allure Reporter
-          const data = await readFileSync(`${imageFolder}/${imageTitle}`);
-          allureReporter.addAttachment(imageTitle, data, 'image/png')
+          const dataImage = await readFileSync(`${imageFolder}/${imageTitle}`);
+          allureReporter.addAttachment(imageTitle, dataImage, 'image/png')
         }
       },
   }
