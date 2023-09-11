@@ -2,7 +2,7 @@ import "module-alias/register";
 import allureReporter from '@wdio/allure-reporter'
 import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { join } from "path";
-import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
+import { USER_A_INSTANCE } from "@helpers/constants";
 const fsp = require("fs").promises;
 const userACacheFolder = join(process.cwd(), "./apps/ChatUserA/.user")
 const userBCacheFolder = join(process.cwd(), "./apps/ChatUserB/.user")
@@ -44,7 +44,7 @@ export const config: WebdriverIO.Config = {
       bail: true,
   },
     // The number of times to retry the entire specfile when it fails as a whole
-    specFileRetries: 0,
+    specFileRetries: 2,
     //
     // ============
     // Capabilities
@@ -163,22 +163,11 @@ export const config: WebdriverIO.Config = {
           deviceId: 1
         },
       ]);
-
-      await driver[USER_B_INSTANCE].executeScript("windows: startRecordingScreen", [
-        {
-          deviceId: 1
-        },
-      ]);
     },
 
     afterTest: async function (test, describe, { error }) {
-        // Stop video recording for each instance and saved videos into base64 format
+        // Stop video recording for both instances and save video into base64 format
         const base64VideoUserA = await driver[USER_A_INSTANCE].executeScript("windows: stopRecordingScreen", [
-          {
-            remotePath: ""
-          },
-        ]);
-        const base64VideoUserB = await driver[USER_B_INSTANCE].executeScript("windows: stopRecordingScreen", [
           {
             remotePath: ""
           },
@@ -188,7 +177,6 @@ export const config: WebdriverIO.Config = {
           let imageFolder = join(process.cwd(), "./test-results/windows-chats", test.parent);
           const imageTitle = test.title + " - Failed.png";
           const videoTitleUserA = test.title + " - User A - Failed.mp4"
-          const videoTitleUserB = test.title + " - User B - Failed.mp4"
           await fsp.mkdir(imageFolder, {recursive: true});
           await fsp.writeFile(
             imageFolder + "/" + imageTitle,
@@ -196,26 +184,18 @@ export const config: WebdriverIO.Config = {
             "base64"
           );
 
-           // Write Video Files if test failure and add them to failed screenshots folder
+           // Write Video File if test fails and add it to failed screenshots folder
            await fsp.writeFile(
             imageFolder + "/" + videoTitleUserA,
             base64VideoUserA,
             "base64"
           );
 
-          await fsp.writeFile(
-            imageFolder + "/" + videoTitleUserB,
-            base64VideoUserB,
-            "base64"
-          );
-
-          // Add to Screenshot to Allure Reporter
+          // Add to Screenshot and Video to Allure Reporter
           const data = await readFileSync(`${imageFolder}/${imageTitle}`);
           const dataVideoUserA = await readFileSync(`${imageFolder}/${videoTitleUserA}`);
-          const dataVideoUserB = await readFileSync(`${imageFolder}/${videoTitleUserB}`);
           allureReporter.addAttachment(imageTitle, data, 'image/png')
           allureReporter.addAttachment(videoTitleUserA, dataVideoUserA, 'video/mp4')
-          allureReporter.addAttachment(videoTitleUserB, dataVideoUserB, 'video/mp4')
         }
       }
   }

@@ -180,10 +180,6 @@ jobs:
           appium driver install mac2
           appium driver list
 
-      - name: Setup FFMPEG to record screen
-        uses: FedericoCarboni/setup-ffmpeg@v2
-        id: setup-ffmpeg
-
       - name: Update MacOS runner to not autocorrect text
         run: |
           defaults write -g NSAutomaticCapitalizationEnabled -bool false
@@ -319,11 +315,7 @@ jobs:
         shell: powershell
 
       - name: Run Chat Tests on Windows 🧪
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 20
-          max_attempts: 3
-          command: npm run windows.multiremote
+        run: npm run windows.multiremote
 
       - name: Upload Test Report - Windows Chats
         if: always()
