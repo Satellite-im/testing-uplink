@@ -39,7 +39,7 @@ export default async function groupChatSidebarTests() {
     await expect(
       favoritesSidebarFirstUser.favoritesUserIndicatorOnline
     ).toBeDisplayed();
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(0);
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("X");
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
     await expect(
       favoritesSidebarFirstUser.favoritesUserTooltipText
@@ -96,7 +96,7 @@ export default async function groupChatSidebarTests() {
   it("Group Chat - Sidebar - Context Menu - Hide chat", async () => {
     await chatsSidebarFirstUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarFirstUser.selectChatsHideChat();
-    await chatsSidebarFirstUser.validateNoSidebarGroupChatsAreDisplayed();
+    await chatsSidebarFirstUser.validateSidebarChatIsNotDisplayed("X");
   });
 
   it("Group Chat - Send another message to show again the group chat", async () => {
@@ -118,7 +118,7 @@ export default async function groupChatSidebarTests() {
     await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarSecondUser.selectChatsLeaveGroup();
-    await chatsSidebarSecondUser.validateNoSidebarGroupChatsAreDisplayed();
+    await chatsSidebarSecondUser.validateSidebarChatIsNotDisplayed("X");
   });
 
   it("Group Chat - Sidebar - If a user leaves a group, remote user will see the number of group members decreased", async () => {
@@ -175,10 +175,10 @@ export default async function groupChatSidebarTests() {
     await contextMenuSidebarFirstUser.selectChatsDeleteGroup();
 
     // Ensure that group was removed on local side
-    await chatsSidebarFirstUser.validateNoSidebarGroupChatsAreDisplayed();
+    await chatsSidebarFirstUser.validateSidebarChatIsNotDisplayed("X");
 
     // Switch execution to remote user and ensure that group was removed on this side too
     await chatsSidebarSecondUser.switchToOtherUserWindow();
-    await chatsSidebarSecondUser.validateNoSidebarGroupChatsAreDisplayed();
+    await chatsSidebarSecondUser.validateSidebarChatIsNotDisplayed("X");
   });
 }

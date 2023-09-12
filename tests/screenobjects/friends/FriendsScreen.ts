@@ -50,7 +50,7 @@ const SELECTORS_WINDOWS = {
   FRIEND_INFO_USERNAME: '[name="friend-username"]',
   FRIEND_INFO_USERNAME_CODE: "<Text>[2]",
   FRIEND_INFO_USERNAME_NAME: "<Text>[1]",
-  FRIEND_RECORD: '[name="Friend"]',
+  FRIEND_RECORD: "<Group>",
   FRIEND_USER_IMAGE: '[name="User Image"]',
   FRIEND_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   FRIEND_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
@@ -104,7 +104,7 @@ const SELECTORS_MACOS = {
   FRIEND_INFO_USERNAME: "~friend-username",
   FRIEND_INFO_USERNAME_CODE: "-ios class chain:**/XCUIElementTypeStaticText[2]",
   FRIEND_INFO_USERNAME_NAME: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  FRIEND_RECORD: "~Friend",
+  FRIEND_RECORD: "-ios class chain:**/XCUIElementTypeGroup",
   FRIEND_USER_IMAGE: "~User Image",
   FRIEND_USER_IMAGE_PROFILE: "~user-image-profile",
   FRIEND_USER_IMAGE_WRAP: "~user-image-wrap",
@@ -351,17 +351,17 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async acceptIncomingRequest(name: string) {
-    const friendToClick = await this.getFriendRecordByName(name);
+    const friendToClick = await this.getExistingFriendByAriaLabel(name);
     await friendToClick.$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON).click();
   }
 
   async blockUser(name: string) {
-    const friendToClick = await this.getFriendRecordByName(name);
+    const friendToClick = await this.getExistingFriendByAriaLabel(name);
     await friendToClick.$(SELECTORS.BLOCK_FRIEND_BUTTON).click();
   }
 
   async chatWithFriend(name: string) {
-    const friendToClick = await this.getFriendRecordByName(name);
+    const friendToClick = await this.getExistingFriendByAriaLabel(name);
     await friendToClick.$(SELECTORS.CHAT_WITH_FRIEND_BUTTON).click();
   }
 
@@ -434,21 +434,26 @@ export default class FriendsScreen extends UplinkMainScreen {
     return results;
   }
 
-  async getFriendRecordByName(name: string) {
+  async getExistingFriendByAriaLabel(username: string) {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance.$(
-        '//XCUIElementTypeGroup[@label="friend-username"]/XCUIElementTypeStaticText[contains(@value, "' +
-          name +
-          '")]/../../..'
-      );
+      locator = await this.instance.$(SELECTORS.FRIENDS_BODY).$("~" + username);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = await this.instance.$(
-        '//Group[@Name="friend-username"]/Text[contains(@Name, "' +
-          name +
-          '")]/../../..'
-      );
+      locator = await this.instance
+        .$(SELECTORS.FRIENDS_BODY)
+        .$('[name="' + username + '"]');
+    }
+    return locator;
+  }
+
+  async getNonExistingFriendByAriaLabel(username: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let locator;
+    if (currentDriver === MACOS_DRIVER) {
+      locator = "~" + username;
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      locator = '[name="' + username + '"]';
     }
     return locator;
   }
@@ -527,13 +532,13 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async getUserImage(username: string) {
-    const userLocator = await this.getFriendRecordByName(username);
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userImage = await userLocator.$(SELECTORS.FRIEND_USER_IMAGE);
     return userImage;
   }
 
   async getUserImageProfile(username: string) {
-    const userLocator = await this.getFriendRecordByName(username);
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userImageProfile = await userLocator.$(
       SELECTORS.FRIEND_USER_IMAGE_PROFILE
     );
@@ -541,13 +546,13 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async getUserImageWrap(username: string) {
-    const userLocator = await this.getFriendRecordByName(username);
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userImageWrap = await userLocator.$(SELECTORS.FRIEND_USER_IMAGE_WRAP);
     return userImageWrap;
   }
 
   async getUserIndicatorOffline(username: string) {
-    const userLocator = await this.getFriendRecordByName(username);
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
     const indicatorOffline = await userLocator.$(
       SELECTORS.FRIEND_USER_INDICATOR_OFFLINE
     );
@@ -555,7 +560,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async getUserIndicatorOnline(username: string) {
-    const userLocator = await this.getFriendRecordByName(username);
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
     const indicatorOnline = await userLocator.$(
       SELECTORS.FRIEND_USER_INDICATOR_ONLINE
     );
@@ -563,13 +568,13 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async getUserTooltip(username: string) {
-    const userLocator = await this.getFriendRecordByName(username);
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userTooltip = await userLocator.$(SELECTORS.TOOLTIP);
     return userTooltip;
   }
 
   async getUserTooltipText(username: string) {
-    const userLocator = await this.getFriendRecordByName(username);
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userTooltipText = await userLocator
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
@@ -590,7 +595,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async hoverOnBlockButton(username: string) {
-    const userLocator = await this.getFriendRecordByName(username);
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
     const secondButtonLocator = await userLocator.$(
       SELECTORS.BLOCK_FRIEND_BUTTON
     );
@@ -603,7 +608,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async hoverOnChatWithFriendButton(username: string) {
-    const userLocator = await this.getFriendRecordByName(username);
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
     const buttonLocator = await userLocator.$(
       SELECTORS.CHAT_WITH_FRIEND_BUTTON
     );
@@ -616,7 +621,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async hoverOnUnfriendDenyUnblockButton(username: string) {
-    const userLocator = await this.getFriendRecordByName(username);
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
     const firstButtonLocator = await userLocator.$(
       SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON
     );
@@ -639,7 +644,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async removeOrCancelUser(name: string) {
-    const friendToClick = await this.getFriendRecordByName(name);
+    const friendToClick = await this.getExistingFriendByAriaLabel(name);
     await friendToClick.$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON).click();
   }
 
@@ -647,27 +652,11 @@ export default class FriendsScreen extends UplinkMainScreen {
     username: string,
     timeoutUser: number = 60000
   ) {
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$(
-          '//XCUIElementTypeGroup[@label="friend-username"]/XCUIElementTypeStaticText[contains(@value, "' +
-            username +
-            '")]'
-        )
-        .waitForExist({ timeout: timeoutUser, reverse: true });
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$(
-          '//Group[@Name="friend-username"]/Text[contains(@Name, "' +
-            username +
-            '")]'
-        )
-        .waitForExist({
-          timeout: timeoutUser,
-          reverse: true,
-        });
-    }
+    const element = await this.getNonExistingFriendByAriaLabel(username);
+    await this.instance
+      .$(SELECTORS.FRIENDS_BODY)
+      .$(element)
+      .waitForExist({ timeout: timeoutUser, reverse: true });
   }
 
   async waitUntilFriendRequestIsReceived(timeout: number = 90000) {
@@ -717,7 +706,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async openFriendContextMenu(name: string) {
-    const friendElement = await this.getFriendRecordByName(name);
+    const friendElement = await this.getExistingFriendByAriaLabel(name);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(friendElement, this.executor);
