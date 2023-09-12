@@ -8,6 +8,7 @@ import {
 import { selectFileOnMacos, selectFileOnWindows } from "@helpers/commands";
 import { join } from "path";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+const robot = require("robotjs");
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
@@ -194,6 +195,12 @@ export default class InputBar extends UplinkMainScreen {
 
   async selectUploadFromLocalDisk() {
     await this.uploadButtonLocalDisk.click();
+  }
+
+  async typeCodeOnInputBar(language: string, codeToType: string) {
+    await this.inputText.addValue("```" + language);
+    await robot.keyTap("enter", ["shift"]);
+    await await this.inputText.addValue(codeToType + "```");
   }
 
   async typeMessageOnInput(text: string) {

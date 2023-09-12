@@ -45,6 +45,9 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_REPLY_TEXT: "<Text>",
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
   CHAT_MESSAGE_TEXT_VALUE: "<Text>",
+  CHAT_MESSAGE_TEXT_CODE_COPY_BUTTON: '[name="Copy"]',
+  CHAT_MESSAGE_TEXT_CODE_LANGUAGE: "<Text>",
+  CHAT_MESSAGE_TEXT_CODE_PANE: "<Pane>",
 };
 
 const SELECTORS_MACOS = {
@@ -81,6 +84,11 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
   CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_TEXT_CODE_COPY_BUTTON:
+    "-ios class chain:**/XCUIElementTypeButton",
+  CHAT_MESSAGE_TEXT_CODE_LANGUAGE:
+    "//XCUIElementTypeGroup/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_TEXT_CODE_PANE: "-ios class chain:**/XCUIElementTypeGroup",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -285,6 +293,24 @@ export default class Messages extends UplinkMainScreen {
     return this.instance.$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
+  get chatMessageTextCodeCopyButton() {
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_COPY_BUTTON);
+  }
+
+  get chatMessageTextCodeLanguage() {
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_LANGUAGE);
+  }
+
+  get chatMessageTextCodePane() {
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_PANE);
+  }
+
   // Messages Received Methods
 
   async getMessageReceivedLocator(
@@ -324,6 +350,30 @@ export default class Messages extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return messageText;
+  }
+
+  async getLastMessageReceivedTextCodeCopyButton() {
+    const message = await this.getLastMessageReceivedLocator();
+    const messageCodeCopyButton = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_COPY_BUTTON);
+    return messageCodeCopyButton;
+  }
+
+  async getLastMessageReceivedTextCodeLanguage() {
+    const message = await this.getLastMessageReceivedLocator();
+    const messageCodeLanguage = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_LANGUAGE);
+    return messageCodeLanguage;
+  }
+
+  async getLastMessageReceivedTextCodePane() {
+    const message = await this.getLastMessageReceivedLocator();
+    const messageCodePane = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_PANE);
+    return messageCodePane;
   }
 
   async getFirstMessageReceivedLocator() {
@@ -388,6 +438,30 @@ export default class Messages extends UplinkMainScreen {
     }
   }
 
+  async waitForCodeMessageSentToExist(
+    expectedLanguage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedLanguage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
+            expectedLanguage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
   async waitForMessageSentToExist(
     expectedMessage: string,
     timeoutMsg: number = 30000
@@ -430,6 +504,30 @@ export default class Messages extends UplinkMainScreen {
         .$(
           '//Group[contains(@Name, "remote")]//HyperLink[contains(@Name, "' +
             expectedMessage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    }
+  }
+
+  async waitForReceivingCodeMessage(
+    expectedLanguage: string,
+    timeoutMsg: number = 60000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedLanguage +
+            '")]'
+        )
+        .waitForExist({ timeout: timeoutMsg });
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
+            expectedLanguage +
             '")]'
         )
         .waitForExist({ timeout: timeoutMsg });
@@ -499,6 +597,30 @@ export default class Messages extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return messageText;
+  }
+
+  async getLastMessageSentTextCodeCopyButton() {
+    const message = await this.getLastMessageSentLocator();
+    const messageCodeCopyButton = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_COPY_BUTTON);
+    return messageCodeCopyButton;
+  }
+
+  async getLastMessageSentTextCodeLanguage() {
+    const message = await this.getLastMessageSentLocator();
+    const messageCodeLanguage = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_LANGUAGE);
+    return messageCodeLanguage;
+  }
+
+  async getLastMessageSentTextCodePane() {
+    const message = await this.getLastMessageSentLocator();
+    const messageCodePane = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_PANE);
+    return messageCodePane;
   }
 
   async getFirstMessageSentLocator() {

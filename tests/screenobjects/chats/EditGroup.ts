@@ -219,9 +219,7 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   get userInput() {
-    return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
-      .$(SELECTORS.USER_INPUT);
+    return this.instance.$(SELECTORS.USER_INPUT);
   }
 
   async clearGroupNameInput() {
