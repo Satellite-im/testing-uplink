@@ -47,6 +47,7 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_TEXT_VALUE: "<Text>",
   CHAT_MESSAGE_TEXT_CODE_COPY_BUTTON: '[name="Copy"]',
   CHAT_MESSAGE_TEXT_CODE_LANGUAGE: "<Text>",
+  CHAT_MESSAGE_TEXT_CODE_MESSAGES: "<Text>",
   CHAT_MESSAGE_TEXT_CODE_PANE: "<Pane>",
 };
 
@@ -88,6 +89,8 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeButton",
   CHAT_MESSAGE_TEXT_CODE_LANGUAGE:
     "//XCUIElementTypeGroup/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_TEXT_CODE_MESSAGES:
+    "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_CODE_PANE: "-ios class chain:**/XCUIElementTypeGroup",
 };
 
@@ -311,6 +314,13 @@ export default class Messages extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_PANE);
   }
 
+  get chatMessageTextCodePaneMessages() {
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_PANE)
+      .$$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_MESSAGES);
+  }
+
   // Messages Received Methods
 
   async getMessageReceivedLocator(
@@ -374,6 +384,19 @@ export default class Messages extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_PANE);
     return messageCodePane;
+  }
+
+  async getLastMessageReceivedTextCodeMessage() {
+    const messageCodePane = await this.getLastMessageReceivedTextCodePane();
+    let messageResult = "";
+    const messageResultElements = await messageCodePane.$$(
+      SELECTORS.CHAT_MESSAGE_TEXT_CODE_MESSAGES
+    );
+    for (let element of messageResultElements) {
+      const codeMessageText = await element.getText();
+      messageResult = codeMessageText;
+    }
+    return messageResult;
   }
 
   async getFirstMessageReceivedLocator() {
@@ -621,6 +644,19 @@ export default class Messages extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_PANE);
     return messageCodePane;
+  }
+
+  async getLastMessageSentTextCodeMessage() {
+    const messageCodePane = await this.getLastMessageSentTextCodePane();
+    let messageResult = "";
+    const messageResultElements = await messageCodePane.$$(
+      SELECTORS.CHAT_MESSAGE_TEXT_CODE_MESSAGES
+    );
+    for (let element of messageResultElements) {
+      const codeMessageText = await element.getText();
+      messageResult = codeMessageText;
+    }
+    return messageResult;
   }
 
   async getFirstMessageSentLocator() {

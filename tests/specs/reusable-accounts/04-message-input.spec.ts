@@ -66,28 +66,32 @@ export default async function messageInputTests() {
     await chatsMessagesSecondUser.waitForReceivingMessage("Bolds2");
   });
 
-  it("Chat Input Text - Validate users can send and receive messages with code language markdown", async () => {
+  it("Chat Input Text - Validate users can send messages using the code language markdown", async () => {
     // With Chat User A
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeCodeOnInputBar(
       "JavaScript",
-      "let code = new String();"
+      'let myVariable = "test";'
     );
     await chatsInputFirstUser.clickOnSendMessage();
+  });
+
+  it("Chat Input Text - Validate message with text using code markdown is displayed correctly on local and remote user", async () => {
+    // With Chat User A
     await chatsMessagesFirstUser.waitForCodeMessageSentToExist("JavaScript");
     const codeMessageTextSent =
-      await chatsMessagesFirstUser.getLastMessageSentTextCodePane();
+      await chatsMessagesFirstUser.getLastMessageSentTextCodeMessage();
     await expect(codeMessageTextSent).toHaveTextContaining(
-      "let code = new String();"
+      'let myVariable = "test";'
     );
 
     // With Chat User B
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =
-      await chatsMessagesSecondUser.getLastMessageSentTextCodePane();
+      await chatsMessagesSecondUser.getLastMessageReceivedTextCodeMessage();
     await expect(codeMessageTextReceived).toHaveTextContaining(
-      "let code = new String();"
+      'let myVariable = "test";'
     );
   });
 
