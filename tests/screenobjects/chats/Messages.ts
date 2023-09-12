@@ -372,7 +372,7 @@ export default class Messages extends UplinkMainScreen {
     const message = await this.getLastMessageReceivedLocator();
     const messageCodePane = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_PANE);
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_PANE);
     return messageCodePane;
   }
 
@@ -619,7 +619,7 @@ export default class Messages extends UplinkMainScreen {
     const message = await this.getLastMessageSentLocator();
     const messageCodePane = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_PANE);
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_CODE_PANE);
     return messageCodePane;
   }
 

@@ -200,7 +200,7 @@ export default class InputBar extends UplinkMainScreen {
   async typeCodeOnInputBar(language: string, codeToType: string) {
     await this.inputText.addValue("```" + language);
     await robot.keyTap("enter", ["shift"]);
-    await await this.inputText.addValue(codeToType + "```");
+    await await this.inputText.addValue(codeToType);
   }
 
   async typeMessageOnInput(text: string) {
