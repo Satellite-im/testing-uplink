@@ -132,15 +132,15 @@ export default async function sidebarChatsTests() {
   });
 
   it("Chat User A - Sidebar - Context Menu - Clear Unreads", async () => {
-    await chatsSidebarFirstUser.openContextOnFirstSidebarChat();
+    await chatsSidebarFirstUser.openContextMenuOnSidebar("ChatUserB");
     await contextMenuSidebarFirstUser.selectChatsClearUnreads();
     await chatsSidebarFirstUser.validateNoUnreadMessages();
   });
 
   it("Chat User A - Sidebar - Context Menu - Hide chat", async () => {
-    await chatsSidebarFirstUser.openContextOnFirstSidebarChat();
+    await chatsSidebarFirstUser.openContextMenuOnSidebar("ChatUserB");
     await contextMenuSidebarFirstUser.selectChatsHideChat();
-    await chatsSidebarFirstUser.validateNoSidebarChatsAreDisplayed();
+    await chatsSidebarFirstUser.validateSidebarChatIsNotDisplayed("ChatUserB");
   });
 
   it("Chat User A - Sidebar - Send a message to User B", async () => {
@@ -210,7 +210,7 @@ export default async function sidebarChatsTests() {
 
   it("Chat User A - Sidebar - Context Menu - Delete chat", async () => {
     // Open context menu and right click on Delete chat
-    await chatsSidebarFirstUser.openContextOnFirstSidebarChat();
+    await chatsSidebarFirstUser.openContextMenuOnSidebar("ChatUserB");
     await contextMenuSidebarFirstUser.selectChatsDeleteConversation();
     await welcomeScreenFirstUser.waitForIsShown(true);
     await welcomeScreenSecondUser.switchToOtherUserWindow();
@@ -246,7 +246,7 @@ export default async function sidebarChatsTests() {
     await expect(
       favoritesSidebarFirstUser.favoritesUserIndicatorOnline
     ).toBeDisplayed();
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(0);
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserB");
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
     await expect(
       favoritesSidebarFirstUser.favoritesUserTooltipText
@@ -256,7 +256,7 @@ export default async function sidebarChatsTests() {
   it("Sidebar - Favorites - Context Menu - Chat with user", async () => {
     await favoritesSidebarFirstUser.goToFiles();
     await filesScreenFirstUser.waitForIsShown(true);
-    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser(0);
+    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("ChatUserB");
     await favoritesSidebarFirstUser.clickOnContextMenuFavoritesChat();
     await chatsInputFirstUser.waitForIsShown(true);
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
@@ -264,7 +264,7 @@ export default async function sidebarChatsTests() {
   });
 
   it("Sidebar - Favorites - Context Menu - Remove user from Favorites", async () => {
-    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser(0);
+    await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("ChatUserB");
     await favoritesSidebarFirstUser.clickOnContextMenuFavoriteRemove();
     await favoritesSidebarFirstUser.favorites.waitForExist({
       reverse: true,
