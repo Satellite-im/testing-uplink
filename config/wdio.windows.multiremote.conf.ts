@@ -33,9 +33,6 @@ export const config: WebdriverIO.Config = {
     exclude: [
         // 'path/to/excluded/files'
     ],
-    // Options to be passed to Mocha.
-    // The number of times to retry the entire specfile when it fails as a whole
-    specFileRetries: 2,
     //
     // ============
     // Capabilities
@@ -57,8 +54,8 @@ export const config: WebdriverIO.Config = {
           "appium:automationName": "windows",
           "appium:app": join(process.cwd(), "\\apps\\bin\\uplink.exe"),
           "appium:systemPort": 4725,
-          //"appium:createSessionTimeout": 40000,
-          //"ms:waitForAppLaunch": 50,
+          "appium:createSessionTimeout": 40000,
+          "ms:waitForAppLaunch": 50,
           "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserA"),
           "appium:prerun": {
             command: `If (Test-Path ${userACacheFolder}) {Remove-Item -Recurse -Force ${userACacheFolder}} Else { Break }`,
@@ -72,8 +69,8 @@ export const config: WebdriverIO.Config = {
           "appium:automationName": "windows",
           "appium:app": join(process.cwd(), "\\apps\\bin\\uplink2.exe"),
           "appium:systemPort": 4726,
-          //"appium:createSessionTimeout": 40000,
-          //"ms:waitForAppLaunch": 50,
+          "appium:createSessionTimeout": 40000,
+          "ms:waitForAppLaunch": 50,
           "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserB"),
           "appium:prerun": {
             command: `If (Test-Path ${userBCacheFolder}) {Remove-Item -Recurse -Force ${userBCacheFolder}} Else { Break }`,
