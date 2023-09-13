@@ -87,12 +87,12 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
-    await editGroupFirstUser.clickOnAddMembersText();
+    await editGroupFirstUser.clickOnAddMembers();
     await editGroupFirstUser.nothingHereText.waitForDisplayed();
   });
 
   it("Edit Group - Contents displayed in remove list are correct", async () => {
-    await editGroupFirstUser.clickOnCurrentMembersText();
+    await editGroupFirstUser.clickOnCurrentMembers();
     const currentList = await editGroupFirstUser.getParticipantsList();
     const expectedList = ["ChatUserB"];
     await expect(currentList).toEqual(expectedList);
@@ -127,7 +127,7 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
-    await editGroupFirstUser.clickOnAddMembersText();
+    await editGroupFirstUser.clickOnAddMembers();
     const currentList = await editGroupFirstUser.getParticipantsList();
     await expect(currentList).toEqual(["ChatUserB"]);
   });

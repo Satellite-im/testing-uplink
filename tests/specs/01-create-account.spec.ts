@@ -114,7 +114,7 @@ export default async function createAccount() {
     await createUserFirstUser.enterUsername("1");
     await createUserFirstUser.enterUsername("");
     const statusOfButton =
-      await createPinFirstUser.getStatusOfCreateAccountButton();
+      await createUserFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
     await createUserFirstUser.inputError.waitForDisplayed();
     await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
@@ -125,7 +125,7 @@ export default async function createAccount() {
   it("Username with less than 4 characters and attempt to continue", async () => {
     await createUserFirstUser.enterUsername("12");
     const statusOfButton =
-      await createPinFirstUser.getStatusOfCreateAccountButton();
+      await createUserFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
     await createUserFirstUser.inputError.waitForDisplayed();
     await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
@@ -138,7 +138,7 @@ export default async function createAccount() {
       "12345678901234567890123456789012345"
     );
     const statusOfButton =
-      await createPinFirstUser.getStatusOfCreateAccountButton();
+      await createUserFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
     await createUserFirstUser.inputError.waitForDisplayed();
     await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
@@ -151,7 +151,7 @@ export default async function createAccount() {
     await createUserFirstUser.usernameInput.click();
     await createUserFirstUser.enterUsername("1234" + "             ");
     const statusOfButton =
-      await createPinFirstUser.getStatusOfCreateAccountButton();
+      await createUserFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
     await createUserFirstUser.inputError.waitForDisplayed();
     await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
@@ -162,7 +162,7 @@ export default async function createAccount() {
   it("Username with non-alphanumeric characters", async () => {
     await createUserFirstUser.enterUsername("test..%@");
     const statusOfButton =
-      await createPinFirstUser.getStatusOfCreateAccountButton();
+      await createUserFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
     await createUserFirstUser.inputError.waitForDisplayed();
     await expect(createUserFirstUser.inputErrorText).toHaveTextContaining(
@@ -173,7 +173,7 @@ export default async function createAccount() {
   it("Enter valid username to continue", async () => {
     await createUserFirstUser.enterUsername("Test123");
     const statusOfButton =
-      await createPinFirstUser.getStatusOfCreateAccountButton();
+      await createUserFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("true");
     await createUserFirstUser.clickOnCreateAccount();
     await welcomeScreenFirstUser.waitForIsShown(true);

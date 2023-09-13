@@ -13,10 +13,8 @@ const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   ADD_MEMBERS: '[name="edit-group-add-members"]',
-  ADD_MEMBERS_TEXT: "<Text>",
   ADD_PARTICIPANT_BUTTON: '[name="Add"]',
   CURRENT_MEMBERS: '[name="edit-group-current-members"]',
-  CURRENT_MEMBERS_TEXT: "<Text>",
   EDIT_GROUP_SECTION: '[name="edit-group"]',
   FRIENDS_GROUP: '[name="friend-group"]',
   FRIENDS_LIST: '[name="friends-list"]',
@@ -82,10 +80,6 @@ export default class EditGroup extends UplinkMainScreen {
     return this.instance.$(SELECTORS.ADD_MEMBERS);
   }
 
-  get addMembersText() {
-    return this.instance.$(SELECTORS.ADD_MEMBERS).$(SELECTORS.ADD_MEMBERS_TEXT);
-  }
-
   get addParticipantButton() {
     return this.instance
       .$(SELECTORS.EDIT_GROUP_SECTION)
@@ -94,12 +88,6 @@ export default class EditGroup extends UplinkMainScreen {
 
   get currentMembers() {
     return this.instance.$(SELECTORS.CURRENT_MEMBERS);
-  }
-
-  get currentMembersText() {
-    return this.instance
-      .$(SELECTORS.CURRENT_MEMBERS)
-      .$(SELECTORS.CURRENT_MEMBERS_TEXT);
   }
 
   get editGroupSection() {
@@ -234,12 +222,12 @@ export default class EditGroup extends UplinkMainScreen {
     await this.addParticipantButton.click();
   }
 
-  async clickOnAddMembersText() {
-    await this.addMembersText.click();
+  async clickOnAddMembers() {
+    await this.addMembers.click();
   }
 
-  async clickOnCurrentMembersText() {
-    await this.currentMembersText.click();
+  async clickOnCurrentMembers() {
+    await this.currentMembers.click();
   }
 
   async clickOnFirstAddButton() {
