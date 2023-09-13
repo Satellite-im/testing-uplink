@@ -781,9 +781,9 @@ export default class Messages extends UplinkMainScreen {
   // Messages With Links Methods
   async getLastMessageReceivedLinkEmbed() {
     const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageLinkEmbed = await lastMessage
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED)
-      .waitForExist();
+    const lastMessageLinkEmbed = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED
+    );
     return lastMessageLinkEmbed;
   }
 
@@ -791,33 +791,32 @@ export default class Messages extends UplinkMainScreen {
     const linkEmbedLastMessage = await this.getLastMessageReceivedLinkEmbed();
     const linkEmbedDetailsText = await linkEmbedLastMessage
       .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT)
-      .waitForExist();
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
     return linkEmbedDetailsText;
   }
 
   async getLastMessageReceivedLinkEmbedIcon() {
     const linkEmbedLastMessage = await this.getLastMessageReceivedLinkEmbed();
-    const linkEmbedIcon = await linkEmbedLastMessage
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON)
-      .waitForExist();
+    const linkEmbedIcon = await linkEmbedLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
+    );
     return linkEmbedIcon;
   }
 
   async getLastMessageReceivedLinkEmbedIconTitle() {
     const linkEmbedIconLastMessage =
       await this.getLastMessageReceivedLinkEmbedIcon();
-    const iconTitle = await linkEmbedIconLastMessage
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE)
-      .waitForExist();
+    const iconTitle = await linkEmbedIconLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
+    );
     return iconTitle;
   }
 
   async getLastMessageSentLinkEmbed() {
     const lastMessage = await this.getLastMessageSentLocator();
-    const lastMessageLinkEmbed = await lastMessage
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED)
-      .waitForExist();
+    const lastMessageLinkEmbed = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED
+    );
     return lastMessageLinkEmbed;
   }
 
@@ -825,25 +824,24 @@ export default class Messages extends UplinkMainScreen {
     const linkEmbedLastMessage = await this.getLastMessageSentLinkEmbed();
     const linkEmbedDetailsText = await linkEmbedLastMessage
       .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT)
-      .waitForExist();
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
     return linkEmbedDetailsText;
   }
 
   async getLastMessageSentLinkEmbedIcon() {
     const linkEmbedLastMessage = await this.getLastMessageSentLinkEmbed();
-    const linkEmbedIcon = await linkEmbedLastMessage
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON)
-      .waitForExist();
+    const linkEmbedIcon = await linkEmbedLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
+    );
     return linkEmbedIcon;
   }
 
   async getLastMessageSentLinkEmbedIconTitle() {
     const linkEmbedIconLastMessage =
       await this.getLastMessageSentLinkEmbedIcon();
-    const iconTitle = await linkEmbedIconLastMessage
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE)
-      .waitForExist();
+    const iconTitle = await linkEmbedIconLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
+    );
     return iconTitle;
   }
 

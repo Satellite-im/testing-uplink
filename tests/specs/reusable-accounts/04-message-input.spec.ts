@@ -137,25 +137,6 @@ export default async function messageInputTests() {
     );
   });
 
-  it("Chat User - Chat Messages containing links contents on remote side", async () => {
-    // Validate link embed contents on chat message
-    const linkEmbedReceived =
-      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbed();
-    const linkEmbedReceivedDetailsText =
-      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedDetailsText();
-    const linkEmbedReceivedIcon =
-      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedIcon();
-    const linkEmbedReceivedIconTitle =
-      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedIconTitle();
-
-    await linkEmbedReceived.waitForDisplayed();
-    await expect(linkEmbedReceivedDetailsText).toHaveTextContaining(
-      "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included."
-    );
-    await linkEmbedReceivedIcon.waitForDisplayed();
-    await linkEmbedReceivedIconTitle.waitForDisplayed();
-  });
-
   it("Chat User - Chat Messages containing links contents on local side", async () => {
     // Switch to Chat User A
     await chatsMessagesFirstUser.switchToOtherUserWindow();
@@ -178,8 +159,31 @@ export default async function messageInputTests() {
     await linkEmbedSentIconTitle.waitForDisplayed();
   });
 
+  it("Chat User - Chat Messages containing links contents on remote side", async () => {
+    // With Chat User B
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
+
+    // Validate link embed contents on chat message
+    const linkEmbedReceived =
+      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbed();
+    const linkEmbedReceivedDetailsText =
+      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedDetailsText();
+    const linkEmbedReceivedIcon =
+      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedIcon();
+    const linkEmbedReceivedIconTitle =
+      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedIconTitle();
+
+    await linkEmbedReceived.waitForDisplayed();
+    await expect(linkEmbedReceivedDetailsText).toHaveTextContaining(
+      "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included."
+    );
+    await linkEmbedReceivedIcon.waitForDisplayed();
+    await linkEmbedReceivedIconTitle.waitForDisplayed();
+  });
+
   it("Chat Input Text - Validate text starting with www. is not sent as link", async () => {
-    // With Chat User A
+    // Switch to Chat User A
+    await chatsMessagesFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("www.apple.com");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForLinkSentToExist("www.apple.com");
