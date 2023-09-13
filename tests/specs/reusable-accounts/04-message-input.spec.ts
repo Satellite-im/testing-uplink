@@ -67,7 +67,7 @@ export default async function messageInputTests() {
   });
 
   it("Chat Input Text - Validate users can send messages using the code language markdown", async () => {
-    // With Chat User A
+    // With Chat User A, send a code snippet with JavaScript language
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeCodeOnInputBar(
       "JavaScript",
@@ -77,27 +77,37 @@ export default async function messageInputTests() {
   });
 
   it("Chat Input Text - Validate message with text using code markdown is displayed correctly on local and remote user", async () => {
-    // With Chat User A
+    // With Chat User A, validate code message was sent and is displayed correctly
     await chatsMessagesFirstUser.waitForCodeMessageSentToExist("JavaScript");
     const codeMessageTextSent =
       await chatsMessagesFirstUser.getLastMessageSentTextCodeMessage();
-    await expect(codeMessageTextSent).toHaveTextContaining(
-      'let myVariable = "test";'
-    );
+    await expect(codeMessageTextSent).toEqual('let myVariable = "test";');
 
-    // With Chat User B
+    // With Chat User B, validate code message was received and is displayed correctly
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =
       await chatsMessagesSecondUser.getLastMessageReceivedTextCodeMessage();
-    await expect(codeMessageTextReceived).toHaveTextContaining(
+    await expect(codeMessageTextReceived).toEqual('let myVariable = "test";');
+  });
+
+  it("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
+    // With Chat User A, click on the copy button from code block of last chat message sent
+    await chatsInputFirstUser.switchToOtherUserWindow();
+    await chatsMessagesFirstUser.clickOnCopyCodeOfLastMessageSent();
+
+    // Then, paste it into the input bar and assert the text contents on input bar
+    await chatsInputFirstUser.pasteClipboardOnInputBar();
+    await expect(chatsInputFirstUser.inputText).toHaveText(
       'let myVariable = "test";'
     );
+
+    // Finally, clear the input bar for next tests
+    await chatsInputFirstUser.clearInputBar();
   });
 
   it("Chat Input Text - Validate text starting with https:// is sent as link", async () => {
     // With Chat User A
-    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("https://www.google.com");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForLinkSentToExist(

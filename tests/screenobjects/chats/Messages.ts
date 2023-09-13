@@ -323,6 +323,11 @@ export default class Messages extends UplinkMainScreen {
 
   // Messages Received Methods
 
+  async clickOnCopyCodeOfLastMessageReceived() {
+    const element = await this.getLastMessageReceivedTextCodeCopyButton();
+    await element.click();
+  }
+
   async getMessageReceivedLocator(
     expectedMessage: string,
     timeoutMsg: number = 30000
@@ -394,7 +399,7 @@ export default class Messages extends UplinkMainScreen {
     );
     for (let element of messageResultElements) {
       const codeMessageText = await element.getText();
-      messageResult = codeMessageText;
+      messageResult += codeMessageText;
     }
     return messageResult;
   }
@@ -583,6 +588,11 @@ export default class Messages extends UplinkMainScreen {
 
   // Messages Sent Methods
 
+  async clickOnCopyCodeOfLastMessageSent() {
+    const element = await this.getLastMessageSentTextCodeCopyButton();
+    await element.click();
+  }
+
   async getMessageSentLocator(
     expectedMessage: string,
     timeoutMsg: number = 30000
@@ -654,7 +664,7 @@ export default class Messages extends UplinkMainScreen {
     );
     for (let element of messageResultElements) {
       const codeMessageText = await element.getText();
-      messageResult = codeMessageText;
+      messageResult += codeMessageText;
     }
     return messageResult;
   }
@@ -771,9 +781,9 @@ export default class Messages extends UplinkMainScreen {
   // Messages With Links Methods
   async getLastMessageReceivedLinkEmbed() {
     const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageLinkEmbed = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED
-    );
+    const lastMessageLinkEmbed = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED)
+      .waitForExist();
     return lastMessageLinkEmbed;
   }
 
@@ -781,32 +791,33 @@ export default class Messages extends UplinkMainScreen {
     const linkEmbedLastMessage = await this.getLastMessageReceivedLinkEmbed();
     const linkEmbedDetailsText = await linkEmbedLastMessage
       .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT)
+      .waitForExist();
     return linkEmbedDetailsText;
   }
 
   async getLastMessageReceivedLinkEmbedIcon() {
     const linkEmbedLastMessage = await this.getLastMessageReceivedLinkEmbed();
-    const linkEmbedIcon = await linkEmbedLastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
-    );
+    const linkEmbedIcon = await linkEmbedLastMessage
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON)
+      .waitForExist();
     return linkEmbedIcon;
   }
 
   async getLastMessageReceivedLinkEmbedIconTitle() {
     const linkEmbedIconLastMessage =
       await this.getLastMessageReceivedLinkEmbedIcon();
-    const iconTitle = await linkEmbedIconLastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
-    );
+    const iconTitle = await linkEmbedIconLastMessage
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE)
+      .waitForExist();
     return iconTitle;
   }
 
   async getLastMessageSentLinkEmbed() {
     const lastMessage = await this.getLastMessageSentLocator();
-    const lastMessageLinkEmbed = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED
-    );
+    const lastMessageLinkEmbed = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED)
+      .waitForExist();
     return lastMessageLinkEmbed;
   }
 
@@ -814,24 +825,25 @@ export default class Messages extends UplinkMainScreen {
     const linkEmbedLastMessage = await this.getLastMessageSentLinkEmbed();
     const linkEmbedDetailsText = await linkEmbedLastMessage
       .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT)
+      .waitForExist();
     return linkEmbedDetailsText;
   }
 
   async getLastMessageSentLinkEmbedIcon() {
     const linkEmbedLastMessage = await this.getLastMessageSentLinkEmbed();
-    const linkEmbedIcon = await linkEmbedLastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
-    );
+    const linkEmbedIcon = await linkEmbedLastMessage
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON)
+      .waitForExist();
     return linkEmbedIcon;
   }
 
   async getLastMessageSentLinkEmbedIconTitle() {
     const linkEmbedIconLastMessage =
       await this.getLastMessageSentLinkEmbedIcon();
-    const iconTitle = await linkEmbedIconLastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
-    );
+    const iconTitle = await linkEmbedIconLastMessage
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE)
+      .waitForExist();
     return iconTitle;
   }
 

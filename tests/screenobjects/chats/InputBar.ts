@@ -180,6 +180,12 @@ export default class InputBar extends UplinkMainScreen {
     await this.hoverOnElement(element);
   }
 
+  async pasteClipboardOnInputBar() {
+    await this.inputText.click();
+    await this.inputText.clearValue();
+    await robot.keyTap("v", ["control"]);
+  }
+
   async pressEnterKeyOnInputBar() {
     const currentDriver = await this.getCurrentDriver();
     let enterValue;
