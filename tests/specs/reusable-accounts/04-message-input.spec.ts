@@ -4,6 +4,7 @@ import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import InputBar from "@screenobjects/chats/InputBar";
 import Messages from "@screenobjects/chats/Messages";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
@@ -162,6 +163,7 @@ export default async function messageInputTests() {
   it("Chat User - Chat Messages containing links contents on remote side", async () => {
     // With Chat User B
     await chatsLayoutSecondUser.switchToOtherUserWindow();
+    await chatsInputSecondUser.clickOnInputBar();
 
     // Validate link embed contents on chat message
     const linkEmbedReceived =
