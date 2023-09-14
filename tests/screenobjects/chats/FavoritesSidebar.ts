@@ -178,9 +178,13 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance.$(SELECTORS.FAVORITES).$("~" + username);
+      locator = await this.instance
+        .$(SELECTORS.SLIMBAR)
+        .$(SELECTORS.FAVORITES)
+        .$("~" + username);
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await this.instance
+        .$(SELECTORS.SLIMBAR)
         .$(SELECTORS.FAVORITES)
         .$('[name="' + username + '"]');
     }

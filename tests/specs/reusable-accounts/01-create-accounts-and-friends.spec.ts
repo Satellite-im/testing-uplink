@@ -29,6 +29,7 @@ let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
+let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
 let createPinSecondUser = new CreatePinScreen(USER_B_INSTANCE);
 let emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
 let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
@@ -49,6 +50,7 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export default async function createChatAccountsTests() {
   it("Chat User A - Create Account", async () => {
+    await createPinFirstUser.switchToOtherUserWindow();
     const username = "ChatUserA";
     await createNewUser(username);
     await maximizeWindow(USER_A_INSTANCE);
