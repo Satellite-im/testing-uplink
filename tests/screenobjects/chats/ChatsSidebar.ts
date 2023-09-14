@@ -356,11 +356,15 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === macDriver) {
-      locator = await this.instance.$(SELECTORS.SIDEBAR).$("~" + username);
+      locator = await this.instance
+        .$(SELECTORS.SIDEBAR)
+        .$("~" + username)
+        .waitForExist();
     } else if (currentDriver === windowsDriver) {
       locator = await this.instance
         .$(SELECTORS.SIDEBAR)
-        .$('[name="' + username + '"]');
+        .$('[name="' + username + '"]')
+        .waitForExist();
     }
     return locator;
   }
