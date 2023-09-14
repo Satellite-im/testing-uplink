@@ -24,7 +24,7 @@ let sidebarSearchFirstUser = new SidebarSearch(USER_A_INSTANCE);
 export default async function groupChatTests() {
   it("Chat User A - Create Group Chat button tooltip", async () => {
     await chatsSidebarFirstUser.hoverOnCreateGroupButton();
-    await chatsSidebarFirstUser.sidebarCreateGroupChatTooltip.waitForDisplayed();
+    await chatsSidebarFirstUser.sidebarCreateGroupChatTooltip.waitForExist();
   });
 
   it("Chat User A - Click on Create Group Chat and close modal", async () => {

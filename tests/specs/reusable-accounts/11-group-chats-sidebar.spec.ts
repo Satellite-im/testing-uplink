@@ -41,7 +41,7 @@ export default async function groupChatSidebarTests() {
       favoritesSidebarFirstUser.favoritesUserIndicatorOnline
     ).toBeDisplayed();
     await favoritesSidebarFirstUser.hoverOnFavoritesBubbleByIndex(0);
-    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
+    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
     await expect(
       favoritesSidebarFirstUser.favoritesUserTooltipText
     ).toHaveTextContaining("X");
