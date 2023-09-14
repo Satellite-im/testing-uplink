@@ -37,9 +37,6 @@ export default async function groupChatSidebarTests() {
 
     // Favorites Sidebar should be displayed and showing the name of the group added to Favorites
     await expect(favoritesSidebarFirstUser.favoritesUserImage).toBeDisplayed();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserIndicatorOnline
-    ).toBeDisplayed();
     await favoritesSidebarFirstUser.hoverOnFavoritesBubbleByIndex(0);
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
     await expect(

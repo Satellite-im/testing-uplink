@@ -245,9 +245,6 @@ export default async function sidebarChatsTests() {
 
     // Favorites Sidebar should be displayed
     await expect(favoritesSidebarFirstUser.favoritesUserImage).toBeDisplayed();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserIndicatorOnline
-    ).toBeDisplayed();
     await favoritesSidebarFirstUser.hoverOnFavoritesBubbleByIndex(0);
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
     await expect(

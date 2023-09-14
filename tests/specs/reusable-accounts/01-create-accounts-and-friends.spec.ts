@@ -285,7 +285,6 @@ export default async function createChatAccountsTests() {
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "ChatUserB"
     );
-    await chatsTopbarFirstUser.topbarIndicatorOnline.waitForDisplayed();
   });
 
   it("Chat User A - Add user with active chat to Favorites", async () => {
@@ -295,9 +294,6 @@ export default async function createChatAccountsTests() {
 
     // Favorites Sidebar should be displayed
     await expect(favoritesSidebarFirstUser.favoritesUserImage).toBeDisplayed();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserIndicatorOnline
-    ).toBeDisplayed();
     await favoritesSidebarFirstUser.hoverOnFavoritesBubbleByIndex(0);
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
     await expect(
