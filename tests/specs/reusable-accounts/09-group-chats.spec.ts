@@ -102,7 +102,6 @@ export default async function groupChatTests() {
     await expect(
       chatsTopbarFirstUser.topbarUserStatusValue
     ).toHaveTextContaining("Members (2)");
-    await chatsSidebarSecondUser.switchToOtherUserWindow();
   });
 
   it("User B - Group Chat is displayed on remote participant users sidebar", async () => {
@@ -126,7 +125,6 @@ export default async function groupChatTests() {
   });
 
   it("Group Chat - User A sends a message in group chat", async () => {
-    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("HiGroup");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsInputFirstUser.typeMessageOnInput("test");
@@ -138,13 +136,11 @@ export default async function groupChatTests() {
   });
 
   it("Group Chat - User B receives the message in group chat", async () => {
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.goToSidebarGroupChat("Test");
     await chatsMessagesSecondUser.waitForReceivingMessage("HiGroup");
   });
 
   it("Sidebar - Search Bar - Search for a string matching a username and group", async () => {
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.goToFiles();
     await filesScreenFirstUser.waitForIsShown(true);
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");

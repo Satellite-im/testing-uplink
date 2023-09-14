@@ -15,7 +15,6 @@ export default async function messageAttachmentsTests() {
   1033;
   it("Chat User A - Validate compose attachments contents", async () => {
     // Switch back to first user window to continue with test execution and clear input bar
-    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.clearInputBar();
 
     // Click on upload button and attach a file to compose attachment
@@ -82,7 +81,6 @@ export default async function messageAttachmentsTests() {
     const fileDownloadButton =
       await chatsMessagesFirstUser.getLastMessageSentDownloadButton();
     await fileDownloadButton.waitForDisplayed();
-    await chatsInputSecondUser.switchToOtherUserWindow();
 
     // With User B - Validate that message with attachment was received
     await chatsInputSecondUser.clickOnInputBar();
@@ -121,6 +119,5 @@ export default async function messageAttachmentsTests() {
     const fileDownloadButton =
       await chatsMessagesSecondUser.getLastMessageReceivedDownloadButton();
     await fileDownloadButton.waitForDisplayed();
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 }

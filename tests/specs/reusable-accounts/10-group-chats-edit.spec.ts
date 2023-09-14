@@ -29,7 +29,6 @@ export default async function groupChatEditTests() {
   });
 
   it("Chat User B - You are not the group creator tooltip is displayed", async () => {
-    await chatsTopbarSecondUser.switchToOtherUserWindow();
     await chatsTopbarSecondUser.hoverOnEditGroupButton();
     await chatsTopbarSecondUser.viewGroupTooltip.waitForDisplayed();
     await expect(
@@ -38,7 +37,6 @@ export default async function groupChatEditTests() {
   });
 
   it("Edit Group - Group Name Edit - Contents displayed", async () => {
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
     await editGroupFirstUser.groupNameInput.waitForDisplayed();
@@ -75,8 +73,6 @@ export default async function groupChatEditTests() {
       "X"
     );
     await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
-
-    await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue
@@ -84,7 +80,6 @@ export default async function groupChatEditTests() {
   });
 
   it("Edit Group - Contents displayed in add list are correct", async () => {
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
     await editGroupFirstUser.clickOnAddMembers();
@@ -118,13 +113,11 @@ export default async function groupChatEditTests() {
       chatsTopbarFirstUser.topbarUserStatusValue
     ).toHaveTextContaining("Members (1)");
 
-    await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.waitForGroupToBeDeleted("X");
     await welcomeScreenSecondUser.waitForIsShown(true);
   });
 
   it("Edit Group - Add Users List - Chat User B appears now in list", async () => {
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
     await editGroupFirstUser.clickOnAddMembers();
@@ -151,7 +144,6 @@ export default async function groupChatEditTests() {
   });
 
   it("Edit Group - Ensure that Chat User B was added back to the group", async () => {
-    await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.goToFiles();
     await filesScreenSecondUser.waitForIsShown(true);
     await filesScreenSecondUser.goToMainScreen();

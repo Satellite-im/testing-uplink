@@ -35,9 +35,6 @@ export default async function messageContextMenuTests() {
   });
 
   it("Chat User B - Validate Message was deleted and is no longer visible in remote chat", async () => {
-    // Switch to Chat User B window
-    await chatsMessagesSecondUser.switchToOtherUserWindow();
-
     // With User B - Validate that last message is "Two..."
     await chatsMessagesSecondUser.waitForReceivingMessage("Two...", 60000);
 
@@ -47,7 +44,6 @@ export default async function messageContextMenuTests() {
 
   it("Chat User A - React to sent message and multiple reactions in a message", async () => {
     // React with 😂 emoji
-    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.clickOnFirstReaction();
@@ -78,7 +74,6 @@ export default async function messageContextMenuTests() {
 
   it("Chat User B - Receive reaction in sent message", async () => {
     // Return to Chat User B window
-    await chatsInputSecondUser.switchToOtherUserWindow();
     await chatsInputSecondUser.clickOnInputBar();
     await chatsInputSecondUser.typeMessageOnInput("Hello");
     await chatsInputSecondUser.clearInputBar();

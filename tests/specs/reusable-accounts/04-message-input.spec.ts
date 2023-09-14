@@ -12,7 +12,6 @@ let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
 export default async function messageInputTests() {
   it("Chat User A - Message Input - User cannot send empty messages", async () => {
     // Ensure that input bar is empty and click on send message button
-    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.clearInputBar();
     await chatsInputFirstUser.clearInputBar();
     await chatsInputFirstUser.clickOnInputBar();
@@ -51,25 +50,21 @@ export default async function messageInputTests() {
     await chatsMessagesFirstUser.waitForMessageSentToExist("Bolds1");
 
     // With Chat User B
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingMessage("Bolds1");
   });
 
   it("Chat Input Text - Validate texts with __ markdown are sent in bolds", async () => {
     // With Chat User A
-    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("__Bolds2__");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Bolds2");
 
     // With Chat User B
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingMessage("Bolds2");
   });
 
   it("Chat Input Text - Validate users can send messages using the code language markdown", async () => {
     // With Chat User A, send a code snippet with JavaScript language
-    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeCodeOnInputBar(
       "JavaScript",
       'let myVariable = "test";'
@@ -85,7 +80,6 @@ export default async function messageInputTests() {
     await expect(codeMessageTextSent).toEqual('let myVariable = "test";');
 
     // With Chat User B, validate code message was received and is displayed correctly
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =
       await chatsMessagesSecondUser.getLastMessageReceivedTextCodeMessage();
@@ -94,7 +88,6 @@ export default async function messageInputTests() {
 
   it("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
     // With Chat User A, click on the copy button from code block of last chat message sent
-    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsMessagesFirstUser.clickOnCopyCodeOfLastMessageSent();
 
     // Then, paste it into the input bar and assert the text contents on input bar
@@ -116,7 +109,6 @@ export default async function messageInputTests() {
     );
 
     // With Chat User B
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingLink(
       "https://www.google.com"
     );
@@ -124,7 +116,6 @@ export default async function messageInputTests() {
 
   it("Chat Input Text - Validate text starting with http:// is sent as link", async () => {
     // With Chat User A
-    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("http://www.satellite.im");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForLinkSentToExist(
@@ -132,16 +123,12 @@ export default async function messageInputTests() {
     );
 
     // With Chat User B
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingLink(
       "http://www.satellite.im"
     );
   });
 
   it("Chat User - Chat Messages containing links contents on local side", async () => {
-    // Switch to Chat User A
-    await chatsMessagesFirstUser.switchToOtherUserWindow();
-
     // Validate link embed contents on chat message
     const linkEmbedSent =
       await chatsMessagesFirstUser.getLastMessageSentLinkEmbed();
@@ -162,7 +149,6 @@ export default async function messageInputTests() {
 
   it("Chat User - Chat Messages containing links contents on remote side", async () => {
     // With Chat User B
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsInputSecondUser.clickOnInputBar();
 
     // Validate link embed contents on chat message
@@ -185,26 +171,21 @@ export default async function messageInputTests() {
 
   it("Chat Input Text - Validate text starting with www. is not sent as link", async () => {
     // Switch to Chat User A
-    await chatsMessagesFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("www.apple.com");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForLinkSentToExist("www.apple.com");
 
     // With Chat User B
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingLink("www.apple.com");
   });
 
   it("Validate Typing Indicator is displayed if remote user is typing", async () => {
-    // With User A
-    await chatsInputFirstUser.switchToOtherUserWindow();
     // Generate a random text with 100 chars
     const shortText = await chatsInputFirstUser.generateShortRandomText();
     // Type the text with 90 chars on input bar
     await chatsInputFirstUser.typeMessageOnInput(shortText + "efgh");
 
     // Switch to second user and validate that Typing Indicator is displayed
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsLayoutSecondUser.typingIndicator.waitForDisplayed();
     await expect(
       chatsLayoutSecondUser.typingIndicatorTextValue

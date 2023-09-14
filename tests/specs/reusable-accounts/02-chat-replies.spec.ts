@@ -82,7 +82,6 @@ export default async function repliesTests() {
     const onlineIndicator =
       await chatsMessageGroupsSecondUser.getLastGroupWrapSentOnline();
     await expect(onlineIndicator).toExist();
-    await chatsMessagesFirstUser.switchToOtherUserWindow();
 
     // With User A - Validate that reply message is received
     await chatsMessagesFirstUser.chatMessageReply.waitForDisplayed({

@@ -27,7 +27,6 @@ let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 export default async function groupChatSidebarTests() {
   it("Group Chat - Add group to favorites", async () => {
     // Return control of execution to User A and leave Participants List screen
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.clickOnTopbar();
 
     // Click on Favorites button for Group Chat
@@ -64,13 +63,9 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Send message to the group with User B", async () => {
     // Switch test execution control to User B and send message to the group
-    await chatsTopbarSecondUser.switchToOtherUserWindow();
     await chatsInputSecondUser.typeMessageOnInput("HelloGroup");
     await chatsInputSecondUser.clickOnSendMessage();
     await chatsMessagesSecondUser.waitForMessageSentToExist("HelloGroup");
-
-    // Switch control to User A
-    await chatsLayoutFirstUser.switchToOtherUserWindow();
   });
 
   it("Group Chat - Sidebar - Any new messages received in group should appear in Sidebar", async () => {
@@ -101,13 +96,11 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Send another message to show again the group chat", async () => {
     // Switch test execution control to User B and send message to the group
-    await chatsInputSecondUser.switchToOtherUserWindow();
     await chatsInputSecondUser.typeMessageOnInput("Hey!");
     await chatsInputSecondUser.clickOnSendMessage();
     await chatsMessagesSecondUser.waitForMessageSentToExist("Hey!");
 
     // Switch control to User A
-    await chatsLayoutFirstUser.switchToOtherUserWindow();
     await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
     await chatsSidebarFirstUser.goToSidebarGroupChat("X");
     await chatsTopbarFirstUser.topbar.waitForDisplayed();
@@ -115,16 +108,12 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Sidebar - Leave group", async () => {
     // Switch control to User B
-    await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarSecondUser.selectChatsLeaveGroup();
     await chatsSidebarSecondUser.validateSidebarChatIsNotDisplayed("X");
   });
 
   it("Group Chat - Sidebar - If a user leaves a group, remote user will see the number of group members decreased", async () => {
-    // Switch control to User A and go to settings to refresh screen
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
-
     // Now, go to the Group Chat and validate that User B is not part of it anymore
     await chatsTopbarFirstUser.waitForIsShown(true);
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
@@ -155,7 +144,6 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Ensure in remote side that user was added again to the group", async () => {
     // Switch execution to User B and ensure that user was added again to the group
-    await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.goToFiles();
     await filesScreenSecondUser.waitForIsShown(true);
     await filesScreenSecondUser.goToMainScreen();
@@ -170,7 +158,6 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Sidebar - Delete group", async () => {
     // Switch execution to User A and delete the group
-    await chatsSidebarFirstUser.switchToOtherUserWindow();
     await chatsSidebarFirstUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarFirstUser.selectChatsDeleteGroup();
 
@@ -178,7 +165,6 @@ export default async function groupChatSidebarTests() {
     await chatsSidebarFirstUser.validateSidebarChatIsNotDisplayed("X");
 
     // Switch execution to remote user and ensure that group was removed on this side too
-    await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.validateSidebarChatIsNotDisplayed("X");
   });
 }

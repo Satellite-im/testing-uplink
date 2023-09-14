@@ -124,7 +124,6 @@ export async function setupBeforeCreateGroupTests() {
 export async function setupBeforeSidebarTests() {
   await setupBeforeCreateGroupTests();
   // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-  await welcomeScreenSecondUser.switchToOtherUserWindow();
   await welcomeScreenSecondUser.goToFriends();
   await friendsScreenSecondUser.waitForIsShown(true);
   await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
@@ -137,7 +136,6 @@ export async function setupBeforeSidebarTests() {
   await chatsInputSecondUser.typeMessageOnInput("Accepted...");
   await chatsInputSecondUser.clickOnSendMessage();
   await chatsMessagesSecondUser.waitForMessageSentToExist("Accepted...");
-  await chatsMessagesFirstUser.switchToOtherUserWindow();
 
   // With User A - Validate that message was received
   await chatsMessagesFirstUser.waitForReceivingMessage("Accepted...");
@@ -160,11 +158,9 @@ export async function setupBeforeSidebarTests() {
   await expect(includesFriend).toEqual(true);
   await friendsScreenFirstUser.goToAllFriendsList();
   await friendsScreenFirstUser.friendsList.waitForDisplayed();
-  await chatsInputSecondUser.switchToOtherUserWindow();
 
   // With User B - Go to Friends and wait for User A to remove friendship with User B
   await chatsInputSecondUser.goToFriends();
   await friendsScreenSecondUser.waitForIsShown(true);
   await friendsScreenSecondUser.waitUntilFriendIsRemoved("ChatUserA");
-  await friendsScreenFirstUser.switchToOtherUserWindow();
 }

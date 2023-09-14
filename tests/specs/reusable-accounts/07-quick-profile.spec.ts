@@ -49,14 +49,12 @@ export default async function quickProfileTests() {
   });
 
   it("Chat User B - Send message to User A", async () => {
-    await chatsInputSecondUser.switchToOtherUserWindow();
     await chatsInputSecondUser.clickOnInputBar();
     await chatsInputSecondUser.typeMessageOnInput("click...");
     await chatsInputSecondUser.clickOnSendMessage();
     await chatsMessagesSecondUser.waitForMessageSentToExist("click...");
 
     // With User A - Validate that message was received
-    await chatsMessagesFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.clickOnInputBar();
     await chatsMessagesFirstUser.waitForReceivingMessage("click...");
   });
@@ -97,12 +95,10 @@ export default async function quickProfileTests() {
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
     const includesFriend = await allFriendsList.includes("ChatUserB");
     await expect(includesFriend).toEqual(false);
-    await welcomeScreenSecondUser.switchToOtherUserWindow();
 
     // With User B - Go to Friends and wait for User A to remove friendship with User B
     await welcomeScreenSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
-    await friendsScreenFirstUser.switchToOtherUserWindow();
   });
 
   it("Chat User A - Send friend request again to User B", async () => {
@@ -122,7 +118,6 @@ export default async function quickProfileTests() {
     const includesFriend = await pendingList.includes("ChatUserB");
     await expect(includesFriend).toEqual(true);
     await friendsScreenFirstUser.goToAllFriendsList();
-    await friendsScreenSecondUser.switchToOtherUserWindow();
 
     // With User B - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenSecondUser.hoverOnFriendsButton();
@@ -141,7 +136,6 @@ export default async function quickProfileTests() {
     const friendsList = await friendsScreenSecondUser.getAllFriendsList();
     const includesFriend = await friendsList.includes("ChatUserA");
     await expect(includesFriend).toEqual(true);
-    await friendsScreenFirstUser.switchToOtherUserWindow();
   });
 
   it("Chat User A - Wait until friend request is accepted again", async () => {
@@ -160,7 +154,6 @@ export default async function quickProfileTests() {
     await friendsScreenFirstUser.chatWithFriendButton.click();
     await chatsLayoutFirstUser.waitForIsShown(true);
     await chatsTopbarFirstUser.waitUntilRemoteUserIsOnline();
-    await friendsScreenSecondUser.switchToOtherUserWindow();
   });
 
   it("Chat User B - Send message to User B", async () => {
@@ -175,7 +168,6 @@ export default async function quickProfileTests() {
     await chatsInputSecondUser.typeMessageOnInput("Accepted...");
     await chatsInputSecondUser.clickOnSendMessage();
     await chatsMessagesSecondUser.waitForMessageSentToExist("Accepted...");
-    await chatsMessagesFirstUser.switchToOtherUserWindow();
 
     // With User A - Validate that message was received
     await chatsMessagesFirstUser.waitForReceivingMessage("Accepted...");
@@ -202,12 +194,10 @@ export default async function quickProfileTests() {
     await expect(includesFriend).toEqual(true);
     await friendsScreenFirstUser.goToAllFriendsList();
     await friendsScreenFirstUser.friendsList.waitForDisplayed();
-    await chatsInputSecondUser.switchToOtherUserWindow();
 
     // With User B - Go to Friends and wait for User A to remove friendship with User B
     await chatsInputSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
     await friendsScreenSecondUser.waitUntilFriendIsRemoved("ChatUserA");
-    await friendsScreenFirstUser.switchToOtherUserWindow();
   });
 }
