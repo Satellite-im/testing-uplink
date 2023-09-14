@@ -12,11 +12,11 @@ import quickProfileTests from "@specs/reusable-accounts/07-quick-profile.spec";
 import sidebarChatsTests from "@specs/reusable-accounts/08-sidebar-chats.spec";
 
 describe("Windows Chats Tests", function () {
-  describe(
+  /*describe(
     "Create Accounts and Chat Tests",
     createChatAccountsTests.bind(this)
   );
-  /*describe("Chat Replies Tests", repliesTests.bind(this));
+  describe("Chat Replies Tests", repliesTests.bind(this));
   describe("Message Context Menu Tests", messageContextMenuTests.bind(this));
   describe("Message Input Tests", messageInputTests.bind(this));
   describe("Message Attachments Tests", messageAttachmentsTests.bind(this));
