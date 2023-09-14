@@ -178,14 +178,10 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance
-        .$(SELECTORS.SLIMBAR)
-        .$(SELECTORS.FAVORITES)
-        .$("~" + username);
+      locator = await this.instance.$(SELECTORS.SLIMBAR).$("~" + username);
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await this.instance
         .$(SELECTORS.SLIMBAR)
-        .$(SELECTORS.FAVORITES)
         .$('[name="' + username + '"]');
     }
     return locator;
@@ -199,13 +195,37 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     return imageProfile;
   }
 
+  async getLocatorOfFavoritesUser(position: number) {
+    let locator = await this.instance
+      .$(SELECTORS.FAVORITES)
+      .$$(SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP)
+      [position].$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
+    return locator;
+  }
+
   async hoverOnFavoritesBubble(name: string) {
     const element = await this.getFavoritesUserImageProfile(name);
     await this.hoverOnElement(element);
   }
 
+  async hoverOnFavoritesBubbleByIndex(index: number) {
+    const element = await this.getLocatorOfFavoritesUser(index);
+    await this.hoverOnElement(element);
+  }
+
   async openContextMenuOnFavoritesUser(name: string) {
     const element = await this.getFavoritesUserImageProfile(name);
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await rightClickOnMacOS(element, this.executor);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await rightClickOnWindows(element, this.executor);
+    }
+    await this.contextMenu.waitForDisplayed();
+  }
+
+  async openContextMenuOnFavoritesUserByIndex(position: number) {
+    const element = await this.getLocatorOfFavoritesUser(position);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(element, this.executor);

@@ -199,21 +199,21 @@ export default async function friends() {
     await favoritesSidebarFirstUser.waitForIsShown(true);
 
     // Hover on first bubble from Favorites and ensure tooltip displays ChatUserB
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserB");
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubbleByIndex(0);
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
     await expect(
       favoritesSidebarFirstUser.favoritesUserTooltipText
     ).toHaveTextContaining("ChatUserB");
 
     // Hover on second bubble from Favorites and ensure tooltip displays ChatUserC
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserC");
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubbleByIndex(1);
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
     await expect(
       favoritesSidebarFirstUser.favoritesUserTooltipText
     ).toHaveTextContaining("ChatUserC");
 
     // Hover on third bubble from Favorites and ensure tooltip displays ChatUserD
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserD");
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubbleByIndex(2);
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
     await expect(
       favoritesSidebarFirstUser.favoritesUserTooltipText
@@ -458,7 +458,7 @@ export default async function friends() {
     await expect(
       favoritesSidebarFirstUser.favoritesUserIndicatorOffline
     ).toBeDisplayed();
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserD");
+    await favoritesSidebarFirstUser.hoverOnFavoritesBubbleByIndex(0);
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
     await expect(
       favoritesSidebarFirstUser.favoritesUserTooltipText
