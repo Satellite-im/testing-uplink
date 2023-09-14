@@ -110,16 +110,12 @@ export async function createNewUser(username: string) {
   // Enter pin for test user
   await createPinFirstUser.waitForIsShown(true);
   await createPinFirstUser.enterPin("1234");
-  const statusOfCreatePinButton =
-    await createPinFirstUser.getStatusOfCreateAccountButton();
-  await expect(statusOfCreatePinButton).toEqual("true");
+  await createPinFirstUser.createAccountButton.waitForEnabled();
   await createPinFirstUser.clickOnCreateAccount();
 
   // Enter Username and click on Create Account
   await createUserFirstUser.enterUsername(username);
-  const statusOfCreateUserButton =
-    await createUserFirstUser.getStatusOfCreateAccountButton();
-  await expect(statusOfCreateUserButton).toEqual("true");
+  await createUserFirstUser.createAccountButton.waitForEnabled();
   await createUserFirstUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
@@ -134,16 +130,12 @@ export async function createNewUserSecondInstance(username: string) {
   // Enter pin for test user
   await createPinSecondUser.waitForIsShown(true);
   await createPinSecondUser.enterPin("1234");
-  const statusOfCreatePinButton =
-    await createPinSecondUser.getStatusOfCreateAccountButton();
-  await expect(statusOfCreatePinButton).toEqual("true");
+  await createPinSecondUser.createAccountButton.waitForEnabled();
   await createPinSecondUser.clickOnCreateAccount();
 
   // Enter Username and click on Create Account
   await createUserSecondUser.enterUsername(username);
-  const statusOfCreateUserButton =
-    await createUserSecondUser.getStatusOfCreateAccountButton();
-  await expect(statusOfCreateUserButton).toEqual("true");
+  await createPinSecondUser.createAccountButton.waitForEnabled();
   await createUserSecondUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
