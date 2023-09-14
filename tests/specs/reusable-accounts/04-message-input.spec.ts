@@ -75,21 +75,19 @@ export default async function messageInputTests() {
       'let myVariable = "test";'
     );
     await chatsInputFirstUser.clickOnSendMessage();
-  });
 
-  it("Chat Input Text - Validate message with text using code markdown is displayed correctly on local and remote user", async () => {
     // With Chat User A, validate code message was sent and is displayed correctly
     await chatsMessagesFirstUser.waitForCodeMessageSentToExist("JavaScript");
     const codeMessageTextSent =
       await chatsMessagesFirstUser.getLastMessageSentTextCodeMessage();
-    await expect(codeMessageTextSent).toEqual('let myVariable = "test";');
+    await expect(codeMessageTextSent).toEqual('let a = "test";');
 
     // With Chat User B, validate code message was received and is displayed correctly
     await chatsInputSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =
       await chatsMessagesSecondUser.getLastMessageReceivedTextCodeMessage();
-    await expect(codeMessageTextReceived).toEqual('let myVariable = "test";');
+    await expect(codeMessageTextReceived).toEqual('let a = "test";');
   });
 
   it("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
@@ -99,9 +97,7 @@ export default async function messageInputTests() {
 
     // Then, paste it into the input bar and assert the text contents on input bar
     await chatsInputFirstUser.pasteClipboardOnInputBar();
-    await expect(chatsInputFirstUser.inputText).toHaveText(
-      'let myVariable = "test";'
-    );
+    await expect(chatsInputFirstUser.inputText).toHaveText('let a = "test";');
 
     // Finally, clear the input bar for next tests
     await chatsInputFirstUser.clearInputBar();
