@@ -438,16 +438,13 @@ export default class FriendsScreen extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance
-        .$(SELECTORS.FRIENDS_BODY)
-        .$("~" + username)
-        .waitForExist();
+      locator = await this.instance.$(SELECTORS.FRIENDS_BODY).$("~" + username);
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await this.instance
         .$(SELECTORS.FRIENDS_BODY)
-        .$('[name="' + username + '"]')
-        .waitForExist();
+        .$('[name="' + username + '"]');
     }
+    await locator.waitForExist();
     return locator;
   }
 
