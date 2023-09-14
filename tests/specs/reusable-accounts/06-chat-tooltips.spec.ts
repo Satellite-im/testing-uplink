@@ -8,6 +8,7 @@ let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 export default async function chatTooltipsTests() {
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
+    await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.hoverOnFavoritesButton();
     await chatsTopbarFirstUser.topbarAddToFavoritesTooltip.waitForDisplayed();
     await expect(

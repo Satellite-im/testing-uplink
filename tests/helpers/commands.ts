@@ -107,8 +107,12 @@ export async function saveTestKeys(
 // Login or Create Users Functions
 
 export async function createNewUser(username: string) {
-  // Enter pin for test user
+  // Reset Pin before creating new user
   await createPinFirstUser.waitForIsShown(true);
+  await createPinFirstUser.openHelpButtonMenu();
+  await createPinFirstUser.clickOnResetAccount();
+
+  // Enter pin for test user
   await createPinFirstUser.enterPin("1234");
   await createPinFirstUser.createAccountButton.waitForEnabled();
   await createPinFirstUser.clickOnCreateAccount();
@@ -127,8 +131,12 @@ export async function createNewUser(username: string) {
 }
 
 export async function createNewUserSecondInstance(username: string) {
-  // Enter pin for test user
+  // Reset Pin before creating new user
   await createPinSecondUser.waitForIsShown(true);
+  await createPinSecondUser.openHelpButtonMenu();
+  await createPinSecondUser.clickOnResetAccount();
+
+  // Enter pin for test user
   await createPinSecondUser.enterPin("1234");
   await createPinSecondUser.createAccountButton.waitForEnabled();
   await createPinSecondUser.clickOnCreateAccount();

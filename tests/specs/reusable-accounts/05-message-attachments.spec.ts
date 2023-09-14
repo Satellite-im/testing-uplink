@@ -3,18 +3,17 @@ import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
 import ComposeAttachment from "@screenobjects/chats/ComposeAttachment";
 import InputBar from "@screenobjects/chats/InputBar";
 import Messages from "@screenobjects/chats/Messages";
-import Topbar from "@screenobjects/chats/Topbar";
 let chatsAttachmentFirstUser = new ComposeAttachment(USER_A_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
-let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 
 export default async function messageAttachmentsTests() {
   1033;
   it("Chat User A - Validate compose attachments contents", async () => {
     // Switch back to first user window to continue with test execution and clear input bar
+    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.clearInputBar();
 
     // Click on upload button and attach a file to compose attachment
@@ -83,6 +82,7 @@ export default async function messageAttachmentsTests() {
     await fileDownloadButton.waitForDisplayed();
 
     // With User B - Validate that message with attachment was received
+    await chatsInputSecondUser.switchToOtherUserWindow();
     await chatsInputSecondUser.clickOnInputBar();
     await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForExist();
   });

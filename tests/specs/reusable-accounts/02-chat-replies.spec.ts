@@ -84,6 +84,7 @@ export default async function repliesTests() {
     await expect(onlineIndicator).toExist();
 
     // With User A - Validate that reply message is received
+    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsMessagesFirstUser.chatMessageReply.waitForDisplayed({
       timeout: 90000,
     });

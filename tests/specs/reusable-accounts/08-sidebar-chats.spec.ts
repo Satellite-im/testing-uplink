@@ -32,6 +32,7 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 export default async function sidebarChatsTests() {
   it("Chat User A - Unblock the other Chat User", async () => {
     // Unblock Chat User B and go to Friends List to send a new friend request
+    await friendsScreenFirstUser.switchToOtherUserWindow();
     await friendsScreenFirstUser.waitForIsShown(true);
     await friendsScreenFirstUser.hoverOnBlockedListButton();
     await friendsScreenFirstUser.goToBlockedList();
@@ -59,6 +60,7 @@ export default async function sidebarChatsTests() {
     await friendsScreenFirstUser.goToAllFriendsList();
 
     // Go to pending requests list, wait for receiving the friend request and accept it
+    await friendsScreenSecondUser.switchToOtherUserWindow();
     await friendsScreenSecondUser.goToFriends();
     await friendsScreenSecondUser.waitForIsShown(true);
     await friendsScreenSecondUser.hoverOnPendingListButton();
@@ -99,6 +101,7 @@ export default async function sidebarChatsTests() {
     await chatsMessagesSecondUser.waitForMessageSentToExist("hello");
 
     // Validate last message contents on Sidebar displays hello on bolds and not __hello__
+    await chatsSidebarFirstUser.switchToOtherUserWindow();
     await chatsSidebarFirstUser.validateLastMessageDisplayed("hello");
 
     // With User A - Wait until user B accepts the friend request
@@ -153,11 +156,14 @@ export default async function sidebarChatsTests() {
     // Send message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
     await chatsInputFirstUser.clickOnSendMessage();
+
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingMessage("Hi...");
   });
 
   it("Chat User A - Sidebar - Persists between different sections of the app - Files Screen", async () => {
     // Validate on Files Screen that sidebar is displayed
+    await chatsLayoutFirstUser.switchToOtherUserWindow();
     await chatsLayoutFirstUser.goToFiles();
     await filesScreenFirstUser.waitForIsShown(true);
     await chatsSidebarFirstUser.sidebarChatsUser.waitForExist();
@@ -193,6 +199,7 @@ export default async function sidebarChatsTests() {
     await chatsSidebarFirstUser.waitForIsShown(true);
 
     // With User B - Wait until message is received
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingMessage("Hi...", 60000);
   });
 
@@ -204,6 +211,7 @@ export default async function sidebarChatsTests() {
 
   it("Chat User A - Sidebar - Context Menu - Delete chat", async () => {
     // Open context menu and right click on Delete chat
+    await chatsSidebarFirstUser.switchToOtherUserWindow();
     await chatsSidebarFirstUser.openContextMenuOnSidebar("ChatUserB");
     await contextMenuSidebarFirstUser.selectChatsDeleteConversation();
     await welcomeScreenFirstUser.waitForIsShown(true);
@@ -211,10 +219,12 @@ export default async function sidebarChatsTests() {
 
   it("Chat User B - Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {
     // After user deletes chat conversation on remote side, chat is deleted on local side and Welcome Image displayed again
+    await welcomeScreenSecondUser.switchToOtherUserWindow();
     await welcomeScreenSecondUser.waitForIsShown(true);
   });
 
   it("Chat User A - Sidebar without messages sent displays No messages yet, sent one", async () => {
+    await welcomeScreenFirstUser.switchToOtherUserWindow();
     await welcomeScreenFirstUser.goToFriends();
     await friendsScreenFirstUser.chatWithFriendButton.waitForExist();
     await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserB");

@@ -16,6 +16,7 @@ import Topbar from "@screenobjects/chats/Topbar";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
+let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
@@ -124,6 +125,7 @@ export async function setupBeforeCreateGroupTests() {
 export async function setupBeforeSidebarTests() {
   await setupBeforeCreateGroupTests();
   // Go to the current list of All friends and then open a Chat conversation with ChatUserA
+  await welcomeScreenSecondUser.switchToOtherUserWindow();
   await welcomeScreenSecondUser.goToFriends();
   await friendsScreenSecondUser.waitForIsShown(true);
   await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
@@ -136,6 +138,7 @@ export async function setupBeforeSidebarTests() {
   await chatsInputSecondUser.typeMessageOnInput("Accepted...");
   await chatsInputSecondUser.clickOnSendMessage();
   await chatsMessagesSecondUser.waitForMessageSentToExist("Accepted...");
+  await chatsLayoutFirstUser.switchToOtherUserWindow();
 
   // With User A - Validate that message was received
   await chatsMessagesFirstUser.waitForReceivingMessage("Accepted...");
@@ -158,9 +161,11 @@ export async function setupBeforeSidebarTests() {
   await expect(includesFriend).toEqual(true);
   await friendsScreenFirstUser.goToAllFriendsList();
   await friendsScreenFirstUser.friendsList.waitForDisplayed();
+  await chatsInputSecondUser.switchToOtherUserWindow();
 
   // With User B - Go to Friends and wait for User A to remove friendship with User B
   await chatsInputSecondUser.goToFriends();
   await friendsScreenSecondUser.waitForIsShown(true);
   await friendsScreenSecondUser.waitUntilFriendIsRemoved("ChatUserA");
+  await friendsScreenFirstUser.switchToOtherUserWindow();
 }
