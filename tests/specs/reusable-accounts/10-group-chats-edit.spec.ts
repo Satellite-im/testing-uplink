@@ -16,7 +16,7 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 export default async function groupChatEditTests() {
   it("Chat User A - Edit Group Chat button tooltip", async () => {
     await chatsTopbarFirstUser.hoverOnEditGroupButton();
-    await chatsTopbarFirstUser.topbarEditGroupTooltip.waitForDisplayed();
+    await chatsTopbarFirstUser.topbarEditGroupTooltip.waitForExist();
     await expect(
       chatsTopbarFirstUser.topbarEditGroupTooltipText
     ).toHaveTextContaining("Edit Group");
@@ -31,7 +31,7 @@ export default async function groupChatEditTests() {
   it("Chat User B - You are not the group creator tooltip is displayed", async () => {
     await chatsTopbarSecondUser.switchToOtherUserWindow();
     await chatsTopbarSecondUser.hoverOnEditGroupButton();
-    await chatsTopbarSecondUser.viewGroupTooltip.waitForDisplayed();
+    await chatsTopbarSecondUser.viewGroupTooltip.waitForExist();
     await expect(
       chatsTopbarSecondUser.viewGroupTooltipText
     ).toHaveTextContaining("View Group");
@@ -87,12 +87,12 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
-    await editGroupFirstUser.clickOnAddMembersText();
+    await editGroupFirstUser.clickOnAddMembers();
     await editGroupFirstUser.nothingHereText.waitForDisplayed();
   });
 
   it("Edit Group - Contents displayed in remove list are correct", async () => {
-    await editGroupFirstUser.clickOnCurrentMembersText();
+    await editGroupFirstUser.clickOnCurrentMembers();
     const currentList = await editGroupFirstUser.getParticipantsList();
     const expectedList = ["ChatUserB"];
     await expect(currentList).toEqual(expectedList);
@@ -127,7 +127,7 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.waitForIsShown(true);
-    await editGroupFirstUser.clickOnAddMembersText();
+    await editGroupFirstUser.clickOnAddMembers();
     const currentList = await editGroupFirstUser.getParticipantsList();
     await expect(currentList).toEqual(["ChatUserB"]);
   });

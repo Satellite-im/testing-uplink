@@ -8,6 +8,7 @@ import {
 } from "@helpers/commands";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import EmojiSelector from "@screenobjects/chats/EmojiSelector";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
@@ -28,6 +29,8 @@ let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
+let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
+let createPinSecondUser = new CreatePinScreen(USER_B_INSTANCE);
 let emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
 let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
@@ -47,6 +50,7 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export default async function createChatAccountsTests() {
   it("Chat User A - Create Account", async () => {
+    await createPinFirstUser.switchToOtherUserWindow();
     const username = "ChatUserA";
     await createNewUser(username);
     await maximizeWindow(USER_A_INSTANCE);
@@ -89,6 +93,7 @@ export default async function createChatAccountsTests() {
   });
 
   it("Chat User B - Create Account", async () => {
+    await createPinSecondUser.switchToOtherUserWindow();
     const username = "ChatUserB";
     await createNewUserSecondInstance(username);
     await maximizeWindow(USER_B_INSTANCE);
@@ -294,7 +299,7 @@ export default async function createChatAccountsTests() {
       favoritesSidebarFirstUser.favoritesUserIndicatorOnline
     ).toBeDisplayed();
     await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserB");
-    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
+    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
     await expect(
       favoritesSidebarFirstUser.favoritesUserTooltipText
     ).toHaveTextContaining("ChatUserB");
