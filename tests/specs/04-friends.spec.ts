@@ -453,11 +453,18 @@ export default async function friends() {
 
     // Validate that username and user image bubble is now displayed on Favorites Sidebar
     await favoritesSidebarFirstUser.favorites.waitForDisplayed();
-    // Favorites Sidebar should be displayed
-    await expect(favoritesSidebarFirstUser.favoritesUserImage).toBeDisplayed();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserIndicatorOffline
-    ).toBeDisplayed();
+
+    // Favorites Sidebar User bubble should be displayed with image and indicator online
+    const favoritesImage =
+      await favoritesSidebarFirstUser.getFavoritesUserImage("ChatUserD");
+    const favoritesIndicatorOnline =
+      await favoritesSidebarFirstUser.getFavoritesUserIndicatorOnline(
+        "ChatUserD"
+      );
+    await favoritesImage.waitForDisplayed();
+    await favoritesIndicatorOnline.waitForDisplayed();
+
+    // User should be able to hover on Favorites Bubble and tooltip with name will be displayed
     await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserD");
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
     await expect(

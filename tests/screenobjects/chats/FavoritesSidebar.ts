@@ -188,10 +188,50 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     return locator;
   }
 
+  async getFavoritesUserImage(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const imageProfile = await favoriteLocator.$(
+      SELECTORS.FAVORITES_USER_IMAGE
+    );
+    return imageProfile;
+  }
+
+  async getFavoritesUserImageGroupWrap(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const imageProfile = await favoriteLocator.$(
+      SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP
+    );
+    return imageProfile;
+  }
+
   async getFavoritesUserImageProfile(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     const imageProfile = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_IMAGE_PROFILE
+    );
+    return imageProfile;
+  }
+
+  async getFavoritesUserImageWrap(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const imageProfile = await favoriteLocator.$(
+      SELECTORS.FAVORITES_USER_IMAGE_WRAP
+    );
+    return imageProfile;
+  }
+
+  async getFavoritesUserIndicatorOffline(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const imageProfile = await favoriteLocator.$(
+      SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE
+    );
+    return imageProfile;
+  }
+
+  async getFavoritesUserIndicatorOnline(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const imageProfile = await favoriteLocator.$(
+      SELECTORS.FAVORITES_USER_INDICATOR_ONLINE
     );
     return imageProfile;
   }

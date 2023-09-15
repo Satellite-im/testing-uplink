@@ -76,12 +76,12 @@ export default async function repliesTests() {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsSecondUser.getLastGroupWrapSentImage();
-    await expect(userImage).toExist();
+    await userImage.waitForExist();
 
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator =
       await chatsMessageGroupsSecondUser.getLastGroupWrapSentOnline();
-    await expect(onlineIndicator).toExist();
+    await onlineIndicator.waitForExist();
     await chatsMessagesFirstUser.switchToOtherUserWindow();
 
     // With User A - Validate that reply message is received
@@ -117,12 +117,12 @@ export default async function repliesTests() {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsFirstUser.getLastGroupWrapReceivedImage();
-    await expect(userImage).toExist();
+    await userImage.waitForExist();
 
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator =
       await chatsMessageGroupsFirstUser.getLastGroupWrapReceivedOnline();
-    await expect(onlineIndicator).toExist();
+    await onlineIndicator.waitForExist();
   });
 
   it("Chat User A - Reply to yourself", async () => {

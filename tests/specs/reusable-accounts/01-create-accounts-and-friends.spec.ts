@@ -76,6 +76,11 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Settings General - Reduce font size", async () => {
     // Go to General Settings and reduce Font Size by 0.5
     await settingsProfileFirstUser.goToGeneralSettings();
+
+    // Wait for toast notification of Profile Updated to not exist
+    await settingsGeneralFirstUser.waitUntilNotificationIsClosed();
+
+    // Click on font scaling minus button
     await settingsGeneralFirstUser.waitForIsShown(true);
     await settingsGeneralFirstUser.clickOnFontScalingMinus();
   });
@@ -103,7 +108,7 @@ export default async function createChatAccountsTests() {
     // Click on Copy ID button and assert Toast Notification is displayed
     await settingsProfileSecondUser.clickOnCopyIDButton();
 
-    // Wait for toast notification to be closed
+    // Wait for toast notification of Copied To Clipboard to not exist
     await settingsProfileSecondUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
@@ -119,6 +124,11 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Settings General - Reduce font size", async () => {
     // Go to General Settings and reduce Font Size by 0.5
     await settingsProfileSecondUser.goToGeneralSettings();
+
+    // Wait for toast notification of Profile Updated to not exist
+    await settingsGeneralSecondUser.waitUntilNotificationIsClosed();
+
+    // Click on font scaling minus
     await settingsGeneralSecondUser.waitForIsShown(true);
     await settingsGeneralSecondUser.clickOnFontScalingMinus();
   });
@@ -271,12 +281,12 @@ export default async function createChatAccountsTests() {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsFirstUser.getLastGroupWrapSentImage();
-    await expect(userImage).toExist();
+    await userImage.waitForExist();
 
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator =
       await chatsMessageGroupsFirstUser.getLastGroupWrapSentOnline();
-    await expect(onlineIndicator).toExist();
+    await onlineIndicator.waitForExist();
   });
 
   it("Chat User A - Topbar information", async () => {
@@ -293,11 +303,17 @@ export default async function createChatAccountsTests() {
     await chatsTopbarFirstUser.addToFavorites();
     await favoritesSidebarFirstUser.favorites.waitForExist();
 
-    // Favorites Sidebar should be displayed
-    await expect(favoritesSidebarFirstUser.favoritesUserImage).toBeDisplayed();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserIndicatorOnline
-    ).toBeDisplayed();
+    // Favorites Sidebar User bubble should be displayed with image and indicator online
+    const favoritesImage =
+      await favoritesSidebarFirstUser.getFavoritesUserImage("ChatUserB");
+    const favoritesIndicatorOnline =
+      await favoritesSidebarFirstUser.getFavoritesUserIndicatorOnline(
+        "ChatUserB"
+      );
+    await favoritesImage.waitForDisplayed();
+    await favoritesIndicatorOnline.waitForDisplayed();
+
+    // User should be able to hover on Favorites Bubble and tooltip with name will be displayed
     await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserB");
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
     await expect(
@@ -342,12 +358,12 @@ export default async function createChatAccountsTests() {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsSecondUser.getLastGroupWrapReceivedImage();
-    await expect(userImage).toExist();
+    await userImage.waitForExist();
 
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator =
       await chatsMessageGroupsSecondUser.getLastGroupWrapReceivedOnline();
-    await expect(onlineIndicator).toExist();
+    await onlineIndicator.waitForExist();
   });
 
   it("Chat User B - Validate Chat Message received displays timestamp and user who sent it", async () => {

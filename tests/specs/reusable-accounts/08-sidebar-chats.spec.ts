@@ -56,7 +56,6 @@ export default async function sidebarChatsTests() {
     await friendsScreenFirstUser.hoverOnPendingListButton();
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.removeOrDenyFriendButton.waitForDisplayed();
-    await friendsScreenFirstUser.goToAllFriendsList();
     await friendsScreenSecondUser.switchToOtherUserWindow();
 
     // Go to pending requests list, wait for receiving the friend request and accept it
@@ -101,9 +100,11 @@ export default async function sidebarChatsTests() {
 
     // Validate last message contents on Sidebar displays hello on bolds and not __hello__
     await chatsSidebarFirstUser.validateLastMessageDisplayed("hello");
-    await friendsScreenFirstUser.switchToOtherUserWindow();
 
     // With User A - Wait until user B accepts the friend request
+    await friendsScreenFirstUser.switchToOtherUserWindow();
+    await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.friendsList.waitForExist();
     await friendsScreenFirstUser.waitUntilUserAcceptedFriendRequest();
   });
 
@@ -241,11 +242,17 @@ export default async function sidebarChatsTests() {
     await chatsTopbarFirstUser.addToFavorites();
     await favoritesSidebarFirstUser.favorites.waitForExist();
 
-    // Favorites Sidebar should be displayed
-    await expect(favoritesSidebarFirstUser.favoritesUserImage).toBeDisplayed();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserIndicatorOnline
-    ).toBeDisplayed();
+    // Favorites Sidebar User bubble should be displayed with image and indicator online
+    const favoritesImage =
+      await favoritesSidebarFirstUser.getFavoritesUserImage("ChatUserB");
+    const favoritesIndicatorOnline =
+      await favoritesSidebarFirstUser.getFavoritesUserIndicatorOnline(
+        "ChatUserB"
+      );
+    await favoritesImage.waitForDisplayed();
+    await favoritesIndicatorOnline.waitForDisplayed();
+
+    // User should be able to hover on Favorites Bubble and tooltip with name will be displayed
     await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserB");
     await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
     await expect(
@@ -258,7 +265,7 @@ export default async function sidebarChatsTests() {
     await filesScreenFirstUser.waitForIsShown(true);
     await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("ChatUserB");
     await favoritesSidebarFirstUser.clickOnContextMenuFavoritesChat();
-    await chatsInputFirstUser.waitForIsShown(true);
+    await chatsLayoutFirstUser.waitForIsShown(true);
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
     await chatsInputFirstUser.clearInputBar();
   });

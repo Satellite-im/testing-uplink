@@ -5,6 +5,7 @@ import InputBar from "@screenobjects/chats/InputBar";
 import Messages from "@screenobjects/chats/Messages";
 import Topbar from "@screenobjects/chats/Topbar";
 let chatsAttachmentFirstUser = new ComposeAttachment(USER_A_INSTANCE);
+let chatsAttachmentSecondUser = new ComposeAttachment(USER_B_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
@@ -12,33 +13,35 @@ let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 
 export default async function messageAttachmentsTests() {
-  it("Chat User A - Validate compose attachments contents", async () => {
-    // Switch back to first user window to continue with test execution and clear input bar
-    await chatsInputFirstUser.switchToOtherUserWindow();
-    await chatsInputFirstUser.clearInputBar();
+  it("Chat User B - Validate compose attachments contents", async () => {
+    // Continue with test execution and clear input bar
+    await chatsInputSecondUser.clearInputBar();
 
     // Click on upload button and attach a file to compose attachment
-    await chatsInputFirstUser.uploadFileFromLocalDisk(
+    await chatsInputSecondUser.uploadFileFromLocalDisk(
       "./tests/fixtures/testfile.txt"
     );
 
     // Validate contents on Compose Attachments are displayed
-    await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForDisplayed(
-      { timeout: 30000 }
+    await chatsAttachmentSecondUser.composeAttachmentsFileEmbed.waitForDisplayed(
+      {
+        timeout: 30000,
+      }
     );
-    await chatsAttachmentFirstUser.composeAttachmentsFileIcon.waitForDisplayed();
-    await chatsAttachmentFirstUser.composeAttachmentsFileInfo.waitForDisplayed();
+    await chatsAttachmentSecondUser.composeAttachmentsFileIcon.waitForDisplayed();
+    await chatsAttachmentSecondUser.composeAttachmentsFileInfo.waitForDisplayed();
 
-    await chatsAttachmentFirstUser.composeAttachmentsFileNameText.waitForDisplayed();
+    await chatsAttachmentSecondUser.composeAttachmentsFileNameText.waitForDisplayed();
   });
 
-  it("Chat User A - Delete attachment before sending the message", async () => {
+  it("Chat User B - Delete attachment before sending the message", async () => {
     // Click on upload button and attach a file to compose attachment
-    await chatsAttachmentFirstUser.deleteFileOnComposeAttachment();
+    await chatsAttachmentSecondUser.deleteFileOnComposeAttachment();
   });
 
   it("Chat User A - Select a file and send message with attachment", async () => {
     // Click on upload button and attach a file to compose attachment
+    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.uploadFileFromLocalDisk(
       "./tests/fixtures/testfile.txt"
     );
