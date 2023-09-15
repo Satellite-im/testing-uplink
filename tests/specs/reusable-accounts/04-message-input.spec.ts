@@ -159,10 +159,12 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.typeMessageOnInput(shortText + "efgh");
 
     // Switch to second user and validate that Typing Indicator is displayed
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsLayoutSecondUser.typingIndicator.waitForExist();
+    await chatsLayoutSecondUser.typingIndicator.waitForExist({
+      timeout: 30000,
+    });
     await expect(
       chatsLayoutSecondUser.typingIndicatorTextValue
     ).toHaveTextContaining("ChatUserA is typing");
+    await chatsLayoutSecondUser.switchToOtherUserWindow();
   });
 }

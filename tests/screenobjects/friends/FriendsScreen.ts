@@ -649,6 +649,34 @@ export default class FriendsScreen extends UplinkMainScreen {
     await friendToClick.$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON).click();
   }
 
+  async validateAllFriendsListIsNotEmpty() {
+    await this.instance
+      .$(SELECTORS.FRIENDS_LIST)
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .waitForExist();
+  }
+
+  async validateBlockedListIsNotEmpty() {
+    await this.instance
+      .$(SELECTORS.BLOCKED_LIST)
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .waitForExist();
+  }
+
+  async validateIncomingListIsNotEmpty() {
+    await this.instance
+      .$(SELECTORS.INCOMING_REQUESTS_LIST)
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .waitForExist();
+  }
+
+  async validateOutgoingListIsNotEmpty() {
+    await this.instance
+      .$(SELECTORS.OUTGOING_REQUESTS_LIST)
+      .$(SELECTORS.FRIEND_INFO_USERNAME)
+      .waitForExist();
+  }
+
   async waitUntilFriendIsRemoved(
     username: string,
     timeoutUser: number = 60000

@@ -321,9 +321,7 @@ export default async function friends() {
 
     // Go to the current list of All friends and ensure that now includes the friend accepted
     await friendsScreenFirstUser.goToAllFriendsList();
-    const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
-    const allFriendsIncludes = await allFriendsList.includes(friendName);
-    await expect(allFriendsIncludes).toEqual(true);
+    await friendsScreenFirstUser.waitUntilUserIsInCurrentList(friendName);
 
     // Get the current list of incoming requests and validate that user does not appear there now
     await friendsScreenFirstUser.goToPendingFriendsList();
@@ -484,9 +482,7 @@ export default async function friends() {
 
     // Go to Blocked List and validate that user is there now
     await friendsScreenFirstUser.goToBlockedList();
-    const blockedFriendsList = await friendsScreenFirstUser.getBlockedList();
-    const blockedListIncludes = await blockedFriendsList.includes(friendName);
-    await expect(blockedListIncludes).toEqual(true);
+    await friendsScreenFirstUser.waitUntilUserIsInCurrentList(friendName);
 
     // Get current list of All friends and ensure that it does not include the blocked user
     await friendsScreenFirstUser.goToAllFriendsList();
@@ -508,9 +504,7 @@ export default async function friends() {
 
     // Go to the current list of All friends and ensure that accepted user is now in friends list
     await friendsScreenFirstUser.goToAllFriendsList();
-    const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
-    const allListIncludes = await allFriendsList.includes(friendName);
-    await expect(allListIncludes).toEqual(true);
+    await friendsScreenFirstUser.waitUntilUserIsInCurrentList(friendName);
 
     // Get the current list of incoming requests and validate that user does not appear there now
     await friendsScreenFirstUser.goToPendingFriendsList();

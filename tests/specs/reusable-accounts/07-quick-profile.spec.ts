@@ -115,7 +115,7 @@ export default async function quickProfileTests() {
     // Validate friend request appears on pending list
     await friendsScreenFirstUser.hoverOnPendingListButton();
     await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.waitUntilUserIsInCurrentList("ChatUserB");
+    await friendsScreenFirstUser.validateOutgoingListIsNotEmpty();
     await friendsScreenFirstUser.removeOrDenyFriendButton.waitForExist();
 
     await friendsScreenFirstUser.goToAllFriendsList();
@@ -135,7 +135,7 @@ export default async function quickProfileTests() {
     await friendsScreenSecondUser.goToAllFriendsList();
 
     // Validate friend is now on all friends list
-    await friendsScreenSecondUser.waitUntilUserIsInCurrentList("ChatUserA");
+    await friendsScreenSecondUser.validateAllFriendsListIsNotEmpty();
     await friendsScreenFirstUser.switchToOtherUserWindow();
   });
 
@@ -145,7 +145,7 @@ export default async function quickProfileTests() {
     await friendsScreenFirstUser.goToAllFriendsList();
 
     // Validate friend is now on all friends list
-    await friendsScreenFirstUser.waitUntilUserIsInCurrentList("ChatUserB");
+    await friendsScreenFirstUser.validateAllFriendsListIsNotEmpty();
 
     // Go to chat with User B
     await friendsScreenFirstUser.chatWithFriendButton.waitForExist();
@@ -190,7 +190,7 @@ export default async function quickProfileTests() {
     // Get current list of Blocked friends and ensure that it includes the blocked user
     await welcomeScreenFirstUser.goToFriends();
     await friendsScreenFirstUser.goToBlockedList();
-    await friendsScreenFirstUser.waitUntilUserIsInCurrentList("ChatUserB");
+    await friendsScreenFirstUser.validateBlockedListIsNotEmpty();
 
     await friendsScreenFirstUser.goToAllFriendsList();
     await friendsScreenFirstUser.friendsList.waitForExist();

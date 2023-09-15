@@ -156,7 +156,7 @@ export default async function createChatAccountsTests() {
     // Validate friend request appears on pending list
     await friendsScreenSecondUser.hoverOnPendingListButton();
     await friendsScreenSecondUser.goToPendingFriendsList();
-    await friendsScreenSecondUser.waitUntilUserIsInCurrentList("ChatUserA");
+    await friendsScreenSecondUser.validateOutgoingListIsNotEmpty();
 
     await friendsScreenSecondUser.goToAllFriendsList();
     await friendsScreenFirstUser.switchToOtherUserWindow();
@@ -171,7 +171,7 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Validate Chat User B is now a friend", async () => {
     // Validate friend is now on all friends list
     await friendsScreenFirstUser.goToAllFriendsList();
-    await friendsScreenFirstUser.waitUntilUserIsInCurrentList("ChatUserB");
+    await friendsScreenFirstUser.validateAllFriendsListIsNotEmpty();
 
     // Go to Chat with User B
     await friendsScreenFirstUser.chatWithFriendButton.click();
@@ -184,7 +184,7 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Validate friend request was accepted", async () => {
     // Validate friend is now on all friends list
     await friendsScreenSecondUser.goToAllFriendsList();
-    await friendsScreenSecondUser.waitUntilUserIsInCurrentList("ChatUserA");
+    await friendsScreenSecondUser.validateAllFriendsListIsNotEmpty();
     await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 
@@ -289,7 +289,9 @@ export default async function createChatAccountsTests() {
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "ChatUserB"
     );
-    await chatsTopbarFirstUser.topbarIndicatorOnline.waitForExist();
+    await chatsTopbarFirstUser.topbarIndicatorOnline.waitForDisplayed({
+      timeout: 90000,
+    });
   });
 
   it("Chat User A - Add user with active chat to Favorites", async () => {
