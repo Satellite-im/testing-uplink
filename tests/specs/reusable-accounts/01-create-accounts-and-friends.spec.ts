@@ -55,7 +55,7 @@ export default async function createChatAccountsTests() {
     await createNewUser(username);
     await maximizeWindow(USER_A_INSTANCE);
     await welcomeScreenFirstUser.goToSettings();
-    await settingsProfileFirstUser.waitForIsShown(true);
+    await settingsProfileFirstUser.settingsProfile.waitForExist();
 
     // Click on Copy ID button and assert Toast Notification is displayed
     await settingsProfileFirstUser.clickOnCopyIDButton();
@@ -81,20 +81,20 @@ export default async function createChatAccountsTests() {
     await settingsGeneralFirstUser.waitUntilNotificationIsClosed();
 
     // Click on font scaling minus button
-    await settingsGeneralFirstUser.waitForIsShown(true);
+    await settingsGeneralFirstUser.settingsGeneral.waitForExist();
     await settingsGeneralFirstUser.clickOnFontScalingMinus();
   });
 
   it("Chat User A - Settings Notifications - Disable notifications", async () => {
     // Go to Notifications Settings and disable all notifications
     await settingsGeneralFirstUser.goToNotificationsSettings();
-    await settingsNotificationsFirstUser.waitForIsShown(true);
+    await settingsNotificationsFirstUser.settingsNotifications.waitForExist();
     await settingsNotificationsFirstUser.clickOnFriendsNotifications();
     await settingsNotificationsFirstUser.clickOnMessagesNotifications();
 
     // Go to Friends Screen
     await settingsNotificationsFirstUser.goToFriends();
-    await friendsScreenFirstUser.waitForIsShown(true);
+    await friendsScreenFirstUser.friendsBody.waitForExist();
   });
 
   it("Chat User B - Create Account", async () => {
@@ -103,7 +103,7 @@ export default async function createChatAccountsTests() {
     await createNewUserSecondInstance(username);
     await maximizeWindow(USER_B_INSTANCE);
     await welcomeScreenSecondUser.goToSettings();
-    await settingsProfileSecondUser.waitForIsShown(true);
+    await settingsProfileSecondUser.settingsProfile.waitForExist();
 
     // Click on Copy ID button and assert Toast Notification is displayed
     await settingsProfileSecondUser.clickOnCopyIDButton();
@@ -129,20 +129,20 @@ export default async function createChatAccountsTests() {
     await settingsGeneralSecondUser.waitUntilNotificationIsClosed();
 
     // Click on font scaling minus
-    await settingsGeneralSecondUser.waitForIsShown(true);
+    await settingsGeneralSecondUser.settingsGeneral.waitForExist();
     await settingsGeneralSecondUser.clickOnFontScalingMinus();
   });
 
   it("Chat User B - Settings Notifications - Disable notifications", async () => {
     // Go to Notifications Settings and disable all notifications
     await settingsGeneralSecondUser.goToNotificationsSettings();
-    await settingsNotificationsSecondUser.waitForIsShown(true);
+    await settingsNotificationsSecondUser.settingsNotifications.waitForExist();
     await settingsNotificationsSecondUser.clickOnFriendsNotifications();
     await settingsNotificationsSecondUser.clickOnMessagesNotifications();
 
     // Go to Friends Screen
     await settingsNotificationsSecondUser.goToFriends();
-    await friendsScreenSecondUser.waitForIsShown(true);
+    await friendsScreenSecondUser.friendsBody.waitForExist();
   });
 
   it("Chat User B - Send friend request to User A", async () => {
@@ -157,6 +157,7 @@ export default async function createChatAccountsTests() {
     // Validate friend request appears on pending list
     await friendsScreenSecondUser.hoverOnPendingListButton();
     await friendsScreenSecondUser.goToPendingFriendsList();
+
     const pendingList = await friendsScreenSecondUser.getOutgoingList();
     const includesFriend = await pendingList.includes("ChatUserA");
     await expect(includesFriend).toEqual(true);
@@ -335,7 +336,7 @@ export default async function createChatAccountsTests() {
     await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
     await friendsScreenSecondUser.hoverOnChatWithFriendButton("ChatUserA");
     await friendsScreenSecondUser.chatWithFriendButton.click();
-    await chatsLayoutSecondUser.waitForIsShown(true);
+    await chatsTopbarSecondUser.topbar.waitForExist();
 
     // Wait until Chat User A is online
     await chatsTopbarSecondUser.topbarIndicatorOnline.waitForDisplayed({

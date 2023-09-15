@@ -60,11 +60,11 @@ export default async function groupChatSidebarTests() {
 
     // Go to another chat conversation
     await chatsTopbarFirstUser.goToFriends();
-    await friendsScreenFirstUser.waitForIsShown(true);
+    await friendsScreenFirstUser.friendsBody.waitForExist();
     await friendsScreenFirstUser.chatWithFriendButton.waitForExist();
     await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserB");
     await friendsScreenFirstUser.chatWithFriendButton.click();
-    await chatsLayoutFirstUser.waitForIsShown(true);
+    await chatsTopbarFirstUser.topbar.waitForExist();
   });
 
   it("Group Chat - Send message to the group with User B", async () => {
@@ -131,7 +131,7 @@ export default async function groupChatSidebarTests() {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
 
     // Now, go to the Group Chat and validate that User B is not part of it anymore
-    await chatsTopbarFirstUser.waitForIsShown(true);
+    await chatsTopbarFirstUser.topbar.waitForExist();
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "X"
     );
@@ -142,7 +142,7 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Add Chat User B again to the group", async () => {
     await chatsTopbarFirstUser.editGroup();
-    await editGroupFirstUser.waitForIsShown(true);
+    await editGroupFirstUser.editGroupSection.waitForExist();
     await editGroupFirstUser.clickOnAddMembers();
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
@@ -162,9 +162,9 @@ export default async function groupChatSidebarTests() {
     // Switch execution to User B and ensure that user was added again to the group
     await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.goToFiles();
-    await filesScreenSecondUser.waitForIsShown(true);
+    await filesScreenSecondUser.filesBody.waitForExist();
     await filesScreenSecondUser.goToMainScreen();
-    await chatsSidebarSecondUser.waitForIsShown(true);
+    await chatsSidebarSecondUser.sidebarChatsSection.waitForExist();
     await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
     await chatsSidebarSecondUser.goToSidebarGroupChat("X");
     await chatsTopbarSecondUser.topbar.waitForDisplayed();

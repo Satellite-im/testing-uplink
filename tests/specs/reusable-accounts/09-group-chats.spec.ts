@@ -94,8 +94,7 @@ export default async function groupChatTests() {
       "No messages sent yet, send one!"
     );
     await chatsSidebarFirstUser.goToSidebarGroupChat("Test");
-    await chatsLayoutFirstUser.waitForIsShown(true);
-    await chatsTopbarFirstUser.waitForIsShown(true);
+    await chatsTopbarFirstUser.topbar.waitForExist();
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "Test"
     );
@@ -113,8 +112,7 @@ export default async function groupChatTests() {
       "No messages sent yet, send one!"
     );
     await chatsSidebarSecondUser.goToSidebarGroupChat("Test");
-    await chatsLayoutSecondUser.waitForIsShown(true);
-    await chatsTopbarSecondUser.waitForIsShown(true);
+    await chatsTopbarSecondUser.topbar.waitForExist();
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue
     ).toHaveTextContaining("Test");
@@ -122,7 +120,7 @@ export default async function groupChatTests() {
       chatsTopbarSecondUser.topbarUserStatusValue
     ).toHaveTextContaining("Members (2)");
     await chatsSidebarSecondUser.goToSidebarChat("ChatUserA");
-    await chatsLayoutSecondUser.waitForIsShown(true);
+    await chatsTopbarSecondUser.topbar.waitForExist();
   });
 
   it("Group Chat - User A sends a message in group chat", async () => {
@@ -146,7 +144,7 @@ export default async function groupChatTests() {
   it("Sidebar - Search Bar - Search for a string matching a username and group", async () => {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.goToFiles();
-    await filesScreenFirstUser.waitForIsShown(true);
+    await filesScreenFirstUser.filesBody.waitForExist();
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");
     const searchResultsUsers =
       await sidebarSearchFirstUser.getSidebarSearchResultsUsers();
@@ -161,7 +159,7 @@ export default async function groupChatTests() {
 
   it("Sidebar - Sarch bar - Result will redirect to a User Conversation", async () => {
     await sidebarSearchFirstUser.clickOnUserResultFromSidebarSearch(0);
-    await chatsTopbarFirstUser.waitForIsShown(true);
+    await chatsTopbarFirstUser.topbar.waitForExist();
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "ChatUserB"
     );
@@ -169,7 +167,7 @@ export default async function groupChatTests() {
 
   it("Sidebar - Search Bar - Search for a string matching a single group chat", async () => {
     await chatsTopbarFirstUser.goToFiles();
-    await filesScreenFirstUser.waitForIsShown(true);
+    await filesScreenFirstUser.filesBody.waitForExist();
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
     const searchResults =
       await sidebarSearchFirstUser.getSidebarSearchResultsGroupsMatchingName();

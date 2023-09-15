@@ -31,7 +31,7 @@ export default async function quickProfileTests() {
   it("Chat User A - Validate contents from local quick profile", async () => {
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openLocalQuickProfile();
-    await chatsQuickProfileFirstUser.waitForIsShown(true);
+    await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
     // Validate contents from quick profile
     await chatsQuickProfileFirstUser.quickProfileUserImage.waitForDisplayed();
@@ -44,7 +44,7 @@ export default async function quickProfileTests() {
 
   it("Chat User A - Click on Edit Profile", async () => {
     await chatsQuickProfileFirstUser.clickOnEditProfile();
-    await settingsProfileFirstUser.waitForIsShown(true);
+    await settingsProfileFirstUser.settingsProfile.waitForExist();
     await settingsProfileFirstUser.goToMainScreen();
   });
 
@@ -64,7 +64,7 @@ export default async function quickProfileTests() {
   it("Chat User A - Validate contents from remote quick profile", async () => {
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openRemoteQuickProfile();
-    await chatsQuickProfileFirstUser.waitForIsShown(true);
+    await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
     // Validate contents from quick profile
     await chatsQuickProfileFirstUser.quickProfileUserImage.waitForDisplayed();
@@ -82,13 +82,13 @@ export default async function quickProfileTests() {
   it("Chat User A - Remove Friend", async () => {
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openRemoteQuickProfile();
-    await chatsQuickProfileFirstUser.waitForIsShown(true);
+    await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
     // Click on Remove Friend from Quick Profile
     await chatsQuickProfileFirstUser.clickOnRemoveUser();
 
     // Welcome Screen should be displayed
-    await welcomeScreenFirstUser.waitForIsShown(true);
+    await welcomeScreenFirstUser.welcomeLayout.waitForExist();
   });
 
   it("Chat User A - Ensure that Chat User B is not in friends list now", async () => {
@@ -101,7 +101,7 @@ export default async function quickProfileTests() {
 
     // With User B - Go to Friends and wait for User A to remove friendship with User B
     await welcomeScreenSecondUser.goToFriends();
-    await friendsScreenSecondUser.waitForIsShown(true);
+    await friendsScreenSecondUser.friendsBody.waitForExist();
     await friendsScreenFirstUser.switchToOtherUserWindow();
   });
 
@@ -127,7 +127,7 @@ export default async function quickProfileTests() {
     // With User B - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenSecondUser.hoverOnFriendsButton();
     await friendsScreenSecondUser.goToFriends();
-    await friendsScreenSecondUser.waitForIsShown(true);
+    await friendsScreenSecondUser.friendsBody.waitForExist();
     await friendsScreenSecondUser.hoverOnPendingListButton();
     await friendsScreenSecondUser.goToPendingFriendsList();
     await friendsScreenSecondUser.acceptIncomingRequest("ChatUserA");
@@ -158,7 +158,7 @@ export default async function quickProfileTests() {
     await friendsScreenFirstUser.chatWithFriendButton.waitForExist();
     await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserB");
     await friendsScreenFirstUser.chatWithFriendButton.click();
-    await chatsLayoutFirstUser.waitForIsShown(true);
+    await chatsTopbarFirstUser.topbar.waitForExist();
     await chatsTopbarFirstUser.waitUntilRemoteUserIsOnline();
     await friendsScreenSecondUser.switchToOtherUserWindow();
   });
@@ -168,7 +168,7 @@ export default async function quickProfileTests() {
     await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
     await friendsScreenSecondUser.hoverOnChatWithFriendButton("ChatUserA");
     await friendsScreenSecondUser.chatWithFriendButton.click();
-    await chatsLayoutSecondUser.waitForIsShown(true);
+    await chatsTopbarSecondUser.topbar.waitForExist();
     await chatsTopbarSecondUser.waitUntilRemoteUserIsOnline();
 
     // Send message to Chat User B
@@ -184,13 +184,13 @@ export default async function quickProfileTests() {
   it("Chat User A - Block Friend", async () => {
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openRemoteQuickProfile();
-    await chatsQuickProfileFirstUser.waitForIsShown(true);
+    await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
     // Click on Block Friend from Quick Profile
     await chatsQuickProfileFirstUser.clickOnBlockUser();
 
     // Welcome Screen should be displayed
-    await welcomeScreenFirstUser.waitForIsShown(true);
+    await welcomeScreenFirstUser.welcomeLayout.waitForExist();
   });
 
   it("Chat User A - Ensure that Chat User B is in blocked list now", async () => {
@@ -206,7 +206,7 @@ export default async function quickProfileTests() {
 
     // With User B - Go to Friends and wait for User A to remove friendship with User B
     await chatsInputSecondUser.goToFriends();
-    await friendsScreenSecondUser.waitForIsShown(true);
+    await friendsScreenSecondUser.friendsBody.waitForExist();
     await friendsScreenSecondUser.waitUntilFriendIsRemoved("ChatUserA");
     await friendsScreenFirstUser.switchToOtherUserWindow();
   });

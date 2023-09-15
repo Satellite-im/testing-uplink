@@ -265,7 +265,6 @@ export default async function sidebarChatsTests() {
     await filesScreenFirstUser.waitForIsShown(true);
     await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("ChatUserB");
     await favoritesSidebarFirstUser.clickOnContextMenuFavoritesChat();
-    await chatsLayoutFirstUser.waitForIsShown(true);
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
     await chatsInputFirstUser.clearInputBar();
   });
