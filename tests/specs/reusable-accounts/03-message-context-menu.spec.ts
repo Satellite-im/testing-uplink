@@ -44,7 +44,7 @@ export default async function messageContextMenuTests() {
     await chatsMessagesSecondUser.waitForReceivingMessage("Two...");
 
     // With User B - Ensure that message "three.." was deleted
-    await chatsMessagesSecondUser.waitForReceivingMessage("Three...");
+    await chatsMessagesSecondUser.waitForMessageToBeDeleted("Three...");
   });
 
   it("Chat User A - React to sent message and multiple reactions in a message", async () => {
