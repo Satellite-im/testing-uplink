@@ -115,10 +115,9 @@ export default async function quickProfileTests() {
     // Validate friend request appears on pending list
     await friendsScreenFirstUser.hoverOnPendingListButton();
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.waitUntilUserIsInCurrentList("ChatUserB");
     await friendsScreenFirstUser.removeOrDenyFriendButton.waitForExist();
-    const pendingList = await friendsScreenFirstUser.getOutgoingList();
-    const includesFriend = await pendingList.includes("ChatUserB");
-    await expect(includesFriend).toEqual(true);
+
     await friendsScreenFirstUser.goToAllFriendsList();
     await friendsScreenSecondUser.switchToOtherUserWindow();
 
@@ -136,9 +135,7 @@ export default async function quickProfileTests() {
     await friendsScreenSecondUser.goToAllFriendsList();
 
     // Validate friend is now on all friends list
-    const friendsList = await friendsScreenSecondUser.getAllFriendsList();
-    const includesFriend = await friendsList.includes("ChatUserA");
-    await expect(includesFriend).toEqual(true);
+    await friendsScreenSecondUser.waitUntilUserIsInCurrentList("ChatUserA");
     await friendsScreenFirstUser.switchToOtherUserWindow();
   });
 
@@ -148,9 +145,7 @@ export default async function quickProfileTests() {
     await friendsScreenFirstUser.goToAllFriendsList();
 
     // Validate friend is now on all friends list
-    const friendsList = await friendsScreenFirstUser.getAllFriendsList();
-    const includesFriend = await friendsList.includes("ChatUserB");
-    await expect(includesFriend).toEqual(true);
+    await friendsScreenFirstUser.waitUntilUserIsInCurrentList("ChatUserB");
 
     // Go to chat with User B
     await friendsScreenFirstUser.chatWithFriendButton.waitForExist();
@@ -195,9 +190,8 @@ export default async function quickProfileTests() {
     // Get current list of Blocked friends and ensure that it includes the blocked user
     await welcomeScreenFirstUser.goToFriends();
     await friendsScreenFirstUser.goToBlockedList();
-    const blockedList = await friendsScreenFirstUser.getBlockedList();
-    const includesFriend = await blockedList.includes("ChatUserB");
-    await expect(includesFriend).toEqual(true);
+    await friendsScreenFirstUser.waitUntilUserIsInCurrentList("ChatUserB");
+
     await friendsScreenFirstUser.goToAllFriendsList();
     await friendsScreenFirstUser.friendsList.waitForExist();
     await chatsInputSecondUser.switchToOtherUserWindow();

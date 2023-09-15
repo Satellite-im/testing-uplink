@@ -15,18 +15,28 @@ let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
 
 export default async function messageContextMenuTests() {
   it("Chat User A - Send two more messages to Chat User B", async () => {
-    // Send two messages to Chat User B
+    // Send a message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Two...");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Two...");
 
+    // Assert message received from Chat User B
+    await chatsInputSecondUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.waitForReceivingMessage("Two...");
+
+    // Send a message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Three...");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Three...");
+
+    // Assert message received from Chat User B
+    await chatsInputSecondUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.waitForReceivingMessage("Three...");
   });
 
   it("Chat User A - Context Menu - Delete Message", async () => {
     // Open context menu on last message sent and select option for deleting
+    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.selectContextOptionDelete();

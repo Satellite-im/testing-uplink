@@ -668,6 +668,11 @@ export default class FriendsScreen extends UplinkMainScreen {
     await this.chatWithFriendButton.waitForExist({ timeout: timeout });
   }
 
+  async waitUntilUserIsInCurrentList(username: string) {
+    const user = await this.getExistingFriendByAriaLabel(username);
+    await user.$(SELECTORS.FRIEND_INFO_USERNAME).waitForExist();
+  }
+
   // Context Menu methods
 
   async clickOnContextMenuBlock() {

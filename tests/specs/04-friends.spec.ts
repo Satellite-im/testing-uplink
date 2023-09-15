@@ -174,13 +174,13 @@ export default async function friends() {
 
       // Select first option "Chat" from Context Menu and validate Chat is displayed
       await friendsScreenFirstUser.clickOnContextMenuChat();
-      await chatsLayoutFirstUser.chatLayout(true);
+      await chatsLayoutFirstUser.chatLayout.waitForExist();
       await chatsInputFirstUser.typeMessageOnInput("Testing...");
       await chatsInputFirstUser.clearInputBar();
 
       // Go back to Friends Screen
       await chatsLayoutFirstUser.goToFriends();
-      await friendsScreenFirstUser.waitForIsShown(true);
+      await friendsScreenFirstUser.friendsBody.waitForExist();
     }
   });
 
@@ -196,7 +196,7 @@ export default async function friends() {
 
   it("Favorites - Validate Sidebar Favorites is displayed after adding users to favorites", async () => {
     // Validate that Favorites Sidebar is displayed
-    await favoritesSidebarFirstUser.waitForIsShown(true);
+    await favoritesSidebarFirstUser.slimbar.waitForExist();
   });
 
   it("Favorites - Remove all users from Favorites", async () => {
@@ -219,14 +219,14 @@ export default async function friends() {
     await friendsScreenFirstUser.chatWithFriend(friendName);
 
     //Validate Chat Screen is displayed and go back to Friends Screen
-    await chatsLayoutFirstUser.waitForIsShown(true);
+    await chatsLayoutFirstUser.chatLayout.waitForExist();
   });
 
   it("Type a message and return to Friends Screen", async () => {
     await chatsInputFirstUser.typeMessageOnInput("Testing...");
     await chatsInputFirstUser.clearInputBar();
     await chatsLayoutFirstUser.goToFriends();
-    await friendsScreenFirstUser.waitForIsShown(true);
+    await friendsScreenFirstUser.friendsBody.waitForExist();
   });
 
   it("Validate tooltips for Unfriend and Block buttons are displayed", async () => {
@@ -268,9 +268,7 @@ export default async function friends() {
 
     // Go to Blocked List and validate that user is there now
     await friendsScreenFirstUser.goToBlockedList();
-    const blockedFriendsList = await friendsScreenFirstUser.getBlockedList();
-    const includesFriend = await blockedFriendsList.includes(friendName);
-    await expect(includesFriend).toEqual(true);
+    await friendsScreenFirstUser.waitUntilUserIsInCurrentList(friendName);
 
     // Get current list of All friends and ensure that it does not include the blocked user
     await friendsScreenFirstUser.goToAllFriendsList();
@@ -413,13 +411,13 @@ export default async function friends() {
 
     // Select first option "Chat" from Context Menu and validate Chat is displayed
     await friendsScreenFirstUser.clickOnContextMenuChat();
-    await chatsLayoutFirstUser.waitForIsShown(true);
+    await chatsLayoutFirstUser.chatLayout.waitForExist();
     await chatsInputFirstUser.typeMessageOnInput("Testing...");
     await chatsInputFirstUser.clearInputBar();
 
     // Go back to Friends Screen
     await chatsLayoutFirstUser.goToFriends();
-    await friendsScreenFirstUser.waitForIsShown(true);
+    await friendsScreenFirstUser.friendsBody.waitForExist();
   });
 
   it("Context Menu - Add friend to Favorites and contents displayed on Favorites Sidebar", async () => {
