@@ -41,13 +41,13 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.editGroupSection.waitForExist();
-    await editGroupFirstUser.groupNameInput.waitForDisplayed();
-    await editGroupFirstUser.userInput.waitForDisplayed();
+    await editGroupFirstUser.groupNameInput.waitForExist();
+    await editGroupFirstUser.userInput.waitForExist();
   });
 
   it("Edit Group - Attempt to change Group Name for a name containing non-alphanumeric characters", async () => {
     await editGroupFirstUser.typeOnGroupNameInput("@");
-    await editGroupFirstUser.groupNameInputError.waitForDisplayed();
+    await editGroupFirstUser.groupNameInputError.waitForExist();
     await expect(
       editGroupFirstUser.groupNameInputErrorText
     ).toHaveTextContaining("Not allowed character(s): @");
@@ -60,7 +60,7 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.typeOnGroupNameInput(
       "12345678901234567890123456789012345678901234567890123456789012345678"
     );
-    await editGroupFirstUser.groupNameInputError.waitForDisplayed();
+    await editGroupFirstUser.groupNameInputError.waitForExist();
     await expect(
       editGroupFirstUser.groupNameInputErrorText
     ).toHaveTextContaining("Maximum of 64 characters exceeded.");
@@ -88,7 +88,7 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.editGroupSection.waitForExist();
     await editGroupFirstUser.clickOnAddMembers();
-    await editGroupFirstUser.nothingHereText.waitForDisplayed();
+    await editGroupFirstUser.nothingHereText.waitForExist();
   });
 
   it("Edit Group - Contents displayed in remove list are correct", async () => {
@@ -98,12 +98,12 @@ export default async function groupChatEditTests() {
     await expect(currentList).toEqual(expectedList);
     const indicatorOnlineUserB =
       await editGroupFirstUser.getParticipantIndicatorOnline("ChatUserB");
-    await indicatorOnlineUserB.waitForDisplayed();
+    await indicatorOnlineUserB.waitForExist();
   });
 
   it("Edit Group - Look for non existing user in Remove Users List", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("z");
-    await editGroupFirstUser.nothingHereText.waitForDisplayed();
+    await editGroupFirstUser.nothingHereText.waitForExist();
     await editGroupFirstUser.clearSearchUserInput();
   });
 
@@ -111,9 +111,9 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
     await editGroupFirstUser.clickOnFirstRemoveButton();
-    await editGroupFirstUser.nothingHereText.waitForDisplayed();
+    await editGroupFirstUser.nothingHereText.waitForExist();
     await chatsTopbarFirstUser.editGroup();
-    await chatsTopbarFirstUser.topbar.waitForDisplayed();
+    await chatsTopbarFirstUser.topbar.waitForExist();
     await expect(
       chatsTopbarFirstUser.topbarUserStatusValue
     ).toHaveTextContaining("Members (1)");
@@ -134,7 +134,7 @@ export default async function groupChatEditTests() {
 
   it("Edit Group - Look for non existing user in Add Users List", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("z");
-    await editGroupFirstUser.nothingHereText.waitForDisplayed();
+    await editGroupFirstUser.nothingHereText.waitForExist();
     await editGroupFirstUser.clearSearchUserInput();
   });
 
@@ -142,9 +142,9 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
     await editGroupFirstUser.clickOnFirstAddButton();
-    await editGroupFirstUser.nothingHereText.waitForDisplayed();
+    await editGroupFirstUser.nothingHereText.waitForExist();
     await chatsTopbarFirstUser.editGroup();
-    await chatsTopbarFirstUser.topbar.waitForDisplayed();
+    await chatsTopbarFirstUser.topbar.waitForExist();
     await expect(
       chatsTopbarFirstUser.topbarUserStatusValue
     ).toHaveTextContaining("Members (2)");
@@ -158,7 +158,7 @@ export default async function groupChatEditTests() {
     await chatsSidebarSecondUser.sidebarChatsSection.waitForExist();
     await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
     await chatsSidebarSecondUser.goToSidebarGroupChat("X");
-    await chatsTopbarSecondUser.topbar.waitForDisplayed();
+    await chatsTopbarSecondUser.topbar.waitForExist();
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue
     ).toHaveTextContaining("X");

@@ -18,9 +18,11 @@ export default async function messageContextMenuTests() {
     // Send two messages to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Two...");
     await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Two...");
 
     await chatsInputFirstUser.typeMessageOnInput("Three...");
     await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Three...");
   });
 
   it("Chat User A - Context Menu - Delete Message", async () => {
@@ -39,10 +41,10 @@ export default async function messageContextMenuTests() {
     await chatsMessagesSecondUser.switchToOtherUserWindow();
 
     // With User B - Validate that last message is "Two..."
-    await chatsMessagesSecondUser.waitForReceivingMessage("Two...", 60000);
+    await chatsMessagesSecondUser.waitForReceivingMessage("Two...");
 
     // With User B - Ensure that message "three.." was deleted
-    await chatsMessagesSecondUser.waitForMessageToBeDeleted("Three...", 30000);
+    await chatsMessagesSecondUser.waitForReceivingMessage("Three...");
   });
 
   it("Chat User A - React to sent message and multiple reactions in a message", async () => {

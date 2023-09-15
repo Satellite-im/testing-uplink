@@ -159,7 +159,7 @@ export async function setupBeforeSidebarTests() {
   const includesFriend = await blockedList.includes("ChatUserB");
   await expect(includesFriend).toEqual(true);
   await friendsScreenFirstUser.goToAllFriendsList();
-  await friendsScreenFirstUser.friendsList.waitForDisplayed();
+  await friendsScreenFirstUser.friendsList.waitForExist();
   await chatsInputSecondUser.switchToOtherUserWindow();
 
   // With User B - Go to Friends and wait for User A to remove friendship with User B

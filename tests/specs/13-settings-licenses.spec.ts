@@ -22,6 +22,6 @@ export default async function settingsLicenses() {
     );
 
     // Validate MIT License button is present
-    await settingsLicensesFirstUser.heroiconsButton.waitForDisplayed();
+    await settingsLicensesFirstUser.heroiconsButton.waitForExist();
   });
 }

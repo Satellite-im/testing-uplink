@@ -15,29 +15,29 @@ let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function chats() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    await welcomeScreenFirstUser.prereleaseIndicator.waitForDisplayed();
+    await welcomeScreenFirstUser.prereleaseIndicator.waitForExist();
     await expect(
       welcomeScreenFirstUser.prereleaseIndicatorText
     ).toHaveTextContaining("Pre-release | Issues/Feedback");
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await welcomeScreenFirstUser.chatsButton.waitForDisplayed();
-    await welcomeScreenFirstUser.filesButton.waitForDisplayed();
-    await welcomeScreenFirstUser.friendsButton.waitForDisplayed();
-    await welcomeScreenFirstUser.settingsButton.waitForDisplayed();
+    await welcomeScreenFirstUser.chatsButton.waitForExist();
+    await welcomeScreenFirstUser.filesButton.waitForExist();
+    await welcomeScreenFirstUser.friendsButton.waitForExist();
+    await welcomeScreenFirstUser.settingsButton.waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await chatsSidebarFirstUser.chatSearchInput.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebar.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarChildren.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarSearch.waitForDisplayed();
+    await chatsSidebarFirstUser.chatSearchInput.waitForExist();
+    await chatsSidebarFirstUser.sidebar.waitForExist();
+    await chatsSidebarFirstUser.sidebarChildren.waitForExist();
+    await chatsSidebarFirstUser.sidebarSearch.waitForExist();
   });
 
   it("Validate Welcome Screen is displayed", async () => {
-    await welcomeScreenFirstUser.welcomeLayout.waitForDisplayed();
-    await welcomeScreenFirstUser.addFriendsButton.waitForDisplayed();
+    await welcomeScreenFirstUser.welcomeLayout.waitForExist();
+    await welcomeScreenFirstUser.addFriendsButton.waitForExist();
     await expect(welcomeScreenFirstUser.addSomeoneText).toHaveTextContaining(
       "Things are better with friends."
     );
@@ -92,10 +92,10 @@ export default async function chats() {
     await slimbarFirstUser.waitForIsShown(true);
 
     // Ensure slimbar main navigation buttons are displayed
-    await slimbarFirstUser.slimbarChatsButton.waitForDisplayed();
-    await slimbarFirstUser.slimbarFilesButton.waitForDisplayed();
-    await slimbarFirstUser.slimbarFriendsButton.waitForDisplayed();
-    await slimbarFirstUser.slimbarSettingsButton.waitForDisplayed();
+    await slimbarFirstUser.slimbarChatsButton.waitForExist();
+    await slimbarFirstUser.slimbarFilesButton.waitForExist();
+    await slimbarFirstUser.slimbarFriendsButton.waitForExist();
+    await slimbarFirstUser.slimbarSettingsButton.waitForExist();
   });
 
   it("Slimbar - Main buttons tooltips are displayed", async () => {

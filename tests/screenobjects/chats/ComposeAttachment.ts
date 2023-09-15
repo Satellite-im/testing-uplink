@@ -96,6 +96,6 @@ export default class ComposeAttachments extends UplinkMainScreen {
   }
 
   async validateAttachmentIsAdded() {
-    await this.composeAttachmentsFileEmbed.waitForDisplayed();
+    await this.composeAttachmentsFileEmbed.waitForExist();
   }
 }

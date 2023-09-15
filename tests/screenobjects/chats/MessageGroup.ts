@@ -13,6 +13,14 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
+  CHAT_MESSAGE_LOCAL_FIRST: '[name="message-local-message-first"]',
+  CHAT_MESSAGE_LOCAL_LAST: '[name="message-local-message-last"]',
+  CHAT_MESSAGE_LOCAL_MIDDLE: '[name="message-local-message-middle"]',
+  CHAT_MESSAGE_REMOTE_FIRST: '[name="message-remote-message-first"]',
+  CHAT_MESSAGE_REMOTE_LAST: '[name="message-remote-message-last"]',
+  CHAT_MESSAGE_REMOTE_MIDDLE: '[name="message-remote-message-middle"]',
+  CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
+  CHAT_MESSAGE_TEXT_VALUE: "<Text>",
   EMOJI_REACTION_REMOTE: '[name="emoji-reaction-remote"]',
   EMOJI_REACTION_SELF: '[name="emoji-reaction-self"]',
   EMOJI_REACTION_VALUE: "<Text>",
@@ -32,6 +40,14 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  CHAT_MESSAGE_LOCAL_FIRST: "~message-local-message-first",
+  CHAT_MESSAGE_LOCAL_LAST: "~message-local-message-last",
+  CHAT_MESSAGE_LOCAL_MIDDLE: "~message-local-message-middle",
+  CHAT_MESSAGE_REMOTE_FIRST: "~message-remote-message-first",
+  CHAT_MESSAGE_REMOTE_LAST: "~message-remote-message-last",
+  CHAT_MESSAGE_REMOTE_MIDDLE: "~message-remote-message-middle",
+  CHAT_MESSAGE_TEXT_GROUP: "~message-text",
+  CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   EMOJI_REACTION_REMOTE: "~emoji-reaction-remote",
   EMOJI_REACTION_SELF: "~emoji-reaction-self",
   EMOJI_REACTION_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
@@ -60,6 +76,40 @@ export default class MessageGroup extends UplinkMainScreen {
       executor,
       SELECTORS.MESSAGE_GROUP_WRAP_REMOTE || SELECTORS.MESSAGE_GROUP_WRAP_SENT
     );
+  }
+
+  get chatMessageLocalFirst() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_LOCAL_FIRST);
+  }
+
+  get chatMessageLocalLast() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_LOCAL_LAST);
+  }
+
+  get chatMessageLocalMiddle() {
+    return this.instance.$$(SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE);
+  }
+
+  get chatMessageRemoteFirst() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_REMOTE_FIRST);
+  }
+
+  get chatMessageRemoteLast() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_REMOTE_LAST);
+  }
+
+  get chatMessageRemoteMiddle() {
+    return this.instance.$$(SELECTORS.CHAT_MESSAGE_REMOTE_MIDDLE);
+  }
+
+  get chatMessageTextValue() {
+    return this.instance
+      .$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+  }
+
+  get chatMessageTextGroup() {
+    return this.instance.$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
   get emojiReactionRemote() {
@@ -441,5 +491,171 @@ export default class MessageGroup extends UplinkMainScreen {
         await reaction.click();
       }
     }
+  }
+
+  // Get messages locators from last message group received
+
+  async getFirstMessageInLastGroupReceived() {
+    const lastGroupSent = await this.getLastReceivedGroup();
+    const firstMessage = await lastGroupSent.$(
+      SELECTORS.CHAT_MESSAGE_LOCAL_FIRST
+    );
+    return firstMessage;
+  }
+
+  async getLastMessageInLastGroupReceived() {
+    const lastGroupSent = await this.getLastReceivedGroup();
+    const lastMessage = await lastGroupSent.$(
+      SELECTORS.CHAT_MESSAGE_LOCAL_LAST
+    );
+    return lastMessage;
+  }
+
+  async getMiddleMessageInLastGroupReceived(index: number) {
+    const lastGroupSent = await this.getLastReceivedGroup();
+    const middleMessage = await lastGroupSent.$$(
+      SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE
+    )[index];
+    return middleMessage;
+  }
+
+  // Get message text values from last received groups
+
+  async getFirstMessageTextInLastGroupReceived() {
+    const firstMessage = await this.getFirstMessageInLastGroupReceived();
+    const firstMessageText = await firstMessage
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    return firstMessageText;
+  }
+
+  async getLastMessageTextInLastGroupReceived() {
+    const lastMessage = await this.getLastMessageInLastGroupReceived();
+    const lastMessageText = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    return lastMessageText;
+  }
+
+  async getMiddleMessageTextInLastGroupReceived(index: number) {
+    const middleMessage = await this.getMiddleMessageInLastGroupReceived(index);
+    const middleMessageText = await middleMessage
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    return middleMessageText;
+  }
+
+  // Get messages from last message group sent
+
+  async getFirstMessageInLastGroupSent() {
+    const lastGroupSent = await this.getLastSentGroup();
+    const firstMessage = await lastGroupSent.$(
+      SELECTORS.CHAT_MESSAGE_LOCAL_FIRST
+    );
+    return firstMessage;
+  }
+
+  async getLastMessageInLastGroupSent() {
+    const lastGroupSent = await this.getLastSentGroup();
+    const lastMessage = await lastGroupSent.$(
+      SELECTORS.CHAT_MESSAGE_LOCAL_LAST
+    );
+    return lastMessage;
+  }
+  async getMiddleMessageInLastGroupSent(index: number) {
+    const lastGroupSent = await this.getLastSentGroup();
+    const middleMessage = await lastGroupSent.$$(
+      SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE
+    )[index];
+    return middleMessage;
+  }
+
+  // Get message text values from last sent groups
+
+  async getFirstMessageTextInLastGroupSent() {
+    const firstMessage = await this.getFirstMessageInLastGroupSent();
+    const firstMessageText = await firstMessage
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+  }
+
+  async getLastMessageTextInLastGroupSent() {
+    const lastMessage = await this.getLastMessageInLastGroupSent();
+    const lastMessageText = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+  }
+
+  async getMiddleMessageTextInLastGroupSent(index: number) {
+    const middleMessage = await this.getMiddleMessageInLastGroupSent(index);
+    const middleMessageText = await middleMessage
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+  }
+
+  // Wait for message received
+
+  async waitUntilFirstReceivedMessageIs(text: string) {
+    const firstMessageFromLastGroupReceived =
+      await this.getFirstMessageTextInLastGroupReceived();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await expect(
+          firstMessageFromLastGroupReceived
+        ).toHaveTextContaining(text);
+      },
+      {
+        timeout: 20000,
+        timeoutMsg: `First message from last group received is not ${text}`,
+      }
+    );
+  }
+
+  async waitUntilLastReceivedMessageIs(text: string) {
+    const lastMessageFromLastGroupReceived =
+      await this.getLastMessageTextInLastGroupReceived();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await expect(
+          lastMessageFromLastGroupReceived
+        ).toHaveTextContaining(text);
+      },
+      {
+        timeout: 20000,
+        timeoutMsg: `Last message from last group received is not ${text}`,
+      }
+    );
+  }
+
+  async waitUntilFirstSentMessageIs(text: string) {
+    const firstMessageFromLastGroupSent =
+      await this.getFirstMessageTextInLastGroupSent();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await expect(firstMessageFromLastGroupSent).toHaveTextContaining(
+          text
+        );
+      },
+      {
+        timeout: 20000,
+        timeoutMsg: `First message from last group sent is not ${text}`,
+      }
+    );
+  }
+
+  async waitUntilLastSentMessageIs(text: string) {
+    const lastMessageFromLastGroupSent =
+      await this.getLastMessageTextInLastGroupSent();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await expect(lastMessageFromLastGroupSent).toHaveTextContaining(
+          text
+        );
+      },
+      {
+        timeout: 20000,
+        timeoutMsg: `Last message from last group sent is not ${text}`,
+      }
+    );
   }
 }

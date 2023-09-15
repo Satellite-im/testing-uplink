@@ -181,6 +181,6 @@ export default class ContextMenu extends UplinkMainScreen {
   }
 
   async validateContextMenuIsOpen() {
-    await this.contextMenu.waitForDisplayed();
+    await this.contextMenu.waitForExist();
   }
 }

@@ -8,7 +8,6 @@ import Messages from "@screenobjects/chats/Messages";
 import SidebarSearch from "@screenobjects/chats/SidebarSearch";
 import Topbar from "@screenobjects/chats/Topbar";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
-let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
@@ -30,7 +29,7 @@ export default async function groupChatTests() {
   it("Chat User A - Click on Create Group Chat and close modal", async () => {
     // Open modal to create group chat
     await chatsSidebarFirstUser.clickOnCreateGroupChat();
-    await createGroupFirstUser.createGroupChatSection.waitForDisplayed();
+    await createGroupFirstUser.createGroupChatSection.waitForExist();
 
     // Click again on create group chat and modal will be closed
     await chatsTopbarFirstUser.clickOnTopbar();
@@ -42,13 +41,13 @@ export default async function groupChatTests() {
   it("Chat User A - Create Group Chat Modal contents", async () => {
     // Open modal to create group chat
     await chatsSidebarFirstUser.clickOnCreateGroupChat();
-    await createGroupFirstUser.createGroupChatSection.waitForDisplayed();
+    await createGroupFirstUser.createGroupChatSection.waitForExist();
 
     // Validate contents
-    await createGroupFirstUser.groupNameInput.waitForDisplayed();
-    await createGroupFirstUser.userSearchInput.waitForDisplayed();
-    await createGroupFirstUser.friendsList.waitForDisplayed();
-    await createGroupFirstUser.createGroupChatButton.waitForDisplayed();
+    await createGroupFirstUser.groupNameInput.waitForExist();
+    await createGroupFirstUser.userSearchInput.waitForExist();
+    await createGroupFirstUser.friendsList.waitForExist();
+    await createGroupFirstUser.createGroupChatButton.waitForExist();
   });
 
   it("Chat User A - Attempt to create group chat with alphanumeric chars in name", async () => {
@@ -56,14 +55,14 @@ export default async function groupChatTests() {
     await expect(
       createGroupFirstUser.createGroupInputErrorText
     ).toHaveTextContaining("Not allowed character(s): @");
-    await createGroupFirstUser.createGroupInputError.waitForDisplayed();
+    await createGroupFirstUser.createGroupInputError.waitForExist();
     await createGroupFirstUser.clearGroupNameInput();
   });
 
   // Skipping test that sometimes fail in CI because Appium randomly jumps when typing into a different input field
   xit("Chat User A - Attempt to create group chat with more than 64 chars in name", async () => {
     await createGroupFirstUser.typeLongerTextInGroupName();
-    await createGroupFirstUser.createGroupInputError.waitForDisplayed();
+    await createGroupFirstUser.createGroupInputError.waitForExist();
     await expect(
       createGroupFirstUser.createGroupInputErrorText
     ).toHaveTextContaining("Maximum of 64 characters exceeded.");
@@ -127,6 +126,7 @@ export default async function groupChatTests() {
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.typeMessageOnInput("HiGroup");
     await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist("HiGroup");
     await chatsInputFirstUser.typeMessageOnInput("test");
     await chatsInputFirstUser.clearInputBar();
 

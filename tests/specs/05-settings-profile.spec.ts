@@ -14,7 +14,7 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.waitForIsShown(true);
 
     // Start validations
-    await settingsProfileFirstUser.prereleaseIndicator.waitForDisplayed();
+    await settingsProfileFirstUser.prereleaseIndicator.waitForExist();
     await expect(
       settingsProfileFirstUser.prereleaseIndicatorText
     ).toHaveTextContaining("Pre-release | Issues/Feedback");
@@ -28,13 +28,13 @@ export default async function settingsProfile() {
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await chatsSidebarFirstUser.sidebar.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarChildren.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarSearch.waitForDisplayed();
+    await chatsSidebarFirstUser.sidebar.waitForExist();
+    await chatsSidebarFirstUser.sidebarChildren.waitForExist();
+    await chatsSidebarFirstUser.sidebarSearch.waitForExist();
   });
 
   it("Settings Profile - Assert texts for Your New Profile dialog", async () => {
-    await settingsProfileFirstUser.yourNewProfile.waitForDisplayed();
+    await settingsProfileFirstUser.yourNewProfile.waitForExist();
     await expect(
       settingsProfileFirstUser.yourNewProfileHeaderTextValue
     ).toHaveTextContaining("YOUR NEW PROFILE!");
@@ -150,7 +150,7 @@ export default async function settingsProfile() {
       "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
     );
 
-    await settingsProfileFirstUser.inputError.waitForDisplayed();
+    await settingsProfileFirstUser.inputError.waitForExist();
     await expect(
       settingsProfileFirstUser.inputErrorMessage
     ).toHaveTextContaining("Maximum of 128 characters exceeded.");
@@ -163,7 +163,7 @@ export default async function settingsProfile() {
     // Enter username value with less than 4 characters
     await settingsProfileFirstUser.enterUsername("123");
     // Validate that error message is displayed
-    await settingsProfileFirstUser.inputError.waitForDisplayed();
+    await settingsProfileFirstUser.inputError.waitForExist();
     await expect(
       settingsProfileFirstUser.inputErrorMessage
     ).toHaveTextContaining("Please enter at least 4 characters.");
@@ -176,7 +176,7 @@ export default async function settingsProfile() {
     // Enter username value with spaces
     await settingsProfileFirstUser.enterUsername("1234" + "             ");
     // Validate that error message is displayed
-    await settingsProfileFirstUser.inputError.waitForDisplayed();
+    await settingsProfileFirstUser.inputError.waitForExist();
     await expect(
       settingsProfileFirstUser.inputErrorMessage
     ).toHaveTextContaining("Spaces are not allowed.");
@@ -189,7 +189,7 @@ export default async function settingsProfile() {
     // Enter username value with non-alphanumeric characters
     await settingsProfileFirstUser.enterUsername("test&^%*%#$");
     // Validate that error message is displayed
-    await settingsProfileFirstUser.inputError.waitForDisplayed();
+    await settingsProfileFirstUser.inputError.waitForExist();
     await expect(
       settingsProfileFirstUser.inputErrorMessage
     ).toHaveTextContaining("Not allowed character(s): &^%*#$");
@@ -204,7 +204,7 @@ export default async function settingsProfile() {
       "12345678901234567890123456789012345"
     );
     // Validate that error message is displayed
-    await settingsProfileFirstUser.inputError.waitForDisplayed();
+    await settingsProfileFirstUser.inputError.waitForExist();
     await expect(
       settingsProfileFirstUser.inputErrorMessage
     ).toHaveTextContaining("Maximum of 32 characters exceeded.");

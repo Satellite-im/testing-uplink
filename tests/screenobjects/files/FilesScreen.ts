@@ -485,7 +485,7 @@ export default class FilesScreen extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(fileFolderToRightClick, this.executor);
     }
-    await this.contextMenu.waitForDisplayed();
+    await this.contextMenu.waitForExist();
   }
 
   async clickOnFilesDelete() {

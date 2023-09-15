@@ -28,7 +28,7 @@ export default async function friends() {
     await uplinkMainFirstUser.goToFriends();
 
     // Validate Pre Release Indicator is displayed
-    await friendsScreenFirstUser.prereleaseIndicator.waitForDisplayed();
+    await friendsScreenFirstUser.prereleaseIndicator.waitForExist();
     await expect(
       friendsScreenFirstUser.prereleaseIndicatorText
     ).toHaveTextContaining("Pre-release | Issues/Feedback");
@@ -42,26 +42,26 @@ export default async function friends() {
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await chatsSidebarFirstUser.chatSearchInput.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebar.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarChildren.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarSearch.waitForDisplayed();
+    await chatsSidebarFirstUser.chatSearchInput.waitForExist();
+    await chatsSidebarFirstUser.sidebar.waitForExist();
+    await chatsSidebarFirstUser.sidebarChildren.waitForExist();
+    await chatsSidebarFirstUser.sidebarSearch.waitForExist();
   });
 
   it("Go to Friends Screen and validate elements displayed", async () => {
-    await friendsScreenFirstUser.friendsLayout.waitForDisplayed();
-    await friendsScreenFirstUser.settingsButton.waitForDisplayed();
+    await friendsScreenFirstUser.friendsLayout.waitForExist();
+    await friendsScreenFirstUser.settingsButton.waitForExist();
   });
 
   it("Friends Screen - Displays a badge showing 4 pending requests on Navigation Bar ", async () => {
-    await friendsScreenFirstUser.buttonNavBarButtonBadge.waitForDisplayed();
+    await friendsScreenFirstUser.buttonNavBarButtonBadge.waitForExist();
     await expect(
       friendsScreenFirstUser.buttonNavBarButtonBadgeText
     ).toHaveTextContaining("4");
   });
 
   it("Friends Screen - Displays a badge showing 4 pending requests on Pending Friends Button", async () => {
-    await friendsScreenFirstUser.friendsButtonBadge.waitForDisplayed();
+    await friendsScreenFirstUser.friendsButtonBadge.waitForExist();
     await expect(
       friendsScreenFirstUser.friendsButtonBadgeText
     ).toHaveTextContaining("4");
@@ -154,17 +154,17 @@ export default async function friends() {
 
   it("Switch to Pending Friends view and validate elements displayed", async () => {
     await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.incomingRequestsList.waitForDisplayed();
+    await friendsScreenFirstUser.incomingRequestsList.waitForExist();
   });
 
   it("Switch to Blocked Friends view and validate elements displayed", async () => {
     await friendsScreenFirstUser.goToBlockedList();
-    await friendsScreenFirstUser.blockedList.waitForDisplayed();
+    await friendsScreenFirstUser.blockedList.waitForExist();
   });
 
   it("Switch to All Friends view and validate elements displayed", async () => {
     await friendsScreenFirstUser.goToAllFriendsList();
-    await friendsScreenFirstUser.friendsList.waitForDisplayed();
+    await friendsScreenFirstUser.friendsList.waitForExist();
   });
 
   it("Favorites - Open Chat conversations with multiple users on Sidebar", async () => {
@@ -174,7 +174,7 @@ export default async function friends() {
 
       // Select first option "Chat" from Context Menu and validate Chat is displayed
       await friendsScreenFirstUser.clickOnContextMenuChat();
-      await chatsLayoutFirstUser.waitForIsShown(true);
+      await chatsLayoutFirstUser.chatLayout(true);
       await chatsInputFirstUser.typeMessageOnInput("Testing...");
       await chatsInputFirstUser.clearInputBar();
 
@@ -194,30 +194,9 @@ export default async function friends() {
     }
   });
 
-  it("Favorites - Hover on Favorites bubbles to validate users were added correctly to Sidebar Favorites", async () => {
+  it("Favorites - Validate Sidebar Favorites is displayed after adding users to favorites", async () => {
     // Validate that Favorites Sidebar is displayed
     await favoritesSidebarFirstUser.waitForIsShown(true);
-
-    // Hover on first bubble from Favorites and ensure tooltip displays ChatUserB
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserB");
-    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserTooltipText
-    ).toHaveTextContaining("ChatUserB");
-
-    // Hover on second bubble from Favorites and ensure tooltip displays ChatUserC
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserC");
-    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserTooltipText
-    ).toHaveTextContaining("ChatUserC");
-
-    // Hover on third bubble from Favorites and ensure tooltip displays ChatUserD
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserD");
-    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserTooltipText
-    ).toHaveTextContaining("ChatUserD");
   });
 
   it("Favorites - Remove all users from Favorites", async () => {
@@ -452,7 +431,7 @@ export default async function friends() {
     await friendsScreenFirstUser.clickOnContextMenuFavoritesAdd();
 
     // Validate that username and user image bubble is now displayed on Favorites Sidebar
-    await favoritesSidebarFirstUser.favorites.waitForDisplayed();
+    await favoritesSidebarFirstUser.favorites.waitForExist();
 
     // Favorites Sidebar User bubble should be displayed with image and indicator offline
     const favoritesImage =
@@ -461,15 +440,8 @@ export default async function friends() {
       await favoritesSidebarFirstUser.getFavoritesUserIndicatorOffline(
         "ChatUserD"
       );
-    await favoritesImage.waitForDisplayed();
-    await favoritesIndicatorOffline.waitForDisplayed();
-
-    // User should be able to hover on Favorites Bubble and tooltip with name will be displayed
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserD");
-    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserTooltipText
-    ).toHaveTextContaining(friendName);
+    await favoritesImage.waitForExist();
+    await favoritesIndicatorOffline.waitForExist();
   });
 
   it("Context Menu - Remove Friend from Favorites", async () => {

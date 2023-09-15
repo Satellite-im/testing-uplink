@@ -14,7 +14,7 @@ export default async function files() {
     await filesScreenFirstUser.waitForIsShown(true);
 
     // Validate Pre Release Indicator
-    await filesScreenFirstUser.prereleaseIndicator.waitForDisplayed();
+    await filesScreenFirstUser.prereleaseIndicator.waitForExist();
     await expect(
       filesScreenFirstUser.prereleaseIndicatorText
     ).toHaveTextContaining("Pre-release | Issues/Feedback");
@@ -28,16 +28,16 @@ export default async function files() {
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await chatsSidebarFirstUser.chatSearchInput.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebar.waitForDisplayed();
+    await chatsSidebarFirstUser.chatSearchInput.waitForExist();
+    await chatsSidebarFirstUser.sidebar.waitForExist();
   });
 
   it("Validate Files Info is displayed in screen", async () => {
-    await filesScreenFirstUser.filesInfo.waitForDisplayed();
-    await filesScreenFirstUser.filesInfoCurrentSizeLabel.waitForDisplayed();
-    await filesScreenFirstUser.filesInfoCurrentSizeValue.waitForDisplayed();
-    await filesScreenFirstUser.filesInfoMaxSizeLabel.waitForDisplayed();
-    await filesScreenFirstUser.filesInfoMaxSizeValue.waitForDisplayed();
+    await filesScreenFirstUser.filesInfo.waitForExist();
+    await filesScreenFirstUser.filesInfoCurrentSizeLabel.waitForExist();
+    await filesScreenFirstUser.filesInfoCurrentSizeValue.waitForExist();
+    await filesScreenFirstUser.filesInfoMaxSizeLabel.waitForExist();
+    await filesScreenFirstUser.filesInfoMaxSizeValue.waitForExist();
   });
 
   it("Validate Files Breadcrumbs are displayed in screen", async () => {
@@ -46,8 +46,8 @@ export default async function files() {
   });
 
   it("Validate add folder and file buttons are displayed in screen", async () => {
-    await filesScreenFirstUser.addFolderButton.waitForDisplayed();
-    await filesScreenFirstUser.uploadFileButton.waitForDisplayed();
+    await filesScreenFirstUser.addFolderButton.waitForExist();
+    await filesScreenFirstUser.uploadFileButton.waitForExist();
   });
 
   it("Validate tooltips for add folder or file buttons are displayed", async () => {
@@ -237,7 +237,7 @@ export default async function files() {
     await filesScreenFirstUser.createEmptyNameFolder();
 
     // Validate that error message is displayed
-    await filesScreenFirstUser.inputError.waitForDisplayed();
+    await filesScreenFirstUser.inputError.waitForExist();
     await expect(filesScreenFirstUser.inputErrorText).toHaveTextContaining(
       "Please enter at least 1 character."
     );

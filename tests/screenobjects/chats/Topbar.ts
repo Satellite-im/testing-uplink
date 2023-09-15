@@ -277,7 +277,7 @@ export default class Topbar extends UplinkMainScreen {
 
   async waitUntilRemoteUserIsOnline(time: number = 30000) {
     const element = await this.topbarIndicatorOnline;
-    await element.waitForDisplayed({
+    await element.waitForExist({
       timeout: time,
     });
   }

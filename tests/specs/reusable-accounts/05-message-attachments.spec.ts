@@ -28,10 +28,10 @@ export default async function messageAttachmentsTests() {
         timeout: 30000,
       }
     );
-    await chatsAttachmentSecondUser.composeAttachmentsFileIcon.waitForDisplayed();
-    await chatsAttachmentSecondUser.composeAttachmentsFileInfo.waitForDisplayed();
+    await chatsAttachmentSecondUser.composeAttachmentsFileIcon.waitForExist();
+    await chatsAttachmentSecondUser.composeAttachmentsFileInfo.waitForExist();
 
-    await chatsAttachmentSecondUser.composeAttachmentsFileNameText.waitForDisplayed();
+    await chatsAttachmentSecondUser.composeAttachmentsFileNameText.waitForExist();
   });
 
   it("Chat User B - Delete attachment before sending the message", async () => {
@@ -47,11 +47,12 @@ export default async function messageAttachmentsTests() {
     );
 
     // Validate contents on Compose Attachments are displayed
-    await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForDisplayed();
+    await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForExist();
 
     // Type a text message and send it
     await chatsInputFirstUser.typeMessageOnInput("Attached");
     await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Attached");
   });
 
   it("Chat User A - Message Sent With Attachment - Text contents", async () => {
@@ -76,14 +77,14 @@ export default async function messageAttachmentsTests() {
   it("Chat User A - Message Sent With Attachment - File Icon", async () => {
     // Validate file icon is displayed correctly on last chat message sent
     const fileIcon = await chatsMessagesFirstUser.getLastMessageSentFileIcon();
-    await fileIcon.waitForDisplayed();
+    await fileIcon.waitForExist();
   });
 
   it("Chat User A - Message Sent With Attachment - Download Button", async () => {
     // Validate file download button is displayed correctly on last chat message sent
     const fileDownloadButton =
       await chatsMessagesFirstUser.getLastMessageSentDownloadButton();
-    await fileDownloadButton.waitForDisplayed();
+    await fileDownloadButton.waitForExist();
     await chatsMessagesSecondUser.switchToOtherUserWindow();
 
     // With User B - Validate that message with attachment was received
@@ -115,14 +116,14 @@ export default async function messageAttachmentsTests() {
     // Validate file icon is displayed correctly on last chat message sent
     const fileIcon =
       await chatsMessagesSecondUser.getLastMessageReceivedFileIcon();
-    await fileIcon.waitForDisplayed();
+    await fileIcon.waitForExist();
   });
 
   it("Chat User B - Received Message with Attachment - Download Button", async () => {
     // Validate file download button is displayed correctly on last chat message sent
     const fileDownloadButton =
       await chatsMessagesSecondUser.getLastMessageReceivedDownloadButton();
-    await fileDownloadButton.waitForDisplayed();
+    await fileDownloadButton.waitForExist();
     await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 }

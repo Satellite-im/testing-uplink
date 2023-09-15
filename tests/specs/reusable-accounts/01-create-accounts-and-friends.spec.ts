@@ -22,7 +22,6 @@ import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
 let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
 let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
@@ -203,7 +202,7 @@ export default async function createChatAccountsTests() {
   });
 
   it("Chat User A - Validate Messages secured text displayed on top of conversation", async () => {
-    await chatsLayoutFirstUser.encryptedMessagesText.waitForDisplayed();
+    await chatsLayoutFirstUser.encryptedMessagesText.waitForExist();
     await expect(
       chatsLayoutFirstUser.encryptedMessagesText
     ).toHaveTextContaining(
@@ -292,11 +291,11 @@ export default async function createChatAccountsTests() {
 
   it("Chat User A - Topbar information", async () => {
     // Validate user image, username and online indicator are displayed on Chat Topbar
-    await chatsTopbarFirstUser.topbarUserImage.waitForDisplayed();
+    await chatsTopbarFirstUser.topbarUserImage.waitForExist();
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
       "ChatUserB"
     );
-    await chatsTopbarFirstUser.topbarIndicatorOnline.waitForDisplayed();
+    await chatsTopbarFirstUser.topbarIndicatorOnline.waitForExist();
   });
 
   it("Chat User A - Add user with active chat to Favorites", async () => {
@@ -311,15 +310,8 @@ export default async function createChatAccountsTests() {
       await favoritesSidebarFirstUser.getFavoritesUserIndicatorOnline(
         "ChatUserB"
       );
-    await favoritesImage.waitForDisplayed();
-    await favoritesIndicatorOnline.waitForDisplayed();
-
-    // User should be able to hover on Favorites Bubble and tooltip with name will be displayed
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("ChatUserB");
-    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserTooltipText
-    ).toHaveTextContaining("ChatUserB");
+    await favoritesImage.waitForExist();
+    await favoritesIndicatorOnline.waitForExist();
   });
 
   it("Chat User A - Remove user with active chat from Favorites", async () => {

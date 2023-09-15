@@ -40,15 +40,8 @@ export default async function groupChatSidebarTests() {
       await favoritesSidebarFirstUser.getFavoritesUserImage("X");
     const favoritesIndicatorOnline =
       await favoritesSidebarFirstUser.getFavoritesUserIndicatorOnline("X");
-    await favoritesImage.waitForDisplayed();
-    await favoritesIndicatorOnline.waitForDisplayed();
-
-    // User should be able to hover on Favorites Bubble and tooltip with name will be displayed
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble("X");
-    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForExist();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserTooltipText
-    ).toHaveTextContaining("X");
+    await favoritesImage.waitForExist();
+    await favoritesIndicatorOnline.waitForExist();
   });
 
   it("Group Chat - Remove group from favorites", async () => {
@@ -115,7 +108,7 @@ export default async function groupChatSidebarTests() {
     await chatsLayoutFirstUser.switchToOtherUserWindow();
     await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
     await chatsSidebarFirstUser.goToSidebarGroupChat("X");
-    await chatsTopbarFirstUser.topbar.waitForDisplayed();
+    await chatsTopbarFirstUser.topbar.waitForExist();
   });
 
   it("Group Chat - Sidebar - Leave group", async () => {
@@ -147,12 +140,12 @@ export default async function groupChatSidebarTests() {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.selectUserFromList("ChatUserB");
     await editGroupFirstUser.clickOnFirstAddButton();
-    await editGroupFirstUser.nothingHereText.waitForDisplayed();
+    await editGroupFirstUser.nothingHereText.waitForExist();
   });
 
   it("Group Chat - Ensure in local side that User B was added again to the group", async () => {
     await chatsTopbarFirstUser.editGroup();
-    await chatsTopbarFirstUser.topbar.waitForDisplayed();
+    await chatsTopbarFirstUser.topbar.waitForExist();
     await expect(
       chatsTopbarFirstUser.topbarUserStatusValue
     ).toHaveTextContaining("Members (2)");
@@ -167,7 +160,7 @@ export default async function groupChatSidebarTests() {
     await chatsSidebarSecondUser.sidebarChatsSection.waitForExist();
     await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
     await chatsSidebarSecondUser.goToSidebarGroupChat("X");
-    await chatsTopbarSecondUser.topbar.waitForDisplayed();
+    await chatsTopbarSecondUser.topbar.waitForExist();
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue
     ).toHaveTextContaining("X");

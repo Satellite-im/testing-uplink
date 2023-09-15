@@ -108,7 +108,7 @@ export async function saveTestKeys(
 
 export async function createNewUser(username: string) {
   // Reset Pin before creating new user
-  await createPinFirstUser.waitForIsShown(true);
+  await createPinFirstUser.unlockLayout.waitForExist();
   await createPinFirstUser.openHelpButtonMenu();
   await createPinFirstUser.clickOnResetAccount();
 
@@ -123,16 +123,16 @@ export async function createNewUser(username: string) {
   await createUserFirstUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  await welcomeScreenFirstUser.waitForIsShown(true);
+  await welcomeScreenFirstUser.welcomeLayout.waitForExist();
 
   // Workaround to ensure that user clicks on Add Someone
   await welcomeScreenFirstUser.clickAddSomeone();
-  await friendsScreenFirstUser.waitForIsShown(true);
+  await friendsScreenFirstUser.friendsBody.waitForExist();
 }
 
 export async function createNewUserSecondInstance(username: string) {
   // Reset Pin before creating new user
-  await createPinSecondUser.waitForIsShown(true);
+  await createPinSecondUser.unlockLayout.waitForExist();
   await createPinSecondUser.openHelpButtonMenu();
   await createPinSecondUser.clickOnResetAccount();
 
@@ -147,19 +147,19 @@ export async function createNewUserSecondInstance(username: string) {
   await createUserSecondUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  await welcomeScreenSecondUser.waitForIsShown(true);
+  await welcomeScreenSecondUser.welcomeLayout.waitForExist();
 
   // Workaround to ensure that user clicks on Add Someone
   await welcomeScreenSecondUser.clickAddSomeone();
-  await friendsScreenSecondUser.waitForIsShown(true);
+  await friendsScreenSecondUser.friendsBody.waitForExist();
 }
 export async function loginWithTestUser() {
   // Enter pin for test user
-  await createPinFirstUser.waitForIsShown(true);
+  await createPinFirstUser.unlockLayout.waitForExist();
   await createPinFirstUser.enterPin("1234");
 
   // Ensure Main Screen is displayed
-  await welcomeScreenFirstUser.waitForIsShown(true);
+  await welcomeScreenFirstUser.welcomeLayout.waitForExist();
 
   // Only maximize if current driver is windows
   const currentDriver = await welcomeScreenFirstUser.getCurrentDriver();
@@ -170,11 +170,11 @@ export async function loginWithTestUser() {
 
 export async function loginWithTestUserSecondInstance() {
   // Enter pin for test user
-  await createPinSecondUser.waitForIsShown(true);
+  await createPinSecondUser.unlockLayout.waitForExist();
   await createPinSecondUser.enterPin("1234");
 
   // Ensure Main Screen is displayed
-  await welcomeScreenSecondUser.waitForIsShown(true);
+  await welcomeScreenSecondUser.welcomeLayout.waitForExist();
 
   // Only maximize if current driver is windows
   const currentDriver = await welcomeScreenSecondUser.getCurrentDriver();
@@ -286,7 +286,7 @@ export async function saveFileOnMacOS(filename: string, instance: string) {
   const currentInstance = await browser.getInstance(instance);
 
   // Wait for Save Dialog to be displayed
-  await currentInstance.$("~save-panel").waitForDisplayed();
+  await currentInstance.$("~save-panel").waitForExist();
 
   // Type the new file name
   await currentInstance.$("~saveAsNameTextField").setValue(filename);
@@ -312,7 +312,7 @@ export async function selectFileOnMacos(
   const filepath = join(process.cwd(), relativePath);
 
   // Wait for Open Panel to be displayed
-  await currentInstance.$("~open-panel").waitForDisplayed();
+  await currentInstance.$("~open-panel").waitForExist();
 
   // Open Go To File
   await driver[instance].executeScript("macos: keys", [
@@ -326,7 +326,7 @@ export async function selectFileOnMacos(
   ]);
 
   //Ensure that Go To File is displayed on screen
-  await currentInstance.$("~GoToWindow").waitForDisplayed();
+  await currentInstance.$("~GoToWindow").waitForExist();
 
   // Remove the / and type filepath into go to file section and ensure that it contains the filepath expected
   await currentInstance
@@ -394,7 +394,7 @@ export async function saveFileOnWindows(
   await driver[instance].switchToWindow(explorerWindow);
 
   // Wait for Save Panel to be displayed
-  await currentInstance.$("~TitleBar").waitForDisplayed();
+  await currentInstance.$("~TitleBar").waitForExist();
 
   // Type file location and hit enter
   await currentInstance.$("/Window/Pane[1]/ComboBox[1]/Edit").clearValue();
@@ -432,7 +432,7 @@ export async function selectFileOnWindows(
   await driver[instance].switchToWindow(explorerWindow);
 
   // Wait for Save Panel to be displayed
-  await driver[instance].$("~listview").waitForDisplayed();
+  await driver[instance].$("~listview").waitForExist();
 
   // Type file location and hit enter
   await driver[instance].$("//Window/ComboBox/Edit").clearValue();

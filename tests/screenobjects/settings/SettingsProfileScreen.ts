@@ -303,7 +303,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     }
 
     // Validate that profile banner is displayed on screen
-    await this.profileBanner.waitForDisplayed();
+    await this.profileBanner.waitForExist();
   }
 
   async uploadProfilePicture(relativePath: string) {
@@ -320,6 +320,6 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     }
 
     // Validate that profile banner is displayed on screen
-    await this.profilePicture.waitForDisplayed();
+    await this.profilePicture.waitForExist();
   }
 }

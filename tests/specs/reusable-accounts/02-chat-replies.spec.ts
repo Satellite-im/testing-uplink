@@ -23,16 +23,16 @@ export default async function repliesTests() {
     await chatsContextMenuSecondUser.selectContextOptionReply();
 
     // Validate contents of Reply Pop Up
-    await chatsReplyPromptSecondUser.replyPopUp.waitForDisplayed();
-    await chatsReplyPromptSecondUser.replyPopUpCloseButton.waitForDisplayed();
+    await chatsReplyPromptSecondUser.replyPopUp.waitForExist();
+    await chatsReplyPromptSecondUser.replyPopUpCloseButton.waitForExist();
     await expect(
       chatsReplyPromptSecondUser.replyPopUpHeader
     ).toHaveTextContaining("REPLYING TO:");
-    await chatsReplyPromptSecondUser.replyPopUpIndicatorOnline.waitForDisplayed();
+    await chatsReplyPromptSecondUser.replyPopUpIndicatorOnline.waitForExist();
     await expect(
       chatsReplyPromptSecondUser.replyPopUpRemoteTextToReplyValue
     ).toHaveTextContaining("Testing...😀");
-    await chatsReplyPromptSecondUser.replyPopUpUserImage.waitForDisplayed();
+    await chatsReplyPromptSecondUser.replyPopUpUserImage.waitForExist();
 
     await chatsReplyPromptSecondUser.closeReplyModal();
     await chatsReplyPromptSecondUser.waitForReplyModalToNotExist();
@@ -44,7 +44,7 @@ export default async function repliesTests() {
     await chatsContextMenuSecondUser.selectContextOptionReply();
 
     // Type a reply and sent it
-    await chatsReplyPromptSecondUser.replyPopUp.waitForDisplayed();
+    await chatsReplyPromptSecondUser.replyPopUp.waitForExist();
     await chatsInputSecondUser.typeMessageOnInput("Reply");
     await chatsInputSecondUser.clickOnSendMessage();
     await chatsReplyPromptSecondUser.waitForReplyModalToNotExist();
@@ -54,7 +54,7 @@ export default async function repliesTests() {
     // Validate message replied appears smaller above your reply
     const replySent = await chatsMessagesSecondUser.getLastReply();
     const replySentText = await chatsMessagesSecondUser.getLastReplyText();
-    await replySent.waitForDisplayed();
+    await replySent.waitForExist();
     await expect(replySentText).toHaveTextContaining("Testing...😀");
 
     // Validate reply message sent appears as last message
@@ -94,7 +94,7 @@ export default async function repliesTests() {
     // Validate message replied appears smaller above your reply
     const replyReceived = await chatsMessagesFirstUser.getLastReply();
     const replyReceivedText = await chatsMessagesFirstUser.getLastReplyText();
-    await replyReceived.waitForDisplayed();
+    await replyReceived.waitForExist();
     await expect(replyReceivedText).toHaveTextContaining("Testing...😀");
 
     // Validate reply message sent appears as last message
@@ -132,7 +132,7 @@ export default async function repliesTests() {
     await chatsContextMenuFirstUser.selectContextOptionReply();
 
     // Type a reply and sent it
-    await chatsReplyPromptFirstUser.replyPopUp.waitForDisplayed();
+    await chatsReplyPromptFirstUser.replyPopUp.waitForExist();
     await chatsInputFirstUser.typeMessageOnInput("SelfReply");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsReplyPromptFirstUser.waitForReplyModalToNotExist();
@@ -140,7 +140,7 @@ export default async function repliesTests() {
     // Validate reply to self message is displayed on Chat Conversation
     const repliedMessage = await chatsMessagesFirstUser.getLastReply();
     const repliedMessageText = await chatsMessagesFirstUser.getLastReplyText();
-    await repliedMessage.waitForDisplayed();
+    await repliedMessage.waitForExist();
     await expect(repliedMessageText).toHaveTextContaining("Testing...😀");
 
     // Validate reply message sent appears as last message

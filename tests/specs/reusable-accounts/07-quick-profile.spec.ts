@@ -1,7 +1,6 @@
 import "module-alias/register";
 import { getUserKey } from "@helpers/commands";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
-import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageGroup from "@screenobjects/chats/MessageGroup";
@@ -13,9 +12,8 @@ import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
-let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
 let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
+let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsQuickProfileFirstUser = new QuickProfile(USER_A_INSTANCE);
@@ -34,12 +32,12 @@ export default async function quickProfileTests() {
     await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
     // Validate contents from quick profile
-    await chatsQuickProfileFirstUser.quickProfileUserImage.waitForDisplayed();
-    await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileUserImage.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForExist();
     await expect(
       chatsQuickProfileFirstUser.quickProfileUserNameValueText
     ).toHaveTextContaining("ChatUserA");
-    await chatsQuickProfileFirstUser.quickProfileEditProfile.waitForDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileEditProfile.waitForExist();
   });
 
   it("Chat User A - Click on Edit Profile", async () => {
@@ -67,13 +65,13 @@ export default async function quickProfileTests() {
     await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
     // Validate contents from quick profile
-    await chatsQuickProfileFirstUser.quickProfileUserImage.waitForDisplayed();
-    await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileUserImage.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForExist();
     await expect(
       chatsQuickProfileFirstUser.quickProfileUserNameValueText
     ).toHaveTextContaining("ChatUserB");
-    await chatsQuickProfileFirstUser.quickProfileRemoveFriend.waitForDisplayed();
-    await chatsQuickProfileFirstUser.quickProfileBlockUser.waitForDisplayed();
+    await chatsQuickProfileFirstUser.quickProfileRemoveFriend.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfileBlockUser.waitForExist();
 
     // Click outside to close quick profile
     await chatsInputFirstUser.clickOnInputBar();
@@ -117,7 +115,7 @@ export default async function quickProfileTests() {
     // Validate friend request appears on pending list
     await friendsScreenFirstUser.hoverOnPendingListButton();
     await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.removeOrDenyFriendButton.waitForDisplayed();
+    await friendsScreenFirstUser.removeOrDenyFriendButton.waitForExist();
     const pendingList = await friendsScreenFirstUser.getOutgoingList();
     const includesFriend = await pendingList.includes("ChatUserB");
     await expect(includesFriend).toEqual(true);
@@ -201,7 +199,7 @@ export default async function quickProfileTests() {
     const includesFriend = await blockedList.includes("ChatUserB");
     await expect(includesFriend).toEqual(true);
     await friendsScreenFirstUser.goToAllFriendsList();
-    await friendsScreenFirstUser.friendsList.waitForDisplayed();
+    await friendsScreenFirstUser.friendsList.waitForExist();
     await chatsInputSecondUser.switchToOtherUserWindow();
 
     // With User B - Go to Friends and wait for User A to remove friendship with User B

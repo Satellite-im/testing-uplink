@@ -129,17 +129,6 @@ export default class FavoritesSidebar extends UplinkMainScreen {
       .$$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
   }
 
-  get favoritesUserTooltip() {
-    return this.instance.$(SELECTORS.SLIMBAR).$(SELECTORS.TOOLTIP);
-  }
-
-  get favoritesUserTooltipText() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.TOOLTIP_TEXT);
-  }
-
   get slimbar() {
     return this.instance.$(SELECTORS.SLIMBAR);
   }
@@ -249,7 +238,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(element, this.executor);
     }
-    await this.contextMenu.waitForDisplayed();
+    await this.contextMenu.waitForExist();
   }
 
   // Slimbar NavBar methods

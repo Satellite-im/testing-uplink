@@ -109,12 +109,12 @@ export default async function messageInputTests() {
     const linkEmbedReceivedIconTitle =
       await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedIconTitle();
 
-    await linkEmbedReceived.waitForDisplayed();
+    await linkEmbedReceived.waitForExist();
     await expect(linkEmbedReceivedDetailsText).toHaveTextContaining(
       "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included."
     );
-    await linkEmbedReceivedIcon.waitForDisplayed();
-    await linkEmbedReceivedIconTitle.waitForDisplayed();
+    await linkEmbedReceivedIcon.waitForExist();
+    await linkEmbedReceivedIconTitle.waitForExist();
   });
 
   it("Chat User - Chat Messages containing links contents on local side", async () => {
@@ -131,12 +131,12 @@ export default async function messageInputTests() {
     const linkEmbedSentIconTitle =
       await chatsMessagesFirstUser.getLastMessageSentLinkEmbedIconTitle();
 
-    await linkEmbedSent.waitForDisplayed();
+    await linkEmbedSent.waitForExist();
     await expect(linkEmbedSentDetailsText).toHaveTextContaining(
       "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included."
     );
-    await linkEmbedSentIcon.waitForDisplayed();
-    await linkEmbedSentIconTitle.waitForDisplayed();
+    await linkEmbedSentIcon.waitForExist();
+    await linkEmbedSentIconTitle.waitForExist();
   });
 
   it("Chat Input Text - Validate text starting with www. is not sent as link", async () => {
@@ -160,7 +160,7 @@ export default async function messageInputTests() {
 
     // Switch to second user and validate that Typing Indicator is displayed
     await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsLayoutSecondUser.typingIndicator.waitForDisplayed();
+    await chatsLayoutSecondUser.typingIndicator.waitForExist();
     await expect(
       chatsLayoutSecondUser.typingIndicatorTextValue
     ).toHaveTextContaining("ChatUserA is typing");
