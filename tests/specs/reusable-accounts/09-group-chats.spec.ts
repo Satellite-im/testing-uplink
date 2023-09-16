@@ -141,7 +141,7 @@ export default async function groupChatTests() {
     await chatsMessagesSecondUser.waitForReceivingMessage("HiGroup");
   });
 
-  it("Sidebar - Search Bar - Search for a string matching a username and group", async () => {
+  it("Sidebar - Search string matching username and group and go to first result", async () => {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.goToFiles();
     await filesScreenFirstUser.filesBody.waitForExist();
@@ -155,9 +155,7 @@ export default async function groupChatTests() {
     await expect(searchResultsUsers).toEqual(["ChatUserB"]);
     await expect(searchResultsGroupsNotMatchingName).toEqual(["Test"]);
     await expect(searchResultsParticipantsInGroups).toEqual(["ChatUserB"]);
-  });
 
-  it("Sidebar - Sarch bar - Result will redirect to a User Conversation", async () => {
     await sidebarSearchFirstUser.clickOnUserResultFromSidebarSearch(0);
     await chatsTopbarFirstUser.topbar.waitForExist();
     await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
@@ -175,14 +173,12 @@ export default async function groupChatTests() {
     await chatsSidebarFirstUser.clearSidebarSearchInput();
   });
 
-  it("Sidebar - Search Bar - Search for a string not matching any result", async () => {
+  it("Sidebar - Search Bar - Not matching results and then redirect to a group", async () => {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("z");
     await chatsSidebarFirstUser.clearSidebarSearchInput();
-  });
-
-  it("Sidebar - Search Bar - Result will redirect to a Group Chat Conversation", async () => {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
     await sidebarSearchFirstUser.clickOnGroupResultFromSidebarSearch(0);
+    await chatsTopbarSecondUser.topbar.waitForExist();
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue
     ).toHaveTextContaining("Test");
