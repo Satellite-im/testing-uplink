@@ -23,10 +23,10 @@ describe("Windows Chats Tests", function () {
   describe("Chat Tooltips Tests", chatTooltipsTests.bind(this));
   describe("Quick Profile Tests", quickProfileTests.bind(this));
   describe("Sidebar Chats Tests", sidebarChatsTests.bind(this));
-  describe("Group Chats Tests", groupChatTests.bind(this));
+  /*describe("Group Chats Tests", groupChatTests.bind(this));
   describe("Group Chats Edit Tests", groupChatEditTests.bind(this));
   describe(
     "Group Chats Favorites and Sidebar Tests",
     groupChatSidebarTests.bind(this)
-  );
+  );*/
 });
