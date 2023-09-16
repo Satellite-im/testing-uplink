@@ -86,7 +86,7 @@ export default async function quickProfileTests() {
     await chatsQuickProfileFirstUser.clickOnRemoveUser();
 
     // Welcome Screen should be displayed
-    await welcomeScreenFirstUser.welcomeLayout.waitForExist();
+    await welcomeScreenFirstUser.skeletalUser.waitForExist();
   });
 
   it("Chat User A - Ensure that Chat User B is not in friends list now", async () => {
@@ -183,7 +183,7 @@ export default async function quickProfileTests() {
     await chatsQuickProfileFirstUser.clickOnBlockUser();
 
     // Welcome Screen should be displayed
-    await welcomeScreenFirstUser.welcomeLayout.waitForExist();
+    await welcomeScreenFirstUser.skeletalUser.waitForExist();
   });
 
   it("Chat User A - Ensure that Chat User B is in blocked list now", async () => {

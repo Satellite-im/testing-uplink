@@ -493,6 +493,48 @@ export default class MessageGroup extends UplinkMainScreen {
     }
   }
 
+  async waitUntilEmojiReactionRemoteExists(expectedReaction: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedReaction +
+            '")]'
+        )
+        .waitForExist();
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[contains(@Name, "emoji-reaction-remote")]//Text[contains(@Name, "' +
+            expectedReaction +
+            '")]'
+        )
+        .waitForExist();
+    }
+  }
+
+  async waitUntilEmojiReactionSelfExists(expectedReaction: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.instance
+        .$(
+          '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-self")]//XCUIElementTypeStaticText[contains(@value, "' +
+            expectedReaction +
+            '")]'
+        )
+        .waitForExist();
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await this.instance
+        .$(
+          '//Group[contains(@Name, "emoji-reaction-self")]/Text[contains(@Name, "' +
+            expectedReaction +
+            '")]'
+        )
+        .waitForExist();
+    }
+  }
+
   // Get messages locators from last message group received
 
   async getFirstMessageInLastGroupReceived() {

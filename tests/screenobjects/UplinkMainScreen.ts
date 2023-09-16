@@ -173,7 +173,7 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get skeletalUser() {
-    return this.instance.$$(SELECTORS.SKELETAL_USER);
+    return this.instance.$$(SELECTORS.SKELETAL_USER)[0];
   }
 
   get toastNotifications() {

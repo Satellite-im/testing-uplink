@@ -28,8 +28,8 @@ const SELECTORS_WINDOWS = {
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   UPLOAD_BUTTON: '[name="upload-button"]',
-  UPLOAD_BUTTON_LOCAL_DISK: '[name="quick-profile-self-edit"]',
-  UPLOAD_BUTTON_CLOUD: '[name="quick-profile-self-edit"]',
+  UPLOAD_BUTTON_LOCAL_DISK: '[name="attach-files-from-local-disk-into-chat"]',
+  UPLOAD_BUTTON_STORAGE: '[name="attach-files-from-storage-into-chat"]',
 };
 
 const SELECTORS_MACOS = {
@@ -47,8 +47,8 @@ const SELECTORS_MACOS = {
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   UPLOAD_BUTTON: "~upload-button",
-  UPLOAD_BUTTON_LOCAL_DISK: '[name="quick-profile-self-edit"]',
-  UPLOAD_BUTTON_CLOUD: '[name="quick-profile-self-edit"]',
+  UPLOAD_BUTTON_LOCAL_DISK: "~attach-files-from-local-disk-into-chat",
+  UPLOAD_BUTTON_STORAGE: "~attach-files-from-storage-into-chat",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -118,11 +118,11 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   get uploadButtonCloud() {
-    return this.instance.$$(SELECTORS.UPLOAD_BUTTON_LOCAL_DISK)[1];
+    return this.instance.$(SELECTORS.UPLOAD_BUTTON_STORAGE);
   }
 
   get uploadButtonLocalDisk() {
-    return this.instance.$$(SELECTORS.UPLOAD_BUTTON_LOCAL_DISK)[0];
+    return this.instance.$(SELECTORS.UPLOAD_BUTTON_LOCAL_DISK);
   }
 
   async clearInputBar() {

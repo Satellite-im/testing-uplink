@@ -63,11 +63,13 @@ export default async function messageContextMenuTests() {
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.clickOnFirstReaction();
+    await chatsMessageGroupsFirstUser.waitUntilEmojiReactionSelfExists("😂");
 
     // React with 🖖 emoji
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.clickOnSecondReaction();
+    await chatsMessageGroupsFirstUser.waitUntilEmojiReactionSelfExists("🖖");
 
     // Validate reactions are displayed correctly
     const reactions =
@@ -81,6 +83,7 @@ export default async function messageContextMenuTests() {
     await chatsMessagesFirstUser.openContextMenuOnLastReceived();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.clickOnThirdReaction();
+    await chatsMessageGroupsFirstUser.waitUntilEmojiReactionSelfExists("👎");
 
     // Validate reaction is displayed correctly
     const reaction =
@@ -96,6 +99,7 @@ export default async function messageContextMenuTests() {
     await chatsInputSecondUser.clearInputBar();
 
     // Validate reactions received on sent message
+    await chatsMessageGroupsSecondUser.waitUntilEmojiReactionRemoteExists("👎");
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentRemoteReactions();
     await expect(reaction.includes("👎 1")).toEqual(true);
@@ -103,6 +107,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User B - Receive reaction in received message", async () => {
     // Validate reactions received on sent message
+    await chatsMessageGroupsSecondUser.waitUntilEmojiReactionRemoteExists("🖖");
     const reactions =
       await chatsMessageGroupsSecondUser.getLastMessageReceivedRemoteReactions();
     await expect(reactions.includes("🖖 1")).toEqual(true);
@@ -116,6 +121,7 @@ export default async function messageContextMenuTests() {
     await chatsContextMenuSecondUser.clickOnThirdReaction();
 
     // Validate reaction is displayed correctly
+    await chatsMessageGroupsSecondUser.waitUntilEmojiReactionSelfExists("👎");
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
     await expect(reaction.includes("👎 2")).toEqual(true);
@@ -128,6 +134,7 @@ export default async function messageContextMenuTests() {
     await chatsContextMenuSecondUser.clickOnFourthReaction();
 
     // Validate reaction is displayed correctly
+    await chatsMessageGroupsSecondUser.waitUntilEmojiReactionSelfExists("👍");
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
     await expect(reaction.includes("👎 2")).toEqual(true);

@@ -215,13 +215,13 @@ export default async function sidebarChatsTests() {
     // Open context menu and right click on Delete chat
     await chatsSidebarFirstUser.openContextMenuOnSidebar("ChatUserB");
     await contextMenuSidebarFirstUser.selectChatsDeleteConversation();
-    await welcomeScreenFirstUser.welcomeLayout.waitForExist();
+    await chatsSidebarFirstUser.skeletalUser.waitForExist();
     await welcomeScreenSecondUser.switchToOtherUserWindow();
   });
 
   it("Chat User B - Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {
     // After user deletes chat conversation on remote side, chat is deleted on local side and Welcome Image displayed again
-    await welcomeScreenSecondUser.welcomeLayout.waitForExist();
+    await welcomeScreenSecondUser.skeletalUser.waitForExist();
     await welcomeScreenFirstUser.switchToOtherUserWindow();
   });
 
