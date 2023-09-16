@@ -183,7 +183,7 @@ export default async function quickProfileTests() {
     await chatsQuickProfileFirstUser.clickOnBlockUser();
 
     // Welcome Screen should be displayed
-    await welcomeScreenFirstUser.skeletalUser.waitForExist();
+    await welcomeScreenFirstUser.welcomeLayout.waitForExist();
   });
 
   it("Chat User A - Ensure that Chat User B is in blocked list now", async () => {

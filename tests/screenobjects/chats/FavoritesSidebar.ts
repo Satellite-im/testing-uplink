@@ -156,7 +156,9 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   // Favorites methods
 
   async clickOnContextMenuFavoritesChat() {
+    await this.contextMenu.waitForExist();
     await this.favoritesChat.click();
+    await this.contextMenu.waitForExist({ reverse: true });
   }
 
   async clickOnContextMenuFavoriteRemove() {
