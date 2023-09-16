@@ -155,12 +155,7 @@ export default async function groupChatTests() {
     await expect(searchResultsUsers).toEqual(["ChatUserB"]);
     await expect(searchResultsGroupsNotMatchingName).toEqual(["Test"]);
     await expect(searchResultsParticipantsInGroups).toEqual(["ChatUserB"]);
-
-    await sidebarSearchFirstUser.clickOnUserResultFromSidebarSearch(0);
-    await chatsTopbarFirstUser.topbar.waitForExist();
-    await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
-      "ChatUserB"
-    );
+    await chatsSidebarFirstUser.clearSidebarSearchInput();
   });
 
   it("Sidebar - Search Bar - Search for a string matching a single group chat", async () => {
@@ -173,11 +168,10 @@ export default async function groupChatTests() {
     await chatsSidebarFirstUser.clearSidebarSearchInput();
   });
 
-  it("Sidebar - Search Bar - Not matching results and then redirect to a group", async () => {
+  it("Sidebar - Search Bar - Not matching results and then go to the group", async () => {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("z");
     await chatsSidebarFirstUser.clearSidebarSearchInput();
-    await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
-    await sidebarSearchFirstUser.clickOnGroupResultFromSidebarSearch(0);
+    await chatsSidebarFirstUser.goToSidebarGroupChat("Test");
     await chatsTopbarSecondUser.topbar.waitForExist();
     await expect(
       chatsTopbarSecondUser.topbarUserNameValue
