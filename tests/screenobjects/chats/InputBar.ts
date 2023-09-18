@@ -117,7 +117,7 @@ export default class InputBar extends UplinkMainScreen {
     return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get uploadButtonCloud() {
+  get uploadButtonStorage() {
     return this.instance.$(SELECTORS.UPLOAD_BUTTON_STORAGE);
   }
 
@@ -126,25 +126,29 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   async clearInputBar() {
-    await this.inputText.clearValue();
+    const inputText = await this.inputText;
+    await inputText.clearValue();
   }
 
   async clickOnEmojiButton() {
-    const element = await this.emojiButton;
-    await this.hoverOnElement(element);
-    await element.click();
+    const addEmoji = await this.emojiButton;
+    await this.hoverOnElement(addEmoji);
+    await addEmoji.click();
   }
 
   async clickOnInputBar() {
-    await this.inputText.click();
+    const inputText = await this.inputText;
+    await inputText.click();
   }
 
   async clickOnSendMessage() {
-    await this.sendMessageButton.click();
+    const sendMessageButton = await this.sendMessageButton;
+    await sendMessageButton.click();
   }
 
   async clickOnUploadFile() {
-    await this.uploadButton.click();
+    const uploadButton = await this.uploadButton;
+    await uploadButton.click();
   }
 
   async generateRandomText() {
@@ -165,18 +169,14 @@ export default class InputBar extends UplinkMainScreen {
     return longText;
   }
 
-  async getFilePath(relativePath: string) {
-    return join(process.cwd(), relativePath);
-  }
-
   async hoverOnSendButton() {
-    const element = await this.sendMessageButton;
-    await this.hoverOnElement(element);
+    const sendButton = await this.sendMessageButton;
+    await this.hoverOnElement(sendButton);
   }
 
   async hoverOnUploadButton() {
-    const element = await this.uploadButton;
-    await this.hoverOnElement(element);
+    const uploadButton = await this.uploadButton;
+    await this.hoverOnElement(uploadButton);
   }
 
   async pressEnterKeyOnInputBar() {
@@ -185,35 +185,24 @@ export default class InputBar extends UplinkMainScreen {
     currentDriver === WINDOWS_DRIVER
       ? (enterValue = "\uE007")
       : (enterValue = "\n");
-    await this.inputText.setValue(enterValue);
-  }
-
-  async selectUploadFromCloud() {
-    await this.uploadButtonCloud.click();
+    const inputText = await this.inputText;
+    await inputText.setValue(enterValue);
   }
 
   async selectUploadFromLocalDisk() {
-    await this.uploadButtonLocalDisk.click();
+    const uploadButtonLocalDisk = await this.uploadButtonLocalDisk;
+    await uploadButtonLocalDisk.click();
   }
 
   async typeMessageOnInput(text: string) {
+    const inputText = await this.inputText;
     for (let i = 0; i < 3; i++) {
       i += 1;
-      if ((await this.inputText.getText()) !== text) {
-        await this.inputText.clearValue();
-        await this.inputText.setValue(text);
+      if ((await inputText.getText()) !== text) {
+        await inputText.clearValue();
+        await inputText.setValue(text);
       }
     }
-  }
-
-  async typeOnEditMessageInput(editedMessage: string) {
-    const currentDriver = await this.getCurrentDriver();
-    const locator = await this.window;
-    let enterValue;
-    currentDriver === WINDOWS_DRIVER
-      ? (enterValue = "\uE007")
-      : (enterValue = "\n");
-    await locator.setValue(editedMessage + enterValue);
   }
 
   async uploadFileFromLocalDisk(relativePath: string) {

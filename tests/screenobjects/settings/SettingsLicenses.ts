@@ -59,6 +59,7 @@ export default class SettingsLicensesScreen extends SettingsBaseScreen {
   }
 
   async clickOnShowHeroiconsLicenses() {
-    await this.heroiconsButton.click();
+    const heroiconsButton = await this.heroiconsButton;
+    await heroiconsButton.click();
   }
 }

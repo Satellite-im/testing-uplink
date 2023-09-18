@@ -352,35 +352,49 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async acceptIncomingRequest(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
-    await friendToClick.$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON).click();
+    const acceptButton = await friendToClick.$(
+      SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON
+    );
+    await acceptButton.click();
   }
 
   async blockUser(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
-    await friendToClick.$(SELECTORS.BLOCK_FRIEND_BUTTON).click();
+    const blockButton = await friendToClick.$(SELECTORS.BLOCK_FRIEND_BUTTON);
+    await blockButton.click();
   }
 
   async chatWithFriend(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
-    await friendToClick.$(SELECTORS.CHAT_WITH_FRIEND_BUTTON).click();
+    const chatButton = await friendToClick.$(SELECTORS.CHAT_WITH_FRIEND_BUTTON);
+    await chatButton.click();
   }
 
   async clickOnAddSomeoneButton() {
-    await this.addSomeoneButton.click();
+    const addSomeoneButton = await this.addSomeoneButton;
+    await addSomeoneButton.click();
+  }
+
+  async clickOnChatWithFriend() {
+    const chatWithFriend = await this.chatWithFriendButton;
+    await chatWithFriend.click();
   }
 
   async clickOnCopyID() {
-    await this.copyIdButton.click();
+    const copyIdButton = await this.copyIdButton;
+    await copyIdButton.click();
   }
 
   async deleteAddFriendInput() {
-    await this.addSomeoneInput.clearValue();
+    const addSomeoneInput = await this.addSomeoneInput;
+    await addSomeoneInput.clearValue();
   }
 
   async enterFriendDidKey(didkey: string) {
-    await this.addSomeoneInput.click();
-    await this.addSomeoneInput.clearValue();
-    await this.addSomeoneInput.setValue(didkey);
+    const addSomeoneInput = await this.addSomeoneInput;
+    await addSomeoneInput.click();
+    await addSomeoneInput.clearValue();
+    await addSomeoneInput.setValue(didkey);
   }
 
   async enterCopiedID() {
@@ -392,8 +406,10 @@ export default class FriendsScreen extends UplinkMainScreen {
       await this.enterFriendDidKey(userKey);
     } else if (currentDriver === WINDOWS_DRIVER) {
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
-      await this.copyIdButton.click();
-      await this.addSomeoneInput.clearValue();
+      const copyIdButton = await this.copyIdButton;
+      await copyIdButton.click();
+      const addSomeoneInput = await this.addSomeoneInput;
+      await addSomeoneInput.clearValue();
       await robot.keyTap("v", ["control"]);
     }
   }
@@ -409,27 +425,27 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async getAllFriendsList() {
-    await this.friendsList.waitForExist();
+    const friendsList = await this.friendsList;
+    await friendsList.waitForExist();
     const friends = await this.instance.$$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
-      const friendName = await friend
-        .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
-        .getText();
-      results.push(friendName);
+      const friendName = await friend.$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
+      const friendNameText = await friendName.getText();
+      results.push(friendNameText);
     }
     return results;
   }
 
   async getBlockedList() {
-    await this.blockedList.waitForExist();
+    const blockedList = await this.blockedList;
+    await blockedList.waitForExist();
     const friends = await this.instance.$$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
-      const friendName = await friend
-        .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
-        .getText();
-      results.push(friendName);
+      const friendName = await friend.$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
+      const friendNameText = await friendName.getText();
+      results.push(friendNameText);
     }
     return results;
   }
@@ -460,76 +476,81 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async getIncomingList() {
-    await this.incomingRequestsList.waitForExist();
+    const incomingList = await this.incomingRequestsList;
+    await incomingList.waitForExist();
     const friends = await this.instance
       .$(SELECTORS.INCOMING_REQUESTS_LIST)
       .$$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
-      const friendName = await friend
-        .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
-        .getText();
-      results.push(friendName);
+      const friendName = await friend.$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
+      const friendNameText = await friendName.getText();
+      results.push(friendNameText);
     }
     return results;
   }
 
   async getInputErrorText() {
-    const errorText = await this.inputErrorText.getText();
+    const error = await this.inputErrorText;
+    const errorText = await error.getText();
     return errorText;
   }
 
   async getOutgoingList() {
-    await this.outgoingRequestsList.waitForExist();
+    const outgoingList = await this.outgoingRequestsList;
+    await outgoingList.waitForExist();
     const friends = await this.instance
       .$(SELECTORS.OUTGOING_REQUESTS_LIST)
       .$$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
-      const friendName = await friend
-        .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
-        .getText();
-      results.push(friendName);
+      const friendName = await friend.$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
+      const friendNameText = await friendName.getText();
+      results.push(friendNameText);
     }
     return results;
   }
 
   async getUserFromAllFriendsList() {
-    await this.friendsList.waitForExist();
+    const friendsList = await this.friendsList;
+    await friendsList.waitForExist();
     const firstUserFromList = await this.instance
       .$$(SELECTORS.FRIEND_INFO_USERNAME)[0]
-      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
-      .getText();
-    return firstUserFromList;
+      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
+    const firstUserFromListText = await firstUserFromList.getText();
+    return firstUserFromListText;
   }
 
   async getUserFromIncomingList() {
-    await this.incomingRequestsList.waitForExist();
+    const incomingList = await this.incomingRequestsList;
+    await incomingList.waitForExist();
     const firstUserFromList = await this.instance
       .$(SELECTORS.INCOMING_REQUESTS_LIST)
       .$$(SELECTORS.FRIEND_INFO_USERNAME)[0]
-      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
-      .getText();
-    return firstUserFromList;
+      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
+    const firstUserFromListText = await firstUserFromList.getText();
+    return firstUserFromListText;
   }
 
   async getUserFromOutgoingList() {
-    await this.outgoingRequestsList.waitForExist();
+    const outgoingList = await this.outgoingRequestsList;
+    await outgoingList.waitForExist();
     const firstUserFromList = await this.instance
       .$(SELECTORS.OUTGOING_REQUESTS_LIST)
       .$$(SELECTORS.FRIEND_INFO_USERNAME)[0]
-      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
-      .getText();
-    return firstUserFromList;
+      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
+    const firstUserFromListText = await firstUserFromList.getText();
+    return firstUserFromListText;
   }
 
   async getUserFromBlockedList() {
-    await this.blockedList.waitForExist();
+    const blockedList = await this.blockedList;
+    await blockedList.waitForExist();
     const firstUserFromList = await this.instance
       .$$(SELECTORS.FRIEND_INFO_USERNAME)[0]
-      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME)
-      .getText();
-    return firstUserFromList;
+      .$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
+    const firstUserFromListText = await firstUserFromList.getText();
+    return firstUserFromListText;
   }
 
   async getUserImage(username: string) {
@@ -582,17 +603,25 @@ export default class FriendsScreen extends UplinkMainScreen {
     return userTooltipText;
   }
 
+  async getValueFromFriendsButtonBadge() {
+    const friendsButtonBadgeValue = await this.friendsButtonBadgeText;
+    const friendsButtonBadgeValueText = await friendsButtonBadgeValue.getText();
+    return friendsButtonBadgeValueText;
+  }
+
   async goToAllFriendsList() {
-    await this.allFriendsButton.click();
+    const allFriendsButton = await this.allFriendsButton;
+    await allFriendsButton.click();
   }
 
   async goToBlockedList() {
-    await this.blockedListButton.click();
+    const blockedListButton = await this.blockedListButton;
+    await blockedListButton.click();
   }
 
   async goToPendingFriendsList() {
-    await this.pendingFriendsButton.waitForExist();
-    await this.pendingFriendsButton.click();
+    const pendingFriendsButton = await this.pendingFriendsButton;
+    await pendingFriendsButton.click();
   }
 
   async hoverOnBlockButton(username: string) {
@@ -638,105 +667,158 @@ export default class FriendsScreen extends UplinkMainScreen {
       await this.enterFriendDidKey(userKey);
     } else if (currentDriver === WINDOWS_DRIVER) {
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
-      await this.addSomeoneInput.click();
-      await this.addSomeoneInput.clearValue();
+      const addSomeoneInput = await this.addSomeoneInput;
+      await addSomeoneInput.click();
+      await addSomeoneInput.clearValue();
       await robot.keyTap("v", ["control"]);
     }
   }
 
   async removeOrCancelUser(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
-    await friendToClick.$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON).click();
+    const removeOrDenyButton = await friendToClick.$(
+      SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON
+    );
+    await removeOrDenyButton.click();
   }
 
   async validateAllFriendsListIsNotEmpty() {
-    await this.instance
+    const membersOfAllFriendsList = await this.instance
       .$(SELECTORS.FRIENDS_LIST)
-      .$(SELECTORS.FRIEND_INFO_USERNAME)
-      .waitForExist();
+      .$(SELECTORS.FRIEND_INFO_USERNAME);
+    await membersOfAllFriendsList.waitForExist();
+  }
+
+  async validateAllFriendsListIsShown() {
+    const allFriendsList = await this.friendsList;
+    await allFriendsList.waitForExist();
   }
 
   async validateBlockedListIsNotEmpty() {
-    await this.instance
+    const membersOfBlockedList = await this.instance
       .$(SELECTORS.BLOCKED_LIST)
-      .$(SELECTORS.FRIEND_INFO_USERNAME)
-      .waitForExist();
+      .$(SELECTORS.FRIEND_INFO_USERNAME);
+    await membersOfBlockedList.waitForExist();
+  }
+
+  async validateBlockedListIsShown() {
+    const blockedList = await this.blockedList;
+    await blockedList.waitForExist();
+  }
+
+  async validateChatWithFriendButtonIsShown() {
+    const chatWithFriend = await this.chatWithFriendButton;
+    await chatWithFriend.waitForExist();
+  }
+
+  async validateFriendsButtonBadgeIsShown() {
+    const friendsButtonBadge = await this.friendsButtonBadge;
+    await friendsButtonBadge.waitForExist();
+  }
+
+  async validateFriendsScreenIsShown() {
+    const friendsScreen = await this.friendsBody;
+    await friendsScreen.waitForExist();
   }
 
   async validateIncomingListIsNotEmpty() {
-    await this.instance
+    const membersOfIncomingList = await this.instance
       .$(SELECTORS.INCOMING_REQUESTS_LIST)
-      .$(SELECTORS.FRIEND_INFO_USERNAME)
-      .waitForExist();
+      .$(SELECTORS.FRIEND_INFO_USERNAME);
+    await membersOfIncomingList.waitForExist();
+  }
+
+  async validateIncomingListIsShown() {
+    const incomingList = await this.incomingRequestsList;
+    await incomingList.waitForExist();
   }
 
   async validateOutgoingListIsNotEmpty() {
-    await this.instance
+    const membersOfOutgoingList = await this.instance
       .$(SELECTORS.OUTGOING_REQUESTS_LIST)
-      .$(SELECTORS.FRIEND_INFO_USERNAME)
-      .waitForExist();
+      .$(SELECTORS.FRIEND_INFO_USERNAME);
+    await membersOfOutgoingList.waitForExist();
+  }
+
+  async validateRemoveOrDenyButtonIsShown() {
+    const removeOrDenyButton = await this.removeOrDenyFriendButton;
+    await removeOrDenyButton.waitForExist();
   }
 
   async waitUntilFriendIsRemoved(
     username: string,
-    timeoutUser: number = 60000
+    timeoutUser: number = 30000
   ) {
-    const element = await this.getNonExistingFriendByAriaLabel(username);
+    const nonExistingFriend = await this.getNonExistingFriendByAriaLabel(
+      username
+    );
     await this.instance
       .$(SELECTORS.FRIENDS_BODY)
-      .$(element)
+      .$(nonExistingFriend)
       .waitForExist({ timeout: timeoutUser, reverse: true });
   }
 
-  async waitUntilFriendRequestIsReceived(timeout: number = 90000) {
-    await this.acceptFriendRequestButton.waitForExist({ timeout: timeout });
+  async waitUntilFriendRequestIsReceived(timeout: number = 30000) {
+    const acceptFriendRequestButton = await this.acceptFriendRequestButton;
+    await acceptFriendRequestButton.waitForExist({ timeout: timeout });
   }
 
-  async waitUntilUserAcceptedFriendRequest(timeout: number = 90000) {
-    await this.chatWithFriendButton.waitForExist({ timeout: timeout });
+  async waitUntilUserAcceptedFriendRequest(timeout: number = 30000) {
+    const chatWithFriendButton = await this.chatWithFriendButton;
+    await chatWithFriendButton.waitForExist({ timeout: timeout });
   }
 
   async waitUntilUserIsInCurrentList(username: string) {
     const user = await this.getExistingFriendByAriaLabel(username);
-    await user.$(SELECTORS.FRIEND_INFO_USERNAME).waitForExist();
+    const userName = await user.$(SELECTORS.FRIEND_INFO_USERNAME);
+    await userName.waitForExist();
   }
 
   // Context Menu methods
 
   async clickOnContextMenuBlock() {
-    await this.contextMenuBlock.click();
+    const contextMenuBlock = await this.contextMenuBlock;
+    await contextMenuBlock.click();
   }
 
   async clickOnContextMenuChat() {
-    await this.contextMenuChat.click();
+    const contextMenuChat = await this.contextMenuChat;
+    await contextMenuChat.click();
   }
 
   async clickOnContextMenuFavoritesAdd() {
-    await this.contextMenuFavoritesAdd.click();
+    const contextMenuFavoritesAdd = await this.contextMenuFavoritesAdd;
+    await contextMenuFavoritesAdd.click();
   }
 
   async clickOnContextMenuFavoritesRemove() {
-    await this.contextMenuFavoritesRemove.click();
+    const contextMenuFavoritesRemove = await this.contextMenuFavoritesRemove;
+    await contextMenuFavoritesRemove.click();
   }
 
   async clickOnContextMenuIncomingAccept() {
-    await this.contextMenuIncomingAccept.click();
+    const contextMenuIncomingAccept = await this.contextMenuIncomingAccept;
+    await contextMenuIncomingAccept.click();
   }
 
   async clickOnContextMenuIncomingDeny() {
-    await this.contextMenuIncomingDeny.click();
+    const contextMenuIncomingDeny = await this.contextMenuIncomingDeny;
+    await contextMenuIncomingDeny.click();
   }
 
   async clickOnContextMenuOutgoingCancel() {
-    await this.contextMenuOutgoingCancel.click();
+    const contextMenuOutgoingCancel = await this.contextMenuOutgoingCancel;
+    await contextMenuOutgoingCancel.click();
   }
 
   async clickOnContextMenuRemove() {
-    await this.contextMenuRemove.click();
+    const contextMenuRemove = await this.contextMenuRemove;
+    await contextMenuRemove.click();
   }
 
   async clickOnContextMenuUnblock() {
-    await this.contextMenuUnblock.click();
+    const contextMenuUnblock = await this.contextMenuUnblock;
+    await contextMenuUnblock.click();
   }
 
   async openFriendContextMenu(name: string) {
@@ -747,6 +829,7 @@ export default class FriendsScreen extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(friendElement, this.executor);
     }
-    await this.contextMenu.waitForExist();
+    const contextMenu = await this.contextMenu;
+    await contextMenu.waitForExist();
   }
 }

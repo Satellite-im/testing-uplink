@@ -21,7 +21,8 @@ export default class AppScreen {
   }
 
   async waitForIsShown(isShown = true): Promise<boolean | void> {
-    return this.instance.$(this.locator).waitForDisplayed({
+    const locator = await this.instance.$(this.locator);
+    return await locator.waitForDisplayed({
       reverse: !isShown,
     });
   }
@@ -34,8 +35,9 @@ export default class AppScreen {
       ]);
       await robot.typeStringDelayed(textToAdd, 500);
     } else if (currentDriver === MACOS_DRIVER) {
-      await this.instance.$(locator).click();
-      await this.instance.$(locator).setValue(textToAdd);
+      const locator = await this.instance.$(this.locator);
+      await locator.click();
+      await locator.setValue(textToAdd);
     }
   }
 }

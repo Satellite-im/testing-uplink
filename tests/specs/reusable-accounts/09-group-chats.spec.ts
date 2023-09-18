@@ -23,13 +23,14 @@ let sidebarSearchFirstUser = new SidebarSearch(USER_A_INSTANCE);
 export default async function groupChatTests() {
   it("Chat User A - Create Group Chat button tooltip", async () => {
     await chatsSidebarFirstUser.hoverOnCreateGroupButton();
-    await chatsSidebarFirstUser.sidebarCreateGroupChatTooltip.waitForExist();
+    const tooltip = await chatsSidebarFirstUser.sidebarCreateGroupChatTooltip;
+    await tooltip.waitForExist();
   });
 
   it("Chat User A - Click on Create Group Chat and close modal", async () => {
     // Open modal to create group chat
     await chatsSidebarFirstUser.clickOnCreateGroupChat();
-    await createGroupFirstUser.createGroupChatSection.waitForExist();
+    await createGroupFirstUser.validateCreateGroupChatsIsShown();
 
     // Click again on create group chat and modal will be closed
     await chatsTopbarFirstUser.clickOnTopbar();
@@ -41,31 +42,42 @@ export default async function groupChatTests() {
   it("Chat User A - Create Group Chat Modal contents", async () => {
     // Open modal to create group chat
     await chatsSidebarFirstUser.clickOnCreateGroupChat();
-    await createGroupFirstUser.createGroupChatSection.waitForExist();
+    await createGroupFirstUser.validateCreateGroupChatsIsShown();
 
     // Validate contents
-    await createGroupFirstUser.groupNameInput.waitForExist();
-    await createGroupFirstUser.userSearchInput.waitForExist();
-    await createGroupFirstUser.friendsList.waitForExist();
-    await createGroupFirstUser.createGroupChatButton.waitForExist();
+    const createGroupChatButton =
+      await createGroupFirstUser.createGroupChatButton;
+    const friendsList = await createGroupFirstUser.friendsList;
+    const groupNameInput = await createGroupFirstUser.groupNameInput;
+    const userSearchInput = await createGroupFirstUser.userSearchInput;
+
+    await createGroupChatButton.waitForExist();
+    await friendsList.waitForExist();
+    await groupNameInput.waitForExist();
+    await userSearchInput.waitForExist();
   });
 
   it("Chat User A - Attempt to create group chat with alphanumeric chars in name", async () => {
     await createGroupFirstUser.typeOnGroupName("@");
-    await expect(
-      createGroupFirstUser.createGroupInputErrorText
-    ).toHaveTextContaining("Not allowed character(s): @");
-    await createGroupFirstUser.createGroupInputError.waitForExist();
+    const inputError = await createGroupFirstUser.createGroupInputError;
+    const inputErrorText = await createGroupFirstUser.createGroupInputErrorText;
+    await inputError.waitForExist();
+    await expect(inputErrorText).toHaveTextContaining(
+      "Not allowed character(s): @"
+    );
     await createGroupFirstUser.clearGroupNameInput();
   });
 
   // Skipping test that sometimes fail in CI because Appium randomly jumps when typing into a different input field
   xit("Chat User A - Attempt to create group chat with more than 64 chars in name", async () => {
     await createGroupFirstUser.typeLongerTextInGroupName();
-    await createGroupFirstUser.createGroupInputError.waitForExist();
-    await expect(
-      createGroupFirstUser.createGroupInputErrorText
-    ).toHaveTextContaining("Maximum of 64 characters exceeded.");
+    const inputError = await createGroupFirstUser.createGroupInputError;
+    const inputErrorText = await createGroupFirstUser.createGroupInputErrorText;
+
+    await inputError.waitForExist();
+    await expect(inputErrorText).toHaveTextContaining(
+      "Maximum of 64 characters exceeded."
+    );
     await createGroupFirstUser.clearGroupNameInput();
   });
 
@@ -93,13 +105,14 @@ export default async function groupChatTests() {
       "No messages sent yet, send one!"
     );
     await chatsSidebarFirstUser.goToSidebarGroupChat("Test");
-    await chatsTopbarFirstUser.topbar.waitForExist();
-    await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
-      "Test"
-    );
-    await expect(
-      chatsTopbarFirstUser.topbarUserStatusValue
-    ).toHaveTextContaining("Members (2)");
+
+    await chatsTopbarFirstUser.validateTopbarExists();
+
+    const topbarUserName = chatsTopbarFirstUser.topbarUserNameValue;
+    await expect(topbarUserName).toHaveTextContaining("Test");
+
+    const topbarUserStatus = chatsTopbarFirstUser.topbarUserStatusValue;
+    await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
     await chatsSidebarSecondUser.switchToOtherUserWindow();
   });
 
@@ -111,15 +124,17 @@ export default async function groupChatTests() {
       "No messages sent yet, send one!"
     );
     await chatsSidebarSecondUser.goToSidebarGroupChat("Test");
-    await chatsTopbarSecondUser.topbar.waitForExist();
-    await expect(
-      chatsTopbarSecondUser.topbarUserNameValue
-    ).toHaveTextContaining("Test");
-    await expect(
-      chatsTopbarSecondUser.topbarUserStatusValue
-    ).toHaveTextContaining("Members (2)");
+
+    await chatsTopbarSecondUser.validateTopbarExists();
+
+    const topbarUserName = await chatsTopbarSecondUser.topbarUserNameValue;
+    await expect(topbarUserName).toHaveTextContaining("Test");
+
+    const topbarUserStatus = await chatsTopbarSecondUser.topbarUserStatusValue;
+    await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
     await chatsSidebarSecondUser.goToSidebarChat("ChatUserA");
-    await chatsTopbarSecondUser.topbar.waitForExist();
+
+    await chatsTopbarSecondUser.validateTopbarExists();
   });
 
   it("Group Chat - User A sends a message in group chat", async () => {
@@ -144,7 +159,7 @@ export default async function groupChatTests() {
   it("Sidebar - Search string matching username and group and go to first result", async () => {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.goToFiles();
-    await filesScreenFirstUser.filesBody.waitForExist();
+    await filesScreenFirstUser.validateFilesScreenIsShown();
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Ch");
     const searchResultsUsers =
       await sidebarSearchFirstUser.getSidebarSearchResultsUsers();
@@ -160,7 +175,7 @@ export default async function groupChatTests() {
 
   it("Sidebar - Search Bar - Search for a string matching a single group chat", async () => {
     await chatsTopbarFirstUser.goToFiles();
-    await filesScreenFirstUser.filesBody.waitForExist();
+    await filesScreenFirstUser.validateFilesScreenIsShown();
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("Te");
     const searchResults =
       await sidebarSearchFirstUser.getSidebarSearchResultsGroupsMatchingName();
@@ -172,9 +187,9 @@ export default async function groupChatTests() {
     await chatsSidebarFirstUser.typeOnSidebarSearchInput("z");
     await chatsSidebarFirstUser.clearSidebarSearchInput();
     await chatsSidebarFirstUser.goToSidebarGroupChat("Test");
-    await chatsTopbarSecondUser.topbar.waitForExist();
-    await expect(
-      chatsTopbarSecondUser.topbarUserNameValue
-    ).toHaveTextContaining("Test");
+    await chatsTopbarSecondUser.validateTopbarExists();
+
+    const topbarUserName = await chatsTopbarSecondUser.topbarUserNameValue;
+    await expect(topbarUserName).toHaveTextContaining("Test");
   });
 }

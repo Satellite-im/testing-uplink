@@ -33,10 +33,11 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 export default async function sidebarChatsTests() {
   it("Chat User A - Unblock the other Chat User", async () => {
     // Unblock Chat User B and go to Friends List to send a new friend request
-    await friendsScreenFirstUser.friendsBody.waitForExist();
+    await friendsScreenFirstUser.validateFriendsScreenIsShown();
     await friendsScreenFirstUser.hoverOnBlockedListButton();
     await friendsScreenFirstUser.goToBlockedList();
-    await friendsScreenFirstUser.blockedList.waitForExist();
+
+    await friendsScreenFirstUser.validateBlockedListIsShown();
     await friendsScreenFirstUser.removeOrCancelUser("ChatUserB");
     await friendsScreenFirstUser.removeOrDenyFriendButton.waitForExist({
       reverse: true,
@@ -56,23 +57,23 @@ export default async function sidebarChatsTests() {
     // Validate that friend request was sent
     await friendsScreenFirstUser.hoverOnPendingListButton();
     await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.removeOrDenyFriendButton.waitForExist();
+    await friendsScreenFirstUser.validateRemoveOrDenyButtonIsShown();
     await friendsScreenSecondUser.switchToOtherUserWindow();
 
     // Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenSecondUser.goToFriends();
-    await friendsScreenSecondUser.friendsBody.waitForExist();
+    await friendsScreenSecondUser.validateFriendsScreenIsShown();
     await friendsScreenSecondUser.hoverOnPendingListButton();
     await friendsScreenSecondUser.goToPendingFriendsList();
-    await friendsScreenSecondUser.incomingRequestsList.waitForExist();
+    await friendsScreenSecondUser.validateIncomingListIsShown();
     await friendsScreenSecondUser.waitUntilFriendRequestIsReceived();
   });
 
   it("Chat User B - Validate button badge displays the number of incoming requests", async () => {
-    await friendsScreenSecondUser.friendsButtonBadge.waitForExist();
-    await expect(
-      friendsScreenSecondUser.friendsButtonBadgeText
-    ).toHaveTextContaining("1");
+    await friendsScreenSecondUser.validateFriendsButtonBadgeIsShown;
+    const friendsButtonBadgeText =
+      await friendsScreenSecondUser.getValueFromFriendsButtonBadge();
+    await expect(friendsButtonBadgeText).toHaveTextContaining("1");
   });
 
   it("Chat User B - Accept incoming request", async () => {
@@ -87,10 +88,10 @@ export default async function sidebarChatsTests() {
 
   it("Chat User B - Send message to User A", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-    await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
+    await friendsScreenSecondUser.validateChatWithFriendButtonIsShown();
     await friendsScreenSecondUser.hoverOnChatWithFriendButton("ChatUserA");
-    await friendsScreenSecondUser.chatWithFriendButton.click();
-    await chatsLayoutSecondUser.chatLayout.waitForExist();
+    await friendsScreenSecondUser.clickOnChatWithFriend();
+    await chatsLayoutSecondUser.validateChatLayoutIsShown();
 
     await chatsTopbarSecondUser.waitUntilRemoteUserIsOnline();
 
@@ -105,7 +106,7 @@ export default async function sidebarChatsTests() {
     // With User A - Wait until user B accepts the friend request
     await friendsScreenFirstUser.switchToOtherUserWindow();
     await friendsScreenFirstUser.goToAllFriendsList();
-    await friendsScreenFirstUser.friendsList.waitForExist();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     await friendsScreenFirstUser.waitUntilUserAcceptedFriendRequest();
   });
 
@@ -114,7 +115,7 @@ export default async function sidebarChatsTests() {
     await friendsScreenFirstUser.goToMainScreen();
 
     // Wait until message is received
-    await chatsSidebarFirstUser.waitForReceivingMessageOnSidebar(60000);
+    await chatsSidebarFirstUser.waitForReceivingMessageOnSidebar(30000);
   });
 
   it("Chat User A - Sidebar - Any active chats user has created should appear in Sidebar", async () => {
@@ -148,10 +149,10 @@ export default async function sidebarChatsTests() {
   it("Chat User A - Sidebar - Send a message to User B", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await welcomeScreenFirstUser.goToFriends();
-    await friendsScreenFirstUser.chatWithFriendButton.waitForExist();
+    await friendsScreenFirstUser.validateChatWithFriendButtonIsShown();
     await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserB");
-    await friendsScreenFirstUser.chatWithFriendButton.click();
-    await chatsLayoutFirstUser.chatLayout.waitForExist();
+    await friendsScreenFirstUser.clickOnChatWithFriend();
+    await chatsLayoutFirstUser.validateChatLayoutIsShown();
     await chatsTopbarFirstUser.waitUntilRemoteUserIsOnline();
 
     // Send message to Chat User B
@@ -166,14 +167,14 @@ export default async function sidebarChatsTests() {
   it("Chat User A - Sidebar - Persists between different sections of the app - Files Screen", async () => {
     // Validate on Files Screen that sidebar is displayed
     await chatsLayoutFirstUser.goToFiles();
-    await filesScreenFirstUser.filesBody.waitForExist();
-    await chatsSidebarFirstUser.sidebarChatsUser.waitForExist();
+    await filesScreenFirstUser.validateFilesScreenIsShown();
+    await chatsSidebarFirstUser.validateSidebarChatsIsShown();
   });
 
   it("Chat User A - Chats Sidebar is hidden when entering to Settings Screen", async () => {
     // Go to Settings Profile Screen
     await filesScreenFirstUser.goToSettings();
-    await settingsProfileFirstUser.settingsProfile.waitForExist();
+    await settingsProfileFirstUser.validateSettingsProfileIsShown();
 
     // Validate that Chats Sidebar is not displayed on Settings Screen
     await chatsSidebarFirstUser.sidebarChatsSection.waitForExist({
@@ -184,8 +185,8 @@ export default async function sidebarChatsTests() {
   it("Chat User A - Chats Sidebar is displayed again when opening Friends Screen", async () => {
     // Validate on Friends Screen that sidebar is displayed
     await settingsProfileFirstUser.goToFriends();
-    await friendsScreenFirstUser.friendsBody.waitForExist();
-    await chatsSidebarFirstUser.sidebarChatsUser.waitForExist();
+    await friendsScreenFirstUser.validateFriendsScreenIsShown();
+    await chatsSidebarFirstUser.validateSidebarChatsIsShown();
 
     // Return to chat
     await chatsSidebarFirstUser.goToSidebarFirstChat();
@@ -197,7 +198,7 @@ export default async function sidebarChatsTests() {
 
     // Click on back button and validate that Sidebar is displayed again
     await chatsLayoutFirstUser.clickOnBackButton();
-    await chatsSidebarFirstUser.sidebarChatsSection.waitForExist();
+    await chatsSidebarFirstUser.validateSidebarChatsIsShown();
     await chatsMessagesSecondUser.switchToOtherUserWindow();
 
     // With User B - Wait until message is received
@@ -221,28 +222,33 @@ export default async function sidebarChatsTests() {
 
   it("Chat User B - Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {
     // After user deletes chat conversation on remote side, chat is deleted on local side and Welcome Image displayed again
-    await welcomeScreenSecondUser.skeletalUser.waitForExist();
+    const skeletalUser = await welcomeScreenSecondUser.skeletalUser;
+    await skeletalUser.waitForExist();
     await welcomeScreenFirstUser.switchToOtherUserWindow();
   });
 
   it("Chat User A - Sidebar without messages sent displays No messages yet, sent one", async () => {
     await welcomeScreenFirstUser.goToFriends();
-    await friendsScreenFirstUser.chatWithFriendButton.waitForExist();
+    await friendsScreenFirstUser.validateChatWithFriendButtonIsShown();
     await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserB");
-    await friendsScreenFirstUser.chatWithFriendButton.click();
-    await chatsLayoutFirstUser.chatLayout.waitForExist();
-    await expect(
-      chatsSidebarFirstUser.sidebarChatsUserNameValue
-    ).toHaveTextContaining("ChatUserB");
-    await expect(
-      chatsSidebarFirstUser.sidebarChatsUserStatusValue
-    ).toHaveTextContaining("No messages sent yet, send one!");
+    await friendsScreenFirstUser.clickOnChatWithFriend();
+    await chatsLayoutFirstUser.validateChatLayoutIsShown();
+
+    const sidebarChatUsername =
+      await chatsSidebarFirstUser.sidebarChatsUserNameValue;
+    await expect(sidebarChatUsername).toHaveTextContaining("ChatUserB");
+
+    const sidebarChatStatus =
+      await chatsSidebarFirstUser.sidebarChatsUserStatusValue;
+    await expect(sidebarChatStatus).toHaveTextContaining(
+      "No messages sent yet, send one!"
+    );
   });
 
   it("Sidebar - Favorites - Add user to Favorites", async () => {
     // Add user to favorites
     await chatsTopbarFirstUser.addToFavorites();
-    await favoritesSidebarFirstUser.favorites.waitForExist();
+    await favoritesSidebarFirstUser.validateFavoritesAreShown();
 
     // Favorites Sidebar User bubble should be displayed with image and indicator online
     const favoritesImage =
@@ -258,10 +264,10 @@ export default async function sidebarChatsTests() {
   // Skipping test failing - needs research
   xit("Sidebar - Favorites - Context Menu - Chat with user", async () => {
     await favoritesSidebarFirstUser.goToFiles();
-    await filesScreenFirstUser.filesBody.waitForExist();
+    await filesScreenFirstUser.validateFilesScreenIsShown();
     await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("ChatUserB");
     await favoritesSidebarFirstUser.clickOnContextMenuFavoritesChat();
-    await chatsLayoutFirstUser.chatLayout.waitForExist();
+    await chatsLayoutFirstUser.validateChatLayoutIsShown();
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
     await chatsInputFirstUser.clearInputBar();
   });

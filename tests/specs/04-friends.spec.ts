@@ -28,54 +28,72 @@ export default async function friends() {
     await uplinkMainFirstUser.goToFriends();
 
     // Validate Pre Release Indicator is displayed
-    await friendsScreenFirstUser.prereleaseIndicator.waitForExist();
-    await expect(
-      friendsScreenFirstUser.prereleaseIndicatorText
-    ).toHaveTextContaining("Pre-release | Issues/Feedback");
+    const prereleaseIndicator =
+      await friendsScreenFirstUser.prereleaseIndicator;
+    await prereleaseIndicator.waitForExist();
+
+    const prereleaseIndicatorText =
+      await friendsScreenFirstUser.prereleaseIndicatorText;
+    await expect(prereleaseIndicatorText).toHaveTextContaining(
+      "Pre-release | Issues/Feedback"
+    );
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await friendsScreenFirstUser.chatsButton.waitForExist();
-    await friendsScreenFirstUser.filesButton.waitForExist();
-    await friendsScreenFirstUser.friendsButton.waitForExist();
-    await friendsScreenFirstUser.settingsButton.waitForExist();
+    const chatsButton = await friendsScreenFirstUser.chatsButton;
+    const filesButton = await friendsScreenFirstUser.filesButton;
+    const friendsButton = await friendsScreenFirstUser.friendsButton;
+    const settingsButton = await friendsScreenFirstUser.settingsButton;
+
+    await chatsButton.waitForExist();
+    await filesButton.waitForExist();
+    await friendsButton.waitForExist();
+    await settingsButton.waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await chatsSidebarFirstUser.chatSearchInput.waitForExist();
-    await chatsSidebarFirstUser.sidebar.waitForExist();
-    await chatsSidebarFirstUser.sidebarChildren.waitForExist();
-    await chatsSidebarFirstUser.sidebarSearch.waitForExist();
+    const chatsSearchInput = await chatsSidebarFirstUser.chatSearchInput;
+    const sidebar = await chatsSidebarFirstUser.sidebar;
+    const sidebarChildren = await chatsSidebarFirstUser.sidebarChildren;
+    const sidebarSearch = await chatsSidebarFirstUser.sidebarSearch;
+
+    await chatsSearchInput.waitForExist();
+    await sidebar.waitForExist();
+    await sidebarChildren.waitForExist();
+    await sidebarSearch.waitForExist();
   });
 
   it("Go to Friends Screen and validate elements displayed", async () => {
-    await friendsScreenFirstUser.friendsLayout.waitForExist();
-    await friendsScreenFirstUser.settingsButton.waitForExist();
+    await friendsScreenFirstUser.validateFriendsScreenIsShown();
   });
 
   it("Friends Screen - Displays a badge showing 4 pending requests on Navigation Bar ", async () => {
-    await friendsScreenFirstUser.buttonNavBarButtonBadge.waitForExist();
-    await expect(
-      friendsScreenFirstUser.buttonNavBarButtonBadgeText
-    ).toHaveTextContaining("4");
+    const buttonBadge = await friendsScreenFirstUser.buttonNavBarButtonBadge;
+    const buttonBadgeText =
+      await friendsScreenFirstUser.buttonNavBarButtonBadgeText;
+
+    await buttonBadge.waitForExist();
+    await expect(buttonBadgeText).toHaveTextContaining("4");
   });
 
   it("Friends Screen - Displays a badge showing 4 pending requests on Pending Friends Button", async () => {
-    await friendsScreenFirstUser.friendsButtonBadge.waitForExist();
-    await expect(
-      friendsScreenFirstUser.friendsButtonBadgeText
-    ).toHaveTextContaining("4");
+    const buttonBadge = await friendsScreenFirstUser.friendsButtonBadge;
+    const buttonBadgeText = await friendsScreenFirstUser.friendsButtonBadgeText;
+
+    await buttonBadge.waitForExist();
+    await expect(buttonBadgeText).toHaveTextContaining("4");
   });
 
   it("User can type on user search input bar", async () => {
     await friendsScreenFirstUser.enterFriendDidKey("Hello");
-    await expect(friendsScreenFirstUser.addSomeoneInput).toHaveTextContaining(
-      "Hello"
-    );
+
+    const addSomeoneInput = await friendsScreenFirstUser.addSomeoneInput;
+    await expect(addSomeoneInput).toHaveTextContaining("Hello");
   });
 
   it("Add Friend Input - Error is displayed when number of chars provided is less than expected", async () => {
-    await expect(friendsScreenFirstUser.inputErrorText).toHaveTextContaining(
+    const inputError = await friendsScreenFirstUser.inputErrorText;
+    await expect(inputError).toHaveTextContaining(
       "Please enter at least 9 characters."
     );
     await friendsScreenFirstUser.deleteAddFriendInput();
@@ -83,7 +101,9 @@ export default async function friends() {
 
   it("Add Friend Input - Error is displayed when non-alphanumeric chars are provided", async () => {
     await friendsScreenFirstUser.enterFriendDidKey("%%%%%%%%%%");
-    await expect(friendsScreenFirstUser.inputErrorText).toHaveTextContaining(
+
+    const inputError = await friendsScreenFirstUser.inputErrorText;
+    await expect(inputError).toHaveTextContaining(
       "Not allowed character(s): %"
     );
     await friendsScreenFirstUser.deleteAddFriendInput();
@@ -91,9 +111,9 @@ export default async function friends() {
 
   it("Add Friend Input - Error is displayed when spaces are provided", async () => {
     await friendsScreenFirstUser.enterFriendDidKey("123456789             ");
-    await expect(friendsScreenFirstUser.inputErrorText).toHaveTextContaining(
-      "Spaces are not allowed."
-    );
+
+    const inputError = await friendsScreenFirstUser.inputErrorText;
+    await expect(inputError).toHaveTextContaining("Spaces are not allowed.");
     await friendsScreenFirstUser.deleteAddFriendInput();
   });
 
@@ -124,7 +144,9 @@ export default async function friends() {
     await friendsScreenFirstUser.enterFriendDidKey(
       "did:key:12345678901234567890123456789012345678901234567890"
     );
-    await expect(friendsScreenFirstUser.inputErrorText).toHaveTextContaining(
+
+    const inputError = await friendsScreenFirstUser.inputErrorText;
+    await expect(inputError).toHaveTextContaining(
       "Maximum of 56 characters exceeded."
     );
     await friendsScreenFirstUser.deleteAddFriendInput();
@@ -154,17 +176,17 @@ export default async function friends() {
 
   it("Switch to Pending Friends view and validate elements displayed", async () => {
     await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.incomingRequestsList.waitForExist();
+    await friendsScreenFirstUser.validateIncomingListIsShown();
   });
 
   it("Switch to Blocked Friends view and validate elements displayed", async () => {
     await friendsScreenFirstUser.goToBlockedList();
-    await friendsScreenFirstUser.blockedList.waitForExist();
+    await friendsScreenFirstUser.validateBlockedListIsShown();
   });
 
   it("Switch to All Friends view and validate elements displayed", async () => {
     await friendsScreenFirstUser.goToAllFriendsList();
-    await friendsScreenFirstUser.friendsList.waitForExist();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
   });
 
   it("Favorites - Open Chat conversations with multiple users on Sidebar", async () => {
@@ -174,13 +196,13 @@ export default async function friends() {
 
       // Select first option "Chat" from Context Menu and validate Chat is displayed
       await friendsScreenFirstUser.clickOnContextMenuChat();
-      await chatsLayoutFirstUser.chatLayout.waitForExist();
+      await chatsLayoutFirstUser.validateChatLayoutIsShown();
       await chatsInputFirstUser.typeMessageOnInput("Testing...");
       await chatsInputFirstUser.clearInputBar();
 
       // Go back to Friends Screen
       await chatsLayoutFirstUser.goToFriends();
-      await friendsScreenFirstUser.friendsBody.waitForExist();
+      await friendsScreenFirstUser.validateFriendsScreenIsShown();
     }
   });
 
@@ -196,7 +218,8 @@ export default async function friends() {
 
   it("Favorites - Validate Sidebar Favorites is displayed after adding users to favorites", async () => {
     // Validate that Favorites Sidebar is displayed
-    await favoritesSidebarFirstUser.slimbar.waitForExist();
+    const slimbar = await favoritesSidebarFirstUser.slimbar;
+    await slimbar.waitForExist();
   });
 
   it("Favorites - Remove all users from Favorites", async () => {
@@ -219,14 +242,14 @@ export default async function friends() {
     await friendsScreenFirstUser.chatWithFriend(friendName);
 
     //Validate Chat Screen is displayed and go back to Friends Screen
-    await chatsLayoutFirstUser.chatLayout.waitForExist();
+    await chatsLayoutFirstUser.validateChatLayoutIsShown();
   });
 
   it("Type a message and return to Friends Screen", async () => {
     await chatsInputFirstUser.typeMessageOnInput("Testing...");
     await chatsInputFirstUser.clearInputBar();
     await chatsLayoutFirstUser.goToFriends();
-    await friendsScreenFirstUser.friendsBody.waitForExist();
+    await friendsScreenFirstUser.validateFriendsScreenIsShown();
   });
 
   it("Validate tooltips for Unfriend and Block buttons are displayed", async () => {
@@ -415,7 +438,7 @@ export default async function friends() {
 
     // Go back to Friends Screen
     await chatsLayoutFirstUser.goToFriends();
-    await friendsScreenFirstUser.friendsBody.waitForExist();
+    await friendsScreenFirstUser.validateFriendsScreenIsShown();
   });
 
   it("Context Menu - Add friend to Favorites and contents displayed on Favorites Sidebar", async () => {
@@ -427,7 +450,7 @@ export default async function friends() {
     await friendsScreenFirstUser.clickOnContextMenuFavoritesAdd();
 
     // Validate that username and user image bubble is now displayed on Favorites Sidebar
-    await favoritesSidebarFirstUser.favorites.waitForExist();
+    await favoritesSidebarFirstUser.validateFavoritesAreShown();
 
     // Favorites Sidebar User bubble should be displayed with image and indicator offline
     const favoritesImage =

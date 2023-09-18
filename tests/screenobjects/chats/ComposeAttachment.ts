@@ -92,10 +92,12 @@ export default class ComposeAttachments extends UplinkMainScreen {
   }
 
   async deleteFileOnComposeAttachment() {
-    await this.composeAttachmentsButton.click();
+    const composeAttachmentsButton = await this.composeAttachmentsButton;
+    await composeAttachmentsButton.click();
   }
 
   async validateAttachmentIsAdded() {
-    await this.composeAttachmentsFileEmbed.waitForExist();
+    const composeAttachmentsFileEmbed = await this.composeAttachmentsFileEmbed;
+    await composeAttachmentsFileEmbed.waitForExist();
   }
 }

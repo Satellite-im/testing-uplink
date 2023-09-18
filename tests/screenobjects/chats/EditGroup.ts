@@ -211,35 +211,52 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async clearGroupNameInput() {
-    await this.groupNameInput.setValue("");
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.setValue("");
   }
 
   async clearSearchUserInput() {
-    await this.userInput.setValue("");
+    const userInput = await this.userInput;
+    await userInput.setValue("");
   }
 
   async clickOnAddButton() {
-    await this.addParticipantButton.click();
+    const addParticipantButton = await this.addParticipantButton;
+    await addParticipantButton.click();
   }
 
   async clickOnAddMembers() {
-    await this.addMembers.click();
+    const addMembers = await this.addMembers;
+    await addMembers.click();
   }
 
   async clickOnCurrentMembers() {
-    await this.currentMembers.click();
+    const currentMembers = await this.currentMembers;
+    await currentMembers.click();
   }
 
   async clickOnFirstAddButton() {
-    await this.instance.$(SELECTORS.ADD_PARTICIPANT_BUTTON).click();
+    const firstAddButton = await this.instance.$(
+      SELECTORS.ADD_PARTICIPANT_BUTTON
+    );
+    await firstAddButton.click();
   }
 
   async clickOnFirstRemoveButton() {
-    await this.instance.$(SELECTORS.REMOVE_PARTICIPANT_BUTTON).click();
+    const removeParticipantButton = await this.instance.$(
+      SELECTORS.REMOVE_PARTICIPANT_BUTTON
+    );
+    await removeParticipantButton.click();
+  }
+
+  async clickOnGroupNameInput() {
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.click();
   }
 
   async clickOnRemoveButton() {
-    await this.removeParticipantButton.click();
+    const removeParticipantButton = await this.removeParticipantButton;
+    await removeParticipantButton.click();
   }
 
   async getParticipantsList() {
@@ -251,9 +268,9 @@ export default class EditGroup extends UplinkMainScreen {
     for (let participant of participants) {
       const participantName = await participant
         .$(SELECTORS.PARTICIPANT_USER_NAME)
-        .$(SELECTORS.PARTICIPANT_USER_NAME_TEXT)
-        .getText();
-      results.push(participantName);
+        .$(SELECTORS.PARTICIPANT_USER_NAME_TEXT);
+      const participantNameText = await participantName.getText();
+      results.push(participantNameText);
     }
     return results;
   }
@@ -341,12 +358,24 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async typeOnGroupNameInput(name: string) {
-    await this.groupNameInput.click();
-    await this.groupNameInput.setValue(name);
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.click();
+    await groupNameInput.setValue(name);
   }
 
   async typeOnSearchUserInput(username: string) {
-    await this.userInput.click();
-    await this.userInput.setValue(username);
+    const userInput = await this.userInput;
+    await userInput.click();
+    await userInput.setValue(username);
+  }
+
+  async validateEditGroupIsShown() {
+    const editGroupSection = await this.editGroupSection;
+    await editGroupSection.waitForExist();
+  }
+
+  async validateNothingHereIsDisplayed() {
+    const nothingHereText = await this.nothingHereText;
+    await nothingHereText.waitForExist();
   }
 }

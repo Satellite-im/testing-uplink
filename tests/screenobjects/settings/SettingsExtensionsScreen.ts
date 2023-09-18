@@ -205,48 +205,55 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
   async clickOnEmojiSelectorCheckbox() {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.emojiSelectorCheckbox.click();
+      const emojiSelectorCheckbox = await this.emojiSelectorCheckbox;
+      await emojiSelectorCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      const element = await this.emojiSelectorCheckbox;
-      await clickOnSwitchMacOS(element, this.executor);
+      const emojiSelectorCheckbox = await this.emojiSelectorCheckbox;
+      await clickOnSwitchMacOS(emojiSelectorCheckbox, this.executor);
     }
   }
 
   async clickOnEnableAutomatically() {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.enableAutomaticallyCheckbox.click();
+      const enableAutomaticallyCheckbox = await this
+        .enableAutomaticallyCheckbox;
+      await enableAutomaticallyCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      const element = await this.enableAutomaticallyCheckbox;
-      await clickOnSwitchMacOS(element, this.executor);
+      const enableAutomaticallyCheckbox = await this
+        .enableAutomaticallyCheckbox;
+      await clickOnSwitchMacOS(enableAutomaticallyCheckbox, this.executor);
     }
   }
 
   async clickOnExploreButton() {
-    await this.exploreButton.click();
+    const exploreButton = await this.exploreButton;
+    await exploreButton.click();
   }
 
   async clickOnExtensionsSettingsButton() {
-    await this.extensionsSettingsButton.click();
+    const extensionsSettingsButton = await this.extensionsSettingsButton;
+    await extensionsSettingsButton.click();
   }
 
   async clickOnInstalledButton() {
-    await this.installedButton.click();
+    const installedButton = await this.installedButton;
+    await installedButton.click();
   }
 
   async clickOnOpenExtensionsFolder() {
-    await this.openExtensionsFolderButton.click();
+    const openExtensionsFolderButton = await this.openExtensionsFolderButton;
+    await openExtensionsFolderButton.click();
   }
 
   async getPlaceholderFromExtensionsInput() {
     const currentDriver = await this.getCurrentDriver();
+    const extensionsSearchInput = await this.extensionsSearchInput;
     let result;
     if (currentDriver === WINDOWS_DRIVER) {
-      result = await this.extensionsSearchInput.getAttribute("HelpText");
+      result = await extensionsSearchInput.getAttribute("HelpText");
     } else {
-      result = await this.extensionsSearchInput.getAttribute(
-        "placeholderValue"
-      );
+      result = await extensionsSearchInput.getAttribute("placeholderValue");
     }
     return result.toString();
   }

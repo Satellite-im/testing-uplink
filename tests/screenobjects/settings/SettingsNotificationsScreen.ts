@@ -157,17 +157,20 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
   async clickOnEnabledNotifications() {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.enabledNotificationsCheckbox.click();
+      const enableNotifications = await this.enabledNotificationsCheckbox;
+      await enableNotifications.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      const locator = await this.enabledNotificationsCheckbox;
-      await clickOnSwitchMacOS(locator, this.executor);
+      const enableNotifications = await this.enabledNotificationsCheckbox;
+      await clickOnSwitchMacOS(enableNotifications, this.executor);
     }
   }
 
   async clickOnFriendsNotifications() {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.friendsNotificationsCheckbox.click();
+      const friendsNotificationsCheckbox = await this
+        .friendsNotificationsCheckbox;
+      await friendsNotificationsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
       const locator = await this.friendsNotificationsCheckbox;
       await clickOnSwitchMacOS(locator, this.executor);
@@ -177,7 +180,9 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
   async clickOnMessagesNotifications() {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.messagesNotificationsCheckbox.click();
+      const messagesNotificationsCheckbox = await this
+        .messagesNotificationsCheckbox;
+      await messagesNotificationsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
       const locator = await this.messagesNotificationsCheckbox;
       await clickOnSwitchMacOS(locator, this.executor);
@@ -187,10 +192,17 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
   async clickOnSettingsNotifications() {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.settingsNotificationsCheckbox.click();
+      const settingsNotificationsCheckbox = await this
+        .settingsNotificationsCheckbox;
+      await settingsNotificationsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
       const locator = await this.settingsNotificationsCheckbox;
       await clickOnSwitchMacOS(locator, this.executor);
     }
+  }
+
+  async validateSettingsNotificationsIsShown() {
+    const settingsNotifications = await this.settingsNotifications;
+    await settingsNotifications.waitForExist();
   }
 }

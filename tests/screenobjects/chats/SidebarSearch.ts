@@ -303,9 +303,9 @@ export default class SidebarSearch extends UplinkMainScreen {
     for (let item of list) {
       const result = await item
         .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
-        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT)
-        .getText();
-      results.push(result);
+        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT);
+      const resultText = await result.getText();
+      results.push(resultText);
     }
     return results;
   }
@@ -317,14 +317,14 @@ export default class SidebarSearch extends UplinkMainScreen {
       const resultHighlighted = await item
         .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
         .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS)
-        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT)
-        .getText();
+        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT);
+      const resultHighlightedText = await resultHighlighted.getText();
       const remainingResult = await item
         .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
         .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS)
-        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT)
-        .getText();
-      results.push(resultHighlighted + remainingResult);
+        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT);
+      const remainingResultText = await remainingResult.getText();
+      results.push(resultHighlightedText + remainingResultText);
     }
     return results;
   }
@@ -336,14 +336,14 @@ export default class SidebarSearch extends UplinkMainScreen {
       const resultHighlighted = await item
         .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
         .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS)
-        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT)
-        .getText();
+        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT);
+      const resultHighlightedText = await resultHighlighted.getText();
       const remainingResult = await item
         .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
         .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS)
-        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT)
-        .getText();
-      results.push(resultHighlighted + remainingResult);
+        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT);
+      const remainingResultText = await remainingResult.getText();
+      results.push(resultHighlightedText + remainingResultText);
     }
     return results;
   }
@@ -357,14 +357,14 @@ export default class SidebarSearch extends UplinkMainScreen {
       const resultHighlighted = await item
         .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
         .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS)
-        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT)
-        .getText();
+        .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT);
+      const resultHighlightedText = await resultHighlighted.getText();
       const remainingResult = await item
         .$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
         .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS)
-        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT)
-        .getText();
-      results.push(resultHighlighted + remainingResult);
+        .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT);
+      const remainingResultText = await remainingResult.getText();
+      results.push(resultHighlightedText + remainingResultText);
     }
     return results;
   }

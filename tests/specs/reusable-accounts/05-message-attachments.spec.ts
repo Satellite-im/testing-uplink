@@ -23,15 +23,15 @@ export default async function messageAttachmentsTests() {
     );
 
     // Validate contents on Compose Attachments are displayed
-    await chatsAttachmentSecondUser.composeAttachmentsFileEmbed.waitForDisplayed(
-      {
-        timeout: 30000,
-      }
-    );
-    await chatsAttachmentSecondUser.composeAttachmentsFileIcon.waitForExist();
-    await chatsAttachmentSecondUser.composeAttachmentsFileInfo.waitForExist();
+    const fileEmbed =
+      await chatsAttachmentSecondUser.composeAttachmentsFileEmbed;
+    const fileIcon = await chatsAttachmentSecondUser.composeAttachmentsFileIcon;
+    const fileName =
+      await chatsAttachmentSecondUser.composeAttachmentsFileNameText;
 
-    await chatsAttachmentSecondUser.composeAttachmentsFileNameText.waitForExist();
+    await fileEmbed.waitForExist();
+    await fileIcon.waitForExist();
+    await fileName.waitForExist();
   });
 
   it("Chat User B - Delete attachment before sending the message", async () => {
@@ -47,7 +47,9 @@ export default async function messageAttachmentsTests() {
     );
 
     // Validate contents on Compose Attachments are displayed
-    await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForExist();
+    const fileEmbed =
+      await chatsAttachmentFirstUser.composeAttachmentsFileEmbed;
+    await fileEmbed.waitForExist();
 
     // Type a text message and send it
     await chatsInputFirstUser.typeMessageOnInput("Attached");
@@ -56,7 +58,10 @@ export default async function messageAttachmentsTests() {
   });
 
   it("Chat User A - Message Sent With Attachment - Text contents", async () => {
-    await chatsMessagesFirstUser.chatMessageFileEmbedLocal.waitForExist();
+    const fileEmbedLocal =
+      await chatsMessagesFirstUser.chatMessageFileEmbedLocal;
+    await fileEmbedLocal.waitForExist();
+
     // Validate text from message containing attachment
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
     await expect(textMessage).toHaveTextContaining("Attached");
@@ -89,7 +94,9 @@ export default async function messageAttachmentsTests() {
 
     // With User B - Validate that message with attachment was received
     await chatsInputSecondUser.clickOnInputBar();
-    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForExist();
+    const fileEmbedRemote =
+      await chatsMessagesSecondUser.chatMessageFileEmbedRemote;
+    await fileEmbedRemote.waitForExist();
   });
 
   it("Chat User B - Received Message with Attachment - Text Message contents", async () => {

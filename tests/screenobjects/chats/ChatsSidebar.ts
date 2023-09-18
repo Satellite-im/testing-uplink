@@ -303,13 +303,13 @@ export default class ChatsSidebar extends UplinkMainScreen {
   // Validations or assertions
 
   async validateLastMessageDisplayed(message: string) {
-    await expect(this.sidebarChatsUserStatusValue).toHaveTextContaining(
-      message
-    );
+    const sidebarStatusValue = await this.sidebarChatsUserStatusValue;
+    await expect(sidebarStatusValue).toHaveTextContaining(message);
   }
 
   async validateLastMessageTimeAgo() {
-    await expect(this.sidebarChatsUserBadgeTimeAgoValue).toHaveTextContaining(
+    const timeAgo = await this.sidebarChatsUserBadgeTimeAgoValue;
+    await expect(timeAgo).toHaveTextContaining(
       /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
   }
@@ -335,13 +335,18 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateNumberOfUnreadMessages(badgeNumber: string) {
-    await expect(this.sidebarChatsUserBadgeNumberValue).toHaveTextContaining(
-      badgeNumber
-    );
+    const unreadMessages = await this.sidebarChatsUserBadgeNumberValue;
+    await expect(unreadMessages).toHaveTextContaining(badgeNumber);
   }
 
   async validateUsernameDisplayed(username: string) {
-    await expect(this.sidebarChatsUserNameValue).toHaveTextContaining(username);
+    const usernameDisplayed = await this.sidebarChatsUserNameValue;
+    await expect(usernameDisplayed).toHaveTextContaining(username);
+  }
+
+  async validateSidebarChatsIsShown() {
+    const sidebarChats = await this.sidebarChatsUser;
+    await sidebarChats.waitForExist();
   }
 
   // Waiting methods
@@ -379,7 +384,8 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async waitForGroupToBeCreated(groupname: string) {
     const element = await this.getExistingElementByAriaLabel(groupname);
-    await this.instance.$(SELECTORS.SIDEBAR).$(element).waitForExist();
+    const sidebarGroup = await this.instance.$(SELECTORS.SIDEBAR).$(element);
+    await sidebarGroup.waitForExist();
   }
 
   async waitForGroupToBeDeleted(groupname: string) {
@@ -510,18 +516,20 @@ export default class ChatsSidebar extends UplinkMainScreen {
   // Group Chats Methods
 
   async clickOnCreateGroupChat() {
-    await this.sidebarCreateGroupChat.click();
+    const createGroupButton = await this.sidebarCreateGroupChat;
+    await createGroupButton.click();
   }
 
   async hoverOnCreateGroupButton() {
-    const element = await this.sidebarCreateGroupChat;
-    await this.hoverOnElement(element);
+    const createGroupButton = await this.sidebarCreateGroupChat;
+    await this.hoverOnElement(createGroupButton);
   }
 
   // Search bar methods
 
   async clearSidebarSearchInput() {
-    await this.chatSearchInput.clearValue();
+    const chatSearchInput = await this.chatSearchInput;
+    await chatSearchInput.clearValue();
   }
 
   async typeOnSidebarSearchInput(text: string) {

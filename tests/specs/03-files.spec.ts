@@ -14,56 +14,83 @@ export default async function files() {
     await filesScreenFirstUser.waitForIsShown(true);
 
     // Validate Pre Release Indicator
-    await filesScreenFirstUser.prereleaseIndicator.waitForExist();
-    await expect(
-      filesScreenFirstUser.prereleaseIndicatorText
-    ).toHaveTextContaining("Pre-release | Issues/Feedback");
+    const prereleaseIndicator = await filesScreenFirstUser.prereleaseIndicator;
+    const prereleaseIndicatorText =
+      await filesScreenFirstUser.prereleaseIndicatorText;
+    await prereleaseIndicator.waitForExist();
+    await expect(prereleaseIndicatorText).toHaveTextContaining(
+      "Pre-release | Issues/Feedback"
+    );
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await filesScreenFirstUser.chatsButton.waitForExist();
-    await filesScreenFirstUser.filesButton.waitForExist();
-    await filesScreenFirstUser.friendsButton.waitForExist();
-    await filesScreenFirstUser.settingsButton.waitForExist();
+    const chatsButton = await filesScreenFirstUser.chatsButton;
+    const filesButton = await filesScreenFirstUser.filesButton;
+    const friendsButton = await filesScreenFirstUser.friendsButton;
+    const settingsButton = await filesScreenFirstUser.settingsButton;
+
+    await chatsButton.waitForExist();
+    await filesButton.waitForExist();
+    await friendsButton.waitForExist();
+    await settingsButton.waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await chatsSidebarFirstUser.chatSearchInput.waitForExist();
-    await chatsSidebarFirstUser.sidebar.waitForExist();
+    const sidebar = await chatsSidebarFirstUser.sidebar;
+    const chatSearchInput = await chatsSidebarFirstUser.chatSearchInput;
+
+    await sidebar.waitForExist();
+    await chatSearchInput.waitForExist();
   });
 
   it("Validate Files Info is displayed in screen", async () => {
-    await filesScreenFirstUser.filesInfo.waitForExist();
-    await filesScreenFirstUser.filesInfoCurrentSizeLabel.waitForExist();
-    await filesScreenFirstUser.filesInfoCurrentSizeValue.waitForExist();
-    await filesScreenFirstUser.filesInfoMaxSizeLabel.waitForExist();
-    await filesScreenFirstUser.filesInfoMaxSizeValue.waitForExist();
+    const filesInfo = await filesScreenFirstUser.filesInfo;
+    const currentSizeLabel =
+      await filesScreenFirstUser.filesInfoCurrentSizeLabel;
+    const currentSizeValue =
+      await filesScreenFirstUser.filesInfoCurrentSizeValue;
+    const maxSizeLabel = await filesScreenFirstUser.filesInfoMaxSizeLabel;
+    const maxSizeValue = await filesScreenFirstUser.filesInfoMaxSizeValue;
+
+    await filesInfo.waitForExist();
+    await currentSizeLabel.waitForExist();
+    await currentSizeValue.waitForExist();
+    await maxSizeLabel.waitForExist();
+    await maxSizeValue.waitForExist();
   });
 
   it("Validate Files Breadcrumbs are displayed in screen", async () => {
-    await expect(filesScreenFirstUser.filesBreadcrumbs).toBeDisplayed();
-    await expect(filesScreenFirstUser.crumb).toBeDisplayed();
+    const filesBreadcrumbs = await filesScreenFirstUser.filesBreadcrumbs;
+    const crumb = await filesScreenFirstUser.crumb;
+    await expect(filesBreadcrumbs).toBeDisplayed();
+    await expect(crumb).toBeDisplayed();
   });
 
   it("Validate add folder and file buttons are displayed in screen", async () => {
-    await filesScreenFirstUser.addFolderButton.waitForExist();
-    await filesScreenFirstUser.uploadFileButton.waitForExist();
+    const addFolderButton = await filesScreenFirstUser.addFolderButton;
+    const uploadFileButton = await filesScreenFirstUser.uploadFileButton;
+
+    await addFolderButton.waitForExist();
+    await uploadFileButton.waitForExist();
   });
 
   it("Validate tooltips for add folder or file buttons are displayed", async () => {
     // Validate New Folder button tooltip
     await filesScreenFirstUser.hoverOnNewFolderButton();
-    await filesScreenFirstUser.addFolderTooltip.waitForExist();
-    await expect(
-      filesScreenFirstUser.addFolderTooltipText
-    ).toHaveTextContaining("New Folder");
+
+    const addFolderTooltip = await filesScreenFirstUser.addFolderTooltip;
+    const addFolderTooltipText =
+      await filesScreenFirstUser.addFolderTooltipText;
+    await addFolderTooltip.waitForExist();
+    await expect(addFolderTooltipText).toHaveTextContaining("New Folder");
 
     // Validate Upload button tooltip
     await filesScreenFirstUser.hoverOnUploadButton();
-    await filesScreenFirstUser.uploadFileTooltip.waitForExist();
-    await expect(
-      filesScreenFirstUser.uploadFileTooltipText
-    ).toHaveTextContaining("Upload");
+    const uploadFileTooltip = await filesScreenFirstUser.uploadFileTooltip;
+    const uploadFileTooltipText =
+      await filesScreenFirstUser.uploadFileTooltipText;
+    await uploadFileTooltip.waitForExist();
+    await expect(uploadFileTooltipText).toHaveTextContaining("Upload");
   });
 
   it("Create a new folder and enter to it", async () => {
@@ -164,18 +191,21 @@ export default async function files() {
   });
 
   it("Files - File Size Indicators without files show 1 GB Max and 0 bytes as current space", async () => {
-    await expect(
-      filesScreenFirstUser.filesInfoMaxSizeLabel
-    ).toHaveTextContaining("Max Size:");
-    await expect(
-      filesScreenFirstUser.filesInfoMaxSizeValue
-    ).toHaveTextContaining("1 GB");
-    await expect(
-      filesScreenFirstUser.filesInfoCurrentSizeLabel
-    ).toHaveTextContaining("Current Space:");
-    await expect(
-      filesScreenFirstUser.filesInfoCurrentSizeValue
-    ).toHaveTextContaining("0 bytes");
+    const filesInfoMaxSizeLabel =
+      await filesScreenFirstUser.filesInfoMaxSizeLabel;
+    const filesInfoMaxSizeValue =
+      await filesScreenFirstUser.filesInfoMaxSizeValue;
+    const filesInfoCurrentSizeLabel =
+      await filesScreenFirstUser.filesInfoCurrentSizeLabel;
+    const filesInfoCurrentSizeValue =
+      await filesScreenFirstUser.filesInfoCurrentSizeValue;
+
+    await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
+    await expect(filesInfoMaxSizeValue).toHaveTextContaining("1 GB");
+    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining(
+      "Current Space:"
+    );
+    await expect(filesInfoCurrentSizeValue).toHaveTextContaining("0 bytes");
   });
 
   it("Files - File Size Indicators after uploading a file are updated", async () => {
@@ -191,18 +221,20 @@ export default async function files() {
     await filesScreenFirstUser.validateFileOrFolderExist("app-macos.zip");
 
     // Finally, ensure that file size indicators are updated
-    await expect(
-      filesScreenFirstUser.filesInfoMaxSizeLabel
-    ).toHaveTextContaining("Max Size:");
-    await expect(
-      filesScreenFirstUser.filesInfoMaxSizeValue
-    ).toHaveTextContaining("1 GB");
-    await expect(
-      filesScreenFirstUser.filesInfoCurrentSizeLabel
-    ).toHaveTextContaining("Current Space:");
-    await expect(
-      filesScreenFirstUser.filesInfoCurrentSizeValue
-    ).toHaveTextContaining("13.2 MB");
+    const filesInfoMaxSizeLabel =
+      await filesScreenFirstUser.filesInfoMaxSizeLabel;
+    const filesInfoMaxSizeValue =
+      await filesScreenFirstUser.filesInfoMaxSizeValue;
+    const filesInfoCurrentSizeLabel =
+      await filesScreenFirstUser.filesInfoCurrentSizeLabel;
+    const filesInfoCurrentSizeValue =
+      await filesScreenFirstUser.filesInfoCurrentSizeValue;
+    await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
+    await expect(filesInfoMaxSizeValue).toHaveTextContaining("1 GB");
+    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining(
+      "Current Space:"
+    );
+    await expect(filesInfoCurrentSizeValue).toHaveTextContaining("13.2 MB");
   });
 
   it("Files - File is renamed when uploading a file with existing file name", async () => {
@@ -237,8 +269,10 @@ export default async function files() {
     await filesScreenFirstUser.createEmptyNameFolder();
 
     // Validate that error message is displayed
-    await filesScreenFirstUser.inputError.waitForExist();
-    await expect(filesScreenFirstUser.inputErrorText).toHaveTextContaining(
+    const inputError = await filesScreenFirstUser.inputError;
+    const inputErrorText = await filesScreenFirstUser.inputErrorText;
+    await inputError.waitForExist();
+    await expect(inputErrorText).toHaveTextContaining(
       "Please enter at least 1 character."
     );
 

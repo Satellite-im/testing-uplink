@@ -228,43 +228,49 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnClearCache() {
-    await this.clearCacheButton.click();
+    const clearCacheButton = await this.clearCacheButton;
+    await clearCacheButton.click();
   }
 
   async clickOnCompressAndDownloadCache() {
-    await this.compressAndDownloadCacheButton.click();
+    const compressAndDownloadCacheButton = await this
+      .compressAndDownloadCacheButton;
+    await compressAndDownloadCacheButton.click();
   }
 
   async clickOnDeveloperMode() {
     const currentDriver = await this.getCurrentDriver();
+    const developerModeCheckbox = await this.developerModeCheckbox;
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.developerModeCheckbox.click();
+      await developerModeCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      const element = await this.developerModeCheckbox;
-      await clickOnSwitchMacOS(element, this.executor);
+      await clickOnSwitchMacOS(developerModeCheckbox, this.executor);
     }
   }
 
   async clickOnOpenCache() {
-    await this.openCacheButton.click();
+    const openCacheButton = await this.openCacheButton;
+    await openCacheButton.click();
   }
 
   async clickOnPrintState() {
-    await this.printStateButton.click();
+    const printStateButton = await this.printStateButton;
+    await printStateButton.click();
   }
 
   async clickOnSaveLogs() {
     const currentDriver = await this.getCurrentDriver();
+    const saveLogsCheckbox = await this.saveLogsCheckbox;
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.saveLogsCheckbox.click();
+      await saveLogsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      const element = await this.saveLogsCheckbox;
-      await clickOnSwitchMacOS(element, this.executor);
+      await clickOnSwitchMacOS(saveLogsCheckbox, this.executor);
     }
   }
 
   async clickOnTestNotifications() {
-    await this.testNotificationButton.click();
+    const testNotificationButton = await this.testNotificationButton;
+    await testNotificationButton.click();
   }
 
   async returnToApp() {

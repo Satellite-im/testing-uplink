@@ -254,21 +254,19 @@ export default class Messages extends UplinkMainScreen {
   async getMessageReceivedLocator(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$(
-          '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
-            expectedMessage +
-            '")]/../..'
-        )
-        .waitForExist();
+      const receivedElement = await this.instance.$(
+        '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]/../..'
+      );
+      await receivedElement.waitForExist();
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$(
-          '//Group[contains(@Name, "remote"]//Text[contains(@Name, "' +
-            expectedMessage +
-            '")]/../..'
-        )
-        .waitForExist();
+      const receivedElement = await this.instance.$(
+        '//Group[contains(@Name, "remote"]//Text[contains(@Name, "' +
+          expectedMessage +
+          '")]/../..'
+      );
+      await receivedElement.waitForExist();
     }
   }
 
@@ -325,84 +323,76 @@ export default class Messages extends UplinkMainScreen {
   async waitForLinkSentToExist(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$(
-          '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeLink[contains(@value, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist();
+      const linkSent = await this.instance.$(
+        '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeLink[contains(@value, "' +
+          expectedMessage +
+          '")]'
+      );
+      await linkSent.waitForExist();
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$(
-          '//Group[contains(@Name, "local")]//HyperLink[contains(@Name, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist();
+      const linkSent = await this.instance.$(
+        '//Group[contains(@Name, "local")]//HyperLink[contains(@Name, "' +
+          expectedMessage +
+          '")]'
+      );
+      await linkSent.waitForExist();
     }
   }
 
   async waitForMessageSentToExist(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$(
-          '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist();
+      const messageSent = await this.instance.$(
+        '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]'
+      );
+      await messageSent.waitForExist();
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$(
-          '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist();
+      const messageSent = await this.instance.$(
+        '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
+          expectedMessage +
+          '")]'
+      );
+      await messageSent.waitForExist();
     }
   }
 
   async waitForReceivingLink(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$(
-          '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeLink[contains(@value, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist();
+      const receivedLink = await this.instance.$(
+        '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeLink[contains(@value, "' +
+          expectedMessage +
+          '")]'
+      );
+      await receivedLink.waitForExist();
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$(
-          '//Group[contains(@Name, "remote")]//HyperLink[contains(@Name, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist();
+      const receivedLink = await this.instance.$(
+        '//Group[contains(@Name, "remote")]//HyperLink[contains(@Name, "' +
+          expectedMessage +
+          '")]'
+      );
+      await receivedLink.waitForExist();
     }
   }
 
   async waitForReceivingMessage(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$(
-          '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist();
+      const receivedMessage = await this.instance.$(
+        '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]'
+      );
+      await receivedMessage.waitForExist();
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$(
-          '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist();
+      const receivedMessage = await this.instance.$(
+        '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
+          expectedMessage +
+          '")]'
+      );
+      await receivedMessage.waitForExist();
     }
   }
 
@@ -411,21 +401,19 @@ export default class Messages extends UplinkMainScreen {
   async getMessageSentLocator(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$(
-          '//XCUIElementTypeGroup[contains, (@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
-            expectedMessage +
-            '")]/../..'
-        )
-        .waitForExist();
+      const messageSent = await this.instance.$(
+        '//XCUIElementTypeGroup[contains, (@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedMessage +
+          '")]/../..'
+      );
+      await messageSent.waitForExist();
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$(
-          '//Group[contains, (@Name, "local")]//Text[contains(@Name, "' +
-            expectedMessage +
-            '")]/../..'
-        )
-        .waitForExist();
+      const messageSent = await this.instance.$(
+        '//Group[contains, (@Name, "local")]//Text[contains(@Name, "' +
+          expectedMessage +
+          '")]/../..'
+      );
+      await messageSent.waitForExist();
     }
   }
 

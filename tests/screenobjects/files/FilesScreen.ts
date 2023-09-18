@@ -306,64 +306,74 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async clickOnCreateFolder() {
-    const element = await this.addFolderButton;
-    await this.hoverOnElement(element);
-    await element.click();
+    const addFolderButton = await this.addFolderButton;
+    await this.hoverOnElement(addFolderButton);
+    await addFolderButton.click();
   }
 
   async clickOnFileOrFolder(locator: string) {
-    const element = await this.getLocatorOfFolderFile(locator);
-    await this.instance.$(element).click();
+    const fileOrFolderLocator = await this.getLocatorOfFolderFile(locator);
+    const fileOrFolderElement = await this.instance.$(fileOrFolderLocator);
+    await fileOrFolderElement.click();
   }
 
   async clickOnFolderCrumb(folderName: string) {
     const crumbs = await this.crumb;
     for (let i = 0; i < crumbs.length; i++) {
-      const crumbText = await crumbs[i].$(SELECTORS.CRUMB_TEXT).getText();
-      if (crumbText === folderName) {
+      const crumbTextElement = await crumbs[i].$(SELECTORS.CRUMB_TEXT);
+      const crumbTextValue = await crumbTextElement.getText();
+      if (crumbTextValue === folderName) {
         await crumbs[i].click();
       }
     }
   }
 
   async clickOnHomeFolderCrumb() {
-    await this.instance.$(SELECTORS.CRUMB_HOME_FOLDER).click();
+    const homeFolder = await this.instance.$(SELECTORS.CRUMB_HOME_FOLDER);
+    await homeFolder.click();
   }
 
   async clickOnShowSidebar() {
-    await this.showSidebar.click();
+    const showSidebarButton = await this.showSidebar;
+    await showSidebarButton.click();
   }
 
   async clickOnUploadFile() {
-    const element = await this.uploadFileButton;
-    await this.hoverOnElement(element);
-    await element.click();
+    const uploadFileButton = await this.uploadFileButton;
+    await this.hoverOnElement(uploadFileButton);
+    await uploadFileButton.click();
   }
 
   async createEmptyNameFolder() {
     const currentDriver = await this.getCurrentDriver();
     await this.clickOnCreateFolder();
-    await this.inputFolderFileName.waitForExist();
+    const inputFolderFileName = await this.inputFolderFileName;
+    await inputFolderFileName.waitForExist();
     if (currentDriver === MACOS_DRIVER) {
-      await this.inputFolderFileName.addValue("\n");
+      await inputFolderFileName.addValue("\n");
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.inputFolderFileName.addValue("\uE007");
+      await inputFolderFileName.addValue("\uE007");
     }
   }
 
   async createFolder(name: string) {
     await this.clickOnCreateFolder();
-    await this.inputFolderFileName.waitForExist();
-    await this.inputFolderFileName.setValue(name);
-    await this.filesInfoCurrentSizeLabel.click();
+    const inputFolderFileName = await this.inputFolderFileName;
+    const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
+    await inputFolderFileName.waitForExist();
+    await inputFolderFileName.setValue(name);
+    await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(name);
-    await this.instance.$(newFolder).waitForExist({ timeout: 15000 });
+    const newFolderElement = await this.instance.$(newFolder);
+    await newFolderElement.waitForExist();
   }
 
   async typeOnFileFolderNameInput(name: string) {
-    await this.inputFolderFileName.waitForExist();
-    await this.inputFolderFileName.setValue(name);
-    await this.filesInfoCurrentSizeLabel.click();
+    const inputFolderFileName = await this.inputFolderFileName;
+    await inputFolderFileName.waitForExist();
+    await inputFolderFileName.setValue(name);
+    const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
+    await filesInfoCurrentSizeLabel.click();
   }
 
   async downloadFile(filename: string) {
@@ -381,17 +391,15 @@ export default class FilesScreen extends UplinkMainScreen {
   async getCurrentFolder() {
     const folders = await this.crumb;
     const treeLength = folders.length - 1;
-    const currentFolderName = await folders[treeLength]
-      .$(SELECTORS.CRUMB_TEXT)
-      .getText();
-    return currentFolderName;
+    const currentFolderName = await folders[treeLength].$(SELECTORS.CRUMB_TEXT);
+    const currentFolderNameText = await currentFolderName.getText();
+    return currentFolderNameText;
   }
 
   async getFileFolderName(element: WebdriverIO.Element) {
-    const fileOrFolderText = await element
-      .$(SELECTORS.FILE_FOLDER_NAME)
-      .getText();
-    return fileOrFolderText;
+    const fileOrFolderText = await element.$(SELECTORS.FILE_FOLDER_NAME);
+    const fileOrFolderTextValue = await fileOrFolderText.getText();
+    return fileOrFolderTextValue;
   }
 
   async getLocatorOfDeletedElement(name: string) {
@@ -419,23 +427,28 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async getProgressUploadFilename() {
-    const filename = await this.uploadFileIndicatorFilename.getText();
-    return filename;
+    const filename = await this.uploadFileIndicatorFilename;
+    const filenameText = await filename.getText();
+    return filenameText;
   }
 
   async getProgressUploadPercentage() {
-    const progress = await this.uploadFileIndicatorProgress.getText();
-    return progress;
+    const progress = await this.uploadFileIndicatorProgress;
+    const progressText = await progress.getText();
+    return progressText;
   }
 
   async updateNameFileFolder(newName: string, extension: string = "") {
-    await this.inputFolderFileName.waitForExist();
-    await this.inputFolderFileName.setValue(newName);
-    await this.filesInfoCurrentSizeLabel.click();
+    const inputFolderFileName = await this.inputFolderFileName;
+    await inputFolderFileName.waitForExist();
+    await inputFolderFileName.setValue(newName);
+    const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
+    await filesInfoCurrentSizeLabel.click();
     const newFileFolder = await this.getLocatorOfFolderFile(
       newName + extension
     );
-    await this.instance.$(newFileFolder).waitForExist();
+    const newFileFolderElement = await this.instance.$(newFileFolder);
+    await newFileFolderElement.waitForExist();
   }
 
   async uploadFile(relativePath: string) {
@@ -451,25 +464,31 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async validateFileOrFolderExist(locator: string) {
-    const element = await this.getLocatorOfFolderFile(locator);
-    await this.instance.$(element).waitForExist({ timeout: 15000 });
+    const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
+    const fileFolderElement = await this.instance.$(fileFolderElementLocator);
+    await fileFolderElement.waitForExist();
   }
 
   async validateFileOrFolderNotExist(locator: string) {
-    const element = await this.getLocatorOfDeletedElement(locator);
-    await this.instance.$(element).waitForExist({ reverse: true });
+    const fileFolderLocator = await this.getLocatorOfDeletedElement(locator);
+    await this.instance.$(fileFolderLocator).waitForExist({ reverse: true });
+  }
+
+  async validateFilesScreenIsShown() {
+    const filesBody = await this.filesBody;
+    await filesBody.waitForExist();
   }
 
   // Hovering methods
 
   async hoverOnNewFolderButton() {
-    const element = await this.addFolderButton;
-    await this.hoverOnElement(element);
+    const folderButton = await this.addFolderButton;
+    await this.hoverOnElement(folderButton);
   }
 
   async hoverOnUploadButton() {
-    const element = await this.uploadFileButton;
-    await this.hoverOnElement(element);
+    const uploadButton = await this.uploadFileButton;
+    await this.hoverOnElement(uploadButton);
   }
 
   // Context Menu methods
@@ -489,22 +508,27 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async clickOnFilesDelete() {
-    await this.contextMenuFilesDelete.click();
+    const filesDeleteOption = await this.contextMenuFilesDelete;
+    await filesDeleteOption.click();
   }
 
   async clickOnFilesDownload() {
-    await this.contextMenuFilesDownload.click();
+    const filesDownloadOption = await this.contextMenuFilesDownload;
+    await filesDownloadOption.click();
   }
 
   async clickOnFilesRename() {
-    await this.contextMenuFilesRename.click();
+    const filesRenameOption = await this.contextMenuFilesRename;
+    await filesRenameOption.click();
   }
 
   async clickOnFolderDelete() {
-    await this.contextMenuFolderDelete.click();
+    const folderDeleteOption = await this.contextMenuFolderDelete;
+    await folderDeleteOption.click();
   }
 
   async clickOnFolderRename() {
-    await this.contextMenuFolderRename.click();
+    const folderRenameOption = await this.contextMenuFolderRename;
+    await folderRenameOption.click();
   }
 }

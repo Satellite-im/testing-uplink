@@ -113,23 +113,28 @@ export default class ContextMenu extends UplinkMainScreen {
   }
 
   async clickOnOpenEmojiSelector() {
-    await this.openEmojiSelector.click();
+    const openEmojiSelector = await this.openEmojiSelector;
+    await openEmojiSelector.click();
   }
 
   async clickOnFirstReaction() {
-    await this.emojiRecentFirst.click();
+    const emojiRecentFirst = await this.emojiRecentFirst;
+    await emojiRecentFirst.click();
   }
 
   async clickOnSecondReaction() {
-    await this.emojiRecentSecond.click();
+    const emojiRecentSecond = await this.emojiRecentSecond;
+    await emojiRecentSecond.click();
   }
 
   async clickOnThirdReaction() {
-    await this.emojiRecentThird.click();
+    const emojiRecentThird = await this.emojiRecentThird;
+    await emojiRecentThird.click();
   }
 
   async clickOnFourthReaction() {
-    await this.emojiRecentFourth.click();
+    const emojiRecentFourth = await this.emojiRecentFourth;
+    await emojiRecentFourth.click();
   }
 
   async clickOnRecentReactionButton(reaction: string) {
@@ -161,26 +166,32 @@ export default class ContextMenu extends UplinkMainScreen {
   }
 
   async selectContextOptionCancelEdit() {
-    await this.contextMessagesCancelEdit.click();
+    const contextMessagesCancelEdit = await this.contextMessagesCancelEdit;
+    await contextMessagesCancelEdit.click();
   }
 
   async selectContextOptionDelete() {
-    await this.contextMessagesDelete.click();
+    const contextMessagesDelete = await this.contextMessagesDelete;
+    await contextMessagesDelete.click();
   }
 
   async selectContextOptionEdit() {
-    await this.contextMessagesEdit.click();
+    const contextMessagesEdit = await this.contextMessagesEdit;
+    await contextMessagesEdit.click();
   }
 
   async selectContextOptionReact() {
-    await this.contextMessagesReact.click();
+    const contextMessagesReact = await this.contextMessagesReact;
+    await contextMessagesReact.click();
   }
 
   async selectContextOptionReply() {
-    await this.contextMessagesReply.click();
+    const contextMessagesReply = await this.contextMessagesReply;
+    await contextMessagesReply.click();
   }
 
   async validateContextMenuIsOpen() {
-    await this.contextMenu.waitForExist();
+    const contextMenu = await this.contextMenu;
+    await contextMenu.waitForExist();
   }
 }

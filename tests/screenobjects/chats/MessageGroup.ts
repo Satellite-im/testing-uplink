@@ -225,28 +225,12 @@ export default class MessageGroup extends UplinkMainScreen {
     return userImage;
   }
 
-  async getLastGroupWrapReceivedOffline() {
-    const groupWrap = await this.getLastGroupWrapReceived();
-    const offlineStatus = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE
-    );
-    return offlineStatus;
-  }
-
   async getLastGroupWrapReceivedOnline() {
     const groupWrap = await this.getLastGroupWrapReceived();
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
     );
     return onlineStatus;
-  }
-
-  async getLastGroupWrapReceivedUserImageProfile() {
-    const groupWrap = await this.getLastGroupWrapReceived();
-    const userImageProfile = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE
-    );
-    return userImageProfile;
   }
 
   // Message Group Wraps Sent Methods
@@ -266,28 +250,12 @@ export default class MessageGroup extends UplinkMainScreen {
     return userImage;
   }
 
-  async getLastGroupWrapSentOffline() {
-    const groupWrap = await this.getLastGroupWrapSent();
-    const offlineStatus = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE
-    );
-    return offlineStatus;
-  }
-
   async getLastGroupWrapSentOnline() {
     const groupWrap = await this.getLastGroupWrapSent();
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
     );
     return onlineStatus;
-  }
-
-  async getLastGroupWrapSentUserImageProfile() {
-    const groupWrap = await this.getLastGroupWrapSent();
-    const userImageProfile = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE
-    );
-    return userImageProfile;
   }
 
   // Group Messages Received Methods
@@ -307,18 +275,6 @@ export default class MessageGroup extends UplinkMainScreen {
     return timeAgoText;
   }
 
-  async rightClickOnLastReceivedGroup() {
-    const lastGroupReceived = await this.getLastReceivedGroup();
-    const imageOnGroup = await lastGroupReceived.$("/..");
-    await this.hoverOnElement(imageOnGroup);
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(imageOnGroup, this.executor);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(imageOnGroup, this.executor);
-    }
-  }
-
   // Group Messages Sent Methods
   async getLastSentGroup() {
     const messageGroupsSent = await this.messageGroupSent;
@@ -333,18 +289,6 @@ export default class MessageGroup extends UplinkMainScreen {
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
     return timeAgoText;
-  }
-
-  async rightClickOnLastSentGroup() {
-    const lastSentGroup = await this.getLastSentGroup();
-    const imageOnGroup = await lastSentGroup.$("/..");
-    await this.hoverOnElement(imageOnGroup);
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(imageOnGroup, this.executor);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(imageOnGroup, this.executor);
-    }
   }
 
   // Context Menu methods
@@ -375,9 +319,6 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async getLastMessageReceivedReactionsContainer() {
     const lastGroupReceived = await this.getLastReceivedGroup();
-    await lastGroupReceived
-      .$(SELECTORS.MESSAGE_REACTION_CONTAINER)
-      .waitForExist();
     const reactionContainers = await lastGroupReceived.$$(
       SELECTORS.MESSAGE_REACTION_CONTAINER
     );
@@ -394,10 +335,9 @@ export default class MessageGroup extends UplinkMainScreen {
     );
     let results = [];
     for (let reaction of remoteReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
+      const reactionValue = await reaction.$(SELECTORS.EMOJI_REACTION_VALUE);
+      const reactionValueText = await reactionValue.getText();
+      results.push(reactionValueText);
     }
     return results;
   }
@@ -410,17 +350,15 @@ export default class MessageGroup extends UplinkMainScreen {
     );
     let results = [];
     for (let reaction of selfReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
+      const reactionValue = await reaction.$(SELECTORS.EMOJI_REACTION_VALUE);
+      const reactionValueText = await reactionValue.getText();
+      results.push(reactionValueText);
     }
     return results;
   }
 
   async getLastMessageSentReactionsContainer() {
     const lastGroupSent = await this.getLastSentGroup();
-    await lastGroupSent.$(SELECTORS.MESSAGE_REACTION_CONTAINER).waitForExist();
     const reactionContainers = await lastGroupSent.$$(
       SELECTORS.MESSAGE_REACTION_CONTAINER
     );
@@ -437,10 +375,9 @@ export default class MessageGroup extends UplinkMainScreen {
     );
     let results = [];
     for (let reaction of remoteReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
+      const reactionValue = await reaction.$(SELECTORS.EMOJI_REACTION_VALUE);
+      const reactionValueText = await reactionValue.getText();
+      results.push(reactionValueText);
     }
     return results;
   }
@@ -453,85 +390,48 @@ export default class MessageGroup extends UplinkMainScreen {
     );
     let results = [];
     for (let reaction of selfReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
+      const reactionValue = await reaction.$(SELECTORS.EMOJI_REACTION_VALUE);
+      const reactionValueText = await reactionValue.getText();
+      results.push(reactionValueText);
     }
     return results;
-  }
-
-  async removeReactionOnLastSentMessage(reaction: string) {
-    const reactionsContainer =
-      await this.getLastMessageSentReactionsContainer();
-    const selfReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_SELF
-    );
-    for (let reaction of selfReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      if (reactionValue.includes(reaction)) {
-        await reaction.click();
-      }
-    }
-  }
-
-  async removeReactionOnLastReceivedMessage(reaction: string) {
-    const reactionsContainer =
-      await this.getLastMessageReceivedReactionsContainer();
-    const selfReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_SELF
-    );
-    for (let reaction of selfReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      if (reactionValue.includes(reaction)) {
-        await reaction.click();
-      }
-    }
   }
 
   async waitUntilEmojiReactionRemoteExists(expectedReaction: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$(
-          '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-remote")]//XCUIElementTypeStaticText[contains(@value, "' +
-            expectedReaction +
-            '")]'
-        )
-        .waitForExist();
+      const emojiReaction = await this.instance.$(
+        '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedReaction +
+          '")]'
+      );
+      await emojiReaction.waitForExist();
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$(
-          '//Group[contains(@Name, "emoji-reaction-remote")]//Text[contains(@Name, "' +
-            expectedReaction +
-            '")]'
-        )
-        .waitForExist();
+      const emojiReaction = await this.instance.$(
+        '//Group[contains(@Name, "emoji-reaction-remote")]//Text[contains(@Name, "' +
+          expectedReaction +
+          '")]'
+      );
+      await emojiReaction.waitForExist();
     }
   }
 
   async waitUntilEmojiReactionSelfExists(expectedReaction: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$(
-          '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-self")]//XCUIElementTypeStaticText[contains(@value, "' +
-            expectedReaction +
-            '")]'
-        )
-        .waitForExist();
+      const emojiReaction = await this.instance.$(
+        '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-self")]//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedReaction +
+          '")]'
+      );
+      await emojiReaction.waitForExist();
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$(
-          '//Group[contains(@Name, "emoji-reaction-self")]/Text[contains(@Name, "' +
-            expectedReaction +
-            '")]'
-        )
-        .waitForExist();
+      const emojiReaction = await this.instance.$(
+        '//Group[contains(@Name, "emoji-reaction-self")]/Text[contains(@Name, "' +
+          expectedReaction +
+          '")]'
+      );
+      await emojiReaction.waitForExist();
     }
   }
 
@@ -559,145 +459,5 @@ export default class MessageGroup extends UplinkMainScreen {
       SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE
     )[index];
     return middleMessage;
-  }
-
-  // Get message text values from last received groups
-
-  async getFirstMessageTextInLastGroupReceived() {
-    const firstMessage = await this.getFirstMessageInLastGroupReceived();
-    const firstMessageText = await firstMessage
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return firstMessageText;
-  }
-
-  async getLastMessageTextInLastGroupReceived() {
-    const lastMessage = await this.getLastMessageInLastGroupReceived();
-    const lastMessageText = await lastMessage
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return lastMessageText;
-  }
-
-  async getMiddleMessageTextInLastGroupReceived(index: number) {
-    const middleMessage = await this.getMiddleMessageInLastGroupReceived(index);
-    const middleMessageText = await middleMessage
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    return middleMessageText;
-  }
-
-  // Get messages from last message group sent
-
-  async getFirstMessageInLastGroupSent() {
-    const lastGroupSent = await this.getLastSentGroup();
-    const firstMessage = await lastGroupSent.$(
-      SELECTORS.CHAT_MESSAGE_LOCAL_FIRST
-    );
-    return firstMessage;
-  }
-
-  async getLastMessageInLastGroupSent() {
-    const lastGroupSent = await this.getLastSentGroup();
-    const lastMessage = await lastGroupSent.$(
-      SELECTORS.CHAT_MESSAGE_LOCAL_LAST
-    );
-    return lastMessage;
-  }
-  async getMiddleMessageInLastGroupSent(index: number) {
-    const lastGroupSent = await this.getLastSentGroup();
-    const middleMessage = await lastGroupSent.$$(
-      SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE
-    )[index];
-    return middleMessage;
-  }
-
-  // Get message text values from last sent groups
-
-  async getFirstMessageTextInLastGroupSent() {
-    const firstMessage = await this.getFirstMessageInLastGroupSent();
-    const firstMessageText = await firstMessage
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-  }
-
-  async getLastMessageTextInLastGroupSent() {
-    const lastMessage = await this.getLastMessageInLastGroupSent();
-    const lastMessageText = await lastMessage
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-  }
-
-  async getMiddleMessageTextInLastGroupSent(index: number) {
-    const middleMessage = await this.getMiddleMessageInLastGroupSent(index);
-    const middleMessageText = await middleMessage
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-  }
-
-  // Wait for message received
-
-  async waitUntilFirstReceivedMessageIs(text: string) {
-    const firstMessageFromLastGroupReceived =
-      await this.getFirstMessageTextInLastGroupReceived();
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await expect(
-          firstMessageFromLastGroupReceived
-        ).toHaveTextContaining(text);
-      },
-      {
-        timeout: 20000,
-        timeoutMsg: `First message from last group received is not ${text}`,
-      }
-    );
-  }
-
-  async waitUntilLastReceivedMessageIs(text: string) {
-    const lastMessageFromLastGroupReceived =
-      await this.getLastMessageTextInLastGroupReceived();
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await expect(
-          lastMessageFromLastGroupReceived
-        ).toHaveTextContaining(text);
-      },
-      {
-        timeout: 20000,
-        timeoutMsg: `Last message from last group received is not ${text}`,
-      }
-    );
-  }
-
-  async waitUntilFirstSentMessageIs(text: string) {
-    const firstMessageFromLastGroupSent =
-      await this.getFirstMessageTextInLastGroupSent();
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await expect(firstMessageFromLastGroupSent).toHaveTextContaining(
-          text
-        );
-      },
-      {
-        timeout: 20000,
-        timeoutMsg: `First message from last group sent is not ${text}`,
-      }
-    );
-  }
-
-  async waitUntilLastSentMessageIs(text: string) {
-    const lastMessageFromLastGroupSent =
-      await this.getLastMessageTextInLastGroupSent();
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await expect(lastMessageFromLastGroupSent).toHaveTextContaining(
-          text
-        );
-      },
-      {
-        timeout: 20000,
-        timeoutMsg: `Last message from last group sent is not ${text}`,
-      }
-    );
   }
 }

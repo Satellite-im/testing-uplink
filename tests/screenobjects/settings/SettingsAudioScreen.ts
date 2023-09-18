@@ -362,119 +362,133 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   async clickOnInputDeviceDropdown() {
-    await this.inputDeviceDropdown.click();
+    const inputDeviceDropdown = await this.inputDeviceDropdown;
+    await inputDeviceDropdown.click();
   }
 
   async clickOnCallTimer() {
     const currentDriver = await this.getCurrentDriver();
+    const callTimerCheckbox = await this.callTimerCheckbox;
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.callTimerCheckbox.click();
+      await callTimerCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      const element = await this.callTimerCheckbox;
-      await clickOnSwitchMacOS(element, this.executor);
+      await clickOnSwitchMacOS(callTimerCheckbox, this.executor);
     }
   }
 
   async clickOnInterfaceSounds() {
     const currentDriver = await this.getCurrentDriver();
+    const interfaceSoundsCheckbox = await this.interfaceSoundsCheckbox;
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.interfaceSoundsCheckbox.click();
+      await interfaceSoundsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      const element = await this.interfaceSoundsCheckbox;
-      await clickOnSwitchMacOS(element, this.executor);
+      await clickOnSwitchMacOS(interfaceSoundsCheckbox, this.executor);
     }
   }
 
   async clickOnMediaSounds() {
     const currentDriver = await this.getCurrentDriver();
+    const mediaSoundsCheckbox = await this.mediaSoundsCheckbox;
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.mediaSoundsCheckbox.click();
+      await mediaSoundsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      const element = await this.mediaSoundsCheckbox;
-      await clickOnSwitchMacOS(element, this.executor);
+      await clickOnSwitchMacOS(mediaSoundsCheckbox, this.executor);
     }
   }
 
   async clickOnMessageSounds() {
     const currentDriver = await this.getCurrentDriver();
+    const messageSoundsCheckbox = await this.messageSoundsCheckbox;
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.messageSoundsCheckbox.click();
+      await messageSoundsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      const element = await this.messageSoundsCheckbox;
-      await clickOnSwitchMacOS(element, this.executor);
+      await clickOnSwitchMacOS(messageSoundsCheckbox, this.executor);
     }
   }
 
   async clickOnOutputDeviceDropdown() {
-    await this.outputDeviceDropdown.click();
+    const outputDeviceDropdown = await this.outputDeviceDropdown;
+    await outputDeviceDropdown.click();
   }
 
   async clickOnSampleRateDropdown() {
-    await this.sampleRateDropdown.click();
+    const sampleRateDropdown = await this.sampleRateDropdown;
+    await sampleRateDropdown.click();
   }
 
   // Echo Cancellation Select Methods
 
   async selectEchoCancellationHigh() {
-    await this.echoCancellationRadioOptionHigh.click();
+    const echoCancellationHigh = await this.echoCancellationRadioOptionHigh;
+    await echoCancellationHigh.click();
   }
 
   async selectEchoCancellationLow() {
-    await this.echoCancellationRadioOptionLow.click();
+    const echoCancellationLow = await this.echoCancellationRadioOptionLow;
+    await echoCancellationLow.click();
   }
 
   async selectEchoCancellationMedium() {
-    await this.echoCancellationRadioOptionMedium.click();
+    const echoCancellationMedium = await this.echoCancellationRadioOptionMedium;
+    await echoCancellationMedium.click();
   }
 
   async selectEchoCancellationNone() {
-    await this.echoCancellationRadioOptionNone.click();
+    const echoCancellationNone = await this.echoCancellationRadioOptionNone;
+    await echoCancellationNone.click();
   }
 
   // Noise Suppression Select Methods
 
   async selectNoiseSuppressionHigh() {
-    await this.noiseSuppressionRadioOptionHigh.click();
+    const noiseSuppressionHigh = await this.noiseSuppressionRadioOptionHigh;
+    await noiseSuppressionHigh.click();
   }
 
   async selectNoiseSuppressionLow() {
-    await this.noiseSuppressionRadioOptionLow.click();
+    const noiseSuppressionLow = await this.noiseSuppressionRadioOptionLow;
+    await noiseSuppressionLow.click();
   }
 
   async selectNoiseSuppressionMedium() {
-    await this.noiseSuppressionRadioOptionMedium.click();
+    const noiseSuppressionMedium = await this.noiseSuppressionRadioOptionMedium;
+    await noiseSuppressionMedium.click();
   }
 
   async selectNoiseSuppressionNone() {
-    await this.noiseSuppressionRadioOptionNone.click();
+    const noiseSuppressionNone = await this.noiseSuppressionRadioOptionNone;
+    await noiseSuppressionNone.click();
   }
 
   // Input, Output and Sample Rate selection methods
 
   async selectInputDevice(device: string) {
     const currentDriver = await this.getCurrentDriver();
+    const inputDeviceDropdown = await this.inputDeviceDropdown;
     if (currentDriver === MACOS_DRIVER) {
-      await this.inputDeviceDropdown.addValue(device + "\n");
+      await inputDeviceDropdown.addValue(device + "\n");
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.inputDeviceDropdown.addValue(device + "\uE007");
+      await inputDeviceDropdown.addValue(device + "\uE007");
     }
   }
 
   async selectOutputDevice(device: string) {
     const currentDriver = await this.getCurrentDriver();
+    const outputDeviceDropdown = await this.outputDeviceDropdown;
     if (currentDriver === MACOS_DRIVER) {
-      await this.outputDeviceDropdown.addValue(device + "\n");
+      await outputDeviceDropdown.addValue(device + "\n");
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.outputDeviceDropdown.addValue(device + "\uE007");
+      await outputDeviceDropdown.addValue(device + "\uE007");
     }
   }
 
   async selectSampleRate(rate: string) {
     const currentDriver = await this.getCurrentDriver();
+    const sampleRateDropdown = await this.sampleRateDropdown;
     if (currentDriver === MACOS_DRIVER) {
-      await this.sampleRateDropdown.addValue(rate + "\n");
+      await sampleRateDropdown.addValue(rate + "\n");
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.sampleRateDropdown.addValue(rate + "\uE007");
+      await sampleRateDropdown.addValue(rate + "\uE007");
     }
   }
 }

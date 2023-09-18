@@ -221,12 +221,14 @@ export default class UplinkMainScreen extends AppScreen {
   // Toast Notifications methods
 
   async closeToastNotification() {
-    await this.toastNotificationClose.click();
+    const toast = await this.toastNotificationClose;
+    await toast.click();
   }
 
   async getToastNotificationText() {
-    const toastText = await this.toastNotificationText.getText();
-    return toastText;
+    const toastText = await this.toastNotificationText;
+    const toastTextValue = await toastText.getText();
+    return toastTextValue;
   }
 
   async waitUntilNotificationIsClosed() {
@@ -238,37 +240,45 @@ export default class UplinkMainScreen extends AppScreen {
   // Clicking on common elements methods
 
   async clickOnBackButton() {
-    await this.backButton.click();
+    const button = await this.backButton;
+    await button.click();
   }
 
   async clickOnHamburgerButton() {
-    await this.hamburgerButton.click();
+    const button = await this.hamburgerButton;
+    await button.click();
   }
 
   async clickOnPreReleaseIndicator() {
-    await this.prereleaseIndicator.click();
+    const prerelease = await this.prereleaseIndicator;
+    await prerelease.click();
   }
 
   async clickOnUpdateAvailable() {
-    await this.updateAvailable.click();
+    const updateAvailable = await this.updateAvailable;
+    await updateAvailable.click();
   }
 
   // NavBar methods
 
   async goToFiles() {
-    await this.filesButton.click();
+    const button = await this.filesButton;
+    await button.click();
   }
 
   async goToFriends() {
-    await this.friendsButton.click();
+    const button = await this.friendsButton;
+    await button.click();
   }
 
   async goToMainScreen() {
-    await this.chatsButton.click();
+    const button = await this.chatsButton;
+    await button.click();
   }
 
   async goToSettings() {
-    await this.settingsButton.click();
+    const button = await this.settingsButton;
+    await button.click();
   }
 
   // Hovering methods
@@ -283,23 +293,23 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   async hoverOnChatsButton() {
-    const element = await this.chatsButton;
-    await this.hoverOnElement(element);
+    const chatsButton = await this.chatsButton;
+    await this.hoverOnElement(chatsButton);
   }
 
   async hoverOnFilesButton() {
-    const element = await this.filesButton;
-    await this.hoverOnElement(element);
+    const filesButton = await this.filesButton;
+    await this.hoverOnElement(filesButton);
   }
 
   async hoverOnFriendsButton() {
-    const element = await this.friendsButton;
-    await this.hoverOnElement(element);
+    const friendsButton = await this.friendsButton;
+    await this.hoverOnElement(friendsButton);
   }
 
   async hoverOnSettingsButton() {
-    const element = await this.settingsButton;
-    await this.hoverOnElement(element);
+    const settingsButton = await this.settingsButton;
+    await this.hoverOnElement(settingsButton);
   }
 
   // Multiremote functions
@@ -309,7 +319,8 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   async showUplinkWindow() {
-    await this.instance.window.click();
-    await this.instance.window.waitForIsShown(true);
+    const window = await this.instance.window;
+    await window.click();
+    await window.waitForExist();
   }
 }

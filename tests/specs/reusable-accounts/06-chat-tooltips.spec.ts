@@ -9,46 +9,57 @@ export default async function chatTooltipsTests() {
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
     await chatsTopbarFirstUser.hoverOnFavoritesButton();
-    await chatsTopbarFirstUser.topbarAddToFavoritesTooltip.waitForExist();
-    await expect(
-      chatsTopbarFirstUser.topbarAddToFavoritesTooltipText
-    ).toHaveTextContaining("Add to Favorites");
+    const favoritesAddTooltip =
+      await chatsTopbarFirstUser.topbarAddToFavoritesTooltip;
+    const favoritesAddTooltipText =
+      await chatsTopbarFirstUser.topbarAddToFavoritesTooltipText;
+
+    await favoritesAddTooltip.waitForExist();
+    await expect(favoritesAddTooltipText).toHaveTextContaining(
+      "Add to Favorites"
+    );
 
     // Validate Pinned Messages button tooltip
     await chatsTopbarFirstUser.hoverOnPinnedMessagesButton();
-    await chatsTopbarFirstUser.topbarPinnedMessagesTooltip.waitForExist();
-    await expect(
-      chatsTopbarFirstUser.topbarPinnedMessagesTooltipText
-    ).toHaveTextContaining("Pinned Messages");
+    const pinnedMessagesTooltip =
+      await chatsTopbarFirstUser.topbarPinnedMessagesTooltip;
+    const pinnedMessagesTooltipText =
+      await chatsTopbarFirstUser.topbarPinnedMessagesTooltipText;
+    await pinnedMessagesTooltip.waitForExist();
+    await expect(pinnedMessagesTooltipText).toHaveTextContaining(
+      "Pinned Messages"
+    );
 
     // Validate Upload button tooltip
     await chatsInputFirstUser.hoverOnUploadButton();
-    await chatsInputFirstUser.uploadTooltip.waitForExist();
-    await expect(chatsInputFirstUser.uploadTooltipText).toHaveTextContaining(
-      "Upload"
-    );
+    const uploadTooltip = await chatsInputFirstUser.uploadTooltip;
+    const uploadTooltipText = await chatsInputFirstUser.uploadTooltipText;
+    await uploadTooltip.waitForExist();
+    await expect(uploadTooltipText).toHaveTextContaining("Upload");
 
     // Validate Send button tooltip
     await chatsInputFirstUser.hoverOnSendButton();
-    await chatsInputFirstUser.sendMessageTooltip.waitForExist();
-    await expect(
-      chatsInputFirstUser.sendMessageTooltipText
-    ).toHaveTextContaining("Send");
+    const sendMessageTooltip = await chatsInputFirstUser.sendMessageTooltip;
+    const sendMessageTooltipText =
+      await chatsInputFirstUser.sendMessageTooltipText;
+    await sendMessageTooltip.waitForExist();
+    await expect(sendMessageTooltipText).toHaveTextContaining("Send");
   });
 
   it("Chat User A - Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
     // Validate Call button tooltip contains "Coming soon"
     await chatsTopbarFirstUser.hoverOnCallButton();
-    await chatsTopbarFirstUser.topbarCallTooltip.waitForExist();
-    await expect(
-      chatsTopbarFirstUser.topbarCallTooltipText
-    ).toHaveTextContaining("Coming soon");
+    const callTooltip = await chatsTopbarFirstUser.topbarCallTooltip;
+    const callTooltipText = await chatsTopbarFirstUser.topbarCallTooltipText;
+    await callTooltip.waitForExist();
+    await expect(callTooltipText).toHaveTextContaining("Coming soon");
 
     // Validate Videocall button tooltip contains "Coming soon"
     await chatsTopbarFirstUser.hoverOnVideocallButton();
-    await chatsTopbarFirstUser.topbarVideocallTooltip.waitForExist();
-    await expect(
-      chatsTopbarFirstUser.topbarVideocallTooltipText
-    ).toHaveTextContaining("Coming soon");
+    const videoCallTooltip = await chatsTopbarFirstUser.topbarVideocallTooltip;
+    const videoCallTooltipText =
+      await chatsTopbarFirstUser.topbarVideocallTooltipText;
+    await videoCallTooltip.waitForExist();
+    await expect(videoCallTooltipText).toHaveTextContaining("Coming soon");
   });
 }
