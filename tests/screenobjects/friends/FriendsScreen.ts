@@ -740,6 +740,11 @@ export default class FriendsScreen extends UplinkMainScreen {
     await membersOfOutgoingList.waitForExist();
   }
 
+  async validateOutgoingListIsShown() {
+    const outgoingList = await this.outgoingRequestsList;
+    await outgoingList.waitForExist();
+  }
+
   async validateRemoveOrDenyButtonIsShown() {
     const removeOrDenyButton = await this.removeOrDenyFriendButton;
     await removeOrDenyButton.waitForExist();
