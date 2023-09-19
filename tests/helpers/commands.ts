@@ -79,9 +79,9 @@ export async function getUserKey(username: string, instance: string) {
   const currentDriver = await driver[instance].capabilities.automationName;
   const source =
     "./tests/fixtures/users/" + currentDriver + "/" + username + ".json";
-  const jsonFile = readFileSync(source);
-  const jsonFileParsed = JSON.parse(jsonFile);
-  const didkey = jsonFileParsed.key;
+  const jsonFile = await readFileSync(source);
+  const jsonFileParsed = await JSON.parse(jsonFile);
+  const didkey = await jsonFileParsed.key;
   return didkey;
 }
 
@@ -97,7 +97,7 @@ export async function saveTestKeys(
   await fsp.mkdir(target, { recursive: true });
   const userData = { username: username, key: didkey };
   try {
-    writeFileSync(filepath, JSON.stringify(userData, null, 2), "utf8");
+    await writeFileSync(filepath, JSON.stringify(userData, null, 2), "utf8");
     console.log("Data successfully saved");
   } catch (error) {
     console.log("An error has occurred ", error);
