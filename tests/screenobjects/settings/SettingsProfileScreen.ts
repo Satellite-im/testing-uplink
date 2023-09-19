@@ -248,8 +248,8 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   async getCopiedDidFromStatusInput() {
-    const inputTextElement = await this.getStatusInputText();
-    return inputTextElement;
+    const statusInputValue = await this.getStatusInputValue();
+    return statusInputValue;
   }
 
   async getCopyIDButtonText() {
@@ -263,10 +263,9 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     return abbreviatedUserKey;
   }
 
-  async getStatusInputText() {
-    const statusText = await this.statusInput;
-    const statusTextValue = await statusText.getText();
-    return statusTextValue;
+  async getStatusInputElement() {
+    const statusInput = await this.statusInput;
+    return statusInput;
   }
 
   async getStatusInputValue() {
