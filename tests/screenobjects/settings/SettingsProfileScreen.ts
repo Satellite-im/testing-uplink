@@ -265,7 +265,8 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   async getStatusInputText() {
     const statusText = await this.statusInput;
-    return statusText;
+    const statusTextValue = await statusText.getText();
+    return statusTextValue;
   }
 
   async getStatusInputValue() {

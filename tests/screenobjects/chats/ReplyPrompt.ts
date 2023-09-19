@@ -131,7 +131,6 @@ export default class ReplyPrompt extends UplinkMainScreen {
   async closeReplyModal() {
     const replyPopUpCloseButton = await this.replyPopUpCloseButton;
     await replyPopUpCloseButton.click();
-    await this.replyPopUpCloseButton.click();
   }
 
   async waitForReplyModalToNotExist() {
