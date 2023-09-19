@@ -293,16 +293,26 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
     const currentDriver = await this.getCurrentDriver();
+    const statusInput = await this.statusInput;
     if (currentDriver === MACOS_DRIVER) {
       const userKey = await getClipboardMacOS();
       await this.enterStatus(userKey);
     } else if (currentDriver === WINDOWS_DRIVER) {
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
-      const statusInput = await this.statusInput;
       await statusInput.click();
       await statusInput.clearValue();
       await robot.keyTap("v", ["control"]);
     }
+    await statusInput.waitUntil(
+      async () => {
+        const statusInputText = await statusInput.getText();
+        return statusInputText.includes("did:key");
+      },
+      {
+        timeout: 5000,
+        timeoutMsg: "Expected status input to contain did:key after 5 seconds",
+      }
+    );
   }
 
   async uploadBannerPicture(relativePath: string) {
