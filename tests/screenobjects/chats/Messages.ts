@@ -13,6 +13,10 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
+  CHAT_MESSAGE_CODE_COPY_BUTTON: '[name="Copy"]',
+  CHAT_MESSAGE_CODE_LANGUAGE: "<Text>",
+  CHAT_MESSAGE_CODE_MESSAGES: "<Text>",
+  CHAT_MESSAGE_CODE_PANE: "<Pane>",
   CHAT_MESSAGE_FILE_BUTTON: '[name="attachment-button"]',
   CHAT_MESSAGE_FILE_EMBED: '[name="file-embed"]',
   CHAT_MESSAGE_FILE_EMBED_REMOTE: '[name="file-embed-remote"]',
@@ -42,6 +46,11 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  CHAT_MESSAGE_CODE_COPY_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
+  CHAT_MESSAGE_CODE_LANGUAGE:
+    "//XCUIElementTypeGroup/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_CODE_MESSAGES: "-ios class chain:**/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_CODE_PANE: "-ios class chain:**/XCUIElementTypeGroup",
   CHAT_MESSAGE_FILE_BUTTON: "~attachment-button",
   CHAT_MESSAGE_FILE_EMBED: "~file-embed",
   CHAT_MESSAGE_FILE_EMBED_REMOTE: "~file-embed-remote",
@@ -81,6 +90,31 @@ export default class Messages extends UplinkMainScreen {
       executor,
       SELECTORS.CHAT_MESSAGE_LOCAL || SELECTORS.CHAT_MESSAGE_REMOTE
     );
+  }
+
+  get chatMessageCodeCopyButton() {
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON);
+  }
+
+  get chatMessageCodeLanguage() {
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE);
+  }
+
+  get chatMessageCodePane() {
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
+  }
+
+  get chatMessageCodePaneMessages() {
+    return this.instance
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_PANE)
+      .$$(SELECTORS.CHAT_MESSAGE_CODE_MESSAGES);
   }
 
   get chatMessageFileButtonLocal() {
@@ -251,6 +285,48 @@ export default class Messages extends UplinkMainScreen {
 
   // Messages Received Methods
 
+  async clickOnCopyCodeOfLastMessageReceived() {
+    const element = await this.getLastMessageReceivedCodeCopyButton();
+    await element.click();
+  }
+
+  async getLastMessageReceivedCodeCopyButton() {
+    const message = await this.getLastMessageReceivedLocator();
+    const messageCodeCopyButton = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON);
+    return messageCodeCopyButton;
+  }
+
+  async getLastMessageReceivedCodeLanguage() {
+    const message = await this.getLastMessageReceivedLocator();
+    const messageCodeLanguage = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE);
+    return messageCodeLanguage;
+  }
+
+  async getLastMessageReceivedCodePane() {
+    const message = await this.getLastMessageReceivedLocator();
+    const messageCodePane = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
+    return messageCodePane;
+  }
+
+  async getLastMessageReceivedCodeMessage() {
+    const messageCodePane = await this.getLastMessageReceivedCodePane();
+    let messageResult = "";
+    const messageResultElements = await messageCodePane.$$(
+      SELECTORS.CHAT_MESSAGE_CODE_MESSAGES
+    );
+    for (let element of messageResultElements) {
+      const codeMessageText = await element.getText();
+      messageResult += codeMessageText;
+    }
+    return messageResult;
+  }
+
   async getMessageReceivedLocator(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
@@ -297,6 +373,28 @@ export default class Messages extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return messageText;
+  }
+
+  async waitForCodeMessageSentToExist(
+    expectedLanguage: string,
+    timeoutMsg: number = 30000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    let locator;
+    if (currentDriver === MACOS_DRIVER) {
+      locator = await this.instance.$(
+        '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedLanguage +
+          '")]'
+      );
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      locator = await this.instance.$(
+        '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
+          expectedLanguage +
+          '")]'
+      );
+    }
+    await locator.waitForExist({ timeout: timeoutMsg });
   }
 
   async waitForMessageToBeDeleted(expectedMessage: string) {
@@ -358,6 +456,28 @@ export default class Messages extends UplinkMainScreen {
     }
   }
 
+  async waitForReceivingCodeMessage(
+    expectedLanguage: string,
+    timeoutMsg: number = 60000
+  ) {
+    const currentDriver = await this.getCurrentDriver();
+    let locator;
+    if (currentDriver === MACOS_DRIVER) {
+      locator = await this.instance.$(
+        '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedLanguage +
+          '")]'
+      );
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      locator = await this.instance.$(
+        '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
+          expectedLanguage +
+          '")]'
+      );
+    }
+    await locator.waitForExist({ timeout: timeoutMsg });
+  }
+
   async waitForReceivingLink(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
@@ -397,6 +517,48 @@ export default class Messages extends UplinkMainScreen {
   }
 
   // Messages Sent Methods
+
+  async clickOnCopyCodeOfLastMessageSent() {
+    const element = await this.getLastMessageSentCodeCopyButton();
+    await element.click();
+  }
+
+  async getLastMessageSentCodeCopyButton() {
+    const message = await this.getLastMessageSentLocator();
+    const messageCodeCopyButton = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON);
+    return messageCodeCopyButton;
+  }
+
+  async getLastMessageSentCodeLanguage() {
+    const message = await this.getLastMessageSentLocator();
+    const messageCodeLanguage = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE);
+    return messageCodeLanguage;
+  }
+
+  async getLastMessageSentCodePane() {
+    const message = await this.getLastMessageSentLocator();
+    const messageCodePane = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
+    return messageCodePane;
+  }
+
+  async getLastMessageSentCodeMessage() {
+    const messageCodePane = await this.getLastMessageSentCodePane();
+    let messageResult = "";
+    const messageResultElements = await messageCodePane.$$(
+      SELECTORS.CHAT_MESSAGE_CODE_MESSAGES
+    );
+    for (let element of messageResultElements) {
+      const codeMessageText = await element.getText();
+      messageResult += codeMessageText;
+    }
+    return messageResult;
+  }
 
   async getMessageSentLocator(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
