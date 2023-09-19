@@ -149,42 +149,47 @@ export default class CreateGroupChat extends UplinkMainScreen {
   async clearGroupNameInput() {
     const locator = await this.groupNameInput;
     const currentDriver = await this.getCurrentDriver();
+    const groupNameInput = await this.groupNameInput;
     if (currentDriver === MACOS_DRIVER) {
-      await this.groupNameInput.click();
+      await groupNameInput.click();
     } else if (currentDriver === WINDOWS_DRIVER) {
       await driver[this.executor].touchAction([
         { action: "press", element: locator },
       ]);
     }
-    await this.groupNameInput.setValue("");
+    await groupNameInput.setValue("");
   }
 
   async clearUserSearchInput() {
-    await this.userSearchInput.click();
-    await this.userSearchInput.setValue("");
+    const userSearchInput = await this.userSearchInput;
+    await userSearchInput.click();
+    await userSearchInput.setValue("");
   }
 
   async clickOnCreateGroupChat() {
-    await this.createGroupChatButton.click();
+    const createGroupChatButton = await this.createGroupChatButton;
+    await createGroupChatButton.click();
   }
 
   async getFriendFromListIndicatorOffline(username: string) {
-    const locator = await this.getFriendFromListLocator(username);
-    const indicatorOffline = await locator.$(
+    const friendLocator = await this.getFriendFromListLocator(username);
+    const indicatorOffline = await friendLocator.$(
       SELECTORS.FRIEND_INDICATOR_OFFLINE
     );
     return indicatorOffline;
   }
 
   async getFriendFromListIndicatorOnline(username: string) {
-    const locator = await this.getFriendFromListLocator(username);
-    const indicatorOnline = await locator.$(SELECTORS.FRIEND_INDICATOR_ONLINE);
+    const friendLocator = await this.getFriendFromListLocator(username);
+    const indicatorOnline = await friendLocator.$(
+      SELECTORS.FRIEND_INDICATOR_ONLINE
+    );
     return indicatorOnline;
   }
 
   async getFriendFromListUserImageProfile(username: string) {
-    const locator = await this.getFriendFromListLocator(username);
-    const userImageProfile = await locator.$(
+    const friendLocator = await this.getFriendFromListLocator(username);
+    const userImageProfile = await friendLocator.$(
       SELECTORS.FRIEND_USER_IMAGE_PROFILE
     );
     return userImageProfile;
@@ -192,9 +197,9 @@ export default class CreateGroupChat extends UplinkMainScreen {
 
   async getFriendFromListLocator(username: string) {
     const currentDriver = await this.getCurrentDriver();
-    let element;
+    let friendLocator;
     if (currentDriver === MACOS_DRIVER) {
-      element = await this.instance
+      friendLocator = await this.instance
         .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
         .$(SELECTORS.FRIENDS_LIST)
         .$(
@@ -203,7 +208,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
             '")]/../..'
         );
     } else if (currentDriver === WINDOWS_DRIVER) {
-      element = await this.instance
+      friendLocator = await this.instance
         .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
         .$(SELECTORS.FRIENDS_LIST)
         .$(
@@ -212,46 +217,48 @@ export default class CreateGroupChat extends UplinkMainScreen {
             '")]/../..'
         );
     }
-    return element;
+    return friendLocator;
   }
 
   async getFriendFromListUserImage(username: string) {
-    const locator = await this.getFriendFromListLocator(username);
-    const userImage = await locator.$(SELECTORS.FRIEND_USER_IMAGE);
+    const friendLocator = await this.getFriendFromListLocator(username);
+    const userImage = await friendLocator.$(SELECTORS.FRIEND_USER_IMAGE);
     return userImage;
   }
 
   async getFriendFromListUserImageWrap(username: string) {
-    const locator = await this.getFriendFromListLocator(username);
-    const userImageWrap = await locator.$(SELECTORS.FRIEND_USER_IMAGE_WRAP);
+    const friendLocator = await this.getFriendFromListLocator(username);
+    const userImageWrap = await friendLocator.$(
+      SELECTORS.FRIEND_USER_IMAGE_WRAP
+    );
     return userImageWrap;
   }
 
   async getFriendFromListUsername(username: string) {
-    const locator = await this.getFriendFromListLocator(username);
-    const usernameLocator = await locator
+    const friendLocator = await this.getFriendFromListLocator(username);
+    const usernameLocator = await friendLocator
       .$(SELECTORS.FRIEND_USER_NAME)
       .$(SELECTORS.FRIEND_USER_NAME_TEXT);
     return usernameLocator;
   }
 
   async selectUserFromList(username: string) {
-    const locator = await this.getFriendFromListUserImage(username);
-    await locator.click();
+    const userLocator = await this.getFriendFromListUserImage(username);
+    await userLocator.click();
   }
 
   async typeLongerTextInGroupName() {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
-    const locator = await this.groupNameInput;
+    const groupNameInput = await this.groupNameInput;
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.groupNameInput.click();
+      await groupNameInput.click();
       const userKey = await getClipboardMacOS();
-      await this.groupNameInput.setValue(userKey + userKey);
+      await groupNameInput.setValue(userKey + userKey);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await driver[this.executor].touchAction([
-        { action: "press", element: locator },
+        { action: "press", element: groupNameInput },
       ]);
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
       await robot.keyTap("v", ["control"]);
@@ -263,19 +270,20 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   async typeOnGroupName(name: string) {
-    const element = await this.groupNameInput;
-    await this.typeOnElement(element, name);
+    const groupNameInput = await this.groupNameInput;
+    await this.typeOnElement(groupNameInput, name);
   }
 
   async typeOnUsersSearchInput(name: string) {
-    const element = await this.userSearchInput;
-    await this.typeOnElement(element, name);
+    const userSearchInput = await this.userSearchInput;
+    await this.typeOnElement(userSearchInput, name);
   }
 
   // Validations
 
   async getNumberOfUsersInListFromCreateGroup() {
-    const numberOfUsersInList = await this.friendContainer.length;
+    const friendContainer = await this.friendContainer;
+    const numberOfUsersInList = await friendContainer.length;
     return numberOfUsersInList;
   }
 
@@ -286,13 +294,20 @@ export default class CreateGroupChat extends UplinkMainScreen {
       const username = await user
         .$(SELECTORS.FRIEND_USER_NAME)
         .$(SELECTORS.FRIEND_USER_NAME_TEXT);
-      users.push(username.getText());
+      const usernameText = await username.getText();
+      users.push(usernameText);
     }
     return users;
   }
 
   async getInputErrorText() {
-    const result = await this.createGroupInputErrorText.getText();
+    const createGroupInputErrorText = await this.createGroupInputErrorText;
+    const result = createGroupInputErrorText.getText();
     return result.toString();
+  }
+
+  async validateCreateGroupChatsIsShown() {
+    const createGroupChatSection = await this.createGroupChatSection;
+    await createGroupChatSection.waitForExist();
   }
 }

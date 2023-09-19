@@ -44,8 +44,7 @@ export async function setupBeforeCreateGroupTests() {
 
   // Paste copied DID Key into Status Input
   await settingsProfileFirstUser.pasteUserKeyInStatus();
-  const inputTextElementA = await settingsProfileFirstUser.getStatusInputText();
-  const didkeyA = await inputTextElementA.getText();
+  const didkeyA = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
   // Grab cache folder and restart
   await saveTestKeys(usernameA, didkeyA, USER_A_INSTANCE);
@@ -65,9 +64,7 @@ export async function setupBeforeCreateGroupTests() {
 
   // Paste copied DID Key into Status Input
   await settingsProfileSecondUser.pasteUserKeyInStatus();
-  const inputTextElementB =
-    await settingsProfileSecondUser.getStatusInputText();
-  const didkeyB = await inputTextElementB.getText();
+  const didkeyB = await settingsProfileSecondUser.getCopiedDidFromStatusInput();
 
   // Grab cache folder and restart
   await saveTestKeys(usernameB, didkeyB, USER_B_INSTANCE);
@@ -159,7 +156,7 @@ export async function setupBeforeSidebarTests() {
   const includesFriend = await blockedList.includes("ChatUserB");
   await expect(includesFriend).toEqual(true);
   await friendsScreenFirstUser.goToAllFriendsList();
-  await friendsScreenFirstUser.friendsList.waitForDisplayed();
+  await friendsScreenFirstUser.friendsList.waitForExist();
   await chatsInputSecondUser.switchToOtherUserWindow();
 
   // With User B - Go to Friends and wait for User A to remove friendship with User B

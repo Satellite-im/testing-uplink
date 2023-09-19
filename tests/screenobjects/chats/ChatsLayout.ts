@@ -69,4 +69,9 @@ export default class ChatsLayout extends UplinkMainScreen {
       .$(SELECTORS.TYPING_INDICATOR_TEXT)
       .$(SELECTORS.TYPING_INDICATOR_TEXT_VALUE);
   }
+
+  async validateChatLayoutIsShown() {
+    const chatLayout = await this.chatLayout;
+    await chatLayout.waitForExist();
+  }
 }

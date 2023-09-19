@@ -52,11 +52,13 @@ export default class CreateUserScreen extends UplinkMainScreen {
   }
 
   async enterUsername(username: string) {
-    await this.usernameInput.setValue(username);
+    const usernameInput = await this.usernameInput;
+    await usernameInput.setValue(username);
   }
 
   async clickOnCreateAccount() {
-    await this.createAccountButton.click();
+    const createAccountButton = await this.createAccountButton;
+    await createAccountButton.click();
   }
 
   async getStatusOfCreateAccountButton() {

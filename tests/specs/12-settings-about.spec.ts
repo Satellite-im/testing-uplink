@@ -12,36 +12,34 @@ export default async function settingsAbout() {
     await settingsAboutFirstUser.waitForIsShown(true);
 
     // Validate the header and description texts from Settings Section - About - About
-    await expect(settingsAboutFirstUser.aboutHeader).toHaveTextContaining(
-      "ABOUT"
-    );
-    await expect(settingsAboutFirstUser.aboutDescription).toHaveTextContaining(
-      "uplink"
-    );
+    const aboutHeader = await settingsAboutFirstUser.aboutHeader;
+    const aboutDescription = await settingsAboutFirstUser.aboutDescription;
+    await expect(aboutHeader).toHaveTextContaining("ABOUT");
+    await expect(aboutDescription).toHaveTextContaining("uplink");
 
     // Validate the header and description texts from Settings Section - About - Version
-    await expect(settingsAboutFirstUser.versionHeader).toHaveTextContaining(
-      "VERSION"
-    );
-    await expect(settingsAboutFirstUser.versionDescription).toHaveText(
-      /^[0-9].[0-9].[0-9]$/
-    );
+    const versionHeader = await settingsAboutFirstUser.versionHeader;
+    const versionDescription = await settingsAboutFirstUser.versionDescription;
+    await expect(versionHeader).toHaveTextContaining("VERSION");
+    await expect(versionDescription).toHaveText(/^[0-9].[0-9].[0-9]$/);
 
     // Validate the header and description texts from Settings Section - About - Open Website
-    await expect(settingsAboutFirstUser.openWebsiteHeader).toHaveTextContaining(
-      "OPEN WEBSITE"
+    const openWebsiteHeader = await settingsAboutFirstUser.openWebsiteHeader;
+    const openWebsiteDescription =
+      await settingsAboutFirstUser.openWebsiteDescription;
+    await expect(openWebsiteHeader).toHaveTextContaining("OPEN WEBSITE");
+    await expect(openWebsiteDescription).toHaveTextContaining(
+      "Opens our website in your default web browser."
     );
-    await expect(
-      settingsAboutFirstUser.openWebsiteDescription
-    ).toHaveTextContaining("Opens our website in your default web browser.");
 
     // Validate the header and description texts from Settings Section - About - Open Source Code
-    await expect(settingsAboutFirstUser.openSourceHeader).toHaveTextContaining(
-      "OPEN SOURCE CODE"
+    const openSourceHeader = await settingsAboutFirstUser.openSourceHeader;
+    const openSourceDescription =
+      await settingsAboutFirstUser.openSourceDescription;
+    await expect(openSourceHeader).toHaveTextContaining("OPEN SOURCE CODE");
+    await expect(openSourceDescription).toHaveTextContaining(
+      "Opens the codebase in your default web browser."
     );
-    await expect(
-      settingsAboutFirstUser.openSourceDescription
-    ).toHaveTextContaining("Opens the codebase in your default web browser.");
   });
 
   // Test skipped since we need to research on how to return properly to the app before implementing this test

@@ -213,36 +213,48 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   async clickOnAddPictureButton() {
-    await this.addPictureButton.click();
+    const button = await this.addPictureButton;
+    await button.click();
   }
 
   async clickOnCopyIDButton() {
-    await this.copyIDButton.click();
+    const button = await this.copyIDButton;
+    await button.click();
   }
 
   async clickOnDismissButton() {
-    await this.dismissButton.click();
+    const button = await this.dismissButton;
+    await button.click();
   }
 
   async deleteStatus() {
-    await this.statusInput.click();
-    await this.statusInput.clearValue();
+    const input = await this.statusInput;
+    await input.click();
+    await input.clearValue();
   }
 
   async enterStatus(status: string) {
-    await this.statusInput.click();
-    await this.statusInput.clearValue();
-    await this.statusInput.addValue(status);
+    const input = await this.statusInput;
+    await input.click();
+    await input.clearValue();
+    await input.addValue(status);
   }
 
   async enterUsername(username: string) {
-    await this.usernameInput.click();
-    await this.usernameInput.clearValue();
-    await this.usernameInput.addValue(username);
+    const input = await this.usernameInput;
+    await input.click();
+    await input.clearValue();
+    await input.addValue(username);
+  }
+
+  async getCopiedDidFromStatusInput() {
+    const statusInputValue = await this.getStatusInputValue();
+    return statusInputValue;
   }
 
   async getCopyIDButtonText() {
-    return await this.copyIDButton;
+    const text = await this.copyIDButton;
+    return text;
   }
 
   async getShortDidKey(didKey: string) {
@@ -251,12 +263,15 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     return abbreviatedUserKey;
   }
 
-  async getStatusInputText() {
-    return await this.statusInput;
+  async getStatusInputElement() {
+    const statusInput = await this.statusInput;
+    return statusInput;
   }
 
   async getStatusInputValue() {
-    return await this.statusInput.getText();
+    const statusInput = await this.statusInput;
+    const statusInputText = await statusInput.getText();
+    return statusInputText;
   }
 
   async hoverOnBanner() {
@@ -270,8 +285,8 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   async hoverOnCopyID() {
-    const element = await this.copyIDButton;
-    await this.hoverOnElement(element);
+    const copyIdButton = await this.copyIDButton;
+    await this.hoverOnElement(copyIdButton);
   }
 
   async pasteUserKeyInStatus() {
@@ -283,8 +298,9 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await this.enterStatus(userKey);
     } else if (currentDriver === WINDOWS_DRIVER) {
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
-      await this.statusInput.click();
-      await this.statusInput.clearValue();
+      const statusInput = await this.statusInput;
+      await statusInput.click();
+      await statusInput.clearValue();
       await robot.keyTap("v", ["control"]);
     }
   }
@@ -294,16 +310,19 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.profileBanner.click();
+      const profileBannerMac = await this.profileBanner;
+      await profileBannerMac.click();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.profileBanner.click();
+      const profileBannerWindows = await this.profileBanner;
+      await profileBannerWindows.click();
       const uplinkContext = await driver[this.executor].getWindowHandle();
       await selectFileOnWindows(relativePath, uplinkContext, this.executor);
     }
 
     // Validate that profile banner is displayed on screen
-    await this.profileBanner.waitForDisplayed();
+    const profileBannerImage = await this.profileBanner;
+    await profileBannerImage.waitForExist();
   }
 
   async uploadProfilePicture(relativePath: string) {
@@ -320,6 +339,12 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     }
 
     // Validate that profile banner is displayed on screen
-    await this.profilePicture.waitForDisplayed();
+    const profilePictureImage = await this.profilePicture;
+    await profilePictureImage.waitForExist();
+  }
+
+  async validateSettingsProfileIsShown() {
+    const settingsProfile = await this.settingsProfile;
+    await settingsProfile.waitForExist();
   }
 }

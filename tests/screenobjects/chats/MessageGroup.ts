@@ -13,6 +13,14 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
+  CHAT_MESSAGE_LOCAL_FIRST: '[name="message-local-message-first"]',
+  CHAT_MESSAGE_LOCAL_LAST: '[name="message-local-message-last"]',
+  CHAT_MESSAGE_LOCAL_MIDDLE: '[name="message-local-message-middle"]',
+  CHAT_MESSAGE_REMOTE_FIRST: '[name="message-remote-message-first"]',
+  CHAT_MESSAGE_REMOTE_LAST: '[name="message-remote-message-last"]',
+  CHAT_MESSAGE_REMOTE_MIDDLE: '[name="message-remote-message-middle"]',
+  CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
+  CHAT_MESSAGE_TEXT_VALUE: "<Text>",
   EMOJI_REACTION_REMOTE: '[name="emoji-reaction-remote"]',
   EMOJI_REACTION_SELF: '[name="emoji-reaction-self"]',
   EMOJI_REACTION_VALUE: "<Text>",
@@ -32,6 +40,14 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  CHAT_MESSAGE_LOCAL_FIRST: "~message-local-message-first",
+  CHAT_MESSAGE_LOCAL_LAST: "~message-local-message-last",
+  CHAT_MESSAGE_LOCAL_MIDDLE: "~message-local-message-middle",
+  CHAT_MESSAGE_REMOTE_FIRST: "~message-remote-message-first",
+  CHAT_MESSAGE_REMOTE_LAST: "~message-remote-message-last",
+  CHAT_MESSAGE_REMOTE_MIDDLE: "~message-remote-message-middle",
+  CHAT_MESSAGE_TEXT_GROUP: "~message-text",
+  CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   EMOJI_REACTION_REMOTE: "~emoji-reaction-remote",
   EMOJI_REACTION_SELF: "~emoji-reaction-self",
   EMOJI_REACTION_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
@@ -60,6 +76,40 @@ export default class MessageGroup extends UplinkMainScreen {
       executor,
       SELECTORS.MESSAGE_GROUP_WRAP_REMOTE || SELECTORS.MESSAGE_GROUP_WRAP_SENT
     );
+  }
+
+  get chatMessageLocalFirst() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_LOCAL_FIRST);
+  }
+
+  get chatMessageLocalLast() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_LOCAL_LAST);
+  }
+
+  get chatMessageLocalMiddle() {
+    return this.instance.$$(SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE);
+  }
+
+  get chatMessageRemoteFirst() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_REMOTE_FIRST);
+  }
+
+  get chatMessageRemoteLast() {
+    return this.instance.$(SELECTORS.CHAT_MESSAGE_REMOTE_LAST);
+  }
+
+  get chatMessageRemoteMiddle() {
+    return this.instance.$$(SELECTORS.CHAT_MESSAGE_REMOTE_MIDDLE);
+  }
+
+  get chatMessageTextValue() {
+    return this.instance
+      .$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+  }
+
+  get chatMessageTextGroup() {
+    return this.instance.$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
   get emojiReactionRemote() {
@@ -175,28 +225,12 @@ export default class MessageGroup extends UplinkMainScreen {
     return userImage;
   }
 
-  async getLastGroupWrapReceivedOffline() {
-    const groupWrap = await this.getLastGroupWrapReceived();
-    const offlineStatus = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE
-    );
-    return offlineStatus;
-  }
-
   async getLastGroupWrapReceivedOnline() {
     const groupWrap = await this.getLastGroupWrapReceived();
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
     );
     return onlineStatus;
-  }
-
-  async getLastGroupWrapReceivedUserImageProfile() {
-    const groupWrap = await this.getLastGroupWrapReceived();
-    const userImageProfile = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE
-    );
-    return userImageProfile;
   }
 
   // Message Group Wraps Sent Methods
@@ -216,28 +250,12 @@ export default class MessageGroup extends UplinkMainScreen {
     return userImage;
   }
 
-  async getLastGroupWrapSentOffline() {
-    const groupWrap = await this.getLastGroupWrapSent();
-    const offlineStatus = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE
-    );
-    return offlineStatus;
-  }
-
   async getLastGroupWrapSentOnline() {
     const groupWrap = await this.getLastGroupWrapSent();
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
     );
     return onlineStatus;
-  }
-
-  async getLastGroupWrapSentUserImageProfile() {
-    const groupWrap = await this.getLastGroupWrapSent();
-    const userImageProfile = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE
-    );
-    return userImageProfile;
   }
 
   // Group Messages Received Methods
@@ -257,18 +275,6 @@ export default class MessageGroup extends UplinkMainScreen {
     return timeAgoText;
   }
 
-  async rightClickOnLastReceivedGroup() {
-    const lastGroupReceived = await this.getLastReceivedGroup();
-    const imageOnGroup = await lastGroupReceived.$("/..");
-    await this.hoverOnElement(imageOnGroup);
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(imageOnGroup, this.executor);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(imageOnGroup, this.executor);
-    }
-  }
-
   // Group Messages Sent Methods
   async getLastSentGroup() {
     const messageGroupsSent = await this.messageGroupSent;
@@ -283,18 +289,6 @@ export default class MessageGroup extends UplinkMainScreen {
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
     return timeAgoText;
-  }
-
-  async rightClickOnLastSentGroup() {
-    const lastSentGroup = await this.getLastSentGroup();
-    const imageOnGroup = await lastSentGroup.$("/..");
-    await this.hoverOnElement(imageOnGroup);
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(imageOnGroup, this.executor);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(imageOnGroup, this.executor);
-    }
   }
 
   // Context Menu methods
@@ -325,9 +319,6 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async getLastMessageReceivedReactionsContainer() {
     const lastGroupReceived = await this.getLastReceivedGroup();
-    await lastGroupReceived
-      .$(SELECTORS.MESSAGE_REACTION_CONTAINER)
-      .waitForExist();
     const reactionContainers = await lastGroupReceived.$$(
       SELECTORS.MESSAGE_REACTION_CONTAINER
     );
@@ -344,10 +335,9 @@ export default class MessageGroup extends UplinkMainScreen {
     );
     let results = [];
     for (let reaction of remoteReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
+      const reactionValue = await reaction.$(SELECTORS.EMOJI_REACTION_VALUE);
+      const reactionValueText = await reactionValue.getText();
+      results.push(reactionValueText);
     }
     return results;
   }
@@ -360,17 +350,15 @@ export default class MessageGroup extends UplinkMainScreen {
     );
     let results = [];
     for (let reaction of selfReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
+      const reactionValue = await reaction.$(SELECTORS.EMOJI_REACTION_VALUE);
+      const reactionValueText = await reactionValue.getText();
+      results.push(reactionValueText);
     }
     return results;
   }
 
   async getLastMessageSentReactionsContainer() {
     const lastGroupSent = await this.getLastSentGroup();
-    await lastGroupSent.$(SELECTORS.MESSAGE_REACTION_CONTAINER).waitForExist();
     const reactionContainers = await lastGroupSent.$$(
       SELECTORS.MESSAGE_REACTION_CONTAINER
     );
@@ -387,10 +375,9 @@ export default class MessageGroup extends UplinkMainScreen {
     );
     let results = [];
     for (let reaction of remoteReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
+      const reactionValue = await reaction.$(SELECTORS.EMOJI_REACTION_VALUE);
+      const reactionValueText = await reactionValue.getText();
+      results.push(reactionValueText);
     }
     return results;
   }
@@ -403,43 +390,74 @@ export default class MessageGroup extends UplinkMainScreen {
     );
     let results = [];
     for (let reaction of selfReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      results.push(reactionValue);
+      const reactionValue = await reaction.$(SELECTORS.EMOJI_REACTION_VALUE);
+      const reactionValueText = await reactionValue.getText();
+      results.push(reactionValueText);
     }
     return results;
   }
 
-  async removeReactionOnLastSentMessage(reaction: string) {
-    const reactionsContainer =
-      await this.getLastMessageSentReactionsContainer();
-    const selfReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_SELF
-    );
-    for (let reaction of selfReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      if (reactionValue.includes(reaction)) {
-        await reaction.click();
-      }
+  async waitUntilEmojiReactionRemoteExists(expectedReaction: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      const emojiReaction = await this.instance.$(
+        '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedReaction +
+          '")]'
+      );
+      await emojiReaction.waitForExist();
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      const emojiReaction = await this.instance.$(
+        '//Group[contains(@Name, "emoji-reaction-remote")]//Text[contains(@Name, "' +
+          expectedReaction +
+          '")]'
+      );
+      await emojiReaction.waitForExist();
     }
   }
 
-  async removeReactionOnLastReceivedMessage(reaction: string) {
-    const reactionsContainer =
-      await this.getLastMessageReceivedReactionsContainer();
-    const selfReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_SELF
-    );
-    for (let reaction of selfReactions) {
-      const reactionValue = await reaction
-        .$(SELECTORS.EMOJI_REACTION_VALUE)
-        .getText();
-      if (reactionValue.includes(reaction)) {
-        await reaction.click();
-      }
+  async waitUntilEmojiReactionSelfExists(expectedReaction: string) {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      const emojiReaction = await this.instance.$(
+        '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-self")]//XCUIElementTypeStaticText[contains(@value, "' +
+          expectedReaction +
+          '")]'
+      );
+      await emojiReaction.waitForExist();
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      const emojiReaction = await this.instance.$(
+        '//Group[contains(@Name, "emoji-reaction-self")]/Text[contains(@Name, "' +
+          expectedReaction +
+          '")]'
+      );
+      await emojiReaction.waitForExist();
     }
+  }
+
+  // Get messages locators from last message group received
+
+  async getFirstMessageInLastGroupReceived() {
+    const lastGroupSent = await this.getLastReceivedGroup();
+    const firstMessage = await lastGroupSent.$(
+      SELECTORS.CHAT_MESSAGE_LOCAL_FIRST
+    );
+    return firstMessage;
+  }
+
+  async getLastMessageInLastGroupReceived() {
+    const lastGroupSent = await this.getLastReceivedGroup();
+    const lastMessage = await lastGroupSent.$(
+      SELECTORS.CHAT_MESSAGE_LOCAL_LAST
+    );
+    return lastMessage;
+  }
+
+  async getMiddleMessageInLastGroupReceived(index: number) {
+    const lastGroupSent = await this.getLastReceivedGroup();
+    const middleMessage = await lastGroupSent.$$(
+      SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE
+    )[index];
+    return middleMessage;
   }
 }

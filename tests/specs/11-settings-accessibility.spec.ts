@@ -14,12 +14,12 @@ export default async function settingsAccessibility() {
     await settingsAccessibilityFirstUser.waitForIsShown(true);
 
     // Validate texts for Open Dyslexic Settings Section
-    await expect(
-      settingsAccessibilityFirstUser.openDyslexicHeader
-    ).toHaveTextContaining("OPEN DYSLEXIC");
-    await expect(
-      settingsAccessibilityFirstUser.openDyslexicDescription
-    ).toHaveTextContaining(
+    const openDyslexicHeader =
+      await settingsAccessibilityFirstUser.openDyslexicHeader;
+    const openDyslexicDescription =
+      await settingsAccessibilityFirstUser.openDyslexicDescription;
+    await expect(openDyslexicHeader).toHaveTextContaining("OPEN DYSLEXIC");
+    await expect(openDyslexicDescription).toHaveTextContaining(
       "Open Dyslexic may help some users who suffer from dyslexia, it's a custom font you can enable."
     );
   });

@@ -49,6 +49,12 @@ export default class WelcomeScreen extends UplinkMainScreen {
   }
 
   async clickAddSomeone() {
-    return this.addFriendsButton.click();
+    const addSomeoneButton = await this.addFriendsButton;
+    await addSomeoneButton.click();
+  }
+
+  async validateWelcomeScreenIsShown() {
+    const welcomeLayout = await this.welcomeLayout;
+    await welcomeLayout.waitForExist();
   }
 }

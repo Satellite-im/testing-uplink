@@ -45,9 +45,7 @@ export default async function createReusableAccounts() {
 
     // Paste copied DID Key into Status Input
     await settingsProfileFirstUser.pasteUserKeyInStatus();
-    const inputTextElement =
-      await settingsProfileFirstUser.getStatusInputText();
-    const didkey = await inputTextElement.getText();
+    const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
     await saveTestKeys(username, didkey, USER_A_INSTANCE);
@@ -91,9 +89,7 @@ export default async function createReusableAccounts() {
 
     // Paste copied DID Key into Status Input
     await settingsProfileFirstUser.pasteUserKeyInStatus();
-    const inputTextElement =
-      await settingsProfileFirstUser.getStatusInputText();
-    const didkey = await inputTextElement.getText();
+    const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
     await saveTestKeys(username, didkey, USER_A_INSTANCE);
