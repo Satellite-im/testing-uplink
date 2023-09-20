@@ -519,8 +519,9 @@ export default class Messages extends UplinkMainScreen {
   // Messages Sent Methods
 
   async clickOnCopyCodeOfLastMessageSent() {
-    const element = await this.getLastMessageSentCodeCopyButton();
-    await element.click();
+    const copyButton = await this.getLastMessageSentCodeCopyButton();
+    await this.hoverOnElement(copyButton);
+    await copyButton.click();
   }
 
   async getLastMessageSentCodeCopyButton() {
@@ -625,6 +626,10 @@ export default class Messages extends UplinkMainScreen {
 
   async getLastMessageReceivedDownloadButton() {
     const lastMessage = await this.getLastMessageReceivedLocator();
+    const lastMessageFileIcon = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_ICON
+    );
+    await this.hoverOnElement(lastMessageFileIcon);
     const getLastMessageDownloadButton = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_BUTTON
     );
@@ -665,6 +670,10 @@ export default class Messages extends UplinkMainScreen {
 
   async getLastMessageSentDownloadButton() {
     const lastMessage = await this.getLastMessageSentLocator();
+    const lastMessageFileIcon = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_ICON
+    );
+    await this.hoverOnElement(lastMessageFileIcon);
     const getLastMessageSentDownloadButton = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_BUTTON
     );
