@@ -236,16 +236,18 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async clickOnFirstAddButton() {
-    const firstAddButton = await this.instance.$(
+    const firstAddButton = await this.instance.$$(
       SELECTORS.ADD_PARTICIPANT_BUTTON
-    );
+    )[0];
+    await firstAddButton.waitForExist();
     await firstAddButton.click();
   }
 
   async clickOnFirstRemoveButton() {
-    const removeParticipantButton = await this.instance.$(
+    const removeParticipantButton = await this.instance.$$(
       SELECTORS.REMOVE_PARTICIPANT_BUTTON
-    );
+    )[0];
+    await removeParticipantButton.waitForExist();
     await removeParticipantButton.click();
   }
 
@@ -352,20 +354,25 @@ export default class EditGroup extends UplinkMainScreen {
     return userImageWrap;
   }
 
-  async selectUserFromList(participant: string) {
-    const userLocator = await this.getParticipantContainerLocator(participant);
-    await userLocator.click();
-  }
-
   async typeOnGroupNameInput(name: string) {
     const groupNameInput = await this.groupNameInput;
+    await groupNameInput.clearValue();
     await groupNameInput.setValue(name);
+    const currentValue = await groupNameInput.getText();
+    if (currentValue !== name) {
+      await this.typeOnGroupNameInput(name);
+    }
   }
 
   async typeOnSearchUserInput(username: string) {
     const userInput = await this.userInput;
+    await userInput.clearValue();
     await userInput.click();
     await userInput.setValue(username);
+    const userInputValue = await userInput.getText();
+    if (userInputValue !== username) {
+      await this.typeOnSearchUserInput(username);
+    }
   }
 
   async validateEditGroupIsShown() {

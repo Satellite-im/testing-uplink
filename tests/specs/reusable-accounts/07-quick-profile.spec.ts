@@ -140,6 +140,7 @@ export default async function quickProfileTests() {
     // Validate friend request appears on pending list
     await friendsScreenFirstUser.hoverOnPendingListButton();
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateOutgoingListIsShown();
     await friendsScreenFirstUser.validateOutgoingListIsNotEmpty();
 
     const removeOrDenyButton =
@@ -147,6 +148,7 @@ export default async function quickProfileTests() {
     await removeOrDenyButton.waitForExist();
 
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     await friendsScreenSecondUser.switchToOtherUserWindow();
 
     // With User B - Go to pending requests list, wait for receiving the friend request and accept it
@@ -155,12 +157,14 @@ export default async function quickProfileTests() {
     await friendsScreenSecondUser.validateFriendsScreenIsShown();
     await friendsScreenSecondUser.hoverOnPendingListButton();
     await friendsScreenSecondUser.goToPendingFriendsList();
+    await friendsScreenSecondUser.validateIncomingListIsShown();
     await friendsScreenSecondUser.acceptIncomingRequest("ChatUserA");
   });
 
   it("Chat User B - Validate that User A is now a friend", async () => {
     // Return to Friends List
     await friendsScreenSecondUser.goToAllFriendsList();
+    await friendsScreenSecondUser.validateAllFriendsListIsShown();
 
     // Validate friend is now on all friends list
     await friendsScreenSecondUser.validateAllFriendsListIsNotEmpty();
@@ -170,7 +174,9 @@ export default async function quickProfileTests() {
   it("Chat User A - Wait until friend request is accepted again", async () => {
     // Wait until user B accepts the friend request
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateIncomingListIsShown();
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
 
     // Validate friend is now on all friends list
     await friendsScreenFirstUser.validateAllFriendsListIsNotEmpty();
@@ -228,9 +234,11 @@ export default async function quickProfileTests() {
     // Get current list of Blocked friends and ensure that it includes the blocked user
     await welcomeScreenFirstUser.goToFriends();
     await friendsScreenFirstUser.goToBlockedList();
+    await friendsScreenFirstUser.validateBlockedListIsShown();
     await friendsScreenFirstUser.validateBlockedListIsNotEmpty();
 
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     const friendsList = await friendsScreenFirstUser.friendsList;
     await friendsList.waitForExist();
     await chatsInputSecondUser.switchToOtherUserWindow();

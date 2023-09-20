@@ -138,7 +138,6 @@ export default async function groupChatSidebarTests() {
     await editGroupFirstUser.validateEditGroupIsShown();
     await editGroupFirstUser.clickOnAddMembers();
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
-    await editGroupFirstUser.selectUserFromList("ChatUserB");
     await editGroupFirstUser.clickOnFirstAddButton();
     await editGroupFirstUser.validateNothingHereIsDisplayed();
   });

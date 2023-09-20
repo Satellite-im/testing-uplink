@@ -36,13 +36,14 @@ export default async function sidebarChatsTests() {
     await friendsScreenFirstUser.validateFriendsScreenIsShown();
     await friendsScreenFirstUser.hoverOnBlockedListButton();
     await friendsScreenFirstUser.goToBlockedList();
-
     await friendsScreenFirstUser.validateBlockedListIsShown();
+    await friendsScreenFirstUser.validateBlockedListIsNotEmpty();
     await friendsScreenFirstUser.removeOrCancelUser("ChatUserB");
     await friendsScreenFirstUser.removeOrDenyFriendButton.waitForExist({
       reverse: true,
     });
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
   });
 
   it("Chat User A - Send friend request again to Chat User B", async () => {
@@ -57,6 +58,7 @@ export default async function sidebarChatsTests() {
     // Validate that friend request was sent
     await friendsScreenFirstUser.hoverOnPendingListButton();
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateOutgoingListIsShown();
     await friendsScreenFirstUser.validateRemoveOrDenyButtonIsShown();
     await friendsScreenSecondUser.switchToOtherUserWindow();
 
@@ -84,6 +86,7 @@ export default async function sidebarChatsTests() {
 
     // Return to Friends List
     await friendsScreenSecondUser.goToAllFriendsList();
+    await friendsScreenSecondUser.validateAllFriendsListIsShown();
   });
 
   it("Chat User B - Send message to User A", async () => {
@@ -106,6 +109,7 @@ export default async function sidebarChatsTests() {
     // With User A - Wait until user B accepts the friend request
     await friendsScreenFirstUser.switchToOtherUserWindow();
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     await friendsScreenFirstUser.validateAllFriendsListIsShown();
     await friendsScreenFirstUser.waitUntilUserAcceptedFriendRequest();
   });

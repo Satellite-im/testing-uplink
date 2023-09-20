@@ -125,7 +125,6 @@ export default async function groupChatEditTests() {
 
   it("Edit Group - Remove someone from the group", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
-    await editGroupFirstUser.selectUserFromList("ChatUserB");
     await editGroupFirstUser.clickOnFirstRemoveButton();
     await editGroupFirstUser.validateNothingHereIsDisplayed();
     await chatsTopbarFirstUser.editGroup();
@@ -156,7 +155,6 @@ export default async function groupChatEditTests() {
 
   it("Edit Group - Add someone to the group - Add Chat User B again", async () => {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
-    await editGroupFirstUser.selectUserFromList("ChatUserB");
     await editGroupFirstUser.clickOnFirstAddButton();
     await editGroupFirstUser.validateNothingHereIsDisplayed();
     await chatsTopbarFirstUser.editGroup();
@@ -177,6 +175,6 @@ export default async function groupChatEditTests() {
     await chatsTopbarSecondUser.validateTopbarExists();
 
     const topbarUserStatus = await chatsTopbarSecondUser.topbarUserStatusValue;
-    await expect(topbarUserStatus).toHaveTextContaining("X");
+    await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
   });
 }
