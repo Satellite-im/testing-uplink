@@ -533,7 +533,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async typeOnSidebarSearchInput(text: string) {
-    const element = await this.chatSearchInput;
-    await this.typeOnElement(element, text);
+    const chatSearchInput = await this.chatSearchInput;
+    await chatSearchInput.setValue(text);
   }
 }

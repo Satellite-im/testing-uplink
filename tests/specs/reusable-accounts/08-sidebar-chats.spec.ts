@@ -73,7 +73,7 @@ export default async function sidebarChatsTests() {
     await friendsScreenSecondUser.validateFriendsButtonBadgeIsShown;
     const friendsButtonBadgeText =
       await friendsScreenSecondUser.getValueFromFriendsButtonBadge();
-    await expect(friendsButtonBadgeText).toHaveTextContaining("1");
+    await expect(friendsButtonBadgeText).toEqual("1");
   });
 
   it("Chat User B - Accept incoming request", async () => {

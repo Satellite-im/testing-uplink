@@ -14,14 +14,14 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   ADD_MEMBERS: '[name="edit-group-add-members"]',
   ADD_PARTICIPANT_BUTTON: '[name="Add"]',
-  CURRENT_MEMBERS: '[name="edit-group-current-members"]',
+  CURRENT_MEMBERS: '[name="edit-group-remove-members"]',
   EDIT_GROUP_SECTION: '[name="edit-group"]',
   FRIENDS_GROUP: '[name="friend-group"]',
   FRIENDS_LIST: '[name="friends-list"]',
   GROUP_NAME_INPUT: '[name="groupname-input"]',
   GROUP_NAME_INPUT_ERROR: '[name="input-error"]',
   GROUP_NAME_INPUT_ERROR_TEXT: "<Text>",
-  NOTHING_HERE_TEXT: '[name="Nothing Here..."]',
+  NOTHING_HERE_TEXT: '//Text[starts-with(@Name, "Nothing")]',
   PARTICIPANT_USER_CONTAINER: '[name="Friend Container"]',
   PARTICIPANT_USER_CREATOR_BADGE_IMAGE: "<Image>",
   PARTICIPANT_USER_CREATOR_BADGE_TEXT: '[name="Group Creator"]',
@@ -41,7 +41,7 @@ const SELECTORS_MACOS = {
   ADD_MEMBERS: "~edit-group-add-members",
   ADD_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   ADD_PARTICIPANT_BUTTON: "~Add",
-  CURRENT_MEMBERS: "~edit-group-current-members",
+  CURRENT_MEMBERS: "~edit-group-remove-members",
   CURRENT_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   EDIT_GROUP_SECTION: "~edit-group",
   FRIENDS_GROUP: "~friend-group",
@@ -123,7 +123,7 @@ export default class EditGroup extends UplinkMainScreen {
 
   get nothingHereText() {
     return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.FRIENDS_LIST)
       .$(SELECTORS.NOTHING_HERE_TEXT);
   }
 
@@ -359,7 +359,6 @@ export default class EditGroup extends UplinkMainScreen {
 
   async typeOnGroupNameInput(name: string) {
     const groupNameInput = await this.groupNameInput;
-    await groupNameInput.click();
     await groupNameInput.setValue(name);
   }
 

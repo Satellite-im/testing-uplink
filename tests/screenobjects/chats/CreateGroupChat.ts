@@ -271,12 +271,12 @@ export default class CreateGroupChat extends UplinkMainScreen {
 
   async typeOnGroupName(name: string) {
     const groupNameInput = await this.groupNameInput;
-    await this.typeOnElement(groupNameInput, name);
+    await groupNameInput.setValue(name);
   }
 
   async typeOnUsersSearchInput(name: string) {
     const userSearchInput = await this.userSearchInput;
-    await this.typeOnElement(userSearchInput, name);
+    await userSearchInput.setValue(name);
   }
 
   // Validations
