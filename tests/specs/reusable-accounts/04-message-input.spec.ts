@@ -4,6 +4,7 @@ import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import InputBar from "@screenobjects/chats/InputBar";
 import Messages from "@screenobjects/chats/Messages";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
@@ -64,6 +65,39 @@ export default async function messageInputTests() {
     // With Chat User B
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingMessage("Bolds2");
+  });
+
+  it("Chat Input Text - Validate users can send messages using the code language markdown", async () => {
+    // With Chat User A, send a code snippet with JavaScript language
+    await chatsInputFirstUser.switchToOtherUserWindow();
+    await chatsInputFirstUser.typeCodeOnInputBar("JavaScript", "let a = 1;");
+    await chatsInputFirstUser.clickOnSendMessage();
+
+    // With Chat User A, validate code message was sent and is displayed correctly
+    await chatsMessagesFirstUser.waitForCodeMessageSentToExist("JavaScript");
+    const codeMessageTextSent =
+      await chatsMessagesFirstUser.getLastMessageSentCodeMessage();
+    await expect(codeMessageTextSent).toEqual("let a = 1;");
+
+    // With Chat User B, validate code message was received and is displayed correctly
+    await chatsInputSecondUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.waitForReceivingCodeMessage("JavaScript");
+    const codeMessageTextReceived =
+      await chatsMessagesSecondUser.getLastMessageReceivedCodeMessage();
+    await expect(codeMessageTextReceived).toEqual("let a = 1;");
+  });
+
+  it("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
+    // With Chat User A, click on the copy button from code block of last chat message sent
+    await chatsInputFirstUser.switchToOtherUserWindow();
+    await chatsMessagesFirstUser.clickOnCopyCodeOfLastMessageSent();
+
+    // Then, paste it into the input bar and assert the text contents on input bar
+    await chatsInputFirstUser.pasteClipboardOnInputBar();
+    await expect(chatsInputFirstUser.inputText).toHaveText("let a = 1;");
+
+    // Finally, clear the input bar for next tests
+    await chatsInputFirstUser.clearInputBar();
   });
 
   it("Chat Input Text - Validate text starting with https:// is sent as link", async () => {

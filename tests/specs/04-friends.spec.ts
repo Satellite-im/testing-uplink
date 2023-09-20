@@ -276,7 +276,9 @@ export default async function friends() {
 
     // Go to Pending friends list and return to all friends list
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateIncomingListIsShown();
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
 
     // Get current list of All friends and ensure that it does not include the removed user
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
@@ -295,6 +297,7 @@ export default async function friends() {
 
     // Get current list of All friends and ensure that it does not include the blocked user
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
     const allListIncludesFriend = allFriendsList.includes(friendName);
     await expect(allListIncludesFriend).toEqual(false);
@@ -348,6 +351,7 @@ export default async function friends() {
 
     // Get the current list of incoming requests and validate that user does not appear there now
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateIncomingListIsShown();
     const incomingRequestsList = await friendsScreenFirstUser.getIncomingList();
     const incomingListIncludes = await incomingRequestsList.includes(
       friendName
@@ -362,12 +366,14 @@ export default async function friends() {
 
     // Go to the current list of All friends and ensure that denied user is not in friends list
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
     const allListIncludes = await allFriendsList.includes(friendName);
     await expect(allListIncludes).toEqual(false);
 
     // Get the current list of incoming requests and validate that user does not appear there now
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateIncomingListIsShown();
     const incomingRequestsList = await friendsScreenFirstUser.getIncomingList();
     const incomingListIncludes = incomingRequestsList.includes(friendName);
     await expect(incomingListIncludes).toEqual(false);
@@ -380,12 +386,14 @@ export default async function friends() {
 
     // Go to the current list of All friends and ensure that removed user is not in friends list
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
     const allListIncludes = await allFriendsList.includes(friendName);
     await expect(allListIncludes).toEqual(false);
 
     // Get the current list of Outgoing Requests and validate that user does not appear there now
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateOutgoingListIsShown();
     const outgoingRequestsList = await friendsScreenFirstUser.getOutgoingList();
     const outgoingListIncludes = await outgoingRequestsList.includes(
       friendName
@@ -413,12 +421,14 @@ export default async function friends() {
 
     // Go to the current list of All friends and ensure that unblocked user is not on friends list as expected
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
     const allListIncludes = await allFriendsList.includes(friendName);
     await expect(allListIncludes).toEqual(false);
 
     // Get the current list of Blocked list and validate that user does not appear there now
     await friendsScreenFirstUser.goToBlockedList();
+    await friendsScreenFirstUser.validateBlockedListIsShown();
     const blockedList = await friendsScreenFirstUser.getBlockedList();
     const blockedListIncludes = await blockedList.includes(friendName);
     await expect(blockedListIncludes).toEqual(false);
@@ -487,7 +497,9 @@ export default async function friends() {
 
     // Go to pending list and return to all friends list
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateIncomingListIsShown();
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
 
     // Get current list of All friends and ensure user was removed from list
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
@@ -509,6 +521,7 @@ export default async function friends() {
 
     // Get current list of All friends and ensure that it does not include the blocked user
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
     const allListIncludes = await allFriendsList.includes(friendName);
     await expect(allListIncludes).toEqual(false);
@@ -531,6 +544,7 @@ export default async function friends() {
 
     // Get the current list of incoming requests and validate that user does not appear there now
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateIncomingListIsShown();
     const incomingRequestsList = await friendsScreenFirstUser.getIncomingList();
     const incomingListIncludes = await incomingRequestsList.includes(
       friendName
@@ -548,12 +562,14 @@ export default async function friends() {
 
     // Go to the current list of All friends and ensure that denied user is not in friends list
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
     const allListIncludes = await allFriendsList.includes(friendName);
     await expect(allListIncludes).toEqual(false);
 
     // Get the current list of incoming requests and validate that user does not appear there now
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateIncomingListIsShown();
     const incomingRequestsList = await friendsScreenFirstUser.getIncomingList();
     const incomingListIncludes = await incomingRequestsList.includes(
       friendName
@@ -571,12 +587,14 @@ export default async function friends() {
 
     // Go to the current list of All friends and ensure that removed user is not in friends list
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
     const allListIncludes = allFriendsList.includes(friendName);
     await expect(allListIncludes).toEqual(false);
 
     // Get the current list of Outgoing Requests and validate that user does not appear there now
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateOutgoingListIsShown();
     const outgoingRequestsList = await friendsScreenFirstUser.getOutgoingList();
     const outgoingListIncludes = outgoingRequestsList.includes(friendName);
     await expect(outgoingListIncludes).toEqual(false);
@@ -595,12 +613,14 @@ export default async function friends() {
 
     // Go to the current list of All friends and ensure that unblocked user is not on friends list, as expected
     await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
     const allListIncludes = await allFriendsList.includes(friendName);
     await expect(allListIncludes).toEqual(false);
 
     // Get the current list of Blocked list and validate that user does not appear there now
     await friendsScreenFirstUser.goToBlockedList();
+    await friendsScreenFirstUser.validateBlockedListIsShown();
     const blockedList = await friendsScreenFirstUser.getBlockedList();
     const blockedListIncludes = await blockedList.includes(friendName);
     await expect(blockedListIncludes).toEqual(false);

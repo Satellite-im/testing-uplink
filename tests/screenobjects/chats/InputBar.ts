@@ -6,8 +6,8 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import { selectFileOnMacos, selectFileOnWindows } from "@helpers/commands";
-import { join } from "path";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+const robot = require("robotjs");
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
@@ -179,6 +179,13 @@ export default class InputBar extends UplinkMainScreen {
     await this.hoverOnElement(uploadButton);
   }
 
+  async pasteClipboardOnInputBar() {
+    const inputText = await this.inputText;
+    await inputText.click();
+    await inputText.clearValue();
+    await robot.keyTap("v", ["control"]);
+  }
+
   async pressEnterKeyOnInputBar() {
     const currentDriver = await this.getCurrentDriver();
     let enterValue;
@@ -192,6 +199,24 @@ export default class InputBar extends UplinkMainScreen {
   async selectUploadFromLocalDisk() {
     const uploadButtonLocalDisk = await this.uploadButtonLocalDisk;
     await uploadButtonLocalDisk.click();
+  }
+
+  async typeCodeOnInputBar(language: string, codeToType: string) {
+    const inputText = await this.inputText;
+    await inputText.addValue("```" + language);
+    await robot.keyTap("enter", ["shift"]);
+    await inputText.addValue(codeToType);
+    await inputText.waitUntil(
+      async () => {
+        const inputTextValue = await inputText.getText();
+        return inputTextValue.includes(codeToType);
+      },
+      {
+        timeout: 5000,
+        timeoutMsg:
+          "Expected chat input to contain code markdown text after 5 seconds",
+      }
+    );
   }
 
   async typeMessageOnInput(text: string) {
