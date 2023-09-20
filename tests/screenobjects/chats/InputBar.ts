@@ -206,6 +206,17 @@ export default class InputBar extends UplinkMainScreen {
     await inputText.addValue("```" + language);
     await robot.keyTap("enter", ["shift"]);
     await inputText.addValue(codeToType);
+    await inputText.waitUntil(
+      async () => {
+        const inputTextValue = await inputText.getText();
+        return inputTextValue.includes(codeToType);
+      },
+      {
+        timeout: 5000,
+        timeoutMsg:
+          "Expected chat input to contain code markdown text after 5 seconds",
+      }
+    );
   }
 
   async typeMessageOnInput(text: string) {
