@@ -16,59 +16,70 @@ export default async function settingsGeneral() {
     await settingsGeneralFirstUser.waitForIsShown(true);
 
     // APP LANGUAGE
-    await expect(
-      settingsGeneralFirstUser.appLanguageHeader
-    ).toHaveTextContaining("APP LANGUAGE");
-    await expect(settingsGeneralFirstUser.appLanguageDescription).toHaveText(
-      "Change Language."
-    );
+    const appLangugageHeader = await settingsGeneralFirstUser.appLanguageHeader;
+    const appLanguageDescription =
+      await settingsGeneralFirstUser.appLanguageDescription;
+    await expect(appLangugageHeader).toHaveTextContaining("APP LANGUAGE");
+    await expect(appLanguageDescription).toHaveText("Change Language.");
 
     // THEME
-    await expect(settingsGeneralFirstUser.themeHeader).toHaveTextContaining(
-      "THEME"
+    const themeHeader = await settingsGeneralFirstUser.themeHeader;
+    const themeDescription = await settingsGeneralFirstUser.themeDescription;
+    await expect(themeHeader).toHaveTextContaining("THEME");
+    await expect(themeDescription).toHaveTextContaining(
+      "Change the theme of the app."
     );
-    await expect(
-      settingsGeneralFirstUser.themeDescription
-    ).toHaveTextContaining("Change the theme of the app.");
 
     // FONT
-    await expect(settingsGeneralFirstUser.fontHeader).toHaveTextContaining(
-      "FONT"
-    );
-    await expect(settingsGeneralFirstUser.fontDescription).toHaveTextContaining(
+    const fontHeader = await settingsGeneralFirstUser.fontHeader;
+    const fontDescription = await settingsGeneralFirstUser.fontDescription;
+    await expect(fontHeader).toHaveTextContaining("FONT");
+    await expect(fontDescription).toHaveTextContaining(
       "Change the font of the app."
     );
 
     // FONT SCALING
-    await expect(
-      settingsGeneralFirstUser.fontScalingHeader
-    ).toHaveTextContaining("FONT SCALING");
-    await expect(
-      settingsGeneralFirstUser.fontScalingDescription
-    ).toHaveTextContaining("Scale the font size up or down to your liking.");
+    const fontScalingHeader = await settingsGeneralFirstUser.fontScalingHeader;
+    const fontScalingDescription =
+      await settingsGeneralFirstUser.fontScalingDescription;
+    await expect(fontScalingHeader).toHaveTextContaining("FONT SCALING");
+    await expect(fontScalingDescription).toHaveTextContaining(
+      "Scale the font size up or down to your liking."
+    );
   });
 
   it("Settings General - Validate tooltips from buttons", async () => {
     // Validate Open Fonts Folder button tooltip
     await settingsGeneralFirstUser.hoverOnOpenFontsFolder();
-    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
-    await expect(
-      settingsGeneralFirstUser.settingsGeneralElementTooltipText
-    ).toHaveTextContaining("Open Folder");
+
+    const openFolderTooltip =
+      await settingsGeneralFirstUser.settingsGeneralElementTooltip;
+    const openFolderTooltipText =
+      await settingsGeneralFirstUser.settingsGeneralElementTooltipText;
+    await openFolderTooltip.waitForExist();
+    await expect(openFolderTooltipText).toHaveTextContaining("Open Folder");
 
     // Validate Open Themes Folder button tooltip
     await settingsGeneralFirstUser.hoverOnOpenThemesFolder();
-    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
-    await expect(
-      settingsGeneralFirstUser.settingsGeneralElementTooltipText
-    ).toHaveTextContaining("Open Folder");
+
+    const openThemesTooltip =
+      await settingsGeneralFirstUser.settingsGeneralElementTooltip;
+    const openThemesTooltipText =
+      await settingsGeneralFirstUser.settingsGeneralElementTooltipText;
+    await openThemesTooltip.waitForExist();
+    await expect(openThemesTooltipText).toHaveTextContaining("Open Folder");
 
     // Validate Clear Accent Color button tooltip
     await settingsGeneralFirstUser.hoverOnClearAccentColor();
-    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
-    await expect(
-      settingsGeneralFirstUser.settingsGeneralElementTooltipText
-    ).toHaveTextContaining("Clear accent color");
+
+    const clearAccentTooltip =
+      await settingsGeneralFirstUser.settingsGeneralElementTooltip;
+    const clearAccentTooltipText =
+      await settingsGeneralFirstUser.settingsGeneralElementTooltipText;
+    await clearAccentTooltip.waitForExist();
+    await expect(clearAccentTooltipText).toHaveTextContaining(
+      "Clear accent color"
+    );
   });
 
   // Skipped for now since there are no fonts to select
@@ -96,9 +107,8 @@ export default async function settingsGeneral() {
     await settingsGeneralFirstUser.clickOnFontScalingPlus();
 
     // Validate that current font size is changed to 1.25
-    await expect(
-      settingsGeneralFirstUser.fontScalingValue
-    ).toHaveTextContaining("1.25");
+    const fontScalingValue = await settingsGeneralFirstUser.fontScalingValue;
+    await expect(fontScalingValue).toHaveTextContaining("1.25");
   });
 
   it("Settings General - Reduce font scaling to 0.50", async () => {
@@ -107,9 +117,8 @@ export default async function settingsGeneral() {
     await settingsGeneralFirstUser.clickOnFontScalingMinus();
 
     // Validate that current font size is changed to 0.50
-    await expect(
-      settingsGeneralFirstUser.fontScalingValue
-    ).toHaveTextContaining("0.75");
+    const fontScalingValue = await settingsGeneralFirstUser.fontScalingValue;
+    await expect(fontScalingValue).toHaveTextContaining("0.75");
   });
 
   it("Settings General - Change theme to Light Theme", async () => {

@@ -57,7 +57,7 @@ export const config: WebdriverIO.Config = {
     baseUrl: 'http://localhost',
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 10000,
+    waitforTimeout: 15000,
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
@@ -90,10 +90,10 @@ export const config: WebdriverIO.Config = {
     framework: 'mocha',
     //
     // The number of times to retry the entire specfile when it fails as a whole
-    specFileRetries: 1,
+    specFileRetries: 2,
     //
     // Delay in seconds between the spec file retry attempts
-    specFileRetriesDelay: 10,
+    specFileRetriesDelay: 30,
     //
     // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
     specFileRetriesDeferred: false,

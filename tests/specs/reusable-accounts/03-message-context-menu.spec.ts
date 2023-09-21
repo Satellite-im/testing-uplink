@@ -15,16 +15,28 @@ let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
 
 export default async function messageContextMenuTests() {
   it("Chat User A - Send two more messages to Chat User B", async () => {
-    // Send two messages to Chat User B
+    // Send a message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Two...");
     await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Two...");
 
+    // Assert message received from Chat User B
+    await chatsInputSecondUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.waitForReceivingMessage("Two...");
+
+    // Send a message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Three...");
     await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Three...");
+
+    // Assert message received from Chat User B
+    await chatsInputSecondUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.waitForReceivingMessage("Three...");
   });
 
   it("Chat User A - Context Menu - Delete Message", async () => {
     // Open context menu on last message sent and select option for deleting
+    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.selectContextOptionDelete();
@@ -39,10 +51,10 @@ export default async function messageContextMenuTests() {
     await chatsMessagesSecondUser.switchToOtherUserWindow();
 
     // With User B - Validate that last message is "Two..."
-    await chatsMessagesSecondUser.waitForReceivingMessage("Two...", 60000);
+    await chatsMessagesSecondUser.waitForReceivingMessage("Two...");
 
     // With User B - Ensure that message "three.." was deleted
-    await chatsMessagesSecondUser.waitForMessageToBeDeleted("Three...", 30000);
+    await chatsMessagesSecondUser.waitForMessageToBeDeleted("Three...");
   });
 
   it("Chat User A - React to sent message and multiple reactions in a message", async () => {
@@ -51,11 +63,13 @@ export default async function messageContextMenuTests() {
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.clickOnFirstReaction();
+    await chatsMessageGroupsFirstUser.waitUntilEmojiReactionSelfExists("😂");
 
     // React with 🖖 emoji
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.clickOnSecondReaction();
+    await chatsMessageGroupsFirstUser.waitUntilEmojiReactionSelfExists("🖖");
 
     // Validate reactions are displayed correctly
     const reactions =
@@ -69,6 +83,7 @@ export default async function messageContextMenuTests() {
     await chatsMessagesFirstUser.openContextMenuOnLastReceived();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.clickOnThirdReaction();
+    await chatsMessageGroupsFirstUser.waitUntilEmojiReactionSelfExists("👎");
 
     // Validate reaction is displayed correctly
     const reaction =
@@ -84,6 +99,7 @@ export default async function messageContextMenuTests() {
     await chatsInputSecondUser.clearInputBar();
 
     // Validate reactions received on sent message
+    await chatsMessageGroupsSecondUser.waitUntilEmojiReactionRemoteExists("👎");
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentRemoteReactions();
     await expect(reaction.includes("👎 1")).toEqual(true);
@@ -91,6 +107,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User B - Receive reaction in received message", async () => {
     // Validate reactions received on sent message
+    await chatsMessageGroupsSecondUser.waitUntilEmojiReactionRemoteExists("🖖");
     const reactions =
       await chatsMessageGroupsSecondUser.getLastMessageReceivedRemoteReactions();
     await expect(reactions.includes("🖖 1")).toEqual(true);
@@ -104,6 +121,7 @@ export default async function messageContextMenuTests() {
     await chatsContextMenuSecondUser.clickOnThirdReaction();
 
     // Validate reaction is displayed correctly
+    await chatsMessageGroupsSecondUser.waitUntilEmojiReactionSelfExists("👎");
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
     await expect(reaction.includes("👎 2")).toEqual(true);
@@ -116,6 +134,7 @@ export default async function messageContextMenuTests() {
     await chatsContextMenuSecondUser.clickOnFourthReaction();
 
     // Validate reaction is displayed correctly
+    await chatsMessageGroupsSecondUser.waitUntilEmojiReactionSelfExists("👍");
     const reaction =
       await chatsMessageGroupsSecondUser.getLastMessageSentSelfReactions();
     await expect(reaction.includes("👎 2")).toEqual(true);

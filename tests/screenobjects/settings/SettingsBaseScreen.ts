@@ -19,11 +19,9 @@ const SELECTORS_WINDOWS = {
   AUDIO_BUTTON: '//Button[@HelpText="Sounds & Audio"]',
   DEVELOPER_BUTTON: '[name="developer-button"]',
   EXTENSIONS_BUTTON: '[name="extensions-button"]',
-  FILES_BUTTON: '[name="files-button"]',
   GENERAL_BUTTON: '[name="general-button"]',
   LICENSES_BUTTON: '[name="licenses-button"]',
   NOTIFICATIONS_BUTTON: '[name="notifications-button"]',
-  PRIVACY_BUTTON: '[name="privacy-button"]',
   PROFILE_BUTTON: '[name="profile-button"]',
   SETTINGS_SEARCH_INPUT: '[name="settings-search-input"]',
 };
@@ -34,11 +32,9 @@ const SELECTORS_MACOS = {
   AUDIO_BUTTON: "~sounds & audio-button",
   DEVELOPER_BUTTON: "~developer-button",
   EXTENSIONS_BUTTON: "~extensions-button",
-  FILES_BUTTON: "~files-button",
   GENERAL_BUTTON: "~general-button",
   LICENSES_BUTTON: "~licenses-button",
   NOTIFICATIONS_BUTTON: "~notifications-button",
-  PRIVACY_BUTTON: "~privacy-button",
   PROFILE_BUTTON: "~profile-button",
   SETTINGS_SEARCH_INPUT: "~settings-search-input",
 };
@@ -88,10 +84,6 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
     return this.instance.$(SELECTORS.EXTENSIONS_BUTTON);
   }
 
-  get filesSettingsButton() {
-    return this.instance.$$(SELECTORS.FILES_BUTTON)[1];
-  }
-
   get generalButton() {
     return this.instance.$(SELECTORS.GENERAL_BUTTON);
   }
@@ -102,10 +94,6 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
 
   get notificationsButton() {
     return this.instance.$(SELECTORS.NOTIFICATIONS_BUTTON);
-  }
-
-  get privacyButton() {
-    return this.instance.$(SELECTORS.PRIVACY_BUTTON);
   }
 
   get profileButton() {
@@ -121,47 +109,48 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
   }
 
   async goToAboutSettings() {
-    await this.aboutButton.click();
+    const aboutButton = await this.aboutButton;
+    await aboutButton.click();
   }
 
   async goToAccessibilitySettings() {
-    await this.accessibilityButton.click();
+    const accessibilityButton = await this.accessibilityButton;
+    await accessibilityButton.click();
   }
 
   async goToAudioSettings() {
-    await this.audioButton.click();
+    const audioButton = await this.audioButton;
+    await audioButton.click();
   }
 
   async goToDeveloperSettings() {
-    await this.developerButton.click();
+    const developerButton = await this.developerButton;
+    await developerButton.click();
   }
 
   async goToExtensionsSettings() {
-    await this.extensionsButton.click();
-  }
-
-  async goToFilesSettings() {
-    await this.filesSettingsButton.click();
+    const extensionsButton = await this.extensionsButton;
+    await extensionsButton.click();
   }
 
   async goToGeneralSettings() {
-    await this.generalButton.click();
+    const generalButton = await this.generalButton;
+    await generalButton.click();
   }
 
   async goToLicensesSettings() {
-    await this.licensesButton.click();
+    const licensesButton = await this.licensesButton;
+    await licensesButton.click();
   }
 
   async goToNotificationsSettings() {
-    await this.notificationsButton.click();
-  }
-
-  async goToPrivacySettings() {
-    await this.privacyButton.click();
+    const notificationsButton = await this.notificationsButton;
+    await notificationsButton.click();
   }
 
   async goToProfileSettings() {
-    await this.profileButton.click();
+    const profileButton = await this.profileButton;
+    await profileButton.click();
   }
 
   async getToggleState(element: WebdriverIO.Element) {

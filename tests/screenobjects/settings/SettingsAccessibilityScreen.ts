@@ -76,11 +76,11 @@ export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
 
   async clickOnOpenDyslexic() {
     const currentDriver = await this.getCurrentDriver();
+    const openDyslexicCheckbox = await this.openDyslexicCheckbox;
     if (currentDriver === WINDOWS_DRIVER) {
-      await this.openDyslexicCheckbox.click();
+      await openDyslexicCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      const element = await this.openDyslexicCheckbox;
-      await clickOnSwitchMacOS(element, this.executor);
+      await clickOnSwitchMacOS(openDyslexicCheckbox, this.executor);
     }
   }
 }

@@ -146,22 +146,27 @@ export default class QuickProfile extends UplinkMainScreen {
   }
 
   async clickOnBlockUser() {
-    await this.quickProfileBlockUser.click();
+    const blockUser = await this.quickProfileBlockUser;
+    await blockUser.click();
   }
 
   async clickOnEditProfile() {
-    await this.quickProfileEditProfile.click();
+    const editProfile = await this.quickProfileEditProfile;
+    await editProfile.click();
   }
 
   async clickOnMessageUser() {
-    await this.quickProfileMessage.click();
+    const messageUser = await this.quickProfileMessage;
+    await messageUser.click();
   }
 
   async clickOnRemoveUser() {
-    await this.quickProfileRemoveFriend.click();
+    const removeUser = await this.quickProfileRemoveFriend;
+    await removeUser.click();
   }
 
   async clickOnUnblockUser() {
-    await this.quickProfileUnblockUser.click();
+    const unblockUser = await this.quickProfileUnblockUser;
+    await unblockUser.click();
   }
 }

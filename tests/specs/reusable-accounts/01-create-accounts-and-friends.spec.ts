@@ -8,6 +8,7 @@ import {
 } from "@helpers/commands";
 import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import EmojiSelector from "@screenobjects/chats/EmojiSelector";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
@@ -21,13 +22,14 @@ import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
 let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
 let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
+let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
+let createPinSecondUser = new CreatePinScreen(USER_B_INSTANCE);
 let emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
 let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
@@ -47,11 +49,12 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export default async function createChatAccountsTests() {
   it("Chat User A - Create Account", async () => {
+    await createPinFirstUser.switchToOtherUserWindow();
     const username = "ChatUserA";
     await createNewUser(username);
     await maximizeWindow(USER_A_INSTANCE);
     await welcomeScreenFirstUser.goToSettings();
-    await settingsProfileFirstUser.waitForIsShown(true);
+    await settingsProfileFirstUser.validateSettingsProfileIsShown();
 
     // Click on Copy ID button and assert Toast Notification is displayed
     await settingsProfileFirstUser.clickOnCopyIDButton();
@@ -61,9 +64,7 @@ export default async function createChatAccountsTests() {
 
     // Paste copied DID Key into Status Input
     await settingsProfileFirstUser.pasteUserKeyInStatus();
-    const inputTextElement =
-      await settingsProfileFirstUser.getStatusInputText();
-    const didkey = await inputTextElement.getText();
+    const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
     await saveTestKeys(username, didkey, USER_A_INSTANCE);
@@ -72,40 +73,44 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Settings General - Reduce font size", async () => {
     // Go to General Settings and reduce Font Size by 0.5
     await settingsProfileFirstUser.goToGeneralSettings();
-    await settingsGeneralFirstUser.waitForIsShown(true);
+
+    // Wait for toast notification of Profile Updated to not exist
+    await settingsGeneralFirstUser.waitUntilNotificationIsClosed();
+
+    // Click on font scaling minus button
+    await settingsGeneralFirstUser.settingsGeneral.waitForExist();
     await settingsGeneralFirstUser.clickOnFontScalingMinus();
   });
 
   it("Chat User A - Settings Notifications - Disable notifications", async () => {
     // Go to Notifications Settings and disable all notifications
     await settingsGeneralFirstUser.goToNotificationsSettings();
-    await settingsNotificationsFirstUser.waitForIsShown(true);
+    await settingsNotificationsFirstUser.validateSettingsNotificationsIsShown();
     await settingsNotificationsFirstUser.clickOnFriendsNotifications();
     await settingsNotificationsFirstUser.clickOnMessagesNotifications();
 
     // Go to Friends Screen
     await settingsNotificationsFirstUser.goToFriends();
-    await friendsScreenFirstUser.waitForIsShown(true);
+    await friendsScreenFirstUser.validateFriendsScreenIsShown();
   });
 
   it("Chat User B - Create Account", async () => {
+    await createPinSecondUser.switchToOtherUserWindow();
     const username = "ChatUserB";
     await createNewUserSecondInstance(username);
     await maximizeWindow(USER_B_INSTANCE);
     await welcomeScreenSecondUser.goToSettings();
-    await settingsProfileSecondUser.waitForIsShown(true);
-
+    await settingsProfileSecondUser.validateSettingsProfileIsShown();
     // Click on Copy ID button and assert Toast Notification is displayed
     await settingsProfileSecondUser.clickOnCopyIDButton();
 
-    // Wait for toast notification to be closed
+    // Wait for toast notification of Copied To Clipboard to not exist
     await settingsProfileSecondUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
     await settingsProfileSecondUser.pasteUserKeyInStatus();
-    const inputTextElement =
-      await settingsProfileSecondUser.getStatusInputText();
-    const didkey = await inputTextElement.getText();
+    const didkey =
+      await settingsProfileSecondUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
     await saveTestKeys(username, didkey, USER_B_INSTANCE);
@@ -114,20 +119,25 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Settings General - Reduce font size", async () => {
     // Go to General Settings and reduce Font Size by 0.5
     await settingsProfileSecondUser.goToGeneralSettings();
-    await settingsGeneralSecondUser.waitForIsShown(true);
+
+    // Wait for toast notification of Profile Updated to not exist
+    await settingsGeneralSecondUser.waitUntilNotificationIsClosed();
+
+    // Click on font scaling minus
+    await settingsGeneralSecondUser.validateSettingsGeneralIsShown();
     await settingsGeneralSecondUser.clickOnFontScalingMinus();
   });
 
   it("Chat User B - Settings Notifications - Disable notifications", async () => {
     // Go to Notifications Settings and disable all notifications
     await settingsGeneralSecondUser.goToNotificationsSettings();
-    await settingsNotificationsSecondUser.waitForIsShown(true);
+    await settingsNotificationsSecondUser.validateSettingsNotificationsIsShown();
     await settingsNotificationsSecondUser.clickOnFriendsNotifications();
     await settingsNotificationsSecondUser.clickOnMessagesNotifications();
 
     // Go to Friends Screen
     await settingsNotificationsSecondUser.goToFriends();
-    await friendsScreenSecondUser.waitForIsShown(true);
+    await friendsScreenSecondUser.validateFriendsScreenIsShown();
   });
 
   it("Chat User B - Send friend request to User A", async () => {
@@ -142,15 +152,17 @@ export default async function createChatAccountsTests() {
     // Validate friend request appears on pending list
     await friendsScreenSecondUser.hoverOnPendingListButton();
     await friendsScreenSecondUser.goToPendingFriendsList();
-    const pendingList = await friendsScreenSecondUser.getOutgoingList();
-    const includesFriend = await pendingList.includes("ChatUserA");
-    await expect(includesFriend).toEqual(true);
+    await friendsScreenSecondUser.validateOutgoingListIsShown();
+    await friendsScreenSecondUser.validateOutgoingListIsNotEmpty();
+
     await friendsScreenSecondUser.goToAllFriendsList();
+    await friendsScreenSecondUser.validateAllFriendsListIsShown();
     await friendsScreenFirstUser.switchToOtherUserWindow();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenFirstUser.hoverOnPendingListButton();
     await friendsScreenFirstUser.goToPendingFriendsList();
+    await friendsScreenFirstUser.validateIncomingListIsShown();
     await friendsScreenFirstUser.waitUntilFriendRequestIsReceived();
     await friendsScreenFirstUser.acceptIncomingRequest("ChatUserB");
   });
@@ -158,12 +170,13 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Validate Chat User B is now a friend", async () => {
     // Validate friend is now on all friends list
     await friendsScreenFirstUser.goToAllFriendsList();
-    const friendsList = await friendsScreenFirstUser.getAllFriendsList();
-    const includesFriend = await friendsList.includes("ChatUserB");
-    await expect(includesFriend).toEqual(true);
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
+    await friendsScreenFirstUser.validateAllFriendsListIsNotEmpty();
 
     // Go to Chat with User B
-    await friendsScreenFirstUser.chatWithFriendButton.click();
+    const chatWithFriendButton =
+      await friendsScreenFirstUser.chatWithFriendButton;
+    await chatWithFriendButton.click();
     await friendsScreenSecondUser.switchToOtherUserWindow();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
@@ -173,9 +186,8 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Validate friend request was accepted", async () => {
     // Validate friend is now on all friends list
     await friendsScreenSecondUser.goToAllFriendsList();
-    const friendsList = await friendsScreenSecondUser.getAllFriendsList();
-    const includesFriend = await friendsList.includes("ChatUserA");
-    await expect(includesFriend).toEqual(true);
+    await friendsScreenSecondUser.validateAllFriendsListIsShown();
+    await friendsScreenSecondUser.validateAllFriendsListIsNotEmpty();
     await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 
@@ -187,31 +199,27 @@ export default async function createChatAccountsTests() {
   });
 
   it("Chat User A - Validate Messages secured text displayed on top of conversation", async () => {
-    await chatsLayoutFirstUser.encryptedMessagesText.waitForDisplayed();
-    await expect(
-      chatsLayoutFirstUser.encryptedMessagesText
-    ).toHaveTextContaining(
+    const encryptedMessagesText =
+      await chatsLayoutFirstUser.encryptedMessagesText;
+    await encryptedMessagesText.waitForExist();
+    await expect(encryptedMessagesText).toHaveTextContaining(
       "Messages are secured by end-to-end encryption and sent over a peer-to-peer network."
     );
   });
 
   it("Input Bar - Chars Counter on Input Bar displays 0/1024 before typing a text", async () => {
-    await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
-      "0"
-    );
-    await expect(chatsInputFirstUser.inputCharMaxText).toHaveTextContaining(
-      "/1024"
-    );
+    const inputCharCounter = await chatsInputFirstUser.inputCharCounterText;
+    const inputCharMaxText = await chatsInputFirstUser.inputCharMaxText;
+    await expect(inputCharCounter).toHaveTextContaining("0");
+    await expect(inputCharMaxText).toHaveTextContaining("/1024");
   });
 
   it("Input Bar - Chars Counter on Input Bar displays the number of chars of text entered", async () => {
+    const inputCharCounter = await chatsInputFirstUser.inputCharCounterText;
+    const inputCharMaxText = await chatsInputFirstUser.inputCharMaxText;
     await chatsInputFirstUser.typeMessageOnInput("Testing...");
-    await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
-      "10"
-    );
-    await expect(chatsInputFirstUser.inputCharMaxText).toHaveTextContaining(
-      "/1024"
-    );
+    await expect(inputCharCounter).toHaveTextContaining("10");
+    await expect(inputCharMaxText).toHaveTextContaining("/1024");
   });
 
   it("Input Bar - Add emoji to the message to be sent", async () => {
@@ -219,12 +227,10 @@ export default async function createChatAccountsTests() {
     await emojiSelectorFirstUser.clickOnEmoji("😀");
 
     // Validate Char counter increases after adding an emoji to input bar
-    await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
-      "11"
-    );
-    await expect(chatsInputFirstUser.inputCharMaxText).toHaveTextContaining(
-      "/1024"
-    );
+    const inputCharCounter = await chatsInputFirstUser.inputCharCounterText;
+    const inputCharMaxText = await chatsInputFirstUser.inputCharMaxText;
+    await expect(inputCharCounter).toHaveTextContaining("11");
+    await expect(inputCharMaxText).toHaveTextContaining("/1024");
   });
 
   it("Input Bar - Click on send button will send the message to the other user", async () => {
@@ -238,12 +244,10 @@ export default async function createChatAccountsTests() {
 
   // Skipping test since there is an issue open ticket #1167 on uplink
   xit("Input Bar - Chars Counter on Input Bar displays 0/1024 after sending a message", async () => {
-    await expect(chatsInputFirstUser.inputCharCounterText).toHaveTextContaining(
-      "0"
-    );
-    await expect(chatsInputFirstUser.inputCharMaxText).toHaveTextContaining(
-      "/1024"
-    );
+    const inputCharCounter = await chatsInputFirstUser.inputCharCounterText;
+    const inputCharMaxText = await chatsInputFirstUser.inputCharMaxText;
+    await expect(inputCharCounter).toHaveTextContaining("0");
+    await expect(inputCharMaxText).toHaveTextContaining("/1024");
   });
 
   it("Chat User A - Validate Chat Message displays timestamp and user who sent it", async () => {
@@ -266,59 +270,67 @@ export default async function createChatAccountsTests() {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsFirstUser.getLastGroupWrapSentImage();
-    await expect(userImage).toExist();
+    await userImage.waitForExist();
 
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator =
       await chatsMessageGroupsFirstUser.getLastGroupWrapSentOnline();
-    await expect(onlineIndicator).toExist();
+    await onlineIndicator.waitForExist();
   });
 
   it("Chat User A - Topbar information", async () => {
     // Validate user image, username and online indicator are displayed on Chat Topbar
-    await chatsTopbarFirstUser.topbarUserImage.waitForDisplayed();
-    await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
-      "ChatUserB"
-    );
-    await chatsTopbarFirstUser.topbarIndicatorOnline.waitForDisplayed();
+    const topbarUserImage = await chatsTopbarFirstUser.topbarUserImage;
+    const topbarUserName = await chatsTopbarFirstUser.topbarUserNameValue;
+    const topbarIndicatorOnline =
+      await chatsTopbarFirstUser.topbarIndicatorOnline;
+    await topbarUserImage.waitForExist();
+    await expect(topbarUserName).toHaveTextContaining("ChatUserB");
+    await topbarIndicatorOnline.waitForExist({
+      timeout: 30000,
+    });
   });
 
   it("Chat User A - Add user with active chat to Favorites", async () => {
     // Add user to favorites
     await chatsTopbarFirstUser.addToFavorites();
-    await favoritesSidebarFirstUser.favorites.waitForExist();
+    await favoritesSidebarFirstUser.validateFavoritesAreShown();
 
-    // Favorites Sidebar should be displayed
-    await expect(favoritesSidebarFirstUser.favoritesUserImage).toBeDisplayed();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserIndicatorOnline
-    ).toBeDisplayed();
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(0);
-    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserTooltipText
-    ).toHaveTextContaining("ChatUserB");
+    // Favorites Sidebar User bubble should be displayed with image and indicator online
+    const favoritesImage =
+      await favoritesSidebarFirstUser.getFavoritesUserImage("ChatUserB");
+    const favoritesIndicatorOnline =
+      await favoritesSidebarFirstUser.getFavoritesUserIndicatorOnline(
+        "ChatUserB"
+      );
+    await favoritesImage.waitForExist();
+    await favoritesIndicatorOnline.waitForExist();
   });
 
   it("Chat User A - Remove user with active chat from Favorites", async () => {
     // Remove user from favorites
     await chatsTopbarFirstUser.removeFromFavorites();
-    await favoritesSidebarFirstUser.favorites.waitForExist({
-      reverse: true,
-    });
+    const topbarAddToFavorites =
+      await chatsTopbarFirstUser.topbarAddToFavorites;
+    await topbarAddToFavorites.waitForExist();
     await friendsScreenSecondUser.switchToOtherUserWindow();
   });
 
   it("Chat User B - Wait until the other user is online", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-    await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
+    const chatWithFriendButton =
+      await friendsScreenSecondUser.chatWithFriendButton;
+    await chatWithFriendButton.waitForExist();
     await friendsScreenSecondUser.hoverOnChatWithFriendButton("ChatUserA");
-    await friendsScreenSecondUser.chatWithFriendButton.click();
-    await chatsLayoutSecondUser.waitForIsShown(true);
+    await chatWithFriendButton.click();
+    const topbar = await chatsTopbarSecondUser.topbar;
+    await topbar.waitForExist();
 
     // Wait until Chat User A is online
-    await chatsTopbarSecondUser.topbarIndicatorOnline.waitForDisplayed({
-      timeout: 90000,
+    const topbarIndicatorOnline =
+      await chatsTopbarSecondUser.topbarIndicatorOnline;
+    await topbarIndicatorOnline.waitForExist({
+      timeout: 30000,
     });
   });
 
@@ -337,12 +349,12 @@ export default async function createChatAccountsTests() {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsSecondUser.getLastGroupWrapReceivedImage();
-    await expect(userImage).toExist();
+    await userImage.waitForExist();
 
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator =
       await chatsMessageGroupsSecondUser.getLastGroupWrapReceivedOnline();
-    await expect(onlineIndicator).toExist();
+    await onlineIndicator.waitForExist();
   });
 
   it("Chat User B - Validate Chat Message received displays timestamp and user who sent it", async () => {

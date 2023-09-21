@@ -32,18 +32,16 @@ export default async function groupChatSidebarTests() {
 
     // Click on Favorites button for Group Chat
     await chatsTopbarFirstUser.addToFavorites();
-    await favoritesSidebarFirstUser.favorites.waitForExist();
+    await favoritesSidebarFirstUser.validateFavoritesAreShown();
 
     // Favorites Sidebar should be displayed and showing the name of the group added to Favorites
-    await expect(favoritesSidebarFirstUser.favoritesUserImage).toBeDisplayed();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserIndicatorOnline
-    ).toBeDisplayed();
-    await favoritesSidebarFirstUser.hoverOnFavoritesBubble(0);
-    await favoritesSidebarFirstUser.favoritesUserTooltip.waitForDisplayed();
-    await expect(
-      favoritesSidebarFirstUser.favoritesUserTooltipText
-    ).toHaveTextContaining("X");
+    // Favorites Sidebar User bubble should be displayed with image and indicator online
+    const favoritesImage =
+      await favoritesSidebarFirstUser.getFavoritesUserImage("X");
+    const favoritesIndicatorOnline =
+      await favoritesSidebarFirstUser.getFavoritesUserIndicatorOnline("X");
+    await favoritesImage.waitForExist();
+    await favoritesIndicatorOnline.waitForExist();
   });
 
   it("Group Chat - Remove group from favorites", async () => {
@@ -55,11 +53,11 @@ export default async function groupChatSidebarTests() {
 
     // Go to another chat conversation
     await chatsTopbarFirstUser.goToFriends();
-    await friendsScreenFirstUser.waitForIsShown(true);
-    await friendsScreenFirstUser.chatWithFriendButton.waitForExist();
+    await friendsScreenFirstUser.validateFriendsScreenIsShown();
+    await friendsScreenFirstUser.validateChatWithFriendButtonIsShown();
     await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserB");
-    await friendsScreenFirstUser.chatWithFriendButton.click();
-    await chatsLayoutFirstUser.waitForIsShown(true);
+    await friendsScreenFirstUser.clickOnChatWithFriend();
+    await chatsTopbarFirstUser.validateTopbarExists();
   });
 
   it("Group Chat - Send message to the group with User B", async () => {
@@ -96,7 +94,7 @@ export default async function groupChatSidebarTests() {
   it("Group Chat - Sidebar - Context Menu - Hide chat", async () => {
     await chatsSidebarFirstUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarFirstUser.selectChatsHideChat();
-    await chatsSidebarFirstUser.validateNoSidebarGroupChatsAreDisplayed();
+    await chatsSidebarFirstUser.validateSidebarChatIsNotDisplayed("X");
   });
 
   it("Group Chat - Send another message to show again the group chat", async () => {
@@ -110,7 +108,7 @@ export default async function groupChatSidebarTests() {
     await chatsLayoutFirstUser.switchToOtherUserWindow();
     await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
     await chatsSidebarFirstUser.goToSidebarGroupChat("X");
-    await chatsTopbarFirstUser.topbar.waitForDisplayed();
+    await chatsTopbarFirstUser.validateTopbarExists();
   });
 
   it("Group Chat - Sidebar - Leave group", async () => {
@@ -118,7 +116,7 @@ export default async function groupChatSidebarTests() {
     await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarSecondUser.selectChatsLeaveGroup();
-    await chatsSidebarSecondUser.validateNoSidebarGroupChatsAreDisplayed();
+    await chatsSidebarSecondUser.validateSidebarChatIsNotDisplayed("X");
   });
 
   it("Group Chat - Sidebar - If a user leaves a group, remote user will see the number of group members decreased", async () => {
@@ -126,46 +124,45 @@ export default async function groupChatSidebarTests() {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
 
     // Now, go to the Group Chat and validate that User B is not part of it anymore
-    await chatsTopbarFirstUser.waitForIsShown(true);
-    await expect(chatsTopbarFirstUser.topbarUserNameValue).toHaveTextContaining(
-      "X"
-    );
-    await expect(
-      chatsTopbarFirstUser.topbarUserStatusValue
-    ).toHaveTextContaining("Members (1)");
+    await chatsTopbarFirstUser.validateTopbarExists();
+
+    const topbarUserName = await chatsTopbarFirstUser.topbarUserNameValue;
+    await expect(topbarUserName).toHaveTextContaining("X");
+
+    const topbarUserStatus = await chatsTopbarFirstUser.topbarUserStatusValue;
+    await expect(topbarUserStatus).toHaveTextContaining("Members (1)");
   });
 
   it("Group Chat - Add Chat User B again to the group", async () => {
     await chatsTopbarFirstUser.editGroup();
-    await editGroupFirstUser.waitForIsShown(true);
-    await editGroupFirstUser.clickOnAddMembersText();
+    await editGroupFirstUser.validateEditGroupIsShown();
+    await editGroupFirstUser.clickOnAddMembers();
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
-    await editGroupFirstUser.selectUserFromList("ChatUserB");
     await editGroupFirstUser.clickOnFirstAddButton();
-    await editGroupFirstUser.nothingHereText.waitForDisplayed();
+    await editGroupFirstUser.validateNothingHereIsDisplayed();
   });
 
   it("Group Chat - Ensure in local side that User B was added again to the group", async () => {
     await chatsTopbarFirstUser.editGroup();
-    await chatsTopbarFirstUser.topbar.waitForDisplayed();
-    await expect(
-      chatsTopbarFirstUser.topbarUserStatusValue
-    ).toHaveTextContaining("Members (2)");
+    await chatsTopbarFirstUser.validateTopbarExists();
+
+    const topbarUserStatus = await chatsTopbarFirstUser.topbarUserStatusValue;
+    await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
   });
 
   it("Group Chat - Ensure in remote side that user was added again to the group", async () => {
     // Switch execution to User B and ensure that user was added again to the group
     await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.goToFiles();
-    await filesScreenSecondUser.waitForIsShown(true);
+    await filesScreenSecondUser.validateFilesScreenIsShown();
     await filesScreenSecondUser.goToMainScreen();
-    await chatsSidebarSecondUser.waitForIsShown(true);
+    await chatsSidebarSecondUser.validateSidebarChatsIsShown();
     await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
     await chatsSidebarSecondUser.goToSidebarGroupChat("X");
-    await chatsTopbarSecondUser.topbar.waitForDisplayed();
-    await expect(
-      chatsTopbarSecondUser.topbarUserNameValue
-    ).toHaveTextContaining("X");
+    await chatsTopbarSecondUser.validateTopbarExists();
+
+    const topbarUserName = await chatsTopbarSecondUser.topbarUserNameValue;
+    await expect(topbarUserName).toHaveTextContaining("X");
   });
 
   it("Group Chat - Sidebar - Delete group", async () => {
@@ -175,10 +172,10 @@ export default async function groupChatSidebarTests() {
     await contextMenuSidebarFirstUser.selectChatsDeleteGroup();
 
     // Ensure that group was removed on local side
-    await chatsSidebarFirstUser.validateNoSidebarGroupChatsAreDisplayed();
+    await chatsSidebarFirstUser.validateSidebarChatIsNotDisplayed("X");
 
     // Switch execution to remote user and ensure that group was removed on this side too
     await chatsSidebarSecondUser.switchToOtherUserWindow();
-    await chatsSidebarSecondUser.validateNoSidebarGroupChatsAreDisplayed();
+    await chatsSidebarSecondUser.validateSidebarChatIsNotDisplayed("X");
   });
 }

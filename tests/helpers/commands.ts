@@ -79,9 +79,9 @@ export async function getUserKey(username: string, instance: string) {
   const currentDriver = await driver[instance].capabilities.automationName;
   const source =
     "./tests/fixtures/users/" + currentDriver + "/" + username + ".json";
-  const jsonFile = readFileSync(source);
-  const jsonFileParsed = JSON.parse(jsonFile);
-  const didkey = jsonFileParsed.key;
+  const jsonFile = await readFileSync(source);
+  const jsonFileParsed = await JSON.parse(jsonFile);
+  const didkey = await jsonFileParsed.key;
   return didkey;
 }
 
@@ -97,7 +97,7 @@ export async function saveTestKeys(
   await fsp.mkdir(target, { recursive: true });
   const userData = { username: username, key: didkey };
   try {
-    writeFileSync(filepath, JSON.stringify(userData, null, 2), "utf8");
+    await writeFileSync(filepath, JSON.stringify(userData, null, 2), "utf8");
     console.log("Data successfully saved");
   } catch (error) {
     console.log("An error has occurred ", error);
@@ -107,47 +107,71 @@ export async function saveTestKeys(
 // Login or Create Users Functions
 
 export async function createNewUser(username: string) {
+  // Reset Pin before creating new user
+  const pinScreen = await createPinFirstUser.unlockLayout;
+  await pinScreen.waitForExist();
+  await createPinFirstUser.openHelpButtonMenu();
+  await createPinFirstUser.clickOnResetAccount();
+
   // Enter pin for test user
-  await createPinFirstUser.waitForIsShown(true);
   await createPinFirstUser.enterPin("1234");
+  const createPinButton = await createPinFirstUser.createAccountButton;
+  await createPinButton.waitForEnabled();
   await createPinFirstUser.clickOnCreateAccount();
 
   // Enter Username and click on Create Account
   await createUserFirstUser.enterUsername(username);
+  const createUserButton = await createUserFirstUser.createAccountButton;
+  await createUserButton.waitForEnabled();
   await createUserFirstUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  await welcomeScreenFirstUser.waitForIsShown(true);
+  const welcomeLayout = await welcomeScreenFirstUser.welcomeLayout;
+  await welcomeLayout.waitForExist();
 
   // Workaround to ensure that user clicks on Add Someone
   await welcomeScreenFirstUser.clickAddSomeone();
-  await friendsScreenFirstUser.waitForIsShown(true);
+  const friendsLayout = await friendsScreenFirstUser.friendsBody;
+  await friendsLayout.waitForExist();
 }
 
 export async function createNewUserSecondInstance(username: string) {
+  // Reset Pin before creating new user
+  const unlockLayout = await createPinSecondUser.unlockLayout;
+  await unlockLayout.waitForExist();
+  await createPinSecondUser.openHelpButtonMenu();
+  await createPinSecondUser.clickOnResetAccount();
+
   // Enter pin for test user
-  await createPinSecondUser.waitForIsShown(true);
   await createPinSecondUser.enterPin("1234");
+  const createPinButton = await createPinSecondUser.createAccountButton;
+  await createPinButton.waitForEnabled();
   await createPinSecondUser.clickOnCreateAccount();
 
   // Enter Username and click on Create Account
   await createUserSecondUser.enterUsername(username);
+  const createUserButton = await createUserSecondUser.createAccountButton;
+  await createUserButton.waitForEnabled();
   await createUserSecondUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  await welcomeScreenSecondUser.waitForIsShown(true);
+  const welcomeLayout = await welcomeScreenSecondUser.welcomeLayout;
+  await welcomeLayout.waitForExist();
 
   // Workaround to ensure that user clicks on Add Someone
   await welcomeScreenSecondUser.clickAddSomeone();
-  await friendsScreenSecondUser.waitForIsShown(true);
+  const friendsLayout = await friendsScreenSecondUser.friendsBody;
+  await friendsLayout.waitForExist();
 }
 export async function loginWithTestUser() {
   // Enter pin for test user
-  await createPinFirstUser.waitForIsShown(true);
+  const unlockScreen = await createPinFirstUser.unlockLayout;
+  await unlockScreen.waitForExist();
   await createPinFirstUser.enterPin("1234");
 
   // Ensure Main Screen is displayed
-  await welcomeScreenFirstUser.waitForIsShown(true);
+  const welcomeLayout = await welcomeScreenFirstUser.welcomeLayout;
+  await welcomeLayout.waitForExist();
 
   // Only maximize if current driver is windows
   const currentDriver = await welcomeScreenFirstUser.getCurrentDriver();
@@ -158,11 +182,13 @@ export async function loginWithTestUser() {
 
 export async function loginWithTestUserSecondInstance() {
   // Enter pin for test user
-  await createPinSecondUser.waitForIsShown(true);
+  const unlockLayout = await createPinSecondUser.unlockLayout;
+  await unlockLayout.waitForExist();
   await createPinSecondUser.enterPin("1234");
 
   // Ensure Main Screen is displayed
-  await welcomeScreenSecondUser.waitForIsShown(true);
+  const welcomeLayout = await welcomeScreenSecondUser.welcomeLayout;
+  await welcomeLayout.waitForExist();
 
   // Only maximize if current driver is windows
   const currentDriver = await welcomeScreenSecondUser.getCurrentDriver();
@@ -225,9 +251,11 @@ export async function maximizeWindow(instance: string) {
   const currentOS = await driver[instance].capabilities.automationName;
   const currentInstance = await browser.getInstance(instance);
   if (currentOS === WINDOWS_DRIVER) {
-    await currentInstance.$('[name="square-button"]').click();
+    const button = await currentInstance.$('[name="square-button"]');
+    await button.click();
   } else if (currentOS === MACOS_DRIVER) {
-    await currentInstance.$("~_XCUI:FullScreenWindow").click();
+    const button = await currentInstance.$("~_XCUI:FullScreenWindow");
+    await button.click();
   }
 }
 
@@ -274,16 +302,19 @@ export async function saveFileOnMacOS(filename: string, instance: string) {
   const currentInstance = await browser.getInstance(instance);
 
   // Wait for Save Dialog to be displayed
-  await currentInstance.$("~save-panel").waitForDisplayed();
+  const savePanel = await currentInstance.$("~save-panel");
+  await savePanel.waitForExist();
 
   // Type the new file name
-  await currentInstance.$("~saveAsNameTextField").setValue(filename);
+  const saveAsInputField = await currentInstance.$("~saveAsNameTextField");
+  await saveAsInputField.setValue(filename);
 
   // Click on OK Button to save into Downloads folder
-  await currentInstance.$("~OKButton").click();
+  const okButton = await currentInstance.$("~OKButton");
+  await okButton.click();
 
   // Wait until Save Dialog is closed
-  await currentInstance.$("~save-panel").waitForExist({ reverse: true });
+  await savePanel.waitForExist({ reverse: true });
 
   // Delete file from local files
   const target = join(process.cwd(), "/tests/fixtures/", filename);
@@ -300,7 +331,8 @@ export async function selectFileOnMacos(
   const filepath = join(process.cwd(), relativePath);
 
   // Wait for Open Panel to be displayed
-  await currentInstance.$("~open-panel").waitForDisplayed();
+  const openPanel = await currentInstance.$("~open-panel");
+  await openPanel.waitForExist();
 
   // Open Go To File
   await driver[instance].executeScript("macos: keys", [
@@ -314,23 +346,22 @@ export async function selectFileOnMacos(
   ]);
 
   //Ensure that Go To File is displayed on screen
-  await currentInstance.$("~GoToWindow").waitForDisplayed();
+  const goToWindow = await currentInstance.$("~GoToWindow");
+  await goToWindow.waitForExist();
 
   // Remove the / and type filepath into go to file section and ensure that it contains the filepath expected
-  await currentInstance
+  const textField = await currentInstance
     .$("~GoToWindow")
-    .$("-ios class chain:**/XCUIElementTypeTextField")
-    .clearValue();
-  await currentInstance
-    .$("~GoToWindow")
-    .$("-ios class chain:**/XCUIElementTypeTextField")
-    .addValue(filepath + "\n");
+    .$("-ios class chain:**/XCUIElementTypeTextField");
+  await textField.clearValue();
+  await textField.addValue(filepath + "\n");
 
   // Hit Enter and then click on OK to close open panel
-  await currentInstance.$("~OKButton").click();
+  const okButton = await currentInstance.$("~OKButton");
+  await okButton.click();
 
   // Wait until Dialog is closed
-  await currentInstance.$("~open-panel").waitForExist({ reverse: true });
+  await openPanel.waitForExist({ reverse: true });
 }
 
 export async function rightClickOnMacOS(
@@ -382,17 +413,16 @@ export async function saveFileOnWindows(
   await driver[instance].switchToWindow(explorerWindow);
 
   // Wait for Save Panel to be displayed
-  await currentInstance.$("~TitleBar").waitForDisplayed();
+  const titleBar = await currentInstance.$("~TitleBar");
+  await titleBar.waitForExist();
 
   // Type file location and hit enter
-  await currentInstance.$("/Window/Pane[1]/ComboBox[1]/Edit").clearValue();
-
-  await currentInstance
-    .$("/Window/Pane[1]/ComboBox[1]/Edit")
-    .setValue(filename + "\uE007");
+  const editInput = await currentInstance.$("/Window/Pane[1]/ComboBox[1]/Edit");
+  await editInput.clearValue();
+  await editInput.setValue(filename + "\uE007");
 
   // Wait for Save Panel not to be displayed
-  await currentInstance.$("~TitleBar").waitForExist({ reverse: true });
+  await titleBar.waitForExist({ reverse: true });
 
   await driver[instance].switchToWindow(uplinkContext);
 
@@ -420,16 +450,15 @@ export async function selectFileOnWindows(
   await driver[instance].switchToWindow(explorerWindow);
 
   // Wait for Save Panel to be displayed
-  await driver[instance].$("~listview").waitForDisplayed();
+  const listView = await driver[instance].$("~listview");
+  await listView.waitForExist();
 
   // Type file location and hit enter
-  await driver[instance].$("//Window/ComboBox/Edit").clearValue();
-
-  await driver[instance]
-    .$("//Window/ComboBox/Edit")
-    .setValue(filepath + "\uE007");
+  const editField = await driver[instance].$("//Window/ComboBox/Edit");
+  await editField.clearValue();
+  await editField.setValue(filepath + "\uE007");
 
   // Wait for Save Panel not to be displayed
-  await driver[instance].$("~listview").waitForExist({ reverse: true });
+  await listView.waitForExist({ reverse: true });
   await driver[instance].switchToWindow(uplinkContext);
 }

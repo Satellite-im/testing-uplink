@@ -31,8 +31,6 @@ export const config: WebdriverIO.Config = {
     exclude: [
         // 'path/to/excluded/files'
     ],
-    // Default timeout for all waitFor* commands.
-    waitforTimeout: 15000,
     // The number of times to retry the entire specfile when it fails as a whole
     specFileRetries: 2,
     //
@@ -142,12 +140,30 @@ export const config: WebdriverIO.Config = {
         );
       }
     },
+    /**
+     * Function to be executed after a test (in Mocha/Jasmine).
+     */
+    beforeTest: async function (test) {
+      // Start video recording for each test
+      await driver.executeScript("windows: startRecordingScreen", [
+        {
+          deviceId: 1
+        },
+      ]);
+    },
 
     afterTest: async function (test, describe, { error }) {
+        // Stop video recording and saved it into base64 format
+        const base64Video = await driver.executeScript("windows: stopRecordingScreen", [
+          {
+            remotePath: ""
+          },
+        ]);
         if (error) {
           let imageFile = await driver.takeScreenshot();
           let imageFolder = join(process.cwd(), "./test-results/windows-ci", test.parent);
           const imageTitle = test.title + " - Failed.png"
+          const videoTitle = test.title + " - Failed.mp4"
           await fsp.mkdir(imageFolder, {recursive: true});
           await fsp.writeFile(
             imageFolder + "/" + imageTitle,
@@ -155,9 +171,18 @@ export const config: WebdriverIO.Config = {
             "base64"
           );
 
+          // Write Video File if test failure and add it to failed screenshots folder
+          await fsp.writeFile(
+            imageFolder + "/" + videoTitle,
+            base64Video,
+            "base64"
+          );
+
           // Add to Screenshot to Allure Reporter
           const data = await readFileSync(`${imageFolder}/${imageTitle}`);
+          const dataVideo = await readFileSync(`${imageFolder}/${videoTitle}`);
           allureReporter.addAttachment(imageTitle, data, 'image/png')
+          allureReporter.addAttachment(videoTitle, dataVideo, 'video/mp4')
         }
       }
   }
