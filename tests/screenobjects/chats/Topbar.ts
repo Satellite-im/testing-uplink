@@ -217,9 +217,10 @@ export default class Topbar extends UplinkMainScreen {
   // Top Bar Methods
 
   async addToFavorites() {
-    await this.hoverOnFavoritesButton();
     const topbarAddToFavorites = await this.topbarAddToFavorites;
     await topbarAddToFavorites.click();
+    const topbarRemoveFromFavorites = await this.topbarRemoveFromFavorites;
+    await topbarRemoveFromFavorites.waitForExist();
   }
 
   async clickOnTopbar() {
@@ -270,9 +271,10 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   async removeFromFavorites() {
-    await this.hoverOnFavoritesRemoveButton();
     const topbarRemoveFromFavorites = await this.topbarRemoveFromFavorites;
     await topbarRemoveFromFavorites.click();
+    const topbarAddToFavorites = await this.topbarAddToFavorites;
+    await topbarAddToFavorites.waitForExist();
   }
 
   async validateTopbarExists() {

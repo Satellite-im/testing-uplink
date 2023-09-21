@@ -221,12 +221,11 @@ export default class InputBar extends UplinkMainScreen {
 
   async typeMessageOnInput(text: string) {
     const inputText = await this.inputText;
-    for (let i = 0; i < 3; i++) {
-      i += 1;
-      if ((await inputText.getText()) !== text) {
-        await inputText.clearValue();
-        await inputText.setValue(text);
-      }
+    await inputText.clearValue();
+    await inputText.setValue(text);
+    const inputTextValue = await inputText.getText();
+    if (inputTextValue !== text) {
+      await this.typeMessageOnInput(text);
     }
   }
 

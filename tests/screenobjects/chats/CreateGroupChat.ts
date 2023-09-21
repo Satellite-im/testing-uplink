@@ -176,6 +176,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
     const indicatorOffline = await friendLocator.$(
       SELECTORS.FRIEND_INDICATOR_OFFLINE
     );
+    await indicatorOffline.waitForExist();
     return indicatorOffline;
   }
 
@@ -184,6 +185,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
     const indicatorOnline = await friendLocator.$(
       SELECTORS.FRIEND_INDICATOR_ONLINE
     );
+    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 
@@ -192,6 +194,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
     const userImageProfile = await friendLocator.$(
       SELECTORS.FRIEND_USER_IMAGE_PROFILE
     );
+    await userImageProfile.waitForExist();
     return userImageProfile;
   }
 
@@ -223,6 +226,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   async getFriendFromListUserImage(username: string) {
     const friendLocator = await this.getFriendFromListLocator(username);
     const userImage = await friendLocator.$(SELECTORS.FRIEND_USER_IMAGE);
+    await userImage.waitForExist();
     return userImage;
   }
 
@@ -231,6 +235,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
     const userImageWrap = await friendLocator.$(
       SELECTORS.FRIEND_USER_IMAGE_WRAP
     );
+    await userImageWrap.waitForExist();
     return userImageWrap;
   }
 
@@ -239,6 +244,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
     const usernameLocator = await friendLocator
       .$(SELECTORS.FRIEND_USER_NAME)
       .$(SELECTORS.FRIEND_USER_NAME_TEXT);
+    await usernameLocator.waitForExist();
     return usernameLocator;
   }
 
@@ -271,12 +277,22 @@ export default class CreateGroupChat extends UplinkMainScreen {
 
   async typeOnGroupName(name: string) {
     const groupNameInput = await this.groupNameInput;
-    await this.typeOnElement(groupNameInput, name);
+    await groupNameInput.clearValue();
+    await groupNameInput.setValue(name);
+    const groupNameInputValue = await groupNameInput.getText();
+    if (groupNameInputValue !== name) {
+      await this.typeOnGroupName(name);
+    }
   }
 
   async typeOnUsersSearchInput(name: string) {
     const userSearchInput = await this.userSearchInput;
-    await this.typeOnElement(userSearchInput, name);
+    await userSearchInput.clearValue();
+    await userSearchInput.setValue(name);
+    const userSearchInputValue = await userSearchInput.getText();
+    if (userSearchInputValue !== name) {
+      await this.typeOnUsersSearchInput(name);
+    }
   }
 
   // Validations

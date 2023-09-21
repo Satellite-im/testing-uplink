@@ -401,6 +401,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const plusSomeLocator = await groupLocator.$(
       SELECTORS.SIDEBAR_GROUP_CHAT_PLUS_SOME
     );
+    await plusSomeLocator.waitForExist();
     return plusSomeLocator;
   }
 
@@ -409,6 +410,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const statusLocator = await groupLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
+    await statusLocator.waitForExist();
     return statusLocator;
   }
 
@@ -419,6 +421,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const imageLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
+    await imageLocator.waitForExist();
     return imageLocator;
   }
 
@@ -428,6 +431,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_CHATS_USER_INFO)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
+    await statusLocator.waitForExist();
     return statusLocator;
   }
 
@@ -437,6 +441,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
+    await offlineLocator.waitForExist();
     return offlineLocator;
   }
 
@@ -446,6 +451,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
+    await onlineLocator.waitForExist();
     return onlineLocator;
   }
 
@@ -455,6 +461,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_PROFILE_TYPING);
+    await profileTyping.waitForExist();
     return profileTyping;
   }
 
@@ -533,7 +540,12 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async typeOnSidebarSearchInput(text: string) {
-    const element = await this.chatSearchInput;
-    await this.typeOnElement(element, text);
+    const chatSearchInput = await this.chatSearchInput;
+    await chatSearchInput.clearValue();
+    await chatSearchInput.setValue(text);
+    const chatSearchInputValue = await chatSearchInput.getText();
+    if (chatSearchInputValue !== text) {
+      await this.typeOnSidebarSearchInput(text);
+    }
   }
 }

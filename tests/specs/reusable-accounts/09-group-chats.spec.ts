@@ -139,21 +139,21 @@ export default async function groupChatTests() {
 
   it("Group Chat - User A sends a message in group chat", async () => {
     await chatsInputFirstUser.switchToOtherUserWindow();
-    await chatsInputFirstUser.typeMessageOnInput("HiGroup");
+    await chatsInputFirstUser.typeMessageOnInput("Sup");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("HiGroup");
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Sup");
     await chatsInputFirstUser.typeMessageOnInput("test");
     await chatsInputFirstUser.clearInputBar();
 
     // Validate text from message sent to the group
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("HiGroup");
+    await expect(textMessage).toHaveTextContaining("Sup");
   });
 
   it("Group Chat - User B receives the message in group chat", async () => {
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.goToSidebarGroupChat("Test");
-    await chatsMessagesSecondUser.waitForReceivingMessage("HiGroup");
+    await chatsMessagesSecondUser.waitForReceivingMessage("Sup");
   });
 
   it("Sidebar - Search string matching username and group and go to first result", async () => {

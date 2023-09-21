@@ -26,18 +26,4 @@ export default class AppScreen {
       reverse: !isShown,
     });
   }
-
-  async typeOnElement(locator: WebdriverIO.Element, textToAdd: string) {
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === WINDOWS_DRIVER) {
-      await driver[this.executor].touchAction([
-        { action: "press", element: locator },
-      ]);
-      await robot.typeStringDelayed(textToAdd, 500);
-    } else if (currentDriver === MACOS_DRIVER) {
-      const locator = await this.instance.$(this.locator);
-      await locator.click();
-      await locator.setValue(textToAdd);
-    }
-  }
 }

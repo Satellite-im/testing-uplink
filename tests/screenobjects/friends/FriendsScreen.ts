@@ -556,6 +556,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async getUserImage(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userImage = await userLocator.$(SELECTORS.FRIEND_USER_IMAGE);
+    await userImage.waitForExist();
     return userImage;
   }
 
@@ -564,12 +565,14 @@ export default class FriendsScreen extends UplinkMainScreen {
     const userImageProfile = await userLocator.$(
       SELECTORS.FRIEND_USER_IMAGE_PROFILE
     );
+    await userImageProfile.waitForExist();
     return userImageProfile;
   }
 
   async getUserImageWrap(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userImageWrap = await userLocator.$(SELECTORS.FRIEND_USER_IMAGE_WRAP);
+    await userImageWrap.waitForExist();
     return userImageWrap;
   }
 
@@ -578,6 +581,7 @@ export default class FriendsScreen extends UplinkMainScreen {
     const indicatorOffline = await userLocator.$(
       SELECTORS.FRIEND_USER_INDICATOR_OFFLINE
     );
+    await indicatorOffline.waitForExist();
     return indicatorOffline;
   }
 
@@ -586,12 +590,14 @@ export default class FriendsScreen extends UplinkMainScreen {
     const indicatorOnline = await userLocator.$(
       SELECTORS.FRIEND_USER_INDICATOR_ONLINE
     );
+    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 
   async getUserTooltip(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userTooltip = await userLocator.$(SELECTORS.TOOLTIP);
+    await userTooltip.waitForExist();
     return userTooltip;
   }
 
@@ -600,6 +606,7 @@ export default class FriendsScreen extends UplinkMainScreen {
     const userTooltipText = await userLocator
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
+    await userTooltipText.waitForExist();
     return userTooltipText;
   }
 

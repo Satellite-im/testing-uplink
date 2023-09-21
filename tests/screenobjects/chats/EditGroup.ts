@@ -14,14 +14,14 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   ADD_MEMBERS: '[name="edit-group-add-members"]',
   ADD_PARTICIPANT_BUTTON: '[name="Add"]',
-  CURRENT_MEMBERS: '[name="edit-group-current-members"]',
+  CURRENT_MEMBERS: '[name="edit-group-remove-members"]',
   EDIT_GROUP_SECTION: '[name="edit-group"]',
   FRIENDS_GROUP: '[name="friend-group"]',
   FRIENDS_LIST: '[name="friends-list"]',
   GROUP_NAME_INPUT: '[name="groupname-input"]',
   GROUP_NAME_INPUT_ERROR: '[name="input-error"]',
   GROUP_NAME_INPUT_ERROR_TEXT: "<Text>",
-  NOTHING_HERE_TEXT: '[name="Nothing Here..."]',
+  NOTHING_HERE_TEXT: '//Text[starts-with(@Name, "Nothing")]',
   PARTICIPANT_USER_CONTAINER: '[name="Friend Container"]',
   PARTICIPANT_USER_CREATOR_BADGE_IMAGE: "<Image>",
   PARTICIPANT_USER_CREATOR_BADGE_TEXT: '[name="Group Creator"]',
@@ -41,7 +41,7 @@ const SELECTORS_MACOS = {
   ADD_MEMBERS: "~edit-group-add-members",
   ADD_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   ADD_PARTICIPANT_BUTTON: "~Add",
-  CURRENT_MEMBERS: "~edit-group-current-members",
+  CURRENT_MEMBERS: "~edit-group-remove-members",
   CURRENT_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   EDIT_GROUP_SECTION: "~edit-group",
   FRIENDS_GROUP: "~friend-group",
@@ -123,7 +123,7 @@ export default class EditGroup extends UplinkMainScreen {
 
   get nothingHereText() {
     return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.FRIENDS_LIST)
       .$(SELECTORS.NOTHING_HERE_TEXT);
   }
 
@@ -236,16 +236,18 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async clickOnFirstAddButton() {
-    const firstAddButton = await this.instance.$(
+    const firstAddButton = await this.instance.$$(
       SELECTORS.ADD_PARTICIPANT_BUTTON
-    );
+    )[0];
+    await firstAddButton.waitForExist();
     await firstAddButton.click();
   }
 
   async clickOnFirstRemoveButton() {
-    const removeParticipantButton = await this.instance.$(
+    const removeParticipantButton = await this.instance.$$(
       SELECTORS.REMOVE_PARTICIPANT_BUTTON
-    );
+    )[0];
+    await removeParticipantButton.waitForExist();
     await removeParticipantButton.click();
   }
 
@@ -303,6 +305,7 @@ export default class EditGroup extends UplinkMainScreen {
     const indicatorOffline = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_INDICATOR_OFFLINE
     );
+    await indicatorOffline.waitForExist();
     return indicatorOffline;
   }
 
@@ -311,6 +314,7 @@ export default class EditGroup extends UplinkMainScreen {
     const indicatorOnline = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE
     );
+    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 
@@ -319,6 +323,7 @@ export default class EditGroup extends UplinkMainScreen {
     const badgeImage = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE
     );
+    await badgeImage.waitForExist();
     return badgeImage;
   }
 
@@ -327,12 +332,14 @@ export default class EditGroup extends UplinkMainScreen {
     const badgeText = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT
     );
+    await badgeText.waitForExist();
     return badgeText;
   }
 
   async getParticipantUserImage(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const userImage = await userLocator.$(SELECTORS.PARTICIPANT_USER_IMAGE);
+    await userImage.waitForExist();
     return userImage;
   }
 
@@ -341,6 +348,7 @@ export default class EditGroup extends UplinkMainScreen {
     const userImageProfile = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_IMAGE_PROFILE
     );
+    await userImageProfile.waitForExist();
     return userImageProfile;
   }
 
@@ -349,24 +357,29 @@ export default class EditGroup extends UplinkMainScreen {
     const userImageWrap = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_IMAGE_WRAP
     );
+    await userImageWrap.waitForExist();
     return userImageWrap;
-  }
-
-  async selectUserFromList(participant: string) {
-    const userLocator = await this.getParticipantContainerLocator(participant);
-    await userLocator.click();
   }
 
   async typeOnGroupNameInput(name: string) {
     const groupNameInput = await this.groupNameInput;
-    await groupNameInput.click();
+    await groupNameInput.clearValue();
     await groupNameInput.setValue(name);
+    const currentValue = await groupNameInput.getText();
+    if (currentValue !== name) {
+      await this.typeOnGroupNameInput(name);
+    }
   }
 
   async typeOnSearchUserInput(username: string) {
     const userInput = await this.userInput;
+    await userInput.clearValue();
     await userInput.click();
     await userInput.setValue(username);
+    const userInputValue = await userInput.getText();
+    if (userInputValue !== username) {
+      await this.typeOnSearchUserInput(username);
+    }
   }
 
   async validateEditGroupIsShown() {
