@@ -2,6 +2,7 @@ import "module-alias/register";
 import allureReporter from '@wdio/allure-reporter'
 import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { join } from "path";
+import { USER_A_INSTANCE } from "@helpers/constants";
 const fsp = require("fs").promises;
 const userACacheFolder = join(process.cwd(), "./apps/ChatUserA/.user")
 const userBCacheFolder = join(process.cwd(), "./apps/ChatUserB/.user")
@@ -32,9 +33,6 @@ export const config: WebdriverIO.Config = {
     exclude: [
         // 'path/to/excluded/files'
     ],
-
-    // Default timeout for all waitFor* commands.
-    waitforTimeout: 15000,
     // The number of times to retry the entire specfile when it fails as a whole
     specFileRetries: 2,
     //
@@ -148,11 +146,27 @@ export const config: WebdriverIO.Config = {
       }
     },
 
+    beforeTest: async function (test) {
+      // Start video recording for each test and instance
+      await driver[USER_A_INSTANCE].executeScript("windows: startRecordingScreen", [
+        {
+          deviceId: 1
+        },
+      ]);
+    },
+
     afterTest: async function (test, describe, { error }) {
+        // Stop video recording for both instances and save video into base64 format
+        const base64VideoUserA = await driver[USER_A_INSTANCE].executeScript("windows: stopRecordingScreen", [
+          {
+            remotePath: ""
+          },
+        ]);
         if (error) {
           let imageFile = await driver.takeScreenshot();
           let imageFolder = join(process.cwd(), "./test-results/windows-chats", test.parent);
           const imageTitle = test.title + " - Failed.png";
+          const videoTitleUserA = test.title + " - User A - Failed.mp4"
           await fsp.mkdir(imageFolder, {recursive: true});
           await fsp.writeFile(
             imageFolder + "/" + imageTitle,
@@ -160,9 +174,18 @@ export const config: WebdriverIO.Config = {
             "base64"
           );
 
-          // Add to Screenshot to Allure Reporter
+           // Write Video File if test fails and add it to failed screenshots folder
+           await fsp.writeFile(
+            imageFolder + "/" + videoTitleUserA,
+            base64VideoUserA,
+            "base64"
+          );
+
+          // Add to Screenshot and Video to Allure Reporter
           const data = await readFileSync(`${imageFolder}/${imageTitle}`);
+          const dataVideoUserA = await readFileSync(`${imageFolder}/${videoTitleUserA}`);
           allureReporter.addAttachment(imageTitle, data, 'image/png')
+          allureReporter.addAttachment(videoTitleUserA, dataVideoUserA, 'video/mp4')
         }
       }
   }

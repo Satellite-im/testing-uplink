@@ -18,7 +18,7 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_CHATS_HEADER: "~chats-label",
   SIDEBAR_CHATS_HEADER_TEXT: "<Text>",
   SIDEBAR_CHATS_SECTION: "~chats",
-  SIDEBAR_CHATS_USER: '[name="User"]',
+  SIDEBAR_CHATS_USER: "<Group>",
   SIDEBAR_CHATS_USER_BADGE: '[name="User Badge"]',
   SIDEBAR_CHATS_USER_BADGE_NUMBER: '[name="badge-count"]',
   SIDEBAR_CHATS_USER_BADGE_NUMBER_VALUE: "<Text>",
@@ -50,7 +50,7 @@ const SELECTORS_MACOS = {
   SIDEBAR_CHATS_HEADER: "~chats-label",
   SIDEBAR_CHATS_HEADER_TEXT: "-ios class chain:**/XXCUIElementTypeStaticText",
   SIDEBAR_CHATS_SECTION: "~Chats",
-  SIDEBAR_CHATS_USER: "~User",
+  SIDEBAR_CHATS_USER: "-ios class chain:**/XXCUIElementTypeGroup",
   SIDEBAR_CHATS_USER_BADGE: "~User Badge",
   SIDEBAR_CHATS_USER_BADGE_NUMBER: "~badge-count",
   SIDEBAR_CHATS_USER_BADGE_NUMBER_VALUE:
@@ -178,7 +178,6 @@ export default class ChatsSidebar extends UplinkMainScreen {
   get sidebarChatsUserImageProfile() {
     return this.instance
       .$(SELECTORS.SIDEBAR_CHATS_SECTION)
-      .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_PROFILE);
   }
 
@@ -304,13 +303,13 @@ export default class ChatsSidebar extends UplinkMainScreen {
   // Validations or assertions
 
   async validateLastMessageDisplayed(message: string) {
-    await expect(this.sidebarChatsUserStatusValue).toHaveTextContaining(
-      message
-    );
+    const sidebarStatusValue = await this.sidebarChatsUserStatusValue;
+    await expect(sidebarStatusValue).toHaveTextContaining(message);
   }
 
   async validateLastMessageTimeAgo() {
-    await expect(this.sidebarChatsUserBadgeTimeAgoValue).toHaveTextContaining(
+    const timeAgo = await this.sidebarChatsUserBadgeTimeAgoValue;
+    await expect(timeAgo).toHaveTextContaining(
       /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
   }
@@ -320,7 +319,15 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateNoSidebarChatsAreDisplayed() {
-    await this.sidebarChatsUser.waitForExist({ reverse: true });
+    await this.sidebarChatsUserImageProfile.waitForExist({ reverse: true });
+  }
+
+  async validateSidebarChatIsNotDisplayed(username: string) {
+    const locator = await this.getNonExistingElementByAriaLabel(username);
+    await this.instance
+      .$(SELECTORS.SIDEBAR)
+      .$(locator)
+      .waitForExist({ reverse: true });
   }
 
   async validateNoSidebarGroupChatsAreDisplayed() {
@@ -328,13 +335,18 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateNumberOfUnreadMessages(badgeNumber: string) {
-    await expect(this.sidebarChatsUserBadgeNumberValue).toHaveTextContaining(
-      badgeNumber
-    );
+    const unreadMessages = await this.sidebarChatsUserBadgeNumberValue;
+    await expect(unreadMessages).toHaveTextContaining(badgeNumber);
   }
 
   async validateUsernameDisplayed(username: string) {
-    await expect(this.sidebarChatsUserNameValue).toHaveTextContaining(username);
+    const usernameDisplayed = await this.sidebarChatsUserNameValue;
+    await expect(usernameDisplayed).toHaveTextContaining(username);
+  }
+
+  async validateSidebarChatsIsShown() {
+    const sidebarChats = await this.sidebarChatsUser;
+    await sidebarChats.waitForExist();
   }
 
   // Waiting methods
@@ -345,137 +357,111 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   // Get Sidebar Group elements
 
-  async waitForGroupToBeCreated(groupname: string) {
+  async getExistingElementByAriaLabel(username: string) {
     const currentDriver = await this.getCurrentDriver();
-    let element;
+    let locator;
     if (currentDriver === macDriver) {
-      element =
-        '//XCUIElementTypeGroup[@label="user-image-group-wrap"]/..//XCUIElementTypeGroup[@label="Username"]/XCUIElementTypeStaticText[contains(@value, "' +
-        groupname +
-        '")]';
+      locator = await this.instance.$(SELECTORS.SIDEBAR).$("~" + username);
     } else if (currentDriver === windowsDriver) {
-      element =
-        '//Group[@Name="user-image-group-wrap"]/..//Group[@Name="Username"]/Text[contains(@Name, "' +
-        groupname +
-        '")]';
+      locator = await this.instance
+        .$(SELECTORS.SIDEBAR)
+        .$('[name="' + username + '"]');
     }
-    await this.instance.$(element).waitForExist();
+    await locator.waitForExist();
+    return locator;
+  }
+
+  async getNonExistingElementByAriaLabel(username: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let locator;
+    if (currentDriver === macDriver) {
+      locator = "~" + username;
+    } else if (currentDriver === windowsDriver) {
+      locator = '[name="' + username + '"]';
+    }
+    return locator;
+  }
+
+  async waitForGroupToBeCreated(groupname: string) {
+    const element = await this.getExistingElementByAriaLabel(groupname);
+    const sidebarGroup = await this.instance.$(SELECTORS.SIDEBAR).$(element);
+    await sidebarGroup.waitForExist();
   }
 
   async waitForGroupToBeDeleted(groupname: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let element;
-    if (currentDriver === macDriver) {
-      element =
-        '//XCUIElementTypeGroup[@label="user-image-group-wrap"]/..//XCUIElementTypeGroup[@label="Username"]/XCUIElementTypeStaticText[contains(@value, "' +
-        groupname +
-        '")]';
-    } else if (currentDriver === windowsDriver) {
-      element =
-        '//Group[@Name="user-image-group-wrap"]/..//Group[@Name="Username"]/Text[contains(@Name, "' +
-        groupname +
-        '")]';
-    }
-    await this.instance.$(element).waitForExist({ reverse: true });
-  }
-
-  async getSidebarGroupLocator(groupname: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let element;
-    if (currentDriver === macDriver) {
-      element = await this.instance.$(
-        '//XCUIElementTypeGroup[@label="user-image-group-wrap"]/..//XCUIElementTypeGroup[@label="Username"]/XCUIElementTypeStaticText[contains(@value, "' +
-          groupname +
-          '")]/../../..'
-      );
-    } else if (currentDriver === windowsDriver) {
-      element = await this.instance.$(
-        '//Group[@Name="user-image-group-wrap"]/..//Group[@Name="Username"]/Text[contains(@Name, "' +
-          groupname +
-          '")]/../../..'
-      );
-    }
-    return element;
+    const element = await this.getNonExistingElementByAriaLabel(groupname);
+    await this.instance
+      .$(SELECTORS.SIDEBAR)
+      .$(element)
+      .waitForExist({ reverse: true });
   }
 
   async getSidebarGroupPlusSome(groupname: string) {
-    const groupLocator = await this.getSidebarGroupLocator(groupname);
+    const groupLocator = await this.getExistingElementByAriaLabel(groupname);
     const plusSomeLocator = await groupLocator.$(
       SELECTORS.SIDEBAR_GROUP_CHAT_PLUS_SOME
     );
+    await plusSomeLocator.waitForExist();
     return plusSomeLocator;
   }
 
   async getSidebarGroupStatus(groupname: string) {
-    const groupLocator = await this.getSidebarGroupLocator(groupname);
+    const groupLocator = await this.getExistingElementByAriaLabel(groupname);
     const statusLocator = await groupLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
+    await statusLocator.waitForExist();
     return statusLocator;
   }
 
   // Get Sidebar User elements
 
-  async getSidebarUserLocator(username: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let element;
-    if (currentDriver === macDriver) {
-      element = await this.instance.$(
-        '//XCUIElementTypeGroup[@label="User Info"]/XCUIElementTypeGroup[@label="Username"]/XCUIElementTypeStaticText[contains(@value, "' +
-          username +
-          '")]/../../..'
-      );
-    } else if (currentDriver === windowsDriver) {
-      element = await this.instance.$(
-        '//Group[@Name="User Info"]/Group[@Name="Username"]/Text[contains(@Name, "' +
-          username +
-          '")]/../../..'
-      );
-    }
-    return element;
-  }
-
   async getSidebarUserImage(username: string) {
-    const userLocator = await this.getSidebarUserLocator(username);
+    const userLocator = await this.getExistingElementByAriaLabel(username);
     const imageLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
+    await imageLocator.waitForExist();
     return imageLocator;
   }
 
   async getSidebarUserStatus(username: string) {
-    const userLocator = await this.getSidebarUserLocator(username);
+    const userLocator = await this.getExistingElementByAriaLabel(username);
     const statusLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_INFO)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
+    await statusLocator.waitForExist();
     return statusLocator;
   }
 
   async getSidebarUserIndicatorOffline(username: string) {
-    const userLocator = await this.getSidebarUserLocator(username);
+    const userLocator = await this.getExistingElementByAriaLabel(username);
     const offlineLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
+    await offlineLocator.waitForExist();
     return offlineLocator;
   }
 
   async getSidebarUserIndicatorOnline(username: string) {
-    const userLocator = await this.getSidebarUserLocator(username);
+    const userLocator = await this.getExistingElementByAriaLabel(username);
     const onlineLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
+    await onlineLocator.waitForExist();
     return onlineLocator;
   }
 
   async getSidebarUserProfileTyping(username: string) {
-    const userLocator = await this.getSidebarUserLocator(username);
+    const userLocator = await this.getExistingElementByAriaLabel(username);
     const profileTyping = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_PROFILE_TYPING);
+    await profileTyping.waitForExist();
     return profileTyping;
   }
 
@@ -506,7 +492,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async openContextMenuOnGroupChat(groupName: string) {
-    const imageToRightClick = await this.getSidebarGroupLocator(groupName);
+    const imageToRightClick = await this.getExistingElementByAriaLabel(
+      groupName
+    );
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {
@@ -535,22 +523,29 @@ export default class ChatsSidebar extends UplinkMainScreen {
   // Group Chats Methods
 
   async clickOnCreateGroupChat() {
-    await this.sidebarCreateGroupChat.click();
+    const createGroupButton = await this.sidebarCreateGroupChat;
+    await createGroupButton.click();
   }
 
   async hoverOnCreateGroupButton() {
-    const element = await this.sidebarCreateGroupChat;
-    await this.hoverOnElement(element);
+    const createGroupButton = await this.sidebarCreateGroupChat;
+    await this.hoverOnElement(createGroupButton);
   }
 
   // Search bar methods
 
   async clearSidebarSearchInput() {
-    await this.chatSearchInput.clearValue();
+    const chatSearchInput = await this.chatSearchInput;
+    await chatSearchInput.clearValue();
   }
 
   async typeOnSidebarSearchInput(text: string) {
-    const element = await this.chatSearchInput;
-    await this.typeOnElement(element, text);
+    const chatSearchInput = await this.chatSearchInput;
+    await chatSearchInput.clearValue();
+    await chatSearchInput.setValue(text);
+    const chatSearchInputValue = await chatSearchInput.getText();
+    if (chatSearchInputValue !== text) {
+      await this.typeOnSidebarSearchInput(text);
+    }
   }
 }

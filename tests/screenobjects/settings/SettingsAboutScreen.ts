@@ -104,10 +104,12 @@ export default class SettingsAboutScreen extends SettingsBaseScreen {
   }
 
   async clickOnOpenSourceCode() {
-    await this.openSourceCodeButton.click();
+    const openSourceCodeButton = await this.openSourceCodeButton;
+    await openSourceCodeButton.click();
   }
 
   async clickOnOpenWebsite() {
-    await this.openWebsiteButton.click();
+    const openWebsiteButton = await this.openWebsiteButton;
+    await openWebsiteButton.click();
   }
 }

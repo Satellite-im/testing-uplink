@@ -217,67 +217,74 @@ export default class Topbar extends UplinkMainScreen {
   // Top Bar Methods
 
   async addToFavorites() {
-    await this.hoverOnFavoritesButton();
-    await this.topbarAddToFavorites.click();
+    const topbarAddToFavorites = await this.topbarAddToFavorites;
+    await topbarAddToFavorites.click();
+    const topbarRemoveFromFavorites = await this.topbarRemoveFromFavorites;
+    await topbarRemoveFromFavorites.waitForExist();
   }
 
   async clickOnTopbar() {
-    await this.topbar.click();
+    const topbarElement = await this.topbar;
+    await topbarElement.click();
   }
 
   async editGroup() {
     await this.hoverOnEditGroupButton();
-    await this.topbarEditGroup.click();
+    const topbarEditGroup = await this.topbarEditGroup;
+    await topbarEditGroup.click();
   }
 
   async goToPinnedMessages() {
     await this.hoverOnPinnedMessagesButton();
-    await this.topbarPinnedMessages.click();
+    const topbarPinnedMessages = await this.topbarPinnedMessages;
+    await topbarPinnedMessages.click();
   }
 
   async hoverOnCallButton() {
-    const element = await this.topbarCall;
-    await this.hoverOnElement(element);
+    const callButton = await this.topbarCall;
+    await this.hoverOnElement(callButton);
   }
 
   async hoverOnEditGroupButton() {
-    const element = await this.topbarEditGroup;
-    await this.hoverOnElement(element);
+    const editGroupButton = await this.topbarEditGroup;
+    await this.hoverOnElement(editGroupButton);
   }
 
   async hoverOnFavoritesButton() {
-    const element = await this.topbarAddToFavorites;
-    await this.hoverOnElement(element);
+    const favoritesButton = await this.topbarAddToFavorites;
+    await this.hoverOnElement(favoritesButton);
   }
 
   async hoverOnFavoritesRemoveButton() {
-    const element = await this.topbarRemoveFromFavorites;
-    await this.hoverOnElement(element);
+    const favoritesRemoveButton = await this.topbarRemoveFromFavorites;
+    await this.hoverOnElement(favoritesRemoveButton);
   }
 
   async hoverOnPinnedMessagesButton() {
-    const element = await this.topbarPinnedMessages;
-    await this.hoverOnElement(element);
+    const pinnedMessagesButton = await this.topbarPinnedMessages;
+    await this.hoverOnElement(pinnedMessagesButton);
   }
 
   async hoverOnVideocallButton() {
-    const element = await this.topbarVideocall;
-    await this.hoverOnElement(element);
+    const videocallButton = await this.topbarVideocall;
+    await this.hoverOnElement(videocallButton);
   }
 
   async removeFromFavorites() {
-    await this.hoverOnFavoritesRemoveButton();
-    await this.topbarRemoveFromFavorites.click();
+    const topbarRemoveFromFavorites = await this.topbarRemoveFromFavorites;
+    await topbarRemoveFromFavorites.click();
+    const topbarAddToFavorites = await this.topbarAddToFavorites;
+    await topbarAddToFavorites.waitForExist();
   }
 
   async validateTopbarExists() {
-    const element = await this.topbar;
-    await element.waitForExist();
+    const topbarElement = await this.topbar;
+    await topbarElement.waitForExist();
   }
 
   async waitUntilRemoteUserIsOnline(time: number = 30000) {
-    const element = await this.topbarIndicatorOnline;
-    await element.waitForDisplayed({
+    const indicatorOnline = await this.topbarIndicatorOnline;
+    await indicatorOnline.waitForExist({
       timeout: time,
     });
   }

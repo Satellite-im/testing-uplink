@@ -418,17 +418,22 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
   // Hovering methods
 
   async hoverOnClearAccentColor() {
-    const element = await this.clearAccentColorButton;
-    await this.hoverOnElement(element);
+    const clearAccentButton = await this.clearAccentColorButton;
+    await this.hoverOnElement(clearAccentButton);
   }
 
   async hoverOnOpenFontsFolder() {
-    const element = await this.openFontsFolderButton;
-    await this.hoverOnElement(element);
+    const openFontsButton = await this.openFontsFolderButton;
+    await this.hoverOnElement(openFontsButton);
   }
 
   async hoverOnOpenThemesFolder() {
-    const element = await this.openThemesFolderButton;
-    await this.hoverOnElement(element);
+    const openThemesButton = await this.openThemesFolderButton;
+    await this.hoverOnElement(openThemesButton);
+  }
+
+  async validateSettingsGeneralIsShown() {
+    const settingsGeneral = await this.settingsGeneral;
+    await settingsGeneral.waitForExist();
   }
 }

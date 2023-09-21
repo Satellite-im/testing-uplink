@@ -23,16 +23,29 @@ export default async function repliesTests() {
     await chatsContextMenuSecondUser.selectContextOptionReply();
 
     // Validate contents of Reply Pop Up
-    await chatsReplyPromptSecondUser.replyPopUp.waitForDisplayed();
-    await chatsReplyPromptSecondUser.replyPopUpCloseButton.waitForDisplayed();
-    await expect(
-      chatsReplyPromptSecondUser.replyPopUpHeader
-    ).toHaveTextContaining("REPLYING TO:");
-    await chatsReplyPromptSecondUser.replyPopUpIndicatorOnline.waitForDisplayed();
-    await expect(
-      chatsReplyPromptSecondUser.replyPopUpRemoteTextToReplyValue
-    ).toHaveTextContaining("Testing...😀");
-    await chatsReplyPromptSecondUser.replyPopUpUserImage.waitForDisplayed();
+    const replyPopUp = await chatsReplyPromptSecondUser.replyPopUp;
+    await replyPopUp.waitForExist();
+
+    const replyPopUpCloseButton =
+      await chatsReplyPromptSecondUser.replyPopUpCloseButton;
+    await replyPopUpCloseButton.waitForExist();
+
+    const replyPopUpHeader = await chatsReplyPromptSecondUser.replyPopUpHeader;
+    await expect(replyPopUpHeader).toHaveTextContaining("REPLYING TO:");
+
+    const replyPopUpIndicatorOnline =
+      await chatsReplyPromptSecondUser.replyPopUpIndicatorOnline;
+    await replyPopUpIndicatorOnline.waitForExist();
+
+    const replyPopUpRemoteTextToReply =
+      await chatsReplyPromptSecondUser.replyPopUpRemoteTextToReplyValue;
+    await expect(replyPopUpRemoteTextToReply).toHaveTextContaining(
+      "Testing...😀"
+    );
+
+    const replyPopUpUserImage =
+      await chatsReplyPromptSecondUser.replyPopUpUserImage;
+    await replyPopUpUserImage.waitForExist();
 
     await chatsReplyPromptSecondUser.closeReplyModal();
     await chatsReplyPromptSecondUser.waitForReplyModalToNotExist();
@@ -44,7 +57,7 @@ export default async function repliesTests() {
     await chatsContextMenuSecondUser.selectContextOptionReply();
 
     // Type a reply and sent it
-    await chatsReplyPromptSecondUser.replyPopUp.waitForDisplayed();
+    await chatsReplyPromptSecondUser.replyPopUp.waitForExist();
     await chatsInputSecondUser.typeMessageOnInput("Reply");
     await chatsInputSecondUser.clickOnSendMessage();
     await chatsReplyPromptSecondUser.waitForReplyModalToNotExist();
@@ -54,7 +67,7 @@ export default async function repliesTests() {
     // Validate message replied appears smaller above your reply
     const replySent = await chatsMessagesSecondUser.getLastReply();
     const replySentText = await chatsMessagesSecondUser.getLastReplyText();
-    await replySent.waitForDisplayed();
+    await replySent.waitForExist();
     await expect(replySentText).toHaveTextContaining("Testing...😀");
 
     // Validate reply message sent appears as last message
@@ -76,25 +89,24 @@ export default async function repliesTests() {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsSecondUser.getLastGroupWrapSentImage();
-    await expect(userImage).toExist();
+    await userImage.waitForExist();
 
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator =
       await chatsMessageGroupsSecondUser.getLastGroupWrapSentOnline();
-    await expect(onlineIndicator).toExist();
+    await onlineIndicator.waitForExist();
     await chatsMessagesFirstUser.switchToOtherUserWindow();
 
     // With User A - Validate that reply message is received
-    await chatsMessagesFirstUser.chatMessageReply.waitForDisplayed({
-      timeout: 90000,
-    });
+    const replyReceived = await await chatsMessagesFirstUser.chatMessageReply;
+    await replyReceived.waitForExist();
   });
 
   it("Chat User A - Validate reply message contents", async () => {
     // Validate message replied appears smaller above your reply
     const replyReceived = await chatsMessagesFirstUser.getLastReply();
     const replyReceivedText = await chatsMessagesFirstUser.getLastReplyText();
-    await replyReceived.waitForDisplayed();
+    await replyReceived.waitForExist();
     await expect(replyReceivedText).toHaveTextContaining("Testing...😀");
 
     // Validate reply message sent appears as last message
@@ -117,12 +129,12 @@ export default async function repliesTests() {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsFirstUser.getLastGroupWrapReceivedImage();
-    await expect(userImage).toExist();
+    await userImage.waitForExist();
 
     //Online indicator of your user should be displayed next to the image
     const onlineIndicator =
       await chatsMessageGroupsFirstUser.getLastGroupWrapReceivedOnline();
-    await expect(onlineIndicator).toExist();
+    await onlineIndicator.waitForExist();
   });
 
   it("Chat User A - Reply to yourself", async () => {
@@ -132,7 +144,8 @@ export default async function repliesTests() {
     await chatsContextMenuFirstUser.selectContextOptionReply();
 
     // Type a reply and sent it
-    await chatsReplyPromptFirstUser.replyPopUp.waitForDisplayed();
+    const replyPopUp = await chatsReplyPromptFirstUser.replyPopUp;
+    await replyPopUp.waitForExist();
     await chatsInputFirstUser.typeMessageOnInput("SelfReply");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsReplyPromptFirstUser.waitForReplyModalToNotExist();
@@ -140,7 +153,7 @@ export default async function repliesTests() {
     // Validate reply to self message is displayed on Chat Conversation
     const repliedMessage = await chatsMessagesFirstUser.getLastReply();
     const repliedMessageText = await chatsMessagesFirstUser.getLastReplyText();
-    await repliedMessage.waitForDisplayed();
+    await repliedMessage.waitForExist();
     await expect(repliedMessageText).toHaveTextContaining("Testing...😀");
 
     // Validate reply message sent appears as last message

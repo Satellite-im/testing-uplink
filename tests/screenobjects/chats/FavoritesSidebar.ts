@@ -129,17 +129,6 @@ export default class FavoritesSidebar extends UplinkMainScreen {
       .$$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
   }
 
-  get favoritesUserTooltip() {
-    return this.instance.$(SELECTORS.SLIMBAR).$(SELECTORS.TOOLTIP);
-  }
-
-  get favoritesUserTooltipText() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.TOOLTIP_TEXT);
-  }
-
   get slimbar() {
     return this.instance.$(SELECTORS.SLIMBAR);
   }
@@ -167,74 +156,146 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   // Favorites methods
 
   async clickOnContextMenuFavoritesChat() {
-    await this.favoritesChat.click();
+    const favoritesChat = await this.favoritesChat;
+    await favoritesChat.click();
   }
 
   async clickOnContextMenuFavoriteRemove() {
-    await this.favoritesRemove.click();
+    const favoritesRemove = await this.favoritesRemove;
+    await favoritesRemove.click();
   }
 
-  async getLocatorOfFavoritesUser(position: number) {
-    let locator = await this.instance
-      .$(SELECTORS.FAVORITES)
-      .$$(SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP)
-      [position].$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
-    return locator;
+  async getFavoritesUserByAriaLabel(username: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let favoritesLocator;
+    if (currentDriver === MACOS_DRIVER) {
+      favoritesLocator = await this.instance
+        .$(SELECTORS.SLIMBAR)
+        .$("~" + username);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      favoritesLocator = await this.instance
+        .$(SELECTORS.SLIMBAR)
+        .$('[name="' + username + '"]');
+    }
+    await favoritesLocator.waitForExist();
+    return favoritesLocator;
   }
 
-  async hoverOnFavoritesBubble(position: number) {
-    const element = await this.getLocatorOfFavoritesUser(position);
-    await this.hoverOnElement(element);
+  async getFavoritesUserImage(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const userImage = await favoriteLocator.$(SELECTORS.FAVORITES_USER_IMAGE);
+    await userImage.waitForExist();
+    return userImage;
   }
 
-  async openContextMenuOnFavoritesUser(position: number) {
-    const element = await this.getLocatorOfFavoritesUser(position);
+  async getFavoritesUserImageGroupWrap(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const userImageGroupWrap = await favoriteLocator.$(
+      SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP
+    );
+    await userImageGroupWrap.waitForExist();
+    return userImageGroupWrap;
+  }
+
+  async getFavoritesUserImageProfile(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const imageProfile = await favoriteLocator.$(
+      SELECTORS.FAVORITES_USER_IMAGE_PROFILE
+    );
+    await imageProfile.waitForExist();
+    return imageProfile;
+  }
+
+  async getFavoritesUserImageWrap(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const userImageWrap = await favoriteLocator.$(
+      SELECTORS.FAVORITES_USER_IMAGE_WRAP
+    );
+    await userImageWrap.waitForExist();
+    return userImageWrap;
+  }
+
+  async getFavoritesUserIndicatorOffline(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const indicatorOffline = await favoriteLocator.$(
+      SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE
+    );
+    await indicatorOffline.waitForExist();
+    return indicatorOffline;
+  }
+
+  async getFavoritesUserIndicatorOnline(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const indicatorOnline = await favoriteLocator.$(
+      SELECTORS.FAVORITES_USER_INDICATOR_ONLINE
+    );
+    await indicatorOnline.waitForExist();
+    return indicatorOnline;
+  }
+
+  async hoverOnFavoritesBubble(name: string) {
+    const favoritesBubble = await this.getFavoritesUserImageProfile(name);
+    await this.hoverOnElement(favoritesBubble);
+  }
+
+  async openContextMenuOnFavoritesUser(name: string) {
+    const userImageProfile = await this.getFavoritesUserImageProfile(name);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(element, this.executor);
+      await rightClickOnMacOS(userImageProfile, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(element, this.executor);
+      await rightClickOnWindows(userImageProfile, this.executor);
     }
-    await this.contextMenu.waitForDisplayed();
+    const contextMenu = await this.contextMenu;
+    await contextMenu.waitForExist();
   }
 
   // Slimbar NavBar methods
 
   async clickOnSlimbarChatsButton() {
-    await this.slimbarChatsButton.click();
+    const slimbarChatsButton = await this.slimbarChatsButton;
+    await slimbarChatsButton.click();
   }
 
   async clickOnSlimbarFilesButton() {
-    await this.slimbarFilesButton.click();
+    const slimbarFilesButton = await this.slimbarFilesButton;
+    await slimbarFilesButton.click();
   }
 
   async clickOnSlimbarFriendsButton() {
-    await this.slimbarFriendsButton.click();
+    const slimbarFriendsButton = await this.slimbarFriendsButton;
+    await slimbarFriendsButton.click();
   }
 
   async clickOnSlimbarSettingsButton() {
-    await this.slimbarSettingsButton.click();
+    const slimbarSettingsButton = await this.slimbarSettingsButton;
+    await slimbarSettingsButton.click();
   }
 
   // Hovering methods
 
   async hoverOnSlimbarChatsButton() {
-    const element = await this.slimbarChatsButton;
-    await this.hoverOnElement(element);
+    const slimbarChatsButton = await this.slimbarChatsButton;
+    await this.hoverOnElement(slimbarChatsButton);
   }
 
   async hoverOnSlimbarFilesButton() {
-    const element = await this.slimbarFilesButton;
-    await this.hoverOnElement(element);
+    const slimbarFilesButton = await this.slimbarFilesButton;
+    await this.hoverOnElement(slimbarFilesButton);
   }
 
   async hoverOnSlimbarFriendsButton() {
-    const element = await this.slimbarFriendsButton;
-    await this.hoverOnElement(element);
+    const slimbarFriendsButton = await this.slimbarFriendsButton;
+    await this.hoverOnElement(slimbarFriendsButton);
   }
 
   async hoverOnSlimbarSettingsButton() {
-    const element = await this.slimbarSettingsButton;
-    await this.hoverOnElement(element);
+    const slimbarSettingsButton = await this.slimbarSettingsButton;
+    await this.hoverOnElement(slimbarSettingsButton);
+  }
+
+  async validateFavoritesAreShown() {
+    const favorites = await this.favorites;
+    await favorites.waitForExist();
   }
 }

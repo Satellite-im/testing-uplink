@@ -12,21 +12,29 @@ export default async function settingsExtensions() {
     await settingsExtensionsFirstUser.waitForIsShown(true);
 
     // Validate that the three buttons are displayed on top of the screen
-    await settingsExtensionsFirstUser.installedButton.waitForDisplayed();
-    await settingsExtensionsFirstUser.exploreButton.waitForDisplayed();
-    await settingsExtensionsFirstUser.extensionsSettingsButton.waitForDisplayed();
+    const installedButton = await settingsExtensionsFirstUser.installedButton;
+    const exploreButton = await settingsExtensionsFirstUser.exploreButton;
+    const extensionsSettingsButton =
+      await settingsExtensionsFirstUser.extensionsSettingsButton;
+
+    await installedButton.waitForExist();
+    await exploreButton.waitForExist();
+    await extensionsSettingsButton.waitForExist();
   });
 
   it("Settings Extensions - Validate Emoji Selector extension contents", async () => {
-    await expect(
-      settingsExtensionsFirstUser.emojiSelectorTitle
-    ).toHaveTextContaining("Emoji Selector");
-    await expect(
-      settingsExtensionsFirstUser.emojiSelectorDeveloper
-    ).toHaveTextContaining("SATELLITE <DEVS@SATELLITE.IM>");
-    await expect(
-      settingsExtensionsFirstUser.emojiSelectorDescription
-    ).toHaveTextContaining(
+    const emojiSelectorTitle =
+      await settingsExtensionsFirstUser.emojiSelectorTitle;
+    const emojiSelectorDeveloper =
+      await settingsExtensionsFirstUser.emojiSelectorDeveloper;
+    const emojiSelectorDescription =
+      await settingsExtensionsFirstUser.emojiSelectorDescription;
+
+    await expect(emojiSelectorTitle).toHaveTextContaining("Emoji Selector");
+    await expect(emojiSelectorDeveloper).toHaveTextContaining(
+      "SATELLITE <DEVS@SATELLITE.IM>"
+    );
+    await expect(emojiSelectorDescription).toHaveTextContaining(
       "Browse the standard unicode library of emoji's and send them to friends."
     );
   });
@@ -62,15 +70,21 @@ export default async function settingsExtensions() {
     await settingsExtensionsFirstUser.clickOnExploreButton();
 
     // Validate warning message, search extensions header and input are displayed
-    await expect(
-      settingsExtensionsFirstUser.installedAlertText
-    ).toHaveTextContaining(
+    const installedAlertText =
+      await settingsExtensionsFirstUser.installedAlertText;
+    await expect(installedAlertText).toHaveTextContaining(
       "Extensions are pre-compiled on external hardware. For added security you can compile extensions from source and place in the `extensions` folder."
     );
-    await expect(
-      settingsExtensionsFirstUser.extensionsSearchHeader
-    ).toHaveTextContaining("SEARCH EXTENSIONS");
-    await settingsExtensionsFirstUser.extensionsSearchInput.waitForDisplayed();
+
+    const extensionsSearchHeader =
+      await settingsExtensionsFirstUser.extensionsSearchHeader;
+    await expect(extensionsSearchHeader).toHaveTextContaining(
+      "SEARCH EXTENSIONS"
+    );
+
+    const extensionsSearchInput =
+      await settingsExtensionsFirstUser.extensionsSearchInput;
+    await extensionsSearchInput.waitForExist();
     const placeholder =
       await settingsExtensionsFirstUser.getPlaceholderFromExtensionsInput();
     await expect(placeholder).toEqual("Extension name or description.");
@@ -81,20 +95,27 @@ export default async function settingsExtensions() {
     await settingsExtensionsFirstUser.clickOnExtensionsSettingsButton();
 
     // Assert contents from screen
-    await expect(
-      settingsExtensionsFirstUser.openExtensionsHeaderText
-    ).toHaveTextContaining("OPEN EXTENSIONS FOLDER");
-    await expect(
-      settingsExtensionsFirstUser.openExtensionsDescriptionText
-    ).toHaveTextContaining(
+    const openExtensionsHeader =
+      await settingsExtensionsFirstUser.openExtensionsHeaderText;
+    await expect(openExtensionsHeader).toHaveTextContaining(
+      "OPEN EXTENSIONS FOLDER"
+    );
+
+    const openExtensionsDescription =
+      await settingsExtensionsFirstUser.openExtensionsDescriptionText;
+    await expect(openExtensionsDescription).toHaveTextContaining(
       "Open the local directory containing your installed extensions."
     );
-    await expect(
-      settingsExtensionsFirstUser.enableAutomaticallyHeader
-    ).toHaveTextContaining("ENABLE AUTOMATICALLY");
-    await expect(
-      settingsExtensionsFirstUser.enableAutomaticallyDescription
-    ).toHaveTextContaining(
+
+    const enableAutomaticallyHeader =
+      await settingsExtensionsFirstUser.enableAutomaticallyHeader;
+    await expect(enableAutomaticallyHeader).toHaveTextContaining(
+      "ENABLE AUTOMATICALLY"
+    );
+
+    const enableAutomaticallyDescription =
+      await settingsExtensionsFirstUser.enableAutomaticallyDescription;
+    await expect(enableAutomaticallyDescription).toHaveTextContaining(
       "When turned on, new extensions will automatically be enabled by default."
     );
   });

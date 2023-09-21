@@ -17,7 +17,7 @@ env:
 
 jobs:
   build-mac:
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
@@ -193,11 +193,7 @@ jobs:
           cp -r ./tests/fixtures/users/FriendsTestUser/ ./tests/fixtures/users/mac2/FriendsTestUser
 
       - name: Run Tests on MacOS 🧪
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 30
-          max_attempts: 2
-          command: npm run mac.ci
+        run: npm run mac.ci
 
       - name: Upload Test Report - MacOS CI
         if: always()
@@ -413,6 +409,10 @@ jobs:
           appium driver install --source=npm appium-windows-driver
           appium driver list
 
+      - name: Setup FFMPEG to record screen
+        uses: FedericoCarboni/setup-ffmpeg@v2
+        id: setup-ffmpeg
+
       - name: Delete Cache Folder if exists - Windows
         run: If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }
         shell: powershell
@@ -521,6 +521,10 @@ jobs:
         run: |
           appium driver install --source=npm appium-windows-driver
           appium driver list
+
+      - name: Setup FFMPEG to record screen
+        uses: FedericoCarboni/setup-ffmpeg@v2
+        id: setup-ffmpeg
 
       - name: Delete Cache Folder if exists - Windows
         run: If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }

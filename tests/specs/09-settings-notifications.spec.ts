@@ -18,32 +18,41 @@ export default async function settingsNotifications() {
 
   it("Settings Notifications - Validate header and description texts are correct", async () => {
     // Start validations
-    await expect(
-      settingsNotificationsFirstUser.enabledNotificationsHeader
-    ).toHaveTextContaining("ENABLED");
-    await expect(
-      settingsNotificationsFirstUser.enabledNotificationsDescription
-    ).toHaveTextContaining(
+    const enabledHeader =
+      await settingsNotificationsFirstUser.enabledNotificationsHeader;
+    const enabledDescription =
+      await settingsNotificationsFirstUser.enabledNotificationsDescription;
+    await expect(enabledHeader).toHaveTextContaining("ENABLED");
+    await expect(enabledDescription).toHaveTextContaining(
       "Enable notifications for incoming calls, messages, and more."
     );
-    await expect(
-      settingsNotificationsFirstUser.friendsNotificationsHeader
-    ).toHaveTextContaining("FRIENDS");
-    await expect(
-      settingsNotificationsFirstUser.friendsNotificationsDescription
-    ).toHaveTextContaining("Enable notifications for friend requests.");
-    await expect(
-      settingsNotificationsFirstUser.messagesNotificationsHeader
-    ).toHaveTextContaining("MESSAGES");
-    await expect(
-      settingsNotificationsFirstUser.messagesNotificationsDescription
-    ).toHaveTextContaining("Enable notifications for new messages.");
-    await expect(
-      settingsNotificationsFirstUser.settingsNotificationsHeader
-    ).toHaveTextContaining("SETTINGS");
-    await expect(
-      settingsNotificationsFirstUser.settingsNotificationsDescription
-    ).toHaveText("Enable notifications for updates and important alerts.");
+
+    const friendsHeader =
+      await settingsNotificationsFirstUser.friendsNotificationsHeader;
+    const friendsDescription =
+      await settingsNotificationsFirstUser.friendsNotificationsDescription;
+    await expect(friendsHeader).toHaveTextContaining("FRIENDS");
+    await expect(friendsDescription).toHaveTextContaining(
+      "Enable notifications for friend requests."
+    );
+
+    const messagesHeader =
+      await settingsNotificationsFirstUser.messagesNotificationsHeader;
+    const messagesDescription =
+      await settingsNotificationsFirstUser.messagesNotificationsDescription;
+    await expect(messagesHeader).toHaveTextContaining("MESSAGES");
+    await expect(messagesDescription).toHaveTextContaining(
+      "Enable notifications for new messages."
+    );
+
+    const settingsHeader =
+      await settingsNotificationsFirstUser.settingsNotificationsHeader;
+    const settingsDescription =
+      await settingsNotificationsFirstUser.settingsNotificationsDescription;
+    await expect(settingsHeader).toHaveTextContaining("SETTINGS");
+    await expect(settingsDescription).toHaveText(
+      "Enable notifications for updates and important alerts."
+    );
   });
 
   it("Settings Notifications - Disable all notifications by switching ENABLED toggle to off", async () => {

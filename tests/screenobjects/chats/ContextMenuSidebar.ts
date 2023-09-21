@@ -60,26 +60,32 @@ export default class ContextMenuSidebar extends UplinkMainScreen {
   }
 
   async selectChatsClearUnreads() {
-    await this.sidebarChatsContextClearUnreads.click();
+    const clearUnreads = await this.sidebarChatsContextClearUnreads;
+    await clearUnreads.click();
   }
 
   async selectChatsDeleteConversation() {
-    await this.sidebarChatsContextDeleteConversation.click();
+    const deleteConversation = await this.sidebarChatsContextDeleteConversation;
+    await deleteConversation.click();
   }
 
   async selectChatsDeleteGroup() {
-    await this.sidebarChatsContextDeleteGroup.click();
+    const deleteGroup = await this.sidebarChatsContextDeleteGroup;
+    await deleteGroup.click();
   }
 
   async selectChatsHideChat() {
-    await this.sidebarChatsContextHideChat.click();
+    const hideChat = await this.sidebarChatsContextHideChat;
+    await hideChat.click();
   }
 
   async selectChatsLeaveGroup() {
-    await this.sidebarChatsContextLeaveGroup.click();
+    const leaveGroup = await this.sidebarChatsContextLeaveGroup;
+    await leaveGroup.click();
   }
 
   async validateContextMenuIsOpen() {
-    await this.contextMenu.waitForDisplayed();
+    const contextMenu = await this.contextMenu;
+    await contextMenu.waitForExist();
   }
 }

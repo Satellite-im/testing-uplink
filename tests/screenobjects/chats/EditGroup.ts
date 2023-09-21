@@ -13,17 +13,15 @@ const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   ADD_MEMBERS: '[name="edit-group-add-members"]',
-  ADD_MEMBERS_TEXT: "<Text>",
   ADD_PARTICIPANT_BUTTON: '[name="Add"]',
-  CURRENT_MEMBERS: '[name="edit-group-current-members"]',
-  CURRENT_MEMBERS_TEXT: "<Text>",
+  CURRENT_MEMBERS: '[name="edit-group-remove-members"]',
   EDIT_GROUP_SECTION: '[name="edit-group"]',
   FRIENDS_GROUP: '[name="friend-group"]',
   FRIENDS_LIST: '[name="friends-list"]',
   GROUP_NAME_INPUT: '[name="groupname-input"]',
   GROUP_NAME_INPUT_ERROR: '[name="input-error"]',
   GROUP_NAME_INPUT_ERROR_TEXT: "<Text>",
-  NOTHING_HERE_TEXT: '[name="Nothing Here..."]',
+  NOTHING_HERE_TEXT: '//Text[starts-with(@Name, "Nothing")]',
   PARTICIPANT_USER_CONTAINER: '[name="Friend Container"]',
   PARTICIPANT_USER_CREATOR_BADGE_IMAGE: "<Image>",
   PARTICIPANT_USER_CREATOR_BADGE_TEXT: '[name="Group Creator"]',
@@ -43,7 +41,7 @@ const SELECTORS_MACOS = {
   ADD_MEMBERS: "~edit-group-add-members",
   ADD_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   ADD_PARTICIPANT_BUTTON: "~Add",
-  CURRENT_MEMBERS: "~edit-group-current-members",
+  CURRENT_MEMBERS: "~edit-group-remove-members",
   CURRENT_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   EDIT_GROUP_SECTION: "~edit-group",
   FRIENDS_GROUP: "~friend-group",
@@ -82,10 +80,6 @@ export default class EditGroup extends UplinkMainScreen {
     return this.instance.$(SELECTORS.ADD_MEMBERS);
   }
 
-  get addMembersText() {
-    return this.instance.$(SELECTORS.ADD_MEMBERS).$(SELECTORS.ADD_MEMBERS_TEXT);
-  }
-
   get addParticipantButton() {
     return this.instance
       .$(SELECTORS.EDIT_GROUP_SECTION)
@@ -94,12 +88,6 @@ export default class EditGroup extends UplinkMainScreen {
 
   get currentMembers() {
     return this.instance.$(SELECTORS.CURRENT_MEMBERS);
-  }
-
-  get currentMembersText() {
-    return this.instance
-      .$(SELECTORS.CURRENT_MEMBERS)
-      .$(SELECTORS.CURRENT_MEMBERS_TEXT);
   }
 
   get editGroupSection() {
@@ -135,7 +123,7 @@ export default class EditGroup extends UplinkMainScreen {
 
   get nothingHereText() {
     return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.FRIENDS_LIST)
       .$(SELECTORS.NOTHING_HERE_TEXT);
   }
 
@@ -219,41 +207,58 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   get userInput() {
-    return this.instance
-      .$(SELECTORS.EDIT_GROUP_SECTION)
-      .$(SELECTORS.USER_INPUT);
+    return this.instance.$(SELECTORS.USER_INPUT);
   }
 
   async clearGroupNameInput() {
-    await this.groupNameInput.setValue("");
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.setValue("");
   }
 
   async clearSearchUserInput() {
-    await this.userInput.setValue("");
+    const userInput = await this.userInput;
+    await userInput.setValue("");
   }
 
   async clickOnAddButton() {
-    await this.addParticipantButton.click();
+    const addParticipantButton = await this.addParticipantButton;
+    await addParticipantButton.click();
   }
 
-  async clickOnAddMembersText() {
-    await this.addMembersText.click();
+  async clickOnAddMembers() {
+    const addMembers = await this.addMembers;
+    await addMembers.click();
   }
 
-  async clickOnCurrentMembersText() {
-    await this.currentMembersText.click();
+  async clickOnCurrentMembers() {
+    const currentMembers = await this.currentMembers;
+    await currentMembers.click();
   }
 
   async clickOnFirstAddButton() {
-    await this.instance.$(SELECTORS.ADD_PARTICIPANT_BUTTON).click();
+    const firstAddButton = await this.instance.$$(
+      SELECTORS.ADD_PARTICIPANT_BUTTON
+    )[0];
+    await firstAddButton.waitForExist();
+    await firstAddButton.click();
   }
 
   async clickOnFirstRemoveButton() {
-    await this.instance.$(SELECTORS.REMOVE_PARTICIPANT_BUTTON).click();
+    const removeParticipantButton = await this.instance.$$(
+      SELECTORS.REMOVE_PARTICIPANT_BUTTON
+    )[0];
+    await removeParticipantButton.waitForExist();
+    await removeParticipantButton.click();
+  }
+
+  async clickOnGroupNameInput() {
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.click();
   }
 
   async clickOnRemoveButton() {
-    await this.removeParticipantButton.click();
+    const removeParticipantButton = await this.removeParticipantButton;
+    await removeParticipantButton.click();
   }
 
   async getParticipantsList() {
@@ -265,9 +270,9 @@ export default class EditGroup extends UplinkMainScreen {
     for (let participant of participants) {
       const participantName = await participant
         .$(SELECTORS.PARTICIPANT_USER_NAME)
-        .$(SELECTORS.PARTICIPANT_USER_NAME_TEXT)
-        .getText();
-      results.push(participantName);
+        .$(SELECTORS.PARTICIPANT_USER_NAME_TEXT);
+      const participantNameText = await participantName.getText();
+      results.push(participantNameText);
     }
     return results;
   }
@@ -300,6 +305,7 @@ export default class EditGroup extends UplinkMainScreen {
     const indicatorOffline = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_INDICATOR_OFFLINE
     );
+    await indicatorOffline.waitForExist();
     return indicatorOffline;
   }
 
@@ -308,6 +314,7 @@ export default class EditGroup extends UplinkMainScreen {
     const indicatorOnline = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE
     );
+    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 
@@ -316,6 +323,7 @@ export default class EditGroup extends UplinkMainScreen {
     const badgeImage = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE
     );
+    await badgeImage.waitForExist();
     return badgeImage;
   }
 
@@ -324,12 +332,14 @@ export default class EditGroup extends UplinkMainScreen {
     const badgeText = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT
     );
+    await badgeText.waitForExist();
     return badgeText;
   }
 
   async getParticipantUserImage(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const userImage = await userLocator.$(SELECTORS.PARTICIPANT_USER_IMAGE);
+    await userImage.waitForExist();
     return userImage;
   }
 
@@ -338,6 +348,7 @@ export default class EditGroup extends UplinkMainScreen {
     const userImageProfile = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_IMAGE_PROFILE
     );
+    await userImageProfile.waitForExist();
     return userImageProfile;
   }
 
@@ -346,21 +357,38 @@ export default class EditGroup extends UplinkMainScreen {
     const userImageWrap = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_IMAGE_WRAP
     );
+    await userImageWrap.waitForExist();
     return userImageWrap;
   }
 
-  async selectUserFromList(participant: string) {
-    const userLocator = await this.getParticipantContainerLocator(participant);
-    await userLocator.click();
-  }
-
   async typeOnGroupNameInput(name: string) {
-    await this.groupNameInput.click();
-    await this.groupNameInput.setValue(name);
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.clearValue();
+    await groupNameInput.setValue(name);
+    const currentValue = await groupNameInput.getText();
+    if (currentValue !== name) {
+      await this.typeOnGroupNameInput(name);
+    }
   }
 
   async typeOnSearchUserInput(username: string) {
-    await this.userInput.click();
-    await this.userInput.setValue(username);
+    const userInput = await this.userInput;
+    await userInput.clearValue();
+    await userInput.click();
+    await userInput.setValue(username);
+    const userInputValue = await userInput.getText();
+    if (userInputValue !== username) {
+      await this.typeOnSearchUserInput(username);
+    }
+  }
+
+  async validateEditGroupIsShown() {
+    const editGroupSection = await this.editGroupSection;
+    await editGroupSection.waitForExist();
+  }
+
+  async validateNothingHereIsDisplayed() {
+    const nothingHereText = await this.nothingHereText;
+    await nothingHereText.waitForExist();
   }
 }

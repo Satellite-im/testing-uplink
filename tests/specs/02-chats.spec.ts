@@ -15,30 +15,48 @@ let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function chats() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    await welcomeScreenFirstUser.prereleaseIndicator.waitForDisplayed();
-    await expect(
-      welcomeScreenFirstUser.prereleaseIndicatorText
-    ).toHaveTextContaining("Pre-release | Issues/Feedback");
+    const prereleaseIndicator =
+      await welcomeScreenFirstUser.prereleaseIndicator;
+    const prereleaseIndicatorText =
+      await welcomeScreenFirstUser.prereleaseIndicatorText;
+    await prereleaseIndicator.waitForExist();
+    await expect(prereleaseIndicatorText).toHaveTextContaining(
+      "Pre-release | Issues/Feedback"
+    );
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await welcomeScreenFirstUser.chatsButton.waitForDisplayed();
-    await welcomeScreenFirstUser.filesButton.waitForDisplayed();
-    await welcomeScreenFirstUser.friendsButton.waitForDisplayed();
-    await welcomeScreenFirstUser.settingsButton.waitForDisplayed();
+    const chatsButton = await welcomeScreenFirstUser.chatsButton;
+    const filesButton = await welcomeScreenFirstUser.filesButton;
+    const friendsButton = await welcomeScreenFirstUser.friendsButton;
+    const settingsButton = await welcomeScreenFirstUser.settingsButton;
+
+    await chatsButton.waitForExist();
+    await filesButton.waitForExist();
+    await friendsButton.waitForExist();
+    await settingsButton.waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    await chatsSidebarFirstUser.chatSearchInput.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebar.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarChildren.waitForDisplayed();
-    await chatsSidebarFirstUser.sidebarSearch.waitForDisplayed();
+    const sidebar = await chatsSidebarFirstUser.sidebar;
+    const sidebarChildren = await chatsSidebarFirstUser.sidebarChildren;
+    const sidebarSearch = await chatsSidebarFirstUser.sidebarSearch;
+    const chatSearchInput = await chatsSidebarFirstUser.chatSearchInput;
+
+    await sidebar.waitForExist();
+    await sidebarChildren.waitForExist();
+    await sidebarSearch.waitForExist();
+    await chatSearchInput.waitForExist();
   });
 
   it("Validate Welcome Screen is displayed", async () => {
-    await welcomeScreenFirstUser.welcomeLayout.waitForDisplayed();
-    await welcomeScreenFirstUser.addFriendsButton.waitForDisplayed();
-    await expect(welcomeScreenFirstUser.addSomeoneText).toHaveTextContaining(
+    await welcomeScreenFirstUser.validateWelcomeScreenIsShown();
+
+    const addFriendsButton = await welcomeScreenFirstUser.addFriendsButton;
+    await addFriendsButton.waitForExist();
+
+    const addSomeoneText = await welcomeScreenFirstUser.addSomeoneText;
+    await expect(addSomeoneText).toHaveTextContaining(
       "Things are better with friends."
     );
   });
@@ -46,44 +64,55 @@ export default async function chats() {
   it("Validate Main Nav Bar buttons tooltips are displayed", async () => {
     // Validate Chats button tooltip
     await welcomeScreenFirstUser.hoverOnChatsButton();
-    await welcomeScreenFirstUser.chatsButtonTooltip.waitForExist();
-    await expect(
-      welcomeScreenFirstUser.chatsButtonTooltipText
-    ).toHaveTextContaining("Chats");
+
+    const chatsTooltip = await welcomeScreenFirstUser.chatsButtonTooltip;
+    const chatsTooltipText =
+      await welcomeScreenFirstUser.chatsButtonTooltipText;
+    await chatsTooltip.waitForExist();
+    await expect(chatsTooltipText).toHaveTextContaining("Chats");
 
     // Validate Files button tooltip
     await welcomeScreenFirstUser.hoverOnFilesButton();
-    await welcomeScreenFirstUser.filesButtonTooltip.waitForExist();
-    await expect(
-      welcomeScreenFirstUser.filesButtonTooltipText
-    ).toHaveTextContaining("Files");
+
+    const filesTooltip = await welcomeScreenFirstUser.filesButtonTooltip;
+    const filesTooltipText =
+      await welcomeScreenFirstUser.filesButtonTooltipText;
+    await filesTooltip.waitForExist();
+    await expect(filesTooltipText).toHaveTextContaining("Files");
 
     // Validate Friends button tooltip
     await welcomeScreenFirstUser.hoverOnFriendsButton();
-    await welcomeScreenFirstUser.friendsButtonTooltip.waitForExist();
-    await expect(
-      welcomeScreenFirstUser.friendsButtonTooltipText
-    ).toHaveTextContaining("Friends");
+
+    const friendsTooltip = await welcomeScreenFirstUser.friendsButtonTooltip;
+    const friendsTooltipText =
+      await welcomeScreenFirstUser.friendsButtonTooltipText;
+    await friendsTooltip.waitForExist();
+    await expect(friendsTooltipText).toHaveTextContaining("Friends");
 
     // Validate Settings button tooltip
     await welcomeScreenFirstUser.hoverOnSettingsButton();
-    await welcomeScreenFirstUser.settingsButtonTooltip.waitForExist();
-    await expect(
-      welcomeScreenFirstUser.settingsButtonTooltipText
-    ).toHaveTextContaining("Settings");
+
+    const settingsTooltip = await welcomeScreenFirstUser.settingsButtonTooltip;
+    const settingsTooltipText =
+      await welcomeScreenFirstUser.settingsButtonTooltipText;
+    await settingsTooltip.waitForExist();
+    await expect(settingsTooltipText).toHaveTextContaining("Settings");
   });
 
   it("Welcome Screen - Welcome Image is displayed when no conversations are available", async () => {
-    await welcomeScreenFirstUser.welcomeImage.waitForExist();
+    const welcomeImage = await welcomeScreenFirstUser.welcomeImage;
+    await welcomeImage.waitForExist();
   });
 
   it("Click on add someone redirects to Friends Page", async () => {
     await welcomeScreenFirstUser.clickAddSomeone();
-    await friendsScreenFirstUser.waitForIsShown(true);
+    await friendsScreenFirstUser.validateFriendsScreenIsShown();
   });
 
   it("Friends Screen - Image is displayed when no friends have been added yet", async () => {
-    await friendsScreenFirstUser.allFriendsListImage.waitForExist();
+    const allFriendsListImage =
+      await friendsScreenFirstUser.allFriendsListImage;
+    await allFriendsListImage.waitForExist();
   });
 
   it("Slimbar - Main Navigation buttons are displayed on slimbar", async () => {
@@ -92,40 +121,54 @@ export default async function chats() {
     await slimbarFirstUser.waitForIsShown(true);
 
     // Ensure slimbar main navigation buttons are displayed
-    await slimbarFirstUser.slimbarChatsButton.waitForDisplayed();
-    await slimbarFirstUser.slimbarFilesButton.waitForDisplayed();
-    await slimbarFirstUser.slimbarFriendsButton.waitForDisplayed();
-    await slimbarFirstUser.slimbarSettingsButton.waitForDisplayed();
+    const slimbarChatsButton = await slimbarFirstUser.slimbarChatsButton;
+    const slinbarFilesButton = await slimbarFirstUser.slimbarFilesButton;
+    const slimbarFriendsButton = await slimbarFirstUser.slimbarFriendsButton;
+    const slimbarSettingsButton = await slimbarFirstUser.slimbarSettingsButton;
+
+    await slimbarChatsButton.waitForExist();
+    await slinbarFilesButton.waitForExist();
+    await slimbarFriendsButton.waitForExist();
+    await slimbarSettingsButton.waitForExist();
   });
 
   it("Slimbar - Main buttons tooltips are displayed", async () => {
     // Validate Chats button tooltip from Slimbar button
     await slimbarFirstUser.hoverOnSlimbarChatsButton();
-    await slimbarFirstUser.chatsButtonTooltip.waitForExist();
-    await expect(slimbarFirstUser.chatsButtonTooltipText).toHaveTextContaining(
-      "Chats"
-    );
+
+    const chatsButtonTooltip = await slimbarFirstUser.chatsButtonTooltip;
+    const chatsButtonTooltipText =
+      await slimbarFirstUser.chatsButtonTooltipText;
+    await chatsButtonTooltip.waitForExist();
+    await expect(chatsButtonTooltipText).toHaveTextContaining("Chats");
 
     // Validate Files button tooltip from Slimbar button
     await slimbarFirstUser.hoverOnSlimbarFilesButton();
-    await slimbarFirstUser.filesButtonTooltip.waitForExist();
-    await expect(slimbarFirstUser.filesButtonTooltipText).toHaveTextContaining(
-      "Files"
-    );
+
+    const filesButtonTooltip = await slimbarFirstUser.filesButtonTooltip;
+    const filesButtonTooltipText =
+      await slimbarFirstUser.filesButtonTooltipText;
+    await filesButtonTooltip.waitForExist();
+    await expect(filesButtonTooltipText).toHaveTextContaining("Files");
 
     // Validate Friends button tooltip from Slimbar button
     await slimbarFirstUser.hoverOnSlimbarFriendsButton();
-    await slimbarFirstUser.friendsButtonTooltip.waitForExist();
-    await expect(
-      slimbarFirstUser.friendsButtonTooltipText
-    ).toHaveTextContaining("Friends");
+
+    const friendsButtonTooltip = await slimbarFirstUser.friendsButtonTooltip;
+    const friendsButtonTooltipText =
+      await slimbarFirstUser.friendsButtonTooltipText;
+
+    await friendsButtonTooltip.waitForExist();
+    await expect(friendsButtonTooltipText).toHaveTextContaining("Friends");
 
     // Validate Settings button tooltip from Slimbar button
     await slimbarFirstUser.hoverOnSlimbarSettingsButton();
-    await slimbarFirstUser.settingsButtonTooltip.waitForExist();
-    await expect(
-      slimbarFirstUser.settingsButtonTooltipText
-    ).toHaveTextContaining("Settings");
+
+    const settingsButtonTooltip = await slimbarFirstUser.settingsButtonTooltip;
+    const settingsButtonTooltipText =
+      await slimbarFirstUser.settingsButtonTooltipText;
+    await settingsButtonTooltip.waitForExist();
+    await expect(settingsButtonTooltipText).toHaveTextContaining("Settings");
   });
 
   it("Slimbar - User can click on buttons from main navigation on slimbar", async () => {

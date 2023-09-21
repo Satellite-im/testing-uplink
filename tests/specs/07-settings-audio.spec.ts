@@ -12,94 +12,97 @@ export default async function settingsAudio() {
     await settingsAudioFirstUser.waitForIsShown(true);
 
     // Validate texts for Input Device Selection
-    await expect(settingsAudioFirstUser.inputDeviceHeader).toHaveTextContaining(
-      "INPUT DEVICE"
+    const inputDeviceHeader = await settingsAudioFirstUser.inputDeviceHeader;
+    const inputDeviceDescription =
+      await settingsAudioFirstUser.inputDeviceDescription;
+    await expect(inputDeviceHeader).toHaveTextContaining("INPUT DEVICE");
+    await expect(inputDeviceDescription).toHaveTextContaining(
+      "Select your input device (microphone, usually)."
     );
-    await expect(
-      settingsAudioFirstUser.inputDeviceDescription
-    ).toHaveTextContaining("Select your input device (microphone, usually).");
 
     // Validate texts for Output Device Selection
-    await expect(
-      settingsAudioFirstUser.outputDeviceHeader
-    ).toHaveTextContaining("OUTPUT DEVICE");
-    await expect(
-      settingsAudioFirstUser.outputDeviceDescription
-    ).toHaveTextContaining(
+    const outputDeviceHeader = await settingsAudioFirstUser.outputDeviceHeader;
+    const outputDeviceDescription =
+      await settingsAudioFirstUser.outputDeviceDescription;
+    await expect(outputDeviceHeader).toHaveTextContaining("OUTPUT DEVICE");
+    await expect(outputDeviceDescription).toHaveTextContaining(
       "This is where all sounds will be played. (Usually your headphones)."
     );
 
     // Validate texts for Sample Rate selection
-    await expect(settingsAudioFirstUser.sampleRateHeader).toHaveTextContaining(
-      "SAMPLE RATE"
-    );
-    await expect(
-      settingsAudioFirstUser.sampleRateDescription
-    ).toHaveTextContaining(
+    const sampleRateHeader = await settingsAudioFirstUser.sampleRateHeader;
+    const sampleRateDescription =
+      await settingsAudioFirstUser.sampleRateDescription;
+    await expect(sampleRateHeader).toHaveTextContaining("SAMPLE RATE");
+    await expect(sampleRateDescription).toHaveTextContaining(
       'Higher sample rates will capture more "frames" of your audio and sound "clearer".'
     );
   });
 
   it("Settings Audio - Assert screen texts for Noise Suppression and Echo Cancellation", async () => {
     // Validate texts for Noise Suppression Settings Section
-    await expect(
-      settingsAudioFirstUser.noiseSuppressionHeader
-    ).toHaveTextContaining("NOISE SUPPRESSION");
-    await expect(
-      settingsAudioFirstUser.noiseSuppressionDescription
-    ).toHaveTextContaining(
+    const noiseSuppressionHeader =
+      await settingsAudioFirstUser.noiseSuppressionHeader;
+    const noiseSuppressionDescription =
+      await settingsAudioFirstUser.noiseSuppressionDescription;
+    await expect(noiseSuppressionHeader).toHaveTextContaining(
+      "NOISE SUPPRESSION"
+    );
+    await expect(noiseSuppressionDescription).toHaveTextContaining(
       "Helps to minimize background noise and focus on your voice."
     );
 
     // Validate texts for Echo Cancellation Settings Section
-    await expect(
-      settingsAudioFirstUser.echoCancellationHeader
-    ).toHaveTextContaining("ECHO CANCELLATION");
-    await expect(
-      settingsAudioFirstUser.echoCancellationDescription
-    ).toHaveTextContaining(
+    const echoCancellationHeader =
+      await settingsAudioFirstUser.echoCancellationHeader;
+    const echoCancellationDescription =
+      await settingsAudioFirstUser.echoCancellationDescription;
+    await expect(echoCancellationHeader).toHaveTextContaining(
+      "ECHO CANCELLATION"
+    );
+    await expect(echoCancellationDescription).toHaveTextContaining(
       "Helps to minimize feedback from speakers into your microphone."
     );
   });
 
   it("Settings Audio - Assert screen texts for switch sliders", async () => {
     // Validate texts for Interface Sounds Settings Section
-    await expect(
-      settingsAudioFirstUser.interfaceSoundsHeader
-    ).toHaveTextContaining("INTERFACE SOUNDS");
-    await expect(
-      settingsAudioFirstUser.interfaceSoundsDescription
-    ).toHaveTextContaining(
+    const interfaceSoundsHeader =
+      await settingsAudioFirstUser.interfaceSoundsHeader;
+    const interfaceSoundsDescription =
+      await settingsAudioFirstUser.interfaceSoundsDescription;
+    await expect(interfaceSoundsHeader).toHaveTextContaining(
+      "INTERFACE SOUNDS"
+    );
+    await expect(interfaceSoundsDescription).toHaveTextContaining(
       "When enabled, some additional sounds will play when you interact with the app."
     );
 
     // Validate texts for Media Sounds Settings Section
-    await expect(settingsAudioFirstUser.mediaSoundsHeader).toHaveTextContaining(
-      "MEDIA SOUNDS"
-    );
-    await expect(
-      settingsAudioFirstUser.mediaSoundsDescription
-    ).toHaveTextContaining(
+    const mediaSoundsHeader = await settingsAudioFirstUser.mediaSoundsHeader;
+    const mediaSoundsDescription =
+      await settingsAudioFirstUser.mediaSoundsDescription;
+    await expect(mediaSoundsHeader).toHaveTextContaining("MEDIA SOUNDS");
+    await expect(mediaSoundsDescription).toHaveTextContaining(
       "When enabled, media related events such as toggling microphone or headphones and other real time events, will play sounds."
     );
 
     // Validate texts for Message Sounds Settings Section
-    await expect(
-      settingsAudioFirstUser.messageSoundsHeader
-    ).toHaveTextContaining("MESSAGE SOUNDS");
-    await expect(
-      settingsAudioFirstUser.messageSoundsDescription
-    ).toHaveTextContaining(
+    const messageSoundsHeader =
+      await settingsAudioFirstUser.messageSoundsHeader;
+    const messageSoundsDescription =
+      await settingsAudioFirstUser.messageSoundsDescription;
+    await expect(messageSoundsHeader).toHaveTextContaining("MESSAGE SOUNDS");
+    await expect(messageSoundsDescription).toHaveTextContaining(
       "When enabled you will hear a notification when a new message is received."
     );
 
     // Validate texts for Call Timer Settings Section
-    await expect(settingsAudioFirstUser.callTimerHeader).toHaveTextContaining(
-      "CALL TIMER"
-    );
-    await expect(
-      settingsAudioFirstUser.callTimerDescription
-    ).toHaveTextContaining(
+    const callTimerHeader = await settingsAudioFirstUser.callTimerHeader;
+    const callTimerDescription =
+      await settingsAudioFirstUser.callTimerDescription;
+    await expect(callTimerHeader).toHaveTextContaining("CALL TIMER");
+    await expect(callTimerDescription).toHaveTextContaining(
       "When enabled a timer will display when you're in a call showing it's duration."
     );
   });

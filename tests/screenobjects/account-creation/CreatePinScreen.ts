@@ -106,15 +106,18 @@ export default class CreatePinScreen extends UplinkMainScreen {
   }
 
   async enterPin(pin: string) {
-    await this.pinInput.setValue(pin);
+    const pinInput = await this.pinInput;
+    await pinInput.setValue(pin);
   }
 
   async clickOnCreateAccount() {
-    await this.createAccountButton.click();
+    const createAccountButton = await this.createAccountButton;
+    await createAccountButton.click();
   }
 
   async clickOnResetAccount() {
-    await this.accountResetButton.click();
+    const resetAccountButton = await this.accountResetButton;
+    await resetAccountButton.click();
   }
 
   async getStatusOfCreateAccountButton() {
@@ -129,17 +132,17 @@ export default class CreatePinScreen extends UplinkMainScreen {
   }
 
   async hoverOnHelpButton() {
-    const element = await this.helpButton;
-    await this.hoverOnElement(element);
+    const helpButton = await this.helpButton;
+    await this.hoverOnElement(helpButton);
   }
 
   async openHelpButtonMenu() {
-    const element = await this.helpButton;
+    const helpButton = await this.helpButton;
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(element, this.executor);
+      await rightClickOnMacOS(helpButton, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(element, this.executor);
+      await rightClickOnWindows(helpButton, this.executor);
     }
   }
 }
