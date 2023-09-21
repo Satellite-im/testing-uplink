@@ -305,6 +305,7 @@ export default class EditGroup extends UplinkMainScreen {
     const indicatorOffline = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_INDICATOR_OFFLINE
     );
+    await indicatorOffline.waitForExist();
     return indicatorOffline;
   }
 
@@ -313,6 +314,7 @@ export default class EditGroup extends UplinkMainScreen {
     const indicatorOnline = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE
     );
+    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 
@@ -321,6 +323,7 @@ export default class EditGroup extends UplinkMainScreen {
     const badgeImage = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE
     );
+    await badgeImage.waitForExist();
     return badgeImage;
   }
 
@@ -329,12 +332,14 @@ export default class EditGroup extends UplinkMainScreen {
     const badgeText = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT
     );
+    await badgeText.waitForExist();
     return badgeText;
   }
 
   async getParticipantUserImage(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const userImage = await userLocator.$(SELECTORS.PARTICIPANT_USER_IMAGE);
+    await userImage.waitForExist();
     return userImage;
   }
 
@@ -343,6 +348,7 @@ export default class EditGroup extends UplinkMainScreen {
     const userImageProfile = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_IMAGE_PROFILE
     );
+    await userImageProfile.waitForExist();
     return userImageProfile;
   }
 
@@ -351,6 +357,7 @@ export default class EditGroup extends UplinkMainScreen {
     const userImageWrap = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_IMAGE_WRAP
     );
+    await userImageWrap.waitForExist();
     return userImageWrap;
   }
 

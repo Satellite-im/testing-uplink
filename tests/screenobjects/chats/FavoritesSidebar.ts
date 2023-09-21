@@ -184,6 +184,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   async getFavoritesUserImage(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     const userImage = await favoriteLocator.$(SELECTORS.FAVORITES_USER_IMAGE);
+    await userImage.waitForExist();
     return userImage;
   }
 
@@ -192,6 +193,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const userImageGroupWrap = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP
     );
+    await userImageGroupWrap.waitForExist();
     return userImageGroupWrap;
   }
 
@@ -200,6 +202,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const imageProfile = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_IMAGE_PROFILE
     );
+    await imageProfile.waitForExist();
     return imageProfile;
   }
 
@@ -208,6 +211,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const userImageWrap = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_IMAGE_WRAP
     );
+    await userImageWrap.waitForExist();
     return userImageWrap;
   }
 
@@ -216,6 +220,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const indicatorOffline = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE
     );
+    await indicatorOffline.waitForExist();
     return indicatorOffline;
   }
 
@@ -224,6 +229,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const indicatorOnline = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_INDICATOR_ONLINE
     );
+    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 

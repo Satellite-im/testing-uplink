@@ -303,6 +303,7 @@ export default class Messages extends UplinkMainScreen {
     const messageCodeLanguage = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE);
+    await messageCodeLanguage.waitForExist();
     return messageCodeLanguage;
   }
 
@@ -311,6 +312,7 @@ export default class Messages extends UplinkMainScreen {
     const messageCodePane = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
+    await messageCodePane.waitForExist();
     return messageCodePane;
   }
 
@@ -358,6 +360,7 @@ export default class Messages extends UplinkMainScreen {
     const messageText = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    await messageText.waitForExist();
     return messageText;
   }
 
@@ -372,6 +375,7 @@ export default class Messages extends UplinkMainScreen {
     const messageText = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    await messageText.waitForExist();
     return messageText;
   }
 
@@ -458,7 +462,7 @@ export default class Messages extends UplinkMainScreen {
 
   async waitForReceivingCodeMessage(
     expectedLanguage: string,
-    timeoutMsg: number = 60000
+    timeoutMsg: number = 30000
   ) {
     const currentDriver = await this.getCurrentDriver();
     let locator;
@@ -529,6 +533,7 @@ export default class Messages extends UplinkMainScreen {
     const messageCodeCopyButton = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON);
+    await messageCodeCopyButton.waitForExist();
     return messageCodeCopyButton;
   }
 
@@ -537,6 +542,7 @@ export default class Messages extends UplinkMainScreen {
     const messageCodeLanguage = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE);
+    await messageCodeLanguage.waitForExist();
     return messageCodeLanguage;
   }
 
@@ -545,6 +551,7 @@ export default class Messages extends UplinkMainScreen {
     const messageCodePane = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
+    await messageCodePane.waitForExist();
     return messageCodePane;
   }
 
@@ -592,6 +599,7 @@ export default class Messages extends UplinkMainScreen {
     const messageText = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    await messageText.waitForExist();
     return messageText;
   }
 
@@ -606,6 +614,7 @@ export default class Messages extends UplinkMainScreen {
     const messageText = await message
       .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    await messageText.waitForExist();
     return messageText;
   }
 
@@ -613,12 +622,14 @@ export default class Messages extends UplinkMainScreen {
 
   async getLastReply() {
     const lastReply = await this.chatMessageReply;
+    await lastReply.waitForExist();
     return lastReply;
   }
 
   async getLastReplyText() {
     const lastGroup = await this.chatMessageReply;
     const lastReplyText = await lastGroup.$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
+    await lastReplyText.waitForExist();
     return lastReplyText;
   }
 
@@ -633,6 +644,7 @@ export default class Messages extends UplinkMainScreen {
     const getLastMessageDownloadButton = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_BUTTON
     );
+    await getLastMessageDownloadButton.waitForExist();
     return getLastMessageDownloadButton;
   }
 
@@ -641,6 +653,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageFileEmbed = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_EMBED
     );
+    await lastMessageFileEmbed.waitForExist();
     return lastMessageFileEmbed;
   }
 
@@ -649,6 +662,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageFileIcon = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_ICON
     );
+    await lastMessageFileIcon.waitForExist();
     return lastMessageFileIcon;
   }
 
@@ -657,6 +671,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageFileMeta = await lastMessage
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
+    await lastMessageFileMeta.waitForExist();
     return lastMessageFileMeta;
   }
 
@@ -665,6 +680,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageFileName = await lastMessage
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
+    await lastMessageFileName.waitForExist();
     return lastMessageFileName;
   }
 
@@ -677,6 +693,7 @@ export default class Messages extends UplinkMainScreen {
     const getLastMessageSentDownloadButton = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_BUTTON
     );
+    await getLastMessageSentDownloadButton.waitForExist();
     return getLastMessageSentDownloadButton;
   }
 
@@ -685,6 +702,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageFileEmbed = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_EMBED
     );
+    await lastMessageFileEmbed.waitForExist();
     return lastMessageFileEmbed;
   }
 
@@ -693,6 +711,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageFileIcon = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_ICON
     );
+    await lastMessageFileIcon.waitForExist();
     return lastMessageFileIcon;
   }
 
@@ -701,6 +720,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageFileMeta = await lastMessage
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
+    await lastMessageFileMeta.waitForExist();
     return lastMessageFileMeta;
   }
 
@@ -709,6 +729,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageFileName = await lastMessage
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
+    await lastMessageFileName.waitForExist();
     return lastMessageFileName;
   }
 
@@ -718,6 +739,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageLinkEmbed = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_LINK_EMBED
     );
+    await lastMessageLinkEmbed.waitForExist();
     return lastMessageLinkEmbed;
   }
 
@@ -726,6 +748,7 @@ export default class Messages extends UplinkMainScreen {
     const linkEmbedDetailsText = await linkEmbedLastMessage
       .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
       .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
+    await linkEmbedDetailsText.waitForExist();
     return linkEmbedDetailsText;
   }
 
@@ -734,6 +757,7 @@ export default class Messages extends UplinkMainScreen {
     const linkEmbedIcon = await linkEmbedLastMessage.$(
       SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
     );
+    await linkEmbedIcon.waitForExist();
     return linkEmbedIcon;
   }
 
@@ -743,6 +767,7 @@ export default class Messages extends UplinkMainScreen {
     const iconTitle = await linkEmbedIconLastMessage.$(
       SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
     );
+    await iconTitle.waitForExist();
     return iconTitle;
   }
 
@@ -751,6 +776,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageLinkEmbed = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_LINK_EMBED
     );
+    await lastMessageLinkEmbed.waitForExist();
     return lastMessageLinkEmbed;
   }
 
@@ -759,6 +785,7 @@ export default class Messages extends UplinkMainScreen {
     const linkEmbedDetailsText = await linkEmbedLastMessage
       .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
       .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
+    await linkEmbedDetailsText.waitForExist();
     return linkEmbedDetailsText;
   }
 
@@ -767,6 +794,7 @@ export default class Messages extends UplinkMainScreen {
     const linkEmbedIcon = await linkEmbedLastMessage.$(
       SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
     );
+    await linkEmbedIcon.waitForExist();
     return linkEmbedIcon;
   }
 
@@ -776,6 +804,7 @@ export default class Messages extends UplinkMainScreen {
     const iconTitle = await linkEmbedIconLastMessage.$(
       SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
     );
+    await iconTitle.waitForExist();
     return iconTitle;
   }
 

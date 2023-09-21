@@ -222,6 +222,7 @@ export default class MessageGroup extends UplinkMainScreen {
     const userImage = await groupWrap
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
+    await userImage.waitForExist();
     return userImage;
   }
 
@@ -230,6 +231,7 @@ export default class MessageGroup extends UplinkMainScreen {
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
     );
+    await onlineStatus.waitForExist();
     return onlineStatus;
   }
 
@@ -247,6 +249,7 @@ export default class MessageGroup extends UplinkMainScreen {
     const userImage = await groupWrap
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
+    await userImage.waitForExist();
     return userImage;
   }
 
@@ -255,6 +258,7 @@ export default class MessageGroup extends UplinkMainScreen {
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
     );
+    await onlineStatus.waitForExist();
     return onlineStatus;
   }
 
@@ -272,6 +276,7 @@ export default class MessageGroup extends UplinkMainScreen {
     const timeAgoText = await lastGroupReceived
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
+    await timeAgoText.waitForExist();
     return timeAgoText;
   }
 
@@ -288,6 +293,7 @@ export default class MessageGroup extends UplinkMainScreen {
     const timeAgoText = await lastGroupSent
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
+    await timeAgoText.waitForExist();
     return timeAgoText;
   }
 
