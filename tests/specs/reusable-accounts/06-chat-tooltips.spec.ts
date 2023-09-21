@@ -1,9 +1,11 @@
 import "module-alias/register";
 import InputBar from "@screenobjects/chats/InputBar";
+import PinnedMessages from "@screenobjects/chats/PinnedMessages";
 import Topbar from "@screenobjects/chats/Topbar";
 import { USER_A_INSTANCE } from "@helpers/constants";
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+let pinnedMessagesFirstUser = new PinnedMessages(USER_A_INSTANCE);
 
 export default async function chatTooltipsTests() {
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {
@@ -62,4 +64,16 @@ export default async function chatTooltipsTests() {
     await videoCallTooltip.waitForExist();
     await expect(videoCallTooltipText).toHaveTextContaining("Coming soon");
   });
+
+  it("Pinned Messages - Container is empty when no pinned messages have been added", async () => {
+    await chatsTopbarFirstUser.goToPinnedMessages();
+    await pinnedMessagesFirstUser.validatePinnedMessagesIsDisplayed();
+    await pinnedMessagesFirstUser.validateEmptyPinnedMessagesIsDisplayed();
+  });
+
+  it("Pinned Messages - Pin a message", async () => {});
+  it("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {});
+  it("Pinned Messages - User can be redirected to the message when clicking on Go to message", async () => {});
+  it("Pinned Messages - Add a message with attachments to Pinned Messages", async () => {});
+  it("Pinned Messages - Remove a pinned message", async () => {});
 }

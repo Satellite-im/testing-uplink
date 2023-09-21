@@ -271,6 +271,13 @@ export default class MessageGroup extends UplinkMainScreen {
     return lastGroupLocator;
   }
 
+  async getLastMessageReceivedPinIndicator() {
+    const lastGroupReceived = await this.getLastReceivedGroup();
+    const pinIndicator = await lastGroupReceived.$(SELECTORS.PIN_INDICATOR);
+    await pinIndicator.waitForExist();
+    return pinIndicator;
+  }
+
   async getLastMessageReceivedTimeAgo() {
     const lastGroupReceived = await this.getLastReceivedGroup();
     const timeAgoText = await lastGroupReceived
@@ -286,6 +293,13 @@ export default class MessageGroup extends UplinkMainScreen {
     const lastGroupIndex = (await messageGroupsSent.length) - 1;
     const lastGroupLocator = await messageGroupsSent[lastGroupIndex];
     return lastGroupLocator;
+  }
+
+  async getLastMessageSentPinIndicator() {
+    const lastGroupSent = await this.getLastSentGroup();
+    const pinIndicator = await lastGroupSent.$(SELECTORS.PIN_INDICATOR);
+    await pinIndicator.waitForExist();
+    return pinIndicator;
   }
 
   async getLastMessageSentTimeAgo() {
