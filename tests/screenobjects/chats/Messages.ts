@@ -417,23 +417,25 @@ export default class Messages extends UplinkMainScreen {
 
   async waitForMessageToBeDeleted(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
-    let messageDeletedLocator: string = "";
-    if (currentDriver === MACOS_DRIVER) {
-      messageDeletedLocator =
-        '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
-        expectedMessage +
-        '")]';
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      messageDeletedLocator;
-      '//Group[@Name="message-text"]//Text[contains(@Name, "' +
-        expectedMessage +
-        '")]';
-    }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance
-          .$(messageDeletedLocator)
-          .waitForExist({ reverse: true });
+        if (currentDriver === MACOS_DRIVER) {
+          return await this.instance
+            .$(
+              '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
+                expectedMessage +
+                '")]'
+            )
+            .waitForExist({ reverse: true });
+        } else if (currentDriver === WINDOWS_DRIVER) {
+          return await this.instance
+            .$(
+              '//Group[@Name="message-text"]//Text[contains(@Name, "' +
+                expectedMessage +
+                '")]'
+            )
+            .waitForExist({ reverse: true });
+        }
       },
       {
         timeout: 15000,

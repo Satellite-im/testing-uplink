@@ -433,12 +433,12 @@ export default class MessageGroup extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let emojiReactionLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      const emojiReactionLocator =
+      emojiReactionLocator =
         '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-self")]//XCUIElementTypeStaticText[contains(@value, "' +
         expectedReaction +
         '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const emojiReactionLocator =
+      emojiReactionLocator =
         '//Group[contains(@Name, "emoji-reaction-self")]/Text[contains(@Name, "' +
         expectedReaction +
         '")]';
