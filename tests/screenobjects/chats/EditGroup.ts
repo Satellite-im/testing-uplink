@@ -239,7 +239,16 @@ export default class EditGroup extends UplinkMainScreen {
     const firstAddButton = await this.instance.$$(
       SELECTORS.ADD_PARTICIPANT_BUTTON
     )[0];
-    await firstAddButton.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await firstAddButton;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Add friend button from Edit Group was never displayed after 15 seconds",
+      }
+    );
     await firstAddButton.click();
   }
 
@@ -247,7 +256,16 @@ export default class EditGroup extends UplinkMainScreen {
     const removeParticipantButton = await this.instance.$$(
       SELECTORS.REMOVE_PARTICIPANT_BUTTON
     )[0];
-    await removeParticipantButton.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await removeParticipantButton;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Remove friend button from Edit Group was never displayed after 15 seconds",
+      }
+    );
     await removeParticipantButton.click();
   }
 

@@ -219,8 +219,16 @@ export default class Topbar extends UplinkMainScreen {
   async addToFavorites() {
     const topbarAddToFavorites = await this.topbarAddToFavorites;
     await topbarAddToFavorites.click();
-    const topbarRemoveFromFavorites = await this.topbarRemoveFromFavorites;
-    await topbarRemoveFromFavorites.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.topbarRemoveFromFavorites;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Remove from favorites button was not displayed after passing 15 seconds from adding the same user of favorites",
+      }
+    );
   }
 
   async clickOnTopbar() {
@@ -273,19 +281,39 @@ export default class Topbar extends UplinkMainScreen {
   async removeFromFavorites() {
     const topbarRemoveFromFavorites = await this.topbarRemoveFromFavorites;
     await topbarRemoveFromFavorites.click();
-    const topbarAddToFavorites = await this.topbarAddToFavorites;
-    await topbarAddToFavorites.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.topbarAddToFavorites;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Add to favorites button was not displayed after passing 15 seconds from removing the same user of favorites",
+      }
+    );
   }
 
   async validateTopbarExists() {
-    const topbarElement = await this.topbar;
-    await topbarElement.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.topbar;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Chats Topbar was never shown after 15 seconds",
+      }
+    );
   }
 
-  async waitUntilRemoteUserIsOnline(time: number = 30000) {
-    const indicatorOnline = await this.topbarIndicatorOnline;
-    await indicatorOnline.waitForExist({
-      timeout: time,
-    });
+  async waitUntilRemoteUserIsOnline() {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.topbarIndicatorOnline;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Remote user never shown as online after 15 seconds",
+      }
+    );
   }
 }

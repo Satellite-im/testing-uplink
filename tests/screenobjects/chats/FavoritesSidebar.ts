@@ -167,18 +167,26 @@ export default class FavoritesSidebar extends UplinkMainScreen {
 
   async getFavoritesUserByAriaLabel(username: string) {
     const currentDriver = await this.getCurrentDriver();
-    let favoritesLocator;
+    let favoritesLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      favoritesLocator = await this.instance
-        .$(SELECTORS.SLIMBAR)
-        .$("~" + username);
+      favoritesLocator = "~" + username;
     } else if (currentDriver === WINDOWS_DRIVER) {
-      favoritesLocator = await this.instance
-        .$(SELECTORS.SLIMBAR)
-        .$('[name="' + username + '"]');
+      favoritesLocator = '[name="' + username + '"]';
     }
-    await favoritesLocator.waitForExist();
-    return favoritesLocator;
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(SELECTORS.SLIMBAR).$(favoritesLocator);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected Favorite User was never displayed after 15 seconds",
+      }
+    );
+    const favoritesElement = await this.instance
+      .$(SELECTORS.SLIMBAR)
+      .$(favoritesLocator);
+    return favoritesElement;
   }
 
   async getFavoritesUserImage(username: string) {
@@ -246,8 +254,16 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(userImageProfile, this.executor);
     }
-    const contextMenu = await this.contextMenu;
-    await contextMenu.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.contextMenu;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected Context Menu was never displayed after 15 seconds",
+      }
+    );
   }
 
   // Slimbar NavBar methods
@@ -295,7 +311,14 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   }
 
   async validateFavoritesAreShown() {
-    const favorites = await this.favorites;
-    await favorites.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.favorites;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected Favorites were never displayed after 15 seconds",
+      }
+    );
   }
 }

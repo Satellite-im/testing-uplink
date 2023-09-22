@@ -44,7 +44,7 @@ export default async function files() {
 
   it("Validate Files Breadcrumbs are displayed in screen", async () => {
     await filesScreenFirstUser.filesBreadcrumbs.waitForExist();
-    await filesScreenFirstUser.crumb.waitForExist();
+    await filesScreenFirstUser.crumbHomeDir.waitForExist();
   });
 
   it("Validate add folder and file buttons are displayed in screen", async () => {

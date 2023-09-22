@@ -209,7 +209,7 @@ export default class InputBar extends UplinkMainScreen {
     await inputText.waitUntil(
       async () => {
         const inputTextValue = await inputText.getText();
-        return inputTextValue.includes(codeToType);
+        return await inputTextValue.includes(codeToType);
       },
       {
         timeout: 5000,

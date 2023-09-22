@@ -306,7 +306,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await statusInput.waitUntil(
       async () => {
         const statusInputText = await statusInput.getText();
-        return statusInputText.includes("did:key");
+        return await statusInputText.includes("did:key");
       },
       {
         timeout: 5000,

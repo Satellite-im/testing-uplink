@@ -71,7 +71,7 @@ export default async function createAccount() {
   });
 
   it("Enter a pin with less than 4 characters", async () => {
-    await createPinFirstUser.pinInput.enterPin("123");
+    await createPinFirstUser.enterPin("123");
     await createPinFirstUser.inputError.waitForExist();
     const inputErrorText = await createPinFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
@@ -84,9 +84,7 @@ export default async function createAccount() {
   });
 
   it("Enter a pin with more than 32 characters", async () => {
-    await createPinFirstUser.pinInput.enterPin(
-      "12345678901234567890123456789012345"
-    );
+    await createPinFirstUser.enterPin("12345678901234567890123456789012345");
 
     await createPinFirstUser.inputError.waitForExist();
     const inputErrorText = await createPinFirstUser.inputErrorText;

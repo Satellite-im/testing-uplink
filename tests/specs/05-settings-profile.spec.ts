@@ -116,7 +116,7 @@ export default async function settingsProfile() {
 
     // Validate that change banner tooltip is displayed
     const profileBannerTooltip =
-      await settingsProfileFirstUser.profileBannerTooltip.waitForExist();
+      await settingsProfileFirstUser.profileBannerTooltip;
     await profileBannerTooltip.waitForExist();
     await expect(profileBannerTooltip).toHaveTextContaining("Change banner");
   });

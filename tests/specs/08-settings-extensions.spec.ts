@@ -77,8 +77,7 @@ export default async function settingsExtensions() {
       "SEARCH EXTENSIONS"
     );
 
-    const extensionsSearchInput =
-      await settingsExtensionsFirstUser.extensionsSearchInput.waitForExist();
+    await settingsExtensionsFirstUser.extensionsSearchInput.waitForExist();
     const placeholder =
       await settingsExtensionsFirstUser.getPlaceholderFromExtensionsInput();
     await expect(placeholder).toEqual("Extension name or description.");

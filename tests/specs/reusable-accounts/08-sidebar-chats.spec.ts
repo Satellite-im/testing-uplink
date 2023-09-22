@@ -119,7 +119,7 @@ export default async function sidebarChatsTests() {
     await friendsScreenFirstUser.goToMainScreen();
 
     // Wait until message is received
-    await chatsSidebarFirstUser.waitForReceivingMessageOnSidebar(30000);
+    await chatsSidebarFirstUser.waitForReceivingMessageOnSidebar();
   });
 
   it("Chat User A - Sidebar - Any active chats user has created should appear in Sidebar", async () => {

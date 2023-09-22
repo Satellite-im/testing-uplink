@@ -304,7 +304,16 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async validateLastMessageDisplayed(message: string) {
     const sidebarStatusValue = await this.sidebarChatsUserStatusValue;
-    await expect(sidebarStatusValue).toHaveTextContaining(message);
+    await sidebarStatusValue.waitUntil(
+      async () => {
+        return await sidebarStatusValue.getText().includes(message);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected sidebar status value never include the message after 15 seconds",
+      }
+    );
   }
 
   async validateLastMessageTimeAgo() {
@@ -315,23 +324,58 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateNoUnreadMessages() {
-    await this.sidebarChatsUserBadge.waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.sidebarChatsUserBadge.waitForExist({ reverse: true });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected badge number of unread messages is still displayed after 15 seconds",
+      }
+    );
   }
 
   async validateNoSidebarChatsAreDisplayed() {
-    await this.sidebarChatsUserImageProfile.waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.sidebarChatsUserImageProfile.waitForExist({
+          reverse: true,
+        });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Sidebar chats are still displayed after 15 seconds",
+      }
+    );
   }
 
   async validateSidebarChatIsNotDisplayed(username: string) {
     const locator = await this.getNonExistingElementByAriaLabel(username);
-    await this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(locator)
-      .waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance
+          .$(SELECTORS.SIDEBAR)
+          .$(locator)
+          .waitForExist({ reverse: true });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Sidebar chats are still displayed after 15 seconds",
+      }
+    );
   }
 
   async validateNoSidebarGroupChatsAreDisplayed() {
-    await this.sidebarGroupChatImage.waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.sidebarGroupChatImage.waitForExist({ reverse: true });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Sidebar group chats are still displayed after 15 seconds",
+      }
+    );
   }
 
   async validateNumberOfUnreadMessages(badgeNumber: string) {
@@ -351,8 +395,17 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   // Waiting methods
 
-  async waitForReceivingMessageOnSidebar(timeout: number = 30000) {
-    await this.sidebarChatsUserStatusValue.waitForExist({ timeout: timeout });
+  async waitForReceivingMessageOnSidebar() {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.sidebarChatsUserStatusValue;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Sidebar never displayed received messages after 15 seconds",
+      }
+    );
   }
 
   // Get Sidebar Group elements
@@ -394,16 +447,22 @@ export default class ChatsSidebar extends UplinkMainScreen {
           "Expected chat group was never displayed on Sidebar after 15 seconds",
       }
     );
-    const sidebarGroup = await this.instance.$(SELECTORS.SIDEBAR).$(element);
-    await sidebarGroup.waitForExist();
   }
 
   async waitForGroupToBeDeleted(groupname: string) {
     const element = await this.getNonExistingElementByAriaLabel(groupname);
-    await this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(element)
-      .waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance
+          .$(SELECTORS.SIDEBAR)
+          .$(element)
+          .waitForExist({ reverse: true });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Sidebar group was never deleted after 15 seconds",
+      }
+    );
   }
 
   async getSidebarGroupPlusSome(groupname: string) {

@@ -134,6 +134,14 @@ export default class ReplyPrompt extends UplinkMainScreen {
   }
 
   async waitForReplyModalToNotExist() {
-    await this.replyPopUp.waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.replyPopUp.waitForExist({ reverse: true });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected reply modal is still visible after 15 seconds",
+      }
+    );
   }
 }
