@@ -174,9 +174,7 @@ export default async function createChatAccountsTests() {
     await friendsScreenFirstUser.validateAllFriendsListIsNotEmpty();
 
     // Go to Chat with User B
-    const chatWithFriendButton =
-      await friendsScreenFirstUser.chatWithFriendButton;
-    await chatWithFriendButton.click();
+    await friendsScreenFirstUser.chatWithFriendButton.click();
     await friendsScreenSecondUser.switchToOtherUserWindow();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
@@ -280,15 +278,13 @@ export default async function createChatAccountsTests() {
 
   it("Chat User A - Topbar information", async () => {
     // Validate user image, username and online indicator are displayed on Chat Topbar
-    const topbarUserImage = await chatsTopbarFirstUser.topbarUserImage;
-    const topbarUserName = await chatsTopbarFirstUser.topbarUserNameValue;
-    const topbarIndicatorOnline =
-      await chatsTopbarFirstUser.topbarIndicatorOnline;
-    await topbarUserImage.waitForExist();
-    await expect(topbarUserName).toHaveTextContaining("ChatUserB");
-    await topbarIndicatorOnline.waitForExist({
+    await chatsTopbarFirstUser.topbarUserImage.waitForExist();
+    await chatsTopbarFirstUser.topbarIndicatorOnline.waitForExist({
       timeout: 30000,
     });
+    const topbarUserName = await chatsTopbarFirstUser.topbarUserNameValue;
+    await topbarUserName.waitForExist();
+    await expect(topbarUserName).toHaveTextContaining("ChatUserB");
   });
 
   it("Chat User A - Add user with active chat to Favorites", async () => {
@@ -310,26 +306,19 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Remove user with active chat from Favorites", async () => {
     // Remove user from favorites
     await chatsTopbarFirstUser.removeFromFavorites();
-    const topbarAddToFavorites =
-      await chatsTopbarFirstUser.topbarAddToFavorites;
-    await topbarAddToFavorites.waitForExist();
+    await chatsTopbarFirstUser.topbarAddToFavorites.waitForExist();
     await friendsScreenSecondUser.switchToOtherUserWindow();
   });
 
   it("Chat User B - Wait until the other user is online", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-    const chatWithFriendButton =
-      await friendsScreenSecondUser.chatWithFriendButton;
-    await chatWithFriendButton.waitForExist();
+    await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
     await friendsScreenSecondUser.hoverOnChatWithFriendButton("ChatUserA");
-    await chatWithFriendButton.click();
-    const topbar = await chatsTopbarSecondUser.topbar;
-    await topbar.waitForExist();
+    await friendsScreenSecondUser.chatWithFriendButton.click();
+    await chatsTopbarSecondUser.topbar.waitForExist();
 
     // Wait until Chat User A is online
-    const topbarIndicatorOnline =
-      await chatsTopbarSecondUser.topbarIndicatorOnline;
-    await topbarIndicatorOnline.waitForExist({
+    await chatsTopbarSecondUser.topbarIndicatorOnline.waitForExist({
       timeout: 30000,
     });
   });

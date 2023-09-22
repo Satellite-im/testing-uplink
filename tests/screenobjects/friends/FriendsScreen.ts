@@ -770,18 +770,48 @@ export default class FriendsScreen extends UplinkMainScreen {
       .waitForExist({ timeout: timeoutUser, reverse: true });
   }
 
-  async waitUntilFriendRequestIsReceived(timeout: number = 30000) {
+  async waitUntilFriendRequestIsReceived() {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.acceptFriendRequestButton;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected Accept Friend Request button was never displayed on Friends Screen after 15 seconds",
+      }
+    );
     const acceptFriendRequestButton = await this.acceptFriendRequestButton;
-    await acceptFriendRequestButton.waitForExist({ timeout: timeout });
+    await acceptFriendRequestButton.waitForExist();
   }
 
   async waitUntilUserAcceptedFriendRequest(timeout: number = 30000) {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.chatWithFriendButton;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected Chat With Friend button was never displayed on Friends Screen after 15 seconds",
+      }
+    );
     const chatWithFriendButton = await this.chatWithFriendButton;
     await chatWithFriendButton.waitForExist({ timeout: timeout });
   }
 
   async waitUntilUserIsInCurrentList(username: string) {
     const user = await this.getExistingFriendByAriaLabel(username);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await user.$(SELECTORS.FRIEND_INFO_USERNAME);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected Username was never displayed on Friends Screen after 15 seconds",
+      }
+    );
     const userName = await user.$(SELECTORS.FRIEND_INFO_USERNAME);
     await userName.waitForExist();
   }

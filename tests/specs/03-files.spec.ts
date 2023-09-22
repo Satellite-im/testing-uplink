@@ -14,82 +14,58 @@ export default async function files() {
     await filesScreenFirstUser.waitForIsShown(true);
 
     // Validate Pre Release Indicator
-    const prereleaseIndicator = await filesScreenFirstUser.prereleaseIndicator;
+    await filesScreenFirstUser.prereleaseIndicator.waitForExist();
     const prereleaseIndicatorText =
       await filesScreenFirstUser.prereleaseIndicatorText;
-    await prereleaseIndicator.waitForExist();
     await expect(prereleaseIndicatorText).toHaveTextContaining(
       "Pre-release | Issues/Feedback"
     );
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    const chatsButton = await filesScreenFirstUser.chatsButton;
-    const filesButton = await filesScreenFirstUser.filesButton;
-    const friendsButton = await filesScreenFirstUser.friendsButton;
-    const settingsButton = await filesScreenFirstUser.settingsButton;
-
-    await chatsButton.waitForExist();
-    await filesButton.waitForExist();
-    await friendsButton.waitForExist();
-    await settingsButton.waitForExist();
+    await filesScreenFirstUser.chatsButton.waitForExist();
+    await filesScreenFirstUser.filesButton.waitForExist();
+    await filesScreenFirstUser.friendsButton.waitForExist();
+    await filesScreenFirstUser.settingsButton.waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    const sidebar = await chatsSidebarFirstUser.sidebar;
-    const chatSearchInput = await chatsSidebarFirstUser.chatSearchInput;
-
-    await sidebar.waitForExist();
-    await chatSearchInput.waitForExist();
+    await chatsSidebarFirstUser.sidebar.waitForExist();
+    await chatsSidebarFirstUser.chatSearchInput.waitForExist();
   });
 
   it("Validate Files Info is displayed in screen", async () => {
-    const filesInfo = await filesScreenFirstUser.filesInfo;
-    const currentSizeLabel =
-      await filesScreenFirstUser.filesInfoCurrentSizeLabel;
-    const currentSizeValue =
-      await filesScreenFirstUser.filesInfoCurrentSizeValue;
-    const maxSizeLabel = await filesScreenFirstUser.filesInfoMaxSizeLabel;
-    const maxSizeValue = await filesScreenFirstUser.filesInfoMaxSizeValue;
-
-    await filesInfo.waitForExist();
-    await currentSizeLabel.waitForExist();
-    await currentSizeValue.waitForExist();
-    await maxSizeLabel.waitForExist();
-    await maxSizeValue.waitForExist();
+    await filesScreenFirstUser.filesInfo.waitForExist();
+    await filesScreenFirstUser.filesInfoCurrentSizeLabel.waitForExist();
+    await filesScreenFirstUser.filesInfoCurrentSizeValue.waitForExist();
+    await filesScreenFirstUser.filesInfoMaxSizeLabel.waitForExist();
+    await filesScreenFirstUser.filesInfoMaxSizeValue.waitForExist();
   });
 
   it("Validate Files Breadcrumbs are displayed in screen", async () => {
-    const filesBreadcrumbs = await filesScreenFirstUser.filesBreadcrumbs;
-    const crumb = await filesScreenFirstUser.crumb;
-    await expect(filesBreadcrumbs).toBeDisplayed();
-    await expect(crumb).toBeDisplayed();
+    await filesScreenFirstUser.filesBreadcrumbs.waitForExist();
+    await filesScreenFirstUser.crumb.waitForExist();
   });
 
   it("Validate add folder and file buttons are displayed in screen", async () => {
-    const addFolderButton = await filesScreenFirstUser.addFolderButton;
-    const uploadFileButton = await filesScreenFirstUser.uploadFileButton;
-
-    await addFolderButton.waitForExist();
-    await uploadFileButton.waitForExist();
+    await filesScreenFirstUser.addFolderButton.waitForExist();
+    await filesScreenFirstUser.uploadFileButton.waitForExist();
   });
 
   it("Validate tooltips for add folder or file buttons are displayed", async () => {
     // Validate New Folder button tooltip
     await filesScreenFirstUser.hoverOnNewFolderButton();
 
-    const addFolderTooltip = await filesScreenFirstUser.addFolderTooltip;
+    await filesScreenFirstUser.addFolderTooltip.waitForExist();
     const addFolderTooltipText =
       await filesScreenFirstUser.addFolderTooltipText;
-    await addFolderTooltip.waitForExist();
     await expect(addFolderTooltipText).toHaveTextContaining("New Folder");
 
     // Validate Upload button tooltip
     await filesScreenFirstUser.hoverOnUploadButton();
-    const uploadFileTooltip = await filesScreenFirstUser.uploadFileTooltip;
+    await filesScreenFirstUser.uploadFileTooltip.waitForExist();
     const uploadFileTooltipText =
       await filesScreenFirstUser.uploadFileTooltipText;
-    await uploadFileTooltip.waitForExist();
     await expect(uploadFileTooltipText).toHaveTextContaining("Upload");
   });
 
@@ -269,9 +245,8 @@ export default async function files() {
     await filesScreenFirstUser.createEmptyNameFolder();
 
     // Validate that error message is displayed
-    const inputError = await filesScreenFirstUser.inputError;
+    await filesScreenFirstUser.inputError.waitForExist();
     const inputErrorText = await filesScreenFirstUser.inputErrorText;
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Please enter at least 1 character."
     );

@@ -384,6 +384,16 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async waitForGroupToBeCreated(groupname: string) {
     const element = await this.getExistingElementByAriaLabel(groupname);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(SELECTORS.SIDEBAR).$(element);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected chat group was never displayed on Sidebar after 15 seconds",
+      }
+    );
     const sidebarGroup = await this.instance.$(SELECTORS.SIDEBAR).$(element);
     await sidebarGroup.waitForExist();
   }

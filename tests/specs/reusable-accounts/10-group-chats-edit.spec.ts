@@ -16,8 +16,7 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 export default async function groupChatEditTests() {
   it("Chat User A - Edit Group Chat button tooltip", async () => {
     await chatsTopbarFirstUser.hoverOnEditGroupButton();
-    const tooltip = await chatsTopbarFirstUser.topbarEditGroupTooltip;
-    await tooltip.waitForExist();
+    await chatsTopbarFirstUser.topbarEditGroupTooltip.waitForExist();
 
     const tooltipText = await chatsTopbarFirstUser.topbarEditGroupTooltipText;
     await expect(tooltipText).toHaveTextContaining("Edit Group");
@@ -33,9 +32,7 @@ export default async function groupChatEditTests() {
     await chatsTopbarSecondUser.switchToOtherUserWindow();
     await chatsTopbarSecondUser.hoverOnEditGroupButton();
 
-    const tooltip = await chatsTopbarSecondUser.viewGroupTooltip;
-    await tooltip.waitForExist();
-
+    await chatsTopbarSecondUser.viewGroupTooltip.waitForExist();
     const tooltipText = await chatsTopbarSecondUser.viewGroupTooltipText;
     await expect(tooltipText).toHaveTextContaining("View Group");
   });
@@ -45,18 +42,14 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
 
-    const groupNameInput = await editGroupFirstUser.groupNameInput;
-    await groupNameInput.waitForExist();
-
-    const userInput = await editGroupFirstUser.userInput;
-    await userInput.waitForExist();
+    await editGroupFirstUser.groupNameInput.waitForExist();
+    await editGroupFirstUser.userInput.waitForExist();
   });
 
   it("Edit Group - Attempt to change Group Name for a name containing non-alphanumeric characters", async () => {
     await editGroupFirstUser.typeOnGroupNameInput("@");
 
-    const inputError = await editGroupFirstUser.groupNameInputError;
-    await inputError.waitForExist();
+    await editGroupFirstUser.groupNameInputError.waitForExist();
 
     const inputErrorText = await editGroupFirstUser.groupNameInputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
@@ -72,9 +65,7 @@ export default async function groupChatEditTests() {
       "12345678901234567890123456789012345678901234567890123456789012345678"
     );
 
-    const inputError = await editGroupFirstUser.groupNameInputError;
-    await inputError.waitForExist();
-
+    await editGroupFirstUser.groupNameInputError.waitForExist();
     const inputErrorText = await editGroupFirstUser.groupNameInputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
       "Maximum of 64 characters exceeded."
