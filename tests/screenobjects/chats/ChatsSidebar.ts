@@ -306,7 +306,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const sidebarStatusValue = await this.sidebarChatsUserStatusValue;
     await sidebarStatusValue.waitUntil(
       async () => {
-        return await sidebarStatusValue.getText().includes(message);
+        return (await sidebarStatusValue.getText()) === message;
       },
       {
         timeout: 15000,
