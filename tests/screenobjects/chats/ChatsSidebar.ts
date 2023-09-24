@@ -516,11 +516,24 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async getSidebarUserIndicatorOnline(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await userLocator
+          .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+          .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
+          .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online was never displayed on Chats Sidebar after 15 seconds",
+      }
+    );
+
     const onlineLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
-    await onlineLocator.waitForExist();
     return onlineLocator;
   }
 

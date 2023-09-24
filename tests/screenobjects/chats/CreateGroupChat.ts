@@ -182,10 +182,20 @@ export default class CreateGroupChat extends UplinkMainScreen {
 
   async getFriendFromListIndicatorOnline(username: string) {
     const friendLocator = await this.getFriendFromListLocator(username);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await friendLocator.$(SELECTORS.FRIEND_INDICATOR_ONLINE);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online was never displayed on Create Group Users List after 15 seconds",
+      }
+    );
+
     const indicatorOnline = await friendLocator.$(
       SELECTORS.FRIEND_INDICATOR_ONLINE
     );
-    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 

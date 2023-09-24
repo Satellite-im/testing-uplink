@@ -23,17 +23,7 @@ export default async function repliesTests() {
     await chatsContextMenuSecondUser.selectContextOptionReply();
 
     // Validate contents of Reply Pop Up
-    await chatsReplyPromptSecondUser.replyPopUp.waitForExist();
-    await chatsReplyPromptSecondUser.replyPopUpCloseButton.waitForExist();
-    await chatsReplyPromptSecondUser.replyPopUpUserImage.waitForExist();
-    await chatsReplyPromptSecondUser.replyPopUpIndicatorOnline.waitForExist();
-
-    const replyPopUpHeader = await chatsReplyPromptSecondUser.replyPopUpHeader;
-    await expect(replyPopUpHeader).toHaveTextContaining("REPLYING TO:");
-
-    const replyPopUpRemoteTextToReply =
-      await chatsReplyPromptSecondUser.replyPopUpRemoteTextToReplyValue;
-    await expect(replyPopUpRemoteTextToReply).toHaveTextContaining(
+    await chatsReplyPromptSecondUser.validateReplyPromptElementsShown(
       "Testing...😀"
     );
     await chatsReplyPromptSecondUser.closeReplyModal();

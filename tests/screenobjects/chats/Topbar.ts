@@ -293,6 +293,45 @@ export default class Topbar extends UplinkMainScreen {
     );
   }
 
+  async validateTopbarIndicatorOnline() {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.topbarIndicatorOnline;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online was never displayed on Chat Screen topbar after 15 seconds",
+      }
+    );
+  }
+
+  async validateTopbarUserName(username: string) {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return (await this.topbarUserNameValue.getText()) === username;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected username was never displayed on Chat Screen topbar after 15 seconds",
+      }
+    );
+  }
+
+  async validateTopbarUserImage() {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.topbarUserImage;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected user image was never displayed on Chat Screen topbar after 15 seconds",
+      }
+    );
+  }
+
   async validateTopbarExists() {
     await driver[this.executor].waitUntil(
       async () => {

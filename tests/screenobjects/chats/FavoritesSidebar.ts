@@ -191,17 +191,38 @@ export default class FavoritesSidebar extends UplinkMainScreen {
 
   async getFavoritesUserImage(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await favoriteLocator.$(SELECTORS.FAVORITES_USER_IMAGE);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected user image was never displayed on Favorites Sidebar after 15 seconds",
+      }
+    );
     const userImage = await favoriteLocator.$(SELECTORS.FAVORITES_USER_IMAGE);
-    await userImage.waitForExist();
     return userImage;
   }
 
   async getFavoritesUserImageGroupWrap(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await favoriteLocator.$(
+          SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP
+        );
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected user image group wrap was never displayed on Favorites Sidebar after 15 seconds",
+      }
+    );
+
     const userImageGroupWrap = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP
     );
-    await userImageGroupWrap.waitForExist();
     return userImageGroupWrap;
   }
 
@@ -234,10 +255,22 @@ export default class FavoritesSidebar extends UplinkMainScreen {
 
   async getFavoritesUserIndicatorOnline(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await favoriteLocator.$(
+          SELECTORS.FAVORITES_USER_INDICATOR_ONLINE
+        );
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online was never displayed on Favorite User after 15 seconds",
+      }
+    );
+
     const indicatorOnline = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_INDICATOR_ONLINE
     );
-    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 
@@ -320,5 +353,17 @@ export default class FavoritesSidebar extends UplinkMainScreen {
         timeoutMsg: "Expected Favorites were never displayed after 15 seconds",
       }
     );
+  }
+
+  async validateFavoritesUserImage(username: string) {
+    const favoritesImage = await this.getFavoritesUserImage(username);
+    await favoritesImage.waitForDisplayed();
+  }
+
+  async validateFavoritesIndicatorOnline(username: string) {
+    const indicatorOnline = await this.getFavoritesUserIndicatorOnline(
+      username
+    );
+    await indicatorOnline.waitForDisplayed();
   }
 }

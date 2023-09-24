@@ -278,13 +278,9 @@ export default async function createChatAccountsTests() {
 
   it("Chat User A - Topbar information", async () => {
     // Validate user image, username and online indicator are displayed on Chat Topbar
-    await chatsTopbarFirstUser.topbarUserImage.waitForExist();
-    await chatsTopbarFirstUser.topbarIndicatorOnline.waitForExist({
-      timeout: 30000,
-    });
-    const topbarUserName = await chatsTopbarFirstUser.topbarUserNameValue;
-    await topbarUserName.waitForExist();
-    await expect(topbarUserName).toHaveTextContaining("ChatUserB");
+    await chatsTopbarFirstUser.validateTopbarUserImage();
+    await chatsTopbarFirstUser.validateTopbarUserName("ChatUserB");
+    await chatsTopbarFirstUser.validateTopbarIndicatorOnline();
   });
 
   it("Chat User A - Add user with active chat to Favorites", async () => {
@@ -293,14 +289,10 @@ export default async function createChatAccountsTests() {
     await favoritesSidebarFirstUser.validateFavoritesAreShown();
 
     // Favorites Sidebar User bubble should be displayed with image and indicator online
-    const favoritesImage =
-      await favoritesSidebarFirstUser.getFavoritesUserImage("ChatUserB");
-    const favoritesIndicatorOnline =
-      await favoritesSidebarFirstUser.getFavoritesUserIndicatorOnline(
-        "ChatUserB"
-      );
-    await favoritesImage.waitForExist();
-    await favoritesIndicatorOnline.waitForExist();
+    await favoritesSidebarFirstUser.validateFavoritesUserImage("ChatUserB");
+    await favoritesSidebarFirstUser.validateFavoritesIndicatorOnline(
+      "ChatUserB"
+    );
   });
 
   it("Chat User A - Remove user with active chat from Favorites", async () => {
@@ -315,12 +307,10 @@ export default async function createChatAccountsTests() {
     await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
     await friendsScreenSecondUser.hoverOnChatWithFriendButton("ChatUserA");
     await friendsScreenSecondUser.chatWithFriendButton.click();
-    await chatsTopbarSecondUser.topbar.waitForExist();
+    await chatsTopbarSecondUser.validateTopbarExists();
 
     // Wait until Chat User A is online
-    await chatsTopbarSecondUser.topbarIndicatorOnline.waitForExist({
-      timeout: 30000,
-    });
+    await chatsTopbarSecondUser.validateTopbarIndicatorOnline();
   });
 
   it("Chat User B - Assert message received from Chat User A", async () => {

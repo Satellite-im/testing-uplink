@@ -329,10 +329,20 @@ export default class EditGroup extends UplinkMainScreen {
 
   async getParticipantIndicatorOnline(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await userLocator.$(SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online was never displayed on Edit Group Users List after 15 seconds",
+      }
+    );
+
     const indicatorOnline = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE
     );
-    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 
@@ -408,5 +418,17 @@ export default class EditGroup extends UplinkMainScreen {
   async validateNothingHereIsDisplayed() {
     const nothingHereText = await this.nothingHereText;
     await nothingHereText.waitForExist();
+  }
+
+  async validateParticipantIndicatorOnline(username: string) {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.getParticipantIndicatorOnline(username);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected chat layout was never displayed after 15 seconds",
+      }
+    );
   }
 }

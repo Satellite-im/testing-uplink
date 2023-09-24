@@ -587,10 +587,19 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async getUserIndicatorOnline(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await userLocator.$(SELECTORS.FRIEND_USER_INDICATOR_ONLINE);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online was never displayed on Friends Screen User after 15 seconds",
+      }
+    );
     const indicatorOnline = await userLocator.$(
       SELECTORS.FRIEND_USER_INDICATOR_ONLINE
     );
-    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 

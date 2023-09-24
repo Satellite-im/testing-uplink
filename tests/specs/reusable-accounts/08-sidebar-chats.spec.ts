@@ -254,14 +254,10 @@ export default async function sidebarChatsTests() {
     await favoritesSidebarFirstUser.validateFavoritesAreShown();
 
     // Favorites Sidebar User bubble should be displayed with image and indicator online
-    const favoritesImage =
-      await favoritesSidebarFirstUser.getFavoritesUserImage("ChatUserB");
-    const favoritesIndicatorOnline =
-      await favoritesSidebarFirstUser.getFavoritesUserIndicatorOnline(
-        "ChatUserB"
-      );
-    await favoritesImage.waitForExist();
-    await favoritesIndicatorOnline.waitForExist();
+    await favoritesSidebarFirstUser.validateFavoritesUserImage("ChatUserB");
+    await favoritesSidebarFirstUser.validateFavoritesIndicatorOnline(
+      "ChatUserB"
+    );
   });
 
   // Skipping test failing - needs research
