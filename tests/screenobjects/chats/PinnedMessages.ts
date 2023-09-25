@@ -404,4 +404,49 @@ export default class PinnedMessages extends UplinkMainScreen {
     const pinnedMessagesMain = await this.pinModalMain;
     return await pinnedMessagesMain.waitForDisplayed();
   }
+
+  async validateFirstPinnedMessageAttachmentFileIcon() {
+    const attachmentIcon = await this.getPinnedMessageAttachmentFileIcon(0, 0);
+    await attachmentIcon.waitForExist();
+  }
+
+  async validateFirstPinnedMessageAttachmentFileIconExtension(
+    extension: string
+  ) {
+    const attachmentExtension =
+      await this.getPinnedMessageAttachmentFileIconExtension(0, 0);
+    await expect(attachmentExtension).toHaveTextContaining(extension);
+  }
+
+  async validateFirstPinnedMessageAttachmentFileMeta(meta: string) {
+    const metaText = await this.getPinnedMessageAttachmentFileMetaText(0, 0);
+    await expect(metaText).toHaveTextContaining(meta);
+  }
+
+  async validateFirstPinnedMessageAttachmentFileName(expectedName: string) {
+    const currentName = await this.getPinnedMessageAttachmentFileNameText(0, 0);
+    await expect(currentName).toHaveTextContaining(expectedName);
+  }
+
+  async validateFirstPinnedMessageImageProfileIsShown() {
+    const imageProfile = await this.getPinnedMessageUserImageProfile(0);
+    await imageProfile.waitForExist();
+  }
+
+  async validateFirstPinnedMessageSender(username: string) {
+    const sender = await this.getPinnedMessageSenderText(0);
+    await expect(sender).toHaveTextContaining(username);
+  }
+
+  async validateFirstPinnedMessageText(messageText: string) {
+    const message = await this.getPinnedMessageValueText(0);
+    await expect(message).toHaveTextContaining(messageText);
+  }
+
+  async validateFirstPinnedMessageTimestampIsShown() {
+    const timestamp = await this.getPinnedMessageTimestampText(0);
+    await expect(timestamp).toHaveTextContaining(
+      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+    );
+  }
 }

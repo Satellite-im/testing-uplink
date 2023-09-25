@@ -72,7 +72,8 @@ export default async function chatTopbarTests() {
     await chatsTopbarFirstUser.clickOnPinnedMessages();
   });
 
-  it("Pinned Messages - Pin a message", async () => {
+  // Needs additional work yet
+  xit("Pinned Messages - Pin a message with attachments", async () => {
     // Look for the latest message sent by User A, open context menu and pin message
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
@@ -82,16 +83,53 @@ export default async function chatTopbarTests() {
     await chatsMessageGroupsFirstUser.validateLastMessageSentHasPinIndicator();
   });
 
-  it("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {
+  // Needs additional work yet
+  xit("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {
     // Go to Pinned Messages and validate container shows message
     await chatsTopbarFirstUser.clickOnPinnedMessages();
     await pinnedMessagesFirstUser.validatePinnedMessagesIsDisplayed();
 
-    // Close pinned messages
+    // Validate pinned message shows timestamp, sender and message
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageImageProfileIsShown();
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageTimestampIsShown();
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageSender("ChatUserA");
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Attached");
+  });
+
+  // Needs additional work yet
+  xit("Pinned Messages - Pinned message with attachment shows icon, extension, filename and metadata", async () => {
+    // Validate attachment elements are shown in pinned message
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileIcon();
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileIconExtension(
+      "txt"
+    );
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileMeta(
+      "47 B"
+    );
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileName(
+      "testfile.txt"
+    );
+  });
+
+  // Needs additional work yet
+  xit("Pinned Messages - User can be redirected to the message when clicking on Go to message", async () => {
+    // Click on Go to Message
+    await pinnedMessagesFirstUser.clickOnGoToMessage(0);
+
+    // Open pinned messages
     await chatsTopbarFirstUser.clickOnPinnedMessages();
   });
 
-  xit("Pinned Messages - User can be redirected to the message when clicking on Go to message", async () => {});
-  xit("Pinned Messages - Add a message with attachments to Pinned Messages", async () => {});
-  xit("Pinned Messages - Remove a pinned message", async () => {});
+  // Needs additional work yet
+  xit("Pinned Messages - Remove a pinned message", async () => {
+    // Click on Unpin button to remove message from pinned messages
+    await pinnedMessagesFirstUser.clickOnUnpinMessage(0);
+
+    // Validate that no posts are pinned
+    await chatsTopbarFirstUser.clickOnPinnedMessages();
+    await pinnedMessagesFirstUser.validateEmptyPinnedMessagesIsDisplayed();
+
+    // Close pinned messages
+    await chatsTopbarFirstUser.clickOnPinnedMessages();
+  });
 }
