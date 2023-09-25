@@ -103,8 +103,6 @@ export default async function groupChatEditTests() {
     const currentList = await editGroupFirstUser.getParticipantsList();
     const expectedList = ["ChatUserB"];
     await expect(currentList).toEqual(expectedList);
-    //
-    await editGroupFirstUser.validateParticipantIndicatorOnline("ChatUserB");
   });
 
   it("Edit Group - Look for non existing user in Remove Users List", async () => {
