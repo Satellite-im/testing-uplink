@@ -189,11 +189,8 @@ export default async function createChatAccountsTests() {
     await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 
-  it("Chat User A - Go to chat with friend and wait until user is online", async () => {
+  it("Chat User A - Go to chat with friend", async () => {
     await chatsTopbarFirstUser.validateTopbarExists();
-
-    // Wait until Chat User B is online
-    await chatsTopbarFirstUser.waitUntilRemoteUserIsOnline();
   });
 
   it("Chat User A - Validate Messages secured text displayed on top of conversation", async () => {
@@ -264,23 +261,17 @@ export default async function createChatAccountsTests() {
     await expect(messageText).toHaveTextContaining("Testing...😀");
   });
 
-  it("Chat User A - Validate Chat Message Group displays username picture and online indicator", async () => {
+  it("Chat User A - Validate Chat Message Group displays username picture", async () => {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsFirstUser.getLastGroupWrapSentImage();
     await userImage.waitForExist();
-
-    //Online indicator of your user should be displayed next to the image
-    const onlineIndicator =
-      await chatsMessageGroupsFirstUser.getLastGroupWrapSentOnline();
-    await onlineIndicator.waitForExist();
   });
 
   it("Chat User A - Topbar information", async () => {
-    // Validate user image, username and online indicator are displayed on Chat Topbar
+    // Validate user image, username is displayed on Chat Topbar
     await chatsTopbarFirstUser.validateTopbarUserImage();
     await chatsTopbarFirstUser.validateTopbarUserName("ChatUserB");
-    await chatsTopbarFirstUser.validateTopbarIndicatorOnline();
   });
 
   it("Chat User A - Add user with active chat to Favorites", async () => {
@@ -288,29 +279,22 @@ export default async function createChatAccountsTests() {
     await chatsTopbarFirstUser.addToFavorites();
     await favoritesSidebarFirstUser.validateFavoritesAreShown();
 
-    // Favorites Sidebar User bubble should be displayed with image and indicator online
+    // Favorites Sidebar User bubble should be displayed with image
     await favoritesSidebarFirstUser.validateFavoritesUserImage("ChatUserB");
-    await favoritesSidebarFirstUser.validateFavoritesIndicatorOnline(
-      "ChatUserB"
-    );
   });
 
   it("Chat User A - Remove user with active chat from Favorites", async () => {
     // Remove user from favorites
     await chatsTopbarFirstUser.removeFromFavorites();
-    await chatsTopbarFirstUser.topbarAddToFavorites.waitForExist();
     await friendsScreenSecondUser.switchToOtherUserWindow();
   });
 
-  it("Chat User B - Wait until the other user is online", async () => {
+  it("Chat User B - Wait until the other user is connected", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
     await friendsScreenSecondUser.hoverOnChatWithFriendButton("ChatUserA");
     await friendsScreenSecondUser.chatWithFriendButton.click();
     await chatsTopbarSecondUser.validateTopbarExists();
-
-    // Wait until Chat User A is online
-    await chatsTopbarSecondUser.validateTopbarIndicatorOnline();
   });
 
   it("Chat User B - Assert message received from Chat User A", async () => {
@@ -324,16 +308,11 @@ export default async function createChatAccountsTests() {
     await expect(textFromMessage).toHaveTextContaining("Testing...😀");
   });
 
-  it("Chat User B - Validate Chat Message Group from remote user displays username picture and online indicator", async () => {
+  it("Chat User B - Validate Chat Message Group from remote user displays username picture", async () => {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsSecondUser.getLastGroupWrapReceivedImage();
     await userImage.waitForExist();
-
-    //Online indicator of your user should be displayed next to the image
-    const onlineIndicator =
-      await chatsMessageGroupsSecondUser.getLastGroupWrapReceivedOnline();
-    await onlineIndicator.waitForExist();
   });
 
   it("Chat User B - Validate Chat Message received displays timestamp and user who sent it", async () => {

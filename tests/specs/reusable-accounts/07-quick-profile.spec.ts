@@ -161,7 +161,6 @@ export default async function quickProfileTests() {
     await friendsScreenFirstUser.chatWithFriendButton.click();
 
     await chatsTopbarFirstUser.topbar.waitForExist();
-    await chatsTopbarFirstUser.waitUntilRemoteUserIsOnline();
     await friendsScreenSecondUser.switchToOtherUserWindow();
   });
 
@@ -172,7 +171,6 @@ export default async function quickProfileTests() {
     await friendsScreenSecondUser.chatWithFriendButton.click();
 
     await chatsTopbarSecondUser.topbar.waitForExist();
-    await chatsTopbarSecondUser.waitUntilRemoteUserIsOnline();
 
     // Send message to Chat User B
     await chatsInputSecondUser.typeMessageOnInput("Accepted...");

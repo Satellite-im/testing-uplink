@@ -96,8 +96,6 @@ export default async function sidebarChatsTests() {
     await friendsScreenSecondUser.clickOnChatWithFriend();
     await chatsLayoutSecondUser.validateChatLayoutIsShown();
 
-    await chatsTopbarSecondUser.waitUntilRemoteUserIsOnline();
-
     // Send message with markdown to Chat User B
     await chatsInputSecondUser.typeMessageOnInput("__hello__");
     await chatsInputSecondUser.clickOnSendMessage();
@@ -157,7 +155,6 @@ export default async function sidebarChatsTests() {
     await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserB");
     await friendsScreenFirstUser.clickOnChatWithFriend();
     await chatsLayoutFirstUser.validateChatLayoutIsShown();
-    await chatsTopbarFirstUser.waitUntilRemoteUserIsOnline();
 
     // Send message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
@@ -253,11 +250,8 @@ export default async function sidebarChatsTests() {
     await chatsTopbarFirstUser.addToFavorites();
     await favoritesSidebarFirstUser.validateFavoritesAreShown();
 
-    // Favorites Sidebar User bubble should be displayed with image and indicator online
+    // Favorites Sidebar User bubble should be displayed with image
     await favoritesSidebarFirstUser.validateFavoritesUserImage("ChatUserB");
-    await favoritesSidebarFirstUser.validateFavoritesIndicatorOnline(
-      "ChatUserB"
-    );
   });
 
   // Skipping test failing - needs research

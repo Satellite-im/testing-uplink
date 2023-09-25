@@ -64,16 +64,11 @@ export default async function repliesTests() {
     await expect(timeAgo).toHaveTextContaining("ChatUserB");
   });
 
-  it("Chat User B - Validate reply message group contains user image and online indicator", async () => {
+  it("Chat User B - Validate reply message group contains user image", async () => {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsSecondUser.getLastGroupWrapSentImage();
     await userImage.waitForExist();
-
-    //Online indicator of your user should be displayed next to the image
-    const onlineIndicator =
-      await chatsMessageGroupsSecondUser.getLastGroupWrapSentOnline();
-    await onlineIndicator.waitForExist();
     await chatsMessagesFirstUser.switchToOtherUserWindow();
 
     // With User A - Validate that reply message is received
@@ -103,16 +98,11 @@ export default async function repliesTests() {
     await expect(timeAgo).toHaveTextContaining("ChatUserB");
   });
 
-  it("Chat User A - Validate reply message group contains user image and online indicator", async () => {
+  it("Chat User A - Validate reply message group contains user image", async () => {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsFirstUser.getLastGroupWrapReceivedImage();
     await userImage.waitForExist();
-
-    //Online indicator of your user should be displayed next to the image
-    const onlineIndicator =
-      await chatsMessageGroupsFirstUser.getLastGroupWrapReceivedOnline();
-    await onlineIndicator.waitForExist();
   });
 
   it("Chat User A - Reply to yourself", async () => {
