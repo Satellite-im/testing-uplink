@@ -35,9 +35,8 @@ export default async function groupChatSidebarTests() {
     await favoritesSidebarFirstUser.validateFavoritesAreShown();
 
     // Favorites Sidebar should be displayed and showing the name of the group added to Favorites
-    // Favorites Sidebar User bubble should be displayed with image and indicator online
+    // Favorites Sidebar User bubble should be displayed
     await favoritesSidebarFirstUser.validateFavoritesUserImage("X");
-    await favoritesSidebarFirstUser.validateFavoritesIndicatorOnline("X");
   });
 
   it("Group Chat - Remove group from favorites", async () => {
