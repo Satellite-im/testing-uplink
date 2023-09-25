@@ -28,10 +28,7 @@ export default async function friends() {
     await uplinkMainFirstUser.goToFriends();
 
     // Validate Pre Release Indicator is displayed
-    const prereleaseIndicator =
-      await friendsScreenFirstUser.prereleaseIndicator;
-    await prereleaseIndicator.waitForExist();
-
+    await friendsScreenFirstUser.prereleaseIndicator.waitForExist();
     const prereleaseIndicatorText =
       await friendsScreenFirstUser.prereleaseIndicatorText;
     await expect(prereleaseIndicatorText).toHaveTextContaining(
@@ -40,27 +37,17 @@ export default async function friends() {
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    const chatsButton = await friendsScreenFirstUser.chatsButton;
-    const filesButton = await friendsScreenFirstUser.filesButton;
-    const friendsButton = await friendsScreenFirstUser.friendsButton;
-    const settingsButton = await friendsScreenFirstUser.settingsButton;
-
-    await chatsButton.waitForExist();
-    await filesButton.waitForExist();
-    await friendsButton.waitForExist();
-    await settingsButton.waitForExist();
+    await friendsScreenFirstUser.chatsButton.waitForExist();
+    await friendsScreenFirstUser.filesButton.waitForExist();
+    await friendsScreenFirstUser.friendsButton.waitForExist();
+    await friendsScreenFirstUser.settingsButton.waitForExist();
   });
 
   it("Validate Sidebar is displayed in screen", async () => {
-    const chatsSearchInput = await chatsSidebarFirstUser.chatSearchInput;
-    const sidebar = await chatsSidebarFirstUser.sidebar;
-    const sidebarChildren = await chatsSidebarFirstUser.sidebarChildren;
-    const sidebarSearch = await chatsSidebarFirstUser.sidebarSearch;
-
-    await chatsSearchInput.waitForExist();
-    await sidebar.waitForExist();
-    await sidebarChildren.waitForExist();
-    await sidebarSearch.waitForExist();
+    await chatsSidebarFirstUser.chatSearchInput.waitForExist();
+    await chatsSidebarFirstUser.sidebar.waitForExist();
+    await chatsSidebarFirstUser.sidebarChildren.waitForExist();
+    await chatsSidebarFirstUser.sidebarSearch.waitForExist();
   });
 
   it("Go to Friends Screen and validate elements displayed", async () => {
@@ -68,19 +55,15 @@ export default async function friends() {
   });
 
   it("Friends Screen - Displays a badge showing 4 pending requests on Navigation Bar ", async () => {
-    const buttonBadge = await friendsScreenFirstUser.buttonNavBarButtonBadge;
+    await friendsScreenFirstUser.buttonNavBarButtonBadge.waitForExist();
     const buttonBadgeText =
       await friendsScreenFirstUser.buttonNavBarButtonBadgeText;
-
-    await buttonBadge.waitForExist();
     await expect(buttonBadgeText).toHaveTextContaining("4");
   });
 
   it("Friends Screen - Displays a badge showing 4 pending requests on Pending Friends Button", async () => {
-    const buttonBadge = await friendsScreenFirstUser.friendsButtonBadge;
+    await friendsScreenFirstUser.friendsButtonBadge.waitForExist();
     const buttonBadgeText = await friendsScreenFirstUser.friendsButtonBadgeText;
-
-    await buttonBadge.waitForExist();
     await expect(buttonBadgeText).toHaveTextContaining("4");
   });
 
@@ -218,8 +201,7 @@ export default async function friends() {
 
   it("Favorites - Validate Sidebar Favorites is displayed after adding users to favorites", async () => {
     // Validate that Favorites Sidebar is displayed
-    const slimbar = await favoritesSidebarFirstUser.slimbar;
-    await slimbar.waitForExist();
+    await favoritesSidebarFirstUser.slimbar.waitForExist();
   });
 
   it("Favorites - Remove all users from Favorites", async () => {

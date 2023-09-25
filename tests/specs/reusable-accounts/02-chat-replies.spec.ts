@@ -23,30 +23,9 @@ export default async function repliesTests() {
     await chatsContextMenuSecondUser.selectContextOptionReply();
 
     // Validate contents of Reply Pop Up
-    const replyPopUp = await chatsReplyPromptSecondUser.replyPopUp;
-    await replyPopUp.waitForExist();
-
-    const replyPopUpCloseButton =
-      await chatsReplyPromptSecondUser.replyPopUpCloseButton;
-    await replyPopUpCloseButton.waitForExist();
-
-    const replyPopUpHeader = await chatsReplyPromptSecondUser.replyPopUpHeader;
-    await expect(replyPopUpHeader).toHaveTextContaining("REPLYING TO:");
-
-    const replyPopUpIndicatorOnline =
-      await chatsReplyPromptSecondUser.replyPopUpIndicatorOnline;
-    await replyPopUpIndicatorOnline.waitForExist();
-
-    const replyPopUpRemoteTextToReply =
-      await chatsReplyPromptSecondUser.replyPopUpRemoteTextToReplyValue;
-    await expect(replyPopUpRemoteTextToReply).toHaveTextContaining(
+    await chatsReplyPromptSecondUser.validateReplyPromptElementsShown(
       "Testing...😀"
     );
-
-    const replyPopUpUserImage =
-      await chatsReplyPromptSecondUser.replyPopUpUserImage;
-    await replyPopUpUserImage.waitForExist();
-
     await chatsReplyPromptSecondUser.closeReplyModal();
     await chatsReplyPromptSecondUser.waitForReplyModalToNotExist();
   });
@@ -98,8 +77,7 @@ export default async function repliesTests() {
     await chatsMessagesFirstUser.switchToOtherUserWindow();
 
     // With User A - Validate that reply message is received
-    const replyReceived = await await chatsMessagesFirstUser.chatMessageReply;
-    await replyReceived.waitForExist();
+    await chatsMessagesFirstUser.chatMessageReply.waitForExist();
   });
 
   it("Chat User A - Validate reply message contents", async () => {
@@ -144,8 +122,7 @@ export default async function repliesTests() {
     await chatsContextMenuFirstUser.selectContextOptionReply();
 
     // Type a reply and sent it
-    const replyPopUp = await chatsReplyPromptFirstUser.replyPopUp;
-    await replyPopUp.waitForExist();
+    await chatsReplyPromptFirstUser.replyPopUp.waitForExist();
     await chatsInputFirstUser.typeMessageOnInput("SelfReply");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsReplyPromptFirstUser.waitForReplyModalToNotExist();

@@ -12,14 +12,9 @@ export default async function settingsExtensions() {
     await settingsExtensionsFirstUser.waitForIsShown(true);
 
     // Validate that the three buttons are displayed on top of the screen
-    const installedButton = await settingsExtensionsFirstUser.installedButton;
-    const exploreButton = await settingsExtensionsFirstUser.exploreButton;
-    const extensionsSettingsButton =
-      await settingsExtensionsFirstUser.extensionsSettingsButton;
-
-    await installedButton.waitForExist();
-    await exploreButton.waitForExist();
-    await extensionsSettingsButton.waitForExist();
+    await settingsExtensionsFirstUser.installedButton.waitForExist();
+    await settingsExtensionsFirstUser.exploreButton.waitForExist();
+    await settingsExtensionsFirstUser.extensionsSettingsButton.waitForExist();
   });
 
   it("Settings Extensions - Validate Emoji Selector extension contents", async () => {
@@ -82,9 +77,7 @@ export default async function settingsExtensions() {
       "SEARCH EXTENSIONS"
     );
 
-    const extensionsSearchInput =
-      await settingsExtensionsFirstUser.extensionsSearchInput;
-    await extensionsSearchInput.waitForExist();
+    await settingsExtensionsFirstUser.extensionsSearchInput.waitForExist();
     const placeholder =
       await settingsExtensionsFirstUser.getPlaceholderFromExtensionsInput();
     await expect(placeholder).toEqual("Extension name or description.");

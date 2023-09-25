@@ -239,7 +239,16 @@ export default class EditGroup extends UplinkMainScreen {
     const firstAddButton = await this.instance.$$(
       SELECTORS.ADD_PARTICIPANT_BUTTON
     )[0];
-    await firstAddButton.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await firstAddButton;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Add friend button from Edit Group was never displayed after 15 seconds",
+      }
+    );
     await firstAddButton.click();
   }
 
@@ -247,7 +256,16 @@ export default class EditGroup extends UplinkMainScreen {
     const removeParticipantButton = await this.instance.$$(
       SELECTORS.REMOVE_PARTICIPANT_BUTTON
     )[0];
-    await removeParticipantButton.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await removeParticipantButton;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Remove friend button from Edit Group was never displayed after 15 seconds",
+      }
+    );
     await removeParticipantButton.click();
   }
 
@@ -311,10 +329,20 @@ export default class EditGroup extends UplinkMainScreen {
 
   async getParticipantIndicatorOnline(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await userLocator.$(SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online was never displayed on Edit Group Users List after 15 seconds",
+      }
+    );
+
     const indicatorOnline = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE
     );
-    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 
@@ -390,5 +418,17 @@ export default class EditGroup extends UplinkMainScreen {
   async validateNothingHereIsDisplayed() {
     const nothingHereText = await this.nothingHereText;
     await nothingHereText.waitForExist();
+  }
+
+  async validateParticipantIndicatorOnline(username: string) {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.getParticipantIndicatorOnline(username);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected chat layout was never displayed after 15 seconds",
+      }
+    );
   }
 }

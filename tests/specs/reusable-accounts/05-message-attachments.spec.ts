@@ -23,15 +23,9 @@ export default async function messageAttachmentsTests() {
     );
 
     // Validate contents on Compose Attachments are displayed
-    const fileEmbed =
-      await chatsAttachmentSecondUser.composeAttachmentsFileEmbed;
-    const fileIcon = await chatsAttachmentSecondUser.composeAttachmentsFileIcon;
-    const fileName =
-      await chatsAttachmentSecondUser.composeAttachmentsFileNameText;
-
-    await fileEmbed.waitForExist();
-    await fileIcon.waitForExist();
-    await fileName.waitForExist();
+    await chatsAttachmentSecondUser.composeAttachmentsFileEmbed.waitForExist();
+    await chatsAttachmentSecondUser.composeAttachmentsFileIcon.waitForExist();
+    await chatsAttachmentSecondUser.composeAttachmentsFileNameText.waitForExist();
   });
 
   it("Chat User B - Delete attachment before sending the message", async () => {
@@ -47,9 +41,7 @@ export default async function messageAttachmentsTests() {
     );
 
     // Validate contents on Compose Attachments are displayed
-    const fileEmbed =
-      await chatsAttachmentFirstUser.composeAttachmentsFileEmbed;
-    await fileEmbed.waitForExist();
+    await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForExist();
 
     // Type a text message and send it
     await chatsInputFirstUser.typeMessageOnInput("Attached");
@@ -58,9 +50,7 @@ export default async function messageAttachmentsTests() {
   });
 
   it("Chat User A - Message Sent With Attachment - Text contents", async () => {
-    const fileEmbedLocal =
-      await chatsMessagesFirstUser.chatMessageFileEmbedLocal;
-    await fileEmbedLocal.waitForExist();
+    await chatsMessagesFirstUser.chatMessageFileEmbedLocal.waitForExist();
 
     // Validate text from message containing attachment
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
@@ -94,9 +84,7 @@ export default async function messageAttachmentsTests() {
 
     // With User B - Validate that message with attachment was received
     await chatsInputSecondUser.clickOnInputBar();
-    const fileEmbedRemote =
-      await chatsMessagesSecondUser.chatMessageFileEmbedRemote;
-    await fileEmbedRemote.waitForExist();
+    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForExist();
   });
 
   it("Chat User B - Received Message with Attachment - Text Message contents", async () => {

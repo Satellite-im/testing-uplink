@@ -438,15 +438,12 @@ export async function selectFileOnWindows(
 ) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
-
-  // Pause for one second until explorer window is displayed and switch to it
-  await browser.pause(1000);
+  await browser.pause(5000);
   const windows = await driver[instance].getWindowHandles();
   let explorerWindow;
   windows[0] === uplinkContext
     ? (explorerWindow = windows[1])
     : (explorerWindow = windows[0]);
-  await browser.pause(1000);
   await driver[instance].switchToWindow(explorerWindow);
 
   // Wait for Save Panel to be displayed

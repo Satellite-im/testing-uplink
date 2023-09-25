@@ -23,8 +23,7 @@ let sidebarSearchFirstUser = new SidebarSearch(USER_A_INSTANCE);
 export default async function groupChatTests() {
   it("Chat User A - Create Group Chat button tooltip", async () => {
     await chatsSidebarFirstUser.hoverOnCreateGroupButton();
-    const tooltip = await chatsSidebarFirstUser.sidebarCreateGroupChatTooltip;
-    await tooltip.waitForExist();
+    await chatsSidebarFirstUser.sidebarCreateGroupChatTooltip.waitForExist();
   });
 
   it("Chat User A - Click on Create Group Chat and close modal", async () => {
@@ -45,23 +44,16 @@ export default async function groupChatTests() {
     await createGroupFirstUser.validateCreateGroupChatsIsShown();
 
     // Validate contents
-    const createGroupChatButton =
-      await createGroupFirstUser.createGroupChatButton;
-    const friendsList = await createGroupFirstUser.friendsList;
-    const groupNameInput = await createGroupFirstUser.groupNameInput;
-    const userSearchInput = await createGroupFirstUser.userSearchInput;
-
-    await createGroupChatButton.waitForExist();
-    await friendsList.waitForExist();
-    await groupNameInput.waitForExist();
-    await userSearchInput.waitForExist();
+    await createGroupFirstUser.createGroupChatButton.waitForExist();
+    await createGroupFirstUser.friendsList.waitForExist();
+    await createGroupFirstUser.groupNameInput.waitForExist();
+    await createGroupFirstUser.userSearchInput.waitForExist();
   });
 
   it("Chat User A - Attempt to create group chat with alphanumeric chars in name", async () => {
     await createGroupFirstUser.typeOnGroupName("@");
-    const inputError = await createGroupFirstUser.createGroupInputError;
+    await createGroupFirstUser.createGroupInputError.waitForExist();
     const inputErrorText = await createGroupFirstUser.createGroupInputErrorText;
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Not allowed character(s): @"
     );
@@ -71,10 +63,8 @@ export default async function groupChatTests() {
   // Skipping test that sometimes fail in CI because Appium randomly jumps when typing into a different input field
   xit("Chat User A - Attempt to create group chat with more than 64 chars in name", async () => {
     await createGroupFirstUser.typeLongerTextInGroupName();
-    const inputError = await createGroupFirstUser.createGroupInputError;
+    await createGroupFirstUser.createGroupInputError.waitForExist();
     const inputErrorText = await createGroupFirstUser.createGroupInputErrorText;
-
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Maximum of 64 characters exceeded."
     );
