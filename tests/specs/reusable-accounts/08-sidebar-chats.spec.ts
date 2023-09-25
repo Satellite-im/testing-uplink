@@ -119,7 +119,7 @@ export default async function sidebarChatsTests() {
     await friendsScreenFirstUser.goToMainScreen();
 
     // Wait until message is received
-    await chatsSidebarFirstUser.waitForReceivingMessageOnSidebar(30000);
+    await chatsSidebarFirstUser.waitForReceivingMessageOnSidebar();
   });
 
   it("Chat User A - Sidebar - Any active chats user has created should appear in Sidebar", async () => {
@@ -226,8 +226,7 @@ export default async function sidebarChatsTests() {
 
   it("Chat User B - Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {
     // After user deletes chat conversation on remote side, chat is deleted on local side and Welcome Image displayed again
-    const skeletalUser = await welcomeScreenSecondUser.skeletalUser;
-    await skeletalUser.waitForExist();
+    await welcomeScreenSecondUser.skeletalUser.waitForExist();
     await welcomeScreenFirstUser.switchToOtherUserWindow();
   });
 
@@ -255,14 +254,10 @@ export default async function sidebarChatsTests() {
     await favoritesSidebarFirstUser.validateFavoritesAreShown();
 
     // Favorites Sidebar User bubble should be displayed with image and indicator online
-    const favoritesImage =
-      await favoritesSidebarFirstUser.getFavoritesUserImage("ChatUserB");
-    const favoritesIndicatorOnline =
-      await favoritesSidebarFirstUser.getFavoritesUserIndicatorOnline(
-        "ChatUserB"
-      );
-    await favoritesImage.waitForExist();
-    await favoritesIndicatorOnline.waitForExist();
+    await favoritesSidebarFirstUser.validateFavoritesUserImage("ChatUserB");
+    await favoritesSidebarFirstUser.validateFavoritesIndicatorOnline(
+      "ChatUserB"
+    );
   });
 
   // Skipping test failing - needs research

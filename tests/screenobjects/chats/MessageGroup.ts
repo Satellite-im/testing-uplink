@@ -405,40 +405,54 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async waitUntilEmojiReactionRemoteExists(expectedReaction: string) {
     const currentDriver = await this.getCurrentDriver();
+    let emojiReactionLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      const emojiReaction = await this.instance.$(
+      emojiReactionLocator =
         '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-remote")]//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedReaction +
-          '")]'
-      );
-      await emojiReaction.waitForExist();
+        expectedReaction +
+        '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const emojiReaction = await this.instance.$(
+      emojiReactionLocator =
         '//Group[contains(@Name, "emoji-reaction-remote")]//Text[contains(@Name, "' +
-          expectedReaction +
-          '")]'
-      );
-      await emojiReaction.waitForExist();
+        expectedReaction +
+        '")]';
     }
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(emojiReactionLocator);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected remote emoji reaction is still not displayed after 15 seconds",
+      }
+    );
   }
 
   async waitUntilEmojiReactionSelfExists(expectedReaction: string) {
     const currentDriver = await this.getCurrentDriver();
+    let emojiReactionLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      const emojiReaction = await this.instance.$(
+      emojiReactionLocator =
         '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-self")]//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedReaction +
-          '")]'
-      );
-      await emojiReaction.waitForExist();
+        expectedReaction +
+        '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const emojiReaction = await this.instance.$(
+      emojiReactionLocator =
         '//Group[contains(@Name, "emoji-reaction-self")]/Text[contains(@Name, "' +
-          expectedReaction +
-          '")]'
-      );
-      await emojiReaction.waitForExist();
+        expectedReaction +
+        '")]';
     }
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(emojiReactionLocator);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected self emoji reaction is still not displayed after 15 seconds",
+      }
+    );
   }
 
   // Get messages locators from last message group received

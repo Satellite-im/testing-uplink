@@ -14,10 +14,7 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.waitForIsShown(true);
 
     // Start validations
-    const prereleaseIndicator =
-      await settingsProfileFirstUser.prereleaseIndicator;
-    await prereleaseIndicator.waitForExist();
-
+    await settingsProfileFirstUser.prereleaseIndicator.waitForExist();
     const prereleaseIndicatorText =
       await settingsProfileFirstUser.prereleaseIndicatorText;
     await expect(prereleaseIndicatorText).toHaveTextContaining(
@@ -26,27 +23,19 @@ export default async function settingsProfile() {
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    const chatsButton = await settingsProfileFirstUser.chatsButton;
-    const filesButton = await settingsProfileFirstUser.filesButton;
-    const friendsButton = await settingsProfileFirstUser.friendsButton;
-    const settingsButton = await settingsProfileFirstUser.settingsButton;
-
-    await chatsButton.waitForExist();
-    await filesButton.waitForExist();
-    await friendsButton.waitForExist();
-    await settingsButton.waitForExist();
+    await settingsProfileFirstUser.chatsButton.waitForExist();
+    await settingsProfileFirstUser.filesButton.waitForExist();
+    await settingsProfileFirstUser.friendsButton.waitForExist();
+    await settingsProfileFirstUser.settingsButton.waitForExist();
   });
 
   it("Settings Profile - Assert texts for Your New Profile dialog", async () => {
-    const yourNewProfile = await settingsProfileFirstUser.yourNewProfile;
-    await yourNewProfile.waitForExist();
-
+    await settingsProfileFirstUser.yourNewProfile.waitForExist();
     const yourNewProfileHeaderText =
       await settingsProfileFirstUser.yourNewProfileHeaderTextValue;
     await expect(yourNewProfileHeaderText).toHaveTextContaining(
       "YOUR NEW PROFILE!"
     );
-
     const yourNewProfileDescriptionOne =
       await settingsProfileFirstUser.yourNewProfileDescriptionTextOneValue;
     await expect(yourNewProfileDescriptionOne).toHaveTextContaining(
@@ -87,8 +76,7 @@ export default async function settingsProfile() {
     // Validate Copy ID button tooltip
     await settingsProfileFirstUser.hoverOnCopyID();
 
-    const copyIDTooltip = await settingsProfileFirstUser.copyIDTooltip;
-    await copyIDTooltip.waitForExist();
+    await settingsProfileFirstUser.copyIDTooltip.waitForExist();
 
     const copyIDTooltipText = await settingsProfileFirstUser.copyIDTooltipText;
     await expect(copyIDTooltipText).toHaveTextContaining("Copy ID");
@@ -139,8 +127,7 @@ export default async function settingsProfile() {
       "./tests/fixtures/banner.jpg"
     );
 
-    const usernameInput = await settingsProfileFirstUser.usernameInput;
-    await usernameInput.click();
+    await settingsProfileFirstUser.usernameInput.waitForExist();
   });
 
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
@@ -163,9 +150,7 @@ export default async function settingsProfile() {
       "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
     );
 
-    const inputError = await settingsProfileFirstUser.inputError;
-    await inputError.waitForExist();
-
+    await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
       "Maximum of 128 characters exceeded."
@@ -179,9 +164,7 @@ export default async function settingsProfile() {
     // Enter username value with less than 4 characters
     await settingsProfileFirstUser.enterUsername("123");
     // Validate that error message is displayed
-    const inputError = await settingsProfileFirstUser.inputError;
-    await inputError.waitForExist();
-
+    await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters."
@@ -195,9 +178,7 @@ export default async function settingsProfile() {
     // Enter username value with spaces
     await settingsProfileFirstUser.enterUsername("1234" + "             ");
     // Validate that error message is displayed
-    const inputError = await settingsProfileFirstUser.inputError;
-    await inputError.waitForExist();
-
+    await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
       "Spaces are not allowed."
@@ -212,9 +193,7 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.enterUsername("test&^%*%#$");
     // Validate that error message is displayed
 
-    const inputError = await settingsProfileFirstUser.inputError;
-    await inputError.waitForExist();
-
+    await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
       "Not allowed character(s): &^%*#$"
@@ -230,9 +209,7 @@ export default async function settingsProfile() {
       "12345678901234567890123456789012345"
     );
     // Validate that error message is displayed
-    const inputError = await settingsProfileFirstUser.inputError;
-    await inputError.waitForExist();
-
+    await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
       "Maximum of 32 characters exceeded."

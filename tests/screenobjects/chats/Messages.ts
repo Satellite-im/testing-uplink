@@ -331,21 +331,29 @@ export default class Messages extends UplinkMainScreen {
 
   async getMessageReceivedLocator(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
+    let locator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      const receivedElement = await this.instance.$(
+      locator =
         '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedMessage +
-          '")]/../..'
-      );
-      await receivedElement.waitForExist();
+        expectedMessage +
+        '")]/../..';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const receivedElement = await this.instance.$(
+      locator =
         '//Group[contains(@Name, "remote"]//Text[contains(@Name, "' +
-          expectedMessage +
-          '")]/../..'
-      );
-      await receivedElement.waitForExist();
+        expectedMessage +
+        '")]/../..';
     }
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(locator);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected message was never received after 15 seconds",
+      }
+    );
+    const element = await this.instance.$(locator);
+    return element;
   }
 
   async getLastMessageReceivedLocator() {
@@ -384,140 +392,185 @@ export default class Messages extends UplinkMainScreen {
     timeoutMsg: number = 30000
   ) {
     const currentDriver = await this.getCurrentDriver();
-    let locator;
+    let codeMessageLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance.$(
+      codeMessageLocator =
         '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedLanguage +
-          '")]'
-      );
+        expectedLanguage +
+        '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = await this.instance.$(
+      codeMessageLocator =
         '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
-          expectedLanguage +
-          '")]'
-      );
+        expectedLanguage +
+        '")]';
     }
-    await locator.waitForExist({ timeout: timeoutMsg });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(codeMessageLocator);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected code message was never sent after 15 seconds",
+      }
+    );
   }
 
   async waitForMessageToBeDeleted(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$(
-          '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist({ reverse: true });
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$(
-          '//Group[@Name="message-text"]//Text[contains(@Name, "' +
-            expectedMessage +
-            '")]'
-        )
-        .waitForExist({ reverse: true });
-    }
+    await driver[this.executor].waitUntil(
+      async () => {
+        if (currentDriver === MACOS_DRIVER) {
+          return await this.instance
+            .$(
+              '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
+                expectedMessage +
+                '")]'
+            )
+            .waitForExist({ reverse: true });
+        } else if (currentDriver === WINDOWS_DRIVER) {
+          return await this.instance
+            .$(
+              '//Group[@Name="message-text"]//Text[contains(@Name, "' +
+                expectedMessage +
+                '")]'
+            )
+            .waitForExist({ reverse: true });
+        }
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected message was not deleted after 15 seconds",
+      }
+    );
   }
 
   async waitForLinkSentToExist(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
+    let linkSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      const linkSent = await this.instance.$(
+      linkSentLocator =
         '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeLink[contains(@value, "' +
-          expectedMessage +
-          '")]'
-      );
-      await linkSent.waitForExist();
+        expectedMessage +
+        '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const linkSent = await this.instance.$(
+      linkSentLocator =
         '//Group[contains(@Name, "local")]//HyperLink[contains(@Name, "' +
-          expectedMessage +
-          '")]'
-      );
-      await linkSent.waitForExist();
+        expectedMessage +
+        '")]';
     }
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(linkSentLocator);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected chat message with link was not sent after 15 seconds",
+      }
+    );
   }
 
   async waitForMessageSentToExist(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
+    let messageSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      const messageSent = await this.instance.$(
+      messageSentLocator =
         '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedMessage +
-          '")]'
-      );
-      await messageSent.waitForExist();
+        expectedMessage +
+        '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const messageSent = await this.instance.$(
+      messageSentLocator =
         '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
-          expectedMessage +
-          '")]'
-      );
-      await messageSent.waitForExist();
+        expectedMessage +
+        '")]';
     }
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(messageSentLocator);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected chat message was not sent after 15 seconds",
+      }
+    );
   }
 
-  async waitForReceivingCodeMessage(
-    expectedLanguage: string,
-    timeoutMsg: number = 30000
-  ) {
+  async waitForReceivingCodeMessage(expectedLanguage: string) {
     const currentDriver = await this.getCurrentDriver();
-    let locator;
+    let codeMessageReceivedLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance.$(
+      codeMessageReceivedLocator =
         '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedLanguage +
-          '")]'
-      );
+        expectedLanguage +
+        '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = await this.instance.$(
+      codeMessageReceivedLocator =
         '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
-          expectedLanguage +
-          '")]'
-      );
+        expectedLanguage +
+        '")]';
     }
-    await locator.waitForExist({ timeout: timeoutMsg });
+
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(codeMessageReceivedLocator);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected code message was not received after 15 seconds",
+      }
+    );
   }
 
   async waitForReceivingLink(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
+    let linkReceivedLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      const receivedLink = await this.instance.$(
+      linkReceivedLocator =
         '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeLink[contains(@value, "' +
-          expectedMessage +
-          '")]'
-      );
-      await receivedLink.waitForExist();
+        expectedMessage +
+        '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const receivedLink = await this.instance.$(
+      linkReceivedLocator =
         '//Group[contains(@Name, "remote")]//HyperLink[contains(@Name, "' +
-          expectedMessage +
-          '")]'
-      );
-      await receivedLink.waitForExist();
+        expectedMessage +
+        '")]';
     }
+
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(linkReceivedLocator);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected link message was not received after 15 seconds",
+      }
+    );
   }
 
   async waitForReceivingMessage(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
+    let receivedMessageLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      const receivedMessage = await this.instance.$(
+      receivedMessageLocator =
         '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedMessage +
-          '")]'
-      );
-      await receivedMessage.waitForExist();
+        expectedMessage +
+        '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const receivedMessage = await this.instance.$(
+      receivedMessageLocator =
         '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
-          expectedMessage +
-          '")]'
-      );
-      await receivedMessage.waitForExist();
+        expectedMessage +
+        '")]';
     }
+
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(receivedMessageLocator);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected chat message was not received after 15 seconds",
+      }
+    );
   }
 
   // Messages Sent Methods
@@ -570,21 +623,28 @@ export default class Messages extends UplinkMainScreen {
 
   async getMessageSentLocator(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
+    let messageSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      const messageSent = await this.instance.$(
+      messageSentLocator =
         '//XCUIElementTypeGroup[contains, (@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
-          expectedMessage +
-          '")]/../..'
-      );
-      await messageSent.waitForExist();
+        expectedMessage +
+        '")]/../..';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const messageSent = await this.instance.$(
+      messageSentLocator =
         '//Group[contains, (@Name, "local")]//Text[contains(@Name, "' +
-          expectedMessage +
-          '")]/../..'
-      );
-      await messageSent.waitForExist();
+        expectedMessage +
+        '")]/../..';
     }
+
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(messageSentLocator);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected chat message was not sent after 15 seconds",
+      }
+    );
   }
 
   async getLastMessageSentLocator() {

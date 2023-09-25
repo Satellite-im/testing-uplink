@@ -22,7 +22,7 @@ export default class AppScreen {
 
   async waitForIsShown(isShown = true): Promise<boolean | void> {
     const locator = await this.instance.$(this.locator);
-    return await locator.waitForDisplayed({
+    return locator.waitForDisplayed({
       reverse: !isShown,
     });
   }
