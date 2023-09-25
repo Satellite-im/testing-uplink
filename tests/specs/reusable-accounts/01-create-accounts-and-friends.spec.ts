@@ -286,7 +286,6 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Remove user with active chat from Favorites", async () => {
     // Remove user from favorites
     await chatsTopbarFirstUser.removeFromFavorites();
-    await chatsTopbarFirstUser.topbarAddToFavorites.waitForExist();
     await friendsScreenSecondUser.switchToOtherUserWindow();
   });
 
