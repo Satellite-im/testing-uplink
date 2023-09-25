@@ -231,6 +231,12 @@ export default class Topbar extends UplinkMainScreen {
     );
   }
 
+  async clickOnPinnedMessages() {
+    await this.hoverOnPinnedMessagesButton();
+    const topbarPinnedMessages = await this.topbarPinnedMessages;
+    await topbarPinnedMessages.click();
+  }
+
   async clickOnTopbar() {
     const topbarElement = await this.topbar;
     await topbarElement.click();
@@ -240,12 +246,6 @@ export default class Topbar extends UplinkMainScreen {
     await this.hoverOnEditGroupButton();
     const topbarEditGroup = await this.topbarEditGroup;
     await topbarEditGroup.click();
-  }
-
-  async goToPinnedMessages() {
-    await this.hoverOnPinnedMessagesButton();
-    const topbarPinnedMessages = await this.topbarPinnedMessages;
-    await topbarPinnedMessages.click();
   }
 
   async hoverOnCallButton() {

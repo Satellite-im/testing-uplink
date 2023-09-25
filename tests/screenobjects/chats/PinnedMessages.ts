@@ -83,7 +83,7 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   get pinnedMessageAttachments() {
-    return this.instance.$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS);
+    return this.instance.$$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS);
   }
 
   get pinnedMessageAttachmentsFileEmbed() {
@@ -155,7 +155,7 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   get pinnedMessageSingleContainer() {
-    return this.instance.$(SELECTORS.PINNED_MESSAGE_SINGLE_CONTAINER);
+    return this.instance.$$(SELECTORS.PINNED_MESSAGE_SINGLE_CONTAINER);
   }
 
   get pinnedMessageTimestamp() {
@@ -216,13 +216,192 @@ export default class PinnedMessages extends UplinkMainScreen {
     return this.instance.$(SELECTORS.PIN_MODAL_MAIN);
   }
 
+  // Clicking methods
+
+  async clickOnUnpinMessage(order: number) {
+    const unpinButton = await this.getPinnedMessageButtonUnpin(order);
+    await unpinButton.click();
+  }
+  async clickOnGoToMessage(order: number) {
+    const goToButton = await this.getPinnedMessageButtonGoTo(order);
+    await goToButton.click();
+  }
+
+  // Getters methods for pinned messages based on the order of addition
+
+  async getPinnedMessageLocatorByAdditionOrder(order: number) {
+    const pinnedContainers = await this.pinnedMessageSingleContainer;
+    const pinnedContainerByIndex = await pinnedContainers[order];
+    return pinnedContainerByIndex;
+  }
+
+  async getPinnedMessageAttachment(
+    orderPinned: number,
+    attachmentNumber: number
+  ) {
+    const pinnedContainerByIndex =
+      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
+    const attachmentOnPinnedMessage = await pinnedContainerByIndex.$$(
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS
+    )[attachmentNumber];
+    return attachmentOnPinnedMessage;
+  }
+
+  async getPinnedMessageAttachmentFileEmbed(
+    orderPinned: number,
+    attachmentNumber: number
+  ) {
+    const attachmentOnPinnedMessage = await this.getPinnedMessageAttachment(
+      orderPinned,
+      attachmentNumber
+    );
+    const attachmentFileEmbed = await attachmentOnPinnedMessage.$(
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_EMBED
+    );
+    return attachmentFileEmbed;
+  }
+
+  async getPinnedMessageAttachmentFileIcon(
+    orderPinned: number,
+    attachmentNumber: number
+  ) {
+    const attachmentOnPinnedFileEmbed =
+      await this.getPinnedMessageAttachmentFileEmbed(
+        orderPinned,
+        attachmentNumber
+      );
+    const attachmentFileIcon = await attachmentOnPinnedFileEmbed.$(
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON
+    );
+    return attachmentFileIcon;
+  }
+
+  async getPinnedMessageAttachmentFileIconExtension(
+    orderPinned: number,
+    attachmentNumber: number
+  ) {
+    const attachmentFileIcon = await this.getPinnedMessageAttachmentFileIcon(
+      orderPinned,
+      attachmentNumber
+    );
+    const attachmentFileIconExtension = await attachmentFileIcon.$(
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON_EXTENSION
+    );
+    return attachmentFileIconExtension;
+  }
+
+  async getPinnedMessageAttachmentFileInfo(
+    orderPinned: number,
+    attachmentNumber: number
+  ) {
+    const attachmentFileEmbed = await this.getPinnedMessageAttachmentFileEmbed(
+      orderPinned,
+      attachmentNumber
+    );
+    const attachmentFileInfo = await attachmentFileEmbed.$(
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_INFO
+    );
+    return attachmentFileInfo;
+  }
+
+  async getPinnedMessageAttachmentFileMetaText(
+    orderPinned: number,
+    attachmentNumber: number
+  ) {
+    const attachmentFileInfo = await this.getPinnedMessageAttachmentFileInfo(
+      orderPinned,
+      attachmentNumber
+    );
+    const fileMetaText = await attachmentFileInfo
+      .$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META)
+      .$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META_TEXT);
+    return fileMetaText;
+  }
+
+  async getPinnedMessageAttachmentFileNameText(
+    orderPinned: number,
+    attachmentNumber: number
+  ) {
+    const attachmentFileInfo = await this.getPinnedMessageAttachmentFileInfo(
+      orderPinned,
+      attachmentNumber
+    );
+    const fileNameText = await attachmentFileInfo
+      .$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME)
+      .$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME_TEXT);
+    return fileNameText;
+  }
+
+  async getPinnedMessageButtonGoTo(orderPinned: number) {
+    const pinnedContainerByIndex =
+      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
+    const goToButton = await pinnedContainerByIndex.$(
+      SELECTORS.PINNED_MESSAGE_BUTTON_GO_TO
+    );
+    return goToButton;
+  }
+
+  async getPinnedMessageButtonUnpin(orderPinned: number) {
+    const pinnedContainerByIndex =
+      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
+    const unpinButton = await pinnedContainerByIndex.$(
+      SELECTORS.PINNED_MESSAGE_BUTTON_UNPIN
+    );
+    return unpinButton;
+  }
+
+  async getPinnedMessageSenderText(orderPinned: number) {
+    const pinnedContainerByIndex =
+      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
+    const senderText = await pinnedContainerByIndex
+      .$(SELECTORS.PINNED_MESSAGE_SENDER)
+      .$(SELECTORS.PINNED_MESSAGE_SENDER_TEXT);
+    return senderText;
+  }
+
+  async getPinnedMessageTimestampText(orderPinned: number) {
+    const pinnedContainerByIndex =
+      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
+    const timestampText = await pinnedContainerByIndex
+      .$(SELECTORS.PINNED_MESSAGE_TIMESTAMP)
+      .$(SELECTORS.PINNED_MESSAGE_TIMESTAMP_TEXT);
+    return timestampText;
+  }
+
+  async getPinnedMessageUserImage(orderPinned: number) {
+    const pinnedContainerByIndex =
+      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
+    const userImage = await pinnedContainerByIndex.$(
+      SELECTORS.PINNED_MESSAGE_USER_IMAGE
+    );
+    return userImage;
+  }
+
+  async getPinnedMessageUserImageProfile(orderPinned: number) {
+    const pinnedContainerByIndex =
+      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
+    const userImageProfile = await pinnedContainerByIndex.$(
+      SELECTORS.PINNED_MESSAGE_USER_IMAGE_PROFILE
+    );
+    return userImageProfile;
+  }
+
+  async getPinnedMessageValueText(orderPinned: number) {
+    const pinnedContainerByIndex =
+      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
+    const valueText = await pinnedContainerByIndex
+      .$(SELECTORS.PINNED_MESSAGE_VALUE)
+      .$(SELECTORS.PINNED_MESSAGE_VALUE_TEXT);
+    return valueText;
+  }
+
   async validateEmptyPinnedMessagesIsDisplayed() {
-    const pinnedEmpty = await this.pinnedEmpty;
+    const pinnedEmpty = await this.pinEmpty;
     return await pinnedEmpty.waitForDisplayed();
   }
 
   async validatePinnedMessagesIsDisplayed() {
-    const pinnedMessagesMain = await this.pinnedMessagesMain;
+    const pinnedMessagesMain = await this.pinModalMain;
     return await pinnedMessagesMain.waitForDisplayed();
   }
 }

@@ -1,5 +1,5 @@
 import "module-alias/register";
-import chatTooltipsTests from "@specs/reusable-accounts/06-chat-tooltips.spec";
+import chatTopbarTests from "@specs/reusable-accounts/06-chat-topbar.spec";
 import createChatAccountsTests from "@specs/reusable-accounts/01-create-accounts-and-friends.spec";
 import groupChatTests from "@specs/reusable-accounts/09-group-chats.spec";
 import groupChatEditTests from "@specs/reusable-accounts/10-group-chats-edit.spec";
@@ -20,7 +20,7 @@ describe("Windows Chats Tests", function () {
   describe("Message Context Menu Tests", messageContextMenuTests.bind(this));
   describe("Message Input Tests", messageInputTests.bind(this));
   describe("Message Attachments Tests", messageAttachmentsTests.bind(this));
-  describe("Chat Tooltips Tests", chatTooltipsTests.bind(this));
+  describe("Chat Topbar Tests", chatTopbarTests.bind(this));
   describe("Quick Profile Tests", quickProfileTests.bind(this));
   describe("Sidebar Chats Tests", sidebarChatsTests.bind(this));
   describe("Group Chats Tests", groupChatTests.bind(this));

@@ -273,8 +273,18 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async getLastMessageReceivedPinIndicator() {
     const lastGroupReceived = await this.getLastReceivedGroup();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await lastGroupReceived.$(SELECTORS.PIN_INDICATOR);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected pin indicator was never added to received message after 15 seconds",
+      }
+    );
+
     const pinIndicator = await lastGroupReceived.$(SELECTORS.PIN_INDICATOR);
-    await pinIndicator.waitForExist();
     return pinIndicator;
   }
 
@@ -297,8 +307,18 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async getLastMessageSentPinIndicator() {
     const lastGroupSent = await this.getLastSentGroup();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await lastGroupSent.$(SELECTORS.PIN_INDICATOR);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected pin indicator was never added to sent message after 15 seconds",
+      }
+    );
+
     const pinIndicator = await lastGroupSent.$(SELECTORS.PIN_INDICATOR);
-    await pinIndicator.waitForExist();
     return pinIndicator;
   }
 
@@ -493,5 +513,16 @@ export default class MessageGroup extends UplinkMainScreen {
       SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE
     )[index];
     return middleMessage;
+  }
+
+  // Pin Indicator validations
+
+  async validateLastMessageReceivedHasPinIndicator() {
+    const pinIndicator = await this.getLastMessageReceivedPinIndicator();
+    await pinIndicator.waitForExist();
+  }
+  async validateLastMessageSentHasPinIndicator() {
+    const pinIndicator = await this.getLastMessageSentPinIndicator();
+    await pinIndicator.waitForExist();
   }
 }

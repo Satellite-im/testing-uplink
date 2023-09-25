@@ -1,13 +1,19 @@
 import "module-alias/register";
 import InputBar from "@screenobjects/chats/InputBar";
+import ContextMenu from "@screenobjects/chats/ContextMenu";
+import Messages from "@screenobjects/chats/Messages";
+import MessageGroup from "@screenobjects/chats/MessageGroup";
 import PinnedMessages from "@screenobjects/chats/PinnedMessages";
 import Topbar from "@screenobjects/chats/Topbar";
 import { USER_A_INSTANCE } from "@helpers/constants";
+let chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let pinnedMessagesFirstUser = new PinnedMessages(USER_A_INSTANCE);
 
-export default async function chatTooltipsTests() {
+export default async function chatTopbarTests() {
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
     await chatsTopbarFirstUser.hoverOnFavoritesButton();
@@ -57,14 +63,35 @@ export default async function chatTooltipsTests() {
   });
 
   it("Pinned Messages - Container is empty when no pinned messages have been added", async () => {
-    await chatsTopbarFirstUser.goToPinnedMessages();
+    // Go to Pinned Messages and validate container is empty
+    await chatsTopbarFirstUser.clickOnPinnedMessages();
     await pinnedMessagesFirstUser.validatePinnedMessagesIsDisplayed();
     await pinnedMessagesFirstUser.validateEmptyPinnedMessagesIsDisplayed();
+
+    // Exit from Pinned Messages
+    await chatsTopbarFirstUser.clickOnPinnedMessages();
   });
 
-  it("Pinned Messages - Pin a message", async () => {});
-  it("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {});
-  it("Pinned Messages - User can be redirected to the message when clicking on Go to message", async () => {});
-  it("Pinned Messages - Add a message with attachments to Pinned Messages", async () => {});
-  it("Pinned Messages - Remove a pinned message", async () => {});
+  it("Pinned Messages - Pin a message", async () => {
+    // Look for the latest message sent by User A, open context menu and pin message
+    await chatsMessagesFirstUser.openContextMenuOnLastSent();
+    await chatsContextMenuFirstUser.validateContextMenuIsOpen();
+    await chatsContextMenuFirstUser.selectContextOptionPin();
+
+    // Ensure that message shows a pin indicator
+    await chatsMessageGroupsFirstUser.validateLastMessageSentHasPinIndicator();
+  });
+
+  it("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {
+    // Go to Pinned Messages and validate container shows message
+    await chatsTopbarFirstUser.clickOnPinnedMessages();
+    await pinnedMessagesFirstUser.validatePinnedMessagesIsDisplayed();
+
+    // Close pinned messages
+    await chatsTopbarFirstUser.clickOnPinnedMessages();
+  });
+
+  xit("Pinned Messages - User can be redirected to the message when clicking on Go to message", async () => {});
+  xit("Pinned Messages - Add a message with attachments to Pinned Messages", async () => {});
+  xit("Pinned Messages - Remove a pinned message", async () => {});
 }
