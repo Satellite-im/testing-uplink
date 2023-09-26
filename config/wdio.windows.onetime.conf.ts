@@ -55,7 +55,7 @@ export const config: WebdriverIO.Config = {
           "appium:deviceName": "WindowsPC",
           "appium:automationName": "windows",
           "appium:app": join(process.cwd(), "\\apps\\bin\\uplink.exe"),
-          "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\onetimescript") + " trace2",
+          "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\onetimescript2") + " trace2",
           "appium:prerun": {
             command: 'If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }',
           },
