@@ -453,7 +453,7 @@ export default class PinnedMessages extends UplinkMainScreen {
   async validateFirstPinnedMessageTimestampIsShown() {
     const timestamp = await this.getPinnedMessageTimestampText(0);
     await expect(timestamp).toHaveTextContaining(
-      /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
   }
 }

@@ -319,7 +319,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   async validateLastMessageTimeAgo() {
     const timeAgo = await this.sidebarChatsUserBadgeTimeAgoValue;
     await expect(timeAgo).toHaveTextContaining(
-      /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
   }
 
