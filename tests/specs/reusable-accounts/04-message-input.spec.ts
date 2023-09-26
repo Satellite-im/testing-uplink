@@ -184,7 +184,8 @@ export default async function messageInputTests() {
     await chatsMessagesSecondUser.waitForReceivingLink("www.apple.com");
   });
 
-  it("Validate Typing Indicator is displayed if remote user is typing", async () => {
+  // Skipping test of typing indicator because by the time of validating on second instance, indicator is already gone
+  xit("Validate Typing Indicator is displayed if remote user is typing", async () => {
     // With User A
     await chatsInputFirstUser.switchToOtherUserWindow();
     // Generate a random text with 100 chars

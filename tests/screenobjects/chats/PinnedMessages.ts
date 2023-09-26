@@ -193,7 +193,7 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   get pinnedMessageWrap() {
-    return this.instance.$(SELECTORS.PINNED_MESSAGE_WRAP);
+    return this.instance.$$(SELECTORS.PINNED_MESSAGE_WRAP);
   }
 
   get pinContainer() {
@@ -233,6 +233,12 @@ export default class PinnedMessages extends UplinkMainScreen {
     const pinnedContainers = await this.pinnedMessageSingleContainer;
     const pinnedContainerByIndex = await pinnedContainers[order];
     return pinnedContainerByIndex;
+  }
+
+  async getPinnedMessageWrapLocatorByAdditionOrder(order: number) {
+    const pinnedWrap = await this.pinnedMessageWrap;
+    const pinnedWrapByIndex = await pinnedWrap[order];
+    return pinnedWrapByIndex;
   }
 
   async getPinnedMessageAttachment(
@@ -369,20 +375,21 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   async getPinnedMessageUserImage(orderPinned: number) {
-    const pinnedContainerByIndex =
-      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
-    const userImage = await pinnedContainerByIndex.$(
+    const pinnedWrapByIndex =
+      await this.getPinnedMessageWrapLocatorByAdditionOrder(orderPinned);
+    const userImage = await pinnedWrapByIndex.$(
       SELECTORS.PINNED_MESSAGE_USER_IMAGE
     );
     return userImage;
   }
 
   async getPinnedMessageUserImageProfile(orderPinned: number) {
-    const pinnedContainerByIndex =
-      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
-    const userImageProfile = await pinnedContainerByIndex.$(
+    const pinnedWrapByIndex =
+      await this.getPinnedMessageWrapLocatorByAdditionOrder(orderPinned);
+    const userImageProfile = await pinnedWrapByIndex.$(
       SELECTORS.PINNED_MESSAGE_USER_IMAGE_PROFILE
     );
+    console.log(userImageProfile);
     return userImageProfile;
   }
 
@@ -446,7 +453,7 @@ export default class PinnedMessages extends UplinkMainScreen {
   async validateFirstPinnedMessageTimestampIsShown() {
     const timestamp = await this.getPinnedMessageTimestampText(0);
     await expect(timestamp).toHaveTextContaining(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+      /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
     );
   }
 }

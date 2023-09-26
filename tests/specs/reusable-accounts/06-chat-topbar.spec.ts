@@ -72,8 +72,7 @@ export default async function chatTopbarTests() {
     await chatsTopbarFirstUser.clickOnPinnedMessages();
   });
 
-  // Needs additional work yet
-  xit("Pinned Messages - Pin a message with attachments", async () => {
+  it("Pinned Messages - Pin a message with attachments", async () => {
     // Look for the latest message sent by User A, open context menu and pin message
     await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
@@ -83,8 +82,7 @@ export default async function chatTopbarTests() {
     await chatsMessageGroupsFirstUser.validateLastMessageSentHasPinIndicator();
   });
 
-  // Needs additional work yet
-  xit("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {
+  it("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {
     // Go to Pinned Messages and validate container shows message
     await chatsTopbarFirstUser.clickOnPinnedMessages();
     await pinnedMessagesFirstUser.validatePinnedMessagesIsDisplayed();
@@ -96,8 +94,7 @@ export default async function chatTopbarTests() {
     await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Attached");
   });
 
-  // Needs additional work yet
-  xit("Pinned Messages - Pinned message with attachment shows icon, extension, filename and metadata", async () => {
+  it("Pinned Messages - Pinned message with attachment shows icon, extension, filename and metadata", async () => {
     // Validate attachment elements are shown in pinned message
     await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileIcon();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileIconExtension(
@@ -111,8 +108,7 @@ export default async function chatTopbarTests() {
     );
   });
 
-  // Needs additional work yet
-  xit("Pinned Messages - User can be redirected to the message when clicking on Go to message", async () => {
+  it("Pinned Messages - User can be redirected to the message when clicking on Go to message", async () => {
     // Click on Go to Message
     await pinnedMessagesFirstUser.clickOnGoToMessage(0);
 
@@ -120,8 +116,7 @@ export default async function chatTopbarTests() {
     await chatsTopbarFirstUser.clickOnPinnedMessages();
   });
 
-  // Needs additional work yet
-  xit("Pinned Messages - Remove a pinned message", async () => {
+  it("Pinned Messages - Remove a pinned message", async () => {
     // Click on Unpin button to remove message from pinned messages
     await pinnedMessagesFirstUser.clickOnUnpinMessage(0);
 
