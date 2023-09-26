@@ -357,13 +357,31 @@ export default class FavoritesSidebar extends UplinkMainScreen {
 
   async validateFavoritesUserImage(username: string) {
     const favoritesImage = await this.getFavoritesUserImage(username);
-    await favoritesImage.waitForDisplayed();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await favoritesImage.waitForDisplayed();
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected Favorites Image was never displayed after 15 seconds",
+      }
+    );
   }
 
   async validateFavoritesIndicatorOnline(username: string) {
     const indicatorOnline = await this.getFavoritesUserIndicatorOnline(
       username
     );
-    await indicatorOnline.waitForDisplayed();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await indicatorOnline.waitForDisplayed();
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected Favorites Indicator Online was never displayed after 15 seconds",
+      }
+    );
   }
 }
