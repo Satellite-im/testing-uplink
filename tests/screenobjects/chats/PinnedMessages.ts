@@ -11,7 +11,7 @@ const SELECTORS_WINDOWS = {
   PINNED_MESSAGE_ATTACHMENTS: '[name="pinned-attachments"]',
   PINNED_MESSAGE_ATTACHMENTS_FILE_EMBED: '[name="file-embed-remote"]',
   PINNED_MESSAGE_ATTACHMENTS_FILE_ICON: '[name="file-icon"]',
-  PINNED_MESSAGE_ATTACHMENTS_FILE_ICON_EXTENSION: "<Text> <Text>",
+  PINNED_MESSAGE_ATTACHMENTS_FILE_ICON_EXTENSION: "//Text/Text",
   PINNED_MESSAGE_ATTACHMENTS_FILE_INFO: '[name="file-info"]',
   PINNED_MESSAGE_ATTACHMENTS_FILE_META: '[name="file-meta"]',
   PINNED_MESSAGE_ATTACHMENTS_FILE_META_TEXT: "<Text>",
@@ -34,7 +34,7 @@ const SELECTORS_WINDOWS = {
   PIN_CONTAINER: '[name="pinned-messages-container"]',
   PIN_CONTAINER_LABEL: '[name="pinned-messages-label"]',
   PIN_EMPTY: '[name="pinned-empty"]',
-  PIN_MODAL_LABEL: "<Text> <Text>",
+  PIN_MODAL_LABEL: "//Text/Text",
   PIN_MODAL_MAIN: '[name="modal"]',
 };
 
@@ -389,7 +389,6 @@ export default class PinnedMessages extends UplinkMainScreen {
     const userImageProfile = await pinnedWrapByIndex.$(
       SELECTORS.PINNED_MESSAGE_USER_IMAGE_PROFILE
     );
-    console.log(userImageProfile);
     return userImageProfile;
   }
 

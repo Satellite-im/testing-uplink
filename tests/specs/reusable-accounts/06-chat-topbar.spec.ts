@@ -121,7 +121,6 @@ export default async function chatTopbarTests() {
     await pinnedMessagesFirstUser.clickOnUnpinMessage(0);
 
     // Validate that no posts are pinned
-    await chatsTopbarFirstUser.clickOnPinnedMessages();
     await pinnedMessagesFirstUser.validateEmptyPinnedMessagesIsDisplayed();
 
     // Close pinned messages
