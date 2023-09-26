@@ -271,6 +271,23 @@ export default class MessageGroup extends UplinkMainScreen {
     return lastGroupLocator;
   }
 
+  async getLastMessageReceivedPinIndicator() {
+    const lastGroupReceived = await this.getLastReceivedGroup();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await lastGroupReceived.$(SELECTORS.PIN_INDICATOR);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected pin indicator was never added to received message after 15 seconds",
+      }
+    );
+
+    const pinIndicator = await lastGroupReceived.$(SELECTORS.PIN_INDICATOR);
+    return pinIndicator;
+  }
+
   async getLastMessageReceivedTimeAgo() {
     const lastGroupReceived = await this.getLastReceivedGroup();
     const timeAgoText = await lastGroupReceived
@@ -286,6 +303,23 @@ export default class MessageGroup extends UplinkMainScreen {
     const lastGroupIndex = (await messageGroupsSent.length) - 1;
     const lastGroupLocator = await messageGroupsSent[lastGroupIndex];
     return lastGroupLocator;
+  }
+
+  async getLastMessageSentPinIndicator() {
+    const lastGroupSent = await this.getLastSentGroup();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await lastGroupSent.$(SELECTORS.PIN_INDICATOR);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected pin indicator was never added to sent message after 15 seconds",
+      }
+    );
+
+    const pinIndicator = await lastGroupSent.$(SELECTORS.PIN_INDICATOR);
+    return pinIndicator;
   }
 
   async getLastMessageSentTimeAgo() {
@@ -479,5 +513,16 @@ export default class MessageGroup extends UplinkMainScreen {
       SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE
     )[index];
     return middleMessage;
+  }
+
+  // Pin Indicator validations
+
+  async validateLastMessageReceivedHasPinIndicator() {
+    const pinIndicator = await this.getLastMessageReceivedPinIndicator();
+    await pinIndicator.waitForExist();
+  }
+  async validateLastMessageSentHasPinIndicator() {
+    const pinIndicator = await this.getLastMessageSentPinIndicator();
+    await pinIndicator.waitForExist();
   }
 }
