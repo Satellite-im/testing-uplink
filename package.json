@@ -9,6 +9,7 @@
     "windows.app": "wdio config/wdio.windows.app.conf.ts",
     "windows.ci": "wdio config/wdio.windows.ci.conf.ts",
     "windows.multiremote": "wdio config/wdio.windows.multiremote.conf.ts",
+    "windows.onetimescript": "wdio config/wdio.windows.onetime.conf.ts",
     "lint": "eslint config tests"
   },
   "repository": {
