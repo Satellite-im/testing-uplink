@@ -236,9 +236,9 @@ export default class InputBar extends UplinkMainScreen {
       await this.selectUploadFromLocalDisk();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
+      const uplinkContext = await driver[this.executor].getWindowHandle();
       await this.clickOnUploadFile();
       await this.selectUploadFromLocalDisk();
-      const uplinkContext = await driver[this.executor].getWindowHandle();
       await selectFileOnWindows(relativePath, uplinkContext, this.executor);
     }
   }
