@@ -106,7 +106,7 @@ export const config: WebdriverIO.Config = {
          * tests because they can take a bit longer.
          */
         timeout: 120000, // 2min
-        bail: true,
+        bail: false,
     },
     
     //
