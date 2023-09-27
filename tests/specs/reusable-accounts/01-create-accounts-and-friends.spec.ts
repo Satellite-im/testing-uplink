@@ -49,6 +49,7 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export default async function createChatAccountsTests() {
   it("Chat User A - Create Account", async () => {
+    // Create a new account and go to Settings Profile
     await createPinFirstUser.switchToOtherUserWindow();
     const username = "ChatUserA";
     await createNewUser(username);
@@ -95,12 +96,14 @@ export default async function createChatAccountsTests() {
   });
 
   it("Chat User B - Create Account", async () => {
+    // Create a new account and go to Settings Profile
     await createPinSecondUser.switchToOtherUserWindow();
     const username = "ChatUserB";
     await createNewUserSecondInstance(username);
     await maximizeWindow(USER_B_INSTANCE);
     await welcomeScreenSecondUser.goToSettings();
     await settingsProfileSecondUser.validateSettingsProfileIsShown();
+
     // Click on Copy ID button and assert Toast Notification is displayed
     await settingsProfileSecondUser.clickOnCopyIDButton();
 
@@ -157,6 +160,10 @@ export default async function createChatAccountsTests() {
 
     await friendsScreenSecondUser.goToAllFriendsList();
     await friendsScreenSecondUser.validateAllFriendsListIsShown();
+  });
+
+  it("Chat User A - Accept friend request from User A and go to chat button", async () => {
+    // Switch control to User A
     await friendsScreenFirstUser.switchToOtherUserWindow();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
@@ -165,9 +172,7 @@ export default async function createChatAccountsTests() {
     await friendsScreenFirstUser.validateIncomingListIsShown();
     await friendsScreenFirstUser.waitUntilFriendRequestIsReceived();
     await friendsScreenFirstUser.acceptIncomingRequest("ChatUserB");
-  });
 
-  it("Chat User A - Validate Chat User B is now a friend", async () => {
     // Validate friend is now on all friends list
     await friendsScreenFirstUser.goToAllFriendsList();
     await friendsScreenFirstUser.validateAllFriendsListIsShown();
@@ -175,25 +180,27 @@ export default async function createChatAccountsTests() {
 
     // Go to Chat with User B
     await friendsScreenFirstUser.chatWithFriendButton.click();
+  });
+
+  it("Chat User B - Validate friend request was accepted", async () => {
+    // Switch control to User B
     await friendsScreenSecondUser.switchToOtherUserWindow();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenSecondUser.waitUntilUserAcceptedFriendRequest();
-  });
 
-  it("Chat User B - Validate friend request was accepted", async () => {
     // Validate friend is now on all friends list
     await friendsScreenSecondUser.goToAllFriendsList();
     await friendsScreenSecondUser.validateAllFriendsListIsShown();
     await friendsScreenSecondUser.validateAllFriendsListIsNotEmpty();
+  });
+
+  it("Chat User A - Chat screen displays Messages secured text displayed on top of conversation", async () => {
+    // Switch control to User A
     await chatsTopbarFirstUser.switchToOtherUserWindow();
-  });
-
-  it("Chat User A - Go to chat with friend", async () => {
     await chatsTopbarFirstUser.validateTopbarExists();
-  });
 
-  it("Chat User A - Validate Messages secured text displayed on top of conversation", async () => {
+    // Validate E2E message is displayed on top of chat
     const encryptedMessagesText =
       await chatsLayoutFirstUser.encryptedMessagesText;
     await encryptedMessagesText.waitForExist();
@@ -203,6 +210,7 @@ export default async function createChatAccountsTests() {
   });
 
   it("Input Bar - Chars Counter on Input Bar displays 0/1024 before typing a text", async () => {
+    // Validate Char counter is displayed on Input Bar and it displays 0/1024
     const inputCharCounter = await chatsInputFirstUser.inputCharCounterText;
     const inputCharMaxText = await chatsInputFirstUser.inputCharMaxText;
     await expect(inputCharCounter).toHaveTextContaining("0");
@@ -210,6 +218,7 @@ export default async function createChatAccountsTests() {
   });
 
   it("Input Bar - Chars Counter on Input Bar displays the number of chars of text entered", async () => {
+    // Validate Char counter increases after typing a text
     const inputCharCounter = await chatsInputFirstUser.inputCharCounterText;
     const inputCharMaxText = await chatsInputFirstUser.inputCharMaxText;
     await chatsInputFirstUser.typeMessageOnInput("Testing...");
@@ -218,6 +227,7 @@ export default async function createChatAccountsTests() {
   });
 
   it("Input Bar - Add emoji to the message to be sent", async () => {
+    // Add emoji to the message to be sent
     await chatsInputFirstUser.clickOnEmojiButton();
     await emojiSelectorFirstUser.clickOnEmoji("😀");
 
@@ -229,6 +239,7 @@ export default async function createChatAccountsTests() {
   });
 
   it("Input Bar - Click on send button will send the message to the other user", async () => {
+    // Send message to the other user
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Testing...😀");
 
@@ -239,6 +250,7 @@ export default async function createChatAccountsTests() {
 
   // Skipping test since there is an issue open ticket #1167 on uplink
   xit("Input Bar - Chars Counter on Input Bar displays 0/1024 after sending a message", async () => {
+    // Validate Char counter is displayed on Input Bar and it displays 0/1024
     const inputCharCounter = await chatsInputFirstUser.inputCharCounterText;
     const inputCharMaxText = await chatsInputFirstUser.inputCharMaxText;
     await expect(inputCharCounter).toHaveTextContaining("0");
@@ -286,10 +298,12 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Remove user with active chat from Favorites", async () => {
     // Remove user from favorites
     await chatsTopbarFirstUser.removeFromFavorites();
-    await friendsScreenSecondUser.switchToOtherUserWindow();
   });
 
   it("Chat User B - Wait until the other user is connected", async () => {
+    // Switch control to User B
+    await friendsScreenSecondUser.switchToOtherUserWindow();
+
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await friendsScreenSecondUser.chatWithFriendButton.waitForExist();
     await friendsScreenSecondUser.hoverOnChatWithFriendButton("ChatUserA");
@@ -298,10 +312,9 @@ export default async function createChatAccountsTests() {
   });
 
   it("Chat User B - Assert message received from Chat User A", async () => {
+    // Validate message received from Chat User A
     await chatsMessagesSecondUser.waitForReceivingMessage("Testing...😀");
-  });
 
-  it("Chat User B - Validate Chat Message received contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
     const textFromMessage =
       await chatsMessagesSecondUser.getLastMessageReceivedText();

@@ -3,14 +3,12 @@ import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
 import ComposeAttachment from "@screenobjects/chats/ComposeAttachment";
 import InputBar from "@screenobjects/chats/InputBar";
 import Messages from "@screenobjects/chats/Messages";
-import Topbar from "@screenobjects/chats/Topbar";
 let chatsAttachmentFirstUser = new ComposeAttachment(USER_A_INSTANCE);
 let chatsAttachmentSecondUser = new ComposeAttachment(USER_B_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
-let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 
 export default async function messageAttachmentsTests() {
   it("Chat User B - Validate compose attachments contents", async () => {
@@ -80,14 +78,14 @@ export default async function messageAttachmentsTests() {
     const fileDownloadButton =
       await chatsMessagesFirstUser.getLastMessageSentDownloadButton();
     await fileDownloadButton.waitForExist();
-    await chatsMessagesSecondUser.switchToOtherUserWindow();
-
-    // With User B - Validate that message with attachment was received
-    await chatsInputSecondUser.clickOnInputBar();
-    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForExist();
   });
 
   it("Chat User B - Received Message with Attachment - Text Message contents", async () => {
+    // With User B - Validate that message with attachment was received
+    await chatsMessagesSecondUser.switchToOtherUserWindow();
+    await chatsInputSecondUser.clickOnInputBar();
+    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForExist();
+
     // Validate text from message containing attachment
     const message = await chatsMessagesSecondUser.getLastMessageReceivedText();
     await expect(message).toHaveTextContaining("Attached");
@@ -119,6 +117,5 @@ export default async function messageAttachmentsTests() {
     const fileDownloadButton =
       await chatsMessagesSecondUser.getLastMessageReceivedDownloadButton();
     await fileDownloadButton.waitForExist();
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 }
