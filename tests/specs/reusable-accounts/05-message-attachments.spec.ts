@@ -12,6 +12,9 @@ let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
 
 export default async function messageAttachmentsTests() {
   it("Chat User B - Validate compose attachments contents", async () => {
+    // Switch to User B window
+    await chatsInputSecondUser.switchToOtherUserWindow();
+
     // Continue with test execution and clear input bar
     await chatsInputSecondUser.clearInputBar();
 
