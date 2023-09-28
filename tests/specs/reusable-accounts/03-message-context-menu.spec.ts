@@ -14,23 +14,22 @@ let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
 let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
 
 export default async function messageContextMenuTests() {
-  it("Chat User A - Send two more messages to Chat User B", async () => {
+  it("Chat User A - Send two messages to Chat User B", async () => {
     // Send a message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Two...");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Two...");
 
-    // Assert message received from Chat User B
-    await chatsInputSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingMessage("Two...");
-
     // Send a message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Three...");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Three...");
+  });
 
-    // Assert message received from Chat User B
+  it("Chat User B - Receive two messages from Chat User B", async () => {
+    // Assert messages received from Chat User B
     await chatsInputSecondUser.switchToOtherUserWindow();
+    await chatsMessagesSecondUser.waitForReceivingMessage("Two...");
     await chatsMessagesSecondUser.waitForReceivingMessage("Three...");
   });
 

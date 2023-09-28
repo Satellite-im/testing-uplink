@@ -9,7 +9,7 @@ const userBCacheFolder = join(process.cwd(), "./apps/ChatUserB/.user")
 const { readFileSync, rmSync } = require("fs");
 
 // @ts-expect-error
-export const config: WebdriverIO.Config = {
+  export const config: WebdriverIO.Config = {
   ...sharedConfig, 
   ...{
     //
@@ -35,6 +35,17 @@ export const config: WebdriverIO.Config = {
     ],
     // The number of times to retry the entire specfile when it fails as a whole
     specFileRetries: 2,
+    // Mocha Opts
+    mochaOpts: {
+      ui: "bdd",
+      /**
+       * NOTE: This has been increased for more stable Appium Native app
+       * tests because they can take a bit longer.
+       */
+      timeout: 180000, // 3min
+      bail: true,
+  },
+
     //
     // ============
     // Capabilities
@@ -156,15 +167,21 @@ export const config: WebdriverIO.Config = {
     },
 
     afterTest: async function (test, describe, { error }) {
-        // Stop video recording for both instances and save video into base64 format
-        const base64VideoUserA = await driver[USER_A_INSTANCE].executeScript("windows: stopRecordingScreen", [
-          {
-            remotePath: ""
-          },
-        ]);
-        if (error) {
-          let imageFile = await driver.takeScreenshot();
-          let imageFolder = join(process.cwd(), "./test-results/windows-chats", test.parent);
+      // Take screenshot from driver if test fails and save it for Allure Reporter 
+      const imageFile = await driver.takeScreenshot();  
+      
+      // Stop video recording for both instances and save video into base64 format
+      const base64VideoUserA = await driver[USER_A_INSTANCE].executeScript("windows: stopRecordingScreen", [
+        {
+          remotePath: ""
+        },
+      ]);
+        
+      // Only if error has been detected, add the video and image File to attached report
+      if (error) {
+        // Declare constants for later use
+        try {
+          const imageFolder = join(process.cwd(), "./test-results/windows-chats", test.parent);
           const imageTitle = test.title + " - Failed.png";
           const videoTitleUserA = test.title + " - User A - Failed.mp4"
           await fsp.mkdir(imageFolder, {recursive: true});
@@ -174,8 +191,8 @@ export const config: WebdriverIO.Config = {
             "base64"
           );
 
-           // Write Video File if test fails and add it to failed screenshots folder
-           await fsp.writeFile(
+          // Write Video File if test fails and add it to failed screenshots folder
+          await fsp.writeFile(
             imageFolder + "/" + videoTitleUserA,
             base64VideoUserA,
             "base64"
@@ -184,9 +201,14 @@ export const config: WebdriverIO.Config = {
           // Add to Screenshot and Video to Allure Reporter
           const data = await readFileSync(`${imageFolder}/${imageTitle}`);
           const dataVideoUserA = await readFileSync(`${imageFolder}/${videoTitleUserA}`);
-          allureReporter.addAttachment(imageTitle, data, 'image/png')
-          allureReporter.addAttachment(videoTitleUserA, dataVideoUserA, 'video/mp4')
+          allureReporter.addAttachment(imageTitle, data, 'image/png');
+          allureReporter.addAttachment(videoTitleUserA, dataVideoUserA, 'video/mp4');
+        } catch (error) {
+          console.error(
+            `Got an error trying to save images and videos from Failed Tests: ${error.message}`
+          );
         }
       }
+    }
   }
 }
