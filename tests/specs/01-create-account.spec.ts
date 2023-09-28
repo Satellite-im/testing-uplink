@@ -33,13 +33,11 @@ export default async function createAccount() {
 
   it("Unlock Screen - Help Button Tooltip", async () => {
     // Wait until app is reset
-    const unlockWarningHeader = await createPinFirstUser.unlockWarningHeader;
-    await unlockWarningHeader.waitForExist();
+    await createPinFirstUser.unlockWarningHeader.waitForExist();
 
     // Validate Help Button tooltip
     await createPinFirstUser.hoverOnHelpButton();
-    const helpButtonTooltip = await createPinFirstUser.helpButtonTooltip;
-    await helpButtonTooltip.waitForExist();
+    await createPinFirstUser.helpButtonTooltip.waitForExist();
 
     const helpButtonTooltipText =
       await createPinFirstUser.helpButtonTooltipText;
@@ -57,17 +55,13 @@ export default async function createAccount() {
   });
 
   it("Enter an empty pin", async () => {
-    const unlockWarningParagraph =
-      await createPinFirstUser.unlockWarningParagraph;
-    await unlockWarningParagraph.waitForExist();
+    await createPinFirstUser.unlockWarningParagraph.waitForExist();
     await createPinFirstUser.enterPin("1");
 
-    const pinInput = await createPinFirstUser.pinInput;
-    await pinInput.clearValue();
+    await createPinFirstUser.pinInput.clearValue();
 
-    const inputError = await createPinFirstUser.inputError;
+    await createPinFirstUser.inputError.waitForExist();
     const inputErrorText = await createPinFirstUser.inputErrorText;
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
@@ -77,52 +71,45 @@ export default async function createAccount() {
   });
 
   it("Enter a pin with less than 4 characters", async () => {
-    const pinInput = await createPinFirstUser.pinInput;
     await createPinFirstUser.enterPin("123");
-
-    const inputError = await createPinFirstUser.inputError;
+    await createPinFirstUser.inputError.waitForExist();
     const inputErrorText = await createPinFirstUser.inputErrorText;
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
-    await pinInput.clearValue();
+    await createPinFirstUser.pinInput.clearValue();
   });
 
   it("Enter a pin with more than 32 characters", async () => {
-    const pinInput = await createPinFirstUser.pinInput;
     await createPinFirstUser.enterPin("12345678901234567890123456789012345");
 
-    const inputError = await createPinFirstUser.inputError;
+    await createPinFirstUser.inputError.waitForExist();
     const inputErrorText = await createPinFirstUser.inputErrorText;
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Maximum of 32 characters exceeded"
     );
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
-    await pinInput.clearValue();
+    await createPinFirstUser.pinInput.clearValue();
   });
 
   it("Enter a pin with spaces", async () => {
     // Enter pin value with spaces
-    const pinInput = await createPinFirstUser.pinInput;
-    await pinInput.click();
+    await createPinFirstUser.pinInput.click();
     await createPinFirstUser.enterPin("1234" + "             ");
-    const inputError = await createPinFirstUser.inputError;
+    await createPinFirstUser.inputError.waitForExist();
     const inputErrorText = await createPinFirstUser.inputErrorText;
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Spaces are not allowed."
     );
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
-    await pinInput.clearValue();
+    await createPinFirstUser.pinInput.clearValue();
   });
 
   it("Enter a valid pin and continue creating a username", async () => {
@@ -141,9 +128,8 @@ export default async function createAccount() {
       await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
 
-    const inputError = await createUserFirstUser.inputError;
+    await createUserFirstUser.inputError.waitForExist();
     const inputErrorText = await createUserFirstUser.inputErrorText;
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
@@ -155,9 +141,8 @@ export default async function createAccount() {
       await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
 
-    const inputError = await createUserFirstUser.inputError;
+    await createUserFirstUser.inputError.waitForExist();
     const inputErrorText = await createUserFirstUser.inputErrorText;
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters"
     );
@@ -171,9 +156,8 @@ export default async function createAccount() {
       await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
 
-    const inputError = await createUserFirstUser.inputError;
+    await createUserFirstUser.inputError.waitForExist();
     const inputErrorText = await createUserFirstUser.inputErrorText;
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Maximum of 32 characters exceeded"
     );
@@ -181,16 +165,14 @@ export default async function createAccount() {
 
   it("Username with spaces and attempt to continue", async () => {
     // Enter pin value with spaces
-    const usernameInput = await createUserFirstUser.usernameInput;
-    await usernameInput.click();
+    await createUserFirstUser.usernameInput.click();
     await createUserFirstUser.enterUsername("1234" + "             ");
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
 
-    const inputError = await createUserFirstUser.inputError;
+    await createUserFirstUser.inputError.waitForExist();
     const inputErrorText = await createUserFirstUser.inputErrorText;
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Spaces are not allowed."
     );
@@ -202,9 +184,8 @@ export default async function createAccount() {
       await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("false");
 
-    const inputError = await createUserFirstUser.inputError;
+    await createUserFirstUser.inputError.waitForExist();
     const inputErrorText = await createUserFirstUser.inputErrorText;
-    await inputError.waitForExist();
     await expect(inputErrorText).toHaveTextContaining(
       "Not allowed character(s): .%@"
     );

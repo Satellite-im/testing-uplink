@@ -16,6 +16,7 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MESSAGES_CANCEL_EDIT: '[name="messages-cancel-edit"]',
   CONTEXT_MESSAGES_DELETE: '[name="messages-delete"]',
   CONTEXT_MESSAGES_EDIT: '[name="messages-edit"]',
+  CONTEXT_MESSAGES_PIN: '[name="messages-pin"]',
   CONTEXT_MESSAGES_REACT: '[name="messages-react"]',
   CONTEXT_MESSAGES_REPLY: '[name="messages-reply"]',
   EMOJI_BUTTON: '[name="frequent-emoji"]',
@@ -27,6 +28,7 @@ const SELECTORS_MACOS = {
   CONTEXT_MESSAGES_CANCEL_EDIT: "~messages-cancel-edit",
   CONTEXT_MESSAGES_DELETE: "~messages-delete",
   CONTEXT_MESSAGES_EDIT: "~messages-edit",
+  CONTEXT_MESSAGES_PIN: "~messages-pin",
   CONTEXT_MESSAGES_REACT: "~messages-react",
   CONTEXT_MESSAGES_REPLY: "~messages-reply",
   EMOJI_BUTTON: "~frequent-emoji",
@@ -62,6 +64,12 @@ export default class ContextMenu extends UplinkMainScreen {
     return this.instance
       .$(SELECTORS.CONTEXT_MENU)
       .$(SELECTORS.CONTEXT_MESSAGES_EDIT);
+  }
+
+  get contextMessagesPin() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.CONTEXT_MESSAGES_PIN);
   }
 
   get contextMessagesReact() {
@@ -178,6 +186,11 @@ export default class ContextMenu extends UplinkMainScreen {
   async selectContextOptionEdit() {
     const contextMessagesEdit = await this.contextMessagesEdit;
     await contextMessagesEdit.click();
+  }
+
+  async selectContextOptionPin() {
+    const contextMessagesPin = await this.contextMessagesPin;
+    await contextMessagesPin.click();
   }
 
   async selectContextOptionReact() {

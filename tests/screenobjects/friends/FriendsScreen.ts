@@ -587,10 +587,19 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async getUserIndicatorOnline(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await userLocator.$(SELECTORS.FRIEND_USER_INDICATOR_ONLINE);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online was never displayed on Friends Screen User after 15 seconds",
+      }
+    );
     const indicatorOnline = await userLocator.$(
       SELECTORS.FRIEND_USER_INDICATOR_ONLINE
     );
-    await indicatorOnline.waitForExist();
     return indicatorOnline;
   }
 
@@ -690,10 +699,18 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateAllFriendsListIsNotEmpty() {
-    const membersOfAllFriendsList = await this.instance
-      .$(SELECTORS.FRIENDS_LIST)
-      .$(SELECTORS.FRIEND_INFO_USERNAME);
-    await membersOfAllFriendsList.waitForExist();
+    // Wait until friends list is not empty
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance
+          .$(SELECTORS.FRIENDS_LIST)
+          .$(SELECTORS.FRIEND_INFO_USERNAME);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "All friends list never shown any records after 15 seconds",
+      }
+    );
   }
 
   async validateAllFriendsListIsShown() {
@@ -702,10 +719,19 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateBlockedListIsNotEmpty() {
-    const membersOfBlockedList = await this.instance
-      .$(SELECTORS.BLOCKED_LIST)
-      .$(SELECTORS.FRIEND_INFO_USERNAME);
-    await membersOfBlockedList.waitForExist();
+    // Wait until blocked list is not empty
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance
+          .$(SELECTORS.BLOCKED_LIST)
+          .$(SELECTORS.FRIEND_INFO_USERNAME);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Blocked friends list never shown any records after 15 seconds",
+      }
+    );
   }
 
   async validateBlockedListIsShown() {
@@ -729,10 +755,19 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateIncomingListIsNotEmpty() {
-    const membersOfIncomingList = await this.instance
-      .$(SELECTORS.INCOMING_REQUESTS_LIST)
-      .$(SELECTORS.FRIEND_INFO_USERNAME);
-    await membersOfIncomingList.waitForExist();
+    // Wait until incoming list is not empty
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance
+          .$(SELECTORS.INCOMING_REQUESTS_LIST)
+          .$(SELECTORS.FRIEND_INFO_USERNAME);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Incoming friends list never shown any records after 15 seconds",
+      }
+    );
   }
 
   async validateIncomingListIsShown() {
@@ -741,10 +776,18 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateOutgoingListIsNotEmpty() {
-    const membersOfOutgoingList = await this.instance
-      .$(SELECTORS.OUTGOING_REQUESTS_LIST)
-      .$(SELECTORS.FRIEND_INFO_USERNAME);
-    await membersOfOutgoingList.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance
+          .$(SELECTORS.OUTGOING_REQUESTS_LIST)
+          .$(SELECTORS.FRIEND_INFO_USERNAME);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected friend list never shown any records after 15 seconds",
+      }
+    );
   }
 
   async validateOutgoingListIsShown() {
@@ -770,20 +813,44 @@ export default class FriendsScreen extends UplinkMainScreen {
       .waitForExist({ timeout: timeoutUser, reverse: true });
   }
 
-  async waitUntilFriendRequestIsReceived(timeout: number = 30000) {
-    const acceptFriendRequestButton = await this.acceptFriendRequestButton;
-    await acceptFriendRequestButton.waitForExist({ timeout: timeout });
+  async waitUntilFriendRequestIsReceived() {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.acceptFriendRequestButton;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected Accept Friend Request button was never displayed on Friends Screen after 15 seconds",
+      }
+    );
   }
 
-  async waitUntilUserAcceptedFriendRequest(timeout: number = 30000) {
-    const chatWithFriendButton = await this.chatWithFriendButton;
-    await chatWithFriendButton.waitForExist({ timeout: timeout });
+  async waitUntilUserAcceptedFriendRequest() {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.chatWithFriendButton;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected Chat With Friend button was never displayed on Friends Screen after 15 seconds",
+      }
+    );
   }
 
   async waitUntilUserIsInCurrentList(username: string) {
     const user = await this.getExistingFriendByAriaLabel(username);
-    const userName = await user.$(SELECTORS.FRIEND_INFO_USERNAME);
-    await userName.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await user.$(SELECTORS.FRIEND_INFO_USERNAME);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected Username was never displayed on Friends Screen after 15 seconds",
+      }
+    );
   }
 
   // Context Menu methods

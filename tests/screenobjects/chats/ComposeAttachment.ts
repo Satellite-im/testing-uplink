@@ -98,6 +98,14 @@ export default class ComposeAttachments extends UplinkMainScreen {
 
   async validateAttachmentIsAdded() {
     const composeAttachmentsFileEmbed = await this.composeAttachmentsFileEmbed;
-    await composeAttachmentsFileEmbed.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await composeAttachmentsFileEmbed;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Attachment file was not added after 15 seconds",
+      }
+    );
   }
 }

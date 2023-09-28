@@ -52,31 +52,23 @@ export default async function settingsGeneral() {
     // Validate Open Fonts Folder button tooltip
     await settingsGeneralFirstUser.hoverOnOpenFontsFolder();
 
-    const openFolderTooltip =
-      await settingsGeneralFirstUser.settingsGeneralElementTooltip;
+    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
     const openFolderTooltipText =
       await settingsGeneralFirstUser.settingsGeneralElementTooltipText;
-    await openFolderTooltip.waitForExist();
     await expect(openFolderTooltipText).toHaveTextContaining("Open Folder");
 
     // Validate Open Themes Folder button tooltip
     await settingsGeneralFirstUser.hoverOnOpenThemesFolder();
-
-    const openThemesTooltip =
-      await settingsGeneralFirstUser.settingsGeneralElementTooltip;
+    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
     const openThemesTooltipText =
       await settingsGeneralFirstUser.settingsGeneralElementTooltipText;
-    await openThemesTooltip.waitForExist();
     await expect(openThemesTooltipText).toHaveTextContaining("Open Folder");
 
     // Validate Clear Accent Color button tooltip
     await settingsGeneralFirstUser.hoverOnClearAccentColor();
-
-    const clearAccentTooltip =
-      await settingsGeneralFirstUser.settingsGeneralElementTooltip;
+    await settingsGeneralFirstUser.settingsGeneralElementTooltip.waitForExist();
     const clearAccentTooltipText =
       await settingsGeneralFirstUser.settingsGeneralElementTooltipText;
-    await clearAccentTooltip.waitForExist();
     await expect(clearAccentTooltipText).toHaveTextContaining(
       "Clear accent color"
     );
