@@ -16,6 +16,7 @@ let pinnedMessagesFirstUser = new PinnedMessages(USER_A_INSTANCE);
 export default async function chatTopbarTests() {
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
+    await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.hoverOnFavoritesButton();
     await chatsTopbarFirstUser.topbarAddToFavoritesTooltip.waitForExist();
     const favoritesAddTooltipText =
