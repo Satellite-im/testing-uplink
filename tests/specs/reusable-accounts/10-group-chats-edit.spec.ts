@@ -15,6 +15,7 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export default async function groupChatEditTests() {
   it("Chat User A - Edit Group Chat button tooltip", async () => {
+    // Hover on edit group chat button and validate tooltip is shown
     await chatsTopbarFirstUser.hoverOnEditGroupButton();
     await chatsTopbarFirstUser.topbarEditGroupTooltip.waitForExist();
 
@@ -23,12 +24,14 @@ export default async function groupChatEditTests() {
   });
 
   it("Chat User A - Click on Edit Group Chat and close modal", async () => {
+    // Open modal to edit group chat
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
     await chatsTopbarFirstUser.editGroup();
   });
 
   it("Chat User B - You are not the group creator tooltip is displayed", async () => {
+    // Switch control to second user and validate tooltip is shown
     await chatsTopbarSecondUser.switchToOtherUserWindow();
     await chatsTopbarSecondUser.hoverOnEditGroupButton();
 
@@ -38,6 +41,7 @@ export default async function groupChatEditTests() {
   });
 
   it("Edit Group - Group Name Edit - Contents displayed", async () => {
+    // Switch control to first user and then open edit group modal. Validate contents displayed
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
@@ -47,8 +51,8 @@ export default async function groupChatEditTests() {
   });
 
   it("Edit Group - Attempt to change Group Name for a name containing non-alphanumeric characters", async () => {
+    // Type on group name input an invalid name and validate error message
     await editGroupFirstUser.typeOnGroupNameInput("@");
-
     await editGroupFirstUser.groupNameInputError.waitForExist();
 
     const inputErrorText = await editGroupFirstUser.groupNameInputErrorText;
@@ -60,11 +64,13 @@ export default async function groupChatEditTests() {
 
   // Skipping test due to input issue changing the cursor to a different input field
   xit("Edit Group - Attempt to change Group Name for a name with more than 64 characters", async () => {
+    // Type on group name input a name with more than 64 characters and validate error message
     await editGroupFirstUser.clickOnGroupNameInput();
     await editGroupFirstUser.typeOnGroupNameInput(
       "12345678901234567890123456789012345678901234567890123456789012345678"
     );
 
+    // Validate error message
     await editGroupFirstUser.groupNameInputError.waitForExist();
     const inputErrorText = await editGroupFirstUser.groupNameInputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
@@ -74,23 +80,30 @@ export default async function groupChatEditTests() {
   });
 
   it("Edit Group - Change Group Name for a valid name", async () => {
+    // Type on group name input a valid name and validate group name is changed correctly
     await editGroupFirstUser.typeOnGroupNameInput("X");
     await chatsTopbarFirstUser.editGroup();
     await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
 
+    // Validate group name was changed correctly on local side
     const topbarFirstUserName = await chatsTopbarFirstUser.topbarUserNameValue;
     await expect(topbarFirstUserName).toHaveTextContaining("X");
     await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
+  });
 
+  it("Edit Group - Validate group name was changed correctly on remote side", async () => {
+    // Switch control to second user
     await chatsSidebarSecondUser.switchToOtherUserWindow();
-    await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
 
+    // Validate group name was changed correctly on remote side
+    await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
     const topbarSecondUserName =
       await chatsTopbarSecondUser.topbarUserNameValue;
     await expect(topbarSecondUserName).toHaveTextContaining("X");
   });
 
   it("Edit Group - Contents displayed in add list are correct", async () => {
+    // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
@@ -99,6 +112,7 @@ export default async function groupChatEditTests() {
   });
 
   it("Edit Group - Contents displayed in remove list are correct", async () => {
+    // Validate contents displayed in remove list are correct
     await editGroupFirstUser.clickOnCurrentMembers();
     const currentList = await editGroupFirstUser.getParticipantsList();
     const expectedList = ["ChatUserB"];
@@ -106,12 +120,14 @@ export default async function groupChatEditTests() {
   });
 
   it("Edit Group - Look for non existing user in Remove Users List", async () => {
+    // Type on search user input a non existing user and validate nothing here is displayed
     await editGroupFirstUser.typeOnSearchUserInput("z");
     await editGroupFirstUser.validateNothingHereIsDisplayed();
     await editGroupFirstUser.clearSearchUserInput();
   });
 
   it("Edit Group - Remove someone from the group", async () => {
+    // Type on search user input a valid user and then remove it from the group
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.clickOnFirstRemoveButton();
     await editGroupFirstUser.validateNothingHereIsDisplayed();
@@ -120,13 +136,17 @@ export default async function groupChatEditTests() {
 
     const topbarUserStatus = chatsTopbarFirstUser.topbarUserStatusValue;
     await expect(topbarUserStatus).toHaveTextContaining("Members (1)");
+  });
 
+  it("Edit Group - Validate remote user was correctly removed from the group chat", async () => {
+    // Validate that remote user was removed from the group correctly
     await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.waitForGroupToBeDeleted("X");
     await welcomeScreenSecondUser.validateWelcomeScreenIsShown();
   });
 
   it("Edit Group - Add Users List - Chat User B appears now in list", async () => {
+    // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
@@ -136,23 +156,27 @@ export default async function groupChatEditTests() {
   });
 
   it("Edit Group - Look for non existing user in Add Users List", async () => {
+    // Type on search user input a non existing user and validate nothing here is displayed
     await editGroupFirstUser.typeOnSearchUserInput("z");
     await editGroupFirstUser.validateNothingHereIsDisplayed();
     await editGroupFirstUser.clearSearchUserInput();
   });
 
   it("Edit Group - Add someone to the group - Add Chat User B again", async () => {
+    // Type on search user input a valid user and then add it to the group
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.clickOnFirstAddButton();
     await editGroupFirstUser.validateNothingHereIsDisplayed();
     await chatsTopbarFirstUser.editGroup();
     await chatsTopbarFirstUser.validateTopbarExists();
 
+    // Validate topbar contents has correct number of participants
     const topbarUserStatus = await chatsTopbarFirstUser.topbarUserStatusValue;
     await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
   });
 
   it("Edit Group - Ensure that Chat User B was added back to the group", async () => {
+    // Validate that User B was added back to the group chat
     await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.goToFiles();
     await filesScreenSecondUser.validateFilesScreenIsShown();
@@ -162,6 +186,7 @@ export default async function groupChatEditTests() {
     await chatsSidebarSecondUser.goToSidebarGroupChat("X");
     await chatsTopbarSecondUser.validateTopbarExists();
 
+    // Validate topbar contents has correct name
     const topbarUserStatus = await chatsTopbarSecondUser.topbarUserStatusValue;
     await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
   });

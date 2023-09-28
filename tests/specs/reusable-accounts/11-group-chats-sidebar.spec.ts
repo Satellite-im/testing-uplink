@@ -61,12 +61,12 @@ export default async function groupChatSidebarTests() {
     await chatsInputSecondUser.typeMessageOnInput("HelloGroup");
     await chatsInputSecondUser.clickOnSendMessage();
     await chatsMessagesSecondUser.waitForMessageSentToExist("HelloGroup");
-
-    // Switch control to User A
-    await chatsLayoutFirstUser.switchToOtherUserWindow();
   });
 
   it("Group Chat - Sidebar - Any new messages received in group should appear in Sidebar", async () => {
+    // Switch control to User A
+    await chatsLayoutFirstUser.switchToOtherUserWindow();
+
     // Validate Sidebar shows Group Name
     await chatsSidebarFirstUser.validateUsernameDisplayed("X");
 
@@ -81,12 +81,14 @@ export default async function groupChatSidebarTests() {
   });
 
   it("Group Chat - Sidebar - Context Menu - Clear Unreads", async () => {
+    // Open context menu on group chat and select Clear Unreads
     await chatsSidebarFirstUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarFirstUser.selectChatsClearUnreads();
     await chatsSidebarFirstUser.validateNoUnreadMessages();
   });
 
   it("Group Chat - Sidebar - Context Menu - Hide chat", async () => {
+    // Open context menu on group chat and select Hide Chat
     await chatsSidebarFirstUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarFirstUser.selectChatsHideChat();
     await chatsSidebarFirstUser.validateSidebarChatIsNotDisplayed("X");
@@ -98,8 +100,10 @@ export default async function groupChatSidebarTests() {
     await chatsInputSecondUser.typeMessageOnInput("Hey!");
     await chatsInputSecondUser.clickOnSendMessage();
     await chatsMessagesSecondUser.waitForMessageSentToExist("Hey!");
+  });
 
-    // Switch control to User A
+  it("Group Chat - Validate remote user received the message", async () => {
+    // Switch control to User A and validate that message was received
     await chatsLayoutFirstUser.switchToOtherUserWindow();
     await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
     await chatsSidebarFirstUser.goToSidebarGroupChat("X");
@@ -107,7 +111,7 @@ export default async function groupChatSidebarTests() {
   });
 
   it("Group Chat - Sidebar - Leave group", async () => {
-    // Switch control to User B
+    // Switch control to User B and leave group chat
     await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.openContextMenuOnGroupChat("X");
     await contextMenuSidebarSecondUser.selectChatsLeaveGroup();
@@ -121,26 +125,29 @@ export default async function groupChatSidebarTests() {
     // Now, go to the Group Chat and validate that User B is not part of it anymore
     await chatsTopbarFirstUser.validateTopbarExists();
 
+    // Validate topbar contents has correct name
     const topbarUserName = await chatsTopbarFirstUser.topbarUserNameValue;
     await expect(topbarUserName).toHaveTextContaining("X");
 
+    // Validate topbar contents has correct number of participants
     const topbarUserStatus = await chatsTopbarFirstUser.topbarUserStatusValue;
     await expect(topbarUserStatus).toHaveTextContaining("Members (1)");
   });
 
   it("Group Chat - Add Chat User B again to the group", async () => {
+    // Go to Edit Group and then add again Chat User B to the group
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
     await editGroupFirstUser.clickOnAddMembers();
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.clickOnFirstAddButton();
     await editGroupFirstUser.validateNothingHereIsDisplayed();
-  });
 
-  it("Group Chat - Ensure in local side that User B was added again to the group", async () => {
+    // Validate topbar contents has correct number of participants
     await chatsTopbarFirstUser.editGroup();
     await chatsTopbarFirstUser.validateTopbarExists();
 
+    // Validate topbar contents has correct number of participants
     const topbarUserStatus = await chatsTopbarFirstUser.topbarUserStatusValue;
     await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
   });
@@ -156,6 +163,7 @@ export default async function groupChatSidebarTests() {
     await chatsSidebarSecondUser.goToSidebarGroupChat("X");
     await chatsTopbarSecondUser.validateTopbarExists();
 
+    // Validate topbar contents has correct name
     const topbarUserName = await chatsTopbarSecondUser.topbarUserNameValue;
     await expect(topbarUserName).toHaveTextContaining("X");
   });
@@ -168,7 +176,9 @@ export default async function groupChatSidebarTests() {
 
     // Ensure that group was removed on local side
     await chatsSidebarFirstUser.validateSidebarChatIsNotDisplayed("X");
+  });
 
+  it("Group Chat - Sidebar - Deleted group is not shown on remote side", async () => {
     // Switch execution to remote user and ensure that group was removed on this side too
     await chatsSidebarSecondUser.switchToOtherUserWindow();
     await chatsSidebarSecondUser.validateSidebarChatIsNotDisplayed("X");
