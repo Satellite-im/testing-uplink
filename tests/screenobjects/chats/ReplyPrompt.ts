@@ -133,7 +133,59 @@ export default class ReplyPrompt extends UplinkMainScreen {
     await replyPopUpCloseButton.click();
   }
 
+  async validateReplyPromptElementsShown(message: string) {
+    const replyPopUp = await this.replyPopUp;
+    const replyPopUpCloseButton = await this.replyPopUpCloseButton;
+    const replyPopUpUserImage = await this.replyPopUpUserImage;
+
+    await replyPopUp.waitForExist();
+    await replyPopUpCloseButton.waitForExist();
+    await replyPopUpUserImage.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.replyPopUpIndicatorOnline;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online was never displayed on Reply Prompt after 15 seconds",
+      }
+    );
+
+    await driver[this.executor].waitUntil(
+      async () => {
+        return (await this.replyPopUpHeader.getText()) === "REPLYING TO:";
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected reply prompt header was incorrect after 15 seconds",
+      }
+    );
+
+    await driver[this.executor].waitUntil(
+      async () => {
+        return (
+          (await this.replyPopUpRemoteTextToReplyValue.getText()) === message
+        );
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected reply prompt header text to reply was incorrect after 15 seconds",
+      }
+    );
+  }
+
   async waitForReplyModalToNotExist() {
-    await this.replyPopUp.waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.replyPopUp.waitForExist({ reverse: true });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Expected reply modal is still visible after 15 seconds",
+      }
+    );
   }
 }

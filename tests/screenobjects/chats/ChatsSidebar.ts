@@ -304,7 +304,16 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async validateLastMessageDisplayed(message: string) {
     const sidebarStatusValue = await this.sidebarChatsUserStatusValue;
-    await expect(sidebarStatusValue).toHaveTextContaining(message);
+    await sidebarStatusValue.waitUntil(
+      async () => {
+        return (await sidebarStatusValue.getText()) === message;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected sidebar status value never include the message after 15 seconds",
+      }
+    );
   }
 
   async validateLastMessageTimeAgo() {
@@ -315,23 +324,58 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateNoUnreadMessages() {
-    await this.sidebarChatsUserBadge.waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.sidebarChatsUserBadge.waitForExist({ reverse: true });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected badge number of unread messages is still displayed after 15 seconds",
+      }
+    );
   }
 
   async validateNoSidebarChatsAreDisplayed() {
-    await this.sidebarChatsUserImageProfile.waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.sidebarChatsUserImageProfile.waitForExist({
+          reverse: true,
+        });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Sidebar chats are still displayed after 15 seconds",
+      }
+    );
   }
 
   async validateSidebarChatIsNotDisplayed(username: string) {
     const locator = await this.getNonExistingElementByAriaLabel(username);
-    await this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(locator)
-      .waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance
+          .$(SELECTORS.SIDEBAR)
+          .$(locator)
+          .waitForExist({ reverse: true });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Sidebar chats are still displayed after 15 seconds",
+      }
+    );
   }
 
   async validateNoSidebarGroupChatsAreDisplayed() {
-    await this.sidebarGroupChatImage.waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.sidebarGroupChatImage.waitForExist({ reverse: true });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Sidebar group chats are still displayed after 15 seconds",
+      }
+    );
   }
 
   async validateNumberOfUnreadMessages(badgeNumber: string) {
@@ -351,8 +395,17 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   // Waiting methods
 
-  async waitForReceivingMessageOnSidebar(timeout: number = 30000) {
-    await this.sidebarChatsUserStatusValue.waitForExist({ timeout: timeout });
+  async waitForReceivingMessageOnSidebar() {
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.sidebarChatsUserStatusValue;
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Sidebar never displayed received messages after 15 seconds",
+      }
+    );
   }
 
   // Get Sidebar Group elements
@@ -384,16 +437,32 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async waitForGroupToBeCreated(groupname: string) {
     const element = await this.getExistingElementByAriaLabel(groupname);
-    const sidebarGroup = await this.instance.$(SELECTORS.SIDEBAR).$(element);
-    await sidebarGroup.waitForExist();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance.$(SELECTORS.SIDEBAR).$(element);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected chat group was never displayed on Sidebar after 15 seconds",
+      }
+    );
   }
 
   async waitForGroupToBeDeleted(groupname: string) {
     const element = await this.getNonExistingElementByAriaLabel(groupname);
-    await this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(element)
-      .waitForExist({ reverse: true });
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.instance
+          .$(SELECTORS.SIDEBAR)
+          .$(element)
+          .waitForExist({ reverse: true });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Sidebar group was never deleted after 15 seconds",
+      }
+    );
   }
 
   async getSidebarGroupPlusSome(groupname: string) {
@@ -447,11 +516,24 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async getSidebarUserIndicatorOnline(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await userLocator
+          .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+          .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
+          .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online was never displayed on Chats Sidebar after 15 seconds",
+      }
+    );
+
     const onlineLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
-    await onlineLocator.waitForExist();
     return onlineLocator;
   }
 

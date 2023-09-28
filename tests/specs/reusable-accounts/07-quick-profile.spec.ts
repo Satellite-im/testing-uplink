@@ -28,73 +28,55 @@ export default async function quickProfileTests() {
   it("Chat User A - Validate contents from local quick profile", async () => {
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openLocalQuickProfile();
-    const quickProfile = await chatsQuickProfileFirstUser.quickProfile;
-    await quickProfile.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
     // Validate contents from quick profile
-    const quickProfileUserImage =
-      await chatsQuickProfileFirstUser.quickProfileUserImage;
-    await quickProfileUserImage.waitForExist();
-
-    const quickProfileBannerImage =
-      await chatsQuickProfileFirstUser.quickProfileBannerImage;
-    await quickProfileBannerImage.waitForExist();
-
+    await chatsQuickProfileFirstUser.quickProfileUserImage.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfileEditProfile.waitForExist();
     const quickProfileUsername =
       await chatsQuickProfileFirstUser.quickProfileUserNameValueText;
     await expect(quickProfileUsername).toHaveTextContaining("ChatUserA");
-
-    const quickProfileEdit =
-      await chatsQuickProfileFirstUser.quickProfileEditProfile;
-    await quickProfileEdit.waitForExist();
   });
 
   it("Chat User A - Click on Edit Profile", async () => {
+    // Click on Edit Profile from Quick Profile
     await chatsQuickProfileFirstUser.clickOnEditProfile();
     await settingsProfileFirstUser.validateSettingsProfileIsShown();
     await settingsProfileFirstUser.goToMainScreen();
   });
 
   it("Chat User B - Send message to User A", async () => {
+    // Switch control to User B and send message to User A
     await chatsInputSecondUser.switchToOtherUserWindow();
     await chatsInputSecondUser.clickOnInputBar();
     await chatsInputSecondUser.typeMessageOnInput("click...");
     await chatsInputSecondUser.clickOnSendMessage();
     await chatsMessagesSecondUser.waitForMessageSentToExist("click...");
+  });
 
+  it("Chat User A - Validate contents from remote quick profile", async () => {
     // With User A - Validate that message was received
     await chatsMessagesFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.clickOnInputBar();
     await chatsMessagesFirstUser.waitForReceivingMessage("click...");
-  });
 
-  it("Chat User A - Validate contents from remote quick profile", async () => {
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openRemoteQuickProfile();
 
-    const quickProfile = await chatsQuickProfileFirstUser.quickProfile;
-    await quickProfile.waitForExist();
+    // Validate quick profile is displayed
+    await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
     // Validate contents from quick profile
-    const quickProfileUserImage =
-      await chatsQuickProfileFirstUser.quickProfileUserImage;
-    await quickProfileUserImage.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfileUserImage.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfileBannerImage.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfileRemoveFriend.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfileBlockUser.waitForExist();
 
-    const quickProfileBannerImage =
-      await chatsQuickProfileFirstUser.quickProfileBannerImage;
-    await quickProfileBannerImage.waitForExist();
-
+    // Validate username from quick profile
     const quickProfileUsername =
       await chatsQuickProfileFirstUser.quickProfileUserNameValueText;
     await expect(quickProfileUsername).toHaveTextContaining("ChatUserB");
-
-    const quickProfileRemoveFriend =
-      await chatsQuickProfileFirstUser.quickProfileRemoveFriend;
-    await quickProfileRemoveFriend.waitForExist();
-
-    const quickProfileBlockUser =
-      await chatsQuickProfileFirstUser.quickProfileBlockUser;
-    await quickProfileBlockUser.waitForExist();
 
     // Click outside to close quick profile
     await chatsInputFirstUser.clickOnInputBar();
@@ -103,15 +85,13 @@ export default async function quickProfileTests() {
   it("Chat User A - Remove Friend", async () => {
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openRemoteQuickProfile();
-    const quickProfile = await chatsQuickProfileFirstUser.quickProfile;
-    await quickProfile.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
     // Click on Remove Friend from Quick Profile
     await chatsQuickProfileFirstUser.clickOnRemoveUser();
 
     // Welcome Screen should be displayed
-    const skeletalUser = await welcomeScreenFirstUser.skeletalUser;
-    await skeletalUser.waitForExist();
+    await welcomeScreenFirstUser.skeletalUser.waitForExist();
   });
 
   it("Chat User A - Ensure that Chat User B is not in friends list now", async () => {
@@ -120,16 +100,20 @@ export default async function quickProfileTests() {
     const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
     const includesFriend = await allFriendsList.includes("ChatUserB");
     await expect(includesFriend).toEqual(false);
+  });
+
+  it("Chat User B - Validate friendship was removed", async () => {
+    // Switch control to User B
     await welcomeScreenSecondUser.switchToOtherUserWindow();
 
     // With User B - Go to Friends and wait for User A to remove friendship with User B
     await welcomeScreenSecondUser.goToFriends();
     await friendsScreenSecondUser.validateFriendsScreenIsShown();
-    await friendsScreenFirstUser.switchToOtherUserWindow();
   });
 
   it("Chat User A - Send friend request again to User B", async () => {
     // Obtain did key from Chat User B
+    await friendsScreenFirstUser.switchToOtherUserWindow();
     const friendDidKey = await getUserKey("ChatUserB", USER_A_INSTANCE);
     await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
     await friendsScreenFirstUser.clickOnAddSomeoneButton();
@@ -142,13 +126,10 @@ export default async function quickProfileTests() {
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.validateOutgoingListIsShown();
     await friendsScreenFirstUser.validateOutgoingListIsNotEmpty();
+  });
 
-    const removeOrDenyButton =
-      await friendsScreenFirstUser.removeOrDenyFriendButton;
-    await removeOrDenyButton.waitForExist();
-
-    await friendsScreenFirstUser.goToAllFriendsList();
-    await friendsScreenFirstUser.validateAllFriendsListIsShown();
+  it("Chat User B - Validate that User A is now a friend", async () => {
+    // Switch control to User B
     await friendsScreenSecondUser.switchToOtherUserWindow();
 
     // With User B - Go to pending requests list, wait for receiving the friend request and accept it
@@ -159,75 +140,63 @@ export default async function quickProfileTests() {
     await friendsScreenSecondUser.goToPendingFriendsList();
     await friendsScreenSecondUser.validateIncomingListIsShown();
     await friendsScreenSecondUser.acceptIncomingRequest("ChatUserA");
-  });
 
-  it("Chat User B - Validate that User A is now a friend", async () => {
     // Return to Friends List
     await friendsScreenSecondUser.goToAllFriendsList();
     await friendsScreenSecondUser.validateAllFriendsListIsShown();
 
     // Validate friend is now on all friends list
     await friendsScreenSecondUser.validateAllFriendsListIsNotEmpty();
-    await friendsScreenFirstUser.switchToOtherUserWindow();
   });
 
   it("Chat User A - Wait until friend request is accepted again", async () => {
-    // Wait until user B accepts the friend request
-    await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.validateIncomingListIsShown();
+    // Validate friend is now on all friends list
+    await friendsScreenFirstUser.switchToOtherUserWindow();
     await friendsScreenFirstUser.goToAllFriendsList();
     await friendsScreenFirstUser.validateAllFriendsListIsShown();
-
-    // Validate friend is now on all friends list
     await friendsScreenFirstUser.validateAllFriendsListIsNotEmpty();
 
     // Go to chat with User B
-    const chatWithFriendButton =
-      await friendsScreenFirstUser.chatWithFriendButton;
-    await chatWithFriendButton.waitForExist();
+    await friendsScreenFirstUser.validateChatWithFriendButtonIsShown();
     await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserB");
-    await chatWithFriendButton.click();
+    await friendsScreenFirstUser.clickOnChatWithFriend();
 
-    const topbarChat = await chatsTopbarFirstUser.topbar;
-    await topbarChat.waitForExist();
-    await chatsTopbarFirstUser.waitUntilRemoteUserIsOnline();
-    await friendsScreenSecondUser.switchToOtherUserWindow();
+    // Validate that Topbar is displayed
+    await chatsTopbarFirstUser.validateTopbarExists();
   });
 
   it("Chat User B - Send message to User B", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-    const chatWithFriendButton =
-      await friendsScreenSecondUser.chatWithFriendButton;
-    await chatWithFriendButton.waitForExist();
+    await friendsScreenSecondUser.switchToOtherUserWindow();
+    await friendsScreenSecondUser.validateChatWithFriendButtonIsShown();
     await friendsScreenSecondUser.hoverOnChatWithFriendButton("ChatUserA");
-    await chatWithFriendButton.click();
+    await friendsScreenSecondUser.clickOnChatWithFriend();
 
-    const topbarChat = await chatsTopbarSecondUser.topbar;
-    await topbarChat.waitForExist();
-    await chatsTopbarSecondUser.waitUntilRemoteUserIsOnline();
+    // Validate that Topbar is displayed
+    await chatsTopbarSecondUser.validateTopbarExists();
 
     // Send message to Chat User B
     await chatsInputSecondUser.typeMessageOnInput("Accepted...");
     await chatsInputSecondUser.clickOnSendMessage();
     await chatsMessagesSecondUser.waitForMessageSentToExist("Accepted...");
+  });
+
+  it("Chat User A - Block Friend", async () => {
+    // Switch control to User A
     await chatsMessagesFirstUser.switchToOtherUserWindow();
 
     // With User A - Validate that message was received
     await chatsMessagesFirstUser.waitForReceivingMessage("Accepted...");
-  });
 
-  it("Chat User A - Block Friend", async () => {
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openRemoteQuickProfile();
-    const quickProfile = await chatsQuickProfileFirstUser.quickProfile;
-    await quickProfile.waitForExist();
+    await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
     // Click on Block Friend from Quick Profile
     await chatsQuickProfileFirstUser.clickOnBlockUser();
 
     // Welcome Screen should be displayed
-    const welcomeLayout = await welcomeScreenFirstUser.welcomeLayout;
-    await welcomeLayout.waitForExist();
+    await welcomeScreenFirstUser.validateWelcomeScreenIsShown();
   });
 
   it("Chat User A - Ensure that Chat User B is in blocked list now", async () => {
@@ -237,16 +206,18 @@ export default async function quickProfileTests() {
     await friendsScreenFirstUser.validateBlockedListIsShown();
     await friendsScreenFirstUser.validateBlockedListIsNotEmpty();
 
+    // Validate that blocked user is on blocked list
     await friendsScreenFirstUser.goToAllFriendsList();
     await friendsScreenFirstUser.validateAllFriendsListIsShown();
-    const friendsList = await friendsScreenFirstUser.friendsList;
-    await friendsList.waitForExist();
+  });
+
+  it("Chat User B - Validate that User A blocked User B", async () => {
+    // Switch control to User B
     await chatsInputSecondUser.switchToOtherUserWindow();
 
     // With User B - Go to Friends and wait for User A to remove friendship with User B
     await chatsInputSecondUser.goToFriends();
     await friendsScreenSecondUser.validateFriendsScreenIsShown();
     await friendsScreenSecondUser.waitUntilFriendIsRemoved("ChatUserA");
-    await friendsScreenFirstUser.switchToOtherUserWindow();
   });
 }

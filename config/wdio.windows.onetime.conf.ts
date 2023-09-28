@@ -1,15 +1,13 @@
 import "module-alias/register";
 import allureReporter from '@wdio/allure-reporter'
 import { config as sharedConfig } from '@config/wdio.shared.conf';
+import { homedir } from "os";
 import { join } from "path";
-import { USER_A_INSTANCE } from "@helpers/constants";
 const fsp = require("fs").promises;
-const userACacheFolder = join(process.cwd(), "./apps/ChatUserA/.user")
-const userBCacheFolder = join(process.cwd(), "./apps/ChatUserB/.user")
 const { readFileSync, rmSync } = require("fs");
 
 // @ts-expect-error
-  export const config: WebdriverIO.Config = {
+export const config: WebdriverIO.Config = {
   ...sharedConfig, 
   ...{
     //
@@ -28,24 +26,13 @@ const { readFileSync, rmSync } = require("fs");
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")],
+    specs: [join(process.cwd(), "./tests/specs/scripts/01-multiple-logins.spec.ts")],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
     ],
     // The number of times to retry the entire specfile when it fails as a whole
-    specFileRetries: 2,
-    // Mocha Opts
-    mochaOpts: {
-      ui: "bdd",
-      /**
-       * NOTE: This has been increased for more stable Appium Native app
-       * tests because they can take a bit longer.
-       */
-      timeout: 180000, // 3min
-      bail: true,
-  },
-
+    specFileRetries: 0,
     //
     // ============
     // Capabilities
@@ -59,6 +46,8 @@ const { readFileSync, rmSync } = require("fs");
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
+    port: 4723,
+    path: '/',
     capabilities: {
       userA: {
         capabilities: {
@@ -66,31 +55,15 @@ const { readFileSync, rmSync } = require("fs");
           "appium:deviceName": "WindowsPC",
           "appium:automationName": "windows",
           "appium:app": join(process.cwd(), "\\apps\\bin\\uplink.exe"),
-          "appium:systemPort": 4725,
-          "appium:createSessionTimeout": 40000,
-          "ms:waitForAppLaunch": 50,
-          "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserA"),
+          "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\onetimescript2") + " trace2",
           "appium:prerun": {
-            command: `If (Test-Path ${userACacheFolder}) {Remove-Item -Recurse -Force ${userACacheFolder}} Else { Break }`,
-          },
-        }
-      },
-      userB: {
-        capabilities: {
-          platformName: "windows",
-          "appium:deviceName": "WindowsPC",
-          "appium:automationName": "windows",
-          "appium:app": join(process.cwd(), "\\apps\\bin\\uplink2.exe"),
-          "appium:systemPort": 4726,
-          "appium:createSessionTimeout": 40000,
-          "ms:waitForAppLaunch": 50,
-          "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserB"),
-          "appium:prerun": {
-            command: `If (Test-Path ${userBCacheFolder}) {Remove-Item -Recurse -Force ${userBCacheFolder}} Else { Break }`,
+            command: 'If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }',
           },
         }
       },
     },
+
+
     //
     // ===================
     // Test Configurations
@@ -106,21 +79,6 @@ const { readFileSync, rmSync } = require("fs");
           showPreface: false,
         },
       ], 
-      ['allure', 
-        {
-          outputDir: './allure-results',
-          disableWebdriverStepsReporting: true,
-          disableWebdriverScreenshotsReporting: false,
-        }
-      ],
-      ['junit', 
-        {
-          outputDir: './test-report/',
-          outputFileFormat: function (options) {
-            return `test-results-windows-chats-${options.cid}.xml`;
-          }
-        }
-      ],
     ],
     //
     // =====
@@ -131,8 +89,10 @@ const { readFileSync, rmSync } = require("fs");
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
     onPrepare: async function() {
-      const cacheFolderUserA = join(process.cwd(), "\\apps\\ChatUserB")
-      const cacheFolderUserB = join(process.cwd(), "\\apps\\ChatUserB")
+      // Declare constants for folder locations
+      const cacheFolder = homedir() + "\\.uplink\\.user"
+      const sourceReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\FriendsTestUser")
+      const targetReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\windows\\FriendsTestUser")
       const allureResultsFolder = join(process.cwd(), "\\allure-results");
       const testReportFolder =  join(process.cwd(), "\\test-report");
       const testResultsFolder =  join(process.cwd(), "\\test-results");
@@ -146,69 +106,38 @@ const { readFileSync, rmSync } = require("fs");
             `Got an error trying to delete artifacts folders: ${error.message}`
         );
       }
+      // Execute the actions to clean up folders and copy required data
       try {
-        await rmSync(cacheFolderUserA, { recursive: true, force: true });
-        await rmSync(cacheFolderUserB, { recursive: true, force: true });  
+        await rmSync(cacheFolder, { recursive: true, force: true });
         console.log("Deleted Cache Folder Successfully!");
       } catch (error) {
         console.error(
           `Got an error trying to delete Cache Folder: ${error.message}`
         );
       }
+      try {
+        await fsp.mkdir(targetReusableData, { recursive: true });
+        await fsp.cp(sourceReusableData, targetReusableData, { recursive: true, force: true });
+        console.log("Copied Friends Test User Data successfully!");
+      } catch (error) {
+        console.error(
+          `Got an error trying to copy Friends Test Folder: ${error.message}`
+        );
+      }
     },
-
-    beforeTest: async function (test) {
-      // Start video recording for each test and instance
-      await driver[USER_A_INSTANCE].executeScript("windows: startRecordingScreen", [
-        {
-          deviceId: 1
-        },
-      ]);
-    },
-
+ 
     afterTest: async function (test, describe, { error }) {
-      // Take screenshot from driver if test fails and save it for Allure Reporter 
-      const imageFile = await driver.takeScreenshot();  
-      
-      // Stop video recording for both instances and save video into base64 format
-      const base64VideoUserA = await driver[USER_A_INSTANCE].executeScript("windows: stopRecordingScreen", [
-        {
-          remotePath: ""
-        },
-      ]);
-        
-      // Only if error has been detected, add the video and image File to attached report
-      if (error) {
-        // Declare constants for later use
-        try {
-          const imageFolder = join(process.cwd(), "./test-results/windows-chats", test.parent);
-          const imageTitle = test.title + " - Failed.png";
-          const videoTitleUserA = test.title + " - User A - Failed.mp4"
+        if (error) {
+          let imageFile = await driver.takeScreenshot();
+          let imageFolder = join(process.cwd(), "./test-results/windows-app", test.parent);
+          const imageTitle = test.title + " - Failed.png"
           await fsp.mkdir(imageFolder, {recursive: true});
           await fsp.writeFile(
             imageFolder + "/" + imageTitle,
             imageFile,
             "base64"
           );
-
-          // Write Video File if test fails and add it to failed screenshots folder
-          await fsp.writeFile(
-            imageFolder + "/" + videoTitleUserA,
-            base64VideoUserA,
-            "base64"
-          );
-
-          // Add to Screenshot and Video to Allure Reporter
-          const data = await readFileSync(`${imageFolder}/${imageTitle}`);
-          const dataVideoUserA = await readFileSync(`${imageFolder}/${videoTitleUserA}`);
-          allureReporter.addAttachment(imageTitle, data, 'image/png');
-          allureReporter.addAttachment(videoTitleUserA, dataVideoUserA, 'video/mp4');
-        } catch (error) {
-          console.error(
-            `Got an error trying to save images and videos from Failed Tests: ${error.message}`
-          );
         }
       }
-    }
   }
 }

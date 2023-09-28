@@ -3,14 +3,12 @@ import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
 import ComposeAttachment from "@screenobjects/chats/ComposeAttachment";
 import InputBar from "@screenobjects/chats/InputBar";
 import Messages from "@screenobjects/chats/Messages";
-import Topbar from "@screenobjects/chats/Topbar";
 let chatsAttachmentFirstUser = new ComposeAttachment(USER_A_INSTANCE);
 let chatsAttachmentSecondUser = new ComposeAttachment(USER_B_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsInputSecondUser = new InputBar(USER_B_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
-let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 
 export default async function messageAttachmentsTests() {
   it("Chat User B - Validate compose attachments contents", async () => {
@@ -23,15 +21,9 @@ export default async function messageAttachmentsTests() {
     );
 
     // Validate contents on Compose Attachments are displayed
-    const fileEmbed =
-      await chatsAttachmentSecondUser.composeAttachmentsFileEmbed;
-    const fileIcon = await chatsAttachmentSecondUser.composeAttachmentsFileIcon;
-    const fileName =
-      await chatsAttachmentSecondUser.composeAttachmentsFileNameText;
-
-    await fileEmbed.waitForExist();
-    await fileIcon.waitForExist();
-    await fileName.waitForExist();
+    await chatsAttachmentSecondUser.composeAttachmentsFileEmbed.waitForExist();
+    await chatsAttachmentSecondUser.composeAttachmentsFileIcon.waitForExist();
+    await chatsAttachmentSecondUser.composeAttachmentsFileNameText.waitForExist();
   });
 
   it("Chat User B - Delete attachment before sending the message", async () => {
@@ -47,9 +39,7 @@ export default async function messageAttachmentsTests() {
     );
 
     // Validate contents on Compose Attachments are displayed
-    const fileEmbed =
-      await chatsAttachmentFirstUser.composeAttachmentsFileEmbed;
-    await fileEmbed.waitForExist();
+    await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForExist();
 
     // Type a text message and send it
     await chatsInputFirstUser.typeMessageOnInput("Attached");
@@ -58,9 +48,7 @@ export default async function messageAttachmentsTests() {
   });
 
   it("Chat User A - Message Sent With Attachment - Text contents", async () => {
-    const fileEmbedLocal =
-      await chatsMessagesFirstUser.chatMessageFileEmbedLocal;
-    await fileEmbedLocal.waitForExist();
+    await chatsMessagesFirstUser.chatMessageFileEmbedLocal.waitForExist();
 
     // Validate text from message containing attachment
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
@@ -90,16 +78,14 @@ export default async function messageAttachmentsTests() {
     const fileDownloadButton =
       await chatsMessagesFirstUser.getLastMessageSentDownloadButton();
     await fileDownloadButton.waitForExist();
-    await chatsMessagesSecondUser.switchToOtherUserWindow();
-
-    // With User B - Validate that message with attachment was received
-    await chatsInputSecondUser.clickOnInputBar();
-    const fileEmbedRemote =
-      await chatsMessagesSecondUser.chatMessageFileEmbedRemote;
-    await fileEmbedRemote.waitForExist();
   });
 
   it("Chat User B - Received Message with Attachment - Text Message contents", async () => {
+    // With User B - Validate that message with attachment was received
+    await chatsMessagesSecondUser.switchToOtherUserWindow();
+    await chatsInputSecondUser.clickOnInputBar();
+    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForExist();
+
     // Validate text from message containing attachment
     const message = await chatsMessagesSecondUser.getLastMessageReceivedText();
     await expect(message).toHaveTextContaining("Attached");
@@ -131,6 +117,5 @@ export default async function messageAttachmentsTests() {
     const fileDownloadButton =
       await chatsMessagesSecondUser.getLastMessageReceivedDownloadButton();
     await fileDownloadButton.waitForExist();
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
   });
 }
