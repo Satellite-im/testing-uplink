@@ -11,7 +11,7 @@ const SELECTORS_WINDOWS = {
   PINNED_MESSAGE_ATTACHMENTS: '[name="pinned-attachments"]',
   PINNED_MESSAGE_ATTACHMENTS_FILE_EMBED: '[name="file-embed-remote"]',
   PINNED_MESSAGE_ATTACHMENTS_FILE_ICON: '[name="file-icon"]',
-  PINNED_MESSAGE_ATTACHMENTS_FILE_ICON_EXTENSION: "<Text> <Text>",
+  PINNED_MESSAGE_ATTACHMENTS_FILE_ICON_EXTENSION: "//Text/Text",
   PINNED_MESSAGE_ATTACHMENTS_FILE_INFO: '[name="file-info"]',
   PINNED_MESSAGE_ATTACHMENTS_FILE_META: '[name="file-meta"]',
   PINNED_MESSAGE_ATTACHMENTS_FILE_META_TEXT: "<Text>",
@@ -34,7 +34,7 @@ const SELECTORS_WINDOWS = {
   PIN_CONTAINER: '[name="pinned-messages-container"]',
   PIN_CONTAINER_LABEL: '[name="pinned-messages-label"]',
   PIN_EMPTY: '[name="pinned-empty"]',
-  PIN_MODAL_LABEL: "<Text> <Text>",
+  PIN_MODAL_LABEL: "//Text/Text",
   PIN_MODAL_MAIN: '[name="modal"]',
 };
 
@@ -193,7 +193,7 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   get pinnedMessageWrap() {
-    return this.instance.$(SELECTORS.PINNED_MESSAGE_WRAP);
+    return this.instance.$$(SELECTORS.PINNED_MESSAGE_WRAP);
   }
 
   get pinContainer() {
@@ -233,6 +233,12 @@ export default class PinnedMessages extends UplinkMainScreen {
     const pinnedContainers = await this.pinnedMessageSingleContainer;
     const pinnedContainerByIndex = await pinnedContainers[order];
     return pinnedContainerByIndex;
+  }
+
+  async getPinnedMessageWrapLocatorByAdditionOrder(order: number) {
+    const pinnedWrap = await this.pinnedMessageWrap;
+    const pinnedWrapByIndex = await pinnedWrap[order];
+    return pinnedWrapByIndex;
   }
 
   async getPinnedMessageAttachment(
@@ -369,18 +375,18 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   async getPinnedMessageUserImage(orderPinned: number) {
-    const pinnedContainerByIndex =
-      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
-    const userImage = await pinnedContainerByIndex.$(
+    const pinnedWrapByIndex =
+      await this.getPinnedMessageWrapLocatorByAdditionOrder(orderPinned);
+    const userImage = await pinnedWrapByIndex.$(
       SELECTORS.PINNED_MESSAGE_USER_IMAGE
     );
     return userImage;
   }
 
   async getPinnedMessageUserImageProfile(orderPinned: number) {
-    const pinnedContainerByIndex =
-      await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
-    const userImageProfile = await pinnedContainerByIndex.$(
+    const pinnedWrapByIndex =
+      await this.getPinnedMessageWrapLocatorByAdditionOrder(orderPinned);
+    const userImageProfile = await pinnedWrapByIndex.$(
       SELECTORS.PINNED_MESSAGE_USER_IMAGE_PROFILE
     );
     return userImageProfile;
@@ -446,7 +452,7 @@ export default class PinnedMessages extends UplinkMainScreen {
   async validateFirstPinnedMessageTimestampIsShown() {
     const timestamp = await this.getPinnedMessageTimestampText(0);
     await expect(timestamp).toHaveTextContaining(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+      /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}\s+(0[1-9]|1[0-2]):([0-5][0-9])\s+(AM|PM)$/
     );
   }
 }

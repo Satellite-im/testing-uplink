@@ -218,6 +218,7 @@ export default class Topbar extends UplinkMainScreen {
 
   async addToFavorites() {
     const topbarAddToFavorites = await this.topbarAddToFavorites;
+    await this.hoverOnElement(topbarAddToFavorites);
     await topbarAddToFavorites.click();
     await driver[this.executor].waitUntil(
       async () => {
@@ -280,6 +281,7 @@ export default class Topbar extends UplinkMainScreen {
 
   async removeFromFavorites() {
     const topbarRemoveFromFavorites = await this.topbarRemoveFromFavorites;
+    await this.hoverOnElement(topbarRemoveFromFavorites);
     await topbarRemoveFromFavorites.click();
     await driver[this.executor].waitUntil(
       async () => {
