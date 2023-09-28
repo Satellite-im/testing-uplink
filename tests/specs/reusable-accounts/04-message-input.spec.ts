@@ -183,6 +183,7 @@ export default async function messageInputTests() {
     const shortText = await chatsInputFirstUser.generateShortRandomText();
     // Type the text with 90 chars on input bar
     await chatsInputFirstUser.typeMessageOnInput(shortText + "efgh");
+    await driver[USER_A_INSTANCE].pause(10000);
   });
 
   it("Validate Typing Indicator is displayed if remote user is typing", async () => {

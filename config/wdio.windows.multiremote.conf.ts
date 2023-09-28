@@ -168,7 +168,7 @@ const { readFileSync, rmSync } = require("fs");
 
     afterTest: async function (test, describe, { error }) {
       // Take screenshot from driver if test fails and save it for Allure Reporter 
-      const imageFile = await driver.takeScreenshot();  
+      const imageFile = await driver[USER_A_INSTANCE].takeScreenshot();  
       
       // Stop video recording for both instances and save video into base64 format
       const base64VideoUserA = await driver[USER_A_INSTANCE].executeScript("windows: stopRecordingScreen", [
