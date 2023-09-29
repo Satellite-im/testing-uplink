@@ -72,42 +72,8 @@ export default async function settingsProfile() {
     await expect(statusInput).toHaveTextContaining("");
   });
 
-  it("Settings Profile - Validate Copy ID button tooltip", async () => {
-    // Validate Copy ID button tooltip
-    await settingsProfileFirstUser.hoverOnCopyID();
-
-    await settingsProfileFirstUser.copyIDTooltip.waitForExist();
-
-    const copyIDTooltipText = await settingsProfileFirstUser.copyIDTooltipText;
-    await expect(copyIDTooltipText).toHaveTextContaining("Copy ID");
-  });
-
-  it("Settings Profile - Click On Copy ID Button", async () => {
-    // Click on Copy ID button and assert Toast Notification is displayed
-    await settingsProfileFirstUser.clickOnCopyIDButton();
-
-    // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
-  });
-
-  it("Settings Profile - Copied ID can be placed on any text field", async () => {
-    // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus();
-
-    // Ensure that value placed in Status is the did key from the user
-    const statusInputText =
-      await settingsProfileFirstUser.getStatusInputElement();
-    await expect(statusInputText).toHaveTextContaining("did:key:");
-
-    // Clear value from status input
-    await settingsProfileFirstUser.deleteStatus();
-  });
-
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
   it("Settings Profile - Add profile picture", async () => {
-    // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
-
     await settingsProfileFirstUser.uploadProfilePicture(
       "./tests/fixtures/logo.jpg"
     );
@@ -152,6 +118,40 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.uploadBannerPicture(
       "./tests/fixtures/second-banner.jpg"
     );
+  });
+
+  it("Settings Profile - Validate Copy ID button tooltip", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+    // Validate Copy ID button tooltip
+    await settingsProfileFirstUser.hoverOnCopyID();
+
+    await settingsProfileFirstUser.copyIDTooltip.waitForExist();
+
+    const copyIDTooltipText = await settingsProfileFirstUser.copyIDTooltipText;
+    await expect(copyIDTooltipText).toHaveTextContaining("Copy ID");
+  });
+
+  it("Settings Profile - Click On Copy ID Button", async () => {
+    // Click on Copy ID button and assert Toast Notification is displayed
+    await settingsProfileFirstUser.clickOnCopyIDButton();
+
+    // Wait for toast notification to be closed
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+  });
+
+  it("Settings Profile - Copied ID can be placed on any text field", async () => {
+    // Paste copied DID Key into Status Input
+    await settingsProfileFirstUser.pasteUserKeyInStatus();
+
+    // Ensure that value placed in Status is the did key from the user
+    const statusInputText =
+      await settingsProfileFirstUser.getStatusInputElement();
+    await expect(statusInputText).toHaveTextContaining("did:key:");
+
+    // Clear value from status input
+    await settingsProfileFirstUser.deleteStatus();
   });
 
   it("Settings Profile - Status with more than 128 characters", async () => {
