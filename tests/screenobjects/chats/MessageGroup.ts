@@ -221,26 +221,18 @@ export default class MessageGroup extends UplinkMainScreen {
     const groupWrap = await this.getLastGroupWrapReceived();
     const userImage = await groupWrap
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
+      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE)
+      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE);
     await userImage.waitForExist();
     return userImage;
   }
 
   async getLastGroupWrapReceivedOnline() {
     const groupWrap = await this.getLastGroupWrapReceived();
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await groupWrap.$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected indicator online on last message group received was never displayed after 15 seconds",
-      }
-    );
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
     );
+    await onlineStatus.waitForExist();
     return onlineStatus;
   }
 
@@ -264,20 +256,10 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async getLastGroupWrapSentOnline() {
     const groupWrap = await this.getLastGroupWrapSent();
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await groupWrap.$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected indicator online on last message group sent was never displayed after 15 seconds",
-      }
-    );
-
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
     );
+    await onlineStatus.waitForExist();
     return onlineStatus;
   }
 
@@ -353,7 +335,7 @@ export default class MessageGroup extends UplinkMainScreen {
   // Context Menu methods
 
   async openLocalQuickProfile() {
-    const imageToRightClick = await this.getLastGroupWrapSentOnline();
+    const imageToRightClick = await this.getLastGroupWrapReceivedImage();
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
@@ -364,7 +346,7 @@ export default class MessageGroup extends UplinkMainScreen {
   }
 
   async openRemoteQuickProfile() {
-    const imageToRightClick = await this.getLastGroupWrapReceivedOnline();
+    const imageToRightClick = await this.getLastGroupWrapReceivedImage();
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
