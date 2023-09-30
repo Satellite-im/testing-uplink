@@ -228,10 +228,19 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async getLastGroupWrapReceivedOnline() {
     const groupWrap = await this.getLastGroupWrapReceived();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await groupWrap.$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online on last message group received was never displayed after 15 seconds",
+      }
+    );
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
     );
-    await onlineStatus.waitForExist();
     return onlineStatus;
   }
 
@@ -255,10 +264,20 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async getLastGroupWrapSentOnline() {
     const groupWrap = await this.getLastGroupWrapSent();
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await groupWrap.$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
+      },
+      {
+        timeout: 15000,
+        timeoutMsg:
+          "Expected indicator online on last message group sent was never displayed after 15 seconds",
+      }
+    );
+
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
     );
-    await onlineStatus.waitForExist();
     return onlineStatus;
   }
 

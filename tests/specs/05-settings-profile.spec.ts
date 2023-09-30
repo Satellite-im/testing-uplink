@@ -72,7 +72,58 @@ export default async function settingsProfile() {
     await expect(statusInput).toHaveTextContaining("");
   });
 
+  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
+  it("Settings Profile - Add profile picture", async () => {
+    await settingsProfileFirstUser.uploadProfilePicture(
+      "./tests/fixtures/logo.jpg"
+    );
+  });
+
+  it("Settings Profile - Validate change banner tooltip", async () => {
+    // Wait for toast notification to be closed
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+    // Hover on banner picture
+    await settingsProfileFirstUser.hoverOnBanner();
+
+    // Validate that change banner tooltip is displayed
+    const profileBannerTooltip =
+      await settingsProfileFirstUser.profileBannerTooltip;
+    await profileBannerTooltip.waitForExist();
+    await expect(profileBannerTooltip).toHaveTextContaining("Change banner");
+  });
+
+  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
+  it("Settings Profile - Add banner picture", async () => {
+    await settingsProfileFirstUser.uploadBannerPicture(
+      "./tests/fixtures/banner.jpg"
+    );
+  });
+
+  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
+  it("Settings Profile - Change profile picture", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+    await settingsProfileFirstUser.uploadProfilePicture(
+      "./tests/fixtures/second-profile.png"
+    );
+  });
+
+  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
+  it("Settings Profile - Change banner picture", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+    await settingsProfileFirstUser.uploadBannerPicture(
+      "./tests/fixtures/second-banner.jpg"
+    );
+  });
+
   it("Settings Profile - Validate Copy ID button tooltip", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
     // Validate Copy ID button tooltip
     await settingsProfileFirstUser.hoverOnCopyID();
 
@@ -103,48 +154,10 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.deleteStatus();
   });
 
-  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Add profile picture", async () => {
-    await settingsProfileFirstUser.uploadProfilePicture(
-      "./tests/fixtures/logo.jpg"
-    );
-  });
-
-  it("Settings Profile - Validate change banner tooltip", async () => {
-    // Hover on banner picture
-    await settingsProfileFirstUser.hoverOnBanner();
-
-    // Validate that change banner tooltip is displayed
-    const profileBannerTooltip =
-      await settingsProfileFirstUser.profileBannerTooltip;
-    await profileBannerTooltip.waitForExist();
-    await expect(profileBannerTooltip).toHaveTextContaining("Change banner");
-  });
-
-  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Add banner picture", async () => {
-    await settingsProfileFirstUser.uploadBannerPicture(
-      "./tests/fixtures/banner.jpg"
-    );
-
-    await settingsProfileFirstUser.usernameInput.waitForExist();
-  });
-
-  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Change profile picture", async () => {
-    await settingsProfileFirstUser.uploadProfilePicture(
-      "./tests/fixtures/second-profile.png"
-    );
-  });
-
-  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Change banner picture", async () => {
-    await settingsProfileFirstUser.uploadBannerPicture(
-      "./tests/fixtures/second-banner.jpg"
-    );
-  });
-
   it("Settings Profile - Status with more than 128 characters", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
     // Enter status value with more than 128 characters
     await settingsProfileFirstUser.enterStatus(
       "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
@@ -161,6 +174,9 @@ export default async function settingsProfile() {
   });
 
   it("Settings Profile - Username with less than 4 characters", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
     // Enter username value with less than 4 characters
     await settingsProfileFirstUser.enterUsername("123");
     // Validate that error message is displayed
@@ -175,6 +191,9 @@ export default async function settingsProfile() {
   });
 
   it("Settings Profile - Username - Spaces are not allowed", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
     // Enter username value with spaces
     await settingsProfileFirstUser.enterUsername("1234" + "             ");
     // Validate that error message is displayed
@@ -189,6 +208,9 @@ export default async function settingsProfile() {
   });
 
   it("Settings Profile - Username with non-alphanumeric characters", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
     // Enter username value with non-alphanumeric characters
     await settingsProfileFirstUser.enterUsername("test&^%*%#$");
     // Validate that error message is displayed
@@ -204,6 +226,9 @@ export default async function settingsProfile() {
   });
 
   it("Settings Profile - Username with more than 32 characters", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
     // Enter username value with more than 32 characters
     await settingsProfileFirstUser.enterUsername(
       "12345678901234567890123456789012345"
@@ -217,5 +242,8 @@ export default async function settingsProfile() {
 
     // Clear value from username input, then enter a valid value again
     await settingsProfileFirstUser.enterUsername("Test123");
+
+    // Wait for toast notification to be closed before starting next tests
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
   });
 }
