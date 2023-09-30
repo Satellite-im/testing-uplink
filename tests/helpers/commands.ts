@@ -459,3 +459,17 @@ export async function selectFileOnWindows(
   await listView.waitForExist({ reverse: true });
   await driver[instance].switchToWindow(uplinkContext);
 }
+
+export async function getUplinkWindowHandle(instance: string) {
+  // Do a for loop that will try to do the next lines for 3 times
+  for (let i = 0; i < 3; i++) {
+    try {
+      const uplinkContext = await driver[instance].getWindowHandle();
+      if (typeof uplinkContext === "string") {
+        return uplinkContext;
+      }
+    } catch (error) {
+      console.log("Error trying to get current Window Handle: ", error);
+    }
+  }
+}
