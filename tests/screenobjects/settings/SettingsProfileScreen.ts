@@ -325,9 +325,11 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
       const uplinkContext = await driver[this.executor].getWindowHandle();
-      const profileBannerWindows = await this.profileBanner;
-      await profileBannerWindows.click();
-      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      if (uplinkContext) {
+        const profileBannerWindows = await this.profileBanner;
+        await profileBannerWindows.click();
+        await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      }
     }
 
     // Validate that profile banner is displayed on screen
@@ -345,8 +347,10 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
       const uplinkContext = await driver[this.executor].getWindowHandle();
-      await this.clickOnAddPictureButton();
-      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      if (uplinkContext) {
+        await this.clickOnAddPictureButton();
+        await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      }
     }
 
     // Validate that profile banner is displayed on screen

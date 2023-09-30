@@ -458,8 +458,10 @@ export default class FilesScreen extends UplinkMainScreen {
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
       const uplinkContext = await driver[this.executor].getWindowHandle();
-      await this.clickOnUploadFile();
-      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      if (uplinkContext) {
+        await this.clickOnUploadFile();
+        await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      }
     }
   }
 

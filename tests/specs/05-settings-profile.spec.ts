@@ -136,6 +136,7 @@ export default async function settingsProfile() {
   it("Settings Profile - Click On Copy ID Button", async () => {
     // Click on Copy ID button and assert Toast Notification is displayed
     await settingsProfileFirstUser.clickOnCopyIDButton();
+    await settingsProfileFirstUser.clickOnCopyIDButton();
 
     // Wait for toast notification to be closed
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();

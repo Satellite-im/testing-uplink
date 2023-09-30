@@ -33,6 +33,7 @@ const SELECTORS_WINDOWS = {
   MESSAGE_GROUP_USER_IMAGE: '[name="User Image"]',
   MESSAGE_GROUP_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   MESSAGE_GROUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
+  MESSAGE_GROUP_USER_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   MESSAGE_GROUP_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   MESSAGE_GROUP_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   MESSAGE_REACTION_CONTAINER: '[name="message-reaction-container"]',
@@ -60,6 +61,8 @@ const SELECTORS_MACOS = {
   MESSAGE_GROUP_USER_IMAGE: "~User Image",
   MESSAGE_GROUP_USER_IMAGE_PROFILE: "~user-image-profile",
   MESSAGE_GROUP_USER_IMAGE_WRAP: "~user-image-wrap",
+  MESSAGE_GROUP_USER_INDICATOR:
+    '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   MESSAGE_GROUP_USER_INDICATOR_OFFLINE: "~indicator-offline",
   MESSAGE_GROUP_USER_INDICATOR_ONLINE: "~indicator-online",
   MESSAGE_REACTION_CONTAINER: "~message-reaction-container",
@@ -186,6 +189,13 @@ export default class MessageGroup extends UplinkMainScreen {
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP);
   }
 
+  get messageGroupUserIndicator() {
+    return this.instance
+      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
+      .$$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
+      .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR);
+  }
+
   get messageGroupUserIndicatorOffline() {
     return this.instance
       .$$(SELECTORS.MESSAGE_GROUP_WRAP)
@@ -221,10 +231,16 @@ export default class MessageGroup extends UplinkMainScreen {
     const groupWrap = await this.getLastGroupWrapReceived();
     const userImage = await groupWrap
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE);
+      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
     await userImage.waitForExist();
     return userImage;
+  }
+
+  async getLastGroupWrapReceivedIndicator() {
+    const groupWrap = await this.getLastGroupWrapReceived();
+    const indicator = await groupWrap.$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR);
+    await indicator.waitForExist();
+    return indicator;
   }
 
   async getLastGroupWrapReceivedOnline() {
@@ -252,6 +268,13 @@ export default class MessageGroup extends UplinkMainScreen {
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
     await userImage.waitForExist();
     return userImage;
+  }
+
+  async getLastGroupWrapSentIndicator() {
+    const groupWrap = await this.getLastGroupWrapSent();
+    const indicator = await groupWrap.$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR);
+    await indicator.waitForExist();
+    return indicator;
   }
 
   async getLastGroupWrapSentOnline() {
@@ -335,25 +358,15 @@ export default class MessageGroup extends UplinkMainScreen {
   // Context Menu methods
 
   async openLocalQuickProfile() {
-    const imageToRightClick = await this.getLastGroupWrapReceivedImage();
-    await this.hoverOnElement(imageToRightClick);
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(imageToRightClick, this.executor);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(imageToRightClick, this.executor);
-    }
+    const imageToClick = await this.getLastGroupWrapSentIndicator();
+    await this.hoverOnElement(imageToClick);
+    await imageToClick.click();
   }
 
   async openRemoteQuickProfile() {
-    const imageToRightClick = await this.getLastGroupWrapReceivedImage();
-    await this.hoverOnElement(imageToRightClick);
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(imageToRightClick, this.executor);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(imageToRightClick, this.executor);
-    }
+    const imageToClick = await this.getLastGroupWrapReceivedIndicator();
+    await this.hoverOnElement(imageToClick);
+    await imageToClick.click();
   }
 
   // Reactions Methods
