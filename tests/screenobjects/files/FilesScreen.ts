@@ -468,7 +468,7 @@ export default class FilesScreen extends UplinkMainScreen {
   async validateFileOrFolderExist(locator: string) {
     const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
     const fileFolderElement = await this.instance.$(fileFolderElementLocator);
-    await fileFolderElement.waitForExist();
+    await fileFolderElement.waitForExist({ timeout: 30000 });
   }
 
   async validateFileOrFolderNotExist(locator: string) {

@@ -465,8 +465,8 @@ export async function getUplinkWindowHandle(instance: string) {
   for (let i = 0; i < 3; i++) {
     try {
       const uplinkContext = await driver[instance].getWindowHandle();
-      if (typeof uplinkContext === "string") {
-        return uplinkContext;
+      if (typeof uplinkContext !== "undefined") {
+        return uplinkContext.toString();
       }
     } catch (error) {
       console.log("Error trying to get current Window Handle: ", error);
