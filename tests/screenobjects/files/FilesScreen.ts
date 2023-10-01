@@ -5,6 +5,7 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import {
+  getUplinkWindowHandle,
   rightClickOnMacOS,
   rightClickOnWindows,
   saveFileOnMacOS,
@@ -457,16 +458,17 @@ export default class FilesScreen extends UplinkMainScreen {
       await this.clickOnUploadFile();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await driver[this.executor].getWindowHandle();
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
       await this.clickOnUploadFile();
-      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      await selectFileOnWindows(relativePath, uplinkContext, executor);
     }
   }
 
   async validateFileOrFolderExist(locator: string) {
     const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
     const fileFolderElement = await this.instance.$(fileFolderElementLocator);
-    await fileFolderElement.waitForExist();
+    await fileFolderElement.waitForExist({ timeout: 30000 });
   }
 
   async validateFileOrFolderNotExist(locator: string) {

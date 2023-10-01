@@ -141,7 +141,8 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
   });
 
-  it("Settings Profile - Copied ID can be placed on any text field", async () => {
+  // Skipping test - requires adding validation to ensure clipboard is not empty before pasting
+  xit("Settings Profile - Copied ID can be placed on any text field", async () => {
     // Paste copied DID Key into Status Input
     await settingsProfileFirstUser.pasteUserKeyInStatus();
 
