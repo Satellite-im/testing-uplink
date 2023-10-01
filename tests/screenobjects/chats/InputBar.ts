@@ -5,7 +5,11 @@ import {
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
 } from "@helpers/constants";
-import { selectFileOnMacos, selectFileOnWindows } from "@helpers/commands";
+import {
+  getUplinkWindowHandle,
+  selectFileOnMacos,
+  selectFileOnWindows,
+} from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 const robot = require("robotjs");
 
@@ -235,10 +239,11 @@ export default class InputBar extends UplinkMainScreen {
       await this.selectUploadFromLocalDisk();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await driver[this.executor].getWindowHandle();
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
       await this.clickOnUploadFile();
       await this.selectUploadFromLocalDisk();
-      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      await selectFileOnWindows(relativePath, uplinkContext, executor);
     }
   }
 }
