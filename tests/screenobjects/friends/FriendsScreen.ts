@@ -788,6 +788,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateNoRequestsIsShown() {
+    // Ensure no requests message is displayed
     const noRequests = await this.noRequests;
     await noRequests.waitForExist();
   }

@@ -168,7 +168,7 @@ export default async function friends() {
     await friendsScreenFirstUser.validateNoRequestsIsShown();
 
     // Ensure that No requests message contains the text "Nothing to see here"
-    const noRequestsText = await this.noRequestsText;
+    const noRequestsText = await friendsScreenFirstUser.noRequestsText;
     await expect(noRequestsText).toHaveText("Nothing to see here");
   });
 
