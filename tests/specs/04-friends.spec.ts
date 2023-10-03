@@ -163,8 +163,13 @@ export default async function friends() {
   });
 
   it("Switch to Blocked Friends view and validate elements displayed", async () => {
+    // Go to blocked list and validate that No Requests text is shown
     await friendsScreenFirstUser.goToBlockedList();
-    await friendsScreenFirstUser.validateBlockedListIsShown();
+    await friendsScreenFirstUser.validateNoRequestsIsShown();
+
+    // Ensure that No requests message contains the text "Nothing to see here"
+    const noRequestsText = await this.noRequestsText;
+    await expect(noRequestsText).toHaveText("Nothing to see here");
   });
 
   it("Switch to All Friends view and validate elements displayed", async () => {

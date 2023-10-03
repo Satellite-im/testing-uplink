@@ -66,6 +66,8 @@ const SELECTORS_WINDOWS = {
   INCOMING_REQUESTS_LIST_LABEL: '[name="incoming-list-label"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "<Text>",
+  NO_REQUESTS: '[name="no-requests"]',
+  NO_REQUESTS_TEXT: "<Text>",
   OUTGOING_REQUESTS_LIST: '[name="Outgoing Requests List"]',
   OUTGOING_REQUESTS_LIST_LABEL: '[name="outgoing-list-label"]',
   PENDING_FRIENDS_BUTTON: '[name="pending-friends-button"]',
@@ -120,6 +122,8 @@ const SELECTORS_MACOS = {
   INCOMING_REQUESTS_LIST_LABEL: "~incoming-list-label",
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  NO_REQUESTS: "~no-requests",
+  NO_REQUESTS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   OUTGOING_REQUESTS_LIST: "~Outgoing Requests List",
   OUTGOING_REQUESTS_LIST_LABEL: "~outgoing-list-label",
   PENDING_FRIENDS_BUTTON: "~pending-friends-button",
@@ -328,6 +332,14 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   get inputErrorText() {
     return this.instance.$(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
+  }
+
+  get noRequests() {
+    return this.friendsBody.$(SELECTORS.NO_REQUESTS);
+  }
+
+  get noRequestsText() {
+    return this.noRequests.$(SELECTORS.NO_REQUESTS_TEXT);
   }
 
   get outgoingRequestsList() {
@@ -773,6 +785,11 @@ export default class FriendsScreen extends UplinkMainScreen {
   async validateIncomingListIsShown() {
     const incomingList = await this.incomingRequestsList;
     await incomingList.waitForExist();
+  }
+
+  async validateNoRequestsIsShown() {
+    const noRequests = await this.noRequests;
+    await noRequests.waitForExist();
   }
 
   async validateOutgoingListIsNotEmpty() {
