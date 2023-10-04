@@ -415,10 +415,11 @@ export default async function friends() {
 
     // Get the current list of Blocked list and validate that user does not appear there now
     await friendsScreenFirstUser.goToBlockedList();
-    await friendsScreenFirstUser.validateBlockedListIsShown();
-    const blockedList = await friendsScreenFirstUser.getBlockedList();
-    const blockedListIncludes = await blockedList.includes(friendName);
-    await expect(blockedListIncludes).toEqual(false);
+    await friendsScreenFirstUser.validateNoRequestsIsShown();
+
+    // Ensure that No requests message contains the text "Nothing to see here"
+    const noRequestsText = await friendsScreenFirstUser.noRequestsText;
+    await expect(noRequestsText).toHaveText("Nothing to see here");
   });
 
   it("Context Menu - Chat with Friend", async () => {
