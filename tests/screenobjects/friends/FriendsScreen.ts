@@ -782,6 +782,12 @@ export default class FriendsScreen extends UplinkMainScreen {
     );
   }
 
+  async validateIncomingListIsNotShown() {
+    await this.incomingRequestsList.waitForExist({
+      reverse: true,
+    });
+  }
+
   async validateIncomingListIsShown() {
     const incomingList = await this.incomingRequestsList;
     await incomingList.waitForExist();

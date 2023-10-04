@@ -555,14 +555,10 @@ export default async function friends() {
     const allListIncludes = await allFriendsList.includes(friendName);
     await expect(allListIncludes).toEqual(false);
 
-    // Get the current list of incoming requests and validate that user does not appear there now
+    // Go to Pending Requests and ensure that only Outgoing list is displayed on screen
     await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.validateIncomingListIsShown();
-    const incomingRequestsList = await friendsScreenFirstUser.getIncomingList();
-    const incomingListIncludes = await incomingRequestsList.includes(
-      friendName
-    );
-    await expect(incomingListIncludes).toEqual(false);
+    await friendsScreenFirstUser.validateIncomingListIsNotShown();
+    await friendsScreenFirstUser.validateOutgoingListIsShown();
   });
 
   it("Context Menu - Cancel Outgoing Request", async () => {
@@ -582,10 +578,11 @@ export default async function friends() {
 
     // Get the current list of Outgoing Requests and validate that user does not appear there now
     await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.validateOutgoingListIsShown();
-    const outgoingRequestsList = await friendsScreenFirstUser.getOutgoingList();
-    const outgoingListIncludes = outgoingRequestsList.includes(friendName);
-    await expect(outgoingListIncludes).toEqual(false);
+    await friendsScreenFirstUser.validateNoRequestsIsShown();
+
+    // Ensure that No requests message contains the text "Nothing to see here"
+    const noRequestsText = await friendsScreenFirstUser.noRequestsText;
+    await expect(noRequestsText).toHaveText("Nothing to see here");
   });
 
   it("Context Menu - Unblock User", async () => {
@@ -608,9 +605,10 @@ export default async function friends() {
 
     // Get the current list of Blocked list and validate that user does not appear there now
     await friendsScreenFirstUser.goToBlockedList();
-    await friendsScreenFirstUser.validateBlockedListIsShown();
-    const blockedList = await friendsScreenFirstUser.getBlockedList();
-    const blockedListIncludes = await blockedList.includes(friendName);
-    await expect(blockedListIncludes).toEqual(false);
+    await friendsScreenFirstUser.validateNoRequestsIsShown();
+
+    // Ensure that No requests message contains the text "Nothing to see here"
+    const noRequestsText = await friendsScreenFirstUser.noRequestsText;
+    await expect(noRequestsText).toHaveText("Nothing to see here");
   });
 }
