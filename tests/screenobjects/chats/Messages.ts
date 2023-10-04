@@ -300,10 +300,10 @@ export default class Messages extends UplinkMainScreen {
 
   async getLastMessageReceivedCodeLanguage() {
     const message = await this.getLastMessageReceivedLocator();
-    const messageCodeLanguage = await message
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE);
-    await messageCodeLanguage.waitForExist();
+    const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
+    const messageCodeLanguage = await messageText.$(
+      SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE
+    );
     return messageCodeLanguage;
   }
 
@@ -592,9 +592,10 @@ export default class Messages extends UplinkMainScreen {
 
   async getLastMessageSentCodeLanguage() {
     const message = await this.getLastMessageSentLocator();
-    const messageCodeLanguage = await message
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE);
+    const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
+    const messageCodeLanguage = await messageText.$(
+      SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE
+    );
     await messageCodeLanguage.waitForExist();
     return messageCodeLanguage;
   }
@@ -799,7 +800,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageLinkEmbed = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_LINK_EMBED
     );
-    await lastMessageLinkEmbed.waitForExist();
+    await lastMessageLinkEmbed.waitForExist({ timeout: 30000 });
     return lastMessageLinkEmbed;
   }
 
@@ -836,7 +837,7 @@ export default class Messages extends UplinkMainScreen {
     const lastMessageLinkEmbed = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_LINK_EMBED
     );
-    await lastMessageLinkEmbed.waitForExist();
+    await lastMessageLinkEmbed.waitForExist({ timeout: 30000 });
     return lastMessageLinkEmbed;
   }
 
