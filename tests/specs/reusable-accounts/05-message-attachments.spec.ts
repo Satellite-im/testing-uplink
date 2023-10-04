@@ -22,7 +22,7 @@ export default async function messageAttachmentsTests() {
     await sendFilesSecondUser.validateNoFilesAvailableIsShown();
 
     // Click outside of the modal to close it, in this case on the send message button
-    await chatsInputSecondUser.clickOnSendMessage();
+    await sendFilesSecondUser.clickOnCloseModal();
   });
 
   it("Send files from Browse Files - Upload an image on Files to run tests", async () => {
@@ -70,8 +70,7 @@ export default async function messageAttachmentsTests() {
     await sendFilesSecondUser.validateThumbnailIsShown("logo.jpg");
   });
 
-  // Skipped since there is a bug reported for this functionality that it is not solved yet
-  xit("Send files from Browse Files - Go to files button redirects to Files", async () => {
+  it("Send files from Browse Files - Go to files button redirects to Files", async () => {
     // Click on Go To Files button and validate User is redirected to Files Screen
     await sendFilesSecondUser.clickOnGoToFiles();
     await filesScreenSecondUser.validateFilesScreenIsShown();

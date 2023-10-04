@@ -13,6 +13,8 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
+  CLOSE_BUTTON: "<Button>",
+  CLOSE_BUTTON_MODAL: '[name="modal"]',
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_FILES_RENAME: '[name="files-rename"]',
   CONTEXT_MENU_FOLDER_DELETE: '[name="folder-delete"]',
@@ -36,6 +38,8 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  CLOSE_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
+  CLOSE_BUTTON_MODAL: "~modal",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_FILES_RENAME: "~files-rename",
   CONTEXT_MENU_FOLDER_DELETE: "~folder-delete",
@@ -67,6 +71,14 @@ currentOS === WINDOWS_DRIVER
 export default class SendFiles extends UplinkMainScreen {
   constructor(executor: string) {
     super(executor, SELECTORS.SEND_FILES_LAYOUT);
+  }
+
+  get closeButton() {
+    return this.closeButtonModal.$(SELECTORS.CLOSE_BUTTON);
+  }
+
+  get closeButtonModal() {
+    return this.instance.$(SELECTORS.CLOSE_BUTTON_MODAL);
   }
 
   get contextMenu() {
@@ -147,6 +159,11 @@ export default class SendFiles extends UplinkMainScreen {
 
   get sendFilesModalSendButton() {
     return this.sendFilesBody.$(SELECTORS.SEND_FILES_MODAL_SEND_BUTTON);
+  }
+
+  async clickOnCloseModal() {
+    const closeButton = await this.closeButton;
+    await closeButton.click();
   }
 
   async clickOnFileOrFolder(locator: string) {
