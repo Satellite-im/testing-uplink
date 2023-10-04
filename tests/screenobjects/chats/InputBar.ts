@@ -205,6 +205,11 @@ export default class InputBar extends UplinkMainScreen {
     await uploadButtonLocalDisk.click();
   }
 
+  async selectUploadFromStorage() {
+    const uploadButtonStorage = await this.uploadButtonStorage;
+    await uploadButtonStorage.click();
+  }
+
   async typeCodeOnInputBar(language: string, codeToType: string) {
     const inputText = await this.inputText;
     await inputText.clearValue();
@@ -245,5 +250,10 @@ export default class InputBar extends UplinkMainScreen {
       await this.selectUploadFromLocalDisk();
       await selectFileOnWindows(relativePath, uplinkContext, executor);
     }
+  }
+
+  async openUploadFilesFromStorage() {
+    await this.clickOnUploadFile();
+    await this.selectUploadFromStorage();
   }
 }
