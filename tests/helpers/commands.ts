@@ -398,26 +398,25 @@ export async function saveFileOnWindows(
   instance: string
 ) {
   // Get the filepath to select on browser
-  const currentInstance = await browser.getInstance(instance);
   const filepath = join(process.cwd(), "\\tests\\fixtures\\", filename);
 
-  // Pause for one second until explorer window is displayed and switch to it
+  // Pause for 5 seconds until explorer window is displayed and switch to it
+  await browser.pause(5000);
   const windows = await driver[instance].getWindowHandles();
   let explorerWindow;
-  if (windows[0] === uplinkContext) {
-    explorerWindow = windows[1];
-  } else {
-    explorerWindow = windows[0];
-  }
-
+  windows[0] === uplinkContext
+    ? (explorerWindow = windows[1])
+    : (explorerWindow = windows[0]);
   await driver[instance].switchToWindow(explorerWindow);
 
   // Wait for Save Panel to be displayed
-  const titleBar = await currentInstance.$("~TitleBar");
+  const titleBar = await driver[instance].$("~TitleBar");
   await titleBar.waitForExist();
 
   // Type file location and hit enter
-  const editInput = await currentInstance.$("/Window/Pane[1]/ComboBox[1]/Edit");
+  const editInput = await driver[instance].$(
+    "/Window/Pane[1]/ComboBox[1]/Edit"
+  );
   await editInput.clearValue();
   await editInput.setValue(filename + "\uE007");
 
@@ -425,10 +424,6 @@ export async function saveFileOnWindows(
   await titleBar.waitForExist({ reverse: true });
 
   await driver[instance].switchToWindow(uplinkContext);
-
-  // Delete file from local files
-  await rmSync(filepath, { force: true });
-  return;
 }
 
 export async function selectFileOnWindows(

@@ -29,8 +29,8 @@ export default async function messageAttachmentsTests() {
     // Go to Files Screen andand upload an image file before starting
     await chatsInputSecondUser.goToFiles();
     await filesScreenSecondUser.validateFilesScreenIsShown();
-    await filesScreenSecondUser.uploadFile("./tests/fixtures/logo.jpg");
-    await filesScreenSecondUser.validateFileOrFolderExist("logo.jpg");
+    await filesScreenSecondUser.uploadFile("./tests/fixtures/banner.jpg");
+    await filesScreenSecondUser.validateFileOrFolderExist("banner.jpg");
   });
 
   it("Send files from Browse Files - Upload a txt file in a different folder", async () => {
@@ -54,8 +54,8 @@ export default async function messageAttachmentsTests() {
 
     // Go to Home Folder and validate thumbnail for file is shown
     await sendFilesSecondUser.clickOnHomeFolderCrumb();
-    await filesScreenSecondUser.validateFileOrFolderExist("logo.jpg");
-    await sendFilesSecondUser.validateThumbnailIsShown("logo.jpg");
+    await filesScreenSecondUser.validateFileOrFolderExist("banner.jpg");
+    await sendFilesSecondUser.validateThumbnailIsShown("banner.jpg");
   });
 
   it("Send files from Browse Files - User can navigate through folders and to home", async () => {
@@ -64,10 +64,10 @@ export default async function messageAttachmentsTests() {
     await filesScreenSecondUser.validateFileOrFolderExist("testfile.txt");
     await sendFilesSecondUser.validateThumbnailIsShown("testfile.txt");
 
-    // Navigate to home folder and ensure thumbnail from logo.jpg is shown
+    // Navigate to home folder and ensure thumbnail from banner.jpg is shown
     await sendFilesSecondUser.clickOnHomeFolderCrumb();
-    await filesScreenSecondUser.validateFileOrFolderExist("logo.jpg");
-    await sendFilesSecondUser.validateThumbnailIsShown("logo.jpg");
+    await filesScreenSecondUser.validateFileOrFolderExist("banner.jpg");
+    await sendFilesSecondUser.validateThumbnailIsShown("banner.jpg");
   });
 
   it("Send files from Browse Files - Go to files button redirects to Files", async () => {
@@ -97,7 +97,7 @@ export default async function messageAttachmentsTests() {
 
   it("Send files from Browse Files - Can select files from different folders and send files counter is updated", async () => {
     // Select one file from root folder and ensure Send Files button displays 1/8 File(s)
-    await sendFilesSecondUser.clickOnFileOrFolder("logo.jpg");
+    await sendFilesSecondUser.clickOnFileOrFolder("banner.jpg");
     await sendFilesSecondUser.validateSendFilesButtonText("Send 1/8 File(s)");
 
     // Go to testfolder01 and select one file from this folder
@@ -123,7 +123,7 @@ export default async function messageAttachmentsTests() {
 
     // Obtain the list of attachments added to Compose Attachment
     await chatsAttachmentSecondUser.validateAttachmentWithFileNameIsAdded(
-      "logo.jpg",
+      "banner.jpg",
       true
     );
   });
@@ -155,10 +155,20 @@ export default async function messageAttachmentsTests() {
     await expect(message).toHaveTextContaining("Attached");
   });
 
-  it("Chat User B - Validate compose attachments contents", async () => {
+  it("Chat Messages with Files - Local user can download file sent", async () => {
+    // Download latest image file received
+    await chatsMessagesSecondUser.downloadLastSentFile("downloaded.jpg");
+  });
+
+  it("Chat Messages with Files - Remote user can download file received", async () => {
     // Switch to User B window
     await chatsInputSecondUser.switchToOtherUserWindow();
 
+    // Download latest image file received
+    await chatsMessagesSecondUser.downloadLastReceivedFile("downloaded.jpg");
+  });
+
+  it("Send Files on Chats - Validate compose attachments contents", async () => {
     // Continue with test execution and clear input bar
     await chatsInputSecondUser.clearInputBar();
 
@@ -173,12 +183,12 @@ export default async function messageAttachmentsTests() {
     await chatsAttachmentSecondUser.composeAttachmentsFileNameText.waitForExist();
   });
 
-  it("Chat User B - Delete attachment before sending the message", async () => {
+  it("Send Files on Chats - Delete attachment before sending the message", async () => {
     // Click on upload button and attach a file to compose attachment
     await chatsAttachmentSecondUser.deleteFileOnComposeAttachment();
   });
 
-  it("Chat User A - Select a file and send message with attachment", async () => {
+  it("Send File from Add Files - Select a file and send message with attachment", async () => {
     // Click on upload button and attach a file to compose attachment
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.uploadFileFromLocalDisk(
@@ -194,7 +204,7 @@ export default async function messageAttachmentsTests() {
     await chatsMessagesFirstUser.waitForMessageSentToExist("Attached2");
   });
 
-  it("Chat User A - Message Sent With Attachment - Text contents", async () => {
+  it("Send Files on Chats - Message Sent With Attachment - Text contents", async () => {
     await chatsMessagesFirstUser.chatMessageFileEmbedLocal.waitForExist();
 
     // Validate text from message containing attachment
@@ -202,32 +212,32 @@ export default async function messageAttachmentsTests() {
     await expect(textMessage).toHaveTextContaining("Attached2");
   });
 
-  it("Chat User A - Message Sent With Attachment - File Meta Data", async () => {
+  it("Send Files on Chats - Message Sent With Attachment - File Meta Data", async () => {
     // Validate file metadata is displayed correctly on last chat message sent
     const fileMeta = await chatsMessagesFirstUser.getLastMessageSentFileMeta();
     await expect(fileMeta).toHaveTextContaining("47 B");
   });
 
-  it("Chat User A - Message Sent With Attachment - File Name", async () => {
+  it("Send Files on Chats - Message Sent With Attachment - File Name", async () => {
     // Validate filename is displayed correctly on last chat message sent
     const fileName = await chatsMessagesFirstUser.getLastMessageSentFileName();
     await expect(fileName).toHaveTextContaining("testfile.txt");
   });
 
-  it("Chat User A - Message Sent With Attachment - File Icon", async () => {
+  it("Send Files on Chats - Message Sent With Attachment - File Icon", async () => {
     // Validate file icon is displayed correctly on last chat message sent
     const fileIcon = await chatsMessagesFirstUser.getLastMessageSentFileIcon();
     await fileIcon.waitForExist();
   });
 
-  it("Chat User A - Message Sent With Attachment - Download Button", async () => {
+  it("Send Files on Chats - Message Sent With Attachment - Download Button", async () => {
     // Validate file download button is displayed correctly on last chat message sent
     const fileDownloadButton =
       await chatsMessagesFirstUser.getLastMessageSentDownloadButton();
     await fileDownloadButton.waitForExist();
   });
 
-  it("Chat User B - Received Message with Attachment - Text Message contents", async () => {
+  it("Receive Files on Chats - Received Message with Attachment - Text Message contents", async () => {
     // With User B - Validate that message with attachment was received
     await chatsMessagesSecondUser.switchToOtherUserWindow();
     await chatsInputSecondUser.clickOnInputBar();
@@ -238,28 +248,28 @@ export default async function messageAttachmentsTests() {
     await expect(message).toHaveTextContaining("Attached2");
   });
 
-  it("Chat User B - Received Message with Attachment - File Metadata", async () => {
+  it("Receive Files on Chats - File Metadata", async () => {
     // Validate file metadata is displayed correctly on last chat message sent
     const fileMeta =
       await chatsMessagesSecondUser.getLastMessageReceivedFileMeta();
     await expect(fileMeta).toHaveTextContaining("47 B");
   });
 
-  it("Chat User B - Received Message with Attachment - File Name", async () => {
+  it("Receive Files on Chats - File Name", async () => {
     // Validate filename is displayed correctly on last chat message sent
     const fileName =
       await chatsMessagesSecondUser.getLastMessageReceivedFileName();
     await expect(fileName).toHaveTextContaining("testfile.txt");
   });
 
-  it("Chat User B - Received Message with Attachment - File Icon", async () => {
+  it("Receive Files on Chats - File Icon", async () => {
     // Validate file icon is displayed correctly on last chat message sent
     const fileIcon =
       await chatsMessagesSecondUser.getLastMessageReceivedFileIcon();
     await fileIcon.waitForExist();
   });
 
-  it("Chat User B - Received Message with Attachment - Download Button", async () => {
+  it("Receive Files on Chats - Download Button", async () => {
     // Validate file download button is displayed correctly on last chat message sent
     const fileDownloadButton =
       await chatsMessagesSecondUser.getLastMessageReceivedDownloadButton();

@@ -389,9 +389,10 @@ export default class FilesScreen extends UplinkMainScreen {
       await this.clickOnFilesDownload();
       await saveFileOnMacOS(filename, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await driver.getWindowHandle();
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
       await this.clickOnFilesDownload();
-      await saveFileOnWindows(filename, uplinkContext, this.executor);
+      await saveFileOnWindows(filename, uplinkContext, executor);
     }
   }
 

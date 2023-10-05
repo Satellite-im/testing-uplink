@@ -4,7 +4,13 @@ import {
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
 } from "@helpers/constants";
-import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
+import {
+  getUplinkWindowHandle,
+  rightClickOnMacOS,
+  rightClickOnWindows,
+  saveFileOnMacOS,
+  saveFileOnWindows,
+} from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
@@ -695,6 +701,37 @@ export default class Messages extends UplinkMainScreen {
   }
 
   // Messages With Files Methods
+
+  async downloadLastReceivedFile(filename: string) {
+    // Get download button from last received file
+    const downloadButton = await this.getLastMessageReceivedDownloadButton();
+
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await downloadButton.click();
+      await saveFileOnMacOS(filename, this.executor);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
+      await downloadButton.click();
+      await saveFileOnWindows(filename, uplinkContext, executor);
+    }
+  }
+
+  async downloadLastSentFile(filename: string) {
+    const downloadButton = await this.getLastMessageSentDownloadButton();
+
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await downloadButton.click();
+      await saveFileOnMacOS(filename, this.executor);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
+      await downloadButton.click();
+      await saveFileOnWindows(filename, uplinkContext, executor);
+    }
+  }
 
   async getLastMessageReceivedDownloadButton() {
     const lastMessage = await this.getLastMessageReceivedLocator();
