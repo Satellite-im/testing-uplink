@@ -192,12 +192,6 @@ jobs:
           mkdir ./tests/fixtures/users/mac2
           cp -r ./tests/fixtures/users/FriendsTestUser/ ./tests/fixtures/users/mac2/FriendsTestUser
 
-      - name: Close Native Alerts on macOS 🚫
-        run: |
-          # Close any open system alerts using AppleScript
-          osascript -e 'tell application "System Events" to keystroke return'
-        continue-on-error: true
-
       - name: Run Tests on MacOS 🧪
         run: npm run mac.ci
 

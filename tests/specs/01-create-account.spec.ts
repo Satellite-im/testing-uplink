@@ -1,5 +1,4 @@
 import "module-alias/register";
-import { maximizeWindow } from "@helpers/commands";
 import { USER_A_INSTANCE } from "@helpers/constants";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
@@ -198,8 +197,5 @@ export default async function createAccount() {
     await expect(statusOfButton).toEqual("true");
     await createUserFirstUser.clickOnCreateAccount();
     await welcomeScreenFirstUser.waitForIsShown(true);
-
-    // Maximize Window on Execution
-    await maximizeWindow(USER_A_INSTANCE);
   });
 }
