@@ -363,6 +363,12 @@ export default class FilesScreen extends UplinkMainScreen {
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await inputFolderFileName.waitForExist();
     await inputFolderFileName.setValue(name);
+    // Retry typing if appium fails on type
+    const inputValue = await inputFolderFileName.getText();
+    if (inputValue !== name) {
+      await this.createFolder(name);
+    }
+    // If name was typed correctly, continue with method execution
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(name);
     const newFolderElement = await this.instance.$(newFolder);

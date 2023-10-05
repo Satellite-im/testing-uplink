@@ -13,11 +13,14 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
+  CLOSE_BUTTON: "<Button>",
+  CLOSE_BUTTON_MODAL: '[name="modal"]',
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_FILES_RENAME: '[name="files-rename"]',
   CONTEXT_MENU_FOLDER_DELETE: '[name="folder-delete"]',
   CONTEXT_MENU_FOLDER_RENAME: '[name="folder-rename"]',
   FILE_FOLDER_NAME_TEXT: "//Text/Text",
+  FILE_THUMBNAIL: "<Image>",
   FILES_BREADCRUMBS: '[name="files-breadcrumbs"]',
   FILES_CRUMB: '[name="crumb"]',
   FILES_CRUMB_TEXT: "<Text>",
@@ -28,18 +31,22 @@ const SELECTORS_WINDOWS = {
   GO_TO_FILES_BUTTON: '[name="go_to_files_btn"]',
   HOME_DIR: '[name="home-dir"]',
   HOME_DIR_TEXT: '[name="Home"]',
+  NO_FILES_AVAILABLE: "//Text/Text",
   SEND_FILES_BODY: '[name="send-files-body"]',
   SEND_FILES_LAYOUT: '[name="send-files-layout"]',
   SEND_FILES_MODAL_SEND_BUTTON: '[name="send_files_modal_send_button"]',
 };
 
 const SELECTORS_MACOS = {
+  CLOSE_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
+  CLOSE_BUTTON_MODAL: "~modal",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_FILES_RENAME: "~files-rename",
   CONTEXT_MENU_FOLDER_DELETE: "~folder-delete",
   CONTEXT_MENU_FOLDER_RENAME: "~folder-rename",
   FILE_FOLDER_NAME_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
+  FILE_THUMBNAIL: "-ios class chain:**/XCUIElementTypeImage",
   FILES_BREADCRUMBS: "~files-breadcrumbs",
   FILES_CRUMB: "~crumb",
   FILES_CRUMB_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
@@ -50,6 +57,8 @@ const SELECTORS_MACOS = {
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   INPUT_FOLDER_FILE_NAME: "-ios class chain:**/XCUIElementTypeTextField",
+  NO_FILES_AVAILABLE:
+    "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   SEND_FILES_BODY: "~send-files-body",
   SEND_FILES_LAYOUT: "~send-files-layout",
   SEND_FILES_MODAL_SEND_BUTTON: "~send_files_modal_send_button",
@@ -62,6 +71,14 @@ currentOS === WINDOWS_DRIVER
 export default class SendFiles extends UplinkMainScreen {
   constructor(executor: string) {
     super(executor, SELECTORS.SEND_FILES_LAYOUT);
+  }
+
+  get closeButton() {
+    return this.closeButtonModal.$(SELECTORS.CLOSE_BUTTON);
+  }
+
+  get closeButtonModal() {
+    return this.instance.$(SELECTORS.CLOSE_BUTTON_MODAL);
   }
 
   get contextMenu() {
@@ -82,6 +99,10 @@ export default class SendFiles extends UplinkMainScreen {
 
   get fileFolderNameText() {
     return this.sendFilesBody.$(SELECTORS.FILE_FOLDER_NAME_TEXT);
+  }
+
+  get fileThumbnail() {
+    return this.sendFilesBody.$(SELECTORS.FILE_THUMBNAIL);
   }
 
   get filesBreadcrumbs() {
@@ -124,6 +145,10 @@ export default class SendFiles extends UplinkMainScreen {
     return this.sendFilesBody.$(SELECTORS.INPUT_FOLDER_FILE_NAME);
   }
 
+  get noFilesAvailable() {
+    return this.sendFilesBody.$(SELECTORS.NO_FILES_AVAILABLE);
+  }
+
   get sendFilesBody() {
     return this.sendFilesLayout.$(SELECTORS.SEND_FILES_BODY);
   }
@@ -136,9 +161,16 @@ export default class SendFiles extends UplinkMainScreen {
     return this.sendFilesBody.$(SELECTORS.SEND_FILES_MODAL_SEND_BUTTON);
   }
 
+  async clickOnCloseModal() {
+    const closeButton = await this.closeButton;
+    await closeButton.click();
+  }
+
   async clickOnFileOrFolder(locator: string) {
     const fileOrFolderLocator = await this.getLocatorOfFolderFile(locator);
-    const fileOrFolderElement = await this.instance.$(fileOrFolderLocator);
+    const fileOrFolderElement = await this.instance
+      .$(fileOrFolderLocator)
+      .$(SELECTORS.FILE_THUMBNAIL);
     await fileOrFolderElement.click();
   }
 
@@ -166,6 +198,18 @@ export default class SendFiles extends UplinkMainScreen {
   async clickOnSendFilesButton() {
     const sendFilesButton = await this.sendFilesModalSendButton;
     await sendFilesButton.click();
+  }
+
+  async getValueFromSendFilesButton() {
+    const currentDriver = await this.getCurrentDriver();
+    const sendFilesModalSendButton = await this.sendFilesModalSendButton;
+    let result;
+    if (currentDriver === WINDOWS_DRIVER) {
+      result = await sendFilesModalSendButton.getAttribute("HelpText");
+    } else {
+      result = await sendFilesModalSendButton.getAttribute("placeholderValue");
+    }
+    return result.toString();
   }
 
   async typeOnFileFolderNameInput(name: string) {
@@ -236,9 +280,28 @@ export default class SendFiles extends UplinkMainScreen {
     await this.instance.$(fileFolderLocator).waitForExist({ reverse: true });
   }
 
+  async validateNoFilesAvailableIsShown() {
+    const noFilesAvailable = await this.noFilesAvailable;
+    await noFilesAvailable.waitForExist();
+    await expect(noFilesAvailable).toHaveTextContaining("NO FILES AVAILABLE.");
+  }
+
+  async validateSendFilesButtonText(expectedText: string) {
+    await this.getValueFromSendFilesButton().then((value) => {
+      expect(value).toEqual(expectedText);
+    });
+  }
+
   async validateSendFilesModalIsShown() {
     const filesBody = await this.sendFilesLayout;
     await filesBody.waitForExist();
+  }
+
+  async validateThumbnailIsShown(name: string) {
+    const fileElementLocator = await this.getLocatorOfFolderFile(name);
+    const fileElement = await this.instance.$(fileElementLocator);
+    const fileThumbnail = await fileElement.$(SELECTORS.FILE_THUMBNAIL);
+    await fileThumbnail.waitForExist();
   }
 
   // Context Menu methods
