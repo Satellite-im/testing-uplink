@@ -92,7 +92,7 @@ export default async function chatTopbarTests() {
     await pinnedMessagesFirstUser.validateFirstPinnedMessageImageProfileIsShown();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageTimestampIsShown();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageSender("ChatUserA");
-    await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Attached");
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Attached2");
   });
 
   it("Pinned Messages - Pinned message with attachment shows icon, extension, filename and metadata", async () => {

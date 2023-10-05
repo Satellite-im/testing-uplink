@@ -81,24 +81,12 @@ export default async function messageAttachmentsTests() {
     await sendFilesSecondUser.validateSendFilesModalIsShown();
   });
 
-  it("Send files from Browse Files - Send files button displays number of files selected", async () => {
+  it("Send files from Browse Files - Send files button shows 0/8 files if no files are selected", async () => {
     // When no files are selected, Send Files button should display 0/8 File(s)
     await sendFilesSecondUser.validateSendFilesButtonText("Send 0/8 File(s)");
-
-    // Select one file and ensure Send Files button should display10/8 File(s)
-    await sendFilesSecondUser.clickOnFileOrFolder("logo.jpg");
-    await sendFilesSecondUser.validateSendFilesButtonText("Send 1/8 File(s)");
-
-    // Unselect the file previously selected and ensure Send Files button displays 0/8 File(s) again
-    await sendFilesSecondUser.clickOnFileOrFolder("logo.jpg");
-    await sendFilesSecondUser.validateSendFilesButtonText("Send 0/8 File(s)");
   });
 
-  xit("Send files from Browse Files - User can select files to send from multiple folders", async () => {
-    // Pending work to be done here
-  });
-
-  // Skipped since there is a bug reported for this test
+  // Skipped since there is a bug reported for this button
   xit("Send files from Browse Files - User cannot click on send files if no files are selected", async () => {
     // Click on Send files button without any files selected
     await sendFilesSecondUser.clickOnSendFilesButton();
@@ -107,14 +95,29 @@ export default async function messageAttachmentsTests() {
     await sendFilesSecondUser.validateSendFilesModalIsShown();
   });
 
-  it("Send files from Browse Files - Files selected will be displayed on Compose Attachment", async () => {
-    // Remove the files previously selected
+  it("Send files from Browse Files - Can select files from different folders and send files counter is updated", async () => {
+    // Select one file from root folder and ensure Send Files button displays 1/8 File(s)
     await sendFilesSecondUser.clickOnFileOrFolder("logo.jpg");
+    await sendFilesSecondUser.validateSendFilesButtonText("Send 1/8 File(s)");
 
-    // Send the files selected
+    // Go to testfolder01 and select one file from this folder
+    await sendFilesSecondUser.clickOnFileOrFolder("testfolder01");
+    await filesScreenSecondUser.validateFileOrFolderExist("testfile.txt");
+    await sendFilesSecondUser.clickOnFileOrFolder("testfile.txt");
+
+    // Ensure Send Files button displays 2/8 File(s)
+    await sendFilesSecondUser.validateSendFilesButtonText("Send 2/8 File(s)");
+
+    // Remove selection from file and valiate Send Files button displays 1/8 File(s)
+    await sendFilesSecondUser.clickOnFileOrFolder("testfile.txt");
+    await sendFilesSecondUser.validateSendFilesButtonText("Send 1/8 File(s)");
+  });
+
+  it("Send files from Browse Files - Files selected will be displayed on Compose Attachment", async () => {
+    // Send the only image file previously selected
     await sendFilesSecondUser.clickOnSendFilesButton();
 
-    // Validate files displayed on Compose Attachment
+    // Validate file is displayed on Compose Attachment
     // Validate compose attachments displays the files to be uploaded before sending the message
     await chatsAttachmentSecondUser.validateComposeAttachmentsIsShown();
 
@@ -123,13 +126,33 @@ export default async function messageAttachmentsTests() {
       "logo.jpg",
       true
     );
-
-    // Click on delete compose attachment
-    await chatsAttachmentSecondUser.deleteFileOnComposeAttachment();
   });
 
-  xit("Send files from Browse Files - Message sent with attachments is shown on local and remote side", async () => {
-    // Pending work to be done here
+  it("Send files from Browse Files - Message sent with attachments is shown on local side", async () => {
+    // Type a text message and send it
+    await chatsInputSecondUser.typeMessageOnInput("Attached");
+    await chatsInputSecondUser.clickOnSendMessage();
+
+    // Ensure that message sent with attached file is displayed on local side
+    await chatsMessagesSecondUser.waitForMessageSentToExist("Attached");
+
+    await chatsMessagesSecondUser.chatMessageFileEmbedLocal.waitForExist();
+
+    // Validate text from message containing attachment
+    const textMessage = await chatsMessagesSecondUser.getLastMessageSentText();
+    await expect(textMessage).toHaveTextContaining("Attached");
+  });
+
+  it("Send files from Browse Files - Message sent with attachments is shown on remote side", async () => {
+    // Ensure that message sent with attached file is displayed on remote side
+    // With User A- Validate that message with attachment was received
+    await chatsMessagesFirstUser.switchToOtherUserWindow();
+    await chatsInputFirstUser.clickOnInputBar();
+    await chatsMessagesFirstUser.chatMessageFileEmbedRemote.waitForExist();
+
+    // Validate text from message containing attachment
+    const message = await chatsMessagesFirstUser.getLastMessageReceivedText();
+    await expect(message).toHaveTextContaining("Attached");
   });
 
   it("Chat User B - Validate compose attachments contents", async () => {
@@ -166,9 +189,9 @@ export default async function messageAttachmentsTests() {
     await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForExist();
 
     // Type a text message and send it
-    await chatsInputFirstUser.typeMessageOnInput("Attached");
+    await chatsInputFirstUser.typeMessageOnInput("Attached2");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("Attached");
+    await chatsMessagesFirstUser.waitForMessageSentToExist("Attached2");
   });
 
   it("Chat User A - Message Sent With Attachment - Text contents", async () => {
@@ -176,7 +199,7 @@ export default async function messageAttachmentsTests() {
 
     // Validate text from message containing attachment
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("Attached");
+    await expect(textMessage).toHaveTextContaining("Attached2");
   });
 
   it("Chat User A - Message Sent With Attachment - File Meta Data", async () => {
@@ -212,7 +235,7 @@ export default async function messageAttachmentsTests() {
 
     // Validate text from message containing attachment
     const message = await chatsMessagesSecondUser.getLastMessageReceivedText();
-    await expect(message).toHaveTextContaining("Attached");
+    await expect(message).toHaveTextContaining("Attached2");
   });
 
   it("Chat User B - Received Message with Attachment - File Metadata", async () => {
