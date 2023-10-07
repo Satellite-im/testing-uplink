@@ -24,7 +24,7 @@ const SELECTORS_WINDOWS = {
   ADD_FOLDER_BUTTON: '[name="add-folder"]',
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_FILES_DELETE: '[name="files-delete"]',
-  CONTEXT_MENU_FILES_DOWNLOAD: '[name="files-download"]',
+  CONTEXT_MENU_FILES_DOWNLOAD_SHARE: '[name="files-download"]',
   CONTEXT_MENU_FILES_RENAME: '[name="files-rename"]',
   CONTEXT_MENU_FOLDER_DELETE: '[name="folder-delete"]',
   CONTEXT_MENU_FOLDER_RENAME: '[name="folder-rename"]',
@@ -66,7 +66,7 @@ const SELECTORS_MACOS = {
   ADD_FOLDER_BUTTON: "~add-folder",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_FILES_DELETE: "~files-delete",
-  CONTEXT_MENU_FILES_DOWNLOAD: "~files-download",
+  CONTEXT_MENU_FILES_DOWNLOAD_SHARE: "~files-download",
   CONTEXT_MENU_FILES_RENAME: "~files-rename",
   CONTEXT_MENU_FOLDER_DELETE: "~folder-delete",
   CONTEXT_MENU_FOLDER_RENAME: "~folder-rename",
@@ -145,11 +145,15 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   get contextMenuFilesDownload() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_DOWNLOAD);
+    return this.instance.$$(SELECTORS.CONTEXT_MENU_FILES_DOWNLOAD_SHARE)[1];
   }
 
   get contextMenuFilesRename() {
     return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_RENAME);
+  }
+
+  get contextMenuFilesShare() {
+    return this.instance.$$(SELECTORS.CONTEXT_MENU_FILES_DOWNLOAD_SHARE)[0];
   }
 
   get contextMenuFolderDelete() {

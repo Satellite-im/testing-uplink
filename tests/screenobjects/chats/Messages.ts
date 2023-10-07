@@ -719,9 +719,9 @@ export default class Messages extends UplinkMainScreen {
   }
 
   async downloadLastSentFile(filename: string) {
-    const downloadButton = await this.getLastMessageSentDownloadButton();
-
     const currentDriver = await this.getCurrentDriver();
+    const downloadButton = await this.getLastMessageSentDownloadButton();
+    await this.hoverOnElement(downloadButton);
     if (currentDriver === MACOS_DRIVER) {
       await downloadButton.click();
       await saveFileOnMacOS(filename, this.executor);
@@ -784,10 +784,6 @@ export default class Messages extends UplinkMainScreen {
 
   async getLastMessageSentDownloadButton() {
     const lastMessage = await this.getLastMessageSentLocator();
-    const lastMessageFileIcon = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_ICON
-    );
-    await this.hoverOnElement(lastMessageFileIcon);
     const getLastMessageSentDownloadButton = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_BUTTON
     );
