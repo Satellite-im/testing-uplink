@@ -1,4 +1,5 @@
 import "module-alias/register";
+import { faker } from "@faker-js/faker";
 import {
   MACOS_DRIVER,
   WINDOWS_DRIVER,
@@ -702,7 +703,10 @@ export default class Messages extends UplinkMainScreen {
 
   // Messages With Files Methods
 
-  async downloadLastReceivedFile(filename: string) {
+  async downloadLastReceivedFile(extension: string) {
+    // Generate a random filename for downloaded file
+    const filename = faker.lorem.word(5) + extension;
+
     // First, obtain image locator and hover on it
     const imageToDownload = await this.getLastMessageReceivedFileEmbed();
     await this.hoverOnElement(imageToDownload);
@@ -723,7 +727,10 @@ export default class Messages extends UplinkMainScreen {
     }
   }
 
-  async downloadLastSentFile(filename: string) {
+  async downloadLastSentFile(extension: string) {
+    // Generate a random filename for downloaded file
+    const filename = faker.lorem.word(5) + extension;
+
     // First, obtain image locator and hover on it
     const imageToDownload = await this.getLastMessageSentFileEmbed();
     await this.hoverOnElement(imageToDownload);
