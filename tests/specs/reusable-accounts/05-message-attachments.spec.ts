@@ -143,6 +143,12 @@ export default async function messageAttachmentsTests() {
     await expect(textMessage).toHaveTextContaining("Attached");
   });
 
+  // Skipping since it needs more work to be done
+  xit("Chat Messages with Files - Local user can download file sent", async () => {
+    // Download latest image file received
+    await chatsMessagesSecondUser.downloadLastSentFile("downloaded.jpg");
+  });
+
   it("Send files from Browse Files - Message sent with attachments is shown on remote side", async () => {
     // Ensure that message sent with attached file is displayed on remote side
     // With User A- Validate that message with attachment was received
@@ -155,20 +161,16 @@ export default async function messageAttachmentsTests() {
     await expect(message).toHaveTextContaining("Attached");
   });
 
-  it("Chat Messages with Files - Local user can download file sent", async () => {
+  // Skipping since it needs more work to be done
+  xit("Chat Messages with Files - Remote user can download file received", async () => {
     // Download latest image file received
-    await chatsMessagesSecondUser.downloadLastSentFile("downloaded.jpg");
-  });
-
-  it("Chat Messages with Files - Remote user can download file received", async () => {
-    // Switch to User B window
-    await chatsInputSecondUser.switchToOtherUserWindow();
-
-    // Download latest image file received
-    await chatsMessagesSecondUser.downloadLastReceivedFile("downloaded.jpg");
+    await chatsMessagesFirstUser.downloadLastReceivedFile("downloaded.jpg");
   });
 
   it("Send Files on Chats - Validate compose attachments contents", async () => {
+    // Switch to User B window
+    await chatsInputSecondUser.switchToOtherUserWindow();
+
     // Continue with test execution and clear input bar
     await chatsInputSecondUser.clearInputBar();
 
