@@ -143,8 +143,7 @@ export default async function messageAttachmentsTests() {
     await expect(textMessage).toHaveTextContaining("Attached");
   });
 
-  // Skipping since it needs more work to be done
-  xit("Chat Messages with Files - Local user can download file sent", async () => {
+  it("Chat Messages with Files - Local user can download file sent", async () => {
     // Download latest image file received
     await chatsMessagesSecondUser.downloadLastSentFile("downloaded.jpg");
   });
@@ -161,10 +160,9 @@ export default async function messageAttachmentsTests() {
     await expect(message).toHaveTextContaining("Attached");
   });
 
-  // Skipping since it needs more work to be done
-  xit("Chat Messages with Files - Remote user can download file received", async () => {
+  it("Chat Messages with Files - Remote user can download file received", async () => {
     // Download latest image file received
-    await chatsMessagesFirstUser.downloadLastReceivedFile("downloaded.jpg");
+    await chatsMessagesFirstUser.downloadLastReceivedFile("downloaded2.jpg");
   });
 
   it("Send Files on Chats - Validate compose attachments contents", async () => {

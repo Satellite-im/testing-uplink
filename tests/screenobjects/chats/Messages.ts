@@ -703,9 +703,14 @@ export default class Messages extends UplinkMainScreen {
   // Messages With Files Methods
 
   async downloadLastReceivedFile(filename: string) {
-    // Get download button from last received file
+    // First, obtain image locator and hover on it
+    const imageToDownload = await this.getLastMessageReceivedFileEmbed();
+    await this.hoverOnElement(imageToDownload);
+
+    // Now with button visible, get download button from last received file
     const downloadButton = await this.getLastMessageReceivedDownloadButton();
 
+    // Finally, depending on the driver running, execute the custom command to download file
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await downloadButton.click();
@@ -719,9 +724,15 @@ export default class Messages extends UplinkMainScreen {
   }
 
   async downloadLastSentFile(filename: string) {
-    const currentDriver = await this.getCurrentDriver();
+    // First, obtain image locator and hover on it
+    const imageToDownload = await this.getLastMessageSentFileEmbed();
+    await this.hoverOnElement(imageToDownload);
+
+    // Now with button visible, get download button from last received file
     const downloadButton = await this.getLastMessageSentDownloadButton();
-    await this.hoverOnElement(downloadButton);
+
+    // Finally, depending on the driver running, execute the custom command to download file
+    const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await downloadButton.click();
       await saveFileOnMacOS(filename, this.executor);
@@ -735,10 +746,6 @@ export default class Messages extends UplinkMainScreen {
 
   async getLastMessageReceivedDownloadButton() {
     const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageFileIcon = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_ICON
-    );
-    await this.hoverOnElement(lastMessageFileIcon);
     const getLastMessageDownloadButton = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_BUTTON
     );
@@ -749,7 +756,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageReceivedFileEmbed() {
     const lastMessage = await this.getLastMessageReceivedLocator();
     const lastMessageFileEmbed = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_EMBED
+      SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE
     );
     await lastMessageFileEmbed.waitForExist();
     return lastMessageFileEmbed;
