@@ -92,7 +92,7 @@ export default async function messageInputTests() {
   });
 
   // Skipping test that is failing often on CI - Requires investigation to improve execution
-  xit("Chat Input Text - Validate messages with code markdown is received in expected format", async () => {
+  xit("Chat Input Text - Validate message with code markdown is received in expected format", async () => {
     // With Chat User B, validate code message was received and is displayed correctly
     await chatsMessagesSecondUser.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =
