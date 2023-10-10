@@ -204,34 +204,27 @@ export default async function messageAttachmentsTests() {
     await chatsMessagesFirstUser.waitForMessageSentToExist("Attached2");
   });
 
-  it("Send Files on Chats - Message Sent With Attachment - Text contents", async () => {
+  it("Send Files on Chats - Message Sent With Attachment - Attachment Contents", async () => {
     await chatsMessagesFirstUser.chatMessageFileEmbedLocal.waitForExist();
 
     // Validate text from message containing attachment
     const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
     await expect(textMessage).toHaveTextContaining("Attached2");
-  });
 
-  it("Send Files on Chats - Message Sent With Attachment - File Meta Data", async () => {
     // Validate file metadata is displayed correctly on last chat message sent
     const fileMeta = await chatsMessagesFirstUser.getLastMessageSentFileMeta();
     await expect(fileMeta).toHaveTextContaining("47 B");
-  });
 
-  it("Send Files on Chats - Message Sent With Attachment - File Name", async () => {
     // Validate filename is displayed correctly on last chat message sent
     const fileName = await chatsMessagesFirstUser.getLastMessageSentFileName();
     await expect(fileName).toHaveTextContaining("testfile.txt");
-  });
 
-  it("Send Files on Chats - Message Sent With Attachment - File Icon", async () => {
     // Validate file icon is displayed correctly on last chat message sent
     const fileIcon = await chatsMessagesFirstUser.getLastMessageSentFileIcon();
     await fileIcon.waitForExist();
-  });
 
-  it("Send Files on Chats - Message Sent With Attachment - Download Button", async () => {
     // Validate file download button is displayed correctly on last chat message sent
+    await chatsMessagesFirstUser.hoverOnLastFileSent();
     const fileDownloadButton =
       await chatsMessagesFirstUser.getLastMessageSentDownloadButton();
     await fileDownloadButton.waitForExist();
@@ -248,29 +241,24 @@ export default async function messageAttachmentsTests() {
     await expect(message).toHaveTextContaining("Attached2");
   });
 
-  it("Receive Files on Chats - File Metadata", async () => {
+  it("Receive Files on Chats - Attachment File Contents", async () => {
     // Validate file metadata is displayed correctly on last chat message sent
     const fileMeta =
       await chatsMessagesSecondUser.getLastMessageReceivedFileMeta();
     await expect(fileMeta).toHaveTextContaining("47 B");
-  });
 
-  it("Receive Files on Chats - File Name", async () => {
     // Validate filename is displayed correctly on last chat message sent
     const fileName =
       await chatsMessagesSecondUser.getLastMessageReceivedFileName();
     await expect(fileName).toHaveTextContaining("testfile.txt");
-  });
 
-  it("Receive Files on Chats - File Icon", async () => {
     // Validate file icon is displayed correctly on last chat message sent
     const fileIcon =
       await chatsMessagesSecondUser.getLastMessageReceivedFileIcon();
     await fileIcon.waitForExist();
-  });
 
-  it("Receive Files on Chats - Download Button", async () => {
     // Validate file download button is displayed correctly on last chat message sent
+    await chatsMessagesSecondUser.hoverOnLastFileReceived();
     const fileDownloadButton =
       await chatsMessagesSecondUser.getLastMessageReceivedDownloadButton();
     await fileDownloadButton.waitForExist();

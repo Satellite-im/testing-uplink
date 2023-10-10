@@ -701,15 +701,14 @@ export default class Messages extends UplinkMainScreen {
     return lastReplyText;
   }
 
-  // Messages With Files Methods
+  // Download files methods
 
   async downloadLastReceivedFile(extension: string) {
     // Generate a random filename for downloaded file
     const filename = faker.lorem.word(5) + extension;
 
     // First, obtain image locator and hover on it
-    const imageToDownload = await this.getLastMessageReceivedFileEmbed();
-    await this.hoverOnElement(imageToDownload);
+    await this.hoverOnLastFileReceived();
 
     // Now with button visible, get download button from last received file
     const downloadButton = await this.getLastMessageReceivedDownloadButton();
@@ -732,8 +731,7 @@ export default class Messages extends UplinkMainScreen {
     const filename = faker.lorem.word(5) + extension;
 
     // First, obtain image locator and hover on it
-    const imageToDownload = await this.getLastMessageSentFileEmbed();
-    await this.hoverOnElement(imageToDownload);
+    await this.hoverOnLastFileSent();
 
     // Now with button visible, get download button from last received file
     const downloadButton = await this.getLastMessageSentDownloadButton();
@@ -750,6 +748,20 @@ export default class Messages extends UplinkMainScreen {
       await saveFileOnWindows(filename, uplinkContext, executor);
     }
   }
+
+  // Hover on Last Message With Files Methods
+
+  async hoverOnLastFileReceived() {
+    const imageToDownload = await this.getLastMessageReceivedFileEmbed();
+    await this.hoverOnElement(imageToDownload);
+  }
+
+  async hoverOnLastFileSent() {
+    const imageToDownload = await this.getLastMessageSentFileEmbed();
+    await this.hoverOnElement(imageToDownload);
+  }
+
+  // Messages With Files Methods
 
   async getLastMessageReceivedDownloadButton() {
     const lastMessage = await this.getLastMessageReceivedLocator();
