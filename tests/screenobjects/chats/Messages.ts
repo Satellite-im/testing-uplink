@@ -728,7 +728,7 @@ export default class Messages extends UplinkMainScreen {
 
   async downloadLastSentFile(extension: string) {
     // Generate a random filename for downloaded file
-    const filename = faker.lorem.word(5) + extension;
+    const filename = faker.lorem.word(6) + extension;
 
     // First, obtain image locator and hover on it
     await this.hoverOnLastFileSent();
