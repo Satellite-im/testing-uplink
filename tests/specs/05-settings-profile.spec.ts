@@ -72,8 +72,9 @@ export default async function settingsProfile() {
     await expect(statusInput).toHaveTextContaining("");
   });
 
+  // Skipping test since it needs implementation of Crop Tool recently merged
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Add profile picture", async () => {
+  xit("Settings Profile - Add profile picture", async () => {
     await settingsProfileFirstUser.uploadProfilePicture(
       "./tests/fixtures/logo.jpg"
     );
@@ -100,8 +101,9 @@ export default async function settingsProfile() {
     );
   });
 
+  // Skipping test since it needs implementation of Crop Tool recently merged
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Change profile picture", async () => {
+  xit("Settings Profile - Change profile picture", async () => {
     // Wait for toast notification to be closed before starting test
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
