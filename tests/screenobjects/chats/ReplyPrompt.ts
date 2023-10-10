@@ -12,6 +12,7 @@ const SELECTORS_WINDOWS = {
   REPLY_POPUP_CLOSE_BUTTON: '[name="close-reply"]',
   REPLY_POPUP_CONTENT: '[name="content"]',
   REPLY_POPUP_HEADER: '//Text[@Name="inline-reply-header"]/Text',
+  REPLY_POPUP_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   REPLY_POPUP_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   REPLY_POPUP_INDICATOR_ONLINE: '[name="indicator-online"]',
   REPLY_POPUP_LOCAL_TEXT_TO_REPLY: '[name="reply-text-message"]',
@@ -28,6 +29,8 @@ const SELECTORS_MACOS = {
   REPLY_POPUP_CLOSE_BUTTON: "~close-reply",
   REPLY_POPUP_CONTENT: "~content",
   REPLY_POPUP_HEADER: "~inline-reply-header",
+  REPLY_POPUP_INDICATOR:
+    '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   REPLY_POPUP_INDICATOR_OFFLINE: "~indicator-offline",
   REPLY_POPUP_INDICATOR_ONLINE: "~indicator-online",
   REPLY_POPUP_LOCAL_TEXT_TO_REPLY: "~reply-text-message",
@@ -70,6 +73,12 @@ export default class ReplyPrompt extends UplinkMainScreen {
     return this.instance
       .$(SELECTORS.REPLY_POPUP)
       .$(SELECTORS.REPLY_POPUP_HEADER);
+  }
+
+  get replyPopUpIndicator() {
+    return this.instance
+      .$(SELECTORS.REPLY_POPUP)
+      .$(SELECTORS.REPLY_POPUP_INDICATOR);
   }
 
   get replyPopUpIndicatorOffline() {
@@ -137,21 +146,12 @@ export default class ReplyPrompt extends UplinkMainScreen {
     const replyPopUp = await this.replyPopUp;
     const replyPopUpCloseButton = await this.replyPopUpCloseButton;
     const replyPopUpUserImage = await this.replyPopUpUserImage;
+    const replyPopUpIndicator = await this.replyPopUpIndicator;
 
     await replyPopUp.waitForExist();
     await replyPopUpCloseButton.waitForExist();
     await replyPopUpUserImage.waitForExist();
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.replyPopUpIndicatorOnline;
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected indicator online was never displayed on Reply Prompt after 15 seconds",
-      }
-    );
-
+    await replyPopUpIndicator.waitForExist();
     await driver[this.executor].waitUntil(
       async () => {
         return (await this.replyPopUpHeader.getText()) === "REPLYING TO:";

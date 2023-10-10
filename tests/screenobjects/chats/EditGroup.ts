@@ -28,6 +28,7 @@ const SELECTORS_WINDOWS = {
   PARTICIPANT_USER_IMAGE: '[name="User Image"]',
   PARTICIPANT_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   PARTICIPANT_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
+  PARTICIPANT_USER_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   PARTICIPANT_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   PARTICIPANT_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   PARTICIPANT_USER_NAME: '[name="friend-username"]',
@@ -58,6 +59,8 @@ const SELECTORS_MACOS = {
   PARTICIPANT_USER_IMAGE: "~User Image",
   PARTICIPANT_USER_IMAGE_PROFILE: "~user-image-profile",
   PARTICIPANT_USER_IMAGE_WRAP: "~user-image-wrap",
+  PARTICIPANT_USER_INDICATOR:
+    '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   PARTICIPANT_USER_INDICATOR_OFFLINE: "~indicator-offline",
   PARTICIPANT_USER_INDICATOR_ONLINE: "~indicator-online",
   PARTICIPANT_USER_NAME: "~friend-username",
@@ -165,6 +168,13 @@ export default class EditGroup extends UplinkMainScreen {
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE_WRAP);
+  }
+
+  get participantUserIndicator() {
+    return this.instance
+      .$(SELECTORS.FRIENDS_LIST)
+      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_INDICATOR);
   }
 
   get participantUserIndicatorOffline() {
@@ -316,6 +326,13 @@ export default class EditGroup extends UplinkMainScreen {
         );
     }
     return locator;
+  }
+
+  async getParticipantIndicator(participant: string) {
+    const userLocator = await this.getParticipantContainerLocator(participant);
+    const indicator = await userLocator.$(SELECTORS.PARTICIPANT_USER_INDICATOR);
+    await indicator.waitForExist();
+    return indicator;
   }
 
   async getParticipantIndicatorOffline(participant: string) {

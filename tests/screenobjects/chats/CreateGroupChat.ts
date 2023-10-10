@@ -25,6 +25,7 @@ const SELECTORS_WINDOWS = {
   FRIEND_USER_IMAGE: '[name="User Image"]',
   FRIEND_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   FRIEND_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
+  FRIEND_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   FRIEND_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FRIEND_INDICATOR_ONLINE: '[name="indicator-online"]',
   FRIEND_USER_NAME: '[name="friend-name"]',
@@ -47,6 +48,7 @@ const SELECTORS_MACOS = {
   FRIEND_USER_IMAGE: "~User Image",
   FRIEND_USER_IMAGE_PROFILE: "~user-image-profile",
   FRIEND_USER_IMAGE_WRAP: "~user-image-wrap",
+  FRIEND_INDICATOR: '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   FRIEND_INDICATOR_OFFLINE: "~indicator-offline",
   FRIEND_INDICATOR_ONLINE: "~indicator-online",
   FRIEND_USER_NAME: "~friend-name",
@@ -114,6 +116,10 @@ export default class CreateGroupChat extends UplinkMainScreen {
     return this.friendContainer.$(SELECTORS.FRIEND_USER_IMAGE_WRAP);
   }
 
+  get friendIndicator() {
+    return this.friendContainer.$(SELECTORS.FRIEND_INDICATOR);
+  }
+
   get friendIndicatorOffline() {
     return this.friendContainer.$(SELECTORS.FRIEND_INDICATOR_OFFLINE);
   }
@@ -169,6 +175,13 @@ export default class CreateGroupChat extends UplinkMainScreen {
   async clickOnCreateGroupChat() {
     const createGroupChatButton = await this.createGroupChatButton;
     await createGroupChatButton.click();
+  }
+
+  async getFriendFromListIndicator(username: string) {
+    const friendLocator = await this.getFriendFromListLocator(username);
+    const indicator = await friendLocator.$(SELECTORS.FRIEND_INDICATOR);
+    await indicator.waitForExist();
+    return indicator;
   }
 
   async getFriendFromListIndicatorOffline(username: string) {

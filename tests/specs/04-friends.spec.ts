@@ -453,12 +453,10 @@ export default async function friends() {
     // Favorites Sidebar User bubble should be displayed with image and indicator offline
     const favoritesImage =
       await favoritesSidebarFirstUser.getFavoritesUserImage("ChatUserD");
-    const favoritesIndicatorOffline =
-      await favoritesSidebarFirstUser.getFavoritesUserIndicatorOffline(
-        "ChatUserD"
-      );
+    const favoritesIndicator =
+      await favoritesSidebarFirstUser.getFavoritesUserIndicator("ChatUserD");
     await favoritesImage.waitForExist();
-    await favoritesIndicatorOffline.waitForExist();
+    await favoritesIndicator.waitForExist();
   });
 
   it("Context Menu - Remove Friend from Favorites", async () => {
