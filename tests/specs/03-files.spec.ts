@@ -56,14 +56,12 @@ export default async function files() {
     // Validate New Folder button tooltip
     await filesScreenFirstUser.hoverOnNewFolderButton();
 
-    await filesScreenFirstUser.addFolderTooltip.waitForExist();
     const addFolderTooltipText =
       await filesScreenFirstUser.addFolderTooltipText;
     await expect(addFolderTooltipText).toHaveTextContaining("New Folder");
 
     // Validate Upload button tooltip
     await filesScreenFirstUser.hoverOnUploadButton();
-    await filesScreenFirstUser.uploadFileTooltip.waitForExist();
     const uploadFileTooltipText =
       await filesScreenFirstUser.uploadFileTooltipText;
     await expect(uploadFileTooltipText).toHaveTextContaining("Upload");

@@ -618,7 +618,6 @@ export default class FriendsScreen extends UplinkMainScreen {
   async getUserTooltip(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userTooltip = await userLocator.$(SELECTORS.TOOLTIP);
-    await userTooltip.waitForExist();
     return userTooltip;
   }
 

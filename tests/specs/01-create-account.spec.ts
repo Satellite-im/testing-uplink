@@ -37,7 +37,6 @@ export default async function createAccount() {
 
     // Validate Help Button tooltip
     await createPinFirstUser.hoverOnHelpButton();
-    await createPinFirstUser.helpButtonTooltip.waitForExist();
 
     const helpButtonTooltipText =
       await createPinFirstUser.helpButtonTooltipText;

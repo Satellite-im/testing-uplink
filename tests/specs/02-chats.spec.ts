@@ -50,7 +50,6 @@ export default async function chats() {
     // Validate Chats button tooltip
     await welcomeScreenFirstUser.hoverOnChatsButton();
 
-    await welcomeScreenFirstUser.chatsButtonTooltip.waitForExist();
     const chatsTooltipText =
       await welcomeScreenFirstUser.chatsButtonTooltipText;
     await expect(chatsTooltipText).toHaveTextContaining("Chats");
@@ -58,7 +57,6 @@ export default async function chats() {
     // Validate Files button tooltip
     await welcomeScreenFirstUser.hoverOnFilesButton();
 
-    await welcomeScreenFirstUser.filesButtonTooltip.waitForExist();
     const filesTooltipText =
       await welcomeScreenFirstUser.filesButtonTooltipText;
     await expect(filesTooltipText).toHaveTextContaining("Files");
@@ -66,7 +64,6 @@ export default async function chats() {
     // Validate Friends button tooltip
     await welcomeScreenFirstUser.hoverOnFriendsButton();
 
-    await welcomeScreenFirstUser.friendsButtonTooltip.waitForExist();
     const friendsTooltipText =
       await welcomeScreenFirstUser.friendsButtonTooltipText;
     await expect(friendsTooltipText).toHaveTextContaining("Friends");
@@ -74,7 +71,6 @@ export default async function chats() {
     // Validate Settings button tooltip
     await welcomeScreenFirstUser.hoverOnSettingsButton();
 
-    await welcomeScreenFirstUser.settingsButtonTooltip.waitForExist();
     const settingsTooltipText =
       await welcomeScreenFirstUser.settingsButtonTooltipText;
     await expect(settingsTooltipText).toHaveTextContaining("Settings");
@@ -109,7 +105,6 @@ export default async function chats() {
     // Validate Chats button tooltip from Slimbar button
     await slimbarFirstUser.hoverOnSlimbarChatsButton();
 
-    await slimbarFirstUser.chatsButtonTooltip.waitForExist();
     const chatsButtonTooltipText =
       await slimbarFirstUser.chatsButtonTooltipText;
     await expect(chatsButtonTooltipText).toHaveTextContaining("Chats");
@@ -117,7 +112,6 @@ export default async function chats() {
     // Validate Files button tooltip from Slimbar button
     await slimbarFirstUser.hoverOnSlimbarFilesButton();
 
-    await slimbarFirstUser.filesButtonTooltip.waitForExist();
     const filesButtonTooltipText =
       await slimbarFirstUser.filesButtonTooltipText;
     await expect(filesButtonTooltipText).toHaveTextContaining("Files");
@@ -125,7 +119,6 @@ export default async function chats() {
     // Validate Friends button tooltip from Slimbar button
     await slimbarFirstUser.hoverOnSlimbarFriendsButton();
 
-    await slimbarFirstUser.friendsButtonTooltip.waitForExist();
     const friendsButtonTooltipText =
       await slimbarFirstUser.friendsButtonTooltipText;
     await expect(friendsButtonTooltipText).toHaveTextContaining("Friends");
@@ -133,7 +126,6 @@ export default async function chats() {
     // Validate Settings button tooltip from Slimbar button
     await slimbarFirstUser.hoverOnSlimbarSettingsButton();
 
-    await slimbarFirstUser.settingsButtonTooltip.waitForExist();
     const settingsButtonTooltipText =
       await slimbarFirstUser.settingsButtonTooltipText;
     await expect(settingsButtonTooltipText).toHaveTextContaining("Settings");
