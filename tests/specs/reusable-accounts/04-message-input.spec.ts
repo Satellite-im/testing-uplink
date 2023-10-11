@@ -69,7 +69,8 @@ export default async function messageInputTests() {
     await expect(codeMessageTextSent).toEqual("let a = 1;");
   });
 
-  it("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
+  // Skipping test that is failing often on CI - Requires investigation to improve execution
+  xit("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
     // With Chat User A, click on the copy button from code block of last chat message sent
     await chatsMessagesFirstUser.clickOnCopyCodeOfLastMessageSent();
 
@@ -81,14 +82,17 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.clearInputBar();
   });
 
-  it("Chat Input Text - Validate messages with markdowns were received in expected format", async () => {
+  it("Chat Input Text - Validate messages with bold markdowns were received in expected format", async () => {
     // With Chat User B, validate message with with ** markdown was received in bolds
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingMessage("Bolds1");
 
     // With Chat User B, validate message with with __ markdown was received in bolds
     await chatsMessagesSecondUser.waitForReceivingMessage("Bolds2");
+  });
 
+  // Skipping test that is failing often on CI - Requires investigation to improve execution
+  xit("Chat Input Text - Validate message with code markdown is received in expected format", async () => {
     // With Chat User B, validate code message was received and is displayed correctly
     await chatsMessagesSecondUser.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =

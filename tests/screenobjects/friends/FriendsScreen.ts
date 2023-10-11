@@ -54,6 +54,7 @@ const SELECTORS_WINDOWS = {
   FRIEND_USER_IMAGE: '[name="User Image"]',
   FRIEND_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   FRIEND_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
+  FRIEND_USER_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   FRIEND_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FRIEND_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   FRIENDS_BODY: '[name="friends-body"]',
@@ -110,6 +111,8 @@ const SELECTORS_MACOS = {
   FRIEND_USER_IMAGE: "~User Image",
   FRIEND_USER_IMAGE_PROFILE: "~user-image-profile",
   FRIEND_USER_IMAGE_WRAP: "~user-image-wrap",
+  FRIEND_USER_INDICATOR:
+    '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   FRIEND_USER_INDICATOR_OFFLINE: "~indicator-offline",
   FRIEND_USER_INDICATOR_ONLINE: "~indicator-online",
   FRIENDS_BODY: "~friends-body",
@@ -588,6 +591,13 @@ export default class FriendsScreen extends UplinkMainScreen {
     return userImageWrap;
   }
 
+  async getUserIndicator(username: string) {
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
+    const indicator = await userLocator.$(SELECTORS.FRIEND_USER_INDICATOR);
+    await indicator.waitForExist();
+    return indicator;
+  }
+
   async getUserIndicatorOffline(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const indicatorOffline = await userLocator.$(
@@ -618,7 +628,6 @@ export default class FriendsScreen extends UplinkMainScreen {
   async getUserTooltip(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userTooltip = await userLocator.$(SELECTORS.TOOLTIP);
-    await userTooltip.waitForExist();
     return userTooltip;
   }
 

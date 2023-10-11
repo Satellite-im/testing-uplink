@@ -14,6 +14,7 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_RESULT_DROPDOWN_NAME: '[name="search-friends-dropdown-name"]',
   SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS: '[name="highlight-search-typed-chars"]',
   SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT: "<Text>",
+  SIDEBAR_RESULT_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   SIDEBAR_RESULT_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   SIDEBAR_RESULT_INDICATOR_ONLINE: '[name="indicator-online"]',
   SIDEBAR_RESULT_REMAINING_CHARS: '[name="remaining-match-search"]',
@@ -40,6 +41,8 @@ const SELECTORS_MACOS = {
   SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS: "~highlight-search-typed-chars",
   SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText",
+  SIDEBAR_RESULT_INDICATOR:
+    '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   SIDEBAR_RESULT_INDICATOR_OFFLINE: "~indicator-offline",
   SIDEBAR_RESULT_INDICATOR_ONLINE: "~indicator-online",
   SIDEBAR_RESULT_REMAINING_CHARS: "~remaining-match-search",
@@ -110,6 +113,16 @@ export default class SidebarSearch extends UplinkMainScreen {
 
   get sidebarSearchGroupResult() {
     return this.instance.$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT);
+  }
+
+  get sidebarSearchGroupIndicator() {
+    return this.instance
+      .$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
+      .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
+      .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
+      .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_RESULT_INDICATOR);
   }
 
   get sidebarSearchGroupIndicatorOffline() {
@@ -199,6 +212,14 @@ export default class SidebarSearch extends UplinkMainScreen {
     );
   }
 
+  get sidebarSearchParticipantInGroupIndicator() {
+    return this.instance
+      .$(SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT)
+      .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_RESULT_INDICATOR);
+  }
+
   get sidebarSearchParticipantInGroupIndicatorOffline() {
     return this.instance
       .$(SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT)
@@ -238,6 +259,14 @@ export default class SidebarSearch extends UplinkMainScreen {
 
   get sidebarSearchUserResult() {
     return this.instance.$$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT);
+  }
+
+  get sidebarSearchUserResultIndicator() {
+    return this.instance
+      .$$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
+      .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_RESULT_INDICATOR);
   }
 
   get sidebarSearchUserResultIndicatorOffline() {

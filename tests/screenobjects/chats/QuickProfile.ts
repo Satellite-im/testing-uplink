@@ -15,6 +15,7 @@ const SELECTORS_WINDOWS = {
   QUICK_PROFILE_BLOCK: '[name="quick-profile-block"]',
   QUICK_PROFILE_FRIEND_REMOVE: '[name="quick-profile-friend-remove"]',
   QUICK_PROFILE_IDENTITY_HEADER: '[name="identity-header"]',
+  QUICK_PROFILE_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   QUICK_PROFILE_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   QUICK_PROFILE_INDICATOR_ONLINE: '[name="indicator-online"]',
   QUICK_PROFILE_MESSAGE: '[name="quick-profile-message"]',
@@ -33,6 +34,8 @@ const SELECTORS_MACOS = {
   QUICK_PROFILE_BUTTON: "~Context Item",
   QUICK_PROFILE_FRIEND_REMOVE: "~quick-profile-friend-remove",
   QUICK_PROFILE_IDENTITY_HEADER: "~identity-header",
+  QUICK_PROFILE_INDICATOR:
+    '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   QUICK_PROFILE_INDICATOR_ONLINE: "~indicator-online",
   QUICK_PROFILE_INDICATOR_OFFLINE: "~indicator-offline",
   QUICK_PROFILE_MESSAGE: "~quick-profile-message",
@@ -82,6 +85,13 @@ export default class QuickProfile extends UplinkMainScreen {
       .$(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_IDENTITY_HEADER);
+  }
+
+  get quickProfileIndicator() {
+    return this.instance
+      .$(SELECTORS.CHAT_LAYOUT)
+      .$(SELECTORS.QUICK_PROFILE)
+      .$(SELECTORS.QUICK_PROFILE_INDICATOR);
   }
 
   get quickProfileIndicatorOffline() {

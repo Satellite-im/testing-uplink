@@ -33,6 +33,7 @@ const SELECTORS_WINDOWS = {
   MESSAGE_GROUP_USER_IMAGE: '[name="User Image"]',
   MESSAGE_GROUP_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   MESSAGE_GROUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
+  //
   MESSAGE_GROUP_USER_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   MESSAGE_GROUP_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   MESSAGE_GROUP_USER_INDICATOR_ONLINE: '[name="indicator-online"]',

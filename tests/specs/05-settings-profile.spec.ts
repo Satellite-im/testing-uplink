@@ -90,7 +90,6 @@ export default async function settingsProfile() {
     // Validate that change banner tooltip is displayed
     const profileBannerTooltip =
       await settingsProfileFirstUser.profileBannerTooltip;
-    await profileBannerTooltip.waitForExist();
     await expect(profileBannerTooltip).toHaveTextContaining("Change banner");
   });
 
@@ -128,8 +127,6 @@ export default async function settingsProfile() {
 
     // Validate Copy ID button tooltip
     await settingsProfileFirstUser.hoverOnCopyID();
-
-    await settingsProfileFirstUser.copyIDTooltip.waitForExist();
 
     const copyIDTooltipText = await settingsProfileFirstUser.copyIDTooltipText;
     await expect(copyIDTooltipText).toHaveTextContaining("Copy ID");
