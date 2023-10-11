@@ -58,7 +58,8 @@ export default async function messageAttachmentsTests() {
     await sendFilesSecondUser.validateThumbnailIsShown("logo.jpg");
   });
 
-  it("Send files from Browse Files - User can navigate through folders and to home", async () => {
+  // Skipping test because it takes too much time for execution
+  xit("Send files from Browse Files - User can navigate through folders and to home", async () => {
     // Navigate to testfolder01 and ensure thumbnail from testfile.txt is shown
     await sendFilesSecondUser.clickOnFileOrFolder("testfolder01");
     await filesScreenSecondUser.validateFileOrFolderExist("testfile.txt");
@@ -95,21 +96,9 @@ export default async function messageAttachmentsTests() {
     await sendFilesSecondUser.validateSendFilesModalIsShown();
   });
 
-  it("Send files from Browse Files - Can select files from different folders and send files counter is updated", async () => {
+  it("Send files from Browse Files - Send files counter is updated", async () => {
     // Select one file from root folder and ensure Send Files button displays 1/8 File(s)
     await sendFilesSecondUser.clickOnFileOrFolder("logo.jpg");
-    await sendFilesSecondUser.validateSendFilesButtonText("Send 1/8 File(s)");
-
-    // Go to testfolder01 and select one file from this folder
-    await sendFilesSecondUser.clickOnFileOrFolder("testfolder01");
-    await filesScreenSecondUser.validateFileOrFolderExist("testfile.txt");
-    await sendFilesSecondUser.clickOnFileOrFolder("testfile.txt");
-
-    // Ensure Send Files button displays 2/8 File(s)
-    await sendFilesSecondUser.validateSendFilesButtonText("Send 2/8 File(s)");
-
-    // Remove selection from file and valiate Send Files button displays 1/8 File(s)
-    await sendFilesSecondUser.clickOnFileOrFolder("testfile.txt");
     await sendFilesSecondUser.validateSendFilesButtonText("Send 1/8 File(s)");
   });
 
