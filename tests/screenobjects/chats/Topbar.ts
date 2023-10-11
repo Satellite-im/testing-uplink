@@ -14,6 +14,7 @@ const SELECTORS_WINDOWS = {
   TOPBAR_ADD_TO_FAVORITES: '[name="Favorites"]',
   TOPBAR_CALL: '[name="Call"]',
   TOPBAR_EDIT_GROUP: '[name="edit-group"]',
+  TOPBAR_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   TOPBAR_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   TOPBAR_INDICATOR_ONLINE: '[name="indicator-online"]',
   TOPBAR_PINNED_MESSAGES: '[name="pin-label"]',
@@ -38,7 +39,9 @@ const SELECTORS_MACOS = {
   TOPBAR_CALL: "~Call",
   TOPBAR_EDIT_GROUP:
     '-ios class chain:**/XCUIElementTypeButton[`label == "edit-group"`]',
-  TOPBAR_INDICATOR_OFFLINE: "~indicator-offline",
+  TOPBAR_INDICATOR: "",
+  TOPBAR_INDICATOR_OFFLINE:
+    '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   TOPBAR_INDICATOR_ONLINE: "~indicator-online",
   TOPBAR_PINNED_MESSAGES: "~pin-label",
   TOPBAR_REMOVE_FROM_FAVORITES: "~Remove from Favorites",
@@ -111,6 +114,10 @@ export default class Topbar extends UplinkMainScreen {
       .$(SELECTORS.TOPBAR)
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
+  }
+
+  get topbarIndicator() {
+    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR);
   }
 
   get topbarIndicatorOffline() {
