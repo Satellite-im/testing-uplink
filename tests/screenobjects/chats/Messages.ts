@@ -1,10 +1,17 @@
 import "module-alias/register";
+import { faker } from "@faker-js/faker";
 import {
   MACOS_DRIVER,
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
 } from "@helpers/constants";
-import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
+import {
+  getUplinkWindowHandle,
+  rightClickOnMacOS,
+  rightClickOnWindows,
+  saveFileOnMacOS,
+  saveFileOnWindows,
+} from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
@@ -694,14 +701,70 @@ export default class Messages extends UplinkMainScreen {
     return lastReplyText;
   }
 
+  // Download files methods
+
+  async downloadLastReceivedFile(extension: string) {
+    // Generate a random filename for downloaded file
+    const filename = faker.lorem.word(5) + extension;
+
+    // First, obtain image locator and hover on it
+    await this.hoverOnLastFileReceived();
+
+    // Now with button visible, get download button from last received file
+    const downloadButton = await this.getLastMessageReceivedDownloadButton();
+
+    // Finally, depending on the driver running, execute the custom command to download file
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await downloadButton.click();
+      await saveFileOnMacOS(filename, this.executor);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
+      await downloadButton.click();
+      await saveFileOnWindows(filename, uplinkContext, executor);
+    }
+  }
+
+  async downloadLastSentFile(extension: string) {
+    // Generate a random filename for downloaded file
+    const filename = faker.lorem.word(6) + extension;
+
+    // First, obtain image locator and hover on it
+    await this.hoverOnLastFileSent();
+
+    // Now with button visible, get download button from last received file
+    const downloadButton = await this.getLastMessageSentDownloadButton();
+
+    // Finally, depending on the driver running, execute the custom command to download file
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await downloadButton.click();
+      await saveFileOnMacOS(filename, this.executor);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
+      await downloadButton.click();
+      await saveFileOnWindows(filename, uplinkContext, executor);
+    }
+  }
+
+  // Hover on Last Message With Files Methods
+
+  async hoverOnLastFileReceived() {
+    const imageToDownload = await this.getLastMessageReceivedFileEmbed();
+    await this.hoverOnElement(imageToDownload);
+  }
+
+  async hoverOnLastFileSent() {
+    const imageToDownload = await this.getLastMessageSentFileEmbed();
+    await this.hoverOnElement(imageToDownload);
+  }
+
   // Messages With Files Methods
 
   async getLastMessageReceivedDownloadButton() {
     const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageFileIcon = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_ICON
-    );
-    await this.hoverOnElement(lastMessageFileIcon);
     const getLastMessageDownloadButton = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_BUTTON
     );
@@ -712,7 +775,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageReceivedFileEmbed() {
     const lastMessage = await this.getLastMessageReceivedLocator();
     const lastMessageFileEmbed = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_EMBED
+      SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE
     );
     await lastMessageFileEmbed.waitForExist();
     return lastMessageFileEmbed;
@@ -747,10 +810,6 @@ export default class Messages extends UplinkMainScreen {
 
   async getLastMessageSentDownloadButton() {
     const lastMessage = await this.getLastMessageSentLocator();
-    const lastMessageFileIcon = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_ICON
-    );
-    await this.hoverOnElement(lastMessageFileIcon);
     const getLastMessageSentDownloadButton = await lastMessage.$(
       SELECTORS.CHAT_MESSAGE_FILE_BUTTON
     );

@@ -25,6 +25,7 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_FILES_DELETE: '[name="files-delete"]',
   CONTEXT_MENU_FILES_DOWNLOAD: '[name="files-download"]',
+  CONTEXT_MENU_FILES_SHARE: '[name="files-share"]',
   CONTEXT_MENU_FILES_RENAME: '[name="files-rename"]',
   CONTEXT_MENU_FOLDER_DELETE: '[name="folder-delete"]',
   CONTEXT_MENU_FOLDER_RENAME: '[name="folder-rename"]',
@@ -67,6 +68,7 @@ const SELECTORS_MACOS = {
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_FILES_DELETE: "~files-delete",
   CONTEXT_MENU_FILES_DOWNLOAD: "~files-download",
+  CONTEXT_MENU_FILES_SHARE: "~files-share",
   CONTEXT_MENU_FILES_RENAME: "~files-rename",
   CONTEXT_MENU_FOLDER_DELETE: "~folder-delete",
   CONTEXT_MENU_FOLDER_RENAME: "~folder-rename",
@@ -150,6 +152,10 @@ export default class FilesScreen extends UplinkMainScreen {
 
   get contextMenuFilesRename() {
     return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_RENAME);
+  }
+
+  get contextMenuFilesShare() {
+    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_SHARE);
   }
 
   get contextMenuFolderDelete() {
@@ -389,9 +395,10 @@ export default class FilesScreen extends UplinkMainScreen {
       await this.clickOnFilesDownload();
       await saveFileOnMacOS(filename, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await driver.getWindowHandle();
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
       await this.clickOnFilesDownload();
-      await saveFileOnWindows(filename, uplinkContext, this.executor);
+      await saveFileOnWindows(filename, uplinkContext, executor);
     }
   }
 

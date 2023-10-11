@@ -149,8 +149,7 @@ export default async function files() {
     await filesScreenFirstUser.validateFileOrFolderExist("newname.jpg");
   });
 
-  // Needs research on how to implement on Windows
-  xit("Context Menu - File - Download", async () => {
+  it("Context Menu - File - Download", async () => {
     // Open context menu for newname.jpg and select the second option "Download"
     await filesScreenFirstUser.openFilesContextMenu("newname.jpg");
     await filesScreenFirstUser.downloadFile("saved.jpg");
