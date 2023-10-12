@@ -21,6 +21,11 @@ const SELECTORS_WINDOWS = {
   RADIO_OPTION_LOW: '[name="radio-option-Low"]',
   RADIO_OPTION_MEDIUM: '[name="radio-option-Medium"]',
   RADIO_OPTION_NONE: '[name="radio-option-None"]',
+  RANGE_INPUT_DEVICE: '[name="range-input-device"]',
+  RANGE_OUTPUT_DEVICE: '[name="range-output-device"]',
+  RANGE_SLIDER_BAR: '[name="range-input"]',
+  RANGE_SLIDER_VALUE: '[name="range-value"]',
+  RANGE_SLIDER_VALUE_TEXT: "<Text>",
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
@@ -41,6 +46,11 @@ const SELECTORS_MACOS = {
   RADIO_OPTION_LOW: "~radio-option-Low",
   RADIO_OPTION_MEDIUM: "~radio-option-Medium",
   RADIO_OPTION_NONE: "~radio-option-None",
+  RANGE_INPUT_DEVICE: "~range-input-device",
+  RANGE_OUTPUT_DEVICE: "~range-output-device",
+  RANGE_SLIDER_BAR: "~range-input",
+  RANGE_SLIDER_VALUE: "~range-value",
+  RANGE_SLIDER_VALUE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
@@ -154,20 +164,22 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get inputDeviceSlider() {
-    return this.instance.$$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.SLIDER);
+  get inputDeviceRange() {
+    return this.instance.$(SELECTORS.RANGE_INPUT_DEVICE);
   }
+
+  get inputDeviceSlider() {
+    return this.inputDeviceRange.$(SELECTORS.RANGE_SLIDER_BAR);
+  }
+
   get inputDeviceSliderValueIndicator() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
-      .$(SELECTORS.SLIDER)
-      .$(SELECTORS.SLIDER_VALUE_INDICATOR);
+    return this.inputDeviceRange.$(SELECTORS.RANGE_SLIDER_VALUE);
   }
 
   get inputDeviceSliderValueText() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
-      .$(SELECTORS.SLIDER_VALUE_TEXT);
+    return this.inputDeviceSliderValueIndicator.$(
+      SELECTORS.RANGE_SLIDER_VALUE_TEXT
+    );
   }
 
   get interfaceSoundsCheckbox() {
@@ -313,21 +325,22 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
+  get outputDeviceRange() {
+    return this.instance.$(SELECTORS.RANGE_OUTPUT_DEVICE);
+  }
+
   get outputDeviceSlider() {
-    return this.instance.$$(SELECTORS.SETTINGS_SECTION)[3].$(SELECTORS.SLIDER);
+    return this.outputDeviceRange.$(SELECTORS.RANGE_SLIDER_BAR);
   }
 
   get outputDeviceSliderValueIndicator() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
-      .$(SELECTORS.SLIDER)
-      .$(SELECTORS.SLIDER_VALUE_INDICATOR);
+    return this.outputDeviceRange.$(SELECTORS.RANGE_SLIDER_VALUE);
   }
 
   get outputDeviceSliderValueText() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
-      .$(SELECTORS.SLIDER_VALUE_TEXT);
+    return this.outputDeviceSliderValueIndicator.$(
+      SELECTORS.RANGE_SLIDER_VALUE_TEXT
+    );
   }
 
   get sampleRateDescription() {
