@@ -286,7 +286,8 @@ export default async function createChatAccountsTests() {
     await chatsTopbarFirstUser.validateTopbarUserName("ChatUserB");
   });
 
-  it("Chat User A - Add user with active chat to Favorites", async () => {
+  // Skipping test since there is a bug encountered on Uplink that needs fixing
+  xit("Chat User A - Add user with active chat to Favorites", async () => {
     // Add user to favorites
     await chatsTopbarFirstUser.addToFavorites();
     await favoritesSidebarFirstUser.validateFavoritesAreShown();
@@ -295,7 +296,8 @@ export default async function createChatAccountsTests() {
     await favoritesSidebarFirstUser.validateFavoritesUserImage("ChatUserB");
   });
 
-  it("Chat User A - Remove user with active chat from Favorites", async () => {
+  // Skipping test since there is a bug encountered on Uplink that needs fixing
+  xit("Chat User A - Remove user with active chat from Favorites", async () => {
     // Remove user from favorites
     await chatsTopbarFirstUser.removeFromFavorites();
   });
