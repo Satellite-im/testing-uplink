@@ -15,6 +15,9 @@ let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
 
 export default async function messageContextMenuTests() {
   it("Chat User A - Send two messages to Chat User B", async () => {
+    // Workaround line added until Reply prompt issue is fixed
+    await chatsInputFirstUser.switchToOtherUserWindow();
+
     // Send a message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Two...");
     await chatsInputFirstUser.clickOnSendMessage();

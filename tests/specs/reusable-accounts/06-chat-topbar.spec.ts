@@ -68,13 +68,13 @@ export default async function chatTopbarTests() {
   });
 
   it("Pinned Messages - Pin a message with attachments", async () => {
-    // Look for the latest message sent by User A, open context menu and pin message
-    await chatsMessagesFirstUser.openContextMenuOnLastSent();
+    // Look for the latest message received by User A, open context menu and pin message
+    await chatsMessagesFirstUser.openContextMenuOnLastReceived();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.selectContextOptionPin();
 
     // Ensure that message shows a pin indicator
-    await chatsMessageGroupsFirstUser.validateLastMessageSentHasPinIndicator();
+    await chatsMessageGroupsFirstUser.validateLastMessageReceivedHasPinIndicator();
   });
 
   it("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {
@@ -85,7 +85,7 @@ export default async function chatTopbarTests() {
     // Validate pinned message shows timestamp, sender and message
     await pinnedMessagesFirstUser.validateFirstPinnedMessageImageProfileIsShown();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageTimestampIsShown();
-    await pinnedMessagesFirstUser.validateFirstPinnedMessageSender("ChatUserA");
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageSender("ChatUserB");
     await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Attached2");
   });
 
