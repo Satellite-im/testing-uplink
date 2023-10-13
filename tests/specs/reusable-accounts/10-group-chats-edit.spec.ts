@@ -57,6 +57,7 @@ export default async function groupChatEditTests() {
     await expect(inputErrorText).toHaveTextContaining(
       "Not allowed character(s): @"
     );
+
     await editGroupFirstUser.clearGroupNameInput();
   });
 
@@ -103,6 +104,7 @@ export default async function groupChatEditTests() {
   it("Edit Group - Contents displayed in add list are correct", async () => {
     // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
     await chatsTopbarFirstUser.switchToOtherUserWindow();
+
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
     await editGroupFirstUser.clickOnAddMembers();

@@ -16,17 +16,17 @@ describe("Windows Chats Tests", function () {
     "Create Accounts and Chat Tests",
     createChatAccountsTests.bind(this)
   );
-  /*describe("Chat Replies Tests", repliesTests.bind(this));
+  xdescribe("Chat Replies Tests", repliesTests.bind(this));
   describe("Message Context Menu Tests", messageContextMenuTests.bind(this));
   describe("Message Input Tests", messageInputTests.bind(this));
-  describe("Message Attachments Tests", messageAttachmentsTests.bind(this));
-  describe("Chat Topbar Tests", chatTopbarTests.bind(this));
+  xdescribe("Message Attachments Tests", messageAttachmentsTests.bind(this));
+  xdescribe("Chat Topbar Tests", chatTopbarTests.bind(this));
   describe("Quick Profile Tests", quickProfileTests.bind(this));
   describe("Sidebar Chats Tests", sidebarChatsTests.bind(this));
   describe("Group Chats Tests", groupChatTests.bind(this));
-  describe("Group Chats Edit Tests", groupChatEditTests.bind(this));
+  xdescribe("Group Chats Edit Tests", groupChatEditTests.bind(this));
   describe(
     "Group Chats Favorites and Sidebar Tests",
     groupChatSidebarTests.bind(this)
-  );*/
+  );
 });

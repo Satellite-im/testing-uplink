@@ -87,8 +87,7 @@ export default async function messageAttachmentsTests() {
     await sendFilesSecondUser.validateSendFilesButtonText("Send 0/8 File(s)");
   });
 
-  // Skipped since there is a bug reported for this button
-  xit("Send files from Browse Files - User cannot click on send files if no files are selected", async () => {
+  it("Send files from Browse Files - User cannot click on send files if no files are selected", async () => {
     // Click on Send files button without any files selected
     await sendFilesSecondUser.clickOnSendFilesButton();
 
@@ -100,9 +99,13 @@ export default async function messageAttachmentsTests() {
     // Select one file from root folder and ensure Send Files button displays 1/8 File(s)
     await sendFilesSecondUser.clickOnFileOrFolder("banner.jpg");
     await sendFilesSecondUser.validateSendFilesButtonText("Send 1/8 File(s)");
+
+    // Workaround line in the meantime the bug for Send Files button not clickable is fixed
+    await sendFilesSecondUser.clickOnCloseModal();
   });
 
-  it("Send files from Browse Files - Files selected will be displayed on Compose Attachment", async () => {
+  // Skipping test because there is a bug on Uplink application that prevents the user from clicking into the Send Files button
+  xit("Send files from Browse Files - Files selected will be displayed on Compose Attachment", async () => {
     // Send the only image file previously selected
     await sendFilesSecondUser.clickOnSendFilesButton();
 
@@ -117,7 +120,8 @@ export default async function messageAttachmentsTests() {
     );
   });
 
-  it("Send files from Browse Files - Message sent with attachments is shown on local side", async () => {
+  // Skipping test because there is a bug on Uplink application that prevents the user from clicking into the Send Files button
+  xit("Send files from Browse Files - Message sent with attachments is shown on local side", async () => {
     // Type a text message and send it
     await chatsInputSecondUser.typeMessageOnInput("Attached");
     await chatsInputSecondUser.clickOnSendMessage();
@@ -132,12 +136,8 @@ export default async function messageAttachmentsTests() {
     await expect(textMessage).toHaveTextContaining("Attached");
   });
 
-  it("Chat Messages with Files - Local user can download file sent", async () => {
-    // Download latest image file received
-    await chatsMessagesSecondUser.downloadLastSentFile(".jpg");
-  });
-
-  it("Send files from Browse Files - Message sent with attachments is shown on remote side", async () => {
+  // Skipping test because there is a bug on Uplink application that prevents the user from clicking into the Send Files button
+  xit("Send files from Browse Files - Message sent with attachments is shown on remote side", async () => {
     // Ensure that message sent with attached file is displayed on remote side
     // With User A- Validate that message with attachment was received
     await chatsMessagesFirstUser.switchToOtherUserWindow();
@@ -149,107 +149,117 @@ export default async function messageAttachmentsTests() {
     await expect(message).toHaveTextContaining("Attached");
   });
 
-  it("Chat Messages with Files - Remote user can download file received", async () => {
-    // Download latest image file received
-    await chatsMessagesFirstUser.downloadLastReceivedFile(".jpg");
-  });
-
   it("Send Files on Chats - Validate compose attachments contents", async () => {
-    // Switch to User B window
-    await chatsInputSecondUser.switchToOtherUserWindow();
+    // Switch to User A window
+    await chatsInputFirstUser.switchToOtherUserWindow();
 
     // Continue with test execution and clear input bar
-    await chatsInputSecondUser.clearInputBar();
+    await chatsInputFirstUser.clearInputBar();
 
     // Click on upload button and attach a file to compose attachment
-    await chatsInputSecondUser.uploadFileFromLocalDisk(
-      "./tests/fixtures/testfile.txt"
-    );
-
-    // Validate contents on Compose Attachments are displayed
-    await chatsAttachmentSecondUser.composeAttachmentsFileEmbed.waitForExist();
-    await chatsAttachmentSecondUser.composeAttachmentsFileIcon.waitForExist();
-    await chatsAttachmentSecondUser.composeAttachmentsFileNameText.waitForExist();
-  });
-
-  it("Send Files on Chats - Delete attachment before sending the message", async () => {
-    // Click on upload button and attach a file to compose attachment
-    await chatsAttachmentSecondUser.deleteFileOnComposeAttachment();
-  });
-
-  it("Send File from Add Files - Select a file and send message with attachment", async () => {
-    // Click on upload button and attach a file to compose attachment
-    await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.uploadFileFromLocalDisk(
       "./tests/fixtures/testfile.txt"
     );
 
     // Validate contents on Compose Attachments are displayed
     await chatsAttachmentFirstUser.composeAttachmentsFileEmbed.waitForExist();
+    await chatsAttachmentFirstUser.composeAttachmentsFileIcon.waitForExist();
+    await chatsAttachmentFirstUser.composeAttachmentsFileNameText.waitForExist();
+  });
+
+  it("Send Files on Chats - Delete attachment before sending the message", async () => {
+    // Click on upload button and attach a file to compose attachment
+    await chatsAttachmentFirstUser.deleteFileOnComposeAttachment();
+  });
+
+  it("Send File from Add Files - Select a file and send message with attachment", async () => {
+    // Click on upload button and attach a file to compose attachment
+    await chatsInputSecondUser.switchToOtherUserWindow();
+    await chatsInputSecondUser.uploadFileFromLocalDisk(
+      "./tests/fixtures/testfile.txt"
+    );
+
+    // Validate contents on Compose Attachments are displayed
+    await chatsAttachmentSecondUser.composeAttachmentsFileEmbed.waitForExist();
 
     // Type a text message and send it
-    await chatsInputFirstUser.typeMessageOnInput("Attached2");
-    await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("Attached2");
+    await chatsInputSecondUser.typeMessageOnInput("Attached2");
+    await chatsInputSecondUser.clickOnSendMessage();
+    await chatsMessagesSecondUser.waitForMessageSentToExist("Attached2");
   });
 
   it("Send Files on Chats - Message Sent With Attachment - Attachment Contents", async () => {
-    await chatsMessagesFirstUser.chatMessageFileEmbedLocal.waitForExist();
+    await chatsMessagesSecondUser.chatMessageFileEmbedLocal.waitForExist();
 
     // Validate text from message containing attachment
-    const textMessage = await chatsMessagesFirstUser.getLastMessageSentText();
+    const textMessage = await chatsMessagesSecondUser.getLastMessageSentText();
     await expect(textMessage).toHaveTextContaining("Attached2");
 
     // Validate file metadata is displayed correctly on last chat message sent
-    const fileMeta = await chatsMessagesFirstUser.getLastMessageSentFileMeta();
+    const fileMeta = await chatsMessagesSecondUser.getLastMessageSentFileMeta();
     await expect(fileMeta).toHaveTextContaining("47 B");
 
     // Validate filename is displayed correctly on last chat message sent
-    const fileName = await chatsMessagesFirstUser.getLastMessageSentFileName();
+    const fileName = await chatsMessagesSecondUser.getLastMessageSentFileName();
     await expect(fileName).toHaveTextContaining("testfile.txt");
 
     // Validate file icon is displayed correctly on last chat message sent
-    const fileIcon = await chatsMessagesFirstUser.getLastMessageSentFileIcon();
+    const fileIcon = await chatsMessagesSecondUser.getLastMessageSentFileIcon();
     await fileIcon.waitForExist();
 
     // Validate file download button is displayed correctly on last chat message sent
-    await chatsMessagesFirstUser.hoverOnLastFileSent();
+    await chatsMessagesSecondUser.hoverOnLastFileSent();
     const fileDownloadButton =
-      await chatsMessagesFirstUser.getLastMessageSentDownloadButton();
+      await chatsMessagesSecondUser.getLastMessageSentDownloadButton();
     await fileDownloadButton.waitForExist();
+  });
+
+  it("Chat Messages with Files - Local user can download file sent", async () => {
+    // Download latest image file received
+    await chatsMessagesSecondUser.downloadLastSentFile(".txt");
   });
 
   it("Receive Files on Chats - Received Message with Attachment - Text Message contents", async () => {
     // With User B - Validate that message with attachment was received
-    await chatsMessagesSecondUser.switchToOtherUserWindow();
-    await chatsInputSecondUser.clickOnInputBar();
-    await chatsMessagesSecondUser.chatMessageFileEmbedRemote.waitForExist();
+    await chatsMessagesFirstUser.switchToOtherUserWindow();
+    await chatsInputFirstUser.clickOnInputBar();
+    await chatsMessagesFirstUser.chatMessageFileEmbedRemote.waitForExist();
 
     // Validate text from message containing attachment
-    const message = await chatsMessagesSecondUser.getLastMessageReceivedText();
+    const message = await chatsMessagesFirstUser.getLastMessageReceivedText();
     await expect(message).toHaveTextContaining("Attached2");
   });
 
   it("Receive Files on Chats - Attachment File Contents", async () => {
     // Validate file metadata is displayed correctly on last chat message sent
     const fileMeta =
-      await chatsMessagesSecondUser.getLastMessageReceivedFileMeta();
+      await chatsMessagesFirstUser.getLastMessageReceivedFileMeta();
     await expect(fileMeta).toHaveTextContaining("47 B");
 
     // Validate filename is displayed correctly on last chat message sent
     const fileName =
-      await chatsMessagesSecondUser.getLastMessageReceivedFileName();
+      await chatsMessagesFirstUser.getLastMessageReceivedFileName();
     await expect(fileName).toHaveTextContaining("testfile.txt");
 
     // Validate file icon is displayed correctly on last chat message sent
     const fileIcon =
-      await chatsMessagesSecondUser.getLastMessageReceivedFileIcon();
+      await chatsMessagesFirstUser.getLastMessageReceivedFileIcon();
     await fileIcon.waitForExist();
 
     // Validate file download button is displayed correctly on last chat message sent
-    await chatsMessagesSecondUser.hoverOnLastFileReceived();
+    await chatsMessagesFirstUser.hoverOnLastFileReceived();
     const fileDownloadButton =
-      await chatsMessagesSecondUser.getLastMessageReceivedDownloadButton();
+      await chatsMessagesFirstUser.getLastMessageReceivedDownloadButton();
     await fileDownloadButton.waitForExist();
+  });
+
+  it("Chat Messages with Files - Remote user can download file received", async () => {
+    // Download latest image file received
+    await chatsMessagesFirstUser.downloadLastReceivedFile(".txt");
+  });
+
+  it("Chat Messages temporary action - Workaround", async () => {
+    // Temporary test until Uplink bug for Send Files button is fixed
+    await chatsInputSecondUser.switchToOtherUserWindow();
   });
 }

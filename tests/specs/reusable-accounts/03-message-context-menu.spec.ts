@@ -15,6 +15,9 @@ let chatsMessageGroupsSecondUser = new MessageGroup(USER_B_INSTANCE);
 
 export default async function messageContextMenuTests() {
   it("Chat User A - Send two messages to Chat User B", async () => {
+    // Workaround line added until Reply prompt issue is fixed
+    await chatsInputFirstUser.switchToOtherUserWindow();
+
     // Send a message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Two...");
     await chatsInputFirstUser.clickOnSendMessage();
@@ -77,7 +80,24 @@ export default async function messageContextMenuTests() {
     await expect(reactions.includes("😂 1")).toEqual(true);
   });
 
+  it("Chat User B - Send message to other user to test reacting to remote user", async () => {
+    // This is a workaround step added to tests until Reply prompt issue is fixed
+    // Type a message on input bar
+    await chatsInputSecondUser.switchToOtherUserWindow();
+    await chatsInputSecondUser.clickOnInputBar();
+    await chatsInputSecondUser.typeMessageOnInput("Reply");
+
+    // Send message to the other user
+    await chatsInputSecondUser.clickOnSendMessage();
+    await chatsMessagesSecondUser.waitForMessageSentToExist("Reply");
+  });
+
   it("Chat User A - React to received message", async () => {
+    // This is a workaround step added to tests until Reply prompt issue is fixed
+    // Validate message received from Chat User A
+    await chatsMessagesFirstUser.switchToOtherUserWindow();
+    await chatsMessagesFirstUser.waitForReceivingMessage("Reply");
+
     // React with 👎 emoji
     await chatsMessagesFirstUser.openContextMenuOnLastReceived();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
