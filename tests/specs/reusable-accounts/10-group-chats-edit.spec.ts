@@ -58,11 +58,7 @@ export default async function groupChatEditTests() {
       "Not allowed character(s): @"
     );
 
-    // Workaround line commented for bug on Edit Group Name input field
-    //await editGroupFirstUser.clearGroupNameInput();
-
-    // Workaround line added for bug on Edit Group Name input field
-    await chatsTopbarFirstUser.editGroup();
+    await editGroupFirstUser.clearGroupNameInput();
   });
 
   // Skipping test due to input issue changing the cursor to a different input field
@@ -82,8 +78,7 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.clearGroupNameInput();
   });
 
-  // Skipping test due to input issue changing the cursor to a different input field
-  xit("Edit Group - Change Group Name for a valid name", async () => {
+  it("Edit Group - Change Group Name for a valid name", async () => {
     // Type on group name input a valid name and validate group name is changed correctly
     await editGroupFirstUser.typeOnGroupNameInput("X");
     await chatsTopbarFirstUser.editGroup();
@@ -95,8 +90,7 @@ export default async function groupChatEditTests() {
     await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
   });
 
-  // Skipping test due to input issue changing the cursor to a different input field
-  xit("Edit Group - Validate group name was changed correctly on remote side", async () => {
+  it("Edit Group - Validate group name was changed correctly on remote side", async () => {
     // Switch control to second user
     await chatsSidebarSecondUser.switchToOtherUserWindow();
 
@@ -109,8 +103,7 @@ export default async function groupChatEditTests() {
 
   it("Edit Group - Contents displayed in add list are correct", async () => {
     // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
-    // Workaround line commented for bug on Edit Group Name input field
-    //await chatsTopbarFirstUser.switchToOtherUserWindow();
+    await chatsTopbarFirstUser.switchToOtherUserWindow();
 
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
@@ -148,7 +141,7 @@ export default async function groupChatEditTests() {
   it("Edit Group - Validate remote user was correctly removed from the group chat", async () => {
     // Validate that remote user was removed from the group correctly
     await chatsSidebarSecondUser.switchToOtherUserWindow();
-    await chatsSidebarSecondUser.waitForGroupToBeDeleted("Test");
+    await chatsSidebarSecondUser.waitForGroupToBeDeleted("X");
     await welcomeScreenSecondUser.validateWelcomeScreenIsShown();
   });
 
@@ -189,8 +182,8 @@ export default async function groupChatEditTests() {
     await filesScreenSecondUser.validateFilesScreenIsShown();
     await filesScreenSecondUser.goToMainScreen();
     await chatsSidebarSecondUser.validateSidebarChatsIsShown();
-    await chatsSidebarSecondUser.waitForGroupToBeCreated("Test");
-    await chatsSidebarSecondUser.goToSidebarGroupChat("Test");
+    await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
+    await chatsSidebarSecondUser.goToSidebarGroupChat("X");
     await chatsTopbarSecondUser.validateTopbarExists();
 
     // Validate topbar contents has correct name
