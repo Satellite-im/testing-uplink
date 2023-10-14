@@ -54,6 +54,7 @@ const SELECTORS_WINDOWS = {
   FRIEND_USER_IMAGE: '[name="User Image"]',
   FRIEND_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   FRIEND_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
+  FRIEND_USER_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   FRIEND_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FRIEND_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   FRIENDS_BODY: '[name="friends-body"]',
@@ -66,6 +67,8 @@ const SELECTORS_WINDOWS = {
   INCOMING_REQUESTS_LIST_LABEL: '[name="incoming-list-label"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "<Text>",
+  NO_REQUESTS: '[name="no-requests"]',
+  NO_REQUESTS_TEXT: "<Text>",
   OUTGOING_REQUESTS_LIST: '[name="Outgoing Requests List"]',
   OUTGOING_REQUESTS_LIST_LABEL: '[name="outgoing-list-label"]',
   PENDING_FRIENDS_BUTTON: '[name="pending-friends-button"]',
@@ -108,6 +111,8 @@ const SELECTORS_MACOS = {
   FRIEND_USER_IMAGE: "~User Image",
   FRIEND_USER_IMAGE_PROFILE: "~user-image-profile",
   FRIEND_USER_IMAGE_WRAP: "~user-image-wrap",
+  FRIEND_USER_INDICATOR:
+    '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   FRIEND_USER_INDICATOR_OFFLINE: "~indicator-offline",
   FRIEND_USER_INDICATOR_ONLINE: "~indicator-online",
   FRIENDS_BODY: "~friends-body",
@@ -120,6 +125,8 @@ const SELECTORS_MACOS = {
   INCOMING_REQUESTS_LIST_LABEL: "~incoming-list-label",
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  NO_REQUESTS: "~no-requests",
+  NO_REQUESTS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   OUTGOING_REQUESTS_LIST: "~Outgoing Requests List",
   OUTGOING_REQUESTS_LIST_LABEL: "~outgoing-list-label",
   PENDING_FRIENDS_BUTTON: "~pending-friends-button",
@@ -328,6 +335,14 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   get inputErrorText() {
     return this.instance.$(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
+  }
+
+  get noRequests() {
+    return this.friendsBody.$(SELECTORS.NO_REQUESTS);
+  }
+
+  get noRequestsText() {
+    return this.noRequests.$(SELECTORS.NO_REQUESTS_TEXT);
   }
 
   get outgoingRequestsList() {
@@ -576,6 +591,13 @@ export default class FriendsScreen extends UplinkMainScreen {
     return userImageWrap;
   }
 
+  async getUserIndicator(username: string) {
+    const userLocator = await this.getExistingFriendByAriaLabel(username);
+    const indicator = await userLocator.$(SELECTORS.FRIEND_USER_INDICATOR);
+    await indicator.waitForExist();
+    return indicator;
+  }
+
   async getUserIndicatorOffline(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const indicatorOffline = await userLocator.$(
@@ -606,7 +628,6 @@ export default class FriendsScreen extends UplinkMainScreen {
   async getUserTooltip(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userTooltip = await userLocator.$(SELECTORS.TOOLTIP);
-    await userTooltip.waitForExist();
     return userTooltip;
   }
 
@@ -770,9 +791,21 @@ export default class FriendsScreen extends UplinkMainScreen {
     );
   }
 
+  async validateIncomingListIsNotShown() {
+    await this.incomingRequestsList.waitForExist({
+      reverse: true,
+    });
+  }
+
   async validateIncomingListIsShown() {
     const incomingList = await this.incomingRequestsList;
     await incomingList.waitForExist();
+  }
+
+  async validateNoRequestsIsShown() {
+    // Ensure no requests message is displayed
+    const noRequests = await this.noRequests;
+    await noRequests.waitForExist();
   }
 
   async validateOutgoingListIsNotEmpty() {

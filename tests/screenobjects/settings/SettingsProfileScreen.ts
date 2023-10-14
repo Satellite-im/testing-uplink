@@ -1,6 +1,7 @@
 import "module-alias/register";
 import {
   getClipboardMacOS,
+  getUplinkWindowHandle,
   hoverOnMacOS,
   hoverOnWindows,
   selectFileOnMacos,
@@ -12,6 +13,7 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
+import { get } from "http";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 const robot = require("robotjs");
@@ -213,7 +215,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   async clickOnAddPictureButton() {
-    const button = await this.addPictureButton;
+    const button = await this.profilePicture;
     await button.click();
   }
 
@@ -299,6 +301,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await this.enterStatus(userKey);
     } else if (currentDriver === WINDOWS_DRIVER) {
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
+      await browser.pause(1000);
       await statusInput.click();
       await statusInput.clearValue();
       await robot.keyTap("v", ["control"]);
@@ -324,10 +327,11 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await profileBannerMac.click();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
       const profileBannerWindows = await this.profileBanner;
       await profileBannerWindows.click();
-      const uplinkContext = await driver[this.executor].getWindowHandle();
-      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      await selectFileOnWindows(relativePath, uplinkContext, executor);
     }
 
     // Validate that profile banner is displayed on screen
@@ -336,6 +340,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   async uploadProfilePicture(relativePath: string) {
+    //
     // Invoke File Selection method depending on current OS driver
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
@@ -343,9 +348,11 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await this.clickOnAddPictureButton();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.clickOnAddPictureButton();
-      const uplinkContext = await driver[this.executor].getWindowHandle();
-      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
+      const profilePictureImage = await this.profilePicture;
+      await profilePictureImage.click();
+      await selectFileOnWindows(relativePath, uplinkContext, executor);
     }
 
     // Validate that profile banner is displayed on screen

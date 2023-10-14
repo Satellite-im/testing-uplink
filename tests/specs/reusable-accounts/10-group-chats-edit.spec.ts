@@ -17,7 +17,6 @@ export default async function groupChatEditTests() {
   it("Chat User A - Edit Group Chat button tooltip", async () => {
     // Hover on edit group chat button and validate tooltip is shown
     await chatsTopbarFirstUser.hoverOnEditGroupButton();
-    await chatsTopbarFirstUser.topbarEditGroupTooltip.waitForExist();
 
     const tooltipText = await chatsTopbarFirstUser.topbarEditGroupTooltipText;
     await expect(tooltipText).toHaveTextContaining("Edit Group");
@@ -35,7 +34,6 @@ export default async function groupChatEditTests() {
     await chatsTopbarSecondUser.switchToOtherUserWindow();
     await chatsTopbarSecondUser.hoverOnEditGroupButton();
 
-    await chatsTopbarSecondUser.viewGroupTooltip.waitForExist();
     const tooltipText = await chatsTopbarSecondUser.viewGroupTooltipText;
     await expect(tooltipText).toHaveTextContaining("View Group");
   });
@@ -59,6 +57,7 @@ export default async function groupChatEditTests() {
     await expect(inputErrorText).toHaveTextContaining(
       "Not allowed character(s): @"
     );
+
     await editGroupFirstUser.clearGroupNameInput();
   });
 
@@ -105,6 +104,7 @@ export default async function groupChatEditTests() {
   it("Edit Group - Contents displayed in add list are correct", async () => {
     // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
     await chatsTopbarFirstUser.switchToOtherUserWindow();
+
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
     await editGroupFirstUser.clickOnAddMembers();

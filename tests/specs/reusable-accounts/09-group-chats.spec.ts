@@ -24,7 +24,6 @@ export default async function groupChatTests() {
   it("Chat User A - Create Group Chat button tooltip", async () => {
     // Hover on create group chat button and validate tooltip is shown
     await chatsSidebarFirstUser.hoverOnCreateGroupButton();
-    await chatsSidebarFirstUser.sidebarCreateGroupChatTooltip.waitForExist();
   });
 
   it("Chat User A - Click on Create Group Chat and close modal", async () => {

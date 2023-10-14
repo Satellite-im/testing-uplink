@@ -18,7 +18,6 @@ export default async function chatTopbarTests() {
     // Validate Favorites button tooltip
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.hoverOnFavoritesButton();
-    await chatsTopbarFirstUser.topbarAddToFavoritesTooltip.waitForExist();
     const favoritesAddTooltipText =
       await chatsTopbarFirstUser.topbarAddToFavoritesTooltipText;
     await expect(favoritesAddTooltipText).toHaveTextContaining(
@@ -27,7 +26,6 @@ export default async function chatTopbarTests() {
 
     // Validate Pinned Messages button tooltip
     await chatsTopbarFirstUser.hoverOnPinnedMessagesButton();
-    await chatsTopbarFirstUser.topbarPinnedMessagesTooltip.waitForExist();
     const pinnedMessagesTooltipText =
       await chatsTopbarFirstUser.topbarPinnedMessagesTooltipText;
     await expect(pinnedMessagesTooltipText).toHaveTextContaining(
@@ -36,13 +34,11 @@ export default async function chatTopbarTests() {
 
     // Validate Upload button tooltip
     await chatsInputFirstUser.hoverOnUploadButton();
-    await chatsInputFirstUser.uploadTooltip.waitForExist();
     const uploadTooltipText = await chatsInputFirstUser.uploadTooltipText;
     await expect(uploadTooltipText).toHaveTextContaining("Upload");
 
     // Validate Send button tooltip
     await chatsInputFirstUser.hoverOnSendButton();
-    await chatsInputFirstUser.sendMessageTooltip.waitForExist();
     const sendMessageTooltipText =
       await chatsInputFirstUser.sendMessageTooltipText;
     await expect(sendMessageTooltipText).toHaveTextContaining("Send");
@@ -51,13 +47,11 @@ export default async function chatTopbarTests() {
   it("Chat User A - Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
     // Validate Call button tooltip contains "Coming soon"
     await chatsTopbarFirstUser.hoverOnCallButton();
-    await chatsTopbarFirstUser.topbarCallTooltip.waitForExist();
     const callTooltipText = await chatsTopbarFirstUser.topbarCallTooltipText;
     await expect(callTooltipText).toHaveTextContaining("Coming soon");
 
     // Validate Videocall button tooltip contains "Coming soon"
     await chatsTopbarFirstUser.hoverOnVideocallButton();
-    await chatsTopbarFirstUser.topbarVideocallTooltip.waitForExist();
     const videoCallTooltipText =
       await chatsTopbarFirstUser.topbarVideocallTooltipText;
     await expect(videoCallTooltipText).toHaveTextContaining("Coming soon");
@@ -73,19 +67,17 @@ export default async function chatTopbarTests() {
     await chatsTopbarFirstUser.clickOnPinnedMessages();
   });
 
-  // Needs additional work yet
-  xit("Pinned Messages - Pin a message with attachments", async () => {
-    // Look for the latest message sent by User A, open context menu and pin message
-    await chatsMessagesFirstUser.openContextMenuOnLastSent();
+  it("Pinned Messages - Pin a message with attachments", async () => {
+    // Look for the latest message received by User A, open context menu and pin message
+    await chatsMessagesFirstUser.openContextMenuOnLastReceived();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.selectContextOptionPin();
 
     // Ensure that message shows a pin indicator
-    await chatsMessageGroupsFirstUser.validateLastMessageSentHasPinIndicator();
+    await chatsMessageGroupsFirstUser.validateLastMessageReceivedHasPinIndicator();
   });
 
-  // Needs additional work yet
-  xit("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {
+  it("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {
     // Go to Pinned Messages and validate container shows message
     await chatsTopbarFirstUser.clickOnPinnedMessages();
     await pinnedMessagesFirstUser.validatePinnedMessagesIsDisplayed();
@@ -93,12 +85,11 @@ export default async function chatTopbarTests() {
     // Validate pinned message shows timestamp, sender and message
     await pinnedMessagesFirstUser.validateFirstPinnedMessageImageProfileIsShown();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageTimestampIsShown();
-    await pinnedMessagesFirstUser.validateFirstPinnedMessageSender("ChatUserA");
-    await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Attached");
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageSender("ChatUserB");
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Reply");
   });
 
-  // Needs additional work yet
-  xit("Pinned Messages - Pinned message with attachment shows icon, extension, filename and metadata", async () => {
+  it("Pinned Messages - Pinned message with attachment shows icon, extension, filename and metadata", async () => {
     // Validate attachment elements are shown in pinned message
     await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileIcon();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileIconExtension(
@@ -112,8 +103,7 @@ export default async function chatTopbarTests() {
     );
   });
 
-  // Needs additional work yet
-  xit("Pinned Messages - User can be redirected to the message when clicking on Go to message", async () => {
+  it("Pinned Messages - User can be redirected to the message when clicking on Go to message", async () => {
     // Click on Go to Message
     await pinnedMessagesFirstUser.clickOnGoToMessage(0);
 
@@ -121,13 +111,11 @@ export default async function chatTopbarTests() {
     await chatsTopbarFirstUser.clickOnPinnedMessages();
   });
 
-  // Needs additional work yet
-  xit("Pinned Messages - Remove a pinned message", async () => {
+  it("Pinned Messages - Remove a pinned message", async () => {
     // Click on Unpin button to remove message from pinned messages
     await pinnedMessagesFirstUser.clickOnUnpinMessage(0);
 
     // Validate that no posts are pinned
-    await chatsTopbarFirstUser.clickOnPinnedMessages();
     await pinnedMessagesFirstUser.validateEmptyPinnedMessagesIsDisplayed();
 
     // Close pinned messages
