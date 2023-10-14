@@ -16,6 +16,8 @@ const SELECTORS_WINDOWS = {
   COMPOSE_ATTACHMENTS_FILE_META: '[name="file-meta"]',
   COMPOSE_ATTACHMENTS_FILE_NAME: '[name="file-name"]',
   COMPOSE_ATTACHMENTS_FILE_NAME_TEXT: "<Text>",
+  COMPOSE_ATTACHMENTS_INPUT_ERROR: '[name="input-error"]',
+  COMPOSE_ATTACHMENTS_INPUT_ERROR_TEXT: "<Text>",
 };
 
 const SELECTORS_MACOS = {
@@ -27,6 +29,9 @@ const SELECTORS_MACOS = {
   COMPOSE_ATTACHMENTS_FILE_META: "~file-meta",
   COMPOSE_ATTACHMENTS_FILE_NAME: "~file-name",
   COMPOSE_ATTACHMENTS_FILE_NAME_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText",
+  COMPOSE_ATTACHMENTS_INPUT_ERROR: "~input-error",
+  COMPOSE_ATTACHMENTS_INPUT_ERROR_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
@@ -44,56 +49,74 @@ export default class ComposeAttachments extends UplinkMainScreen {
   }
 
   get composeAttachmentsButton() {
-    return this.instance
-      .$(SELECTORS.COMPOSE_ATTACHMENTS)
-      .$(SELECTORS.COMPOSE_ATTACHMENTS_BUTTON);
+    return this.composeAttachments.$(SELECTORS.COMPOSE_ATTACHMENTS_BUTTON);
   }
 
   get composeAttachmentsFileEmbed() {
-    return this.instance
-      .$(SELECTORS.COMPOSE_ATTACHMENTS)
-      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED);
+    return this.composeAttachments.$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED);
   }
 
   get composeAttachmentsFileIcon() {
-    return this.instance
-      .$(SELECTORS.COMPOSE_ATTACHMENTS)
-      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
-      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_ICON);
+    return this.composeAttachmentsFileEmbed.$(
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_ICON
+    );
   }
 
   get composeAttachmentsFileInfo() {
-    return this.instance
-      .$(SELECTORS.COMPOSE_ATTACHMENTS)
-      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
-      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_INFO);
+    return this.composeAttachmentsFileEmbed.$(
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_INFO
+    );
   }
 
   get composeAttachmentsFileMeta() {
-    return this.instance
-      .$(SELECTORS.COMPOSE_ATTACHMENTS)
-      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
-      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_META);
+    return this.composeAttachmentsFileEmbed.$(
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_META
+    );
   }
 
   get composeAttachmentsFileName() {
-    return this.instance
-      .$(SELECTORS.COMPOSE_ATTACHMENTS)
-      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
-      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME);
+    return this.composeAttachmentsFileEmbed.$(
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME
+    );
   }
 
   get composeAttachmentsFileNameText() {
-    return this.instance
-      .$(SELECTORS.COMPOSE_ATTACHMENTS)
-      .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED)
+    return this.composeAttachmentsFileEmbed
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME_TEXT);
+  }
+
+  get composeAttachmentsInputError() {
+    return this.composeAttachments.$(SELECTORS.COMPOSE_ATTACHMENTS_INPUT_ERROR);
+  }
+
+  get composeAttachmentsInputErrorText() {
+    return this.composeAttachmentsInputError.$(
+      SELECTORS.COMPOSE_ATTACHMENTS_INPUT_ERROR_TEXT
+    );
   }
 
   async deleteFileOnComposeAttachment() {
     const composeAttachmentsButton = await this.composeAttachmentsButton;
     await composeAttachmentsButton.click();
+  }
+
+  async getListOfAttachmentsEmbed() {
+    const composeAttachments = await this.composeAttachments;
+    await composeAttachments.waitForExist();
+    const filesAttached = await this.instance.$$(
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED
+    );
+    let results = [];
+    for (let fileAttached of filesAttached) {
+      const fileName = await fileAttached
+        .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_INFO)
+        .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME)
+        .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME_TEXT);
+      const fileNameText = await fileName.getText();
+      results.push(fileNameText);
+    }
+    return results;
   }
 
   async validateAttachmentIsAdded() {
@@ -107,5 +130,19 @@ export default class ComposeAttachments extends UplinkMainScreen {
         timeoutMsg: "Attachment file was not added after 15 seconds",
       }
     );
+  }
+
+  async validateAttachmentWithFileNameIsAdded(
+    fileName: string,
+    expectedAssertion: boolean
+  ) {
+    const attachmentsList = await this.getListOfAttachmentsEmbed();
+    const includesAttachment = await attachmentsList.includes(fileName);
+    await expect(includesAttachment).toEqual(expectedAssertion);
+  }
+
+  async validateComposeAttachmentsIsShown() {
+    const composeAttachments = await this.composeAttachments;
+    await composeAttachments.waitForExist();
   }
 }

@@ -21,6 +21,7 @@ const SELECTORS_WINDOWS = {
   FAVORITES_USER_IMAGE_GROUP_WRAP: '[name="user-image-group-wrap"]',
   FAVORITES_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   FAVORITES_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
+  FAVORITES_USER_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   FAVORITES_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   FAVORITES_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   SLIMBAR: '[name="slimbar"]',
@@ -42,6 +43,8 @@ const SELECTORS_MACOS = {
   FAVORITES_USER_IMAGE_GROUP_WRAP: "~user-image-group-wrap",
   FAVORITES_USER_IMAGE_PROFILE: "~user-image-profile",
   FAVORITES_USER_IMAGE_WRAP: "~user-image-wrap",
+  FAVORITES_USER_INDICATOR:
+    '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   FAVORITES_USER_INDICATOR_OFFLINE: "~indicator-offline",
   FAVORITES_USER_INDICATOR_ONLINE: "~indicator-online",
   SLIMBAR: "~slimbar",
@@ -113,6 +116,13 @@ export default class FavoritesSidebar extends UplinkMainScreen {
       .$(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_WRAP);
+  }
+
+  get favoritesUserIndicator() {
+    return this.instance
+      .$(SELECTORS.SLIMBAR)
+      .$(SELECTORS.FAVORITES)
+      .$$(SELECTORS.FAVORITES_USER_INDICATOR);
   }
 
   get favoritesUserIndicatorOffline() {
@@ -242,6 +252,15 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     );
     await userImageWrap.waitForExist();
     return userImageWrap;
+  }
+
+  async getFavoritesUserIndicator(username: string) {
+    const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
+    const indicator = await favoriteLocator.$(
+      SELECTORS.FAVORITES_USER_INDICATOR
+    );
+    await indicator.waitForExist();
+    return indicator;
   }
 
   async getFavoritesUserIndicatorOffline(username: string) {

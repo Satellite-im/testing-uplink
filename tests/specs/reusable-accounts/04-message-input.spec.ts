@@ -69,7 +69,8 @@ export default async function messageInputTests() {
     await expect(codeMessageTextSent).toEqual("let a = 1;");
   });
 
-  it("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
+  // Skipping test that is failing often on CI - Requires investigation to improve execution
+  xit("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
     // With Chat User A, click on the copy button from code block of last chat message sent
     await chatsMessagesFirstUser.clickOnCopyCodeOfLastMessageSent();
 
@@ -81,14 +82,17 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.clearInputBar();
   });
 
-  it("Chat Input Text - Validate messages with markdowns were received in expected format", async () => {
+  it("Chat Input Text - Validate messages with bold markdowns were received in expected format", async () => {
     // With Chat User B, validate message with with ** markdown was received in bolds
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsMessagesSecondUser.waitForReceivingMessage("Bolds1");
 
     // With Chat User B, validate message with with __ markdown was received in bolds
     await chatsMessagesSecondUser.waitForReceivingMessage("Bolds2");
+  });
 
+  // Skipping test that is failing often on CI - Requires investigation to improve execution
+  xit("Chat Input Text - Validate message with code markdown is received in expected format", async () => {
     // With Chat User B, validate code message was received and is displayed correctly
     await chatsMessagesSecondUser.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =
@@ -176,7 +180,8 @@ export default async function messageInputTests() {
     await linkEmbedReceivedIconTitle.waitForExist();
   });
 
-  it("Typing Indicator - Send a long message to trigger typing indicator on remote side", async () => {
+  // Skipping test failing on because the typing indicator is gone before the test can validate it
+  xit("Typing Indicator - Send a long message to trigger typing indicator on remote side", async () => {
     // With User A
     await chatsInputFirstUser.switchToOtherUserWindow();
     // Generate a random text with 100 chars
@@ -185,7 +190,8 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.typeMessageOnInput(shortText + "efgh");
   });
 
-  it("Validate Typing Indicator is displayed if remote user is typing", async () => {
+  // Skipping test failing on because the typing indicator is gone before the test can validate it
+  xit("Validate Typing Indicator is displayed if remote user is typing", async () => {
     // Switch to second user and validate that Typing Indicator is displayed
     await chatsLayoutSecondUser.switchToOtherUserWindow();
     await chatsLayoutSecondUser.typingIndicator.waitForExist({

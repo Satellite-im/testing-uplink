@@ -30,6 +30,7 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_CHATS_USER_INFO: '[name="User Info"]',
   SIDEBAR_CHATS_USER_NAME: '[name="Username"]',
   SIDEBAR_CHATS_USER_NAME_VALUE: "<Text>",
+  SIDEBAR_CHATS_USER_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   SIDEBAR_CHATS_USER_OFFLINE_INDICATOR: '[name="indicator-offline"]',
   SIDEBAR_CHATS_USER_ONLINE_INDICATOR: '[name="indicator-online"]',
   SIDEBAR_CHATS_USER_PROFILE_TYPING: '[name="profile-typing"]',
@@ -65,6 +66,8 @@ const SELECTORS_MACOS = {
   SIDEBAR_CHATS_USER_NAME: "~Username",
   SIDEBAR_CHATS_USER_NAME_VALUE:
     "-ios class chain:**/XCUIElementTypeStaticText",
+  SIDEBAR_CHATS_USER_INDICATOR:
+    '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   SIDEBAR_CHATS_USER_OFFLINE_INDICATOR: "~indicator-offline",
   SIDEBAR_CHATS_USER_ONLINE_INDICATOR: "~indicator-online",
   SIDEBAR_CHATS_USER_PROFILE_TYPING: "~profile-typing",
@@ -209,6 +212,13 @@ export default class ChatsSidebar extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_CHATS_USER_NAME_VALUE);
   }
 
+  get sidebarChatsUserIndicator() {
+    return this.instance
+      .$$(SELECTORS.SIDEBAR_CHATS_SECTION)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_INDICATOR);
+  }
+
   get sidebarChatsUserOfflineIndicator() {
     return this.instance
       .$$(SELECTORS.SIDEBAR_CHATS_SECTION)
@@ -280,6 +290,13 @@ export default class ChatsSidebar extends UplinkMainScreen {
     return this.instance
       .$(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
       .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP);
+  }
+
+  get sidebarGroupChatUserIndicator() {
+    return this.instance
+      .$(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
+      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_INDICATOR);
   }
 
   get sidebarGroupChatUserIndicatorOffline() {
@@ -504,6 +521,16 @@ export default class ChatsSidebar extends UplinkMainScreen {
     return statusLocator;
   }
 
+  async getSidebarUserIndicator(username: string) {
+    const userLocator = await this.getExistingElementByAriaLabel(username);
+    const indicatorLocator = await userLocator
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_INDICATOR);
+    await indicatorLocator.waitForExist();
+    return indicatorLocator;
+  }
+
   async getSidebarUserIndicatorOffline(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const offlineLocator = await userLocator
@@ -550,9 +577,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   // Context menu methods
 
   async openContextMenuOnSidebar(username: string) {
-    const imageToRightClick = await this.getSidebarUserIndicatorOnline(
-      username
-    );
+    const imageToRightClick = await this.getSidebarUserIndicator(username);
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {

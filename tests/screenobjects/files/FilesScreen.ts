@@ -5,6 +5,7 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import {
+  getUplinkWindowHandle,
   rightClickOnMacOS,
   rightClickOnWindows,
   saveFileOnMacOS,
@@ -24,6 +25,7 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_FILES_DELETE: '[name="files-delete"]',
   CONTEXT_MENU_FILES_DOWNLOAD: '[name="files-download"]',
+  CONTEXT_MENU_FILES_SHARE: '[name="files-share"]',
   CONTEXT_MENU_FILES_RENAME: '[name="files-rename"]',
   CONTEXT_MENU_FOLDER_DELETE: '[name="folder-delete"]',
   CONTEXT_MENU_FOLDER_RENAME: '[name="folder-rename"]',
@@ -66,6 +68,7 @@ const SELECTORS_MACOS = {
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_FILES_DELETE: "~files-delete",
   CONTEXT_MENU_FILES_DOWNLOAD: "~files-download",
+  CONTEXT_MENU_FILES_SHARE: "~files-share",
   CONTEXT_MENU_FILES_RENAME: "~files-rename",
   CONTEXT_MENU_FOLDER_DELETE: "~folder-delete",
   CONTEXT_MENU_FOLDER_RENAME: "~folder-rename",
@@ -149,6 +152,10 @@ export default class FilesScreen extends UplinkMainScreen {
 
   get contextMenuFilesRename() {
     return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_RENAME);
+  }
+
+  get contextMenuFilesShare() {
+    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_SHARE);
   }
 
   get contextMenuFolderDelete() {
@@ -362,6 +369,12 @@ export default class FilesScreen extends UplinkMainScreen {
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await inputFolderFileName.waitForExist();
     await inputFolderFileName.setValue(name);
+    // Retry typing if appium fails on type
+    const inputValue = await inputFolderFileName.getText();
+    if (inputValue !== name) {
+      await this.createFolder(name);
+    }
+    // If name was typed correctly, continue with method execution
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(name);
     const newFolderElement = await this.instance.$(newFolder);
@@ -382,9 +395,10 @@ export default class FilesScreen extends UplinkMainScreen {
       await this.clickOnFilesDownload();
       await saveFileOnMacOS(filename, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await driver.getWindowHandle();
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
       await this.clickOnFilesDownload();
-      await saveFileOnWindows(filename, uplinkContext, this.executor);
+      await saveFileOnWindows(filename, uplinkContext, executor);
     }
   }
 
@@ -457,16 +471,17 @@ export default class FilesScreen extends UplinkMainScreen {
       await this.clickOnUploadFile();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await driver[this.executor].getWindowHandle();
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
       await this.clickOnUploadFile();
-      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      await selectFileOnWindows(relativePath, uplinkContext, executor);
     }
   }
 
   async validateFileOrFolderExist(locator: string) {
     const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
     const fileFolderElement = await this.instance.$(fileFolderElementLocator);
-    await fileFolderElement.waitForExist();
+    await fileFolderElement.waitForExist({ timeout: 30000 });
   }
 
   async validateFileOrFolderNotExist(locator: string) {

@@ -5,7 +5,11 @@ import {
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
 } from "@helpers/constants";
-import { selectFileOnMacos, selectFileOnWindows } from "@helpers/commands";
+import {
+  getUplinkWindowHandle,
+  selectFileOnMacos,
+  selectFileOnWindows,
+} from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 const robot = require("robotjs");
 
@@ -201,22 +205,26 @@ export default class InputBar extends UplinkMainScreen {
     await uploadButtonLocalDisk.click();
   }
 
+  async selectUploadFromStorage() {
+    const uploadButtonStorage = await this.uploadButtonStorage;
+    await uploadButtonStorage.click();
+  }
+
   async typeCodeOnInputBar(language: string, codeToType: string) {
     const inputText = await this.inputText;
+    await inputText.clearValue();
     await inputText.addValue("```" + language);
-    await robot.keyTap("enter", ["shift"]);
-    await inputText.addValue(codeToType);
-    await inputText.waitUntil(
-      async () => {
-        const inputTextValue = await inputText.getText();
-        return await inputTextValue.includes(codeToType);
-      },
-      {
-        timeout: 5000,
-        timeoutMsg:
-          "Expected chat input to contain code markdown text after 5 seconds",
+    const inputTextValueLanguage = await inputText.getText();
+    if (inputTextValueLanguage.includes("```" + language) === false) {
+      await this.typeCodeOnInputBar(language, codeToType);
+    } else {
+      await robot.keyTap("enter", ["shift"]);
+      await inputText.addValue(codeToType);
+      const inputTextValueCode = await inputText.getText();
+      if (inputTextValueCode.includes(codeToType) === false) {
+        await this.typeCodeOnInputBar(language, codeToType);
       }
-    );
+    }
   }
 
   async typeMessageOnInput(text: string) {
@@ -236,10 +244,16 @@ export default class InputBar extends UplinkMainScreen {
       await this.selectUploadFromLocalDisk();
       await selectFileOnMacos(relativePath, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
+      const executor = await this.executor;
+      const uplinkContext = await getUplinkWindowHandle(executor);
       await this.clickOnUploadFile();
       await this.selectUploadFromLocalDisk();
-      const uplinkContext = await driver[this.executor].getWindowHandle();
-      await selectFileOnWindows(relativePath, uplinkContext, this.executor);
+      await selectFileOnWindows(relativePath, uplinkContext, executor);
     }
+  }
+
+  async openUploadFilesFromStorage() {
+    await this.clickOnUploadFile();
+    await this.selectUploadFromStorage();
   }
 }
