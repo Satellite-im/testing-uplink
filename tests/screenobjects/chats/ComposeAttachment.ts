@@ -96,6 +96,17 @@ export default class ComposeAttachments extends UplinkMainScreen {
     );
   }
 
+  async clickOnDeleteAttachment(attachment: number) {
+    // Get the locator of attachment to delete by passing the index
+    const attachmentToDelete = await this.instance.$$(
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED
+    )[attachment];
+    const deleteAttachmentButton = await attachmentToDelete.$(
+      SELECTORS.COMPOSE_ATTACHMENTS_BUTTON
+    );
+    await deleteAttachmentButton.click();
+  }
+
   async deleteFileOnComposeAttachment() {
     const composeAttachmentsButton = await this.composeAttachmentsButton;
     await composeAttachmentsButton.click();
