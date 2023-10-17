@@ -16,7 +16,6 @@ let pinnedMessagesFirstUser = new PinnedMessages(USER_A_INSTANCE);
 export default async function chatTopbarTests() {
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.hoverOnFavoritesButton();
     const favoritesAddTooltipText =
       await chatsTopbarFirstUser.topbarAddToFavoritesTooltipText;
@@ -86,7 +85,7 @@ export default async function chatTopbarTests() {
     await pinnedMessagesFirstUser.validateFirstPinnedMessageImageProfileIsShown();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageTimestampIsShown();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageSender("ChatUserB");
-    await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Reply");
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Attached2");
   });
 
   it("Pinned Messages - Pinned message with attachment shows icon, extension, filename and metadata", async () => {

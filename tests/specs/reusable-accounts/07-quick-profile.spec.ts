@@ -26,9 +26,6 @@ let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 export default async function quickProfileTests() {
   it("Chat User A - Validate contents from local quick profile", async () => {
-    // Workaround line added until Reply prompt issue is fixed
-    await chatsInputFirstUser.switchToOtherUserWindow();
-
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openLocalQuickProfile();
     await chatsQuickProfileFirstUser.quickProfile.waitForExist();
