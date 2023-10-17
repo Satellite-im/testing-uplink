@@ -1,16 +1,18 @@
 import "module-alias/register";
 import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
-import SettingsExtensionsScreen from "@screenobjects/settings/SettingsExtensionsScreen";
+import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
 let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
   USER_A_INSTANCE
 );
-let settingsExtensionsFirstUser = new SettingsExtensionsScreen(USER_A_INSTANCE);
+let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
+  USER_A_INSTANCE
+);
 
 export default async function settingsAccessibility() {
   it("Settings Accessibility - Assert screen texts", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await settingsExtensionsFirstUser.goToAccessibilitySettings();
+    await settingsNotificationsFirstUser.goToAccessibilitySettings();
     await settingsAccessibilityFirstUser.waitForIsShown(true);
 
     // Validate texts for Open Dyslexic Settings Section

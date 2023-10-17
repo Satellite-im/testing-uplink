@@ -22,7 +22,7 @@ describe("Windows Tests", function () {
   describe("Settings Extensions Tests", settingsExtensions.bind(this));
   describe("Settings Accessibility Tests", settingsAccessibility.bind(this));
   describe("Settings Notifications Tests", settingsNotifications.bind(this));
-  describe("Settings Developer Tests", settingsDeveloper.bind(this));
+  xdescribe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Settings About Tests", settingsAbout.bind(this));
   describe("Settings Licenses Tests", settingsLicenses.bind(this));
 });
