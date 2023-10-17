@@ -8,11 +8,11 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
-  ABOUT_SECTION: '//Group[@Name="settings-section"][0]',
+  ABOUT_SECTION: '//Group[@Name="settings-section"][1]',
   CHECK_FOR_UPDATES_BUTTON: '[name="check-for-updates-button"]',
-  OPEN_SOURCE_CODE_SECTION: '//Group[@Name="settings-section"][3]',
-  OPEN_WEBSITE_SECTION: '//Group[@Name="settings-section"][2]',
-  VERSION_SECTION: '//Group[@Name="settings-section"][1]',
+  OPEN_SOURCE_CODE_SECTION: '//Group[@Name="settings-section"][4]',
+  OPEN_WEBSITE_SECTION: '//Group[@Name="settings-section"][3]',
+  VERSION_SECTION: '//Group[@Name="settings-section"][2]',
   OPEN_SOURCE_CODE_BUTTON: '[name="open-codebase-button"]',
   OPEN_WEBSITE_BUTTON: '[name="open-website-button"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
