@@ -1,16 +1,14 @@
 import "module-alias/register";
 import SettingsDeveloperScreen from "@screenobjects/settings/SettingsDeveloperScreen";
-import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
+import SettingsLicensesScreen from "@screenobjects/settings/SettingsLicenses";
 import { USER_A_INSTANCE } from "@helpers/constants";
 let settingsDeveloperFirstUser = new SettingsDeveloperScreen(USER_A_INSTANCE);
-let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
-  USER_A_INSTANCE
-);
+let settingsLicensesFirstUser = new SettingsLicensesScreen(USER_A_INSTANCE);
 
 export default async function settingsDeveloper() {
   it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await settingsNotificationsFirstUser.goToDeveloperSettings();
+    await settingsLicensesFirstUser.goToDeveloperSettings();
     await settingsDeveloperFirstUser.waitForIsShown(true);
 
     // Validate EXPERIMENTAL FEATURES section

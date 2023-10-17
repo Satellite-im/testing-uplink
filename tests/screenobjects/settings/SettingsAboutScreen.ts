@@ -8,6 +8,11 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
+  ABOUT_SECTION: '//Group[@Name="settings-section"][0]',
+  CHECK_FOR_UPDATES_BUTTON: '[name="check-for-updates-button"]',
+  OPEN_SOURCE_CODE_SECTION: '//Group[@Name="settings-section"][3]',
+  OPEN_WEBSITE_SECTION: '//Group[@Name="settings-section"][2]',
+  VERSION_SECTION: '//Group[@Name="settings-section"][1]',
   OPEN_SOURCE_CODE_BUTTON: '[name="open-codebase-button"]',
   OPEN_WEBSITE_BUTTON: '[name="open-website-button"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
@@ -15,10 +20,18 @@ const SELECTORS_WINDOWS = {
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
-  SETTINGS_SECTION: '[name="settings-section"]',
 };
 
 const SELECTORS_MACOS = {
+  ABOUT_SECTION:
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][1]',
+  CHECK_FOR_UPDATES_BUTTON: "~check-for-updates-button",
+  OPEN_SOURCE_CODE_SECTION:
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][4]',
+  OPEN_WEBSITE_SECTION:
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][3]',
+  VERSION_SECTION:
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][2]',
   OPEN_SOURCE_CODE_BUTTON: "~open-codebase-button",
   OPEN_WEBSITE_BUTTON: "~open-website-button",
   SETTINGS_CONTROL: "~settings-control",
@@ -27,7 +40,6 @@ const SELECTORS_MACOS = {
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  SETTINGS_SECTION: "~settings-section",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -41,16 +53,20 @@ export default class SettingsAboutScreen extends SettingsBaseScreen {
 
   get aboutDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.ABOUT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get aboutHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+      .$(SELECTORS.ABOUT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get checkForUpdatesButton() {
+    return this.instance.$(SELECTORS.CHECK_FOR_UPDATES_BUTTON);
   }
 
   get openSourceCodeButton() {
@@ -59,14 +75,14 @@ export default class SettingsAboutScreen extends SettingsBaseScreen {
 
   get openSourceDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.OPEN_SOURCE_CODE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openSourceHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$(SELECTORS.OPEN_SOURCE_CODE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -77,30 +93,35 @@ export default class SettingsAboutScreen extends SettingsBaseScreen {
 
   get openWebsiteDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.OPEN_WEBSITE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openWebsiteHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.OPEN_WEBSITE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get versionDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.VERSION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get versionHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$(SELECTORS.VERSION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  async clickOnCheckForUpdates() {
+    const checkForUpdatesButton = await this.checkForUpdatesButton;
+    await checkForUpdatesButton.click();
   }
 
   async clickOnOpenSourceCode() {
@@ -111,5 +132,13 @@ export default class SettingsAboutScreen extends SettingsBaseScreen {
   async clickOnOpenWebsite() {
     const openWebsiteButton = await this.openWebsiteButton;
     await openWebsiteButton.click();
+  }
+
+  async unlockDeveloperSettings() {
+    const versionNumber = await this.versionDescription;
+    // click 10 times on versionNumber to unlock developer settings
+    for (let i = 0; i < 10; i++) {
+      await versionNumber.click();
+    }
   }
 }
