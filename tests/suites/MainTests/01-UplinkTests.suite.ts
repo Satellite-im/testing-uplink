@@ -7,10 +7,10 @@ import settingsGeneral from "@specs/06-settings-general.spec";
 import settingsAudio from "@specs/07-settings-audio.spec";
 import settingsExtensions from "@specs/08-settings-extensions.spec";
 import settingsNotifications from "@specs/09-settings-notifications.spec";
-import settingsDeveloper from "@specs/10-settings-developer.spec";
-import settingsAccessibility from "@specs/11-settings-accessibility.spec";
-import settingsAbout from "@specs/12-settings-about.spec";
-import settingsLicenses from "@specs/13-settings-licenses.spec";
+import settingsAccessibility from "@specs/10-settings-accessibility.spec";
+import settingsAbout from "@specs/11-settings-about.spec";
+import settingsLicenses from "@specs/12-settings-licenses.spec";
+import settingsDeveloper from "@specs/13-settings-developer.spec";
 import friends from "@specs/04-friends.spec";
 
 describe("MacOS Tests", function () {
@@ -23,8 +23,8 @@ describe("MacOS Tests", function () {
   describe("Settings Extensions Tests", settingsExtensions.bind(this));
   describe("Settings Accessibility Tests", settingsAccessibility.bind(this));
   describe("Settings Notifications Tests", settingsNotifications.bind(this));
-  describe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Settings About Tests", settingsAbout.bind(this));
   describe("Settings Licenses Tests", settingsLicenses.bind(this));
+  describe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Friends Screen Tests", friends.bind(this));
 });
