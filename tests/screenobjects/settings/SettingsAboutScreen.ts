@@ -27,11 +27,11 @@ const SELECTORS_MACOS = {
     '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][1]',
   CHECK_FOR_UPDATES_BUTTON: "~check-for-updates-button",
   OPEN_SOURCE_CODE_SECTION:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][4]',
-  OPEN_WEBSITE_SECTION:
     '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][3]',
-  VERSION_SECTION:
+  OPEN_WEBSITE_SECTION:
     '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][2]',
+  VERSION_SECTION:
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][4]',
   OPEN_SOURCE_CODE_BUTTON: "~open-codebase-button",
   OPEN_WEBSITE_BUTTON: "~open-website-button",
   SETTINGS_CONTROL: "~settings-control",
