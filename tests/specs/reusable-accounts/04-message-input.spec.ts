@@ -13,7 +13,6 @@ export default async function messageInputTests() {
     // Ensure that input bar is empty and click on send message button
     await chatsInputFirstUser.switchToOtherUserWindow();
     await chatsInputFirstUser.clearInputBar();
-    await chatsInputFirstUser.clearInputBar();
     await chatsInputFirstUser.clickOnInputBar();
     await chatsInputFirstUser.clickOnSendMessage();
 
