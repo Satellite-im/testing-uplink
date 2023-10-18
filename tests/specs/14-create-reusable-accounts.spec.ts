@@ -23,22 +23,19 @@ export default async function createReusableAccounts() {
     await settingsProfileFirstUser.waitForIsShown(true);
   });
 
-  // Skipping test since it needs implementation of Crop Tool recently merged
-  xit("Add profile picture - Chat User A", async () => {
-    it("Settings Profile - Add profile picture", async () => {
-      await settingsProfileFirstUser.selectProfilePicture(
-        "./tests/fixtures/logo.jpg"
-      );
+  it("Add profile picture - Chat User A", async () => {
+    await settingsProfileFirstUser.selectProfilePicture(
+      "./tests/fixtures/logo.jpg"
+    );
 
-      // Validate Crop Tool Modal is displayed
-      await cropProfileFirstUser.validateCropToolModalIsShown();
+    // Validate Crop Tool Modal is displayed
+    await cropProfileFirstUser.validateCropToolModalIsShown();
 
-      // Do not change the size of picture and just confirm on crop modal
-      await cropProfileFirstUser.clickOnConfirmButton();
+    // Do not change the size of picture and just confirm on crop modal
+    await cropProfileFirstUser.clickOnConfirmButton();
 
-      // Validate new profile picture is displayed
-      await settingsProfileFirstUser.validateProfilePictureIsShown();
-    });
+    // Validate new profile picture is displayed
+    await settingsProfileFirstUser.validateProfilePictureIsShown();
   });
 
   it("Add banner picture - Chat User A", async () => {
@@ -77,8 +74,7 @@ export default async function createReusableAccounts() {
     await settingsProfileFirstUser.waitForIsShown(true);
   });
 
-  // Skipping test since it needs implementation of Crop Tool recently merged
-  xit("Add profile picture - Chat User B", async () => {
+  it("Add profile picture - Chat User B", async () => {
     await settingsProfileFirstUser.selectProfilePicture(
       "./tests/fixtures/second-profile.png"
     );

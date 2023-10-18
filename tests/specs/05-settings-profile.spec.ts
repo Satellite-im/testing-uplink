@@ -72,7 +72,7 @@ export default async function settingsProfile() {
     await expect(statusInput).toHaveTextContaining("");
   });
 
-  xit("Settings Profile - Profile picture - Display Crop Tool Modal", async () => {
+  it("Settings Profile - Profile picture - Display Crop Tool Modal", async () => {
     // Click on profile picture upload button and select the file logo.jpg
     await settingsProfileFirstUser.selectProfilePicture(
       "./tests/fixtures/logo.jpg"
