@@ -145,4 +145,9 @@ export default class CropImageProfileModal extends UplinkMainScreen {
     const rangeValueText = await rangeValue.getText();
     return rangeValueText;
   }
+
+  async validateCropToolModalIsShown() {
+    const cropImageModal = await this.cropImageModal;
+    await cropImageModal.waitForDisplayed();
+  }
 }

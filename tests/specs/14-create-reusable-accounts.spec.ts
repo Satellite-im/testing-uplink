@@ -6,8 +6,10 @@ import {
   saveTestKeys,
 } from "@helpers/commands";
 import { USER_A_INSTANCE } from "@helpers/constants";
+import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
+let cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
@@ -24,9 +26,18 @@ export default async function createReusableAccounts() {
   // Skipping test since it needs implementation of Crop Tool recently merged
   xit("Add profile picture - Chat User A", async () => {
     it("Settings Profile - Add profile picture", async () => {
-      await settingsProfileFirstUser.uploadProfilePicture(
+      await settingsProfileFirstUser.selectProfilePicture(
         "./tests/fixtures/logo.jpg"
       );
+
+      // Validate Crop Tool Modal is displayed
+      await cropProfileFirstUser.validateCropToolModalIsShown();
+
+      // Do not change the size of picture and just confirm on crop modal
+      await cropProfileFirstUser.clickOnConfirmButton();
+
+      // Validate new profile picture is displayed
+      await settingsProfileFirstUser.validateProfilePictureIsShown();
     });
   });
 
@@ -68,9 +79,18 @@ export default async function createReusableAccounts() {
 
   // Skipping test since it needs implementation of Crop Tool recently merged
   xit("Add profile picture - Chat User B", async () => {
-    await settingsProfileFirstUser.uploadProfilePicture(
+    await settingsProfileFirstUser.selectProfilePicture(
       "./tests/fixtures/second-profile.png"
     );
+
+    // Validate Crop Tool Modal is displayed
+    await cropProfileFirstUser.validateCropToolModalIsShown();
+
+    // Do not change the size of picture and just confirm on crop modal
+    await cropProfileFirstUser.clickOnConfirmButton();
+
+    // Validate new profile picture is displayed
+    await settingsProfileFirstUser.validateProfilePictureIsShown();
   });
 
   it("Add banner picture - Chat User B", async () => {
