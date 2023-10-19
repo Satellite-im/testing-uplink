@@ -197,7 +197,7 @@ export default class InputBar extends UplinkMainScreen {
       ? (enterValue = "\uE007")
       : (enterValue = "\n");
     const inputText = await this.inputText;
-    await inputText.setValue(enterValue);
+    await inputText.addValue(enterValue);
   }
 
   async selectUploadFromLocalDisk() {
