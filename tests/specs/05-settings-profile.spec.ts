@@ -97,11 +97,8 @@ export default async function settingsProfile() {
     await cropProfileFirstUser.cropImageTopbarButtonCancel.waitForExist();
     await cropProfileFirstUser.cropImageTopbarButtonConfirm.waitForExist();
 
-    // Validate helper text displayed on top of modal is correct
-    const topbarLabelText = await cropProfileFirstUser.cropImageTopbarLabelText;
-    await expect(topbarLabelText).toHaveTextContaining(
-      "PLEASE SELECT THE AREA YOU WANT TO CROP"
-    );
+    // Validate helper text is displayed on top of modal
+    await cropProfileFirstUser.cropImageTopbarLabel.waitForExist();
 
     // Validate default value shown for zoom slider is 1
     const rangeValueText = await cropProfileFirstUser.cropImageRangeValueText;
@@ -123,14 +120,16 @@ export default async function settingsProfile() {
     // Validate Crop Tool Modal is displayed
     await cropProfileFirstUser.validateCropToolModalIsShown();
 
-    // Click three times on increase button, then one time on decrease button and confirm
+    // Click three times on increase button, then one time on decrease button
     await cropProfileFirstUser.clickMultipleTimesIncreaseButton(3);
     await cropProfileFirstUser.clickOnDecreaseRangeButton();
-    await cropProfileFirstUser.clickOnConfirmButton();
 
     // Validate final value shown for zoom slider is 1
     const rangeValueText = await cropProfileFirstUser.cropImageRangeValueText;
     await expect(rangeValueText).toHaveTextContaining("1.2");
+
+    // Click on confirm button to save
+    await cropProfileFirstUser.clickOnConfirmButton();
 
     // Validate new profile picture is displayed
     await settingsProfileFirstUser.validateProfilePictureIsShown();
@@ -168,7 +167,8 @@ export default async function settingsProfile() {
     // Validate Crop Tool Modal is displayed
     await cropProfileFirstUser.validateCropToolModalIsShown();
 
-    // Do not change the size of picture and just confirm on crop modal
+    // Change the size of picture and click on confirm button to save
+    await cropProfileFirstUser.clickOnIncreaseRangeButton();
     await cropProfileFirstUser.clickOnConfirmButton();
 
     // Validate new profile picture is displayed

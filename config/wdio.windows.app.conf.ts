@@ -106,6 +106,7 @@ export const config: WebdriverIO.Config = {
     onPrepare: async function() {
       // Declare constants for folder locations
       const cacheFolder = homedir() + "\\.uplink\\.user"
+      const savedFile = join(process.cwd(), "\\tests\\fixtures\\saved.jpg")
       const sourceReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\FriendsTestUser")
       const targetReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\windows\\FriendsTestUser")
       const allureResultsFolder = join(process.cwd(), "\\allure-results");
@@ -113,6 +114,7 @@ export const config: WebdriverIO.Config = {
       const testResultsFolder =  join(process.cwd(), "\\test-results");
       try {
         await rmSync(allureResultsFolder, { recursive: true, force: true });
+        await rmSync(savedFile, { recursive: true, force: true });
         await rmSync(testReportFolder, { recursive: true, force: true });
         await rmSync(testResultsFolder, { recursive: true, force: true });
         console.log("Deleted Artifacts Folders Successfully!");
