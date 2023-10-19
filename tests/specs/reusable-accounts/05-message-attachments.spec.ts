@@ -119,7 +119,7 @@ export default async function messageAttachmentsTests() {
   it("Send files from Browse Files - Message sent with attachments is shown on local side", async () => {
     // Type a text message and send it
     await chatsInputSecondUser.typeMessageOnInput("Attached");
-    await chatsInputSecondUser.clickOnSendMessage();
+    await chatsInputSecondUser.pressEnterKeyOnInputBar();
 
     // Ensure that message sent with attached file is displayed on local side
     await chatsMessagesSecondUser.waitForMessageSentToExist("Attached");
@@ -175,7 +175,7 @@ export default async function messageAttachmentsTests() {
 
     // Type a text message and send it
     await chatsInputSecondUser.typeMessageOnInput("Attached2");
-    await chatsInputSecondUser.clickOnSendMessage();
+    await chatsInputSecondUser.pressEnterKeyOnInputBar();
     await chatsMessagesSecondUser.waitForMessageSentToExist("Attached2");
   });
 
