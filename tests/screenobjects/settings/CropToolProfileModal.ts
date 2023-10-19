@@ -59,7 +59,7 @@ export default class CropImageProfileModal extends UplinkMainScreen {
   }
 
   get cropImagePreview() {
-    return this.cropImageTopbar.$(SELECTORS.CROP_IMAGE_PREVIEW);
+    return this.cropImageModal.$(SELECTORS.CROP_IMAGE_PREVIEW);
   }
 
   get cropImageRange() {
