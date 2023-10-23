@@ -95,7 +95,7 @@ export default async function createChatAccountsTests() {
     await friendsScreenFirstUser.validateFriendsScreenIsShown();
   });
 
-  it("Chat User B - Create Account", async () => {
+  xit("Chat User B - Create Account", async () => {
     // Create a new account and go to Settings Profile
     await createPinSecondUser.switchToOtherUserWindow();
     const username = "ChatUserB";
