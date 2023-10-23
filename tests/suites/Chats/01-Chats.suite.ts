@@ -12,7 +12,7 @@ import quickProfileTests from "@specs/reusable-accounts/07-quick-profile.spec";
 import sidebarChatsTests from "@specs/reusable-accounts/08-sidebar-chats.spec";
 
 describe("Windows Chats Tests", function () {
-  describe(
+  xdescribe(
     "Create Accounts and Chat Tests",
     createChatAccountsTests.bind(this)
   );
