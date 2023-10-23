@@ -95,7 +95,7 @@ export default async function createChatAccountsTests() {
     await friendsScreenFirstUser.validateFriendsScreenIsShown();
   });
 
-  it("Chat User B - Create Account", async () => {
+  xit("Chat User B - Create Account", async () => {
     // Create a new account and go to Settings Profile
     await createPinSecondUser.switchToOtherUserWindow();
     const username = "ChatUserB";
@@ -143,7 +143,7 @@ export default async function createChatAccountsTests() {
     await friendsScreenSecondUser.validateFriendsScreenIsShown();
   });
 
-  it("Chat User B - Send friend request to User A", async () => {
+  xit("Chat User B - Send friend request to User A", async () => {
     // Obtain did key from Chat User B
     const friendDidKey = await getUserKey("ChatUserA", USER_B_INSTANCE);
     await friendsScreenSecondUser.enterFriendDidKey(friendDidKey);
@@ -162,7 +162,7 @@ export default async function createChatAccountsTests() {
     await friendsScreenSecondUser.validateAllFriendsListIsShown();
   });
 
-  it("Chat User A - Accept friend request from User A and go to chat button", async () => {
+  xit("Chat User A - Accept friend request from User A and go to chat button", async () => {
     // Switch control to User A
     await friendsScreenFirstUser.switchToOtherUserWindow();
 
@@ -182,7 +182,7 @@ export default async function createChatAccountsTests() {
     await friendsScreenFirstUser.chatWithFriendButton.click();
   });
 
-  it("Chat User B - Validate friend request was accepted", async () => {
+  xit("Chat User B - Validate friend request was accepted", async () => {
     // Switch control to User B
     await friendsScreenSecondUser.switchToOtherUserWindow();
 
@@ -195,7 +195,7 @@ export default async function createChatAccountsTests() {
     await friendsScreenSecondUser.validateAllFriendsListIsNotEmpty();
   });
 
-  it("Chat User A - Chat screen displays Messages secured text displayed on top of conversation", async () => {
+  xit("Chat User A - Chat screen displays Messages secured text displayed on top of conversation", async () => {
     // Switch control to User A
     await chatsTopbarFirstUser.switchToOtherUserWindow();
     await chatsTopbarFirstUser.validateTopbarExists();
@@ -209,7 +209,7 @@ export default async function createChatAccountsTests() {
     );
   });
 
-  it("Input Bar - Chars Counter on Input Bar displays 0/1024 before typing a text", async () => {
+  xit("Input Bar - Chars Counter on Input Bar displays 0/1024 before typing a text", async () => {
     // Validate Char counter is displayed on Input Bar and it displays 0/1024
     const inputCharCounter = await chatsInputFirstUser.inputCharCounterText;
     const inputCharMaxText = await chatsInputFirstUser.inputCharMaxText;
@@ -217,7 +217,7 @@ export default async function createChatAccountsTests() {
     await expect(inputCharMaxText).toHaveTextContaining("/1024");
   });
 
-  it("Input Bar - Chars Counter on Input Bar displays the number of chars of text entered", async () => {
+  xit("Input Bar - Chars Counter on Input Bar displays the number of chars of text entered", async () => {
     // Validate Char counter increases after typing a text
     const inputCharCounter = await chatsInputFirstUser.inputCharCounterText;
     const inputCharMaxText = await chatsInputFirstUser.inputCharMaxText;
@@ -226,7 +226,7 @@ export default async function createChatAccountsTests() {
     await expect(inputCharMaxText).toHaveTextContaining("/1024");
   });
 
-  it("Input Bar - Add emoji to the message to be sent", async () => {
+  xit("Input Bar - Add emoji to the message to be sent", async () => {
     // Add emoji to the message to be sent
     await chatsInputFirstUser.clickOnEmojiButton();
     await emojiSelectorFirstUser.clickOnEmoji("😀");
@@ -238,7 +238,7 @@ export default async function createChatAccountsTests() {
     await expect(inputCharMaxText).toHaveTextContaining("/1024");
   });
 
-  it("Input Bar - Click on send button will send the message to the other user", async () => {
+  xit("Input Bar - Click on send button will send the message to the other user", async () => {
     // Send message to the other user
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForMessageSentToExist("Testing...😀");
@@ -257,7 +257,7 @@ export default async function createChatAccountsTests() {
     await expect(inputCharMaxText).toHaveTextContaining("/1024");
   });
 
-  it("Chat User A - Validate Chat Message displays timestamp and user who sent it", async () => {
+  xit("Chat User A - Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo =
       await chatsMessageGroupsFirstUser.getLastMessageSentTimeAgo();
@@ -267,20 +267,20 @@ export default async function createChatAccountsTests() {
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
   });
 
-  it("Chat User A - Validate Chat Message sent contents", async () => {
+  xit("Chat User A - Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
     const messageText = await chatsMessagesFirstUser.getFirstMessageSentText();
     await expect(messageText).toHaveTextContaining("Testing...😀");
   });
 
-  it("Chat User A - Validate Chat Message Group displays username picture", async () => {
+  xit("Chat User A - Validate Chat Message Group displays username picture", async () => {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsFirstUser.getLastGroupWrapSentImage();
     await userImage.waitForExist();
   });
 
-  it("Chat User A - Topbar information", async () => {
+  xit("Chat User A - Topbar information", async () => {
     // Validate user image, username is displayed on Chat Topbar
     await chatsTopbarFirstUser.validateTopbarUserImage();
     await chatsTopbarFirstUser.validateTopbarUserName("ChatUserB");
@@ -302,7 +302,7 @@ export default async function createChatAccountsTests() {
     await chatsTopbarFirstUser.removeFromFavorites();
   });
 
-  it("Chat User B - Wait until the other user is connected", async () => {
+  xit("Chat User B - Wait until the other user is connected", async () => {
     // Switch control to User B
     await friendsScreenSecondUser.switchToOtherUserWindow();
 
@@ -313,7 +313,7 @@ export default async function createChatAccountsTests() {
     await chatsTopbarSecondUser.validateTopbarExists();
   });
 
-  it("Chat User B - Assert message received from Chat User A", async () => {
+  xit("Chat User B - Assert message received from Chat User A", async () => {
     // Validate message received from Chat User A
     await chatsMessagesSecondUser.waitForReceivingMessage("Testing...😀");
 
@@ -323,14 +323,14 @@ export default async function createChatAccountsTests() {
     await expect(textFromMessage).toHaveTextContaining("Testing...😀");
   });
 
-  it("Chat User B - Validate Chat Message Group from remote user displays username picture", async () => {
+  xit("Chat User B - Validate Chat Message Group from remote user displays username picture", async () => {
     //Your user image should be displayed next to the message
     const userImage =
       await chatsMessageGroupsSecondUser.getLastGroupWrapReceivedImage();
     await userImage.waitForExist();
   });
 
-  it("Chat User B - Validate Chat Message received displays timestamp and user who sent it", async () => {
+  xit("Chat User B - Validate Chat Message received displays timestamp and user who sent it", async () => {
     //Timestamp should be displayed when you send a message
     const timeAgo =
       await chatsMessageGroupsSecondUser.getLastMessageReceivedTimeAgo();

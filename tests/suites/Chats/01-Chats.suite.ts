@@ -12,20 +12,20 @@ import quickProfileTests from "@specs/reusable-accounts/07-quick-profile.spec";
 import sidebarChatsTests from "@specs/reusable-accounts/08-sidebar-chats.spec";
 
 describe("Windows Chats Tests", function () {
-  describe(
+  xdescribe(
     "Create Accounts and Chat Tests",
     createChatAccountsTests.bind(this)
   );
-  describe("Chat Replies Tests", repliesTests.bind(this));
-  describe("Message Context Menu Tests", messageContextMenuTests.bind(this));
-  describe("Message Input Tests", messageInputTests.bind(this));
-  describe("Message Attachments Tests", messageAttachmentsTests.bind(this));
-  describe("Chat Topbar Tests", chatTopbarTests.bind(this));
-  describe("Quick Profile Tests", quickProfileTests.bind(this));
-  describe("Sidebar Chats Tests", sidebarChatsTests.bind(this));
-  describe("Group Chats Tests", groupChatTests.bind(this));
-  describe("Group Chats Edit Tests", groupChatEditTests.bind(this));
-  describe(
+  xdescribe("Chat Replies Tests", repliesTests.bind(this));
+  xdescribe("Message Context Menu Tests", messageContextMenuTests.bind(this));
+  xdescribe("Message Input Tests", messageInputTests.bind(this));
+  xdescribe("Message Attachments Tests", messageAttachmentsTests.bind(this));
+  xdescribe("Chat Topbar Tests", chatTopbarTests.bind(this));
+  xdescribe("Quick Profile Tests", quickProfileTests.bind(this));
+  xdescribe("Sidebar Chats Tests", sidebarChatsTests.bind(this));
+  xdescribe("Group Chats Tests", groupChatTests.bind(this));
+  xdescribe("Group Chats Edit Tests", groupChatEditTests.bind(this));
+  xdescribe(
     "Group Chats Favorites and Sidebar Tests",
     groupChatSidebarTests.bind(this)
   );

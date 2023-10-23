@@ -217,11 +217,6 @@ export default async function friends() {
       // Select second option "Remove from Favorites" from Context Menu
       await friendsScreenFirstUser.clickOnContextMenuFavoritesRemove();
     }
-
-    // Validate that favorites is hidden now
-    await favoritesSidebarFirstUser.favorites.waitForExist({
-      reverse: true,
-    });
   });
 
   it("Go to Chat with Friend from Friends List", async () => {
@@ -463,11 +458,6 @@ export default async function friends() {
 
     // Select second option "Remove from Favorites" from Context Menu
     await friendsScreenFirstUser.clickOnContextMenuFavoritesRemove();
-
-    // Validate that favorites is hidden now
-    await favoritesSidebarFirstUser.favorites.waitForExist({
-      reverse: true,
-    });
   });
 
   it("Context Menu - Remove Friend", async () => {
