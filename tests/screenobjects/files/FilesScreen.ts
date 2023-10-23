@@ -243,9 +243,7 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   get inputFolderFileName() {
-    return this.instance
-      .$(SELECTORS.FILES_LIST)
-      .$(SELECTORS.INPUT_FOLDER_FILE_NAME);
+    return this.filesBody.$(SELECTORS.INPUT_FOLDER_FILE_NAME);
   }
 
   get showSidebar() {
