@@ -67,8 +67,6 @@ export const config: WebdriverIO.Config = {
         "appium:automationName": "windows",
         "appium:app": join(process.cwd(), "\\apps\\bin\\uplink.exe"),
         "appium:systemPort": 4725,
-        "appium:createSessionTimeout": 40000,
-        "ms:waitForAppLaunch": 50,
         "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserA"),
         "appium:prerun": {
           command: `If (Test-Path ${userACacheFolder}) {Remove-Item -Recurse -Force ${userACacheFolder}} Else { Break }`,
@@ -82,8 +80,6 @@ export const config: WebdriverIO.Config = {
         "appium:automationName": "windows",
         "appium:app": join(process.cwd(), "\\apps\\bin\\uplink2.exe"),
         "appium:systemPort": 4726,
-        "appium:createSessionTimeout": 40000,
-        "ms:waitForAppLaunch": 50,
         "appium:appArguments": "--path " + join(process.cwd(), "\\apps\\ChatUserB"),
         "appium:prerun": {
           command: `If (Test-Path ${userBCacheFolder}) {Remove-Item -Recurse -Force ${userBCacheFolder}} Else { Break }`,
@@ -167,11 +163,8 @@ export const config: WebdriverIO.Config = {
   },
 
   afterTest: async function (test, describe, { error }) {
-    let imageFile, base64VideoUserA, assetsFolder;
-    if(driver) {
-      // Take screenshot from driver if test fails and save it for Allure Reporter 
-      imageFile = await driver.takeScreenshot();  
-    
+    let base64VideoUserA, assetsFolder;
+    if(driver) {    
       // Stop video recording for both instances and save video into base64 format
       base64VideoUserA = await driver[USER_A_INSTANCE].executeScript("windows: stopRecordingScreen", [
         {
@@ -186,7 +179,7 @@ export const config: WebdriverIO.Config = {
       await fsp.mkdir(assetsFolder, {recursive: true});
     }
 
-    // Only if error has been detected, add the video and image File to attached report
+    // Only if error has been detected, add the video to attached report
     if (error && base64VideoUserA) {
       // Assign video title for video on failed test
       const videoTitleUserA = test.title + " - User A - Failed.mp4"
@@ -204,26 +197,6 @@ export const config: WebdriverIO.Config = {
       } catch (error) {
         console.error(
           `Got an error trying to save video from Failed Tests: ${error.message}`
-        );
-      }
-    }
-
-    if (error && imageFile) {
-      // Assign image title for screnshot on failed test
-      const imageTitle = test.title + " - Failed.png";
-      try {
-        // Write Image File if test fails and add it to failed screenshots folder
-        await fsp.writeFile(
-          assetsFolder + "/" + imageTitle,
-          imageFile,
-          "base64"
-        );
-        // Add to Screenshot to Allure Reporter
-        const data = await readFileSync(`${assetsFolder}/${imageTitle}`);
-        allureReporter.addAttachment(imageTitle, data, 'image/png');
-      } catch (error) {
-        console.error(
-          `Got an error trying to save images from Failed Tests: ${error.message}`
         );
       }
     }
