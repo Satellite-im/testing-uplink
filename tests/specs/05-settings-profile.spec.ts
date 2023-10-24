@@ -1,9 +1,9 @@
 import "module-alias/register";
-import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
+import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
-let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
+let cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 
@@ -72,12 +72,67 @@ export default async function settingsProfile() {
     await expect(statusInput).toHaveTextContaining("");
   });
 
-  // Skipping test since it needs implementation of Crop Tool recently merged
-  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  xit("Settings Profile - Add profile picture", async () => {
-    await settingsProfileFirstUser.uploadProfilePicture(
+  it("Settings Profile - Profile picture - Display Crop Tool Modal", async () => {
+    // Click on profile picture upload button and select the file logo.jpg
+    await settingsProfileFirstUser.selectProfilePicture(
       "./tests/fixtures/logo.jpg"
     );
+
+    // Validate Crop Tool Modal is displayed
+    await cropProfileFirstUser.validateCropToolModalIsShown();
+  });
+
+  it("Settings Profile - Profile Picture - Crop Tool Modal elements", async () => {
+    // Validate Image Preview is displayed on Profile Picture Crop Tool Modal
+    await cropProfileFirstUser.cropImagePreview.waitForExist();
+
+    // Validate buttons to increase and decrease zoom are displayed on Profile Picture Crop Tool Modal
+    await cropProfileFirstUser.cropImageRangeDecreaseButton.waitForExist();
+    await cropProfileFirstUser.cropImageRangeIncreaseButton.waitForExist();
+
+    // Validate input slider for zoom size is displayed on Profile Picture Crop Tool Modal
+    await cropProfileFirstUser.cropImageRangeInputSlider.waitForExist();
+
+    // Validate buttons to cancel or confirm edition are displayed on Profile Picture Crop Tool Modal
+    await cropProfileFirstUser.cropImageTopbarButtonCancel.waitForExist();
+    await cropProfileFirstUser.cropImageTopbarButtonConfirm.waitForExist();
+
+    // Validate helper text is displayed on top of modal
+    await cropProfileFirstUser.cropImageTopbarLabel.waitForExist();
+
+    // Validate default value shown for zoom slider is 1
+    const rangeValueText = await cropProfileFirstUser.cropImageRangeValueText;
+    await expect(rangeValueText).toHaveTextContaining("1");
+  });
+
+  it("Settings Profile - Profile Picture - Close Crop Tool Modal", async () => {
+    // Click on Cancel button and assert Crop Tool Modal is closed
+    await cropProfileFirstUser.clickOnCancelButton();
+    await cropProfileFirstUser.cropImageModal.waitForExist({ reverse: true });
+  });
+
+  it("Settings Profile - Profile Picture - Crop Image and add profile picture", async () => {
+    // Click on profile picture upload button and select the file logo.jpg
+    await settingsProfileFirstUser.selectProfilePicture(
+      "./tests/fixtures/logo.jpg"
+    );
+
+    // Validate Crop Tool Modal is displayed
+    await cropProfileFirstUser.validateCropToolModalIsShown();
+
+    // Click three times on increase button, then one time on decrease button
+    await cropProfileFirstUser.clickMultipleTimesIncreaseButton(3);
+    await cropProfileFirstUser.clickOnDecreaseRangeButton();
+
+    // Validate final value shown for zoom slider is 1
+    const rangeValueText = await cropProfileFirstUser.cropImageRangeValueText;
+    await expect(rangeValueText).toHaveTextContaining("1.2");
+
+    // Click on confirm button to save
+    await cropProfileFirstUser.clickOnConfirmButton();
+
+    // Validate new profile picture is displayed
+    await settingsProfileFirstUser.validateProfilePictureIsShown();
   });
 
   it("Settings Profile - Validate change banner tooltip", async () => {
@@ -100,15 +155,24 @@ export default async function settingsProfile() {
     );
   });
 
-  // Skipping test since it needs implementation of Crop Tool recently merged
-  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  xit("Settings Profile - Change profile picture", async () => {
+  it("Settings Profile - Change profile picture", async () => {
     // Wait for toast notification to be closed before starting test
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
-    await settingsProfileFirstUser.uploadProfilePicture(
+    // Click on profile picture upload button and select the file second-profile.jpg
+    await settingsProfileFirstUser.selectProfilePicture(
       "./tests/fixtures/second-profile.png"
     );
+
+    // Validate Crop Tool Modal is displayed
+    await cropProfileFirstUser.validateCropToolModalIsShown();
+
+    // Change the size of picture and click on confirm button to save
+    await cropProfileFirstUser.clickOnIncreaseRangeButton();
+    await cropProfileFirstUser.clickOnConfirmButton();
+
+    // Validate new profile picture is displayed
+    await settingsProfileFirstUser.validateProfilePictureIsShown();
   });
 
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image

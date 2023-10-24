@@ -1,14 +1,16 @@
 import "module-alias/register";
 import SettingsAboutScreen from "@screenobjects/settings/SettingsAboutScreen";
-import SettingsDeveloperScreen from "@screenobjects/settings/SettingsDeveloperScreen";
+import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
 let settingsAboutFirstUser = new SettingsAboutScreen(USER_A_INSTANCE);
-let settingsDeveloperFirstUser = new SettingsDeveloperScreen(USER_A_INSTANCE);
+let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
+  USER_A_INSTANCE
+);
 
 export default async function settingsAbout() {
   it("Settings About - Validate header and description texts from settings sections", async () => {
     // Go to Settings About Screen
-    await settingsDeveloperFirstUser.goToAboutSettings();
+    await settingsAccessibilityFirstUser.goToAboutSettings();
     await settingsAboutFirstUser.waitForIsShown(true);
 
     // Validate the header and description texts from Settings Section - About - About
@@ -49,5 +51,15 @@ export default async function settingsAbout() {
 
   xit("Settings About - Click on Open Source Code", async () => {
     await settingsAboutFirstUser.clickOnOpenSourceCode();
+  });
+
+  it("Settings About - Unlock Developer Settings", async () => {
+    // Click 10 times on Version Number to Unlock Developer Settings
+    await settingsAboutFirstUser.unlockDeveloperSettings();
+
+    // Validate Developer Settings button is unlocked
+    const developerSettingsButton =
+      await settingsAboutFirstUser.developerButton;
+    await developerSettingsButton.waitForDisplayed();
   });
 }

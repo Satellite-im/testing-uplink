@@ -25,6 +25,10 @@ const SELECTORS_WINDOWS = {
   QUICK_PROFILE_USER_NAME: '[name="profile-name"]',
   QUICK_PROFILE_USER_NAME_VALUE: '[name="profile-name-value"]',
   QUICK_PROFILE_USER_NAME_VALUE_TEXT: "<Text>",
+  QUICK_PROFILE_USER_VOLUME_LABEL: '[name="user-volume-label"]',
+  QUICK_PROFILE_USER_VOLUME_LABEL_TEXT: '[name="User Volume"]',
+  QUICK_PROFILE_USER_VOLUME_RANGE: '[name="range-quick-profile-speaker"]',
+  QUICK_PROFILE_USER_VOLUME_RANGE_INPUT: '[name="range-input"]',
 };
 
 const SELECTORS_MACOS = {
@@ -46,6 +50,10 @@ const SELECTORS_MACOS = {
   QUICK_PROFILE_USER_NAME_VALUE: "~profile-name-value",
   QUICK_PROFILE_USER_NAME_VALUE_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText",
+  QUICK_PROFILE_USER_VOLUME_LABEL: "~user-volume-label",
+  QUICK_PROFILE_USER_VOLUME_LABEL_TEXT: "~User Volume",
+  QUICK_PROFILE_USER_VOLUME_RANGE: "~range-quick-profile-speaker",
+  QUICK_PROFILE_USER_VOLUME_RANGE_INPUT: "~range-input",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -153,6 +161,33 @@ export default class QuickProfile extends UplinkMainScreen {
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE_TEXT);
+  }
+
+  /*
+  QUICK_PROFILE_USER_VOLUME_LABEL: "~user-volume-label",
+  QUICK_PROFILE_USER_VOLUME_LABEL_TEXT: "~User Volume",
+  QUICK_PROFILE_USER_VOLUME_RANGE: "~range-quick-profile-speaker",
+  QUICK_PROFILE_USER_VOLUME_RANGE_INPUT: "~range-input",
+  */
+
+  get quickProfileUserVolumeLabel() {
+    return this.instance.$(SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL);
+  }
+
+  get quickProfileUserVolumeLabelText() {
+    return this.quickProfileUserVolumeLabel.$(
+      SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL_TEXT
+    );
+  }
+
+  get quickProfileUserVolumeRange() {
+    return this.instance.$(SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE);
+  }
+
+  get quickProfileUserVolumeRangeInput() {
+    return this.quickProfileUserVolumeRange.$(
+      SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE_INPUT
+    );
   }
 
   async clickOnBlockUser() {

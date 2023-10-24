@@ -339,7 +339,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await profileBannerImage.waitForExist();
   }
 
-  async uploadProfilePicture(relativePath: string) {
+  async selectProfilePicture(relativePath: string) {
     //
     // Invoke File Selection method depending on current OS driver
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
@@ -354,7 +354,9 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await profilePictureImage.click();
       await selectFileOnWindows(relativePath, uplinkContext, executor);
     }
+  }
 
+  async validateProfilePictureIsShown() {
     // Validate that profile banner is displayed on screen
     const profilePictureImage = await this.profilePicture;
     await profilePictureImage.waitForExist();

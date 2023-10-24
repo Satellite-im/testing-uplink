@@ -314,7 +314,6 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async clickOnCreateFolder() {
     const addFolderButton = await this.addFolderButton;
-    await this.hoverOnElement(addFolderButton);
     await addFolderButton.click();
   }
 
@@ -365,8 +364,8 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async createFolder(name: string) {
     await this.clickOnCreateFolder();
-    const inputFolderFileName = await this.inputFolderFileName;
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
+    const inputFolderFileName = await this.inputFolderFileName;
     await inputFolderFileName.waitForExist();
     await inputFolderFileName.setValue(name);
     // Retry typing if appium fails on type
