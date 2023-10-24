@@ -152,5 +152,6 @@ export default async function chats() {
 
     // Show again Main Navigation bar
     await slimbarFirstUser.clickOnBackButton();
+    await friendsScreenFirstUser.goToFiles(); // temporary line until Files Screen issues are fixed
   });
 }
