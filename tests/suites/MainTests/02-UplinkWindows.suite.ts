@@ -15,7 +15,7 @@ import settingsDeveloper from "@specs/13-settings-developer.spec";
 describe("Windows Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));
   describe("Chats Main Screen Tests", chats.bind(this));
-  xdescribe("Files Screen Tests", files.bind(this));
+  describe("Files Screen Tests", files.bind(this));
   describe("Settings Profile Tests", settingsProfile.bind(this));
   describe("Settings General Tests", settingsGeneral.bind(this));
   describe("Settings Audio Tests", settingsAudio.bind(this));
