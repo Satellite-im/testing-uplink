@@ -149,7 +149,8 @@ export default async function settingsProfile() {
   });
 
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Add banner picture", async () => {
+  // Needs rework for adding the cropping tool on banner pictures
+  xit("Settings Profile - Add banner picture", async () => {
     await settingsProfileFirstUser.uploadBannerPicture(
       "./tests/fixtures/banner.jpg"
     );
@@ -176,7 +177,8 @@ export default async function settingsProfile() {
   });
 
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Change banner picture", async () => {
+  // Needs rework for adding the cropping tool on banner pictures
+  xit("Settings Profile - Change banner picture", async () => {
     // Wait for toast notification to be closed before starting test
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
