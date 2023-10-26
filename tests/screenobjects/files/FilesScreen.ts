@@ -315,6 +315,7 @@ export default class FilesScreen extends UplinkMainScreen {
   async clickOnCreateFolder() {
     const addFolderButton = await this.addFolderButton;
     await addFolderButton.click();
+    await this.inputFolderFileName.waitForExist();
   }
 
   async clickOnFileOrFolder(locator: string) {
@@ -354,7 +355,6 @@ export default class FilesScreen extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     await this.clickOnCreateFolder();
     const inputFolderFileName = await this.inputFolderFileName;
-    await inputFolderFileName.waitForExist();
     if (currentDriver === MACOS_DRIVER) {
       await inputFolderFileName.addValue("\n");
     } else if (currentDriver === WINDOWS_DRIVER) {
@@ -364,10 +364,9 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async createFolder(name: string) {
     await this.clickOnCreateFolder();
-    const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     const inputFolderFileName = await this.inputFolderFileName;
-    await inputFolderFileName.waitForExist();
-    await inputFolderFileName.setValue(name);
+    const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
+    await this.inputFolderFileName.setValue(name);
     // Retry typing if appium fails on type
     const inputValue = await inputFolderFileName.getText();
     if (inputValue !== name) {
