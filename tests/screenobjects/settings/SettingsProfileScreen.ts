@@ -25,6 +25,9 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   ADD_PICTURE_BUTTON: '[name="add-picture-button"]',
+  CLEAR_AVATAR_BUTTON: "[name='clear-avatar']",
+  CLEAR_BANNER_BUTTON: "[name='clear-banner']",
+  CONTEXT_MENU: '[name="Context Menu"]',
   COPY_ID_BUTTON: '[name="copy-id-button"]',
   DISMISS_BUTTON: '[name="welcome-message-dismiss"]',
   INPUT_ERROR: '[name="input-error"]',
@@ -53,6 +56,9 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
+  CLEAR_AVATAR_BUTTON: "clear-avatar",
+  CLEAR_BANNER_BUTTON: "clear-banner",
+  CONTEXT_MENU: "~Context Menu",
   COPY_ID_BUTTON: "~copy-id-button",
   DISMISS_BUTTON: "~welcome-message-dismiss",
   INPUT_ERROR: "~input-error",
@@ -95,6 +101,17 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   get addPictureButton() {
     return this.instance.$(SELECTORS.ADD_PICTURE_BUTTON);
+  }
+
+  get clearAvatarButton() {
+    return this.instance.$(SELECTORS.CLEAR_AVATAR_BUTTON);
+  }
+  get clearBannerButton() {
+    return this.instance.$(SELECTORS.CLEAR_BANNER_BUTTON);
+  }
+
+  get contextMenuProfile() {
+    return this.profileHeader.$(SELECTORS.CONTEXT_MENU);
   }
 
   get copyIDButton() {
