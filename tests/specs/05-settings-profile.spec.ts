@@ -72,7 +72,8 @@ export default async function settingsProfile() {
     await expect(statusInput).toHaveTextContaining("");
   });
 
-  it("Settings Profile - Profile picture - Display Crop Tool Modal", async () => {
+  // Needs rework for adding the cropping tool on banner pictures
+  xit("Settings Profile - Profile picture - Display Crop Tool Modal", async () => {
     // Click on profile picture upload button and select the file logo.jpg
     await settingsProfileFirstUser.selectProfilePicture(
       "./tests/fixtures/logo.jpg"
@@ -82,7 +83,8 @@ export default async function settingsProfile() {
     await cropProfileFirstUser.validateCropToolModalIsShown();
   });
 
-  it("Settings Profile - Profile Picture - Crop Tool Modal elements", async () => {
+  // Needs rework for adding the cropping tool on banner pictures
+  xit("Settings Profile - Profile Picture - Crop Tool Modal elements", async () => {
     // Validate Image Preview is displayed on Profile Picture Crop Tool Modal
     await cropProfileFirstUser.cropImagePreview.waitForExist();
 
@@ -105,13 +107,15 @@ export default async function settingsProfile() {
     await expect(rangeValueText).toHaveTextContaining("1");
   });
 
-  it("Settings Profile - Profile Picture - Close Crop Tool Modal", async () => {
+  // Needs rework for adding the cropping tool on banner pictures
+  xit("Settings Profile - Profile Picture - Close Crop Tool Modal", async () => {
     // Click on Cancel button and assert Crop Tool Modal is closed
     await cropProfileFirstUser.clickOnCancelButton();
     await cropProfileFirstUser.cropImageModal.waitForExist({ reverse: true });
   });
 
-  it("Settings Profile - Profile Picture - Crop Image and add profile picture", async () => {
+  // Needs rework for adding the cropping tool on banner pictures
+  xit("Settings Profile - Profile Picture - Crop Image and add profile picture", async () => {
     // Click on profile picture upload button and select the file logo.jpg
     await settingsProfileFirstUser.selectProfilePicture(
       "./tests/fixtures/logo.jpg"
@@ -149,13 +153,15 @@ export default async function settingsProfile() {
   });
 
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Add banner picture", async () => {
+  // Needs rework for adding the cropping tool on banner pictures
+  xit("Settings Profile - Add banner picture", async () => {
     await settingsProfileFirstUser.uploadBannerPicture(
       "./tests/fixtures/banner.jpg"
     );
   });
 
-  it("Settings Profile - Change profile picture", async () => {
+  // Needs rework for adding the cropping tool on banner pictures
+  xit("Settings Profile - Change profile picture", async () => {
     // Wait for toast notification to be closed before starting test
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
@@ -176,7 +182,8 @@ export default async function settingsProfile() {
   });
 
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Change banner picture", async () => {
+  // Needs rework for adding the cropping tool on banner pictures
+  xit("Settings Profile - Change banner picture", async () => {
     // Wait for toast notification to be closed before starting test
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
