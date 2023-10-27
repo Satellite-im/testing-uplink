@@ -39,7 +39,7 @@ export default async function createReusableAccounts() {
   });
 
   it("Add banner picture - Chat User A", async () => {
-    await settingsProfileFirstUser.uploadBannerPicture(
+    await settingsProfileFirstUser.selectBannerPicture(
       "./tests/fixtures/banner.jpg"
     );
   });
@@ -91,7 +91,7 @@ export default async function createReusableAccounts() {
 
   it("Add banner picture - Chat User B", async () => {
     it("Settings Profile - Change banner picture", async () => {
-      await settingsProfileFirstUser.uploadBannerPicture(
+      await settingsProfileFirstUser.selectBannerPicture(
         "./tests/fixtures/second-banner.jpg"
       );
     });

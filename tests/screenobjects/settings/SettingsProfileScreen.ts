@@ -13,7 +13,6 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
-import { get } from "http";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 const robot = require("robotjs");
@@ -335,7 +334,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     );
   }
 
-  async uploadBannerPicture(relativePath: string) {
+  async selectBannerPicture(relativePath: string) {
     // Invoke File Selection method depending on current OS driver
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
@@ -350,10 +349,6 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await profileBannerWindows.click();
       await selectFileOnWindows(relativePath, uplinkContext, executor);
     }
-
-    // Validate that profile banner is displayed on screen
-    const profileBannerImage = await this.profileBanner;
-    await profileBannerImage.waitForExist();
   }
 
   async selectProfilePicture(relativePath: string) {
@@ -373,8 +368,14 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     }
   }
 
-  async validateProfilePictureIsShown() {
+  async validateBannerPictureIsShown() {
     // Validate that profile banner is displayed on screen
+    const bannerImage = await this.profileBanner;
+    await bannerImage.waitForExist();
+  }
+
+  async validateProfilePictureIsShown() {
+    // Validate that profile picture is displayed on screen
     const profilePictureImage = await this.profilePicture;
     await profilePictureImage.waitForExist();
   }
