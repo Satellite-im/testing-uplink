@@ -321,7 +321,11 @@ export default class FilesScreen extends UplinkMainScreen {
     const addFolderButton = await this.addFolderButton;
     await this.hoverOnElement(addFolderButton);
     await addFolderButton.click();
-    await this.inputFolderName.waitForExist();
+    const folderInput = await this.inputFolderName;
+    const exists = await folderInput.isExisting();
+    if (exists === false) {
+      await this.clickOnCreateFolder();
+    }
   }
 
   async clickOnFileOrFolder(locator: string) {
@@ -558,7 +562,13 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async clickOnFilesRename() {
     const filesRenameOption = await this.contextMenuFilesRename;
+    await this.hoverOnElement(filesRenameOption);
     await filesRenameOption.click();
+    const fileNameInput = await this.inputFileName;
+    const exists = await fileNameInput.isExisting();
+    if (exists === false) {
+      await this.clickOnFilesRename();
+    }
   }
 
   async clickOnFolderDelete() {
@@ -568,6 +578,12 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async clickOnFolderRename() {
     const folderRenameOption = await this.contextMenuFolderRename;
+    await this.hoverOnElement(folderRenameOption);
     await folderRenameOption.click();
+    const folderNameInput = await this.inputFolderName;
+    const exists = await folderNameInput.isExisting();
+    if (exists === false) {
+      await this.clickOnFolderRename();
+    }
   }
 }

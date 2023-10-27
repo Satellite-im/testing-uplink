@@ -246,11 +246,13 @@ export default async function settingsProfile() {
     // Wait for toast notification to be closed before starting test
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
-    // Enter status value with more than 128 characters
+    // Enter status value with 129 characters
     await settingsProfileFirstUser.enterStatus(
-      "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
+      "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
     );
 
+    // Validate input error message is displayed
+    await browser.pause(1000);
     await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
