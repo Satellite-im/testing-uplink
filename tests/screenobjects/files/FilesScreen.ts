@@ -1,4 +1,5 @@
 import "module-alias/register";
+import { faker } from "@faker-js/faker";
 import {
   MACOS_DRIVER,
   WINDOWS_DRIVER,
@@ -46,7 +47,8 @@ const SELECTORS_WINDOWS = {
   FILES_LIST: '[name="files-list"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "<Text>",
-  INPUT_FOLDER_FILE_NAME: "//Group/Edit",
+  INPUT_FILE_NAME: '[name="file-name-input"]',
+  INPUT_FOLDER_NAME: '[name="folder-name-input"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   TOPBAR: '[name="Topbar"]',
@@ -96,7 +98,8 @@ const SELECTORS_MACOS = {
   FILES_LIST: "~files-list",
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  INPUT_FOLDER_FILE_NAME: "-ios class chain:**/XCUIElementTypeTextField",
+  INPUT_FILE_NAME: '[name="file-name-input"]',
+  INPUT_FOLDER_NAME: '[name="folder-name-input"]',
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -242,10 +245,12 @@ export default class FilesScreen extends UplinkMainScreen {
     return this.instance.$(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
-  get inputFolderFileName() {
-    return this.instance
-      .$(SELECTORS.FILES_LIST)
-      .$(SELECTORS.INPUT_FOLDER_FILE_NAME);
+  get inputFileName() {
+    return this.instance.$(SELECTORS.INPUT_FILE_NAME);
+  }
+
+  get inputFolderName() {
+    return this.instance.$(SELECTORS.INPUT_FOLDER_NAME);
   }
 
   get showSidebar() {
@@ -314,8 +319,9 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async clickOnCreateFolder() {
     const addFolderButton = await this.addFolderButton;
+    await this.hoverOnElement(addFolderButton);
     await addFolderButton.click();
-    await this.inputFolderFileName.waitForExist();
+    await this.inputFolderName.waitForExist();
   }
 
   async clickOnFileOrFolder(locator: string) {
@@ -354,21 +360,21 @@ export default class FilesScreen extends UplinkMainScreen {
   async createEmptyNameFolder() {
     const currentDriver = await this.getCurrentDriver();
     await this.clickOnCreateFolder();
-    const inputFolderFileName = await this.inputFolderFileName;
+    const inputFolderName = await this.inputFolderName;
     if (currentDriver === MACOS_DRIVER) {
-      await inputFolderFileName.addValue("\n");
+      await inputFolderName.addValue("\n");
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await inputFolderFileName.addValue("\uE007");
+      await inputFolderName.addValue("\uE007");
     }
   }
 
   async createFolder(name: string) {
     await this.clickOnCreateFolder();
-    const inputFolderFileName = await this.inputFolderFileName;
+    const inputFolderName = await this.inputFolderName;
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
-    await this.inputFolderFileName.setValue(name);
+    await this.inputFolderName.setValue(name);
     // Retry typing if appium fails on type
-    const inputValue = await inputFolderFileName.getText();
+    const inputValue = await inputFolderName.getText();
     if (inputValue !== name) {
       await this.createFolder(name);
     }
@@ -379,15 +385,26 @@ export default class FilesScreen extends UplinkMainScreen {
     await newFolderElement.waitForExist();
   }
 
-  async typeOnFileFolderNameInput(name: string) {
-    const inputFolderFileName = await this.inputFolderFileName;
-    await inputFolderFileName.waitForExist();
-    await inputFolderFileName.setValue(name);
+  async typeOnFileNameInput(name: string) {
+    const inputFileName = await this.inputFileName;
+    await inputFileName.waitForExist();
+    await inputFileName.setValue(name);
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
   }
 
-  async downloadFile(filename: string) {
+  async typeOnFolderNameInput(name: string) {
+    const inputFolderName = await this.inputFolderName;
+    await inputFolderName.waitForExist();
+    await inputFolderName.setValue(name);
+    const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
+    await filesInfoCurrentSizeLabel.click();
+  }
+
+  async downloadFile(extension: string) {
+    // Generate a random filename for downloaded file
+    const filename = faker.lorem.word(5) + extension;
+
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await this.clickOnFilesDownload();
@@ -450,17 +467,26 @@ export default class FilesScreen extends UplinkMainScreen {
     return progressText;
   }
 
-  async updateNameFileFolder(newName: string, extension: string = "") {
-    const inputFolderFileName = await this.inputFolderFileName;
-    await inputFolderFileName.waitForExist();
-    await inputFolderFileName.setValue(newName);
+  async updateNameFile(newName: string, extension: string = "") {
+    const inputFileName = await this.inputFileName;
+    await inputFileName.waitForExist();
+    await inputFileName.setValue(newName);
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
-    const newFileFolder = await this.getLocatorOfFolderFile(
-      newName + extension
-    );
-    const newFileFolderElement = await this.instance.$(newFileFolder);
-    await newFileFolderElement.waitForExist();
+    const newFile = await this.getLocatorOfFolderFile(newName + extension);
+    const newFileElement = await this.instance.$(newFile);
+    await newFileElement.waitForExist();
+  }
+
+  async updateNameFolder(newName: string) {
+    const inputFolderName = await this.inputFolderName;
+    await inputFolderName.waitForExist();
+    await inputFolderName.setValue(newName);
+    const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
+    await filesInfoCurrentSizeLabel.click();
+    const newFolder = await this.getLocatorOfFolderFile(newName);
+    const newFolderElement = await this.instance.$(newFolder);
+    await newFolderElement.waitForExist();
   }
 
   async uploadFile(relativePath: string) {
