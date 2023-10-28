@@ -125,7 +125,7 @@ export default async function friends() {
 
     // Add two more character to add someone input
     await friendsScreenFirstUser.enterFriendDidKey(
-      "did:key:12345678901234567890123456789012345678901234567890"
+      "did:key:1234567890123456789012345678901234567890123456789"
     );
 
     const inputError = await friendsScreenFirstUser.inputErrorText;

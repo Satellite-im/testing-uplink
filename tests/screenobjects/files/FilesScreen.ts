@@ -390,17 +390,35 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async typeOnFileNameInput(name: string) {
+    // Type on File Name input
     const inputFileName = await this.inputFileName;
-    await inputFileName.waitForExist();
+    await inputFileName.clearValue();
     await inputFileName.setValue(name);
+    const fileNameInputValue = await inputFileName.getText();
+
+    // Validate that input is correct before continuing
+    if (fileNameInputValue !== name) {
+      await this.typeOnFileNameInput(name);
+    }
+
+    // Click outside to save changes
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
   }
 
   async typeOnFolderNameInput(name: string) {
+    // Type on Folder Name input
     const inputFolderName = await this.inputFolderName;
-    await inputFolderName.waitForExist();
+    await inputFolderName.clearValue();
     await inputFolderName.setValue(name);
+    const folderNameInputValue = await inputFolderName.getText();
+
+    // Validate that input is correct before continuing
+    if (folderNameInputValue !== name) {
+      await this.typeOnFolderNameInput(name);
+    }
+
+    // Click outside to save changes
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
   }
