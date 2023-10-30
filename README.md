@@ -12,7 +12,7 @@ Tests running using GitHub Actions:
 
 This automation framework is currently based on the following:
 
-- **WebdriverIO:** `8.8.7`
+- **WebdriverIO:** `8.20.4`
 - **Appium:** `2.0.0`
 
 ## Setting up to run on the local machine - MAC OS
