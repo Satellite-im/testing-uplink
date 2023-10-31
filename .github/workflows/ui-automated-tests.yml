@@ -228,7 +228,7 @@ jobs:
         if: always()
         with:
           name: test-accounts
-          path: ./tests/fixtures/users/mac2/
+          path: ./tests/fixtures/users/
         
       - name: Add label if any of test jobs failed
         if: failure()
@@ -261,11 +261,16 @@ jobs:
           name: Uplink-macos-latest
           path: ./apps
       
-      - name: Extract user data from artifact
+      - name: Download Test User Accounts 🗳️
         uses: actions/download-artifact@v3
         with:
           name: test-accounts
-          path: ./tests/fixtures/users/mac2/
+          path: ./tests/fixtures/users/
+      
+      - name: List all of the files extracted
+        run: |
+          pwd
+          ls -R
 
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
@@ -318,7 +323,9 @@ jobs:
       
       - name: Show if data was copied correctly
         working-directory: ~/.uplink
-        run: ls -la
+        run: |
+          pwd
+          ls -R
 
       - name: Run Tests on MacOS 🧪
         run: npm run mac.${{ matrix.job }}

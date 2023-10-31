@@ -55,7 +55,7 @@ export const config: WebdriverIO.Config = {
           platformName: "mac",
           "appium:automationName": MACOS_DRIVER,
           "appium:bundleId": MACOS_BUNDLE_ID,
-          "appium:arguments": ["--path", join(process.cwd() + "/tests/fixtures/users/mac2/ChatUserA")],
+          "appium:arguments": ["--path", join(process.cwd() + "/tests/fixtures/users/mac2/ChatUserB")],
           "appium:systemPort": 4724,
         }
       },

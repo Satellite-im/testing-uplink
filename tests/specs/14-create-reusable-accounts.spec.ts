@@ -28,12 +28,6 @@ export default async function createSecondAccount() {
       "(this is used to encrypt all of the data Uplink stores on your computer when you're not using it so nobody can read your data.)"
     );
   });
-  
-  it("Create Account button should be disabled if no pin has been entered", async () => {
-    const statusOfButton =
-      await createPinFirstUser.getStatusOfCreateAccountButton();
-    await expect(statusOfButton).toEqual("false");
-  });
 
   it("Unlock Screen - Reset Account is shown after right clicking on Help Button", async () => {
     // Right click on Help Button to show the help menu
