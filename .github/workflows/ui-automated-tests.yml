@@ -242,7 +242,12 @@ jobs:
   test-mac-chats:
     strategy:
       matrix:
-        job: ["chatA", "chatB"] 
+        job: ["chatA", "chatB"]
+        include:
+          - job: "chatA"
+            username: "ChatUserA"
+          - job: "chatB"
+            username: "ChatUserB"
     needs: test-mac
     runs-on: macos-13
 
@@ -305,9 +310,15 @@ jobs:
           defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
           defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
 
-      - name: Delete Cache Folder and copy reusable data
+      - if: ${{ matrix.username }}
+        name: Delete Cache Folder and copy reusable data for ${{ matrix.username }}
         run: |
           rm -rf ~/.uplink
+          cp -r ./testing-uplink/tests/fixtures/users/${{ matrix.username }}/ ~/.uplink
+      
+      - name: Show if data was copied correctly
+        working-directory: ~/.uplink
+        run: ls -la
 
       - name: Run Tests on MacOS 🧪
         run: npm run mac.${{ matrix.job }}
