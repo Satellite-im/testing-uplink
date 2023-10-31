@@ -27,7 +27,11 @@ export const config: WebdriverIO.Config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [join(process.cwd(), "./tests/suites/MainTests/*Tests*.suite.ts")],
+    maxInstances: 1,
+    specs: [
+      [join(process.cwd(), "./tests/suites/MainTests/03-CreateAccountTests.suite.ts")],
+      [join(process.cwd(), "./tests/suites/MainTests/01-UplinkTests.suite.ts")]
+    ],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'

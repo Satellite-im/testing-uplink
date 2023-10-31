@@ -13,6 +13,22 @@ let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function createSecondAccount() {
+  it("Validate warning texts are displayed on screen", async () => {
+    const unlockWarningHeader = await createPinFirstUser.unlockWarningHeader;
+    await unlockWarningHeader.waitForExist();
+    await expect(unlockWarningHeader).toHaveTextContaining([
+      "LET'S CHOOSE YOUR PASSWORD",
+      "WELCOME BACK,",
+    ]);
+
+    const unlockWarningParagraph =
+      await createPinFirstUser.unlockWarningParagraph;
+    await unlockWarningParagraph.waitForExist();
+    await expect(unlockWarningParagraph).toHaveTextContaining(
+      "(this is used to encrypt all of the data Uplink stores on your computer when you're not using it so nobody can read your data.)"
+    );
+  });
+  
   it("Create Account button should be disabled if no pin has been entered", async () => {
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
