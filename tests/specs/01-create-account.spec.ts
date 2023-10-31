@@ -192,7 +192,7 @@ export default async function createAccount() {
   });
 
   it("Enter valid username to continue", async () => {
-    await createUserFirstUser.enterUsername("Test123");
+    await createUserFirstUser.enterUsername("ChatUserA");
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("true");

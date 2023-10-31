@@ -13,7 +13,6 @@ import settingsAbout from "@specs/11-settings-about.spec";
 import settingsLicenses from "@specs/12-settings-licenses.spec";
 import settingsDeveloper from "@specs/13-settings-developer.spec";
 import friends from "@specs/04-friends.spec";
-import createReusableAccounts from "@specs/14-create-reusable-accounts.spec";
 
 describe("MacOS Tests", function () {
   describe("Create Pin and Account Tests", createAccount.bind(this));
@@ -30,5 +29,4 @@ describe("MacOS Tests", function () {
   describe("Settings Licenses Tests", settingsLicenses.bind(this));
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
   describe("Friends Screen Tests", friends.bind(this));
-  describe("Create Reusable Accounts Tests", createReusableAccounts.bind(this));
 });

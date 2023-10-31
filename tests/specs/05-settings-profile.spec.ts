@@ -2,6 +2,7 @@ import "module-alias/register";
 import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
+import { grabCacheFolder, saveTestKeys } from "@helpers/commands";
 import { USER_A_INSTANCE } from "@helpers/constants";
 let cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
@@ -66,7 +67,7 @@ export default async function settingsProfile() {
 
     // Assert username and status placeholder values are displayed
     const usernameInput = await settingsProfileFirstUser.usernameInput;
-    await expect(usernameInput).toHaveTextContaining("Test123");
+    await expect(usernameInput).toHaveTextContaining("ChatUserA");
 
     const statusInput = await settingsProfileFirstUser.statusInput;
     await expect(statusInput).toHaveTextContaining("");
@@ -228,8 +229,7 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
   });
 
-  // Skipping test - requires adding validation to ensure clipboard is not empty before pasting
-  xit("Settings Profile - Copied ID can be placed on any text field", async () => {
+  it("Settings Profile - Copied ID can be placed on any text field", async () => {
     // Paste copied DID Key into Status Input
     await settingsProfileFirstUser.pasteUserKeyInStatus();
 
@@ -237,6 +237,14 @@ export default async function settingsProfile() {
     const statusInputText =
       await settingsProfileFirstUser.getStatusInputElement();
     await expect(statusInputText).toHaveTextContaining("did:key:");
+
+    const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
+    const username = "ChatUserA";
+    // Grab cache folder and restart
+    await saveTestKeys(username, didkey, USER_A_INSTANCE);
+
+    // Update banner picture from user A
+    await grabCacheFolder(username, USER_A_INSTANCE);
 
     // Clear value from status input
     await settingsProfileFirstUser.deleteStatus();
@@ -277,7 +285,7 @@ export default async function settingsProfile() {
     );
 
     // Clear value from username input, then enter a valid value again
-    await settingsProfileFirstUser.enterUsername("Test123");
+    await settingsProfileFirstUser.enterUsername("ChatUserA");
   });
 
   it("Settings Profile - Username - Spaces are not allowed", async () => {
@@ -294,7 +302,7 @@ export default async function settingsProfile() {
     );
 
     // Clear value from username input, then enter a valid value again
-    await settingsProfileFirstUser.enterUsername("Test123");
+    await settingsProfileFirstUser.enterUsername("ChatUserA");
   });
 
   it("Settings Profile - Username with non-alphanumeric characters", async () => {
@@ -312,7 +320,7 @@ export default async function settingsProfile() {
     );
 
     // Clear value from username input, then enter a valid value again
-    await settingsProfileFirstUser.enterUsername("Test123");
+    await settingsProfileFirstUser.enterUsername("ChatUserA");
   });
 
   it("Settings Profile - Username with more than 32 characters", async () => {
@@ -331,7 +339,7 @@ export default async function settingsProfile() {
     );
 
     // Clear value from username input, then enter a valid value again
-    await settingsProfileFirstUser.enterUsername("Test123");
+    await settingsProfileFirstUser.enterUsername("ChatUserA");
 
     // Wait for toast notification to be closed before starting next tests
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();

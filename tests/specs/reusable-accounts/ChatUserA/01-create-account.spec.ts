@@ -9,7 +9,7 @@ let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 
-export default async function createChatAccountsTests() {
+export default async function friendRequestUserATests() {
   it("Chat User A - Login with account previously created", async () => {
     // Login with account previously created
     await loginWithTestUser();
