@@ -26,9 +26,10 @@ export const config: WebdriverIO.Config = {
     // If you are calling `wdio` from an NPM script (see https://docs.npmjs.com/cli/run-script),
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
+    //
     maxInstances: 1,
     specs: [
-      join(process.cwd(), "./tests/suites/MainTests/01-UplinkTests.suite.ts")
+      join(process.cwd(), "./tests/suites/MainTests/03-CreateAccountA.suite.ts")
     ],
     // Patterns to exclude.
     exclude: [
@@ -42,6 +43,7 @@ export const config: WebdriverIO.Config = {
     // time. Depending on the number of capabilities, WebdriverIO launches several test
     // sessions. Within your capabilities you can overwrite the spec and exclude options in
     // order to group specific specs to a specific capability.
+    //
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -69,9 +71,7 @@ export const config: WebdriverIO.Config = {
     // Test Configurations
     // ===================
     // Define all options that are relevant for the WebdriverIO instance here
-    // Test reporter for stdout.
-    // The only one supported by default is 'dot'
-    // see also: https://webdriver.io/docs/dot-reporter
+    //
     reporters: [
       ["spec", 
         {
@@ -89,11 +89,11 @@ export const config: WebdriverIO.Config = {
         {
           outputDir: './test-report/',
           outputFileFormat: function (options) {
-            return `test-results-macos-ci-${options.cid}.xml`;
+            return `test-results-macos-app-${options.cid}.xml`;
           }
         }
       ],
-  ], 
+    ],    
     //
     // =====
     // Hooks
@@ -126,26 +126,24 @@ export const config: WebdriverIO.Config = {
         );
       }
     },
-    /**
-     * Function to be executed after a test (in Mocha/Jasmine).
-     */
+    
     afterTest: async function (test, describe, { error }) {
-        if (error) {
-          // If test fails, take a screenshot, make a folder with the test name and save it there
-          let imageFile = await driver.takeScreenshot();
-          const imageFolder = join(process.cwd(), "./test-results/macos-ci", test.parent);
-          const imageTitle = test.title + " - Failed.png";
-          await fsp.mkdir(imageFolder, {recursive: true});
-          await fsp.writeFile(
-            imageFolder + "/" + imageTitle,
-            imageFile,
-            "base64"
-          );
+      if (error) {
+        let imageFile = await driver.takeScreenshot();
+        const imageFolder = join(process.cwd(), "./test-results/macos-app", test.parent);
+        const imageTitle = test.title + " - Failed.png"
+        await fsp.mkdir(imageFolder, {recursive: true});
+        await fsp.writeFile(
+          imageFolder + "/" + imageTitle,
+          imageFile,
+          "base64"
+        );
 
-          // Add to Screenshot to Allure Reporter
-          const dataImage = await readFileSync(`${imageFolder}/${imageTitle}`);
-          allureReporter.addAttachment(imageTitle, dataImage, 'image/png')
-        }
-      },
+        // Add to Screenshot to Allure Reporter
+        const data = await readFileSync(`${imageFolder}/${imageTitle}`);
+        allureReporter.addAttachment(imageTitle, data, 'image/png')
+      }
+    },
   }
+    
 }

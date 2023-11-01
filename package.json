@@ -4,8 +4,10 @@
   "description": "An automation testing framework built with WebdriverIO and Appium to test Uplink Desktop app",
   "scripts": {
     "mac.app": "wdio config/wdio.mac.app.conf.ts",
-    "mac.chatA": "wdio config/wdio.mac.chatA.conf.ts",
-    "mac.chatB": "wdio config/wdio.mac.chatB.conf.ts",
+    "mac.chatA": "wdio config/macos-chats/wdio.mac.chatA.conf.ts",
+    "mac.chatB": "wdio config/macos-chats/wdio.mac.chatB.conf.ts",
+    "mac.createAccountA": "wdio config/macos-chats/wdio.mac.createAccountA.conf.ts",
+    "mac.createAccountB": "wdio config/macos-chats/wdio.mac.createAccountB.conf.ts",
     "mac.ci": "wdio config/wdio.mac.ci.conf.ts",
     "mac.multiremote": "wdio config/wdio.mac.multiremote.conf.ts",
     "windows.app": "wdio config/wdio.windows.app.conf.ts",

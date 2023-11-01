@@ -3,16 +3,14 @@ import { grabCacheFolder, maximizeWindow, saveTestKeys } from "@helpers/commands
 import { USER_A_INSTANCE } from "@helpers/constants";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
-import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
 let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
-let cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
-export default async function createSecondAccount() {
+export default async function createFirstAccount() {
   it("Validate warning texts are displayed on screen", async () => {
     const unlockWarningHeader = await createPinFirstUser.unlockWarningHeader;
     await unlockWarningHeader.waitForExist();
@@ -47,7 +45,7 @@ export default async function createSecondAccount() {
   });
 
   it("Enter valid username to continue", async () => {
-    await createUserFirstUser.enterUsername("ChatUserB");
+    await createUserFirstUser.enterUsername("ChatUserA");
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("true");
@@ -62,48 +60,6 @@ export default async function createSecondAccount() {
     // Go to Settings Screen and select the Settings Screen to validate
     await welcomeScreenFirstUser.goToSettings();
     await settingsProfileFirstUser.waitForIsShown(true);
-  });
-
-  it("Settings Profile - Profile Picture - Crop Image and add profile picture", async () => {
-    // Click on profile picture upload button and select the file logo.jpg
-    await settingsProfileFirstUser.selectProfilePicture(
-      "./tests/fixtures/logo.jpg"
-    );
-
-    // Validate Crop Tool Modal is displayed
-    await cropProfileFirstUser.validateCropToolModalIsShown();
-
-    // Click three times on increase button, then one time on decrease button
-    await cropProfileFirstUser.clickMultipleTimesIncreaseButton(3);
-    await cropProfileFirstUser.clickOnDecreaseRangeButton();
-
-    // Validate final value shown for zoom slider is 1
-    const rangeValueText = await cropProfileFirstUser.cropImageRangeValueText;
-    await expect(rangeValueText).toHaveTextContaining("1.2");
-
-    // Click on confirm button to save
-    await cropProfileFirstUser.clickOnConfirmButton();
-
-    // Validate new profile picture is displayed
-    await settingsProfileFirstUser.validateProfilePictureIsShown();
-  });
-
-  // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Crop banner and add banner picture", async () => {
-    // Click on banner picture upload button and select the file banner.jpg
-    await settingsProfileFirstUser.selectBannerPicture(
-      "./tests/fixtures/banner.jpg"
-    );
-
-    // Validate Crop Tool Modal is displayed
-    await cropProfileFirstUser.validateCropToolModalIsShown();
-
-    // Change the size of picture and click on confirm button to save
-    await cropProfileFirstUser.clickOnIncreaseRangeButton();
-    await cropProfileFirstUser.clickOnConfirmButton();
-
-    // Validate new banner picture is displayed
-    await settingsProfileFirstUser.validateBannerPictureIsShown();
   });
 
   it("Settings Profile - Click On Copy ID Button", async () => {

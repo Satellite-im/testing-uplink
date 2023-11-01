@@ -29,8 +29,7 @@ export const config: WebdriverIO.Config = {
     //
     maxInstances: 1,
     specs: [
-      [join(process.cwd(), "./tests/suites/MainTests/03-CreateAccountTests.suite.ts")],
-      [join(process.cwd(), "./tests/suites/MainTests/01-UplinkTests.suite.ts")]
+      join(process.cwd(), "./tests/suites/MainTests/01-UplinkTests.suite.ts")
     ],
     // Patterns to exclude.
     exclude: [

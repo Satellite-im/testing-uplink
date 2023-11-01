@@ -4,7 +4,7 @@ import chats from "@specs/02-chats.spec";
 import files from "@specs/03-files.spec";
 import settingsProfile from "@specs/05-settings-profile.spec";
 import settingsGeneral from "@specs/06-settings-general.spec";
-import settingsMessages from "@specs/15-settings-messages.spec";
+import settingsMessages from "@specs/14-settings-messages.spec";
 import settingsAudio from "@specs/07-settings-audio.spec";
 import settingsExtensions from "@specs/08-settings-extensions.spec";
 import settingsNotifications from "@specs/09-settings-notifications.spec";
