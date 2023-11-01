@@ -168,40 +168,24 @@ jobs:
       - name: Run Tests on to Create First Account 🧪
         run: npm run mac.createAccountA
       
-      - name: Delete data from Friends Tests for artifact of Chat User A
-        working-directory: ./tests/fixtures/users/mac2/
-        run: rm -rf ./FriendsTestUser/
-      
-      - name: List all of the files extracted on Repo After First Account Created
-        run: |
-          pwd
-          ls -R
-      
-      - name: Upload test accounts for Chat User A
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: account-first-user
-          path: ./tests/fixtures/users/mac2/
-      
       - name: Run Tests on to Create Second Account 🧪
         run: npm run mac.createAccountB
-      
-      - name: Delete data from Friends Tests for artifact of Chat User B
-        working-directory: ./tests/fixtures/users/mac2/
-        run: rm -rf ./FriendsTestUser/
       
       - name: List all of the files extracted on Repo After Second Account Created
         run: |
           pwd
           ls -R
       
-      - name: Upload test accounts for Chat User B
+      - name: Upload test accounts for Chat Users
         uses: actions/upload-artifact@v3
         if: always()
         with:
-          name: account-second-user
-          path: ./tests/fixtures/users/mac2/
+          name: appium-test-accounts
+          path: |
+            ./tests/fixtures/users/mac2/ChatUserA/
+            ./tests/fixtures/users/mac2/ChatUserB/
+            ./tests/fixtures/users/mac2/ChatUserA.json
+            ./tests/fixtures/users/mac2/ChatUserB.json
         
       - name: Add label if any of test jobs failed
         if: failure()
@@ -234,18 +218,12 @@ jobs:
           name: Uplink-macos-latest
           path: ./apps
       
-      - name: Download Test User Account User A 🗳️
+      - name: Download Test User Accounts 🗳️
         uses: actions/download-artifact@v3
         with:
-          name: account-first-user
-          path: ./tests/fixtures/users/mac2/
-      
-      - name: Download Test User Account User A 🗳️
-        uses: actions/download-artifact@v3
-        with:
-          name: account-second-user
-          path: ./tests/fixtures/users/mac2/
-      
+          name: appium-test-accounts
+          path: ./tests/fixtures/users/mac2
+            
       - name: List all of the files extracted
         run: |
           pwd
@@ -378,5 +356,4 @@ jobs:
             test-allure-mac-ci
             test-allure-mac-chatA
             test-allure-mac-chatB
-            account-first-user
-            account-second-user
+            appium-test-accounts
