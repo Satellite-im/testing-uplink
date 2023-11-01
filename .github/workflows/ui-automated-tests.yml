@@ -174,7 +174,7 @@ jobs:
       - name: List all of the files extracted on Repo After Second Account Created
         run: |
           pwd
-          ls -R
+          ls -R -la
       
       - name: Upload test accounts for Chat Users
         uses: actions/upload-artifact@v3
@@ -227,7 +227,7 @@ jobs:
       - name: List all of the files extracted
         run: |
           pwd
-          ls -R
+          ls -R -la
 
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
@@ -276,13 +276,13 @@ jobs:
         name: Delete Cache Folder and copy reusable data for ${{ matrix.username }}
         run: |
           rm -rf ~/.uplink
-          cp -r ./tests/fixtures/users/${{ matrix.username }}/. ~/.uplink
+          cp -r ./tests/fixtures/users/mac2/${{ matrix.username }}/ ~/.uplink
       
       - name: Show if data was copied correctly
         working-directory: ~/.uplink
         run: |
           pwd
-          ls -R
+          ls -R -la
 
       - name: Run Tests on MacOS 🧪
         run: npm run mac.${{ matrix.job }}
