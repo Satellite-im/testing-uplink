@@ -170,12 +170,7 @@ jobs:
       
       - name: Run Tests on to Create Second Account 🧪
         run: npm run mac.createAccountB
-      
-      - name: List all of the files extracted on Repo After Second Account Created
-        run: |
-          pwd
-          ls -R -la
-      
+         
       - name: Upload test accounts for Chat Users
         uses: actions/upload-artifact@v3
         if: always()
@@ -224,11 +219,6 @@ jobs:
           name: appium-test-accounts
           path: ./tests/fixtures/users/mac2
             
-      - name: List all of the files extracted
-        run: |
-          pwd
-          ls -R -la
-
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
 
@@ -278,12 +268,6 @@ jobs:
           rm -rf ~/.uplink
           cp -r ./tests/fixtures/users/mac2/${{ matrix.username }}/ ~/.uplink
       
-      - name: Show if data was copied correctly
-        working-directory: ~/.uplink
-        run: |
-          pwd
-          ls -R -la
-
       - name: Run Tests on MacOS 🧪
         run: npm run mac.${{ matrix.job }}
 
