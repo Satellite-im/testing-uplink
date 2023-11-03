@@ -15,7 +15,7 @@ import {
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
-const robot = require("robotjs");
+const {keyboard, Key} = require("@nut-tree/nut-js");
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -323,7 +323,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await browser.pause(1000);
       await statusInput.click();
       await statusInput.clearValue();
-      await robot.keyTap("v", ["control"]);
+      await keyboard.type(Key.LeftControl, Key.V);
     }
     await statusInput.waitUntil(
       async () => {

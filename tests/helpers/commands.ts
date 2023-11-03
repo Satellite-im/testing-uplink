@@ -16,7 +16,7 @@ import {
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
-const robot = require("robotjs");
+const { mouse, Button } = require("@nut-tree/nut-js")
 let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
 let createPinSecondUser = new CreatePinScreen(USER_B_INSTANCE);
 let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
@@ -389,7 +389,7 @@ export async function rightClickOnWindows(
   instance: string
 ) {
   await driver[instance].moveToElement(locator.elementId);
-  await robot.mouseClick("right");
+  await mouse.click(Button.RIGHT);
 }
 
 export async function saveFileOnWindows(
