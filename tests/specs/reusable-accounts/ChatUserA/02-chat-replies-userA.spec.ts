@@ -13,9 +13,6 @@ let chatsReplyPromptFirstUser = new ReplyPrompt(USER_A_INSTANCE);
 
 export default async function repliesTestsUserA() {
   it("Chat User A - Validate reply message contents", async () => {
-    // Switch control to User A
-    await chatsMessagesFirstUser.switchToOtherUserWindow();
-
     // With User A - Validate that reply message is received
     await chatsMessagesFirstUser.chatMessageReply.waitForExist();
 

@@ -1,0 +1,119 @@
+import "module-alias/register";
+import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
+import ContextMenuSidebar from "@screenobjects/chats/ContextMenuSidebar";
+import EditGroup from "@screenobjects/chats/EditGroup";
+import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
+import FriendsScreen from "@screenobjects/friends/FriendsScreen";
+import Topbar from "@screenobjects/chats/Topbar";
+import { USER_A_INSTANCE } from "@helpers/constants";
+let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
+let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+let contextMenuSidebarFirstUser = new ContextMenuSidebar(USER_A_INSTANCE);
+let editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
+let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
+let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+
+export default async function groupChatSidebarTestsUserA() {
+  it("Group Chat - Add group to favorites", async () => {
+    // Leave Participants List screen
+    await chatsTopbarFirstUser.clickOnTopbar();
+
+    // Click on Favorites button for Group Chat
+    await chatsTopbarFirstUser.addToFavorites();
+    await favoritesSidebarFirstUser.validateFavoritesAreShown();
+
+    // Favorites Sidebar should be displayed and showing the name of the group added to Favorites
+    // Favorites Sidebar User bubble should be displayed
+    await favoritesSidebarFirstUser.validateFavoritesUserImage("X");
+  });
+
+  it("Group Chat - Remove group from favorites", async () => {
+    // Remove user from favorites and ensure that Favorites bar is hidden now
+    await chatsTopbarFirstUser.removeFromFavorites();
+  });
+
+  it("Group Chats Testing - Go to another chat conversation", async () => {
+    // Go to another chat conversation
+    await chatsTopbarFirstUser.goToFriends();
+    await friendsScreenFirstUser.validateFriendsScreenIsShown();
+    await friendsScreenFirstUser.validateChatWithFriendButtonIsShown();
+    await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserB");
+    await friendsScreenFirstUser.clickOnChatWithFriend();
+    await chatsTopbarFirstUser.validateTopbarExists();
+  });
+
+  it("Group Chat - Sidebar - Any new messages received in group should appear in Sidebar", async () => {
+    // Validate Sidebar shows Group Name
+    await chatsSidebarFirstUser.validateUsernameDisplayed("X");
+
+    // Validate last message content from group is displayed on sidebar
+    await chatsSidebarFirstUser.validateLastMessageDisplayed("HelloGroup");
+
+    // Validate number of unread messages from the group is displayed on sidebar
+    await chatsSidebarFirstUser.validateNumberOfUnreadMessages("1");
+
+    // Validate time ago is displayed on sidebar for group chat
+    await chatsSidebarFirstUser.validateLastMessageTimeAgo();
+  });
+
+  it("Group Chat - Sidebar - Context Menu - Clear Unreads", async () => {
+    // Open context menu on group chat and select Clear Unreads
+    await chatsSidebarFirstUser.openContextMenuOnGroupChat("X");
+    await contextMenuSidebarFirstUser.selectChatsClearUnreads();
+    await chatsSidebarFirstUser.validateNoUnreadMessages();
+  });
+
+  it("Group Chat - Sidebar - Context Menu - Hide chat", async () => {
+    // Open context menu on group chat and select Hide Chat
+    await chatsSidebarFirstUser.openContextMenuOnGroupChat("X");
+    await contextMenuSidebarFirstUser.selectChatsHideChat();
+    await chatsSidebarFirstUser.validateSidebarChatIsNotDisplayed("X");
+  });
+
+  it("Group Chat - Validate remote user received the message", async () => {
+    // Validate that message was received
+    await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
+    await chatsSidebarFirstUser.goToSidebarGroupChat("X");
+    await chatsTopbarFirstUser.validateTopbarExists();
+  });
+
+  it("Group Chat - Sidebar - If a user leaves a group, remote user will see the number of group members decreased", async () => {
+    // Now, go to the Group Chat and validate that User B is not part of it anymore
+    await chatsTopbarFirstUser.validateTopbarExists();
+
+    // Validate topbar contents has correct name
+    const topbarUserName = await chatsTopbarFirstUser.topbarUserNameValue;
+    await expect(topbarUserName).toHaveTextContaining("X");
+
+    // Validate topbar contents has correct number of participants
+    const topbarUserStatus = await chatsTopbarFirstUser.topbarUserStatusValue;
+    await expect(topbarUserStatus).toHaveTextContaining("Members (1)");
+  });
+
+  it("Group Chat - Add Chat User B again to the group", async () => {
+    // Go to Edit Group and then add again Chat User B to the group
+    await chatsTopbarFirstUser.editGroup();
+    await editGroupFirstUser.validateEditGroupIsShown();
+    await editGroupFirstUser.clickOnAddMembers();
+    await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
+    await editGroupFirstUser.clickOnFirstAddButton();
+    await editGroupFirstUser.validateNothingHereIsDisplayed();
+
+    // Validate topbar contents has correct number of participants
+    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.validateTopbarExists();
+
+    // Validate topbar contents has correct number of participants
+    const topbarUserStatus = await chatsTopbarFirstUser.topbarUserStatusValue;
+    await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
+  });
+
+  it("Group Chat - Sidebar - Delete group", async () => {
+    // Delete the group
+    await chatsSidebarFirstUser.openContextMenuOnGroupChat("X");
+    await contextMenuSidebarFirstUser.selectChatsDeleteGroup();
+
+    // Ensure that group was removed on local side
+    await chatsSidebarFirstUser.validateSidebarChatIsNotDisplayed("X");
+  });
+}
