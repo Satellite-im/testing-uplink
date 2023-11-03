@@ -39,11 +39,10 @@
     "eslint-plugin-wdio": "^8.8.7",
     "module-alias": "^2.2.3",
     "prettier": "^2.8.8",
-    "robotjs": "^0.6.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2",
     "webdriverio": "^8.15.10"
-  }, 
+  },
   "_moduleAliases": {
     "@config": "./config",
     "@fixtures": "./tests/fixtures",
