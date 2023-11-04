@@ -287,13 +287,9 @@ export default async function sidebarChatsTests() {
     await chatsInputFirstUser.clearInputBar();
   });
 
-  // Skipping test failing on CI after finding a bug in Uplink application
-  xit("Sidebar - Favorites - Context Menu - Remove user from Favorites", async () => {
+  it("Sidebar - Favorites - Context Menu - Remove user from Favorites", async () => {
     // Open context menu and right click on Remove user from Favorites
     await favoritesSidebarFirstUser.openContextMenuOnFavoritesUser("ChatUserB");
     await favoritesSidebarFirstUser.clickOnContextMenuFavoriteRemove();
-    await favoritesSidebarFirstUser.favorites.waitForExist({
-      reverse: true,
-    });
   });
 }

@@ -17,15 +17,6 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   DROPDOWN_MENU: "<ComboBox>",
   DROPDOWN_OPTION: '[name="Selector Option"]',
-  RADIO_OPTION_HIGH: '[name="radio-option-High"]',
-  RADIO_OPTION_LOW: '[name="radio-option-Low"]',
-  RADIO_OPTION_MEDIUM: '[name="radio-option-Medium"]',
-  RADIO_OPTION_NONE: '[name="radio-option-None"]',
-  RANGE_INPUT_DEVICE: '[name="range-input-device"]',
-  RANGE_OUTPUT_DEVICE: '[name="range-output-device"]',
-  RANGE_SLIDER_BAR: '[name="range-input"]',
-  RANGE_SLIDER_VALUE: '[name="range-value"]',
-  RANGE_SLIDER_VALUE_TEXT: "<Text>",
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
@@ -42,15 +33,6 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   DROPDOWN_MENU: "~Selector",
   DROPDOWN_OPTION: "~Selector Option",
-  RADIO_OPTION_HIGH: "~radio-option-High",
-  RADIO_OPTION_LOW: "~radio-option-Low",
-  RADIO_OPTION_MEDIUM: "~radio-option-Medium",
-  RADIO_OPTION_NONE: "~radio-option-None",
-  RANGE_INPUT_DEVICE: "~range-input-device",
-  RANGE_OUTPUT_DEVICE: "~range-output-device",
-  RANGE_SLIDER_BAR: "~range-input",
-  RANGE_SLIDER_VALUE: "~range-value",
-  RANGE_SLIDER_VALUE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
@@ -75,66 +57,54 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
 
   get callTimerCheckbox() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[12]
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get callTimerControllerValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[12]
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get callTimerDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[12]
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get callTimerHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[12]
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
+  get echoCancellationCheckbox() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SWITCH_SLIDER);
+  }
+
+  get echoCancellationControllerValue() {
+    return this.instance
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+  }
+
   get echoCancellationDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[7]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get echoCancellationHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[7]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
-  }
-
-  get echoCancellationRadioOptionHigh() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[8]
-      .$(SELECTORS.RADIO_OPTION_HIGH);
-  }
-
-  get echoCancellationRadioOptionLow() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[8]
-      .$(SELECTORS.RADIO_OPTION_LOW);
-  }
-
-  get echoCancellationRadioOptionMedium() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[8]
-      .$(SELECTORS.RADIO_OPTION_MEDIUM);
-  }
-
-  get echoCancellationRadioOptionNone() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[8]
-      .$(SELECTORS.RADIO_OPTION_NONE);
   }
 
   get inputDeviceDescription() {
@@ -164,208 +134,107 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get inputDeviceRange() {
-    return this.instance.$(SELECTORS.RANGE_INPUT_DEVICE);
-  }
-
-  get inputDeviceSlider() {
-    return this.inputDeviceRange.$(SELECTORS.RANGE_SLIDER_BAR);
-  }
-
-  get inputDeviceSliderValueIndicator() {
-    return this.inputDeviceRange.$(SELECTORS.RANGE_SLIDER_VALUE);
-  }
-
-  get inputDeviceSliderValueText() {
-    return this.inputDeviceSliderValueIndicator.$(
-      SELECTORS.RANGE_SLIDER_VALUE_TEXT
-    );
-  }
-
   get interfaceSoundsCheckbox() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[9]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get interfaceSoundsControllerValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[9]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get interfaceSoundsDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[9]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get interfaceSoundsHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[9]
+      .$$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get mediaSoundsCheckbox() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[10]
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get mediaSoundsControllerValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[10]
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get mediaSoundsDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[10]
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get mediaSoundsHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[10]
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get messageSoundsCheckbox() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[11]
+      .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get messageSoundsControllerValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[11]
+      .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get messageSoundsDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[11]
+      .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get messageSoundsHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[11]
-      .$(SELECTORS.SETTINGS_INFO)
-      .$(SELECTORS.SETTINGS_INFO_HEADER);
-  }
-
-  get noiseSuppressionDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[5]
-      .$(SELECTORS.SETTINGS_INFO)
-      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
-  }
-
-  get noiseSuppressionHeader() {
-    return this.instance
       .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
-  }
-
-  get noiseSuppressionRadioOptionHigh() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
-      .$(SELECTORS.RADIO_OPTION_HIGH);
-  }
-
-  get noiseSuppressionRadioOptionLow() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
-      .$(SELECTORS.RADIO_OPTION_LOW);
-  }
-
-  get noiseSuppressionRadioOptionMedium() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
-      .$(SELECTORS.RADIO_OPTION_MEDIUM);
-  }
-
-  get noiseSuppressionRadioOptionNone() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
-      .$(SELECTORS.RADIO_OPTION_NONE);
   }
 
   get outputDeviceDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get outputDeviceDropdown() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.DROPDOWN_MENU);
   }
 
   get outputDeviceDropdownOption() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.DROPDOWN_MENU)
       .$$(SELECTORS.DROPDOWN_OPTION);
   }
 
   get outputDeviceHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
-      .$(SELECTORS.SETTINGS_INFO)
-      .$(SELECTORS.SETTINGS_INFO_HEADER);
-  }
-
-  get outputDeviceRange() {
-    return this.instance.$(SELECTORS.RANGE_OUTPUT_DEVICE);
-  }
-
-  get outputDeviceSlider() {
-    return this.outputDeviceRange.$(SELECTORS.RANGE_SLIDER_BAR);
-  }
-
-  get outputDeviceSliderValueIndicator() {
-    return this.outputDeviceRange.$(SELECTORS.RANGE_SLIDER_VALUE);
-  }
-
-  get outputDeviceSliderValueText() {
-    return this.outputDeviceSliderValueIndicator.$(
-      SELECTORS.RANGE_SLIDER_VALUE_TEXT
-    );
-  }
-
-  get sampleRateDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
-      .$(SELECTORS.SETTINGS_INFO)
-      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
-  }
-
-  get sampleRateDropdown() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
-      .$(SELECTORS.DROPDOWN_MENU);
-  }
-
-  get sampleRateDropdownOption() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
-      .$(SELECTORS.DROPDOWN_MENU)
-      .$$(SELECTORS.DROPDOWN_OPTION);
-  }
-
-  get sampleRateHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -373,6 +242,8 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
   get settingsAudio() {
     return this.instance.$(SELECTORS.SETTINGS_AUDIO);
   }
+
+  // Click on dropdowns and sliders methods
 
   async clickOnInputDeviceDropdown() {
     const inputDeviceDropdown = await this.inputDeviceDropdown;
@@ -386,6 +257,16 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
       await callTimerCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
       await clickOnSwitchMacOS(callTimerCheckbox, this.executor);
+    }
+  }
+
+  async clickOnEchoCancellation() {
+    const currentDriver = await this.getCurrentDriver();
+    const echoCancellationCheckbox = await this.echoCancellationCheckbox;
+    if (currentDriver === WINDOWS_DRIVER) {
+      await echoCancellationCheckbox.click();
+    } else if (currentDriver === MACOS_DRIVER) {
+      await clickOnSwitchMacOS(echoCancellationCheckbox, this.executor);
     }
   }
 
@@ -424,55 +305,6 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
     await outputDeviceDropdown.click();
   }
 
-  async clickOnSampleRateDropdown() {
-    const sampleRateDropdown = await this.sampleRateDropdown;
-    await sampleRateDropdown.click();
-  }
-
-  // Echo Cancellation Select Methods
-
-  async selectEchoCancellationHigh() {
-    const echoCancellationHigh = await this.echoCancellationRadioOptionHigh;
-    await echoCancellationHigh.click();
-  }
-
-  async selectEchoCancellationLow() {
-    const echoCancellationLow = await this.echoCancellationRadioOptionLow;
-    await echoCancellationLow.click();
-  }
-
-  async selectEchoCancellationMedium() {
-    const echoCancellationMedium = await this.echoCancellationRadioOptionMedium;
-    await echoCancellationMedium.click();
-  }
-
-  async selectEchoCancellationNone() {
-    const echoCancellationNone = await this.echoCancellationRadioOptionNone;
-    await echoCancellationNone.click();
-  }
-
-  // Noise Suppression Select Methods
-
-  async selectNoiseSuppressionHigh() {
-    const noiseSuppressionHigh = await this.noiseSuppressionRadioOptionHigh;
-    await noiseSuppressionHigh.click();
-  }
-
-  async selectNoiseSuppressionLow() {
-    const noiseSuppressionLow = await this.noiseSuppressionRadioOptionLow;
-    await noiseSuppressionLow.click();
-  }
-
-  async selectNoiseSuppressionMedium() {
-    const noiseSuppressionMedium = await this.noiseSuppressionRadioOptionMedium;
-    await noiseSuppressionMedium.click();
-  }
-
-  async selectNoiseSuppressionNone() {
-    const noiseSuppressionNone = await this.noiseSuppressionRadioOptionNone;
-    await noiseSuppressionNone.click();
-  }
-
   // Input, Output and Sample Rate selection methods
 
   async selectInputDevice(device: string) {
@@ -492,16 +324,6 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
       await outputDeviceDropdown.addValue(device + "\n");
     } else if (currentDriver === WINDOWS_DRIVER) {
       await outputDeviceDropdown.addValue(device + "\uE007");
-    }
-  }
-
-  async selectSampleRate(rate: string) {
-    const currentDriver = await this.getCurrentDriver();
-    const sampleRateDropdown = await this.sampleRateDropdown;
-    if (currentDriver === MACOS_DRIVER) {
-      await sampleRateDropdown.addValue(rate + "\n");
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await sampleRateDropdown.addValue(rate + "\uE007");
     }
   }
 }

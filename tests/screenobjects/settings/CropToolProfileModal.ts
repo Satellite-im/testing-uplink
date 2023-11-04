@@ -59,7 +59,7 @@ export default class CropImageProfileModal extends UplinkMainScreen {
   }
 
   get cropImagePreview() {
-    return this.cropImageTopbar.$(SELECTORS.CROP_IMAGE_PREVIEW);
+    return this.cropImageModal.$(SELECTORS.CROP_IMAGE_PREVIEW);
   }
 
   get cropImageRange() {
@@ -144,5 +144,10 @@ export default class CropImageProfileModal extends UplinkMainScreen {
     const rangeValue = await this.cropImageRangeValueText;
     const rangeValueText = await rangeValue.getText();
     return rangeValueText;
+  }
+
+  async validateCropToolModalIsShown() {
+    const cropImageModal = await this.cropImageModal;
+    await cropImageModal.waitForDisplayed();
   }
 }

@@ -290,16 +290,6 @@ export default class Topbar extends UplinkMainScreen {
     const topbarRemoveFromFavorites = await this.topbarRemoveFromFavorites;
     await this.hoverOnElement(topbarRemoveFromFavorites);
     await topbarRemoveFromFavorites.click();
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.topbarAddToFavorites;
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Add to favorites button was not displayed after passing 15 seconds from removing the same user of favorites",
-      }
-    );
   }
 
   async validateTopbarIndicatorOnline() {

@@ -11,8 +11,7 @@ import {
   selectFileOnWindows,
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-const robot = require("robotjs");
-
+const {keyboard, Key} = require("@nut-tree/nut-js");
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
@@ -187,7 +186,7 @@ export default class InputBar extends UplinkMainScreen {
     const inputText = await this.inputText;
     await inputText.click();
     await inputText.clearValue();
-    await robot.keyTap("v", ["control"]);
+    await keyboard.type(Key.LeftControl, Key.V);
   }
 
   async pressEnterKeyOnInputBar() {
@@ -197,7 +196,7 @@ export default class InputBar extends UplinkMainScreen {
       ? (enterValue = "\uE007")
       : (enterValue = "\n");
     const inputText = await this.inputText;
-    await inputText.setValue(enterValue);
+    await inputText.addValue(enterValue);
   }
 
   async selectUploadFromLocalDisk() {
@@ -218,7 +217,7 @@ export default class InputBar extends UplinkMainScreen {
     if (inputTextValueLanguage.includes("```" + language) === false) {
       await this.typeCodeOnInputBar(language, codeToType);
     } else {
-      await robot.keyTap("enter", ["shift"]);
+      await keyboard.type(Key.LeftShift, Key.Enter);
       await inputText.addValue(codeToType);
       const inputTextValueCode = await inputText.getText();
       if (inputTextValueCode.includes(codeToType) === false) {

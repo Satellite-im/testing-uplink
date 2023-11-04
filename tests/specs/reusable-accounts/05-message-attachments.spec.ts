@@ -99,13 +99,9 @@ export default async function messageAttachmentsTests() {
     // Select one file from root folder and ensure Send Files button displays 1/8 File(s)
     await sendFilesSecondUser.clickOnFileOrFolder("banner.jpg");
     await sendFilesSecondUser.validateSendFilesButtonText("Send 1/8 File(s)");
-
-    // Workaround line in the meantime the bug for Send Files button not clickable is fixed
-    await sendFilesSecondUser.clickOnCloseModal();
   });
 
-  // Skipping test because there is a bug on Uplink application that prevents the user from clicking into the Send Files button
-  xit("Send files from Browse Files - Files selected will be displayed on Compose Attachment", async () => {
+  it("Send files from Browse Files - Files selected will be displayed on Compose Attachment", async () => {
     // Send the only image file previously selected
     await sendFilesSecondUser.clickOnSendFilesButton();
 
@@ -120,11 +116,10 @@ export default async function messageAttachmentsTests() {
     );
   });
 
-  // Skipping test because there is a bug on Uplink application that prevents the user from clicking into the Send Files button
-  xit("Send files from Browse Files - Message sent with attachments is shown on local side", async () => {
+  it("Send files from Browse Files - Message sent with attachments is shown on local side", async () => {
     // Type a text message and send it
     await chatsInputSecondUser.typeMessageOnInput("Attached");
-    await chatsInputSecondUser.clickOnSendMessage();
+    await chatsInputSecondUser.pressEnterKeyOnInputBar();
 
     // Ensure that message sent with attached file is displayed on local side
     await chatsMessagesSecondUser.waitForMessageSentToExist("Attached");
@@ -136,8 +131,7 @@ export default async function messageAttachmentsTests() {
     await expect(textMessage).toHaveTextContaining("Attached");
   });
 
-  // Skipping test because there is a bug on Uplink application that prevents the user from clicking into the Send Files button
-  xit("Send files from Browse Files - Message sent with attachments is shown on remote side", async () => {
+  it("Send files from Browse Files - Message sent with attachments is shown on remote side", async () => {
     // Ensure that message sent with attached file is displayed on remote side
     // With User A- Validate that message with attachment was received
     await chatsMessagesFirstUser.switchToOtherUserWindow();
@@ -150,9 +144,6 @@ export default async function messageAttachmentsTests() {
   });
 
   it("Send Files on Chats - Validate compose attachments contents", async () => {
-    // Switch to User A window
-    await chatsInputFirstUser.switchToOtherUserWindow();
-
     // Continue with test execution and clear input bar
     await chatsInputFirstUser.clearInputBar();
 
@@ -184,7 +175,7 @@ export default async function messageAttachmentsTests() {
 
     // Type a text message and send it
     await chatsInputSecondUser.typeMessageOnInput("Attached2");
-    await chatsInputSecondUser.clickOnSendMessage();
+    await chatsInputSecondUser.pressEnterKeyOnInputBar();
     await chatsMessagesSecondUser.waitForMessageSentToExist("Attached2");
   });
 
@@ -256,10 +247,5 @@ export default async function messageAttachmentsTests() {
   it("Chat Messages with Files - Remote user can download file received", async () => {
     // Download latest image file received
     await chatsMessagesFirstUser.downloadLastReceivedFile(".txt");
-  });
-
-  it("Chat Messages temporary action - Workaround", async () => {
-    // Temporary test until Uplink bug for Send Files button is fixed
-    await chatsInputSecondUser.switchToOtherUserWindow();
   });
 }
