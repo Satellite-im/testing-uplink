@@ -1,5 +1,5 @@
+const {keyboard, Key} = require("@nut-tree/nut-js");
 import "module-alias/register";
-const robot = require("robotjs");
 import { getClipboardMacOS } from "@helpers/commands";
 import {
   MACOS_DRIVER,
@@ -290,11 +290,11 @@ export default class CreateGroupChat extends UplinkMainScreen {
         { action: "press", element: groupNameInput },
       ]);
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
-      await robot.keyTap("v", ["control"]);
+      await keyboard.type(Key.LeftControl, Key.V);
       await driver[this.executor].touchAction([
         { action: "press", element: locator },
       ]);
-      await robot.keyTap("v", ["control"]);
+      await keyboard.type(Key.LeftControl, Key.V);
     }
   }
 

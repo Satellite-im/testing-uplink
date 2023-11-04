@@ -27,7 +27,8 @@ const SELECTORS_WINDOWS = {
   FILES_LIST: '[name="files-list"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "<Text>",
-  INPUT_FOLDER_FILE_NAME: "//Group/Edit",
+  INPUT_FILE_NAME: '[name="file-name-input"]',
+  INPUT_FOLDER_NAME: '[name="folder-name-input"]',
   GO_TO_FILES_BUTTON: '[name="go_to_files_btn"]',
   HOME_DIR: '[name="home-dir"]',
   HOME_DIR_TEXT: '[name="Home"]',
@@ -56,7 +57,8 @@ const SELECTORS_MACOS = {
   HOME_DIR_TEXT: "~Home",
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  INPUT_FOLDER_FILE_NAME: "-ios class chain:**/XCUIElementTypeTextField",
+  INPUT_FILE_NAME: '[name="file-name-input"]',
+  INPUT_FOLDER_NAME: '[name="folder-name-input"]',
   NO_FILES_AVAILABLE:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   SEND_FILES_BODY: "~send-files-body",
@@ -141,8 +143,12 @@ export default class SendFiles extends UplinkMainScreen {
     return this.inputError.$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
-  get inputFolderFileName() {
-    return this.sendFilesBody.$(SELECTORS.INPUT_FOLDER_FILE_NAME);
+  get inputFileName() {
+    return this.instance.$(SELECTORS.INPUT_FILE_NAME);
+  }
+
+  get inputFolderName() {
+    return this.instance.$(SELECTORS.INPUT_FOLDER_NAME);
   }
 
   get noFilesAvailable() {
@@ -212,10 +218,16 @@ export default class SendFiles extends UplinkMainScreen {
     return result.toString();
   }
 
-  async typeOnFileFolderNameInput(name: string) {
-    const inputFolderFileName = await this.inputFolderFileName;
-    await inputFolderFileName.waitForExist();
-    await inputFolderFileName.setValue(name);
+  async typeOnFileNameInput(name: string) {
+    const inputFileName = await this.inputFileName;
+    await inputFileName.waitForExist();
+    await inputFileName.setValue(name);
+  }
+
+  async typeOnFolderNameInput(name: string) {
+    const inputFolderName = await this.inputFolderName;
+    await inputFolderName.waitForExist();
+    await inputFolderName.setValue(name);
   }
 
   async getCurrentFolder() {
@@ -258,15 +270,22 @@ export default class SendFiles extends UplinkMainScreen {
     return locator;
   }
 
-  async updateNameFileFolder(newName: string, extension: string = "") {
-    const inputFolderFileName = await this.inputFolderFileName;
-    await inputFolderFileName.waitForExist();
-    await inputFolderFileName.setValue(newName);
-    const newFileFolder = await this.getLocatorOfFolderFile(
-      newName + extension
-    );
-    const newFileFolderElement = await this.instance.$(newFileFolder);
-    await newFileFolderElement.waitForExist();
+  async updateNameFile(newName: string, extension: string = "") {
+    const inputFileName = await this.inputFileName;
+    await inputFileName.waitForExist();
+    await inputFileName.setValue(newName);
+    const newFile = await this.getLocatorOfFolderFile(newName + extension);
+    const newFileElement = await this.instance.$(newFile);
+    await newFileElement.waitForExist();
+  }
+
+  async updateNameFolder(newName: string) {
+    const inputFolderName = await this.inputFolderName;
+    await inputFolderName.waitForExist();
+    await inputFolderName.setValue(newName);
+    const newFolder = await this.getLocatorOfFolderFile(newName);
+    const newFolderElement = await this.instance.$(newFolder);
+    await newFolderElement.waitForExist();
   }
 
   async validateFileOrFolderExist(locator: string) {

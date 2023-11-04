@@ -149,10 +149,21 @@ export default async function settingsProfile() {
   });
 
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
-  it("Settings Profile - Add banner picture", async () => {
-    await settingsProfileFirstUser.uploadBannerPicture(
+  it("Settings Profile - Crop banner and add banner picture", async () => {
+    // Click on banner picture upload button and select the file banner.jpg
+    await settingsProfileFirstUser.selectBannerPicture(
       "./tests/fixtures/banner.jpg"
     );
+
+    // Validate Crop Tool Modal is displayed
+    await cropProfileFirstUser.validateCropToolModalIsShown();
+
+    // Change the size of picture and click on confirm button to save
+    await cropProfileFirstUser.clickOnIncreaseRangeButton();
+    await cropProfileFirstUser.clickOnConfirmButton();
+
+    // Validate new banner picture is displayed
+    await settingsProfileFirstUser.validateBannerPictureIsShown();
   });
 
   it("Settings Profile - Change profile picture", async () => {
@@ -180,12 +191,25 @@ export default async function settingsProfile() {
     // Wait for toast notification to be closed before starting test
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
-    await settingsProfileFirstUser.uploadBannerPicture(
+    await settingsProfileFirstUser.selectBannerPicture(
       "./tests/fixtures/second-banner.jpg"
     );
+
+    // Validate Crop Tool Modal is displayed
+    await cropProfileFirstUser.validateCropToolModalIsShown();
+
+    // Change the size of picture and click on confirm button to save
+    await cropProfileFirstUser.clickOnIncreaseRangeButton();
+    await cropProfileFirstUser.clickOnConfirmButton();
+
+    // Validate new banner picture is displayed
+    await settingsProfileFirstUser.validateBannerPictureIsShown();
   });
 
   it("Settings Profile - Validate Copy ID button tooltip", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
     // Wait for toast notification to be closed before starting test
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
@@ -222,11 +246,13 @@ export default async function settingsProfile() {
     // Wait for toast notification to be closed before starting test
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
-    // Enter status value with more than 128 characters
+    // Enter status value with 129 characters
     await settingsProfileFirstUser.enterStatus(
-      "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890"
+      "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
     );
 
+    // Validate input error message is displayed
+    await browser.pause(1000);
     await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(

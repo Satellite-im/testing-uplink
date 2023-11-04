@@ -13,7 +13,7 @@ import {
 } from "@helpers/commands";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
-const robot = require("robotjs");
+const {keyboard, Key} = require("@nut-tree/nut-js");
 
 let SELECTORS = {};
 
@@ -425,7 +425,7 @@ export default class FriendsScreen extends UplinkMainScreen {
       await copyIdButton.click();
       const addSomeoneInput = await this.addSomeoneInput;
       await addSomeoneInput.clearValue();
-      await robot.keyTap("v", ["control"]);
+      await keyboard.type(Key.LeftControl, Key.V);
     }
   }
 
@@ -707,7 +707,7 @@ export default class FriendsScreen extends UplinkMainScreen {
       const addSomeoneInput = await this.addSomeoneInput;
       await addSomeoneInput.click();
       await addSomeoneInput.clearValue();
-      await robot.keyTap("v", ["control"]);
+      await keyboard.type(Key.LeftControl, Key.V);
     }
   }
 

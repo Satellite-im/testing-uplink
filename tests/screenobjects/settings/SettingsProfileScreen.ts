@@ -13,10 +13,9 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
-import { get } from "http";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
-const robot = require("robotjs");
+const {keyboard, Key} = require("@nut-tree/nut-js");
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -25,6 +24,9 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   ADD_PICTURE_BUTTON: '[name="add-picture-button"]',
+  CLEAR_AVATAR_BUTTON: "[name='clear-avatar']",
+  CLEAR_BANNER_BUTTON: "[name='clear-banner']",
+  CONTEXT_MENU: '[name="Context Menu"]',
   COPY_ID_BUTTON: '[name="copy-id-button"]',
   DISMISS_BUTTON: '[name="welcome-message-dismiss"]',
   INPUT_ERROR: '[name="input-error"]',
@@ -53,6 +55,9 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
+  CLEAR_AVATAR_BUTTON: "clear-avatar",
+  CLEAR_BANNER_BUTTON: "clear-banner",
+  CONTEXT_MENU: "~Context Menu",
   COPY_ID_BUTTON: "~copy-id-button",
   DISMISS_BUTTON: "~welcome-message-dismiss",
   INPUT_ERROR: "~input-error",
@@ -95,6 +100,17 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   get addPictureButton() {
     return this.instance.$(SELECTORS.ADD_PICTURE_BUTTON);
+  }
+
+  get clearAvatarButton() {
+    return this.instance.$(SELECTORS.CLEAR_AVATAR_BUTTON);
+  }
+  get clearBannerButton() {
+    return this.instance.$(SELECTORS.CLEAR_BANNER_BUTTON);
+  }
+
+  get contextMenuProfile() {
+    return this.profileHeader.$(SELECTORS.CONTEXT_MENU);
   }
 
   get copyIDButton() {
@@ -237,9 +253,12 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   async enterStatus(status: string) {
     const input = await this.statusInput;
-    await input.click();
     await input.clearValue();
-    await input.addValue(status);
+    await input.setValue(status);
+    const statusInputText = await input.getText();
+    if (statusInputText !== status) {
+      await this.enterStatus(status);
+    }
   }
 
   async enterUsername(username: string) {
@@ -304,7 +323,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await browser.pause(1000);
       await statusInput.click();
       await statusInput.clearValue();
-      await robot.keyTap("v", ["control"]);
+      await keyboard.type(Key.LeftControl, Key.V);
     }
     await statusInput.waitUntil(
       async () => {
@@ -318,7 +337,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     );
   }
 
-  async uploadBannerPicture(relativePath: string) {
+  async selectBannerPicture(relativePath: string) {
     // Invoke File Selection method depending on current OS driver
     // If Windows driver is running, first retrieve the current context and pass it to file selection function
     const currentDriver = await this.getCurrentDriver();
@@ -333,10 +352,6 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await profileBannerWindows.click();
       await selectFileOnWindows(relativePath, uplinkContext, executor);
     }
-
-    // Validate that profile banner is displayed on screen
-    const profileBannerImage = await this.profileBanner;
-    await profileBannerImage.waitForExist();
   }
 
   async selectProfilePicture(relativePath: string) {
@@ -356,8 +371,14 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     }
   }
 
-  async validateProfilePictureIsShown() {
+  async validateBannerPictureIsShown() {
     // Validate that profile banner is displayed on screen
+    const bannerImage = await this.profileBanner;
+    await bannerImage.waitForExist();
+  }
+
+  async validateProfilePictureIsShown() {
+    // Validate that profile picture is displayed on screen
     const profilePictureImage = await this.profilePicture;
     await profilePictureImage.waitForExist();
   }

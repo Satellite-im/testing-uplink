@@ -21,6 +21,7 @@ const SELECTORS_WINDOWS = {
   EXTENSIONS_BUTTON: '[name="extensions-button"]',
   GENERAL_BUTTON: '[name="general-button"]',
   LICENSES_BUTTON: '[name="licenses-button"]',
+  MESSAGES_BUTTON: '[name="messages-button"]',
   NOTIFICATIONS_BUTTON: '[name="notifications-button"]',
   PROFILE_BUTTON: '[name="profile-button"]',
   SETTINGS_SEARCH_INPUT: '[name="settings-search-input"]',
@@ -34,6 +35,7 @@ const SELECTORS_MACOS = {
   EXTENSIONS_BUTTON: "~extensions-button",
   GENERAL_BUTTON: "~general-button",
   LICENSES_BUTTON: "~licenses-button",
+  MESSAGES_BUTTON: "~messages-button",
   NOTIFICATIONS_BUTTON: "~notifications-button",
   PROFILE_BUTTON: "~profile-button",
   SETTINGS_SEARCH_INPUT: "~settings-search-input",
@@ -92,6 +94,10 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
     return this.instance.$(SELECTORS.LICENSES_BUTTON);
   }
 
+  get messagesButton() {
+    return this.instance.$(SELECTORS.MESSAGES_BUTTON);
+  }
+
   get notificationsButton() {
     return this.instance.$(SELECTORS.NOTIFICATIONS_BUTTON);
   }
@@ -141,6 +147,11 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
   async goToLicensesSettings() {
     const licensesButton = await this.licensesButton;
     await licensesButton.click();
+  }
+
+  async goToMessagesSettings() {
+    const messagesButton = await this.messagesButton;
+    await messagesButton.click();
   }
 
   async goToNotificationsSettings() {
