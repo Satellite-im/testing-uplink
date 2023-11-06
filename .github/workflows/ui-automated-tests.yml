@@ -164,13 +164,13 @@ jobs:
         with:
           name: appium-log-macos
           path: ./appium.log
-          
+
       - name: Run Tests on to Create First Account 🧪
         run: npm run mac.createAccountA
-      
+
       - name: Run Tests on to Create Second Account 🧪
         run: npm run mac.createAccountB
-         
+
       - name: Upload test accounts for Chat Users
         uses: actions/upload-artifact@v3
         if: always()
@@ -181,7 +181,7 @@ jobs:
             ./tests/fixtures/users/mac2/ChatUserB/
             ./tests/fixtures/users/mac2/ChatUserA.json
             ./tests/fixtures/users/mac2/ChatUserB.json
-        
+
       - name: Add label if any of test jobs failed
         if: failure()
         uses: buildsville/add-remove-label@v2.0.0
@@ -190,9 +190,11 @@ jobs:
           labels: |
             Failed Automated Test
           type: add
-  
+
   test-mac-chats:
     strategy:
+      fail-fast: false
+      max-parallel: 2
       matrix:
         job: ["chatA", "chatB"]
         include:
@@ -212,13 +214,13 @@ jobs:
         with:
           name: Uplink-macos-latest
           path: ./apps
-      
+
       - name: Download Test User Accounts 🗳️
         uses: actions/download-artifact@v3
         with:
           name: appium-test-accounts
           path: ./tests/fixtures/users/mac2
-            
+
       - name: Enable opening app not codesigned 🖥️
         run: sudo spctl --master-disable
 
@@ -267,7 +269,7 @@ jobs:
         run: |
           rm -rf ~/.uplink
           cp -r ./tests/fixtures/users/mac2/${{ matrix.username }}/ ~/.uplink
-      
+
       - name: Run Tests on MacOS 🧪
         run: npm run mac.${{ matrix.job }}
 
@@ -309,12 +311,7 @@ jobs:
           type: add
 
   remove-artifacts:
-    needs:
-      [
-        build-mac,
-        test-mac,
-        test-mac-chats
-      ]
+    needs: [build-mac, test-mac, test-mac-chats]
     runs-on: ubuntu-latest
 
     steps:

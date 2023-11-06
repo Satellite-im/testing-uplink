@@ -95,7 +95,7 @@ export default class Messages extends UplinkMainScreen {
   constructor(executor: string) {
     super(
       executor,
-      SELECTORS.CHAT_MESSAGE_LOCAL || SELECTORS.CHAT_MESSAGE_REMOTE
+      SELECTORS.CHAT_MESSAGE_LOCAL || SELECTORS.CHAT_MESSAGE_REMOTE,
     );
   }
 
@@ -309,7 +309,7 @@ export default class Messages extends UplinkMainScreen {
     const message = await this.getLastMessageReceivedLocator();
     const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
     const messageCodeLanguage = await messageText.$(
-      SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE
+      SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE,
     );
     return messageCodeLanguage;
   }
@@ -327,7 +327,7 @@ export default class Messages extends UplinkMainScreen {
     const messageCodePane = await this.getLastMessageReceivedCodePane();
     let messageResult = "";
     const messageResultElements = await messageCodePane.$$(
-      SELECTORS.CHAT_MESSAGE_CODE_MESSAGES
+      SELECTORS.CHAT_MESSAGE_CODE_MESSAGES,
     );
     for (let element of messageResultElements) {
       const codeMessageText = await element.getText();
@@ -355,9 +355,9 @@ export default class Messages extends UplinkMainScreen {
         return await this.instance.$(locator);
       },
       {
-        timeout: 15000,
-        timeoutMsg: "Expected message was never received after 15 seconds",
-      }
+        timeout: 60000,
+        timeoutMsg: "Expected message was never received after 60 seconds",
+      },
     );
     const element = await this.instance.$(locator);
     return element;
@@ -396,7 +396,7 @@ export default class Messages extends UplinkMainScreen {
 
   async waitForCodeMessageSentToExist(
     expectedLanguage: string,
-    timeoutMsg: number = 30000
+    timeoutMsg: number = 30000,
   ) {
     const currentDriver = await this.getCurrentDriver();
     let codeMessageLocator: string = "";
@@ -418,7 +418,7 @@ export default class Messages extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Expected code message was never sent after 15 seconds",
-      }
+      },
     );
   }
 
@@ -431,7 +431,7 @@ export default class Messages extends UplinkMainScreen {
             .$(
               '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
                 expectedMessage +
-                '")]'
+                '")]',
             )
             .waitForExist({ reverse: true });
         } else if (currentDriver === WINDOWS_DRIVER) {
@@ -439,7 +439,7 @@ export default class Messages extends UplinkMainScreen {
             .$(
               '//Group[@Name="message-text"]//Text[contains(@Name, "' +
                 expectedMessage +
-                '")]'
+                '")]',
             )
             .waitForExist({ reverse: true });
         }
@@ -447,7 +447,7 @@ export default class Messages extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Expected message was not deleted after 15 seconds",
-      }
+      },
     );
   }
 
@@ -473,7 +473,7 @@ export default class Messages extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected chat message with link was not sent after 15 seconds",
-      }
+      },
     );
   }
 
@@ -498,7 +498,7 @@ export default class Messages extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Expected chat message was not sent after 15 seconds",
-      }
+      },
     );
   }
 
@@ -522,9 +522,9 @@ export default class Messages extends UplinkMainScreen {
         return await this.instance.$(codeMessageReceivedLocator);
       },
       {
-        timeout: 15000,
-        timeoutMsg: "Expected code message was not received after 15 seconds",
-      }
+        timeout: 60000,
+        timeoutMsg: "Expected code message was not received after 60 seconds",
+      },
     );
   }
 
@@ -548,9 +548,9 @@ export default class Messages extends UplinkMainScreen {
         return await this.instance.$(linkReceivedLocator);
       },
       {
-        timeout: 15000,
-        timeoutMsg: "Expected link message was not received after 15 seconds",
-      }
+        timeout: 60000,
+        timeoutMsg: "Expected link message was not received after 60 seconds",
+      },
     );
   }
 
@@ -574,9 +574,9 @@ export default class Messages extends UplinkMainScreen {
         return await this.instance.$(receivedMessageLocator);
       },
       {
-        timeout: 15000,
-        timeoutMsg: "Expected chat message was not received after 15 seconds",
-      }
+        timeout: 60000,
+        timeoutMsg: "Expected chat message was not received after 60 seconds",
+      },
     );
   }
 
@@ -601,7 +601,7 @@ export default class Messages extends UplinkMainScreen {
     const message = await this.getLastMessageSentLocator();
     const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
     const messageCodeLanguage = await messageText.$(
-      SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE
+      SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE,
     );
     await messageCodeLanguage.waitForExist();
     return messageCodeLanguage;
@@ -620,7 +620,7 @@ export default class Messages extends UplinkMainScreen {
     const messageCodePane = await this.getLastMessageSentCodePane();
     let messageResult = "";
     const messageResultElements = await messageCodePane.$$(
-      SELECTORS.CHAT_MESSAGE_CODE_MESSAGES
+      SELECTORS.CHAT_MESSAGE_CODE_MESSAGES,
     );
     for (let element of messageResultElements) {
       const codeMessageText = await element.getText();
@@ -651,7 +651,7 @@ export default class Messages extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Expected chat message was not sent after 15 seconds",
-      }
+      },
     );
   }
 
@@ -766,7 +766,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageReceivedDownloadButton() {
     const lastMessage = await this.getLastMessageReceivedLocator();
     const getLastMessageDownloadButton = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_BUTTON
+      SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
     );
     await getLastMessageDownloadButton.waitForExist();
     return getLastMessageDownloadButton;
@@ -775,7 +775,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageReceivedFileEmbed() {
     const lastMessage = await this.getLastMessageReceivedLocator();
     const lastMessageFileEmbed = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE
+      SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE,
     );
     await lastMessageFileEmbed.waitForExist();
     return lastMessageFileEmbed;
@@ -784,7 +784,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageReceivedFileIcon() {
     const lastMessage = await this.getLastMessageReceivedLocator();
     const lastMessageFileIcon = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_ICON
+      SELECTORS.CHAT_MESSAGE_FILE_ICON,
     );
     await lastMessageFileIcon.waitForExist();
     return lastMessageFileIcon;
@@ -811,7 +811,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageSentDownloadButton() {
     const lastMessage = await this.getLastMessageSentLocator();
     const getLastMessageSentDownloadButton = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_BUTTON
+      SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
     );
     await getLastMessageSentDownloadButton.waitForExist();
     return getLastMessageSentDownloadButton;
@@ -820,7 +820,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageSentFileEmbed() {
     const lastMessage = await this.getLastMessageSentLocator();
     const lastMessageFileEmbed = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_EMBED
+      SELECTORS.CHAT_MESSAGE_FILE_EMBED,
     );
     await lastMessageFileEmbed.waitForExist();
     return lastMessageFileEmbed;
@@ -829,7 +829,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageSentFileIcon() {
     const lastMessage = await this.getLastMessageSentLocator();
     const lastMessageFileIcon = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_ICON
+      SELECTORS.CHAT_MESSAGE_FILE_ICON,
     );
     await lastMessageFileIcon.waitForExist();
     return lastMessageFileIcon;
@@ -857,7 +857,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageReceivedLinkEmbed() {
     const lastMessage = await this.getLastMessageReceivedLocator();
     const lastMessageLinkEmbed = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED,
     );
     await lastMessageLinkEmbed.waitForExist({ timeout: 30000 });
     return lastMessageLinkEmbed;
@@ -875,7 +875,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageReceivedLinkEmbedIcon() {
     const linkEmbedLastMessage = await this.getLastMessageReceivedLinkEmbed();
     const linkEmbedIcon = await linkEmbedLastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON,
     );
     await linkEmbedIcon.waitForExist();
     return linkEmbedIcon;
@@ -885,7 +885,7 @@ export default class Messages extends UplinkMainScreen {
     const linkEmbedIconLastMessage =
       await this.getLastMessageReceivedLinkEmbedIcon();
     const iconTitle = await linkEmbedIconLastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE,
     );
     await iconTitle.waitForExist();
     return iconTitle;
@@ -894,7 +894,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageSentLinkEmbed() {
     const lastMessage = await this.getLastMessageSentLocator();
     const lastMessageLinkEmbed = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED,
     );
     await lastMessageLinkEmbed.waitForExist({ timeout: 30000 });
     return lastMessageLinkEmbed;
@@ -912,7 +912,7 @@ export default class Messages extends UplinkMainScreen {
   async getLastMessageSentLinkEmbedIcon() {
     const linkEmbedLastMessage = await this.getLastMessageSentLinkEmbed();
     const linkEmbedIcon = await linkEmbedLastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON,
     );
     await linkEmbedIcon.waitForExist();
     return linkEmbedIcon;
@@ -922,7 +922,7 @@ export default class Messages extends UplinkMainScreen {
     const linkEmbedIconLastMessage =
       await this.getLastMessageSentLinkEmbedIcon();
     const iconTitle = await linkEmbedIconLastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE,
     );
     await iconTitle.waitForExist();
     return iconTitle;

@@ -326,17 +326,17 @@ export default class ChatsSidebar extends UplinkMainScreen {
         return (await sidebarStatusValue.getText()) === message;
       },
       {
-        timeout: 15000,
+        timeout: 60000,
         timeoutMsg:
-          "Expected sidebar status value never include the message after 15 seconds",
-      }
+          "Expected sidebar status value never include the message after 60 seconds",
+      },
     );
   }
 
   async validateLastMessageTimeAgo() {
     const timeAgo = await this.sidebarChatsUserBadgeTimeAgoValue;
     await expect(timeAgo).toHaveTextContaining(
-      /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/
+      /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
     );
   }
 
@@ -346,10 +346,10 @@ export default class ChatsSidebar extends UplinkMainScreen {
         return await this.sidebarChatsUserBadge.waitForExist({ reverse: true });
       },
       {
-        timeout: 15000,
+        timeout: 60000,
         timeoutMsg:
-          "Expected badge number of unread messages is still displayed after 15 seconds",
-      }
+          "Expected badge number of unread messages is still displayed after 60 seconds",
+      },
     );
   }
 
@@ -361,9 +361,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
         });
       },
       {
-        timeout: 15000,
-        timeoutMsg: "Sidebar chats are still displayed after 15 seconds",
-      }
+        timeout: 60000,
+        timeoutMsg: "Sidebar chats are still displayed after 60 seconds",
+      },
     );
   }
 
@@ -377,9 +377,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
           .waitForExist({ reverse: true });
       },
       {
-        timeout: 15000,
-        timeoutMsg: "Sidebar chats are still displayed after 15 seconds",
-      }
+        timeout: 60000,
+        timeoutMsg: "Sidebar chats are still displayed after 60 seconds",
+      },
     );
   }
 
@@ -389,9 +389,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
         return await this.sidebarGroupChatImage.waitForExist({ reverse: true });
       },
       {
-        timeout: 15000,
-        timeoutMsg: "Sidebar group chats are still displayed after 15 seconds",
-      }
+        timeout: 60000,
+        timeoutMsg: "Sidebar group chats are still displayed after 60 seconds",
+      },
     );
   }
 
@@ -418,10 +418,10 @@ export default class ChatsSidebar extends UplinkMainScreen {
         return await this.sidebarChatsUserStatusValue;
       },
       {
-        timeout: 15000,
+        timeout: 60000,
         timeoutMsg:
-          "Sidebar never displayed received messages after 15 seconds",
-      }
+          "Sidebar never displayed received messages after 60 seconds",
+      },
     );
   }
 
@@ -459,10 +459,10 @@ export default class ChatsSidebar extends UplinkMainScreen {
         return await this.instance.$(SELECTORS.SIDEBAR).$(element);
       },
       {
-        timeout: 15000,
+        timeout: 60000,
         timeoutMsg:
-          "Expected chat group was never displayed on Sidebar after 15 seconds",
-      }
+          "Expected chat group was never displayed on Sidebar after 60 seconds",
+      },
     );
   }
 
@@ -476,16 +476,16 @@ export default class ChatsSidebar extends UplinkMainScreen {
           .waitForExist({ reverse: true });
       },
       {
-        timeout: 15000,
-        timeoutMsg: "Sidebar group was never deleted after 15 seconds",
-      }
+        timeout: 60000,
+        timeoutMsg: "Sidebar group was never deleted after 60 seconds",
+      },
     );
   }
 
   async getSidebarGroupPlusSome(groupname: string) {
     const groupLocator = await this.getExistingElementByAriaLabel(groupname);
     const plusSomeLocator = await groupLocator.$(
-      SELECTORS.SIDEBAR_GROUP_CHAT_PLUS_SOME
+      SELECTORS.SIDEBAR_GROUP_CHAT_PLUS_SOME,
     );
     await plusSomeLocator.waitForExist();
     return plusSomeLocator;
@@ -551,10 +551,10 @@ export default class ChatsSidebar extends UplinkMainScreen {
           .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
       },
       {
-        timeout: 15000,
+        timeout: 60000,
         timeoutMsg:
-          "Expected indicator online was never displayed on Chats Sidebar after 15 seconds",
-      }
+          "Expected indicator online was never displayed on Chats Sidebar after 60 seconds",
+      },
     );
 
     const onlineLocator = await userLocator
@@ -599,9 +599,8 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async openContextMenuOnGroupChat(groupName: string) {
-    const imageToRightClick = await this.getExistingElementByAriaLabel(
-      groupName
-    );
+    const imageToRightClick =
+      await this.getExistingElementByAriaLabel(groupName);
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {

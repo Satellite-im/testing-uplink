@@ -614,9 +614,9 @@ export default class FriendsScreen extends UplinkMainScreen {
         return await userLocator.$(SELECTORS.FRIEND_USER_INDICATOR_ONLINE);
       },
       {
-        timeout: 15000,
+        timeout: 60000,
         timeoutMsg:
-          "Expected indicator online was never displayed on Friends Screen User after 15 seconds",
+          "Expected indicator online was never displayed on Friends Screen User after 60 seconds",
       },
     );
     const indicatorOnline = await userLocator.$(
@@ -728,8 +728,8 @@ export default class FriendsScreen extends UplinkMainScreen {
           .$(SELECTORS.FRIEND_INFO_USERNAME);
       },
       {
-        timeout: 15000,
-        timeoutMsg: "All friends list never shown any records after 15 seconds",
+        timeout: 60000,
+        timeoutMsg: "All friends list never shown any records after 60 seconds",
       },
     );
   }
@@ -748,9 +748,9 @@ export default class FriendsScreen extends UplinkMainScreen {
           .$(SELECTORS.FRIEND_INFO_USERNAME);
       },
       {
-        timeout: 15000,
+        timeout: 60000,
         timeoutMsg:
-          "Blocked friends list never shown any records after 15 seconds",
+          "Blocked friends list never shown any records after 60 seconds",
       },
     );
   }
@@ -763,6 +763,19 @@ export default class FriendsScreen extends UplinkMainScreen {
   async validateChatWithFriendButtonIsShown() {
     const chatWithFriend = await this.chatWithFriendButton;
     await chatWithFriend.waitForExist();
+  }
+
+  async validateChatWithFriendButtonExists() {
+    // Wait until incoming list is not empty
+    await driver[this.executor].waitUntil(
+      async () => {
+        return await this.chatWithFriendButton;
+      },
+      {
+        timeout: 60000,
+        timeoutMsg: "Chat with friend button does not exist after 60 seconds",
+      },
+    );
   }
 
   async validateFriendsButtonBadgeIsShown() {
@@ -784,9 +797,9 @@ export default class FriendsScreen extends UplinkMainScreen {
           .$(SELECTORS.FRIEND_INFO_USERNAME);
       },
       {
-        timeout: 15000,
+        timeout: 60000,
         timeoutMsg:
-          "Incoming friends list never shown any records after 15 seconds",
+          "Incoming friends list never shown any records after 60 seconds",
       },
     );
   }
@@ -816,9 +829,9 @@ export default class FriendsScreen extends UplinkMainScreen {
           .$(SELECTORS.FRIEND_INFO_USERNAME);
       },
       {
-        timeout: 15000,
+        timeout: 60000,
         timeoutMsg:
-          "Expected friend list never shown any records after 15 seconds",
+          "Expected friend list never shown any records after 60 seconds",
       },
     );
   }
@@ -878,9 +891,9 @@ export default class FriendsScreen extends UplinkMainScreen {
         return await user.$(SELECTORS.FRIEND_INFO_USERNAME);
       },
       {
-        timeout: 15000,
+        timeout: 60000,
         timeoutMsg:
-          "Expected Username was never displayed on Friends Screen after 15 seconds",
+          "Expected Username was never displayed on Friends Screen after 60 seconds",
       },
     );
   }

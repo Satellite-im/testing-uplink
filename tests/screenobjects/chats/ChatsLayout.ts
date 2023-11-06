@@ -78,7 +78,7 @@ export default class ChatsLayout extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Expected chat layout was never displayed after 15 seconds",
-      }
+      },
     );
   }
 }
