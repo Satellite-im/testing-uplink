@@ -20,7 +20,7 @@ export const config: WebdriverIO.Config = {
     {
       maxInstances: 1,
       'tauri:options': {
-        application: './Uplink/target/release/uplink',
+        application: join(process.cwd(), './Uplink/target/release/uplink'),
       },
     },
   ],
