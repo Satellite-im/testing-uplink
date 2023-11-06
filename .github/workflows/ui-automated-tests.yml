@@ -118,6 +118,7 @@ jobs:
             ui/extra/images/
             ui/extra/prism_langs/
             ui/extra/themes/
+            ui/extra/windows/
             ui/extra/extensions/
 
       - name: Add label if any of build jobs failed
@@ -244,33 +245,51 @@ jobs:
         run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
         shell: powershell
 
-      - name: Download the Windows app 🗳️
+      - name: Download the Windows app First 🗳️
         uses: actions/download-artifact@v3
         with:
           name: Uplink-windows-latest
-          path: ./apps
+          path: ./apps/app1
+
+      - name: Download the Windows app Second 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: Uplink-windows-latest
+          path: ./apps/app2
 
       - name: Extract .zip into apps Directory 🗳️
-        run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
+        run: |
+          Expand-Archive -Path ./apps/app1/uplinkWindows.zip -DestinationPath ./apps/app1
+          Expand-Archive -Path ./apps/app2/uplinkWindows.zip -DestinationPath ./apps/app2
 
-      - name: Download the Windows app assets
+      - name: Download the Windows app assets for App 1
         uses: actions/download-artifact@v3
         with:
           name: uplink-windows-assets
-          path: ./apps
+          path: ./apps/app1
 
-      - name: Copy app to have two instances 💿
-        working-directory: ./apps
-        run: |
-          cp -r ./uplink.exe ./uplink2.exe
+      - name: Download the Windows app assets for App 2
+        uses: actions/download-artifact@v3
+        with:
+          name: uplink-windows-assets
+          path: ./apps/app2
 
-      - name: Move Windows assets to correct locations 💿
-        working-directory: ./apps
+      - name: Move Windows assets for App 1 to correct locations 💿
+        working-directory: ./apps/app1
         run: |
           mkdir ./bin/extra
           mkdir ./extra
           mv ./uplink.exe ./bin/
-          mv ./uplink2.exe ./bin/
+          mv ./images/ ./bin/extra/
+          mv ./prism_langs/ ./bin/extra/
+          mv ./themes/ ./extra/
+
+      - name: Move Windows assets for App 2 to correct locations 💿
+        working-directory: ./apps/app2
+        run: |
+          mkdir ./bin/extra
+          mkdir ./extra
+          mv ./uplink.exe ./bin/
           mv ./images/ ./bin/extra/
           mv ./prism_langs/ ./bin/extra/
           mv ./themes/ ./extra/
