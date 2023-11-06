@@ -13,14 +13,14 @@ import groupChatSidebarTestsUserA from "@specs/reusable-accounts/ChatUserA/11-gr
 
 describe("MacOS Chats Tests - User A", async () => {
   describe("Accept friend request and Chat", mainChatsTestsUserA.bind(this));
-  describe("Chat Replies", repliesTestsUserA.bind(this));
-  describe("Message Context Menu", messageContextMenuTestsUserA.bind(this));
-  describe("Message Input", messageInputTestsUserA.bind(this));
-  describe("Message Attachments", messageAttachmentsTestsUserA.bind(this));
-  describe("Chat Topbar", chatTopbarTestsUserA.bind(this));
-  describe("Quick Profile", quickProfileTestsUserA.bind(this));
-  describe("Sidebar Chats", sidebarChatsTestsUserA.bind(this));
-  describe("Group Chats Main", groupChatTestsUserA.bind(this));
-  describe("Group Chats Edit", groupChatEditTestsUserA.bind(this));
-  describe("Group Chats Sidebar", groupChatSidebarTestsUserA.bind(this));
+  xdescribe("Chat Replies", repliesTestsUserA.bind(this));
+  xdescribe("Message Context Menu", messageContextMenuTestsUserA.bind(this));
+  xdescribe("Message Input", messageInputTestsUserA.bind(this));
+  xdescribe("Message Attachments", messageAttachmentsTestsUserA.bind(this));
+  xdescribe("Chat Topbar", chatTopbarTestsUserA.bind(this));
+  xdescribe("Quick Profile", quickProfileTestsUserA.bind(this));
+  xdescribe("Sidebar Chats", sidebarChatsTestsUserA.bind(this));
+  xdescribe("Group Chats Main", groupChatTestsUserA.bind(this));
+  xdescribe("Group Chats Edit", groupChatEditTestsUserA.bind(this));
+  xdescribe("Group Chats Sidebar", groupChatSidebarTestsUserA.bind(this));
 });

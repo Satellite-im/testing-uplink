@@ -32,6 +32,16 @@ export const config: WebdriverIO.Config = {
         // 'path/to/excluded/files'
     ],
     specFileRetries: 0,
+    // Options to be passed to Mocha.
+    mochaOpts: {
+      ui: "bdd",
+      /**
+       * NOTE: This has been increased for more stable Appium Native app
+       * tests because they can take a bit longer.
+       */
+      timeout: 300000, // 5min
+      bail: true,
+  },
     //
     // ============
     // Capabilities

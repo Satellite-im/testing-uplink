@@ -13,7 +13,7 @@ import {
 } from "@helpers/commands";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
-const {keyboard, Key} = require("@nut-tree/nut-js");
+const { keyboard, Key } = require("@nut-tree/nut-js");
 
 let SELECTORS = {};
 
@@ -368,7 +368,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async acceptIncomingRequest(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
     const acceptButton = await friendToClick.$(
-      SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON
+      SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON,
     );
     await acceptButton.click();
   }
@@ -578,7 +578,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async getUserImageProfile(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userImageProfile = await userLocator.$(
-      SELECTORS.FRIEND_USER_IMAGE_PROFILE
+      SELECTORS.FRIEND_USER_IMAGE_PROFILE,
     );
     await userImageProfile.waitForExist();
     return userImageProfile;
@@ -601,7 +601,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async getUserIndicatorOffline(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const indicatorOffline = await userLocator.$(
-      SELECTORS.FRIEND_USER_INDICATOR_OFFLINE
+      SELECTORS.FRIEND_USER_INDICATOR_OFFLINE,
     );
     await indicatorOffline.waitForExist();
     return indicatorOffline;
@@ -617,10 +617,10 @@ export default class FriendsScreen extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected indicator online was never displayed on Friends Screen User after 15 seconds",
-      }
+      },
     );
     const indicatorOnline = await userLocator.$(
-      SELECTORS.FRIEND_USER_INDICATOR_ONLINE
+      SELECTORS.FRIEND_USER_INDICATOR_ONLINE,
     );
     return indicatorOnline;
   }
@@ -664,7 +664,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async hoverOnBlockButton(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const secondButtonLocator = await userLocator.$(
-      SELECTORS.BLOCK_FRIEND_BUTTON
+      SELECTORS.BLOCK_FRIEND_BUTTON,
     );
     await this.hoverOnElement(secondButtonLocator);
   }
@@ -677,7 +677,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async hoverOnChatWithFriendButton(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const buttonLocator = await userLocator.$(
-      SELECTORS.CHAT_WITH_FRIEND_BUTTON
+      SELECTORS.CHAT_WITH_FRIEND_BUTTON,
     );
     await this.hoverOnElement(buttonLocator);
   }
@@ -690,7 +690,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async hoverOnUnfriendDenyUnblockButton(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const firstButtonLocator = await userLocator.$(
-      SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON
+      SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON,
     );
     await this.hoverOnElement(firstButtonLocator);
   }
@@ -714,7 +714,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async removeOrCancelUser(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
     const removeOrDenyButton = await friendToClick.$(
-      SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON
+      SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON,
     );
     await removeOrDenyButton.click();
   }
@@ -730,7 +730,7 @@ export default class FriendsScreen extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "All friends list never shown any records after 15 seconds",
-      }
+      },
     );
   }
 
@@ -751,7 +751,7 @@ export default class FriendsScreen extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Blocked friends list never shown any records after 15 seconds",
-      }
+      },
     );
   }
 
@@ -787,7 +787,7 @@ export default class FriendsScreen extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Incoming friends list never shown any records after 15 seconds",
-      }
+      },
     );
   }
 
@@ -819,7 +819,7 @@ export default class FriendsScreen extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected friend list never shown any records after 15 seconds",
-      }
+      },
     );
   }
 
@@ -835,11 +835,10 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async waitUntilFriendIsRemoved(
     username: string,
-    timeoutUser: number = 30000
+    timeoutUser: number = 30000,
   ) {
-    const nonExistingFriend = await this.getNonExistingFriendByAriaLabel(
-      username
-    );
+    const nonExistingFriend =
+      await this.getNonExistingFriendByAriaLabel(username);
     await this.instance
       .$(SELECTORS.FRIENDS_BODY)
       .$(nonExistingFriend)
@@ -852,10 +851,10 @@ export default class FriendsScreen extends UplinkMainScreen {
         return await this.acceptFriendRequestButton;
       },
       {
-        timeout: 15000,
+        timeout: 240000,
         timeoutMsg:
-          "Expected Accept Friend Request button was never displayed on Friends Screen after 15 seconds",
-      }
+          "Expected Accept Friend Request button was never displayed on Friends Screen after 4 minutes",
+      },
     );
   }
 
@@ -865,10 +864,10 @@ export default class FriendsScreen extends UplinkMainScreen {
         return await this.chatWithFriendButton;
       },
       {
-        timeout: 15000,
+        timeout: 240000,
         timeoutMsg:
-          "Expected Chat With Friend button was never displayed on Friends Screen after 15 seconds",
-      }
+          "Expected Chat With Friend button was never displayed on Friends Screen after 4 minutes",
+      },
     );
   }
 
@@ -882,7 +881,7 @@ export default class FriendsScreen extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected Username was never displayed on Friends Screen after 15 seconds",
-      }
+      },
     );
   }
 
