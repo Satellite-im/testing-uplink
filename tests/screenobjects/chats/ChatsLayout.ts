@@ -22,8 +22,7 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   ENCRYPTED_MESSAGES: "~messages-secured-alert",
-  ENCRYPTED_MESSAGES_TEXT:
-    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  ENCRYPTED_MESSAGES_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   TYPING_INDICATOR: "~message-typing-indicator",
   TYPING_INDICATOR_TEXT: "~typing-message",
   TYPING_INDICATOR_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
