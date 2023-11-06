@@ -12,6 +12,9 @@ let tauriDriver;
 
 export const config: WebdriverIO.Config = {
     specs: [join(process.cwd(), "./tests/specs/tauri/**.spec.ts")],
+    hostname: '127.0.0.1',
+    port: 4723,
+    path: '/',
     maxInstances: 1,
     capabilities: [
     {
