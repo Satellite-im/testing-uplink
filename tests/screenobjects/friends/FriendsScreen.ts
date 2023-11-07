@@ -611,7 +611,9 @@ export default class FriendsScreen extends UplinkMainScreen {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     await driver[this.executor].waitUntil(
       async () => {
-        return await userLocator.$(SELECTORS.FRIEND_USER_INDICATOR_ONLINE);
+        return await userLocator
+          .$(SELECTORS.FRIEND_USER_INDICATOR_ONLINE)
+          .waitForExist();
       },
       {
         timeout: 60000,
@@ -725,7 +727,8 @@ export default class FriendsScreen extends UplinkMainScreen {
       async () => {
         return await this.instance
           .$(SELECTORS.FRIENDS_LIST)
-          .$(SELECTORS.FRIEND_INFO_USERNAME);
+          .$(SELECTORS.FRIEND_INFO_USERNAME)
+          .waitForExist();
       },
       {
         timeout: 60000,
@@ -745,7 +748,8 @@ export default class FriendsScreen extends UplinkMainScreen {
       async () => {
         return await this.instance
           .$(SELECTORS.BLOCKED_LIST)
-          .$(SELECTORS.FRIEND_INFO_USERNAME);
+          .$(SELECTORS.FRIEND_INFO_USERNAME)
+          .waitForExist();
       },
       {
         timeout: 60000,
@@ -769,7 +773,7 @@ export default class FriendsScreen extends UplinkMainScreen {
     // Wait until incoming list is not empty
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.chatWithFriendButton;
+        return await this.chatWithFriendButton.waitForExist();
       },
       {
         timeout: 60000,
@@ -794,7 +798,8 @@ export default class FriendsScreen extends UplinkMainScreen {
       async () => {
         return await this.instance
           .$(SELECTORS.INCOMING_REQUESTS_LIST)
-          .$(SELECTORS.FRIEND_INFO_USERNAME);
+          .$(SELECTORS.FRIEND_INFO_USERNAME)
+          .waitForExist();
       },
       {
         timeout: 60000,
@@ -826,7 +831,8 @@ export default class FriendsScreen extends UplinkMainScreen {
       async () => {
         return await this.instance
           .$(SELECTORS.OUTGOING_REQUESTS_LIST)
-          .$(SELECTORS.FRIEND_INFO_USERNAME);
+          .$(SELECTORS.FRIEND_INFO_USERNAME)
+          .waitForExist();
       },
       {
         timeout: 60000,
@@ -861,7 +867,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async waitUntilFriendRequestIsReceived() {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.acceptFriendRequestButton;
+        return await this.acceptFriendRequestButton.waitForExist();
       },
       {
         timeout: 240000,
@@ -874,7 +880,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async waitUntilUserAcceptedFriendRequest() {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.chatWithFriendButton;
+        return await this.chatWithFriendButton.waitForExist();
       },
       {
         timeout: 240000,
@@ -888,7 +894,7 @@ export default class FriendsScreen extends UplinkMainScreen {
     const user = await this.getExistingFriendByAriaLabel(username);
     await driver[this.executor].waitUntil(
       async () => {
-        return await user.$(SELECTORS.FRIEND_INFO_USERNAME);
+        return await user.$(SELECTORS.FRIEND_INFO_USERNAME).waitForExist();
       },
       {
         timeout: 60000,

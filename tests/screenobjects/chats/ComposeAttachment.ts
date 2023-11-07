@@ -58,25 +58,25 @@ export default class ComposeAttachments extends UplinkMainScreen {
 
   get composeAttachmentsFileIcon() {
     return this.composeAttachmentsFileEmbed.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_ICON
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_ICON,
     );
   }
 
   get composeAttachmentsFileInfo() {
     return this.composeAttachmentsFileEmbed.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_INFO
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_INFO,
     );
   }
 
   get composeAttachmentsFileMeta() {
     return this.composeAttachmentsFileEmbed.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_META
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_META,
     );
   }
 
   get composeAttachmentsFileName() {
     return this.composeAttachmentsFileEmbed.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME,
     );
   }
 
@@ -92,17 +92,17 @@ export default class ComposeAttachments extends UplinkMainScreen {
 
   get composeAttachmentsInputErrorText() {
     return this.composeAttachmentsInputError.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_INPUT_ERROR_TEXT
+      SELECTORS.COMPOSE_ATTACHMENTS_INPUT_ERROR_TEXT,
     );
   }
 
   async clickOnDeleteAttachment(attachment: number) {
     // Get the locator of attachment to delete by passing the index
     const attachmentToDelete = await this.instance.$$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
     )[attachment];
     const deleteAttachmentButton = await attachmentToDelete.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_BUTTON
+      SELECTORS.COMPOSE_ATTACHMENTS_BUTTON,
     );
     await deleteAttachmentButton.click();
   }
@@ -116,7 +116,7 @@ export default class ComposeAttachments extends UplinkMainScreen {
     const composeAttachments = await this.composeAttachments;
     await composeAttachments.waitForExist();
     const filesAttached = await this.instance.$$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
     );
     let results = [];
     for (let fileAttached of filesAttached) {
@@ -134,18 +134,18 @@ export default class ComposeAttachments extends UplinkMainScreen {
     const composeAttachmentsFileEmbed = await this.composeAttachmentsFileEmbed;
     await driver[this.executor].waitUntil(
       async () => {
-        return await composeAttachmentsFileEmbed;
+        return await composeAttachmentsFileEmbed.waitForExist();
       },
       {
         timeout: 15000,
         timeoutMsg: "Attachment file was not added after 15 seconds",
-      }
+      },
     );
   }
 
   async validateAttachmentWithFileNameIsAdded(
     fileName: string,
-    expectedAssertion: boolean
+    expectedAssertion: boolean,
   ) {
     const attachmentsList = await this.getListOfAttachmentsEmbed();
     const includesAttachment = await attachmentsList.includes(fileName);

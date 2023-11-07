@@ -251,7 +251,7 @@ export default class EditGroup extends UplinkMainScreen {
     )[0];
     await driver[this.executor].waitUntil(
       async () => {
-        return await firstAddButton;
+        return await firstAddButton.waitForExist();
       },
       {
         timeout: 15000,
@@ -268,7 +268,7 @@ export default class EditGroup extends UplinkMainScreen {
     )[0];
     await driver[this.executor].waitUntil(
       async () => {
-        return await removeParticipantButton;
+        return await removeParticipantButton.waitForExist();
       },
       {
         timeout: 15000,
@@ -348,7 +348,9 @@ export default class EditGroup extends UplinkMainScreen {
     const userLocator = await this.getParticipantContainerLocator(participant);
     await driver[this.executor].waitUntil(
       async () => {
-        return await userLocator.$(SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE);
+        return await userLocator
+          .$(SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE)
+          .waitForExist();
       },
       {
         timeout: 60000,
@@ -440,7 +442,9 @@ export default class EditGroup extends UplinkMainScreen {
   async validateParticipantIndicatorOnline(username: string) {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.getParticipantIndicatorOnline(username);
+        return await this.getParticipantIndicatorOnline(
+          username,
+        ).waitForExist();
       },
       {
         timeout: 60000,

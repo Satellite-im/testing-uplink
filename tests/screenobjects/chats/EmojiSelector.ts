@@ -5,6 +5,7 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+const { mouse, Button } = require("@nut-tree/nut-js");
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
@@ -72,6 +73,6 @@ export default class EmojiSelector extends UplinkMainScreen {
         .$(emojiLocator);
     }
     await this.hoverOnElement(emojiElement);
-    await emojiElement.click();
+    await mouse.click(Button.LEFT);
   }
 }

@@ -229,7 +229,7 @@ export default class Topbar extends UplinkMainScreen {
     await topbarAddToFavorites.click();
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.topbarRemoveFromFavorites;
+        return await this.topbarRemoveFromFavorites.waitForExist();
       },
       {
         timeout: 15000,
@@ -295,7 +295,7 @@ export default class Topbar extends UplinkMainScreen {
   async validateTopbarIndicatorOnline() {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.topbarIndicatorOnline;
+        return await this.topbarIndicatorOnline.waitForExist();
       },
       {
         timeout: 60000,
@@ -321,7 +321,7 @@ export default class Topbar extends UplinkMainScreen {
   async validateTopbarUserImage() {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.topbarUserImage;
+        return await this.topbarUserImage.waitForExist();
       },
       {
         timeout: 15000,
@@ -334,7 +334,7 @@ export default class Topbar extends UplinkMainScreen {
   async validateTopbarExists() {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.topbar;
+        return await this.topbar.waitForExist();
       },
       {
         timeout: 15000,
@@ -346,7 +346,7 @@ export default class Topbar extends UplinkMainScreen {
   async waitUntilRemoteUserIsOnline() {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.topbarIndicatorOnline;
+        return await this.topbarIndicatorOnline.waitForExist();
       },
       {
         timeout: 60000,

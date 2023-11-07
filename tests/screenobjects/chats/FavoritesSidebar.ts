@@ -185,7 +185,10 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(SELECTORS.SLIMBAR).$(favoritesLocator);
+        return await this.instance
+          .$(SELECTORS.SLIMBAR)
+          .$(favoritesLocator)
+          .waitForExist();
       },
       {
         timeout: 15000,
@@ -203,7 +206,9 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     await driver[this.executor].waitUntil(
       async () => {
-        return await favoriteLocator.$(SELECTORS.FAVORITES_USER_IMAGE);
+        return await favoriteLocator
+          .$(SELECTORS.FAVORITES_USER_IMAGE)
+          .waitForExist();
       },
       {
         timeout: 15000,
@@ -219,9 +224,9 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     await driver[this.executor].waitUntil(
       async () => {
-        return await favoriteLocator.$(
-          SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP,
-        );
+        return await favoriteLocator
+          .$(SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP)
+          .waitForExist();
       },
       {
         timeout: 15000,
@@ -276,9 +281,9 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     await driver[this.executor].waitUntil(
       async () => {
-        return await favoriteLocator.$(
-          SELECTORS.FAVORITES_USER_INDICATOR_ONLINE,
-        );
+        return await favoriteLocator
+          .$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE)
+          .waitForExist();
       },
       {
         timeout: 60000,
@@ -308,7 +313,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.contextMenu;
+        return await this.contextMenu.waitForExist();
       },
       {
         timeout: 15000,
@@ -365,7 +370,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   async validateFavoritesAreShown() {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.favorites;
+        return await this.favorites.waitForExist();
       },
       {
         timeout: 15000,

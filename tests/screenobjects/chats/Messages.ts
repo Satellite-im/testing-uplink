@@ -352,7 +352,7 @@ export default class Messages extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(locator);
+        return await this.instance.$(locator).waitForExist();
       },
       {
         timeout: 60000,
@@ -413,7 +413,7 @@ export default class Messages extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(codeMessageLocator);
+        return await this.instance.$(codeMessageLocator).waitForExist();
       },
       {
         timeout: 15000,
@@ -467,7 +467,7 @@ export default class Messages extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(linkSentLocator);
+        return await this.instance.$(linkSentLocator).waitForExist();
       },
       {
         timeout: 15000,
@@ -493,7 +493,7 @@ export default class Messages extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(messageSentLocator);
+        return await this.instance.$(messageSentLocator).waitForExist();
       },
       {
         timeout: 15000,
@@ -519,7 +519,7 @@ export default class Messages extends UplinkMainScreen {
 
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(codeMessageReceivedLocator);
+        return await this.instance.$(codeMessageReceivedLocator).waitForExist();
       },
       {
         timeout: 60000,
@@ -545,7 +545,7 @@ export default class Messages extends UplinkMainScreen {
 
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(linkReceivedLocator);
+        return await this.instance.$(linkReceivedLocator).waitForExist();
       },
       {
         timeout: 60000,
@@ -571,7 +571,7 @@ export default class Messages extends UplinkMainScreen {
 
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(receivedMessageLocator);
+        return await this.instance.$(receivedMessageLocator).waitForExist();
       },
       {
         timeout: 60000,
@@ -646,7 +646,7 @@ export default class Messages extends UplinkMainScreen {
 
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(messageSentLocator);
+        return await this.instance.$(messageSentLocator).waitForExist();
       },
       {
         timeout: 15000,

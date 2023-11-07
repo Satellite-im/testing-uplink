@@ -300,7 +300,9 @@ export default class MessageGroup extends UplinkMainScreen {
     const lastGroupReceived = await this.getLastReceivedGroup();
     await driver[this.executor].waitUntil(
       async () => {
-        return await lastGroupReceived.$(SELECTORS.PIN_INDICATOR);
+        return await lastGroupReceived
+          .$(SELECTORS.PIN_INDICATOR)
+          .waitForExist();
       },
       {
         timeout: 15000,
@@ -334,7 +336,7 @@ export default class MessageGroup extends UplinkMainScreen {
     const lastGroupSent = await this.getLastSentGroup();
     await driver[this.executor].waitUntil(
       async () => {
-        return await lastGroupSent.$(SELECTORS.PIN_INDICATOR);
+        return await lastGroupSent.$(SELECTORS.PIN_INDICATOR).waitForExist();
       },
       {
         timeout: 15000,
@@ -468,7 +470,7 @@ export default class MessageGroup extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(emojiReactionLocator);
+        return await this.instance.$(emojiReactionLocator).waitForExist();
       },
       {
         timeout: 60000,
@@ -494,7 +496,7 @@ export default class MessageGroup extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(emojiReactionLocator);
+        return await this.instance.$(emojiReactionLocator).waitForExist();
       },
       {
         timeout: 15000,

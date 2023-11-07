@@ -1,4 +1,4 @@
-const {keyboard, Key} = require("@nut-tree/nut-js");
+const { keyboard, Key } = require("@nut-tree/nut-js");
 import "module-alias/register";
 import { getClipboardMacOS } from "@helpers/commands";
 import {
@@ -187,7 +187,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   async getFriendFromListIndicatorOffline(username: string) {
     const friendLocator = await this.getFriendFromListLocator(username);
     const indicatorOffline = await friendLocator.$(
-      SELECTORS.FRIEND_INDICATOR_OFFLINE
+      SELECTORS.FRIEND_INDICATOR_OFFLINE,
     );
     await indicatorOffline.waitForExist();
     return indicatorOffline;
@@ -197,17 +197,19 @@ export default class CreateGroupChat extends UplinkMainScreen {
     const friendLocator = await this.getFriendFromListLocator(username);
     await driver[this.executor].waitUntil(
       async () => {
-        return await friendLocator.$(SELECTORS.FRIEND_INDICATOR_ONLINE);
+        return await friendLocator
+          .$(SELECTORS.FRIEND_INDICATOR_ONLINE)
+          .waitForExist();
       },
       {
         timeout: 15000,
         timeoutMsg:
           "Expected indicator online was never displayed on Create Group Users List after 15 seconds",
-      }
+      },
     );
 
     const indicatorOnline = await friendLocator.$(
-      SELECTORS.FRIEND_INDICATOR_ONLINE
+      SELECTORS.FRIEND_INDICATOR_ONLINE,
     );
     return indicatorOnline;
   }
@@ -215,7 +217,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   async getFriendFromListUserImageProfile(username: string) {
     const friendLocator = await this.getFriendFromListLocator(username);
     const userImageProfile = await friendLocator.$(
-      SELECTORS.FRIEND_USER_IMAGE_PROFILE
+      SELECTORS.FRIEND_USER_IMAGE_PROFILE,
     );
     await userImageProfile.waitForExist();
     return userImageProfile;
@@ -231,7 +233,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
         .$(
           '//XCUIElementTypeGroup[@label="friend-name"]/XCUIElementTypeStaticText[contains(@value, "' +
             username +
-            '")]/../..'
+            '")]/../..',
         );
     } else if (currentDriver === WINDOWS_DRIVER) {
       friendLocator = await this.instance
@@ -240,7 +242,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
         .$(
           '//Group[@Name="friend-name"]/Text[contains(@Name, "' +
             username +
-            '")]/../..'
+            '")]/../..',
         );
     }
     return friendLocator;
@@ -256,7 +258,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   async getFriendFromListUserImageWrap(username: string) {
     const friendLocator = await this.getFriendFromListLocator(username);
     const userImageWrap = await friendLocator.$(
-      SELECTORS.FRIEND_USER_IMAGE_WRAP
+      SELECTORS.FRIEND_USER_IMAGE_WRAP,
     );
     await userImageWrap.waitForExist();
     return userImageWrap;

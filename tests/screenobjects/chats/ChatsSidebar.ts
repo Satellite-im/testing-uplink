@@ -415,7 +415,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   async waitForReceivingMessageOnSidebar() {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.sidebarChatsUserStatusValue;
+        return await this.sidebarChatsUserStatusValue.waitForExist();
       },
       {
         timeout: 60000,
@@ -456,7 +456,10 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const element = await this.getExistingElementByAriaLabel(groupname);
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(SELECTORS.SIDEBAR).$(element);
+        return await this.instance
+          .$(SELECTORS.SIDEBAR)
+          .$(element)
+          .waitForExist();
       },
       {
         timeout: 60000,
@@ -548,7 +551,8 @@ export default class ChatsSidebar extends UplinkMainScreen {
         return await userLocator
           .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
           .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
-          .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
+          .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR)
+          .waitForExist();
       },
       {
         timeout: 60000,
