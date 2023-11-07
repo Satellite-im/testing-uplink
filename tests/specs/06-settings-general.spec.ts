@@ -16,10 +16,10 @@ export default async function settingsGeneral() {
     await settingsGeneralFirstUser.waitForIsShown(true);
 
     // APP LANGUAGE
-    const appLangugageHeader = await settingsGeneralFirstUser.appLanguageHeader;
+    const appLanguageHeader = await settingsGeneralFirstUser.appLanguageHeader;
     const appLanguageDescription =
       await settingsGeneralFirstUser.appLanguageDescription;
-    await expect(appLangugageHeader).toHaveTextContaining("APP LANGUAGE");
+    await expect(appLanguageHeader).toHaveTextContaining("APP LANGUAGE");
     await expect(appLanguageDescription).toHaveText("Change Language.");
 
     // THEME
