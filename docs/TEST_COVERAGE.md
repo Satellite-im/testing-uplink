@@ -32,7 +32,7 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [x] Shows an error if the user enters a username with non-alphanumeric characters
 - [x] Shows error if User enters a username with spaces
 - [x] Displays some indication of success when the user enters a valid username.
-- [x] Welcome Screen is displayed after entering a valid pin and username
+- [x] Welcome Screen is displayed after entering a valid PIN and username
 
 **Profile Picture**
 
@@ -40,14 +40,14 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [ ] Profile picture chooser should be responsive to multiple display sizes.
 - [ ] Profile picture should indicate to the user that they can interact with it to add a profile picture.
       **CTA Button**
-- [x] The register button should use a reusable component and only appear clickable when all required information is submitted, and there are no errors on the page.
+- [x] The register button should use a reusable component and only appear clickable when all required information is submitted and there are no errors on the page.
 
 ### **Chat Page**
 
 **Landing page for New Accounts**
 
 - [x] "No active chats, wanna make one?" with an option underneath to start one.
-- [ ] Page indicator in the sidebar should indicate User they are on the Chat page.
+- [ ] Page indicator in the sidebar should indicate to the user they are on the Chat page.
 
 **Current Chat**
 
@@ -57,10 +57,10 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [x] User Profile Pic should appear next to their message and be up to date.
 - [x] Username should appear above each message or bulk of messages sent or received.
 - [x] Clicking the _Heart_ should add the friend to your _Favorites_.
-- [x]  Current chat should be displayed at the top of the list in the Sidebar.
-- [x] Timestamps should update in chat and sidebar. (now, then goes by minutes-hours-days)
+- [x]  Current chat should be displayed at the top of the list in the sidebar.
+- [x] Timestamps should be updated in chat and sidebar. (now, then goes by minutes-hours-days)
 - [ ] Clicking _Phone_ icon should open call modal.
-- [ ] Chat should close if the User blocks the friend they are in the current chat with.
+- [ ] Chat should close if the user blocks the friend they are in the current chat with.
 - [x] Typing indicator appears (if the user has that extension toggled on).
 - [ ] Usernames are both displayed in the call modal.
 - [x] Friends Username/Profile Pic/Status should be displayed at the top of the active chat.
@@ -74,7 +74,7 @@ This document provides a test coverage matrix of the Uplink features already aut
 
 ### Calling & Video
 
-- [ ] Call modal opens when the User starts a call.
+- [ ] Call modal opens when the user starts a call.
 - [ ] Tooltip should appear for the _End Call_ button.
 - [ ] Tooltip should appear for the _Enable Camera_ button.
 - [ ] Tooltip should appear for the _ScreenShare_ button.
@@ -82,16 +82,16 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [ ] User should be navigated to Settings when they click the _Settings_ button.
 - [ ] Call should expand when a user enters _Fullscreen_.
 - [ ] Pop-Out player should appear when the user enables it.
-- [ ] While Pop-out is enabled original call should display _Media Detached_.
+- [ ] While Pop-out is enabled, the original call should display _Media Detached_.
 
 ### **Friends**
 
 **All Friends List**
 
-- [x] Clicking Copy Code should copy User's did key
+- [x] Clicking Copy Code should copy the user's did key
 - [x] There should be an input field for us to paste a did key or user#short_id.
 - [ ] Friends are ordered alphabetically.
-- [x] Profile picture should be next to Username if a friend has one.
+- [x] Profile picture should be next to username if a friend has one.
 - [ ] Profile Picture should update if a friend changes it.
 - [x] Online/Offline status should update when friends log in or off.
 - [x] Tooltip should appear when hovering the cursor over _Unfriend_.
@@ -114,7 +114,7 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [x] User should be able to remove a friend using the context menu.
 - [x] User should also be able to block a friend by using the context menu.
 - [x] Green indicator should appear when the user pastes a correct did key in the Add Friend input field.
-- [x] Online status / Device indicator should appear next to the friend's profile pic. (This should appear anywhere a friends profile pic is throughout the entire app)
+- [x] Online status / Device indicator should appear next to the friend's profile pic. (This should appear anywhere a friend profile pic is throughout the entire app)
 
 ### Adding Friends
 
@@ -124,7 +124,7 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [x] Request should appear under _Pending_ after sending it.
 - [x] If the user cancels the request, the request should no longer appear in _Pending_.
 - [x] Error should appear if a user sends 2nd friend request to the same person.
-- [x] Error should appear when the user tries to add themselves.
+- [x] Error should appear when users try to add themselves.
 
 **Pending Requests**
 
@@ -151,12 +151,12 @@ This document provides a test coverage matrix of the Uplink features already aut
 
 - [x] Icon should open the Upload File Modal.
 - [x] Preview should be shown for Uploaded Files.
-- [ ] Folder should highlight when the user is drag+dropping a file into it.
+- [ ] Folder should highlight when the user is dragging and dropping a file into it.
 - [ ] Folder should also be highlighted when the user hovers the cursor.
 - [x] Upload % should show when the user is uploading Files
-- [x] Clicking the _Home_ button in Directory should take you to the Files Home page.
+- [x] Clicking the _Home_ button in the directory should take you to the Files Home page.
 - [x] When the user clicks, the New Folder typing indicator should appear, and the user can start typing without clicking into the textbox first.
-- [x] Right-clicking folder should open Context Menu with the option to rename or delete.
+- [x] Right-clicking folder should open the context menu with the option to rename or delete.
 - [ ] Scrollbar should appear when any Files are rendered off-screen.
 - [x] Files Directory should show updated Folders name if Folder has been renamed.
 - [ ] File Uploading should stop when the user hits _Cancel_.
@@ -175,9 +175,9 @@ This document provides a test coverage matrix of the Uplink features already aut
 
 - [x] _Change Avatar_ should appear when the user hovers the cursor over Profile Pic.
 - [x] _Change Banner_ should appear when the user hovers the cursor over the Banner area.
-- [x] Clicking the Banner should open Users local files browser.
+- [x] Clicking the Banner should open users local files browser.
 - [x] Clicking the Profile Picture should open the user's local files browser.
-- [x] Clicking _Edit_ should display input fields for username and Status.
+- [x] Clicking _Edit_ should display input fields for username and status.
 - [x] Error message should appear when the user tries to type a username longer than 32 characters.
 - [x] Error message should appear when a user attempts to save a username with less than 4 characters.
 - [x] Error message should appear when a user attempts to save a username with spaces.
@@ -194,7 +194,7 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [x] User should be able to toggle _Splash Screen_.
 - [x] Clicking Theme should open the Themes Dropdown.
 - [x] Clicking _Reset Theme_ should set the theme back to default.
-- [x] UI should change accordingly when the user sets a new theme.
+- [x] UI should change when the user sets a new theme.
 - [x] User should be able to change the language by selecting from the Language Dropdown menu.
 - [x] User should be able to switch back the language to English US by selecting from the Language Dropdown menu.
 
@@ -207,7 +207,7 @@ This document provides a test coverage matrix of the Uplink features already aut
 
 **Extensions**
 
-- [x] User should be able to toggle Placeholder on and off.
+- [x] User should be able to toggle the placeholder on and off.
 - [ ] Clicking _Open Extensions Folder_" should open the user's extension folder.
 - [x] Text descriptions from the settings section should be displayed - Right now, only placeholders
 
@@ -240,7 +240,7 @@ This document provides a test coverage matrix of the Uplink features already aut
 **Basics**
 
 - [x] Sidebar should persist through Chat, Files, and Friends pages.
-- [x] Any active chats the user has created should appear in Sidebar.
+- [x] Any active chats the user has created should appear in the sidebar.
 - [x] Sidebar should be hidden when the user enters Settings.
 - [x] Sidebar should display the user's favorite chats (If the user has any).
 - [x] Users should be navigated to chat when they click a friend in their favorites.
@@ -255,4 +255,4 @@ This document provides a test coverage matrix of the Uplink features already aut
 - [x] Tooltip should appear when hovering cursor over _Friends Page_ icon.
 - [x] Tooltip should appear when hovering cursor over _Settings Page_ icon.
 - [x] User can search within Settings by clicking on Settings Search Bar.
-- [x] Call controls should appear in Sidebar when the user enters a call.
+- [x] Call controls should appear in the sidebar when the user enters a call.
