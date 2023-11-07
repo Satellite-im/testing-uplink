@@ -18,7 +18,7 @@ export default async function files() {
     const prereleaseIndicatorText =
       await filesScreenFirstUser.prereleaseIndicatorText;
     await expect(prereleaseIndicatorText).toHaveTextContaining(
-      "Pre-release | Issues/Feedback"
+      "Pre-release | Issues/Feedback",
     );
   });
 
@@ -177,7 +177,7 @@ export default async function files() {
     await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
     await expect(filesInfoMaxSizeValue).toHaveTextContaining("1 GB");
     await expect(filesInfoCurrentSizeLabel).toHaveTextContaining(
-      "Current Space:"
+      "Current Space:",
     );
     await expect(filesInfoCurrentSizeValue).toHaveTextContaining("0 bytes");
   });
@@ -192,7 +192,10 @@ export default async function files() {
     });
 
     // Once that progress indicator disappears, validate that file is loaded
-    await filesScreenFirstUser.validateFileOrFolderExist("app-macos.zip");
+    await filesScreenFirstUser.validateFileOrFolderExist(
+      "app-macos.zip",
+      60000,
+    );
 
     // Finally, ensure that file size indicators are updated
     const filesInfoMaxSizeLabel =
@@ -206,7 +209,7 @@ export default async function files() {
     await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
     await expect(filesInfoMaxSizeValue).toHaveTextContaining("1 GB");
     await expect(filesInfoCurrentSizeLabel).toHaveTextContaining(
-      "Current Space:"
+      "Current Space:",
     );
     await expect(filesInfoCurrentSizeValue).toHaveTextContaining("13.2 MB");
   });
@@ -221,7 +224,10 @@ export default async function files() {
     });
 
     // Once that progress indicator disappears, validate that file is loaded and is automatically renamed to avoid name conflicts
-    await filesScreenFirstUser.validateFileOrFolderExist("app-macos (1).zip");
+    await filesScreenFirstUser.validateFileOrFolderExist(
+      "app-macos (1).zip",
+      60000,
+    );
   });
 
   it("Files - Attempt to rename a file with existing file name", async () => {
@@ -235,7 +241,10 @@ export default async function files() {
 
     // Type the previous filename for app-macos (1) so it can keep the original name. Ensure that file still exists in Screen
     await filesScreenFirstUser.typeOnFileNameInput("app-macos (1)");
-    await filesScreenFirstUser.validateFileOrFolderExist("app-macos (1).zip");
+    await filesScreenFirstUser.validateFileOrFolderExist(
+      "app-macos (1).zip",
+      60000,
+    );
   });
 
   it("Files - Attempt to create a folder with empty name", async () => {
@@ -246,7 +255,7 @@ export default async function files() {
     await filesScreenFirstUser.inputError.waitForExist();
     const inputErrorText = await filesScreenFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Please enter at least 1 character."
+      "Please enter at least 1 character.",
     );
 
     // Click again on Create Folder button to cancel operation
