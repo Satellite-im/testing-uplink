@@ -48,7 +48,6 @@ export default async function mainChatsTestsUserB() {
   it("Chat User B - Wait until the other user is connected", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await friendsScreenFirstUser.validateChatWithFriendButtonExists();
-    await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserA");
     await friendsScreenFirstUser.chatWithFriendButton.click();
     await chatsTopbarFirstUser.validateTopbarExists();
   });
