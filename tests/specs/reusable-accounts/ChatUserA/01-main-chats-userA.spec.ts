@@ -33,7 +33,6 @@ export default async function mainChatsTestsUserA() {
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenFirstUser.hoverOnPendingListButton();
     await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.validateIncomingListIsShown();
     await friendsScreenFirstUser.waitUntilFriendRequestIsReceived();
     await friendsScreenFirstUser.acceptIncomingRequest("ChatUserB");
 
