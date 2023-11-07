@@ -1,4 +1,4 @@
-name: UI Tests on Windows only 🧪
+name: UI Tests on Windows 🧪
 
 on:
   schedule:

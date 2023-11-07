@@ -1,4 +1,4 @@
-name: UI Tests on Windows and MacOS 🧪
+name: UI Tests on MacOS 🧪
 
 on:
   schedule:
@@ -61,64 +61,6 @@ jobs:
           path: |
             Uplink-Mac-Universal.zip
             Uplink-Mac-Universal.zip.sha256.txt
-
-      - name: Add label if any of build jobs failed
-        if: failure()
-        uses: buildsville/add-remove-label@v2.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          labels: |
-            Failed Automated Test
-          type: add
-
-  build-windows:
-    runs-on:
-      labels: windows-latest
-
-    steps:
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
-        with:
-          repository: Satellite-im/Uplink
-
-      - name: Install Rust 💿
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: 1.73.0
-          override: true
-          components: rustfmt, clippy
-
-      - name: Build executable 🖥️
-        run: cargo build --release -F production_mode
-        continue-on-error: true
-
-      - name: Create ZIP archive on Windows 🗳️
-        run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
-
-      - name: Copy Extensions 🗳️
-        run: |
-          mkdir ./ui/extra/extensions
-          cp -r ./target/release/emoji_selector.d ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.dll ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.dll.exp ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.dll.lib ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.pdb ./ui/extra/extensions/
-
-      - name: Upload Executable ⬆️
-        uses: actions/upload-artifact@v3
-        with:
-          name: Uplink-windows-latest
-          path: uplinkWindows.zip
-
-      - name: Upload Windows Assets
-        uses: actions/upload-artifact@v3
-        with:
-          name: uplink-windows-assets
-          path: |
-            ui/extra/images/
-            ui/extra/prism_langs/
-            ui/extra/themes/
-            ui/extra/extensions/
 
       - name: Add label if any of build jobs failed
         if: failure()
