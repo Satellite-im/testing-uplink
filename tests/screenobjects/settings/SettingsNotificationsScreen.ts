@@ -166,8 +166,8 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
   async clickOnFriendsNotifications() {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === WINDOWS_DRIVER) {
-      const friendsNotificationsCheckbox = await this
-        .friendsNotificationsCheckbox;
+      const friendsNotificationsCheckbox =
+        await this.friendsNotificationsCheckbox;
       await friendsNotificationsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
       const locator = await this.friendsNotificationsCheckbox;
@@ -178,8 +178,8 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
   async clickOnMessagesNotifications() {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === WINDOWS_DRIVER) {
-      const messagesNotificationsCheckbox = await this
-        .messagesNotificationsCheckbox;
+      const messagesNotificationsCheckbox =
+        await this.messagesNotificationsCheckbox;
       await messagesNotificationsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
       const locator = await this.messagesNotificationsCheckbox;
@@ -190,8 +190,8 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
   async clickOnSettingsNotifications() {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === WINDOWS_DRIVER) {
-      const settingsNotificationsCheckbox = await this
-        .settingsNotificationsCheckbox;
+      const settingsNotificationsCheckbox =
+        await this.settingsNotificationsCheckbox;
       await settingsNotificationsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
       const locator = await this.settingsNotificationsCheckbox;
@@ -199,8 +199,8 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
     }
   }
 
-  async validateSettingsNotificationsIsShown() {
+  async validateSettingsNotificationsIsShown(timeout: number = 15000) {
     const settingsNotifications = await this.settingsNotifications;
-    await settingsNotifications.waitForExist();
+    await settingsNotifications.waitForExist({ timeout: timeout });
   }
 }

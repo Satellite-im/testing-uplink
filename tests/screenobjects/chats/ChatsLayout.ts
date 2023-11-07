@@ -69,10 +69,10 @@ export default class ChatsLayout extends UplinkMainScreen {
       .$(SELECTORS.TYPING_INDICATOR_TEXT_VALUE);
   }
 
-  async validateChatLayoutIsShown() {
+  async validateChatLayoutIsShown(timeout: number = 15000) {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.chatLayout.waitForExist();
+        return await this.chatLayout.waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,

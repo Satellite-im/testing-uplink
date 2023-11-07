@@ -405,17 +405,19 @@ export default class ChatsSidebar extends UplinkMainScreen {
     await expect(usernameDisplayed).toHaveTextContaining(username);
   }
 
-  async validateSidebarChatsIsShown() {
+  async validateSidebarChatsIsShown(timeout: number = 15000) {
     const sidebarChats = await this.sidebarChatsUser;
-    await sidebarChats.waitForExist();
+    await sidebarChats.waitForExist({ timeout: timeout });
   }
 
   // Waiting methods
 
-  async waitForReceivingMessageOnSidebar() {
+  async waitForReceivingMessageOnSidebar(timeout: number = 15000) {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.sidebarChatsUserStatusValue.waitForExist();
+        return await this.sidebarChatsUserStatusValue.waitForExist({
+          timeout: timeout,
+        });
       },
       {
         timeout: 60000,
@@ -427,7 +429,10 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   // Get Sidebar Group elements
 
-  async getExistingElementByAriaLabel(username: string) {
+  async getExistingElementByAriaLabel(
+    username: string,
+    timeout: number = 15000,
+  ) {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === macDriver) {
@@ -437,7 +442,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
         .$(SELECTORS.SIDEBAR)
         .$('[name="' + username + '"]');
     }
-    await locator.waitForExist();
+    await locator.waitForExist({ timeout: timeout });
     return locator;
   }
 
@@ -452,14 +457,14 @@ export default class ChatsSidebar extends UplinkMainScreen {
     return locator;
   }
 
-  async waitForGroupToBeCreated(groupname: string) {
+  async waitForGroupToBeCreated(groupname: string, timeout: number = 15000) {
     const element = await this.getExistingElementByAriaLabel(groupname);
     await driver[this.executor].waitUntil(
       async () => {
         return await this.instance
           .$(SELECTORS.SIDEBAR)
           .$(element)
-          .waitForExist();
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 60000,
@@ -485,66 +490,72 @@ export default class ChatsSidebar extends UplinkMainScreen {
     );
   }
 
-  async getSidebarGroupPlusSome(groupname: string) {
+  async getSidebarGroupPlusSome(groupname: string, timeout: number = 15000) {
     const groupLocator = await this.getExistingElementByAriaLabel(groupname);
     const plusSomeLocator = await groupLocator.$(
       SELECTORS.SIDEBAR_GROUP_CHAT_PLUS_SOME,
     );
-    await plusSomeLocator.waitForExist();
+    await plusSomeLocator.waitForExist({ timeout: timeout });
     return plusSomeLocator;
   }
 
-  async getSidebarGroupStatus(groupname: string) {
+  async getSidebarGroupStatus(groupname: string, timeout: number = 15000) {
     const groupLocator = await this.getExistingElementByAriaLabel(groupname);
     const statusLocator = await groupLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
-    await statusLocator.waitForExist();
+    await statusLocator.waitForExist({ timeout: timeout });
     return statusLocator;
   }
 
   // Get Sidebar User elements
 
-  async getSidebarUserImage(username: string) {
+  async getSidebarUserImage(username: string, timeout: number = 15000) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const imageLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
-    await imageLocator.waitForExist();
+    await imageLocator.waitForExist({ timeout: timeout });
     return imageLocator;
   }
 
-  async getSidebarUserStatus(username: string) {
+  async getSidebarUserStatus(username: string, timeout: number = 15000) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const statusLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_INFO)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
-    await statusLocator.waitForExist();
+    await statusLocator.waitForExist({ timeout: timeout });
     return statusLocator;
   }
 
-  async getSidebarUserIndicator(username: string) {
+  async getSidebarUserIndicator(username: string, timeout: number = 15000) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const indicatorLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_INDICATOR);
-    await indicatorLocator.waitForExist();
+    await indicatorLocator.waitForExist({ timeout: timeout });
     return indicatorLocator;
   }
 
-  async getSidebarUserIndicatorOffline(username: string) {
+  async getSidebarUserIndicatorOffline(
+    username: string,
+    timeout: number = 15000,
+  ) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const offlineLocator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
-    await offlineLocator.waitForExist();
+    await offlineLocator.waitForExist({ timeout: timeout });
     return offlineLocator;
   }
 
-  async getSidebarUserIndicatorOnline(username: string) {
+  async getSidebarUserIndicatorOnline(
+    username: string,
+    timeout: number = 15000,
+  ) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     await driver[this.executor].waitUntil(
       async () => {
@@ -552,7 +563,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
           .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
           .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
           .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR)
-          .waitForExist();
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 60000,
@@ -568,13 +579,13 @@ export default class ChatsSidebar extends UplinkMainScreen {
     return onlineLocator;
   }
 
-  async getSidebarUserProfileTyping(username: string) {
+  async getSidebarUserProfileTyping(username: string, timeout: number = 15000) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const profileTyping = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_PROFILE_TYPING);
-    await profileTyping.waitForExist();
+    await profileTyping.waitForExist({ timeout: timeout });
     return profileTyping;
   }
 

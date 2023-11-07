@@ -175,7 +175,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     await favoritesRemove.click();
   }
 
-  async getFavoritesUserByAriaLabel(username: string) {
+  async getFavoritesUserByAriaLabel(username: string, timeout: number = 15000) {
     const currentDriver = await this.getCurrentDriver();
     let favoritesLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
@@ -188,7 +188,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
         return await this.instance
           .$(SELECTORS.SLIMBAR)
           .$(favoritesLocator)
-          .waitForExist();
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -202,13 +202,13 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     return favoritesElement;
   }
 
-  async getFavoritesUserImage(username: string) {
+  async getFavoritesUserImage(username: string, timeout: number = 15000) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     await driver[this.executor].waitUntil(
       async () => {
         return await favoriteLocator
           .$(SELECTORS.FAVORITES_USER_IMAGE)
-          .waitForExist();
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -220,13 +220,16 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     return userImage;
   }
 
-  async getFavoritesUserImageGroupWrap(username: string) {
+  async getFavoritesUserImageGroupWrap(
+    username: string,
+    timeout: number = 15000,
+  ) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     await driver[this.executor].waitUntil(
       async () => {
         return await favoriteLocator
           .$(SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP)
-          .waitForExist();
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -241,49 +244,58 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     return userImageGroupWrap;
   }
 
-  async getFavoritesUserImageProfile(username: string) {
+  async getFavoritesUserImageProfile(
+    username: string,
+    timeout: number = 15000,
+  ) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     const imageProfile = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_IMAGE_PROFILE,
     );
-    await imageProfile.waitForExist();
+    await imageProfile.waitForExist({ timeout: timeout });
     return imageProfile;
   }
 
-  async getFavoritesUserImageWrap(username: string) {
+  async getFavoritesUserImageWrap(username: string, timeout: number = 15000) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     const userImageWrap = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_IMAGE_WRAP,
     );
-    await userImageWrap.waitForExist();
+    await userImageWrap.waitForExist({ timeout: timeout });
     return userImageWrap;
   }
 
-  async getFavoritesUserIndicator(username: string) {
+  async getFavoritesUserIndicator(username: string, timeout: number = 15000) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     const indicator = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_INDICATOR,
     );
-    await indicator.waitForExist();
+    await indicator.waitForExist({ timeout: timeout });
     return indicator;
   }
 
-  async getFavoritesUserIndicatorOffline(username: string) {
+  async getFavoritesUserIndicatorOffline(
+    username: string,
+    timeout: number = 15000,
+  ) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     const indicatorOffline = await favoriteLocator.$(
       SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE,
     );
-    await indicatorOffline.waitForExist();
+    await indicatorOffline.waitForExist({ timeout: timeout });
     return indicatorOffline;
   }
 
-  async getFavoritesUserIndicatorOnline(username: string) {
+  async getFavoritesUserIndicatorOnline(
+    username: string,
+    timeout: number = 15000,
+  ) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     await driver[this.executor].waitUntil(
       async () => {
         return await favoriteLocator
           .$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE)
-          .waitForExist();
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 60000,
@@ -303,7 +315,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     await this.hoverOnElement(favoritesBubble);
   }
 
-  async openContextMenuOnFavoritesUser(name: string) {
+  async openContextMenuOnFavoritesUser(name: string, timeout: number = 15000) {
     const userImageProfile = await this.getFavoritesUserImageProfile(name);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
@@ -313,7 +325,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.contextMenu.waitForExist();
+        return await this.contextMenu.waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -367,10 +379,10 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     await this.hoverOnElement(slimbarSettingsButton);
   }
 
-  async validateFavoritesAreShown() {
+  async validateFavoritesAreShown(timeout: number = 15000) {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.favorites.waitForExist();
+        return await this.favorites.waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,

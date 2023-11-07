@@ -112,9 +112,9 @@ export default class ComposeAttachments extends UplinkMainScreen {
     await composeAttachmentsButton.click();
   }
 
-  async getListOfAttachmentsEmbed() {
+  async getListOfAttachmentsEmbed(timeout: number = 15000) {
     const composeAttachments = await this.composeAttachments;
-    await composeAttachments.waitForExist();
+    await composeAttachments.waitForExist({ timeout: timeout });
     const filesAttached = await this.instance.$$(
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
     );
@@ -130,11 +130,13 @@ export default class ComposeAttachments extends UplinkMainScreen {
     return results;
   }
 
-  async validateAttachmentIsAdded() {
+  async validateAttachmentIsAdded(timeout: number = 15000) {
     const composeAttachmentsFileEmbed = await this.composeAttachmentsFileEmbed;
     await driver[this.executor].waitUntil(
       async () => {
-        return await composeAttachmentsFileEmbed.waitForExist();
+        return await composeAttachmentsFileEmbed.waitForExist({
+          timeout: timeout,
+        });
       },
       {
         timeout: 15000,
@@ -152,8 +154,8 @@ export default class ComposeAttachments extends UplinkMainScreen {
     await expect(includesAttachment).toEqual(expectedAssertion);
   }
 
-  async validateComposeAttachmentsIsShown() {
+  async validateComposeAttachmentsIsShown(timeout: number = 15000) {
     const composeAttachments = await this.composeAttachments;
-    await composeAttachments.waitForExist();
+    await composeAttachments.waitForExist({ timeout: timeout });
   }
 }

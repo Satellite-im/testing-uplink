@@ -122,8 +122,8 @@ export default class SettingsMessagesScreen extends SettingsBaseScreen {
     }
   }
 
-  async validateSettingsMessagesIsShown() {
+  async validateSettingsMessagesIsShown(timeout: number = 15000) {
     const settingsMessages = await this.settingsMessages;
-    await settingsMessages.waitForExist();
+    await settingsMessages.waitForExist({ timeout: timeout });
   }
 }

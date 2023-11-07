@@ -218,15 +218,15 @@ export default class SendFiles extends UplinkMainScreen {
     return result.toString();
   }
 
-  async typeOnFileNameInput(name: string) {
+  async typeOnFileNameInput(name: string, timeout: number = 15000) {
     const inputFileName = await this.inputFileName;
-    await inputFileName.waitForExist();
+    await inputFileName.waitForExist({ timeout: timeout });
     await inputFileName.setValue(name);
   }
 
-  async typeOnFolderNameInput(name: string) {
+  async typeOnFolderNameInput(name: string, timeout: number = 15000) {
     const inputFolderName = await this.inputFolderName;
-    await inputFolderName.waitForExist();
+    await inputFolderName.waitForExist({ timeout: timeout });
     await inputFolderName.setValue(name);
   }
 
@@ -234,7 +234,7 @@ export default class SendFiles extends UplinkMainScreen {
     const folders = await this.filesCrumb;
     const treeLength = folders.length - 1;
     const currentFolderName = await folders[treeLength].$(
-      SELECTORS.FILES_CRUMB_TEXT
+      SELECTORS.FILES_CRUMB_TEXT,
     );
     const currentFolderNameText = await currentFolderName.getText();
     return currentFolderNameText;
@@ -270,28 +270,32 @@ export default class SendFiles extends UplinkMainScreen {
     return locator;
   }
 
-  async updateNameFile(newName: string, extension: string = "") {
+  async updateNameFile(
+    newName: string,
+    extension: string = "",
+    timeout: number = 15000,
+  ) {
     const inputFileName = await this.inputFileName;
-    await inputFileName.waitForExist();
+    await inputFileName.waitForExist({ timeout: timeout });
     await inputFileName.setValue(newName);
     const newFile = await this.getLocatorOfFolderFile(newName + extension);
     const newFileElement = await this.instance.$(newFile);
-    await newFileElement.waitForExist();
+    await newFileElement.waitForExist({ timeout: timeout });
   }
 
-  async updateNameFolder(newName: string) {
+  async updateNameFolder(newName: string, timeout: number = 15000) {
     const inputFolderName = await this.inputFolderName;
-    await inputFolderName.waitForExist();
+    await inputFolderName.waitForExist({ timeout: timeout });
     await inputFolderName.setValue(newName);
     const newFolder = await this.getLocatorOfFolderFile(newName);
     const newFolderElement = await this.instance.$(newFolder);
-    await newFolderElement.waitForExist();
+    await newFolderElement.waitForExist({ timeout: timeout });
   }
 
-  async validateFileOrFolderExist(locator: string) {
+  async validateFileOrFolderExist(locator: string, timeout: number = 15000) {
     const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
     const fileFolderElement = await this.instance.$(fileFolderElementLocator);
-    await fileFolderElement.waitForExist();
+    await fileFolderElement.waitForExist({ timeout: timeout });
   }
 
   async validateFileOrFolderNotExist(locator: string) {
@@ -299,9 +303,9 @@ export default class SendFiles extends UplinkMainScreen {
     await this.instance.$(fileFolderLocator).waitForExist({ reverse: true });
   }
 
-  async validateNoFilesAvailableIsShown() {
+  async validateNoFilesAvailableIsShown(timeout: number = 15000) {
     const noFilesAvailable = await this.noFilesAvailable;
-    await noFilesAvailable.waitForExist();
+    await noFilesAvailable.waitForExist({ timeout: timeout });
     await expect(noFilesAvailable).toHaveTextContaining("NO FILES AVAILABLE.");
   }
 
@@ -311,21 +315,21 @@ export default class SendFiles extends UplinkMainScreen {
     });
   }
 
-  async validateSendFilesModalIsShown() {
+  async validateSendFilesModalIsShown(timeout: number = 15000) {
     const filesBody = await this.sendFilesLayout;
-    await filesBody.waitForExist();
+    await filesBody.waitForExist({ timeout: timeout });
   }
 
-  async validateThumbnailIsShown(name: string) {
+  async validateThumbnailIsShown(name: string, timeout: number = 15000) {
     const fileElementLocator = await this.getLocatorOfFolderFile(name);
     const fileElement = await this.instance.$(fileElementLocator);
     const fileThumbnail = await fileElement.$(SELECTORS.FILE_THUMBNAIL);
-    await fileThumbnail.waitForExist();
+    await fileThumbnail.waitForExist({ timeout: timeout });
   }
 
   // Context Menu methods
 
-  async openFilesContextMenu(name: string) {
+  async openFilesContextMenu(name: string, timeout: number = 15000) {
     const elementLocator = await this.getLocatorOfFolderFile(name);
     const fileFolderToRightClick = await this.instance
       .$(elementLocator)
@@ -336,7 +340,7 @@ export default class SendFiles extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(fileFolderToRightClick, this.executor);
     }
-    await this.contextMenu.waitForExist();
+    await this.contextMenu.waitForExist({ timeout: timeout });
   }
 
   async clickOnFilesRename() {

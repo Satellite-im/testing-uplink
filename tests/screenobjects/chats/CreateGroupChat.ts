@@ -177,29 +177,35 @@ export default class CreateGroupChat extends UplinkMainScreen {
     await createGroupChatButton.click();
   }
 
-  async getFriendFromListIndicator(username: string) {
+  async getFriendFromListIndicator(username: string, timeout: number = 15000) {
     const friendLocator = await this.getFriendFromListLocator(username);
     const indicator = await friendLocator.$(SELECTORS.FRIEND_INDICATOR);
-    await indicator.waitForExist();
+    await indicator.waitForExist({ timeout: timeout });
     return indicator;
   }
 
-  async getFriendFromListIndicatorOffline(username: string) {
+  async getFriendFromListIndicatorOffline(
+    username: string,
+    timeout: number = 15000,
+  ) {
     const friendLocator = await this.getFriendFromListLocator(username);
     const indicatorOffline = await friendLocator.$(
       SELECTORS.FRIEND_INDICATOR_OFFLINE,
     );
-    await indicatorOffline.waitForExist();
+    await indicatorOffline.waitForExist({ timeout: timeout });
     return indicatorOffline;
   }
 
-  async getFriendFromListIndicatorOnline(username: string) {
+  async getFriendFromListIndicatorOnline(
+    username: string,
+    timeout: number = 15000,
+  ) {
     const friendLocator = await this.getFriendFromListLocator(username);
     await driver[this.executor].waitUntil(
       async () => {
         return await friendLocator
           .$(SELECTORS.FRIEND_INDICATOR_ONLINE)
-          .waitForExist();
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -214,12 +220,15 @@ export default class CreateGroupChat extends UplinkMainScreen {
     return indicatorOnline;
   }
 
-  async getFriendFromListUserImageProfile(username: string) {
+  async getFriendFromListUserImageProfile(
+    username: string,
+    timeout: number = 15000,
+  ) {
     const friendLocator = await this.getFriendFromListLocator(username);
     const userImageProfile = await friendLocator.$(
       SELECTORS.FRIEND_USER_IMAGE_PROFILE,
     );
-    await userImageProfile.waitForExist();
+    await userImageProfile.waitForExist({ timeout: timeout });
     return userImageProfile;
   }
 
@@ -248,19 +257,22 @@ export default class CreateGroupChat extends UplinkMainScreen {
     return friendLocator;
   }
 
-  async getFriendFromListUserImage(username: string) {
+  async getFriendFromListUserImage(username: string, timeout: number = 15000) {
     const friendLocator = await this.getFriendFromListLocator(username);
     const userImage = await friendLocator.$(SELECTORS.FRIEND_USER_IMAGE);
-    await userImage.waitForExist();
+    await userImage.waitForExist({ timeout: timeout });
     return userImage;
   }
 
-  async getFriendFromListUserImageWrap(username: string) {
+  async getFriendFromListUserImageWrap(
+    username: string,
+    timeout: number = 15000,
+  ) {
     const friendLocator = await this.getFriendFromListLocator(username);
     const userImageWrap = await friendLocator.$(
       SELECTORS.FRIEND_USER_IMAGE_WRAP,
     );
-    await userImageWrap.waitForExist();
+    await userImageWrap.waitForExist({ timeout: timeout });
     return userImageWrap;
   }
 
@@ -269,7 +281,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
     const usernameLocator = await friendLocator
       .$(SELECTORS.FRIEND_USER_NAME)
       .$(SELECTORS.FRIEND_USER_NAME_TEXT);
-    await usernameLocator.waitForExist();
+    await usernameLocator.waitForExist({ timeout: timeout });
     return usernameLocator;
   }
 
@@ -347,8 +359,8 @@ export default class CreateGroupChat extends UplinkMainScreen {
     return result.toString();
   }
 
-  async validateCreateGroupChatsIsShown() {
+  async validateCreateGroupChatsIsShown(timeout: number = 15000) {
     const createGroupChatSection = await this.createGroupChatSection;
-    await createGroupChatSection.waitForExist();
+    await createGroupChatSection.waitForExist({ timeout: timeout });
   }
 }

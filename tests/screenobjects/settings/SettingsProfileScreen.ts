@@ -15,7 +15,7 @@ import {
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
-const {keyboard, Key} = require("@nut-tree/nut-js");
+const { keyboard, Key } = require("@nut-tree/nut-js");
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -333,7 +333,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       {
         timeout: 5000,
         timeoutMsg: "Expected status input to contain did:key after 5 seconds",
-      }
+      },
     );
   }
 
@@ -371,20 +371,20 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     }
   }
 
-  async validateBannerPictureIsShown() {
+  async validateBannerPictureIsShown(timeout: number = 15000) {
     // Validate that profile banner is displayed on screen
     const bannerImage = await this.profileBanner;
-    await bannerImage.waitForExist();
+    await bannerImage.waitForExist({ timeout: timeout });
   }
 
-  async validateProfilePictureIsShown() {
+  async validateProfilePictureIsShown(timeout: number = 15000) {
     // Validate that profile picture is displayed on screen
     const profilePictureImage = await this.profilePicture;
-    await profilePictureImage.waitForExist();
+    await profilePictureImage.waitForExist({ timeout: timeout });
   }
 
-  async validateSettingsProfileIsShown() {
+  async validateSettingsProfileIsShown(timeout: number = 15000) {
     const settingsProfile = await this.settingsProfile;
-    await settingsProfile.waitForExist();
+    await settingsProfile.waitForExist({ timeout: timeout });
   }
 }

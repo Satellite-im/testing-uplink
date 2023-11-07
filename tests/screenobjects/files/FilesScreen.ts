@@ -372,7 +372,7 @@ export default class FilesScreen extends UplinkMainScreen {
     }
   }
 
-  async createFolder(name: string) {
+  async createFolder(name: string, timeout: number = 15000) {
     await this.clickOnCreateFolder();
     const inputFolderName = await this.inputFolderName;
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
@@ -386,7 +386,7 @@ export default class FilesScreen extends UplinkMainScreen {
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(name);
     const newFolderElement = await this.instance.$(newFolder);
-    await newFolderElement.waitForExist();
+    await newFolderElement.waitForExist({ timeout: timeout });
   }
 
   async typeOnFileNameInput(name: string) {
@@ -489,26 +489,30 @@ export default class FilesScreen extends UplinkMainScreen {
     return progressText;
   }
 
-  async updateNameFile(newName: string, extension: string = "") {
+  async updateNameFile(
+    newName: string,
+    extension: string = "",
+    timeout: number = 15000,
+  ) {
     const inputFileName = await this.inputFileName;
-    await inputFileName.waitForExist();
+    await inputFileName.waitForExist({ timeout: timeout });
     await inputFileName.setValue(newName);
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
     const newFile = await this.getLocatorOfFolderFile(newName + extension);
     const newFileElement = await this.instance.$(newFile);
-    await newFileElement.waitForExist();
+    await newFileElement.waitForExist({ timeout: timeout });
   }
 
-  async updateNameFolder(newName: string) {
+  async updateNameFolder(newName: string, timeout: number = 15000) {
     const inputFolderName = await this.inputFolderName;
-    await inputFolderName.waitForExist();
+    await inputFolderName.waitForExist({ timeout: timeout });
     await inputFolderName.setValue(newName);
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(newName);
     const newFolderElement = await this.instance.$(newFolder);
-    await newFolderElement.waitForExist();
+    await newFolderElement.waitForExist({ timeout: timeout });
   }
 
   async uploadFile(relativePath: string) {
@@ -535,9 +539,9 @@ export default class FilesScreen extends UplinkMainScreen {
     await this.instance.$(fileFolderLocator).waitForExist({ reverse: true });
   }
 
-  async validateFilesScreenIsShown() {
+  async validateFilesScreenIsShown(timeout: number = 15000) {
     const filesBody = await this.filesBody;
-    await filesBody.waitForExist();
+    await filesBody.waitForExist({ timeout: timeout });
   }
 
   // Hovering methods
@@ -554,7 +558,7 @@ export default class FilesScreen extends UplinkMainScreen {
 
   // Context Menu methods
 
-  async openFilesContextMenu(name: string) {
+  async openFilesContextMenu(name: string, timeout: number = 15000) {
     const elementLocator = await this.getLocatorOfFolderFile(name);
     const fileFolderToRightClick = await this.instance
       .$(elementLocator)
@@ -565,7 +569,7 @@ export default class FilesScreen extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(fileFolderToRightClick, this.executor);
     }
-    await this.contextMenu.waitForExist();
+    await this.contextMenu.waitForExist({ timeout: timeout });
   }
 
   async clickOnFilesDelete() {

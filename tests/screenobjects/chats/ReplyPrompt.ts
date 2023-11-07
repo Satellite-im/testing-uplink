@@ -142,25 +142,27 @@ export default class ReplyPrompt extends UplinkMainScreen {
     await replyPopUpCloseButton.click();
   }
 
-  async validateReplyPromptElementsShown(message: string) {
+  async validateReplyPromptElementsShown(
+    message: string,
+    timeout: number = 15000,
+  ) {
     const replyPopUp = await this.replyPopUp;
     const replyPopUpCloseButton = await this.replyPopUpCloseButton;
     const replyPopUpUserImage = await this.replyPopUpUserImage;
     const replyPopUpIndicator = await this.replyPopUpIndicator;
 
-    await replyPopUp.waitForExist();
-    await replyPopUpCloseButton.waitForExist();
-    await replyPopUpUserImage.waitForExist();
-    await replyPopUpIndicator.waitForExist();
+    await replyPopUp.waitForExist({ timeout: timeout });
+    await replyPopUpCloseButton.waitForExist({ timeout: timeout });
+    await replyPopUpUserImage.waitForExist({ timeout: timeout });
+    await replyPopUpIndicator.waitForExist({ timeout: timeout });
     await driver[this.executor].waitUntil(
       async () => {
         return (await this.replyPopUpHeader.getText()) === "REPLYING TO:";
       },
       {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected reply prompt header was incorrect after 15 seconds",
-      }
+        timeout: timeout,
+        timeoutMsg: "Expected reply prompt header was incorrect",
+      },
     );
 
     await driver[this.executor].waitUntil(
@@ -170,10 +172,9 @@ export default class ReplyPrompt extends UplinkMainScreen {
         );
       },
       {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected reply prompt header text to reply was incorrect after 15 seconds",
-      }
+        timeout: timeout,
+        timeoutMsg: "Expected reply prompt header text to reply was incorrect",
+      },
     );
   }
 
@@ -185,7 +186,7 @@ export default class ReplyPrompt extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Expected reply modal is still visible after 15 seconds",
-      }
+      },
     );
   }
 }

@@ -318,9 +318,9 @@ export default class UplinkMainScreen extends AppScreen {
     await this.instance.switchToWindow(currentInstance);
   }
 
-  async showUplinkWindow() {
+  async showUplinkWindow(timeout: number = 15000) {
     const window = await this.instance.window;
     await window.click();
-    await window.waitForExist();
+    await window.waitForExist({ timeout: timeout });
   }
 }

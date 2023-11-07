@@ -228,28 +228,28 @@ export default class MessageGroup extends UplinkMainScreen {
     return lastGroupWrap;
   }
 
-  async getLastGroupWrapReceivedImage() {
+  async getLastGroupWrapReceivedImage(timeout: number = 15000) {
     const groupWrap = await this.getLastGroupWrapReceived();
     const userImage = await groupWrap
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
-    await userImage.waitForExist();
+    await userImage.waitForExist({ timeout: timeout });
     return userImage;
   }
 
-  async getLastGroupWrapReceivedIndicator() {
+  async getLastGroupWrapReceivedIndicator(timeout: number = 15000) {
     const groupWrap = await this.getLastGroupWrapReceived();
     const indicator = await groupWrap.$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR);
-    await indicator.waitForExist();
+    await indicator.waitForExist({ timeout: timeout });
     return indicator;
   }
 
-  async getLastGroupWrapReceivedOnline() {
+  async getLastGroupWrapReceivedOnline(timeout: number = 15000) {
     const groupWrap = await this.getLastGroupWrapReceived();
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE,
     );
-    await onlineStatus.waitForExist();
+    await onlineStatus.waitForExist({ timeout: timeout });
     return onlineStatus;
   }
 
@@ -262,28 +262,28 @@ export default class MessageGroup extends UplinkMainScreen {
     return lastGroupWrap;
   }
 
-  async getLastGroupWrapSentImage() {
+  async getLastGroupWrapSentImage(timeout: number = 15000) {
     const groupWrap = await this.getLastGroupWrapSent();
     const userImage = await groupWrap
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
-    await userImage.waitForExist();
+    await userImage.waitForExist({ timeout: timeout });
     return userImage;
   }
 
-  async getLastGroupWrapSentIndicator() {
+  async getLastGroupWrapSentIndicator(timeout: number = 15000) {
     const groupWrap = await this.getLastGroupWrapSent();
     const indicator = await groupWrap.$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR);
-    await indicator.waitForExist();
+    await indicator.waitForExist({ timeout: timeout });
     return indicator;
   }
 
-  async getLastGroupWrapSentOnline() {
+  async getLastGroupWrapSentOnline(timeout: number = 15000) {
     const groupWrap = await this.getLastGroupWrapSent();
     const onlineStatus = await groupWrap.$(
       SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE,
     );
-    await onlineStatus.waitForExist();
+    await onlineStatus.waitForExist({ timeout: timeout });
     return onlineStatus;
   }
 
@@ -296,13 +296,13 @@ export default class MessageGroup extends UplinkMainScreen {
     return lastGroupLocator;
   }
 
-  async getLastMessageReceivedPinIndicator() {
+  async getLastMessageReceivedPinIndicator(timeout: number = 15000) {
     const lastGroupReceived = await this.getLastReceivedGroup();
     await driver[this.executor].waitUntil(
       async () => {
         return await lastGroupReceived
           .$(SELECTORS.PIN_INDICATOR)
-          .waitForExist();
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -315,12 +315,12 @@ export default class MessageGroup extends UplinkMainScreen {
     return pinIndicator;
   }
 
-  async getLastMessageReceivedTimeAgo() {
+  async getLastMessageReceivedTimeAgo(timeout: number = 15000) {
     const lastGroupReceived = await this.getLastReceivedGroup();
     const timeAgoText = await lastGroupReceived
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
-    await timeAgoText.waitForExist();
+    await timeAgoText.waitForExist({ timeout: timeout });
     return timeAgoText;
   }
 
@@ -332,11 +332,13 @@ export default class MessageGroup extends UplinkMainScreen {
     return lastGroupLocator;
   }
 
-  async getLastMessageSentPinIndicator() {
+  async getLastMessageSentPinIndicator(timeout: number = 15000) {
     const lastGroupSent = await this.getLastSentGroup();
     await driver[this.executor].waitUntil(
       async () => {
-        return await lastGroupSent.$(SELECTORS.PIN_INDICATOR).waitForExist();
+        return await lastGroupSent
+          .$(SELECTORS.PIN_INDICATOR)
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -349,12 +351,12 @@ export default class MessageGroup extends UplinkMainScreen {
     return pinIndicator;
   }
 
-  async getLastMessageSentTimeAgo() {
+  async getLastMessageSentTimeAgo(timeout: number = 15000) {
     const lastGroupSent = await this.getLastSentGroup();
     const timeAgoText = await lastGroupSent
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
-    await timeAgoText.waitForExist();
+    await timeAgoText.waitForExist({ timeout: timeout });
     return timeAgoText;
   }
 
@@ -454,7 +456,10 @@ export default class MessageGroup extends UplinkMainScreen {
     return results;
   }
 
-  async waitUntilEmojiReactionRemoteExists(expectedReaction: string) {
+  async waitUntilEmojiReactionRemoteExists(
+    expectedReaction: string,
+    timeout: number = 15000,
+  ) {
     const currentDriver = await this.getCurrentDriver();
     let emojiReactionLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
@@ -470,7 +475,9 @@ export default class MessageGroup extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(emojiReactionLocator).waitForExist();
+        return await this.instance
+          .$(emojiReactionLocator)
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 60000,
@@ -480,7 +487,10 @@ export default class MessageGroup extends UplinkMainScreen {
     );
   }
 
-  async waitUntilEmojiReactionSelfExists(expectedReaction: string) {
+  async waitUntilEmojiReactionSelfExists(
+    expectedReaction: string,
+    timeout: number = 15000,
+  ) {
     const currentDriver = await this.getCurrentDriver();
     let emojiReactionLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
@@ -496,7 +506,9 @@ export default class MessageGroup extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(emojiReactionLocator).waitForExist();
+        return await this.instance
+          .$(emojiReactionLocator)
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -534,12 +546,12 @@ export default class MessageGroup extends UplinkMainScreen {
 
   // Pin Indicator validations
 
-  async validateLastMessageReceivedHasPinIndicator() {
+  async validateLastMessageReceivedHasPinIndicator(timeout: number = 15000) {
     const pinIndicator = await this.getLastMessageReceivedPinIndicator();
-    await pinIndicator.waitForExist();
+    await pinIndicator.waitForExist({ timeout: timeout });
   }
-  async validateLastMessageSentHasPinIndicator() {
+  async validateLastMessageSentHasPinIndicator(timeout: number = 15000) {
     const pinIndicator = await this.getLastMessageSentPinIndicator();
-    await pinIndicator.waitForExist();
+    await pinIndicator.waitForExist({ timeout: timeout });
   }
 }

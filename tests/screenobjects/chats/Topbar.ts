@@ -223,18 +223,19 @@ export default class Topbar extends UplinkMainScreen {
 
   // Top Bar Methods
 
-  async addToFavorites() {
+  async addToFavorites(timeout: number = 15000) {
     const topbarAddToFavorites = await this.topbarAddToFavorites;
     await this.hoverOnElement(topbarAddToFavorites);
     await topbarAddToFavorites.click();
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.topbarRemoveFromFavorites.waitForExist();
+        return await this.topbarRemoveFromFavorites.waitForExist({
+          timeout: timeout,
+        });
       },
       {
-        timeout: 15000,
-        timeoutMsg:
-          "Remove from favorites button was not displayed after passing 15 seconds from adding the same user of favorites",
+        timeout: timeout,
+        timeoutMsg: "Remove from favorites button was not displayed again",
       },
     );
   }
@@ -292,15 +293,17 @@ export default class Topbar extends UplinkMainScreen {
     await topbarRemoveFromFavorites.click();
   }
 
-  async validateTopbarIndicatorOnline() {
+  async validateTopbarIndicatorOnline(timeout: number = 15000) {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.topbarIndicatorOnline.waitForExist();
+        return await this.topbarIndicatorOnline.waitForExist({
+          timeout: timeout,
+        });
       },
       {
-        timeout: 60000,
+        timeout: timeout,
         timeoutMsg:
-          "Expected indicator online was never displayed on Chat Screen topbar after 60 seconds",
+          "Expected indicator online was never displayed on Chat Screen topbar",
       },
     );
   }
@@ -318,10 +321,10 @@ export default class Topbar extends UplinkMainScreen {
     );
   }
 
-  async validateTopbarUserImage() {
+  async validateTopbarUserImage(timeout: number = 15000) {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.topbarUserImage.waitForExist();
+        return await this.topbarUserImage.waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -331,10 +334,10 @@ export default class Topbar extends UplinkMainScreen {
     );
   }
 
-  async validateTopbarExists() {
+  async validateTopbarExists(timeout: number = 15000) {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.topbar.waitForExist();
+        return await this.topbar.waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -343,14 +346,16 @@ export default class Topbar extends UplinkMainScreen {
     );
   }
 
-  async waitUntilRemoteUserIsOnline() {
+  async waitUntilRemoteUserIsOnline(timeout: number = 60000) {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.topbarIndicatorOnline.waitForExist();
+        return await this.topbarIndicatorOnline.waitForExist({
+          timeout: timeout,
+        });
       },
       {
-        timeout: 60000,
-        timeoutMsg: "Remote user never shown as online after 60 seconds",
+        timeout: timeout,
+        timeoutMsg: "Remote user never shown as online",
       },
     );
   }

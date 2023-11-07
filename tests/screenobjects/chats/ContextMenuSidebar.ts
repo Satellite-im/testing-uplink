@@ -84,8 +84,8 @@ export default class ContextMenuSidebar extends UplinkMainScreen {
     await leaveGroup.click();
   }
 
-  async validateContextMenuIsOpen() {
+  async validateContextMenuIsOpen(timeout: number = 15000) {
     const contextMenu = await this.contextMenu;
-    await contextMenu.waitForExist();
+    await contextMenu.waitForExist({ timeout: timeout });
   }
 }

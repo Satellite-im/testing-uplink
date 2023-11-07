@@ -245,13 +245,13 @@ export default class EditGroup extends UplinkMainScreen {
     await currentMembers.click();
   }
 
-  async clickOnFirstAddButton() {
+  async clickOnFirstAddButton(timeout: number = 15000) {
     const firstAddButton = await this.instance.$$(
       SELECTORS.ADD_PARTICIPANT_BUTTON,
     )[0];
     await driver[this.executor].waitUntil(
       async () => {
-        return await firstAddButton.waitForExist();
+        return await firstAddButton.waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -262,13 +262,13 @@ export default class EditGroup extends UplinkMainScreen {
     await firstAddButton.click();
   }
 
-  async clickOnFirstRemoveButton() {
+  async clickOnFirstRemoveButton(timeout: number = 15000) {
     const removeParticipantButton = await this.instance.$$(
       SELECTORS.REMOVE_PARTICIPANT_BUTTON,
     )[0];
     await driver[this.executor].waitUntil(
       async () => {
-        return await removeParticipantButton.waitForExist();
+        return await removeParticipantButton.waitForExist({ timeout: timeout });
       },
       {
         timeout: 15000,
@@ -328,29 +328,35 @@ export default class EditGroup extends UplinkMainScreen {
     return locator;
   }
 
-  async getParticipantIndicator(participant: string) {
+  async getParticipantIndicator(participant: string, timeout: number = 15000) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const indicator = await userLocator.$(SELECTORS.PARTICIPANT_USER_INDICATOR);
-    await indicator.waitForExist();
+    await indicator.waitForExist({ timeout: timeout });
     return indicator;
   }
 
-  async getParticipantIndicatorOffline(participant: string) {
+  async getParticipantIndicatorOffline(
+    participant: string,
+    timeout: number = 15000,
+  ) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const indicatorOffline = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_INDICATOR_OFFLINE,
     );
-    await indicatorOffline.waitForExist();
+    await indicatorOffline.waitForExist({ timeout: timeout });
     return indicatorOffline;
   }
 
-  async getParticipantIndicatorOnline(participant: string) {
+  async getParticipantIndicatorOnline(
+    participant: string,
+    timeout: number = 15000,
+  ) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     await driver[this.executor].waitUntil(
       async () => {
         return await userLocator
           .$(SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE)
-          .waitForExist();
+          .waitForExist({ timeout: timeout });
       },
       {
         timeout: 60000,
@@ -365,46 +371,58 @@ export default class EditGroup extends UplinkMainScreen {
     return indicatorOnline;
   }
 
-  async getParticipantUserCreatorBadgeImage(participant: string) {
+  async getParticipantUserCreatorBadgeImage(
+    participant: string,
+    timeout: number = 15000,
+  ) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const badgeImage = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE,
     );
-    await badgeImage.waitForExist();
+    await badgeImage.waitForExist({ timeout: timeout });
     return badgeImage;
   }
 
-  async getParticipantUserCreatorBadgeText(participant: string) {
+  async getParticipantUserCreatorBadgeText(
+    participant: string,
+    timeout: number = 15000,
+  ) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const badgeText = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT,
     );
-    await badgeText.waitForExist();
+    await badgeText.waitForExist({ timeout: timeout });
     return badgeText;
   }
 
-  async getParticipantUserImage(participant: string) {
+  async getParticipantUserImage(participant: string, timeout: number = 15000) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const userImage = await userLocator.$(SELECTORS.PARTICIPANT_USER_IMAGE);
-    await userImage.waitForExist();
+    await userImage.waitForExist({ timeout: timeout });
     return userImage;
   }
 
-  async getParticipantUserImageProfile(participant: string) {
+  async getParticipantUserImageProfile(
+    participant: string,
+    timeout: number = 15000,
+  ) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const userImageProfile = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_IMAGE_PROFILE,
     );
-    await userImageProfile.waitForExist();
+    await userImageProfile.waitForExist({ timeout: timeout });
     return userImageProfile;
   }
 
-  async getParticipantUserImageWrap(participant: string) {
+  async getParticipantUserImageWrap(
+    participant: string,
+    timeout: number = 15000,
+  ) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const userImageWrap = await userLocator.$(
       SELECTORS.PARTICIPANT_USER_IMAGE_WRAP,
     );
-    await userImageWrap.waitForExist();
+    await userImageWrap.waitForExist({ timeout: timeout });
     return userImageWrap;
   }
 
@@ -429,26 +447,29 @@ export default class EditGroup extends UplinkMainScreen {
     }
   }
 
-  async validateEditGroupIsShown() {
+  async validateEditGroupIsShown(timeout: number = 15000) {
     const editGroupSection = await this.editGroupSection;
-    await editGroupSection.waitForExist();
+    await editGroupSection.waitForExist({ timeout: timeout });
   }
 
-  async validateNothingHereIsDisplayed() {
+  async validateNothingHereIsDisplayed(timeout: number = 15000) {
     const nothingHereText = await this.nothingHereText;
-    await nothingHereText.waitForExist();
+    await nothingHereText.waitForExist({ timeout: timeout });
   }
 
-  async validateParticipantIndicatorOnline(username: string) {
+  async validateParticipantIndicatorOnline(
+    username: string,
+    timeout: number = 15000,
+  ) {
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.getParticipantIndicatorOnline(
-          username,
-        ).waitForExist();
+        return await this.getParticipantIndicatorOnline(username).waitForExist({
+          timeout: timeout,
+        });
       },
       {
-        timeout: 60000,
-        timeoutMsg: "Expected chat layout was never displayed after 60 seconds",
+        timeout: timeout,
+        timeoutMsg: "Expected chat layout was never displayed",
       },
     );
   }

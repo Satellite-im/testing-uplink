@@ -432,8 +432,8 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
     await this.hoverOnElement(openThemesButton);
   }
 
-  async validateSettingsGeneralIsShown() {
+  async validateSettingsGeneralIsShown(timeout: number = 15000) {
     const settingsGeneral = await this.settingsGeneral;
-    await settingsGeneral.waitForExist();
+    await settingsGeneral.waitForExist({ timeout: timeout });
   }
 }

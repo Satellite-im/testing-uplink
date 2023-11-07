@@ -152,11 +152,11 @@ export default class ContextMenu extends UplinkMainScreen {
       locator = await this.instance.$(
         '//XCUIElementTypeGroup[@label="Context Menu"]/XCUIElementTypeButton[@Value="' +
           reaction +
-          '"]'
+          '"]',
       );
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await this.instance.$(
-        '//Group[@Name="Context Menu"]/Button[@Name="' + reaction + '"]'
+        '//Group[@Name="Context Menu"]/Button[@Name="' + reaction + '"]',
       );
     }
     await locator.click();
@@ -203,8 +203,8 @@ export default class ContextMenu extends UplinkMainScreen {
     await contextMessagesReply.click();
   }
 
-  async validateContextMenuIsOpen() {
+  async validateContextMenuIsOpen(timeout: number = 15000) {
     const contextMenu = await this.contextMenu;
-    await contextMenu.waitForExist();
+    await contextMenu.waitForExist({ timeout: timeout });
   }
 }
