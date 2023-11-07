@@ -25,6 +25,8 @@ export default async function mainChatsTestsUserB() {
     // Obtain did key from Chat User B
     const friendDidKey = await getUserKey("ChatUserA", USER_A_INSTANCE);
     await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
+    const addSomeoneInput = await friendsScreenFirstUser.addSomeoneInput;
+    await expect(addSomeoneInput).toHaveTextContaining(friendDidKey);
     await friendsScreenFirstUser.clickOnAddSomeoneButton();
 
     // Wait for toast notification to be closed
