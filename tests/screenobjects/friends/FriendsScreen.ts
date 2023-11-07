@@ -407,9 +407,12 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async enterFriendDidKey(didkey: string) {
     const addSomeoneInput = await this.addSomeoneInput;
-    await addSomeoneInput.click();
     await addSomeoneInput.clearValue();
     await addSomeoneInput.setValue(didkey);
+    const addSomeoneInputText = await addSomeoneInput.getText();
+    if (addSomeoneInputText !== didkey) {
+      await this.enterFriendDidKey(didkey);
+    }
   }
 
   async enterCopiedID() {

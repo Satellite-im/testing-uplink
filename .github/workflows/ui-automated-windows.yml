@@ -29,7 +29,7 @@ jobs:
       - name: Install Rust 💿
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: 1.70.0
+          toolchain: 1.73.0
           override: true
           components: rustfmt, clippy
 
@@ -85,7 +85,7 @@ jobs:
       - name: Change resolution on Windows Runner
         run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
         shell: powershell
-  
+
       - name: Download the Windows app 🗳️
         uses: actions/download-artifact@v3
         with:
@@ -324,7 +324,7 @@ jobs:
       #  with:
       #    name: test-report-macos-ci
       #    path: artifacts
-      
+
       #- name: Download Test Report for MacOS Chat A
       #  uses: actions/download-artifact@v3
       #  with:
@@ -335,7 +335,7 @@ jobs:
       #  uses: actions/download-artifact@v3
       #  with:
       #    name: test-report-macos-chatB
-      #    path: artifacts          
+      #    path: artifacts
 
       - name: Download Test Report for Windows Chats
         uses: actions/download-artifact@v3
@@ -354,7 +354,7 @@ jobs:
       #  with:
       #    name: test-allure-mac-ci
       #    path: allure
-      
+
       #- name: Download Allure Results for MacOS Chat A
       #  uses: actions/download-artifact@v3
       #  with:
@@ -425,12 +425,7 @@ jobs:
 
   remove-artifacts:
     needs:
-      [
-        build-windows,
-        test-windows-chats,
-        test-windows,
-        publish-test-results,
-      ]
+      [build-windows, test-windows-chats, test-windows, publish-test-results]
     runs-on: ubuntu-latest
 
     steps:
