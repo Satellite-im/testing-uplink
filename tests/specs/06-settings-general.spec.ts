@@ -22,14 +22,6 @@ export default async function settingsGeneral() {
     await expect(appLangugageHeader).toHaveTextContaining("APP LANGUAGE");
     await expect(appLanguageDescription).toHaveText("Change Language.");
 
-    // THEME
-    const themeHeader = await settingsGeneralFirstUser.themeHeader;
-    const themeDescription = await settingsGeneralFirstUser.themeDescription;
-    await expect(themeHeader).toHaveTextContaining("THEME");
-    await expect(themeDescription).toHaveTextContaining(
-      "Change the theme of the app."
-    );
-
     // FONT
     const fontHeader = await settingsGeneralFirstUser.fontHeader;
     const fontDescription = await settingsGeneralFirstUser.fontDescription;
@@ -45,6 +37,14 @@ export default async function settingsGeneral() {
     await expect(fontScalingHeader).toHaveTextContaining("FONT SCALING");
     await expect(fontScalingDescription).toHaveTextContaining(
       "Scale the font size up or down to your liking."
+    );
+
+    // THEME
+    const themeHeader = await settingsGeneralFirstUser.themeHeader;
+    const themeDescription = await settingsGeneralFirstUser.themeDescription;
+    await expect(themeHeader).toHaveTextContaining("THEME");
+    await expect(themeDescription).toHaveTextContaining(
+      "Change the theme of the app."
     );
   });
 
