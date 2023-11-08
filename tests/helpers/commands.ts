@@ -233,6 +233,28 @@ export async function launchApplication(
   }
 }
 
+export async function launchSecondApplication(
+  instance: string = USER_A_INSTANCE,
+  bundle: string = MACOS_BUNDLE_ID,
+  appLocation: string = WINDOWS_APP,
+) {
+  const currentOS = await driver[instance].capabilities.automationName;
+  if (currentOS === WINDOWS_DRIVER) {
+    await driver[instance].executeScript("windows: launchApp", [
+      {
+        app: join(process.cwd(), appLocation),
+      },
+    ]);
+  } else if (currentOS === MACOS_DRIVER) {
+    await driver[instance].executeScript("macos: launchApp", [
+      {
+        bundleId: bundle,
+        arguments: "--path " + homedir() + "/.uplinkUserB",
+      },
+    ]);
+  }
+}
+
 export async function activateFirstApplication(
   instance: string = USER_A_INSTANCE,
 ) {

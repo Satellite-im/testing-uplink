@@ -52,6 +52,7 @@ export const config: WebdriverIO.Config = {
           platformName: "mac",
           "appium:automationName": MACOS_DRIVER,
           "appium:bundleId": MACOS_USER_A_BUNDLE_ID,
+          "appium:appArguments": "--path " + homedir() + "/.uplinkUserA",
           "appium:systemPort": 4725,
         }
       },
