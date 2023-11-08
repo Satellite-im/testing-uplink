@@ -3,7 +3,7 @@ import allureReporter from '@wdio/allure-reporter'
 import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { homedir } from "os";
 import { join } from "path";
-import { MACOS_DRIVER, MACOS_USER_A_BUNDLE_ID, MACOS_USER_B_BUNDLE_ID } from "@helpers/constants";
+import { MACOS_BUNDLE_ID, MACOS_DRIVER, MACOS_USER_A_BUNDLE_ID, MACOS_USER_B_BUNDLE_ID } from "@helpers/constants";
 const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
 
@@ -50,7 +50,8 @@ export const config: WebdriverIO.Config = {
         capabilities: {
           platformName: "mac",
           "appium:automationName": MACOS_DRIVER,
-          "appium:bundleId": MACOS_USER_A_BUNDLE_ID,
+          "appium:bundleId": MACOS_BUNDLE_ID,
+          "appium:appPath": homedir() + "/apps/Uplink.app",
           "appium:arguments": ["--path", homedir() + "/.uplinkUserA"],
           "appium:systemPort": 4725,
         }
@@ -59,7 +60,8 @@ export const config: WebdriverIO.Config = {
         capabilities: {
           platformName: "mac",
           "appium:automationName": MACOS_DRIVER,
-          "appium:bundleId": MACOS_USER_B_BUNDLE_ID,
+          "appium:bundleId": MACOS_BUNDLE_ID,
+          "appium:appPath": homedir() + "/apps/Uplink2.app",
           "appium:arguments": ["--path", homedir() + "/.uplinkUserB"],
           "appium:systemPort": 4726,
         }
