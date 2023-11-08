@@ -38,7 +38,7 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   EDIT_MESSAGE_INPUT: "~edit-message-input",
   EMOJI_BUTTON:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "chat-layout"`]/XCUIElementTypeButton[2]',
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "chat-layout"`]/XCUIElementTypeGroup[8]/XCUIElementTypeButton',
   INPUT_CHAR_COUNTER: "~input-char-counter",
   INPUT_CHAR_COUNTER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   INPUT_CHAR_MAX_TEXT:
