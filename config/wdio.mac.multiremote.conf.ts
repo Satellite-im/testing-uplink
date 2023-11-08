@@ -3,7 +3,7 @@ import allureReporter from '@wdio/allure-reporter'
 import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { homedir } from "os";
 import { join } from "path";
-import { MACOS_DRIVER, MACOS_USER_A_BUNDLE_ID } from "@helpers/constants";
+import { USER_A_INSTANCE, MACOS_DRIVER, MACOS_USER_A_BUNDLE_ID, MACOS_USER_B_BUNDLE_ID } from "@helpers/constants";
 const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
 
@@ -27,7 +27,14 @@ export const config: WebdriverIO.Config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
+    // The number of times to retry the entire specfile when it fails as a whole
     specFileRetries: 2,
+    //
+    // Delay in seconds between the spec file retry attempts
+    specFileRetriesDelay: 30,
+    //
+    // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
+    specFileRetriesDeferred: false,
     specs: [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")],
     // Patterns to exclude.
     exclude: [
@@ -55,7 +62,7 @@ export const config: WebdriverIO.Config = {
           "appium:arguments": ["--path", homedir() + "/.uplink"],
           "appium:systemPort": 4725,
           "appium:prerun": {
-            command: 'do shell script "rm -rf ~/.uplink"',
+            command: 'do shell script "rm -rf ~/.uplink && rm -rf ~/.uplinkUserB"',
           },  
         }
       },
@@ -137,6 +144,13 @@ export const config: WebdriverIO.Config = {
           // Add to Screenshot to Allure Reporter
           const data = await readFileSync(`${imageFolder}/${imageTitle}`);
           allureReporter.addAttachment(imageTitle, data, 'image/png')
+
+          // Close second application if open
+          await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
+            {
+              bundleId: MACOS_USER_B_BUNDLE_ID,
+            },
+          ]);
         }
       }
   }
