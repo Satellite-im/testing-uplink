@@ -254,8 +254,12 @@ jobs:
         run: |
           unzip Uplink-Mac-Universal.zip
           cp -r ./Uplink.app ./Uplink2.app
-          sudo xattr -r -d com.apple.quarantine ./Uplink.app
-          sudo xattr -r -d com.apple.quarantine ./Uplink2.app
+          perl -i -pe 's/im.satellite.uplink/im.satellite.uplinkChatUserA/g' ./Uplink.app/Contents/Info.plist
+          perl -i -pe 's/im.satellite.uplink/im.satellite.uplinkChatUserB/g' ./Uplink2.app/Contents/Info.plist
+          cp -r ./Uplink.app /Applications/
+          cp -r ./Uplink2.app /Applications/
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink.app
+          sudo xattr -r -d com.apple.quarantine /Applications/Uplink2.app
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3

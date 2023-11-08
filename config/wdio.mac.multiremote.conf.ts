@@ -3,7 +3,7 @@ import allureReporter from '@wdio/allure-reporter'
 import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { homedir } from "os";
 import { join } from "path";
-import { MACOS_BUNDLE_ID, MACOS_DRIVER, MACOS_USER_A_BUNDLE_ID, MACOS_USER_B_BUNDLE_ID } from "@helpers/constants";
+import { MACOS_DRIVER, MACOS_USER_A_BUNDLE_ID } from "@helpers/constants";
 const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
 
@@ -27,6 +27,7 @@ export const config: WebdriverIO.Config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
+    specFileRetries: 2,
     specs: [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")],
     // Patterns to exclude.
     exclude: [
@@ -50,20 +51,8 @@ export const config: WebdriverIO.Config = {
         capabilities: {
           platformName: "mac",
           "appium:automationName": MACOS_DRIVER,
-          "appium:bundleId": MACOS_BUNDLE_ID,
-          "appium:appPath": homedir() + "/apps/Uplink.app",
-          "appium:arguments": ["--path", homedir() + "/.uplinkUserA"],
+          "appium:bundleId": MACOS_USER_A_BUNDLE_ID,
           "appium:systemPort": 4725,
-        }
-      },
-      userB: {
-        capabilities: {
-          platformName: "mac",
-          "appium:automationName": MACOS_DRIVER,
-          "appium:bundleId": MACOS_BUNDLE_ID,
-          "appium:appPath": homedir() + "/apps/Uplink2.app",
-          "appium:arguments": ["--path", homedir() + "/.uplinkUserB"],
-          "appium:systemPort": 4726,
         }
       },
     },

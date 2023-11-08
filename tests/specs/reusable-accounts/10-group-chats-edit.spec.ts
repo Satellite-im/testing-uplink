@@ -4,14 +4,16 @@ import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import Topbar from "@screenobjects/chats/Topbar";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
+import { USER_A_INSTANCE } from "@helpers/constants";
+import {
+  activateFirstApplication,
+  activateSecondApplication,
+} from "@helpers/commands";
 let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-let chatsSidebarSecondUser = new ChatsSidebar(USER_B_INSTANCE);
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-let chatsTopbarSecondUser = new Topbar(USER_B_INSTANCE);
 let editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
-let filesScreenSecondUser = new FilesScreen(USER_B_INSTANCE);
-let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
+let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
+let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function groupChatEditTests() {
   it("Chat User A - Edit Group Chat button tooltip", async () => {
@@ -31,16 +33,16 @@ export default async function groupChatEditTests() {
 
   it("Chat User B - You are not the group creator tooltip is displayed", async () => {
     // Switch control to second user and validate tooltip is shown
-    await chatsTopbarSecondUser.switchToOtherUserWindow();
-    await chatsTopbarSecondUser.hoverOnEditGroupButton();
+    await activateSecondApplication();
+    await chatsTopbarFirstUser.hoverOnEditGroupButton();
 
-    const tooltipText = await chatsTopbarSecondUser.viewGroupTooltipText;
+    const tooltipText = await chatsTopbarFirstUser.viewGroupTooltipText;
     await expect(tooltipText).toHaveTextContaining("View Group");
   });
 
   it("Edit Group - Group Name Edit - Contents displayed", async () => {
     // Switch control to first user and then open edit group modal. Validate contents displayed
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
+    await activateFirstApplication();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
 
@@ -55,25 +57,24 @@ export default async function groupChatEditTests() {
 
     const inputErrorText = await editGroupFirstUser.groupNameInputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Not allowed character(s): @"
+      "Not allowed character(s): @",
     );
 
     await editGroupFirstUser.clearGroupNameInput();
   });
 
-  // Skipping test due to input issue changing the cursor to a different input field
-  xit("Edit Group - Attempt to change Group Name for a name with more than 64 characters", async () => {
+  it("Edit Group - Attempt to change Group Name for a name with more than 64 characters", async () => {
     // Type on group name input a name with more than 64 characters and validate error message
     await editGroupFirstUser.clickOnGroupNameInput();
     await editGroupFirstUser.typeOnGroupNameInput(
-      "12345678901234567890123456789012345678901234567890123456789012345678"
+      "12345678901234567890123456789012345678901234567890123456789012345678",
     );
 
     // Validate error message
     await editGroupFirstUser.groupNameInputError.waitForExist();
     const inputErrorText = await editGroupFirstUser.groupNameInputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Maximum of 64 characters exceeded."
+      "Maximum of 64 characters exceeded.",
     );
     await editGroupFirstUser.clearGroupNameInput();
   });
@@ -92,18 +93,17 @@ export default async function groupChatEditTests() {
 
   it("Edit Group - Validate group name was changed correctly on remote side", async () => {
     // Switch control to second user
-    await chatsSidebarSecondUser.switchToOtherUserWindow();
+    await activateSecondApplication();
 
     // Validate group name was changed correctly on remote side
-    await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
-    const topbarSecondUserName =
-      await chatsTopbarSecondUser.topbarUserNameValue;
-    await expect(topbarSecondUserName).toHaveTextContaining("X");
+    await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
+    const topbarFirstUserName = await chatsTopbarFirstUser.topbarUserNameValue;
+    await expect(topbarFirstUserName).toHaveTextContaining("X");
   });
 
   it("Edit Group - Contents displayed in add list are correct", async () => {
     // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
+    await activateFirstApplication();
 
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
@@ -140,14 +140,14 @@ export default async function groupChatEditTests() {
 
   it("Edit Group - Validate remote user was correctly removed from the group chat", async () => {
     // Validate that remote user was removed from the group correctly
-    await chatsSidebarSecondUser.switchToOtherUserWindow();
-    await chatsSidebarSecondUser.waitForGroupToBeDeleted("X");
-    await welcomeScreenSecondUser.validateWelcomeScreenIsShown();
+    await activateSecondApplication();
+    await chatsSidebarFirstUser.waitForGroupToBeDeleted("X");
+    await welcomeScreenFirstUser.validateWelcomeScreenIsShown();
   });
 
   it("Edit Group - Add Users List - Chat User B appears now in list", async () => {
     // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
-    await chatsTopbarFirstUser.switchToOtherUserWindow();
+    await activateFirstApplication();
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
     await editGroupFirstUser.clickOnAddMembers();
@@ -177,17 +177,17 @@ export default async function groupChatEditTests() {
 
   it("Edit Group - Ensure that Chat User B was added back to the group", async () => {
     // Validate that User B was added back to the group chat
-    await chatsSidebarSecondUser.switchToOtherUserWindow();
-    await chatsSidebarSecondUser.goToFiles();
-    await filesScreenSecondUser.validateFilesScreenIsShown();
-    await filesScreenSecondUser.goToMainScreen();
-    await chatsSidebarSecondUser.validateSidebarChatsIsShown();
-    await chatsSidebarSecondUser.waitForGroupToBeCreated("X");
-    await chatsSidebarSecondUser.goToSidebarGroupChat("X");
-    await chatsTopbarSecondUser.validateTopbarExists();
+    await activateSecondApplication();
+    await chatsSidebarFirstUser.goToFiles();
+    await filesScreenFirstUser.validateFilesScreenIsShown();
+    await filesScreenFirstUser.goToMainScreen();
+    await chatsSidebarFirstUser.validateSidebarChatsIsShown();
+    await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
+    await chatsSidebarFirstUser.goToSidebarGroupChat("X");
+    await chatsTopbarFirstUser.validateTopbarExists();
 
     // Validate topbar contents has correct name
-    const topbarUserStatus = await chatsTopbarSecondUser.topbarUserStatusValue;
+    const topbarUserStatus = await chatsTopbarFirstUser.topbarUserStatusValue;
     await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
   });
 }

@@ -6,6 +6,7 @@ import MessageGroup from "@screenobjects/chats/MessageGroup";
 import PinnedMessages from "@screenobjects/chats/PinnedMessages";
 import Topbar from "@screenobjects/chats/Topbar";
 import { USER_A_INSTANCE } from "@helpers/constants";
+import { activateFirstApplication } from "@helpers/commands";
 let chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
@@ -16,11 +17,12 @@ let pinnedMessagesFirstUser = new PinnedMessages(USER_A_INSTANCE);
 export default async function chatTopbarTests() {
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
+    await activateFirstApplication();
     await chatsTopbarFirstUser.hoverOnFavoritesButton();
     const favoritesAddTooltipText =
       await chatsTopbarFirstUser.topbarAddToFavoritesTooltipText;
     await expect(favoritesAddTooltipText).toHaveTextContaining(
-      "Add to Favorites"
+      "Add to Favorites",
     );
 
     // Validate Pinned Messages button tooltip
@@ -28,7 +30,7 @@ export default async function chatTopbarTests() {
     const pinnedMessagesTooltipText =
       await chatsTopbarFirstUser.topbarPinnedMessagesTooltipText;
     await expect(pinnedMessagesTooltipText).toHaveTextContaining(
-      "Pinned Messages"
+      "Pinned Messages",
     );
 
     // Validate Upload button tooltip
@@ -92,13 +94,13 @@ export default async function chatTopbarTests() {
     // Validate attachment elements are shown in pinned message
     await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileIcon();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileIconExtension(
-      "txt"
+      "txt",
     );
     await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileMeta(
-      "47 B"
+      "47 B",
     );
     await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileName(
-      "testfile.txt"
+      "testfile.txt",
     );
   });
 

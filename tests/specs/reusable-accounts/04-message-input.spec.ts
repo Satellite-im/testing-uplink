@@ -1,12 +1,15 @@
 import "module-alias/register";
-import { USER_A_INSTANCE, USER_B_INSTANCE } from "@helpers/constants";
+import { USER_A_INSTANCE } from "@helpers/constants";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import InputBar from "@screenobjects/chats/InputBar";
 import Messages from "@screenobjects/chats/Messages";
+import {
+  activateFirstApplication,
+  activateSecondApplication,
+} from "@helpers/commands";
+let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-let chatsMessagesSecondUser = new Messages(USER_B_INSTANCE);
-let chatsLayoutSecondUser = new ChatsLayout(USER_B_INSTANCE);
 
 export default async function messageInputTests() {
   it("Chat User A - Message Input - User cannot send empty messages", async () => {
@@ -26,8 +29,7 @@ export default async function messageInputTests() {
     await expect(textMessage).toHaveTextContaining("Two...");
   });
 
-  // Skipping test failing on CI due to slowness on driver typing 1024 characters
-  xit("Chat User A - Message Input - User can type up to 1024 chars on input bar", async () => {
+  it("Chat User A - Message Input - User can type up to 1024 chars on input bar", async () => {
     // Generate a random text with 1024 chars
     const longText = await chatsInputFirstUser.generateRandomText();
     // Type long text with 1024 chars on input bar and attempt to add 4 more chars (efgh)
@@ -68,8 +70,7 @@ export default async function messageInputTests() {
     await expect(codeMessageTextSent).toEqual("let a = 1;");
   });
 
-  // Skipping test that is failing often on CI - Requires investigation to improve execution
-  xit("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
+  it("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
     // With Chat User A, click on the copy button from code block of last chat message sent
     await chatsMessagesFirstUser.clickOnCopyCodeOfLastMessageSent();
 
@@ -83,29 +84,28 @@ export default async function messageInputTests() {
 
   it("Chat Input Text - Validate messages with bold markdowns were received in expected format", async () => {
     // With Chat User B, validate message with with ** markdown was received in bolds
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingMessage("Bolds1");
+    await activateSecondApplication();
+    await chatsMessagesFirstUser.waitForReceivingMessage("Bolds1");
 
     // With Chat User B, validate message with with __ markdown was received in bolds
-    await chatsMessagesSecondUser.waitForReceivingMessage("Bolds2");
+    await chatsMessagesFirstUser.waitForReceivingMessage("Bolds2");
   });
 
-  // Skipping test that is failing often on CI - Requires investigation to improve execution
-  xit("Chat Input Text - Validate message with code markdown is received in expected format", async () => {
+  it("Chat Input Text - Validate message with code markdown is received in expected format", async () => {
     // With Chat User B, validate code message was received and is displayed correctly
-    await chatsMessagesSecondUser.waitForReceivingCodeMessage("JavaScript");
+    await chatsMessagesFirstUser.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =
-      await chatsMessagesSecondUser.getLastMessageReceivedCodeMessage();
+      await chatsMessagesFirstUser.getLastMessageReceivedCodeMessage();
     await expect(codeMessageTextReceived).toEqual("let a = 1;");
   });
 
   it("Chat Input Text - Validate text starting with https:// is sent as link", async () => {
     // With Chat User A
-    await chatsInputFirstUser.switchToOtherUserWindow();
+    await activateFirstApplication();
     await chatsInputFirstUser.typeMessageOnInput("https://www.google.com");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForLinkSentToExist(
-      "https://www.google.com"
+      "https://www.google.com",
     );
   });
 
@@ -121,7 +121,7 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.typeMessageOnInput("http://www.satellite.im");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForLinkSentToExist(
-      "http://www.satellite.im"
+      "http://www.satellite.im",
     );
   });
 
@@ -138,7 +138,7 @@ export default async function messageInputTests() {
 
     await linkEmbedSent.waitForExist();
     await expect(linkEmbedSentDetailsText).toHaveTextContaining(
-      "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included."
+      "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included.",
     );
     await linkEmbedSentIcon.waitForExist();
     await linkEmbedSentIconTitle.waitForExist();
@@ -146,58 +146,54 @@ export default async function messageInputTests() {
 
   it("Chat Input Text - Validate messages with links were received correctly", async () => {
     // With Chat User B, validate message with URL starting with https:// was received as link
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsMessagesSecondUser.waitForReceivingLink(
-      "https://www.google.com"
-    );
+    await activateSecondApplication();
+    await chatsMessagesFirstUser.waitForReceivingLink("https://www.google.com");
 
     // With Chat User B, validate message with URL starting with www. was received as link
-    await chatsMessagesSecondUser.waitForReceivingLink("www.apple.com");
+    await chatsMessagesFirstUser.waitForReceivingLink("www.apple.com");
 
     // With Chat User B, validate message with URL starting with http:// was received as link
-    await chatsMessagesSecondUser.waitForReceivingLink(
-      "http://www.satellite.im"
+    await chatsMessagesFirstUser.waitForReceivingLink(
+      "http://www.satellite.im",
     );
   });
 
   it("Chat User - Chat Messages containing links contents on remote side", async () => {
     // Validate link embed contents on chat message
     const linkEmbedReceived =
-      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbed();
+      await chatsMessagesFirstUser.getLastMessageReceivedLinkEmbed();
     const linkEmbedReceivedDetailsText =
-      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedDetailsText();
+      await chatsMessagesFirstUser.getLastMessageReceivedLinkEmbedDetailsText();
     const linkEmbedReceivedIcon =
-      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedIcon();
+      await chatsMessagesFirstUser.getLastMessageReceivedLinkEmbedIcon();
     const linkEmbedReceivedIconTitle =
-      await chatsMessagesSecondUser.getLastMessageReceivedLinkEmbedIconTitle();
+      await chatsMessagesFirstUser.getLastMessageReceivedLinkEmbedIconTitle();
 
     await linkEmbedReceived.waitForExist();
     await expect(linkEmbedReceivedDetailsText).toHaveTextContaining(
-      "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included."
+      "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included.",
     );
     await linkEmbedReceivedIcon.waitForExist();
     await linkEmbedReceivedIconTitle.waitForExist();
   });
 
-  // Skipping test failing on because the typing indicator is gone before the test can validate it
-  xit("Typing Indicator - Send a long message to trigger typing indicator on remote side", async () => {
+  it("Typing Indicator - Send a long message to trigger typing indicator on remote side", async () => {
     // With User A
-    await chatsInputFirstUser.switchToOtherUserWindow();
+    await activateFirstApplication();
     // Generate a random text with 100 chars
     const shortText = await chatsInputFirstUser.generateShortRandomText();
     // Type the text with 90 chars on input bar
     await chatsInputFirstUser.typeMessageOnInput(shortText + "efgh");
   });
 
-  // Skipping test failing on because the typing indicator is gone before the test can validate it
-  xit("Validate Typing Indicator is displayed if remote user is typing", async () => {
+  it("Validate Typing Indicator is displayed if remote user is typing", async () => {
     // Switch to second user and validate that Typing Indicator is displayed
-    await chatsLayoutSecondUser.switchToOtherUserWindow();
-    await chatsLayoutSecondUser.typingIndicator.waitForExist({
+    await activateSecondApplication();
+    await chatsLayoutFirstUser.typingIndicator.waitForExist({
       timeout: 30000,
     });
     await expect(
-      chatsLayoutSecondUser.typingIndicatorTextValue
+      chatsLayoutFirstUser.typingIndicatorTextValue,
     ).toHaveTextContaining("ChatUserA is typing");
   });
 }
