@@ -4,7 +4,6 @@ import {
   activateSecondApplication,
   createNewUser,
   getUserKey,
-  launchApplication,
   launchSecondApplication,
   saveTestKeys,
 } from "@helpers/commands";
@@ -91,13 +90,10 @@ export default async function createChatAccountsTests() {
 
   it("Chat User B - Create Account", async () => {
     // Launch second application
-    await launchSecondApplication(
-      USER_A_INSTANCE,
-      MACOS_USER_B_BUNDLE_ID,
-      WINDOWS_APP,
-    );
+    await launchSecondApplication();
 
     // Create a new account and go to Settings Profile
+    await createPinFirstUser.waitForIsShown(true);
     const username = "ChatUserB";
     await createNewUser(username);
     await welcomeScreenFirstUser.goToSettings();

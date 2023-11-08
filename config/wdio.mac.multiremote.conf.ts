@@ -52,8 +52,11 @@ export const config: WebdriverIO.Config = {
           platformName: "mac",
           "appium:automationName": MACOS_DRIVER,
           "appium:bundleId": MACOS_USER_A_BUNDLE_ID,
-          "appium:appArguments": "--path " + homedir() + "/.uplinkUserA",
+          "appium:arguments": ["--path", homedir() + "/.uplink"],
           "appium:systemPort": 4725,
+          "appium:prerun": {
+            command: 'do shell script "rm -rf ~/.uplink"',
+          },  
         }
       },
     },
@@ -91,7 +94,7 @@ export const config: WebdriverIO.Config = {
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
     onPrepare: async function() {
-      const cacheFolderUserA = homedir() + "/.uplinkUserA/.user";
+      const cacheFolderUserA = homedir() + "/.uplink/.user";
       const cacheFolderUserB = homedir() + "/.uplinkUserB/.user";
       const allureResultsFolder = join(process.cwd(), "./allure-results");
       const testReportFolder =  join(process.cwd(), "./test-report");
