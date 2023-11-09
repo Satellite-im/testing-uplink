@@ -37,7 +37,7 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   EDIT_MESSAGE_INPUT: "~edit-message-input",
-  EMOJI_BUTTON: "send-emoji-button",
+  EMOJI_BUTTON: "~send-emoji-button",
   INPUT_CHAR_COUNTER: "~input-char-counter",
   INPUT_CHAR_COUNTER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   INPUT_CHAR_MAX_TEXT:
