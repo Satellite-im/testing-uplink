@@ -12,7 +12,7 @@ Tests running using GitHub Actions:
 
 This automation framework is currently based on the following:
 
-- **WebdriverIO:** `8.8.7`
+- **WebdriverIO:** `8.21.0`
 - **Appium:** `2.0.0`
 
 ## Setting up to run on the local machine - MAC OS
@@ -64,7 +64,7 @@ make dmg
 
 7. Wait until the process is completed, and you will find an uplink.exe program (for Windows) or Uplink.app (for MacOS) file in "Uplink/target/release/windows" or "Uplink/target/release/macOS". If you are on Windows, you just have to create an "apps" folder inside the main folder of the testing-uplink folder and then copy the file uplink.exe to the "./apps/" folder. Now, if you are testing on MacOS, you have to copy the Uplink.app file into your Applications folder from your OS.
 
-Some tests can trigger two or more instances of Uplink simultaneously to test a chat conversation and friend request process in a real environment with more than one user. For now, these tests can only be executed in Windows due to existing limitations on the Appium mac2 driver to run multiple instances simultaneously. If you would like to try these tests, you would need to copy the uplink.exe file into the same apps folder with the name "uplink2.exe". You would have two executables of Uplink running on the same apps folder.
+Some tests can trigger two or more instances of Uplink simultaneously to test a chat conversation and friend request process in a real environment with more than one user. For now, these tests can only be executed in MacOS due to existing limitations on the Appium Windows Driver to run multiple instances simultaneously. If you would like to try these tests, you would need to create a copy of the Uplink.app file into the same MacOS Applications folder. After that, you will need to change the bundleId of app file #1 to "im.satellite.uplinkChatUserA" and the bundleId of app file #2 to "im.satellite.uplinkChatUserB". You can find the instructions about changing bundle Id's in the following [link](https://www.hexnode.com/mobile-device-management/help/how-to-find-the-bundle-id-of-an-application-on-mac/), specifically in method 3 listed on linked website.
 
 8. Once the application is installed, you can run the tests by using the following commands:
 
@@ -79,8 +79,8 @@ npm run windows.app
 ```
 
 ```sh
-# To run the chat tests under Windows
-npm run windows.multiremote
+# To run the chat tests under MacOS
+npm run mac.multiremote
 ```
 
 ## Configuration files
@@ -90,7 +90,7 @@ This framework uses specific config files for macOS, Windows, and Multiremote Ch
 
 For Windows, there is a similar file [`wdio.windows.app.conf.ts`](./config/wdio.windows.app.conf.ts) containing the same WebdriverIO required setup, including capabilities, reporters, services and hooks for running Windows tests locally.
 
-Also, there are multi-remote configuration files for Windows and MacOS (in case the external Appium driver for mac is fixed in the future to allow running more than one instance at the same time), the multiremote configuration files are [`wdio.windows.multiremote.conf.ts`](./config/wdio.windows.multiremote.conf.ts) and [`wdio.mac.multiremote.conf.ts`](./config/wdio.mac.multiremote.conf.ts). The files previously mentioned contain the WebdriverIO required setup, including capabilities, reporters, services, and hooks for running Windows multi-remote tests.
+Also, there is one multi-remote configuration file for MacOS, which is [`wdio.mac.multiremote.conf.ts`](./config/wdio.mac.multiremote.conf.ts). The file previously mentioned contains the WebdriverIO required setup, including capabilities, reporters, services, and hooks for running MacOS multi-remote tests.
 
 Finally, since we have a GitHub Action setup to run the Appium tests on macOS and Windows, there are two configuration files used to run these tests on CI. Configuration for running MacOS tests on CI is setup in [`wdio.mac.ci.conf.ts`](./config/wdio.mac.ci.conf.ts), and for running Windows tests on CI setup is located in [`wdio.windows.ci.conf.ts`](./config/wdio.windows.ci.conf.ts).
 
@@ -103,6 +103,7 @@ If `accessibilityID`'s can't be used, for example, then for Mac2 driver, -ios cl
 ## Improvements to be implemented soon
 
 - Tests running on Ubuntu - Unfortunately, there are no official drivers for Appium to run tests under Ubuntu or any other Linux Distribution. There is only one third-party driver that does not perform expected actions when connected with WebdriverIO. We are still researching the best way to run automated tests under Ubuntu, and we will get back to you when we have more news!
+- Multiremote Tests running on Windows - Multiremote tests configuration for Windows is a pending task to be added on this repository, since running two instances on a Windows Machine is triggering an issue with the appium windows driver right now. We are working hard on restoring Windows Chats tests but for now, you can try running the tests under MacOS.
 
 ## Demo Videos
 
@@ -116,6 +117,6 @@ Right now, we are working hard to match the existing functionalities from Uplink
 
 ## [UI Locators and How to fix tests failing - Guide](./docs/ARIA_LABELS.md).
 
-We created an extensive document inside this repository to share some tips and guides that will help you avoid breaking tests when updating an Aria Label from Uplink and contribute to adding new Aria labels on UI elements. At the same time, this document contains a guide on updating tests affected for code changes on Uplink. Finally, to have a better understanding of the impact of these UI Locators, a detailed description of the structure of the screen object and spec files from the testing framework is described inside the following [document](./docs/ARIA_LABELS.md). 
+We created an extensive document inside this repository to share some tips and guides that will help you avoid breaking tests when updating an Aria Label from Uplink and contribute to adding new Aria labels on UI elements. At the same time, this document contains a guide on updating tests affected for code changes on Uplink. Finally, to have a better understanding of the impact of these UI Locators, a detailed description of the structure of the screen object and spec files from the testing framework is described inside the following [document](./docs/ARIA_LABELS.md).
 
 Any contributions to the repository are welcome!

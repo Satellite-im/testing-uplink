@@ -11,10 +11,10 @@ import repliesTests from "@specs/reusable-accounts/02-chat-replies.spec";
 import quickProfileTests from "@specs/reusable-accounts/07-quick-profile.spec";
 import sidebarChatsTests from "@specs/reusable-accounts/08-sidebar-chats.spec";
 
-describe("Windows Chats Tests", function () {
-  xdescribe(
+describe("MacOS Chats Tests", function () {
+  describe(
     "Create Accounts and Chat Tests",
-    createChatAccountsTests.bind(this)
+    createChatAccountsTests.bind(this),
   );
   xdescribe("Chat Replies Tests", repliesTests.bind(this));
   xdescribe("Message Context Menu Tests", messageContextMenuTests.bind(this));
@@ -27,6 +27,6 @@ describe("Windows Chats Tests", function () {
   xdescribe("Group Chats Edit Tests", groupChatEditTests.bind(this));
   xdescribe(
     "Group Chats Favorites and Sidebar Tests",
-    groupChatSidebarTests.bind(this)
+    groupChatSidebarTests.bind(this),
   );
 });

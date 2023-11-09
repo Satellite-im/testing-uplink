@@ -5,6 +5,7 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { clickOnSwitchMacOS } from "@helpers/commands";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
@@ -72,6 +73,10 @@ export default class EmojiSelector extends UplinkMainScreen {
         .$(emojiLocator);
     }
     await this.hoverOnElement(emojiElement);
-    await emojiElement.click();
+    if (currentDriver === MACOS_DRIVER) {
+      await clickOnSwitchMacOS(emojiElement, USER_A_INSTANCE);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await emojiElement.click();
+    }
   }
 }

@@ -15,7 +15,7 @@ describe("One time script test for login", async () => {
 
   for (let i = 1; i <= 100; i++) {
     it("Should login to app and reset - Attempt #" + i, async () => {
-      await launchApplication(USER_A_INSTANCE);
+      await launchApplication();
       await loginWithTestUser();
       await closeApplication(USER_A_INSTANCE);
     });

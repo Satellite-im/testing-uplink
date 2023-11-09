@@ -8,6 +8,8 @@ import { join } from "path";
 import {
   MACOS_BUNDLE_ID,
   MACOS_DRIVER,
+  MACOS_USER_A_BUNDLE_ID,
+  MACOS_USER_B_BUNDLE_ID,
   USER_A_INSTANCE,
   USER_B_INSTANCE,
   WINDOWS_APP,
@@ -16,7 +18,7 @@ import {
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
-const { mouse, Button } = require("@nut-tree/nut-js")
+const { mouse, Button } = require("@nut-tree/nut-js");
 let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
 let createPinSecondUser = new CreatePinScreen(USER_B_INSTANCE);
 let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
@@ -35,7 +37,7 @@ export async function deleteCache() {
     console.log("Deleted user cache successfully");
   } catch (error) {
     console.error(
-      `Got an error trying to delete the user cache files: ${error.message}`
+      `Got an error trying to delete the user cache files: ${error.message}`,
     );
   }
 }
@@ -50,7 +52,7 @@ export async function grabCacheFolder(username: string, instance: string) {
     console.log("Copied user cache successfully");
   } catch (error) {
     console.error(
-      `Got an error trying to copy the user cache files: ${error.message}`
+      `Got an error trying to copy the user cache files: ${error.message}`,
     );
   }
 }
@@ -67,7 +69,7 @@ export async function loadTestUserData(user: string, instance: string) {
     console.log("Copied user cache successfully");
   } catch (error) {
     console.error(
-      `Got an error trying to copy the user cache files: ${error.message}`
+      `Got an error trying to copy the user cache files: ${error.message}`,
     );
   }
 }
@@ -88,7 +90,7 @@ export async function getUserKey(username: string, instance: string) {
 export async function saveTestKeys(
   username: string,
   didkey: string,
-  instance: string
+  instance: string,
 ) {
   // Save JSON file with keys
   const currentDriver = await driver[instance].capabilities.automationName;
@@ -107,11 +109,8 @@ export async function saveTestKeys(
 // Login or Create Users Functions
 
 export async function createNewUser(username: string) {
-  // Reset Pin before creating new user
   const pinScreen = await createPinFirstUser.unlockLayout;
   await pinScreen.waitForExist();
-  await createPinFirstUser.openHelpButtonMenu();
-  await createPinFirstUser.clickOnResetAccount();
 
   // Enter pin for test user
   await createPinFirstUser.enterPin("1234");
@@ -200,31 +199,82 @@ export async function loginWithTestUserSecondInstance() {
 export async function resetApp(instance: string) {
   await closeApplication(instance);
   await deleteCache();
-  await launchApplication(instance);
+  await launchApplication(instance, MACOS_BUNDLE_ID, WINDOWS_APP);
 }
 
 export async function resetAndLoginWithCache(user: string) {
   await closeApplication(USER_A_INSTANCE);
   await deleteCache();
   await loadTestUserData(user, USER_A_INSTANCE);
-  await launchApplication(USER_A_INSTANCE);
+  await launchApplication(USER_A_INSTANCE, MACOS_BUNDLE_ID, WINDOWS_APP);
   await loginWithTestUser();
 }
 
 // Application Manage Functions
 
-export async function launchApplication(instance: string) {
+export async function launchApplication(
+  instance: string = USER_A_INSTANCE,
+  bundle: string = MACOS_BUNDLE_ID,
+  appLocation: string = WINDOWS_APP,
+) {
   const currentOS = await driver[instance].capabilities.automationName;
   if (currentOS === WINDOWS_DRIVER) {
     await driver[instance].executeScript("windows: launchApp", [
       {
-        app: join(process.cwd(), WINDOWS_APP),
+        app: join(process.cwd(), appLocation),
       },
     ]);
   } else if (currentOS === MACOS_DRIVER) {
     await driver[instance].executeScript("macos: launchApp", [
       {
-        bundleId: MACOS_BUNDLE_ID,
+        bundleId: bundle,
+      },
+    ]);
+  }
+}
+
+export async function launchSecondApplication() {
+  await driver[USER_A_INSTANCE].executeScript("macos: launchApp", [
+    {
+      bundleId: MACOS_USER_B_BUNDLE_ID,
+      arguments: ["--path", homedir() + "/.uplinkUserB"],
+    },
+  ]);
+}
+
+export async function activateFirstApplication(
+  instance: string = USER_A_INSTANCE,
+) {
+  const currentOS = await driver[instance].capabilities.automationName;
+  if (currentOS === WINDOWS_DRIVER) {
+    await driver[instance].executeScript("windows: activateApp", [
+      {
+        app: join(process.cwd(), WINDOWS_APP),
+      },
+    ]);
+  } else if (currentOS === MACOS_DRIVER) {
+    await driver[instance].executeScript("macos: activateApp", [
+      {
+        bundleId: MACOS_USER_A_BUNDLE_ID,
+      },
+    ]);
+  }
+}
+
+export async function activateSecondApplication(
+  instance: string = USER_A_INSTANCE,
+) {
+  const currentOS = await driver[instance].capabilities.automationName;
+  if (currentOS === WINDOWS_DRIVER) {
+    await driver[instance].executeScript("windows: activateApp", [
+      {
+        app: join(process.cwd(), WINDOWS_APP),
+      },
+    ]);
+  } else if (currentOS === MACOS_DRIVER) {
+    await driver[instance].executeScript("macos: activateApp", [
+      {
+        bundleId: MACOS_USER_B_BUNDLE_ID,
       },
     ]);
   }
@@ -263,7 +313,7 @@ export async function maximizeWindow(instance: string) {
 
 export async function clickOnSwitchMacOS(
   element: WebdriverIO.Element,
-  instance: string
+  instance: string,
 ) {
   const currentInstance = await browser.getInstance(instance);
   const elementLocator = await currentInstance.$(element);
@@ -288,7 +338,7 @@ export async function getClipboardMacOS() {
 
 export async function hoverOnMacOS(
   locator: WebdriverIO.Element,
-  instance: string
+  instance: string,
 ) {
   // Hover on X and Y coordinates previously retrieved
   await driver[instance].executeScript("macos: hover", [
@@ -323,7 +373,7 @@ export async function saveFileOnMacOS(filename: string, instance: string) {
 
 export async function selectFileOnMacos(
   relativePath: string,
-  instance: string
+  instance: string,
 ) {
   const currentInstance = await browser.getInstance(instance);
 
@@ -366,7 +416,7 @@ export async function selectFileOnMacos(
 
 export async function rightClickOnMacOS(
   locator: WebdriverIO.Element,
-  instance: string
+  instance: string,
 ) {
   await driver[instance].executeScript("macos: rightClick", [
     {
@@ -379,14 +429,14 @@ export async function rightClickOnMacOS(
 
 export async function hoverOnWindows(
   locator: WebdriverIO.Element,
-  instance: string
+  instance: string,
 ) {
   await driver[instance].moveToElement(locator.elementId);
 }
 
 export async function rightClickOnWindows(
   locator: WebdriverIO.Element,
-  instance: string
+  instance: string,
 ) {
   await driver[instance].moveToElement(locator.elementId);
   await mouse.click(Button.RIGHT);
@@ -395,7 +445,7 @@ export async function rightClickOnWindows(
 export async function saveFileOnWindows(
   filename: string,
   uplinkContext: string,
-  instance: string
+  instance: string,
 ) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), "\\tests\\fixtures\\", filename);
@@ -415,7 +465,7 @@ export async function saveFileOnWindows(
 
   // Type file location and hit enter
   const editInput = await driver[instance].$(
-    "/Window/Pane[1]/ComboBox[1]/Edit"
+    "/Window/Pane[1]/ComboBox[1]/Edit",
   );
   await editInput.clearValue();
   await editInput.setValue(filename + "\uE007");
@@ -429,7 +479,7 @@ export async function saveFileOnWindows(
 export async function selectFileOnWindows(
   relativePath: string,
   uplinkContext: string,
-  instance: string
+  instance: string,
 ) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
