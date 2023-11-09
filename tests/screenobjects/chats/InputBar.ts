@@ -6,6 +6,7 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import {
+  clickOnSwitchMacOS,
   getUplinkWindowHandle,
   selectFileOnMacos,
   selectFileOnWindows,
@@ -134,8 +135,13 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   async clickOnEmojiButton() {
+    const currentDriver = await this.getCurrentDriver();
     const addEmoji = await this.emojiButton;
-    await addEmoji.click();
+    if (currentDriver === WINDOWS_DRIVER) {
+      await addEmoji.click();
+    } else if (currentDriver === MACOS_DRIVER) {
+      await clickOnSwitchMacOS(addEmoji, this.executor);
+    }
   }
 
   async clickOnInputBar() {

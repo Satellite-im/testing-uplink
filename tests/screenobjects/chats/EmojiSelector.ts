@@ -74,7 +74,7 @@ export default class EmojiSelector extends UplinkMainScreen {
     }
     await this.hoverOnElement(emojiElement);
     if (currentDriver === MACOS_DRIVER) {
-      await clickOnSwitchMacOS(emojiElement, USER_A_INSTANCE);
+      await clickOnSwitchMacOS(emojiElement, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await emojiElement.click();
     }
