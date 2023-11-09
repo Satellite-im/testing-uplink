@@ -11,7 +11,7 @@ import {
   selectFileOnWindows,
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-const {keyboard, Key} = require("@nut-tree/nut-js");
+const { keyboard, Key } = require("@nut-tree/nut-js");
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
@@ -135,7 +135,6 @@ export default class InputBar extends UplinkMainScreen {
 
   async clickOnEmojiButton() {
     const addEmoji = await this.emojiButton;
-    await this.hoverOnElement(addEmoji);
     await addEmoji.click();
   }
 
