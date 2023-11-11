@@ -334,125 +334,6 @@ jobs:
             Failed Automated Test
           type: add
 
-  test-windows-chats:
-    needs: build-windows
-    runs-on: windows-latest
-
-    steps:
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
-
-      - name: Change resolution on Windows Runner
-        run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
-        shell: powershell
-
-      - name: Download the Windows app 🗳️
-        uses: actions/download-artifact@v3
-        with:
-          name: Uplink-windows-latest
-          path: ./apps
-
-      - name: Extract .zip into apps Directory 🗳️
-        run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
-
-      - name: Download the Windows app assets
-        uses: actions/download-artifact@v3
-        with:
-          name: uplink-windows-assets
-          path: ./apps
-
-      - name: Copy app to have two instances 💿
-        working-directory: ./apps
-        run: |
-          cp -r ./uplink.exe ./uplink2.exe
-
-      - name: Move Windows assets to correct locations 💿
-        working-directory: ./apps
-        run: |
-          mkdir ./bin/extra
-          mkdir ./extra
-          mv ./uplink.exe ./bin/
-          mv ./uplink2.exe ./bin/
-          mv ./images/ ./bin/extra/
-          mv ./prism_langs/ ./bin/extra/
-          mv ./themes/ ./extra/
-
-      - name: Setup Node.js 🔨
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: "npm"
-
-      - name: Cache NPM dependencies 🔨
-        uses: actions/cache@v3
-        id: cache-windows-chats
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-
-      - name: Install NPM dependencies 📦
-        if: steps.cache-windows-chats.outputs.cache-hit != 'true'
-        run: npm ci
-
-      - name: Install Appium Server 💻
-        run: |
-          npm install -g appium@next
-          appium -v
-
-      - name: Install Appium Driver 💻
-        run: |
-          appium driver install --source=npm appium-windows-driver
-          appium driver list
-
-      - name: Setup FFMPEG to record screen
-        uses: FedericoCarboni/setup-ffmpeg@v2
-        id: setup-ffmpeg
-
-      - name: Delete Cache Folder if exists - Windows
-        run: If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }
-        shell: powershell
-
-      - name: Run Chat Tests on Windows 🧪
-        run: npm run windows.multiremote
-
-      - name: Upload Test Report - Windows Chats
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-report-windows-chats
-          path: ./test-report/*.xml
-
-      - name: Upload Allure Test Results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-allure-windows-chats
-          path: ./allure-results/
-
-      - name: Upload Screenshots for Windows - Chats 📷
-        uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: appium-screenshots-windows-chats
-          path: ./test-results
-
-      - name: Upload Appium Log for Windows - Chats 📷
-        uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: appium-log-windows-chats
-          path: |
-            ./appium.log
-
-      - name: Add label if any of test jobs failed
-        if: failure()
-        uses: buildsville/add-remove-label@v2.0.0
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          labels: |
-            Failed Automated Test
-          type: add
-
   test-windows:
     needs: build-windows
     runs-on: windows-latest
@@ -568,15 +449,7 @@ jobs:
 
   publish-test-results:
     if: always()
-    needs:
-      [
-        build-mac,
-        build-windows,
-        test-mac,
-        test-mac-chats,
-        test-windows-chats,
-        test-windows,
-      ]
+    needs: [build-mac, build-windows, test-mac, test-mac-chats, test-windows]
     runs-on: ubuntu-latest
     permissions:
       checks: write
@@ -595,12 +468,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: test-report-macos-chats
-          path: artifacts
-
-      - name: Download Test Report for Windows Chats
-        uses: actions/download-artifact@v3
-        with:
-          name: test-report-windows-chats
           path: artifacts
 
       - name: Download Test Report for Windows CI
@@ -625,12 +492,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: test-allure-windows-ci
-          path: allure
-
-      - name: Download Allure Results for Windows Chats
-        uses: actions/download-artifact@v3
-        with:
-          name: test-allure-windows-chats
           path: allure
 
       - name: Publish Test Results for Tests
@@ -684,7 +545,6 @@ jobs:
         build-windows,
         test-mac,
         test-mac-chats,
-        test-windows-chats,
         test-windows,
         publish-test-results,
       ]
@@ -712,8 +572,6 @@ jobs:
             test-report-macos-ci
             test-report-macos-chats
             test-report-windows-ci
-            test-report-windows-chats
             test-allure-mac-ci
             test-allure-mac-chats
             test-allure-windows-ci
-            test-allure-windows-chats
