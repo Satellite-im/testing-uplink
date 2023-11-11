@@ -35,10 +35,10 @@ const SELECTORS_MACOS = {
   REPLY_POPUP_INDICATOR_ONLINE: "~indicator-online",
   REPLY_POPUP_LOCAL_TEXT_TO_REPLY: "~reply-text-message",
   REPLY_POPUP_LOCAL_TEXT_TO_REPLY_VALUE:
-    "-ios class chain:**/XCUIElementTypeStaticText",
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   REPLY_POPUP_REMOTE_TEXT_TO_REPLY: "~reply-text-message-remote",
   REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE:
-    "-ios class chain:**/XCUIElementTypeStaticText",
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   REPLY_POPUP_USER_IMAGE: "~User Image",
   REPLY_POPUP_USER_IMAGE_PROFILE: "~user-image-profile",
   REPLY_POPUP_USER_IMAGE_WRAP: "~user-image-wrap",
@@ -152,28 +152,9 @@ export default class ReplyPrompt extends UplinkMainScreen {
     await replyPopUpCloseButton.waitForExist();
     await replyPopUpUserImage.waitForExist();
     await replyPopUpIndicator.waitForExist();
-    await driver[this.executor].waitUntil(
-      async () => {
-        return (await this.replyPopUpHeader.getText()) === "REPLYING TO:";
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected reply prompt header was incorrect after 15 seconds",
-      }
-    );
-
-    await driver[this.executor].waitUntil(
-      async () => {
-        return (
-          (await this.replyPopUpRemoteTextToReplyValue.getText()) === message
-        );
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected reply prompt header text to reply was incorrect after 15 seconds",
-      }
+    await expect(this.replyPopUpHeader).toHaveTextContaining("REPLYING TO:");
+    await expect(this.replyPopUpRemoteTextToReplyValue).toHaveTextContaining(
+      message,
     );
   }
 
@@ -185,7 +166,7 @@ export default class ReplyPrompt extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Expected reply modal is still visible after 15 seconds",
-      }
+      },
     );
   }
 }

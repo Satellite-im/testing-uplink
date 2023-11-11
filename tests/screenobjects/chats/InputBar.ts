@@ -216,7 +216,9 @@ export default class InputBar extends UplinkMainScreen {
     if (inputTextValueLanguage.includes("```" + language) === false) {
       await this.typeCodeOnInputBar(language, codeToType);
     } else {
-      await keyboard.type(Key.LeftShift, Key.Enter);
+      await keyboard.pressKey(Key.LeftShift);
+      await keyboard.type(Key.Enter);
+      await keyboard.releaseKey(Key.LeftShift);
       await inputText.addValue(codeToType);
       const inputTextValueCode = await inputText.getText();
       if (inputTextValueCode.includes(codeToType) === false) {
