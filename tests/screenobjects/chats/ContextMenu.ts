@@ -14,6 +14,7 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MESSAGES_CANCEL_EDIT: '[name="messages-cancel-edit"]',
+  CONTEXT_MESSAGES_COPY: '[name="messages-copy"]',
   CONTEXT_MESSAGES_DELETE: '[name="messages-delete"]',
   CONTEXT_MESSAGES_EDIT: '[name="messages-edit"]',
   CONTEXT_MESSAGES_PIN: '[name="messages-pin"]',
@@ -26,6 +27,7 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MESSAGES_CANCEL_EDIT: "~messages-cancel-edit",
+  CONTEXT_MESSAGES_COPY: "~messages-copy",
   CONTEXT_MESSAGES_DELETE: "~messages-delete",
   CONTEXT_MESSAGES_EDIT: "~messages-edit",
   CONTEXT_MESSAGES_PIN: "~messages-pin",
@@ -52,6 +54,12 @@ export default class ContextMenu extends UplinkMainScreen {
     return this.instance
       .$(SELECTORS.CONTEXT_MENU)
       .$(SELECTORS.CONTEXT_MESSAGES_CANCEL_EDIT);
+  }
+
+  get contextMessagesCopy() {
+    return this.instance
+      .$(SELECTORS.CONTEXT_MENU)
+      .$(SELECTORS.CONTEXT_MESSAGES_COPY);
   }
 
   get contextMessagesDelete() {
@@ -152,11 +160,11 @@ export default class ContextMenu extends UplinkMainScreen {
       locator = await this.instance.$(
         '//XCUIElementTypeGroup[@label="Context Menu"]/XCUIElementTypeButton[@Value="' +
           reaction +
-          '"]'
+          '"]',
       );
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await this.instance.$(
-        '//Group[@Name="Context Menu"]/Button[@Name="' + reaction + '"]'
+        '//Group[@Name="Context Menu"]/Button[@Name="' + reaction + '"]',
       );
     }
     await locator.click();
@@ -176,6 +184,11 @@ export default class ContextMenu extends UplinkMainScreen {
   async selectContextOptionCancelEdit() {
     const contextMessagesCancelEdit = await this.contextMessagesCancelEdit;
     await contextMessagesCancelEdit.click();
+  }
+
+  async selectContextOptionCopy() {
+    const contextMessagesCopy = await this.contextMessagesCopy;
+    await contextMessagesCopy.click();
   }
 
   async selectContextOptionDelete() {
