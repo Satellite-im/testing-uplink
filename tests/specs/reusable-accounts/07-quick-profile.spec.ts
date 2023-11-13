@@ -90,7 +90,7 @@ export default async function quickProfileTests() {
     await chatsQuickProfileFirstUser.clickOnRemoveUser();
 
     // Welcome Screen should be displayed
-    await welcomeScreenFirstUser.skeletalUser.waitForExist();
+    await welcomeScreenFirstUser.validateWelcomeScreenIsShown();
   });
 
   it("Chat User A - Ensure that Chat User B is not in friends list now", async () => {
