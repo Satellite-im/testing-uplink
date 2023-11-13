@@ -235,7 +235,7 @@ export default class Topbar extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Remove from favorites button was not displayed after passing 15 seconds from adding the same user of favorites",
-      }
+      },
     );
   }
 
@@ -248,6 +248,7 @@ export default class Topbar extends UplinkMainScreen {
   async clickOnTopbar() {
     const topbarElement = await this.topbar;
     await topbarElement.click();
+    await browser.pause(1000);
   }
 
   async editGroup() {
@@ -301,7 +302,7 @@ export default class Topbar extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected indicator online was never displayed on Chat Screen topbar after 15 seconds",
-      }
+      },
     );
   }
 
@@ -314,7 +315,7 @@ export default class Topbar extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected username was never displayed on Chat Screen topbar after 15 seconds",
-      }
+      },
     );
   }
 
@@ -327,7 +328,7 @@ export default class Topbar extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected user image was never displayed on Chat Screen topbar after 15 seconds",
-      }
+      },
     );
   }
 
@@ -339,7 +340,7 @@ export default class Topbar extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Chats Topbar was never shown after 15 seconds",
-      }
+      },
     );
   }
 
@@ -351,7 +352,7 @@ export default class Topbar extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Remote user never shown as online after 15 seconds",
-      }
+      },
     );
   }
 }
