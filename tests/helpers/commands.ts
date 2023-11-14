@@ -493,7 +493,7 @@ export async function selectFileOnWindows(
 
   // Wait for Save Panel to be displayed
   const listView = await driver[instance].$("~listview");
-  await listView.waitForExist();
+  await listView.waitForExist({ timeout: 25000 });
 
   // Type file location and hit enter
   const editField = await driver[instance].$("//Window/ComboBox/Edit");
