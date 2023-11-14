@@ -55,8 +55,8 @@ export default class CreateUserScreen extends UplinkMainScreen {
     const usernameInput = await this.usernameInput;
     await usernameInput.clearValue();
     await usernameInput.setValue(username);
-    const usernameInputText = await usernameInput.getText();
-    if (usernameInputText !== username) {
+    const usernameInputValue = await usernameInput.getValue();
+    if (usernameInputValue !== username) {
       await this.enterUsername(username);
     }
   }
