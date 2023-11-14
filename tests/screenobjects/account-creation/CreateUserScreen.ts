@@ -1,6 +1,10 @@
 import "module-alias/register";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-import { USER_A_INSTANCE, WINDOWS_DRIVER } from "@helpers/constants";
+import {
+  MACOS_DRIVER,
+  USER_A_INSTANCE,
+  WINDOWS_DRIVER,
+} from "@helpers/constants";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
@@ -52,12 +56,15 @@ export default class CreateUserScreen extends UplinkMainScreen {
   }
 
   async enterUsername(username: string) {
+    const currentDriver = await this.getCurrentDriver();
     const usernameInput = await this.usernameInput;
     await usernameInput.clearValue();
     await usernameInput.setValue(username);
-    const usernameInputValue = await usernameInput.getValue();
-    if (usernameInputValue !== username) {
-      await this.enterUsername(username);
+    if (currentDriver === MACOS_DRIVER) {
+      const usernameInputValue = await usernameInput.getValue();
+      if (usernameInputValue !== username) {
+        await this.enterUsername(username);
+      }
     }
   }
 
