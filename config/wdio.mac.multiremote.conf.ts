@@ -153,5 +153,14 @@ export const config: WebdriverIO.Config = {
           ]);
         }
       }
-  }
+  },
+
+  afterSuite: async function (suite) {
+    // Close second application if open
+    await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
+      {
+        bundleId: MACOS_USER_B_BUNDLE_ID,
+      },
+    ]);
+  },
 }

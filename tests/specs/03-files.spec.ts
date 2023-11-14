@@ -189,12 +189,13 @@ export default async function files() {
     // Wait until progress indicator disappears
     await filesScreenFirstUser.uploadFileIndicatorProgress.waitForExist({
       reverse: true,
+      timeout: 60000,
     });
 
     // Once that progress indicator disappears, validate that file is loaded
     await filesScreenFirstUser.validateFileOrFolderExist(
       "app-macos.zip",
-      60000,
+      30000,
     );
 
     // Finally, ensure that file size indicators are updated
@@ -221,12 +222,13 @@ export default async function files() {
     // Wait until progress indicator disappears
     await filesScreenFirstUser.uploadFileIndicatorProgress.waitForExist({
       reverse: true,
+      timeout: 60000,
     });
 
     // Once that progress indicator disappears, validate that file is loaded and is automatically renamed to avoid name conflicts
     await filesScreenFirstUser.validateFileOrFolderExist(
       "app-macos (1).zip",
-      60000,
+      30000,
     );
   });
 
