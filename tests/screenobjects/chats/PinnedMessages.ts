@@ -79,7 +79,7 @@ currentOS === WINDOWS_DRIVER
 
 export default class PinnedMessages extends UplinkMainScreen {
   constructor(executor: string) {
-    super(executor, SELECTORS.PINNED_MESSAGES_MAIN);
+    super(executor, SELECTORS.PIN_MODAL_MAIN);
   }
 
   get pinnedMessageAttachments() {
@@ -88,49 +88,49 @@ export default class PinnedMessages extends UplinkMainScreen {
 
   get pinnedMessageAttachmentsFileEmbed() {
     return this.pinnedMessageAttachments.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_EMBED
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_EMBED,
     );
   }
 
   get pinnedMessageAttachmentsFileIcon() {
     return this.pinnedMessageAttachmentsFileEmbed.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON,
     );
   }
 
   get pinnedMessageAttachmentsFileIconExtension() {
     return this.pinnedMessageAttachmentsFileIcon.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON_EXTENSION
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON_EXTENSION,
     );
   }
 
   get pinnedMessageAttachmentsFileInfo() {
     return this.pinnedMessageAttachmentsFileEmbed.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_INFO
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_INFO,
     );
   }
 
   get pinnedMessageAttachmentsFileMeta() {
     return this.pinnedMessageAttachmentsFileInfo.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META,
     );
   }
 
   get pinnedMessageAttachmentsFileMetaText() {
     return this.pinnedMessageAttachmentsFileMeta.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META_TEXT
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META_TEXT,
     );
   }
 
   get pinnedMessageAttachmentsFileName() {
     return this.pinnedMessageAttachmentsFileInfo.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME,
     );
   }
 
   get pinnedMessageAttachmentsFileNameText() {
     return this.pinnedMessageAttachmentsFileName.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME_TEXT
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME_TEXT,
     );
   }
 
@@ -164,19 +164,19 @@ export default class PinnedMessages extends UplinkMainScreen {
 
   get pinnedMessageTimestampText() {
     return this.pinnedMessageTimestamp.$(
-      SELECTORS.PINNED_MESSAGE_TIMESTAMP_TEXT
+      SELECTORS.PINNED_MESSAGE_TIMESTAMP_TEXT,
     );
   }
 
   get pinnedMessageUserImage() {
     return this.pinnedMessageUserImageWrap.$(
-      SELECTORS.PINNED_MESSAGE_USER_IMAGE
+      SELECTORS.PINNED_MESSAGE_USER_IMAGE,
     );
   }
 
   get pinnedMessageUserImageProfile() {
     return this.pinnedMessageUserImage.$(
-      SELECTORS.PINNED_MESSAGE_USER_IMAGE_PROFILE
+      SELECTORS.PINNED_MESSAGE_USER_IMAGE_PROFILE,
     );
   }
 
@@ -243,80 +243,80 @@ export default class PinnedMessages extends UplinkMainScreen {
 
   async getPinnedMessageAttachment(
     orderPinned: number,
-    attachmentNumber: number
+    attachmentNumber: number,
   ) {
     const pinnedContainerByIndex =
       await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
     const attachmentOnPinnedMessage = await pinnedContainerByIndex.$$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS,
     )[attachmentNumber];
     return attachmentOnPinnedMessage;
   }
 
   async getPinnedMessageAttachmentFileEmbed(
     orderPinned: number,
-    attachmentNumber: number
+    attachmentNumber: number,
   ) {
     const attachmentOnPinnedMessage = await this.getPinnedMessageAttachment(
       orderPinned,
-      attachmentNumber
+      attachmentNumber,
     );
     const attachmentFileEmbed = await attachmentOnPinnedMessage.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_EMBED
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_EMBED,
     );
     return attachmentFileEmbed;
   }
 
   async getPinnedMessageAttachmentFileIcon(
     orderPinned: number,
-    attachmentNumber: number
+    attachmentNumber: number,
   ) {
     const attachmentOnPinnedFileEmbed =
       await this.getPinnedMessageAttachmentFileEmbed(
         orderPinned,
-        attachmentNumber
+        attachmentNumber,
       );
     const attachmentFileIcon = await attachmentOnPinnedFileEmbed.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON,
     );
     return attachmentFileIcon;
   }
 
   async getPinnedMessageAttachmentFileIconExtension(
     orderPinned: number,
-    attachmentNumber: number
+    attachmentNumber: number,
   ) {
     const attachmentFileIcon = await this.getPinnedMessageAttachmentFileIcon(
       orderPinned,
-      attachmentNumber
+      attachmentNumber,
     );
     const attachmentFileIconExtension = await attachmentFileIcon.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON_EXTENSION
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON_EXTENSION,
     );
     return attachmentFileIconExtension;
   }
 
   async getPinnedMessageAttachmentFileInfo(
     orderPinned: number,
-    attachmentNumber: number
+    attachmentNumber: number,
   ) {
     const attachmentFileEmbed = await this.getPinnedMessageAttachmentFileEmbed(
       orderPinned,
-      attachmentNumber
+      attachmentNumber,
     );
     const attachmentFileInfo = await attachmentFileEmbed.$(
-      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_INFO
+      SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_INFO,
     );
     return attachmentFileInfo;
   }
 
   async getPinnedMessageAttachmentFileMetaText(
     orderPinned: number,
-    attachmentNumber: number
+    attachmentNumber: number,
   ) {
     const attachmentFileInfo = await this.getPinnedMessageAttachmentFileInfo(
       orderPinned,
-      attachmentNumber
+      attachmentNumber,
     );
     const fileMetaText = await attachmentFileInfo
       .$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META)
@@ -326,11 +326,11 @@ export default class PinnedMessages extends UplinkMainScreen {
 
   async getPinnedMessageAttachmentFileNameText(
     orderPinned: number,
-    attachmentNumber: number
+    attachmentNumber: number,
   ) {
     const attachmentFileInfo = await this.getPinnedMessageAttachmentFileInfo(
       orderPinned,
-      attachmentNumber
+      attachmentNumber,
     );
     const fileNameText = await attachmentFileInfo
       .$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME)
@@ -342,7 +342,7 @@ export default class PinnedMessages extends UplinkMainScreen {
     const pinnedContainerByIndex =
       await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
     const goToButton = await pinnedContainerByIndex.$(
-      SELECTORS.PINNED_MESSAGE_BUTTON_GO_TO
+      SELECTORS.PINNED_MESSAGE_BUTTON_GO_TO,
     );
     return goToButton;
   }
@@ -351,7 +351,7 @@ export default class PinnedMessages extends UplinkMainScreen {
     const pinnedContainerByIndex =
       await this.getPinnedMessageLocatorByAdditionOrder(orderPinned);
     const unpinButton = await pinnedContainerByIndex.$(
-      SELECTORS.PINNED_MESSAGE_BUTTON_UNPIN
+      SELECTORS.PINNED_MESSAGE_BUTTON_UNPIN,
     );
     return unpinButton;
   }
@@ -378,7 +378,7 @@ export default class PinnedMessages extends UplinkMainScreen {
     const pinnedWrapByIndex =
       await this.getPinnedMessageWrapLocatorByAdditionOrder(orderPinned);
     const userImage = await pinnedWrapByIndex.$(
-      SELECTORS.PINNED_MESSAGE_USER_IMAGE
+      SELECTORS.PINNED_MESSAGE_USER_IMAGE,
     );
     return userImage;
   }
@@ -387,7 +387,7 @@ export default class PinnedMessages extends UplinkMainScreen {
     const pinnedWrapByIndex =
       await this.getPinnedMessageWrapLocatorByAdditionOrder(orderPinned);
     const userImageProfile = await pinnedWrapByIndex.$(
-      SELECTORS.PINNED_MESSAGE_USER_IMAGE_PROFILE
+      SELECTORS.PINNED_MESSAGE_USER_IMAGE_PROFILE,
     );
     return userImageProfile;
   }
@@ -417,7 +417,7 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   async validateFirstPinnedMessageAttachmentFileIconExtension(
-    extension: string
+    extension: string,
   ) {
     const attachmentExtension =
       await this.getPinnedMessageAttachmentFileIconExtension(0, 0);
@@ -452,7 +452,7 @@ export default class PinnedMessages extends UplinkMainScreen {
   async validateFirstPinnedMessageTimestampIsShown() {
     const timestamp = await this.getPinnedMessageTimestampText(0);
     await expect(timestamp).toHaveTextContaining(
-      /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}\s+(0[1-9]|1[0-2]):([0-5][0-9])\s+(AM|PM)$/
+      /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}\s+(0[1-9]|1[0-2]):([0-5][0-9])\s+(AM|PM)$/,
     );
   }
 }

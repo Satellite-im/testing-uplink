@@ -113,20 +113,20 @@ export default async function messageInputTests() {
     );
   });
 
+  it("Chat Input Text - Validate text starting with http:// is sent as link", async () => {
+    // With Chat User A
+    await chatsInputFirstUser.typeMessageOnInput("http://www.microsoft.com");
+    await chatsInputFirstUser.clickOnSendMessage();
+    await chatsMessagesFirstUser.waitForLinkSentToExist(
+      "http://www.microsoft.com",
+    );
+  });
+
   it("Chat Input Text - Validate text starting with www. is sent as link", async () => {
     // With Chat User A
     await chatsInputFirstUser.typeMessageOnInput("www.apple.com");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForLinkSentToExist("www.apple.com");
-  });
-
-  it("Chat Input Text - Validate text starting with http:// is sent as link", async () => {
-    // With Chat User A
-    await chatsInputFirstUser.typeMessageOnInput("http://www.satellite.im");
-    await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForLinkSentToExist(
-      "http://www.satellite.im",
-    );
   });
 
   it("Chat User - Chat Messages containing links contents on local side", async () => {
@@ -142,7 +142,7 @@ export default async function messageInputTests() {
 
     await linkEmbedSent.waitForExist();
     await expect(linkEmbedSentDetailsText).toHaveTextContaining(
-      "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included.",
+      "Discover the innovative world of Apple and shop everything iPhone, iPad, Apple Watch, Mac, and Apple TV, plus explore accessories, entertainment, and expert device support.",
     );
     await linkEmbedSentIcon.waitForExist();
     await linkEmbedSentIconTitle.waitForExist();
@@ -153,13 +153,11 @@ export default async function messageInputTests() {
     await activateSecondApplication();
     await chatsMessagesFirstUser.waitForReceivingLink("https://www.google.com");
 
+    // With Chat User B, validate message with URL starting with http:// was received as link
+    await chatsMessagesFirstUser.waitForReceivingLink("http://www.google.com");
+
     // With Chat User B, validate message with URL starting with www. was received as link
     await chatsMessagesFirstUser.waitForReceivingLink("www.apple.com");
-
-    // With Chat User B, validate message with URL starting with http:// was received as link
-    await chatsMessagesFirstUser.waitForReceivingLink(
-      "http://www.satellite.im",
-    );
   });
 
   it("Chat User - Chat Messages containing links contents on remote side", async () => {
@@ -175,7 +173,7 @@ export default async function messageInputTests() {
 
     await linkEmbedReceived.waitForExist();
     await expect(linkEmbedReceivedDetailsText).toHaveTextContaining(
-      "P2P Chat, Voice &#38; Video Open-source, stored on IPFS. End to end encryption... trackers not included.",
+      "Discover the innovative world of Apple and shop everything iPhone, iPad, Apple Watch, Mac, and Apple TV, plus explore accessories, entertainment, and expert device support.",
     );
     await linkEmbedReceivedIcon.waitForExist();
     await linkEmbedReceivedIconTitle.waitForExist();
