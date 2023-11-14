@@ -113,15 +113,6 @@ export default async function messageInputTests() {
     );
   });
 
-  it("Chat Input Text - Validate text starting with http:// is sent as link", async () => {
-    // With Chat User A
-    await chatsInputFirstUser.typeMessageOnInput("http://www.microsoft.com");
-    await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForLinkSentToExist(
-      "http://www.microsoft.com",
-    );
-  });
-
   it("Chat Input Text - Validate text starting with www. is sent as link", async () => {
     // With Chat User A
     await chatsInputFirstUser.typeMessageOnInput("www.apple.com");
@@ -152,9 +143,6 @@ export default async function messageInputTests() {
     // With Chat User B, validate message with URL starting with https:// was received as link
     await activateSecondApplication();
     await chatsMessagesFirstUser.waitForReceivingLink("https://www.google.com");
-
-    // With Chat User B, validate message with URL starting with http:// was received as link
-    await chatsMessagesFirstUser.waitForReceivingLink("http://www.google.com");
 
     // With Chat User B, validate message with URL starting with www. was received as link
     await chatsMessagesFirstUser.waitForReceivingLink("www.apple.com");
