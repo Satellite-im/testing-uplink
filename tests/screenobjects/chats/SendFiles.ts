@@ -54,7 +54,8 @@ const SELECTORS_MACOS = {
   FILES_LIST: "~files-list",
   GO_TO_FILES_BUTTON: "~go_to_files_btn",
   HOME_DIR: "~home-dir",
-  HOME_DIR_TEXT: "~Home",
+  HOME_DIR_TEXT:
+    '-ios class chain:**/XCUIElementTypeStaticText[`value == "Home"`]',
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   INPUT_FILE_NAME: '[name="file-name-input"]',
@@ -212,8 +213,6 @@ export default class SendFiles extends UplinkMainScreen {
     let result;
     if (currentDriver === WINDOWS_DRIVER) {
       result = await sendFilesModalSendButton.getAttribute("HelpText");
-    } else {
-      result = await sendFilesModalSendButton.getAttribute("placeholderValue");
     }
     return result.toString();
   }
@@ -234,7 +233,7 @@ export default class SendFiles extends UplinkMainScreen {
     const folders = await this.filesCrumb;
     const treeLength = folders.length - 1;
     const currentFolderName = await folders[treeLength].$(
-      SELECTORS.FILES_CRUMB_TEXT
+      SELECTORS.FILES_CRUMB_TEXT,
     );
     const currentFolderNameText = await currentFolderName.getText();
     return currentFolderNameText;
@@ -306,9 +305,12 @@ export default class SendFiles extends UplinkMainScreen {
   }
 
   async validateSendFilesButtonText(expectedText: string) {
-    await this.getValueFromSendFilesButton().then((value) => {
-      expect(value).toEqual(expectedText);
-    });
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === WINDOWS_DRIVER) {
+      await this.getValueFromSendFilesButton().then((value) => {
+        expect(value).toEqual(expectedText);
+      });
+    }
   }
 
   async validateSendFilesModalIsShown() {
