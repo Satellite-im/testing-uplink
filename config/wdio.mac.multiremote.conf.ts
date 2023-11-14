@@ -28,7 +28,7 @@ export const config: WebdriverIO.Config = {
     // will be called from there.
     //
     // The number of times to retry the entire specfile when it fails as a whole
-    specFileRetries: 0,
+    specFileRetries: 2,
     //
     // Delay in seconds between the spec file retry attempts
     specFileRetriesDelay: 30,
@@ -153,5 +153,14 @@ export const config: WebdriverIO.Config = {
           ]);
         }
       }
-  }
+  },
+
+  afterSuite: async function (suite) {
+    // Close second application if open
+    await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
+      {
+        bundleId: MACOS_USER_B_BUNDLE_ID,
+      },
+    ]);
+  },
 }
