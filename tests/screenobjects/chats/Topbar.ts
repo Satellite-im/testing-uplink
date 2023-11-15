@@ -251,6 +251,11 @@ export default class Topbar extends UplinkMainScreen {
     await browser.pause(1000);
   }
 
+  async clickOnTopbarUserImage() {
+    const topbarUserImage = await this.topbarUserImage;
+    await topbarUserImage.click();
+  }
+
   async editGroup() {
     await this.hoverOnEditGroupButton();
     const topbarEditGroup = await this.topbarEditGroup;

@@ -129,4 +129,7 @@ export async function setupBeforeCreateGroupTests() {
   await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserA");
   await friendsScreenFirstUser.chatWithFriendButton.click();
   await chatsTopbarFirstUser.validateTopbarExists();
+
+  // Switch control to User A
+  await activateFirstApplication();
 }
