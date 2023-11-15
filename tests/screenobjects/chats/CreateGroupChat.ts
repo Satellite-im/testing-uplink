@@ -214,9 +214,9 @@ export default class CreateGroupChat extends UplinkMainScreen {
       .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
       .$(SELECTORS.FRIENDS_LIST)
       .$(
-        '//XCUIElementTypeGroup[@label="friend-name"]/XCUIElementTypeStaticText[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeStaticText[`value == "' +
           username +
-          '")])',
+          '"`]',
       );
     return friendLocator;
   }
