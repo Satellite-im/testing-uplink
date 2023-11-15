@@ -12,12 +12,17 @@ const SELECTORS_WINDOWS = {
   COMPOSE_ATTACHMENTS_BUTTON: '[name="attachment-button"]',
   COMPOSE_ATTACHMENTS_FILE_EMBED: '[name="file-embed"]',
   COMPOSE_ATTACHMENTS_FILE_ICON: '[name="file-icon"]',
+  COMPOSE_ATTACHMENTS_FILE_ICON_VALUE: "//Group/Text",
   COMPOSE_ATTACHMENTS_FILE_INFO: '[name="file-info"]',
   COMPOSE_ATTACHMENTS_FILE_META: '[name="file-meta"]',
   COMPOSE_ATTACHMENTS_FILE_NAME: '[name="file-name"]',
   COMPOSE_ATTACHMENTS_FILE_NAME_TEXT: "<Text>",
+  COMPOSE_ATTACHMENTS_IMAGE_PREVIEW_MODAL: '[name="image-preview-modal"]',
   COMPOSE_ATTACHMENTS_INPUT_ERROR: '[name="input-error"]',
   COMPOSE_ATTACHMENTS_INPUT_ERROR_TEXT: "<Text>",
+  COMPOSE_ATTACHMENTS_MESSAGE_IMAGE: '[name="message-image"]',
+  COMPOSE_ATTACHMENTS_MESSAGE_IMAGE_CONTAINER:
+    '[name="message-image-container"]',
 };
 
 const SELECTORS_MACOS = {
@@ -25,14 +30,19 @@ const SELECTORS_MACOS = {
   COMPOSE_ATTACHMENTS_BUTTON: "~attachment-button",
   COMPOSE_ATTACHMENTS_FILE_EMBED: "~file-embed",
   COMPOSE_ATTACHMENTS_FILE_ICON: "~file-icon",
+  COMPOSE_ATTACHMENTS_FILE_ICON_VALUE:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   COMPOSE_ATTACHMENTS_FILE_INFO: "~file-info",
   COMPOSE_ATTACHMENTS_FILE_META: "~file-meta",
   COMPOSE_ATTACHMENTS_FILE_NAME: "~file-name",
   COMPOSE_ATTACHMENTS_FILE_NAME_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText",
+  COMPOSE_ATTACHMENTS_IMAGE_PREVIEW_MODAL: "~image-preview-modal",
   COMPOSE_ATTACHMENTS_INPUT_ERROR: "~input-error",
   COMPOSE_ATTACHMENTS_INPUT_ERROR_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText",
+  COMPOSE_ATTACHMENTS_MESSAGE_IMAGE: "~message-image",
+  COMPOSE_ATTACHMENTS_MESSAGE_IMAGE_CONTAINER: "~message-image-container",
 };
 
 currentOS === WINDOWS_DRIVER
@@ -58,25 +68,31 @@ export default class ComposeAttachments extends UplinkMainScreen {
 
   get composeAttachmentsFileIcon() {
     return this.composeAttachmentsFileEmbed.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_ICON
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_ICON,
+    );
+  }
+
+  get composeAttachmentsFileIconValue() {
+    return this.composeAttachmentsFileIcon.$(
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_ICON_VALUE,
     );
   }
 
   get composeAttachmentsFileInfo() {
     return this.composeAttachmentsFileEmbed.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_INFO
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_INFO,
     );
   }
 
   get composeAttachmentsFileMeta() {
     return this.composeAttachmentsFileEmbed.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_META
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_META,
     );
   }
 
   get composeAttachmentsFileName() {
     return this.composeAttachmentsFileEmbed.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME,
     );
   }
 
@@ -86,23 +102,41 @@ export default class ComposeAttachments extends UplinkMainScreen {
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME_TEXT);
   }
 
+  get composeAttachmentsImagePreviewModal() {
+    return this.composeAttachmentsFileEmbed.$(
+      SELECTORS.COMPOSE_ATTACHMENTS_IMAGE_PREVIEW_MODAL,
+    );
+  }
+
   get composeAttachmentsInputError() {
     return this.composeAttachments.$(SELECTORS.COMPOSE_ATTACHMENTS_INPUT_ERROR);
   }
 
   get composeAttachmentsInputErrorText() {
     return this.composeAttachmentsInputError.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_INPUT_ERROR_TEXT
+      SELECTORS.COMPOSE_ATTACHMENTS_INPUT_ERROR_TEXT,
+    );
+  }
+
+  get composeAttachmentsMessageImage() {
+    return this.composeAttachmentsMessageImageContainer.$(
+      SELECTORS.COMPOSE_ATTACHMENTS_MESSAGE_IMAGE,
+    );
+  }
+
+  get composeAttachmentsMessageImageContainer() {
+    return this.composeAttachmentsFileEmbed.$(
+      SELECTORS.COMPOSE_ATTACHMENTS_MESSAGE_IMAGE_CONTAINER,
     );
   }
 
   async clickOnDeleteAttachment(attachment: number) {
     // Get the locator of attachment to delete by passing the index
     const attachmentToDelete = await this.instance.$$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
     )[attachment];
     const deleteAttachmentButton = await attachmentToDelete.$(
-      SELECTORS.COMPOSE_ATTACHMENTS_BUTTON
+      SELECTORS.COMPOSE_ATTACHMENTS_BUTTON,
     );
     await deleteAttachmentButton.click();
   }
@@ -116,7 +150,7 @@ export default class ComposeAttachments extends UplinkMainScreen {
     const composeAttachments = await this.composeAttachments;
     await composeAttachments.waitForExist();
     const filesAttached = await this.instance.$$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED
+      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
     );
     let results = [];
     for (let fileAttached of filesAttached) {
@@ -139,13 +173,13 @@ export default class ComposeAttachments extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Attachment file was not added after 15 seconds",
-      }
+      },
     );
   }
 
   async validateAttachmentWithFileNameIsAdded(
     fileName: string,
-    expectedAssertion: boolean
+    expectedAssertion: boolean,
   ) {
     const attachmentsList = await this.getListOfAttachmentsEmbed();
     const includesAttachment = await attachmentsList.includes(fileName);
