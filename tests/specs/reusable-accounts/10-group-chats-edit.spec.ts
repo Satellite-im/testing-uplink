@@ -46,14 +46,14 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.editGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
 
-    await editGroupFirstUser.groupNameInput.waitForExist();
-    await editGroupFirstUser.userInput.waitForExist();
+    await editGroupFirstUser.validateEditGroupNameInputIsShown();
+    await editGroupFirstUser.validateEditGroupUserInputIsShown();
   });
 
   it("Edit Group - Attempt to change Group Name for a name containing non-alphanumeric characters", async () => {
     // Type on group name input an invalid name and validate error message
     await editGroupFirstUser.typeOnGroupNameInput("@");
-    await editGroupFirstUser.groupNameInputError.waitForExist();
+    await editGroupFirstUser.validateEditGroupInputErrorIsShown();
 
     const inputErrorText = await editGroupFirstUser.groupNameInputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
@@ -71,7 +71,7 @@ export default async function groupChatEditTests() {
     );
 
     // Validate error message
-    await editGroupFirstUser.groupNameInputError.waitForExist();
+    await editGroupFirstUser.validateEditGroupInputErrorIsShown();
     const inputErrorText = await editGroupFirstUser.groupNameInputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
       "Maximum of 64 characters exceeded.",
