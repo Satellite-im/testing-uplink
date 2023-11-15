@@ -272,7 +272,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   async selectUserFromList(username: string) {
-    const userLocator = await this.getFriendFromListUserImage(username);
+    const userLocator = await this.getFriendFromListUserImageProfile(username);
     await userLocator.click();
   }
 
