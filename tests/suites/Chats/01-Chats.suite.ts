@@ -24,8 +24,8 @@ describe("MacOS Chats Tests", function () {
   describe("Quick Profile Tests", quickProfileTests.bind(this));
   describe("Sidebar Chats Tests", sidebarChatsTests.bind(this));
   describe("Group Chats Tests", groupChatTests.bind(this));
-  xdescribe("Group Chats Edit Tests", groupChatEditTests.bind(this));
-  xdescribe(
+  describe("Group Chats Edit Tests", groupChatEditTests.bind(this));
+  describe(
     "Group Chats Favorites and Sidebar Tests",
     groupChatSidebarTests.bind(this),
   );

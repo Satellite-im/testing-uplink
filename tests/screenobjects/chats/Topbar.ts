@@ -256,7 +256,19 @@ export default class Topbar extends UplinkMainScreen {
     await topbarUserImage.click();
   }
 
-  async editGroup() {
+  async exitEditGroup() {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await this.clickOnHamburgerButton();
+      await this.clickOnBackButton();
+    } else {
+      await this.hoverOnEditGroupButton();
+      const topbarEditGroup = await this.topbarEditGroup;
+      await topbarEditGroup.click();
+    }
+  }
+
+  async openEditGroup() {
     await this.hoverOnEditGroupButton();
     const topbarEditGroup = await this.topbarEditGroup;
     await topbarEditGroup.click();

@@ -26,9 +26,9 @@ export default async function groupChatEditTests() {
 
   it("Chat User A - Click on Edit Group Chat and close modal", async () => {
     // Open modal to edit group chat
-    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.openEditGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
-    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.exitEditGroup();
   });
 
   it("Chat User B - You are not the group creator tooltip is displayed", async () => {
@@ -43,7 +43,7 @@ export default async function groupChatEditTests() {
   it("Edit Group - Group Name Edit - Contents displayed", async () => {
     // Switch control to first user and then open edit group modal. Validate contents displayed
     await activateFirstApplication();
-    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.openEditGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
 
     await editGroupFirstUser.validateEditGroupNameInputIsShown();
@@ -82,7 +82,7 @@ export default async function groupChatEditTests() {
   it("Edit Group - Change Group Name for a valid name", async () => {
     // Type on group name input a valid name and validate group name is changed correctly
     await editGroupFirstUser.typeOnGroupNameInput("X");
-    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.exitEditGroup();
     await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
 
     // Validate group name was changed correctly on local side
@@ -105,7 +105,7 @@ export default async function groupChatEditTests() {
     // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
     await activateFirstApplication();
 
-    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.openEditGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
     await editGroupFirstUser.clickOnAddMembers();
     await editGroupFirstUser.validateNothingHereIsDisplayed();
@@ -131,7 +131,7 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.clickOnFirstRemoveButton();
     await editGroupFirstUser.validateNothingHereIsDisplayed();
-    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.exitEditGroup();
     await chatsTopbarFirstUser.validateTopbarExists();
 
     const topbarUserStatus = chatsTopbarFirstUser.topbarUserStatusValue;
@@ -148,7 +148,7 @@ export default async function groupChatEditTests() {
   it("Edit Group - Add Users List - Chat User B appears now in list", async () => {
     // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
     await activateFirstApplication();
-    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.openEditGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
     await editGroupFirstUser.clickOnAddMembers();
     const currentList = await editGroupFirstUser.getParticipantsList();
@@ -167,7 +167,7 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
     await editGroupFirstUser.clickOnFirstAddButton();
     await editGroupFirstUser.validateNothingHereIsDisplayed();
-    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.exitEditGroup();
     await chatsTopbarFirstUser.validateTopbarExists();
 
     // Validate topbar contents has correct number of participants

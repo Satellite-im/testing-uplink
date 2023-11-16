@@ -134,7 +134,7 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Add Chat User B again to the group", async () => {
     // Go to Edit Group and then add again Chat User B to the group
-    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.openEditGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
     await editGroupFirstUser.clickOnAddMembers();
     await editGroupFirstUser.typeOnSearchUserInput("ChatUserB");
@@ -142,7 +142,7 @@ export default async function groupChatSidebarTests() {
     await editGroupFirstUser.validateNothingHereIsDisplayed();
 
     // Validate topbar contents has correct number of participants
-    await chatsTopbarFirstUser.editGroup();
+    await chatsTopbarFirstUser.exitEditGroup();
     await chatsTopbarFirstUser.validateTopbarExists();
 
     // Validate topbar contents has correct number of participants

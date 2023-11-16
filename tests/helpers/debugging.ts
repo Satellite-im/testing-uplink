@@ -11,11 +11,17 @@ import { USER_A_INSTANCE } from "./constants";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import Topbar from "@screenobjects/chats/Topbar";
+import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
+import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
+let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
+  USER_A_INSTANCE,
+);
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
@@ -40,8 +46,24 @@ export async function setupBeforeCreateGroupTests() {
   // Grab cache folder and restart
   await saveTestKeys(usernameA, didkeyA, USER_A_INSTANCE);
 
+  // Go to General Settings and reduce Font Size by 0.5
+  await settingsProfileFirstUser.goToGeneralSettings();
+
+  // Wait for toast notification of Profile Updated to not exist
+  await settingsGeneralFirstUser.waitUntilNotificationIsClosed();
+
+  // Click on font scaling minus button
+  await settingsGeneralFirstUser.settingsGeneral.waitForExist();
+  await settingsGeneralFirstUser.clickOnFontScalingMinus();
+
+  // Go to Notifications Settings and disable all notifications
+  await settingsGeneralFirstUser.goToNotificationsSettings();
+  await settingsNotificationsFirstUser.validateSettingsNotificationsIsShown();
+  await settingsNotificationsFirstUser.clickOnFriendsNotifications();
+  await settingsNotificationsFirstUser.clickOnMessagesNotifications();
+
   // Go to Friends Screen
-  await settingsProfileFirstUser.goToFriends();
+  await settingsNotificationsFirstUser.goToFriends();
   await friendsScreenFirstUser.validateFriendsScreenIsShown();
 
   // Launch second application
@@ -67,8 +89,24 @@ export async function setupBeforeCreateGroupTests() {
   // Grab cache folder and restart
   await saveTestKeys(usernameB, didkeyB, USER_A_INSTANCE);
 
+  // Go to General Settings and reduce Font Size by 0.5
+  await settingsProfileFirstUser.goToGeneralSettings();
+
+  // Wait for toast notification of Profile Updated to not exist
+  await settingsGeneralFirstUser.waitUntilNotificationIsClosed();
+
+  // Click on font scaling minus button
+  await settingsGeneralFirstUser.settingsGeneral.waitForExist();
+  await settingsGeneralFirstUser.clickOnFontScalingMinus();
+
+  // Go to Notifications Settings and disable all notifications
+  await settingsGeneralFirstUser.goToNotificationsSettings();
+  await settingsNotificationsFirstUser.validateSettingsNotificationsIsShown();
+  await settingsNotificationsFirstUser.clickOnFriendsNotifications();
+  await settingsNotificationsFirstUser.clickOnMessagesNotifications();
+
   // Go to Friends Screen
-  await settingsProfileFirstUser.goToFriends();
+  await settingsNotificationsFirstUser.goToFriends();
   await friendsScreenFirstUser.validateFriendsScreenIsShown();
 
   // Obtain did key from Chat User B
