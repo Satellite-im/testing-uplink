@@ -5,7 +5,6 @@ import {
   MACOS_DRIVER,
   WINDOWS_DRIVER,
 } from "@helpers/constants";
-
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
@@ -262,13 +261,13 @@ export default class Topbar extends UplinkMainScreen {
 
   async exitEditGroup() {
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await this.clickOnHamburgerButton();
-      await this.clickOnBackButton();
-    } else {
+    if (currentDriver === WINDOWS_DRIVER) {
       await this.hoverOnEditGroupButton();
       const topbarEditGroup = await this.topbarEditGroup;
       await topbarEditGroup.click();
+    } else if (currentDriver === MACOS_DRIVER) {
+      const editGroupModal = await $("~modal");
+      await editGroupModal.click();
     }
   }
 
@@ -276,6 +275,27 @@ export default class Topbar extends UplinkMainScreen {
     await this.hoverOnEditGroupButton();
     const topbarEditGroup = await this.topbarEditGroup;
     await topbarEditGroup.click();
+  }
+
+  async validateEditGroupIsNotDisplayed() {
+    const currentDriver = await this.getCurrentDriver();
+    await driver[this.executor].waitUntil(
+      async () => {
+        if (currentDriver === MACOS_DRIVER) {
+          return await this.instance
+            .$("~edit-group")
+            .waitForExist({ reverse: true });
+        } else if (currentDriver === WINDOWS_DRIVER) {
+          return await this.instance
+            .$('[name="edit-group"]')
+            .waitForExist({ reverse: true });
+        }
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Edit Group Section was still displayed after 15 seconds",
+      },
+    );
   }
 
   async hoverOnCallButton() {
