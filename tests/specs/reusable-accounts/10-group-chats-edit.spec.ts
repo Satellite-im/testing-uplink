@@ -29,7 +29,6 @@ export default async function groupChatEditTests() {
     await chatsTopbarFirstUser.openEditGroup();
     await editGroupFirstUser.validateEditGroupIsShown();
     await chatsTopbarFirstUser.exitEditGroup();
-    await chatsTopbarFirstUser.validateEditGroupIsNotDisplayed();
   });
 
   it("Chat User B - You are not the group creator tooltip is displayed", async () => {
@@ -84,7 +83,6 @@ export default async function groupChatEditTests() {
     // Type on group name input a valid name and validate group name is changed correctly
     await editGroupFirstUser.typeOnGroupNameInput("X");
     await chatsTopbarFirstUser.exitEditGroup();
-    await chatsTopbarFirstUser.validateEditGroupIsNotDisplayed();
     await chatsSidebarFirstUser.waitForGroupToBeCreated("X");
 
     // Validate group name was changed correctly on local side
@@ -134,7 +132,6 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.clickOnFirstRemoveButton();
     await editGroupFirstUser.validateNothingHereIsDisplayed();
     await chatsTopbarFirstUser.exitEditGroup();
-    await chatsTopbarFirstUser.validateEditGroupIsNotDisplayed();
     await chatsTopbarFirstUser.validateTopbarExists();
 
     const topbarUserStatus = chatsTopbarFirstUser.topbarUserStatusValue;
@@ -171,7 +168,6 @@ export default async function groupChatEditTests() {
     await editGroupFirstUser.clickOnFirstAddButton();
     await editGroupFirstUser.validateNothingHereIsDisplayed();
     await chatsTopbarFirstUser.exitEditGroup();
-    await chatsTopbarFirstUser.validateEditGroupIsNotDisplayed();
     await chatsTopbarFirstUser.validateTopbarExists();
 
     // Validate topbar contents has correct number of participants

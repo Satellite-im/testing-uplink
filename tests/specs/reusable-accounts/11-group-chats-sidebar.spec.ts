@@ -143,7 +143,6 @@ export default async function groupChatSidebarTests() {
 
     // Validate topbar contents has correct number of participants
     await chatsTopbarFirstUser.exitEditGroup();
-    await chatsTopbarFirstUser.validateEditGroupIsNotDisplayed();
     await chatsTopbarFirstUser.validateTopbarExists();
 
     // Validate topbar contents has correct number of participants

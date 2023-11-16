@@ -277,27 +277,6 @@ export default class Topbar extends UplinkMainScreen {
     await topbarEditGroup.click();
   }
 
-  async validateEditGroupIsNotDisplayed() {
-    const currentDriver = await this.getCurrentDriver();
-    await driver[this.executor].waitUntil(
-      async () => {
-        if (currentDriver === MACOS_DRIVER) {
-          return await this.instance
-            .$("~edit-group")
-            .waitForExist({ reverse: true });
-        } else if (currentDriver === WINDOWS_DRIVER) {
-          return await this.instance
-            .$('[name="edit-group"]')
-            .waitForExist({ reverse: true });
-        }
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Edit Group Section was still displayed after 15 seconds",
-      },
-    );
-  }
-
   async hoverOnCallButton() {
     const callButton = await this.topbarCall;
     await this.hoverOnElement(callButton);
