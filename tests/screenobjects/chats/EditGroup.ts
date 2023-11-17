@@ -15,6 +15,7 @@ const SELECTORS_WINDOWS = {
   ADD_MEMBERS: '[name="edit-group-add-members"]',
   ADD_PARTICIPANT_BUTTON: '[name="Add"]',
   CURRENT_MEMBERS: '[name="edit-group-remove-members"]',
+  EDIT_GROUP_MODAL: '[name="modal"]',
   EDIT_GROUP_SECTION: '[name="edit-group"]',
   FRIENDS_GROUP: '[name="friend-group"]',
   FRIENDS_LIST: '[name="friends-list"]',
@@ -44,6 +45,7 @@ const SELECTORS_MACOS = {
   ADD_PARTICIPANT_BUTTON: "~Add",
   CURRENT_MEMBERS: "~edit-group-remove-members",
   CURRENT_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  EDIT_GROUP_MODAL: "~modal",
   EDIT_GROUP_SECTION: "~edit-group",
   FRIENDS_GROUP: "~friend-group",
   FRIENDS_LIST: "~friends-list",
@@ -76,36 +78,40 @@ currentOS === WINDOWS_DRIVER
 
 export default class EditGroup extends UplinkMainScreen {
   constructor(executor: string) {
-    super(executor, SELECTORS.EDIT_GROUP_SECTION);
+    super(executor, SELECTORS.EDIT_GROUP_MODAL);
   }
 
   get addMembers() {
-    return this.instance.$(SELECTORS.ADD_MEMBERS);
+    return this.editGroupSection.$(SELECTORS.ADD_MEMBERS);
   }
 
   get addParticipantButton() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$$(SELECTORS.ADD_PARTICIPANT_BUTTON);
   }
 
   get currentMembers() {
-    return this.instance.$(SELECTORS.CURRENT_MEMBERS);
+    return this.editGroupSection.$(SELECTORS.CURRENT_MEMBERS);
+  }
+
+  get editGroupModal() {
+    return this.instance.$(SELECTORS.EDIT_GROUP_MODAL);
   }
 
   get editGroupSection() {
-    return this.instance.$(SELECTORS.EDIT_GROUP_SECTION);
+    return this.editGroupModal.$(SELECTORS.EDIT_GROUP_SECTION);
   }
 
   get friendsGroup() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$(SELECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIENDS_GROUP);
   }
 
   get friendsList() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$(SELECTORS.FRIENDS_LIST);
   }
@@ -125,81 +131,81 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   get nothingHereText() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$(SELECTORS.NOTHING_HERE_TEXT);
   }
 
   get participantUserContainer() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER);
   }
 
   get participantUserCreatorBadgeImage() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE);
   }
   get participantUserCreatorBadgeText() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT);
   }
 
   get participantUserImage() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE);
   }
 
   get participantUserImageProfile() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE_PROFILE);
   }
 
   get participantUserImageWrap() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE_WRAP);
   }
 
   get participantUserIndicator() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR);
   }
 
   get participantUserIndicatorOffline() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR_OFFLINE);
   }
 
   get participantUserIndicatorOnline() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE);
   }
 
   get participantUserName() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_NAME);
   }
 
   get participantUserNameText() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_NAME)
@@ -207,17 +213,17 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   get removeParticipantButton() {
-    return this.instance
+    return this.editGroupSection
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$$(SELECTORS.REMOVE_PARTICIPANT_BUTTON);
   }
 
   get topbar() {
-    return this.instance.$$(SELECTORS.TOPBAR);
+    return this.editGroupSection.$(SELECTORS.TOPBAR);
   }
 
   get userInput() {
-    return this.instance.$(SELECTORS.USER_INPUT);
+    return this.editGroupSection.$(SELECTORS.USER_INPUT);
   }
 
   async clearGroupNameInput() {
@@ -247,7 +253,7 @@ export default class EditGroup extends UplinkMainScreen {
 
   async clickOnFirstAddButton() {
     const firstAddButton = await this.instance.$$(
-      SELECTORS.ADD_PARTICIPANT_BUTTON
+      SELECTORS.ADD_PARTICIPANT_BUTTON,
     )[0];
     await driver[this.executor].waitUntil(
       async () => {
@@ -257,14 +263,14 @@ export default class EditGroup extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Add friend button from Edit Group was never displayed after 15 seconds",
-      }
+      },
     );
     await firstAddButton.click();
   }
 
   async clickOnFirstRemoveButton() {
     const removeParticipantButton = await this.instance.$$(
-      SELECTORS.REMOVE_PARTICIPANT_BUTTON
+      SELECTORS.REMOVE_PARTICIPANT_BUTTON,
     )[0];
     await driver[this.executor].waitUntil(
       async () => {
@@ -274,7 +280,7 @@ export default class EditGroup extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Remove friend button from Edit Group was never displayed after 15 seconds",
-      }
+      },
     );
     await removeParticipantButton.click();
   }
@@ -291,6 +297,7 @@ export default class EditGroup extends UplinkMainScreen {
 
   async getParticipantsList() {
     const participants = await this.instance
+      .$(SELECTORS.EDIT_GROUP_MODAL)
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER);
@@ -310,19 +317,21 @@ export default class EditGroup extends UplinkMainScreen {
     let locator;
     if (currentDriver === MACOS_DRIVER) {
       locator = await this.instance
+        .$(SELECTORS.EDIT_GROUP_MODAL)
         .$(SELECTORS.EDIT_GROUP_SECTION)
         .$(
           '//XCUIElementTypeGroup[@label="Friend Container"]/XCUIElementTypeGroup/XCUIElementTypeStaticText[contains(@value, "' +
             participant +
-            '")]/../..'
+            '")]/../..',
         );
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await this.instance
+        .$(SELECTORS.EDIT_GROUP_MODAL)
         .$(SELECTORS.EDIT_GROUP_SECTION)
         .$(
           '//Group[@Name="Friend Container"]/Group/Text[contains(@Name, "' +
             participant +
-            '")]/../..'
+            '")]/../..',
         );
     }
     return locator;
@@ -338,7 +347,7 @@ export default class EditGroup extends UplinkMainScreen {
   async getParticipantIndicatorOffline(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const indicatorOffline = await userLocator.$(
-      SELECTORS.PARTICIPANT_USER_INDICATOR_OFFLINE
+      SELECTORS.PARTICIPANT_USER_INDICATOR_OFFLINE,
     );
     await indicatorOffline.waitForExist();
     return indicatorOffline;
@@ -354,11 +363,11 @@ export default class EditGroup extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected indicator online was never displayed on Edit Group Users List after 15 seconds",
-      }
+      },
     );
 
     const indicatorOnline = await userLocator.$(
-      SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE
+      SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE,
     );
     return indicatorOnline;
   }
@@ -366,7 +375,7 @@ export default class EditGroup extends UplinkMainScreen {
   async getParticipantUserCreatorBadgeImage(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const badgeImage = await userLocator.$(
-      SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE
+      SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE,
     );
     await badgeImage.waitForExist();
     return badgeImage;
@@ -375,7 +384,7 @@ export default class EditGroup extends UplinkMainScreen {
   async getParticipantUserCreatorBadgeText(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const badgeText = await userLocator.$(
-      SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT
+      SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT,
     );
     await badgeText.waitForExist();
     return badgeText;
@@ -391,7 +400,7 @@ export default class EditGroup extends UplinkMainScreen {
   async getParticipantUserImageProfile(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const userImageProfile = await userLocator.$(
-      SELECTORS.PARTICIPANT_USER_IMAGE_PROFILE
+      SELECTORS.PARTICIPANT_USER_IMAGE_PROFILE,
     );
     await userImageProfile.waitForExist();
     return userImageProfile;
@@ -400,7 +409,7 @@ export default class EditGroup extends UplinkMainScreen {
   async getParticipantUserImageWrap(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
     const userImageWrap = await userLocator.$(
-      SELECTORS.PARTICIPANT_USER_IMAGE_WRAP
+      SELECTORS.PARTICIPANT_USER_IMAGE_WRAP,
     );
     await userImageWrap.waitForExist();
     return userImageWrap;
@@ -432,6 +441,21 @@ export default class EditGroup extends UplinkMainScreen {
     await editGroupSection.waitForExist();
   }
 
+  async validateEditGroupInputErrorIsShown() {
+    const groupNameInputError = await this.groupNameInputError;
+    await groupNameInputError.waitForExist();
+  }
+
+  async validateEditGroupNameInputIsShown() {
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.waitForExist();
+  }
+
+  async validateEditGroupUserInputIsShown() {
+    const userInput = await this.userInput;
+    await userInput.waitForExist();
+  }
+
   async validateNothingHereIsDisplayed() {
     const nothingHereText = await this.nothingHereText;
     await nothingHereText.waitForExist();
@@ -445,7 +469,7 @@ export default class EditGroup extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Expected chat layout was never displayed after 15 seconds",
-      }
+      },
     );
   }
 }

@@ -1,7 +1,10 @@
 import "module-alias/register";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-import { USER_A_INSTANCE, WINDOWS_DRIVER } from "@helpers/constants";
-
+import {
+  USER_A_INSTANCE,
+  MACOS_DRIVER,
+  WINDOWS_DRIVER,
+} from "@helpers/constants";
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
@@ -251,7 +254,24 @@ export default class Topbar extends UplinkMainScreen {
     await browser.pause(1000);
   }
 
-  async editGroup() {
+  async clickOnTopbarUserImage() {
+    const topbarUserImage = await this.topbarUserImage;
+    await topbarUserImage.click();
+  }
+
+  async exitEditGroup() {
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === WINDOWS_DRIVER) {
+      await this.hoverOnEditGroupButton();
+      const topbarEditGroup = await this.topbarEditGroup;
+      await topbarEditGroup.click();
+    } else if (currentDriver === MACOS_DRIVER) {
+      const editGroupModal = await $("~modal");
+      await editGroupModal.click();
+    }
+  }
+
+  async openEditGroup() {
     await this.hoverOnEditGroupButton();
     const topbarEditGroup = await this.topbarEditGroup;
     await topbarEditGroup.click();

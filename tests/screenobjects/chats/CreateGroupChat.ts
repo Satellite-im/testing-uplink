@@ -1,4 +1,4 @@
-const {keyboard, Key} = require("@nut-tree/nut-js");
+const { keyboard, Key } = require("@nut-tree/nut-js");
 import "module-alias/register";
 import { getClipboardMacOS } from "@helpers/commands";
 import {
@@ -177,50 +177,6 @@ export default class CreateGroupChat extends UplinkMainScreen {
     await createGroupChatButton.click();
   }
 
-  async getFriendFromListIndicator(username: string) {
-    const friendLocator = await this.getFriendFromListLocator(username);
-    const indicator = await friendLocator.$(SELECTORS.FRIEND_INDICATOR);
-    await indicator.waitForExist();
-    return indicator;
-  }
-
-  async getFriendFromListIndicatorOffline(username: string) {
-    const friendLocator = await this.getFriendFromListLocator(username);
-    const indicatorOffline = await friendLocator.$(
-      SELECTORS.FRIEND_INDICATOR_OFFLINE
-    );
-    await indicatorOffline.waitForExist();
-    return indicatorOffline;
-  }
-
-  async getFriendFromListIndicatorOnline(username: string) {
-    const friendLocator = await this.getFriendFromListLocator(username);
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await friendLocator.$(SELECTORS.FRIEND_INDICATOR_ONLINE);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected indicator online was never displayed on Create Group Users List after 15 seconds",
-      }
-    );
-
-    const indicatorOnline = await friendLocator.$(
-      SELECTORS.FRIEND_INDICATOR_ONLINE
-    );
-    return indicatorOnline;
-  }
-
-  async getFriendFromListUserImageProfile(username: string) {
-    const friendLocator = await this.getFriendFromListLocator(username);
-    const userImageProfile = await friendLocator.$(
-      SELECTORS.FRIEND_USER_IMAGE_PROFILE
-    );
-    await userImageProfile.waitForExist();
-    return userImageProfile;
-  }
-
   async getFriendFromListLocator(username: string) {
     const currentDriver = await this.getCurrentDriver();
     let friendLocator;
@@ -231,7 +187,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
         .$(
           '//XCUIElementTypeGroup[@label="friend-name"]/XCUIElementTypeStaticText[contains(@value, "' +
             username +
-            '")]/../..'
+            '")]/../..',
         );
     } else if (currentDriver === WINDOWS_DRIVER) {
       friendLocator = await this.instance
@@ -240,7 +196,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
         .$(
           '//Group[@Name="friend-name"]/Text[contains(@Name, "' +
             username +
-            '")]/../..'
+            '")]/../..',
         );
     }
     return friendLocator;
@@ -253,13 +209,16 @@ export default class CreateGroupChat extends UplinkMainScreen {
     return userImage;
   }
 
-  async getFriendFromListUserImageWrap(username: string) {
-    const friendLocator = await this.getFriendFromListLocator(username);
-    const userImageWrap = await friendLocator.$(
-      SELECTORS.FRIEND_USER_IMAGE_WRAP
-    );
-    await userImageWrap.waitForExist();
-    return userImageWrap;
+  async getFriendFromListMacOS(username: string) {
+    const friendLocator = await this.instance
+      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      .$(SELECTORS.FRIENDS_LIST)
+      .$(
+        '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[`value == "' +
+          username +
+          '"`]',
+      );
+    return friendLocator;
   }
 
   async getFriendFromListUsername(username: string) {
@@ -272,8 +231,14 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   async selectUserFromList(username: string) {
-    const userLocator = await this.getFriendFromListUserImage(username);
-    await userLocator.click();
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      const userLocator = await this.getFriendFromListMacOS(username);
+      await userLocator.click();
+    } else {
+      const userLocator = await this.getFriendFromListUserImage(username);
+      await userLocator.click();
+    }
   }
 
   async typeLongerTextInGroupName() {
@@ -348,5 +313,30 @@ export default class CreateGroupChat extends UplinkMainScreen {
   async validateCreateGroupChatsIsShown() {
     const createGroupChatSection = await this.createGroupChatSection;
     await createGroupChatSection.waitForExist();
+  }
+
+  async validateCreateGroupChatButtonIsShown() {
+    const createGroupChatButton = await this.createGroupChatButton;
+    await createGroupChatButton.waitForExist();
+  }
+
+  async validateCreateGroupChatFriendsListIsShown() {
+    const friendsList = await this.friendsList;
+    await friendsList.waitForExist();
+  }
+
+  async validateCreateGroupChatInputErrorIsShown() {
+    const createGroupInputError = await this.createGroupInputError;
+    await createGroupInputError.waitForExist();
+  }
+
+  async validateCreateGroupChatNameInputIsShown() {
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.waitForExist();
+  }
+
+  async validateCreateGroupChatUserSearchInputIsShown() {
+    const userSearchInput = await this.userSearchInput;
+    await userSearchInput.waitForExist();
   }
 }
