@@ -7,11 +7,7 @@ import {
   launchSecondApplication,
   saveTestKeys,
 } from "@helpers/commands";
-import {
-  USER_A_INSTANCE,
-  MACOS_USER_B_BUNDLE_ID,
-  WINDOWS_APP,
-} from "@helpers/constants";
+import { USER_A_INSTANCE } from "@helpers/constants";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import EmojiSelector from "@screenobjects/chats/EmojiSelector";

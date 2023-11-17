@@ -32,9 +32,6 @@ export default async function groupChatTests() {
 
     // Click again on create group chat and modal will be closed
     await chatsTopbarFirstUser.clickOnTopbar();
-    await createGroupFirstUser.createGroupChatSection.waitForExist({
-      reverse: true,
-    });
   });
 
   it("Chat User A - Create Group Chat Modal contents", async () => {
@@ -43,16 +40,16 @@ export default async function groupChatTests() {
     await createGroupFirstUser.validateCreateGroupChatsIsShown();
 
     // Validate contents
-    await createGroupFirstUser.createGroupChatButton.waitForExist();
-    await createGroupFirstUser.friendsList.waitForExist();
-    await createGroupFirstUser.groupNameInput.waitForExist();
-    await createGroupFirstUser.userSearchInput.waitForExist();
+    await createGroupFirstUser.validateCreateGroupChatButtonIsShown();
+    await createGroupFirstUser.validateCreateGroupChatFriendsListIsShown();
+    await createGroupFirstUser.validateCreateGroupChatNameInputIsShown();
+    await createGroupFirstUser.validateCreateGroupChatUserSearchInputIsShown();
   });
 
   it("Chat User A - Attempt to create group chat with alphanumeric chars in name", async () => {
     // Open modal to create group chat and type alphanumeric chars in name
     await createGroupFirstUser.typeOnGroupName("@");
-    await createGroupFirstUser.createGroupInputError.waitForExist();
+    await createGroupFirstUser.validateCreateGroupChatInputErrorIsShown();
     const inputErrorText = await createGroupFirstUser.createGroupInputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
       "Not allowed character(s): @",
@@ -63,7 +60,7 @@ export default async function groupChatTests() {
   it("Chat User A - Attempt to create group chat with more than 64 chars in name", async () => {
     // Open modal to create group chat and type more than 64 chars in name
     await createGroupFirstUser.typeLongerTextInGroupName();
-    await createGroupFirstUser.createGroupInputError.waitForExist();
+    await createGroupFirstUser.validateCreateGroupChatInputErrorIsShown();
     const inputErrorText = await createGroupFirstUser.createGroupInputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
       "Maximum of 64 characters exceeded.",
