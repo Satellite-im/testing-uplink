@@ -94,7 +94,7 @@ export default async function sidebarChatsTests() {
     await friendsScreenFirstUser.validateAllFriendsListIsShown();
   });
 
-  it("Chat User B - Send message to User A", async () => {
+  it("Chat User B - Send message with markdown to User A", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await friendsScreenFirstUser.validateChatWithFriendButtonIsShown();
     await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserA");
@@ -104,10 +104,12 @@ export default async function sidebarChatsTests() {
     // Send message with markdown to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("__hello__");
     await chatsInputFirstUser.clickOnSendMessage();
+
+    // Message is formatted with markdown on chat conversation
     await chatsMessagesFirstUser.waitForMessageSentToExist("hello");
 
-    // Validate last message contents on Sidebar displays hello on bolds and not __hello__
-    await chatsSidebarFirstUser.validateLastMessageDisplayed("hello");
+    // Validate last message on Sidebar is not formatted with markdown
+    await chatsSidebarFirstUser.validateLastMessageDisplayed("__hello__");
   });
 
   it("Chat User A - Wait until Chat User B accepts friend request and sends a message", async () => {
@@ -136,9 +138,9 @@ export default async function sidebarChatsTests() {
     await chatsSidebarFirstUser.validateLastMessageTimeAgo();
   });
 
-  it("Sidebar - Message preview on Sidebar should display the message without the markdown characters", async () => {
-    // Validate last message contents on Sidebar displays hello on bolds and not __hello__
-    await chatsSidebarFirstUser.validateLastMessageDisplayed("hello");
+  it("Sidebar - Message preview on Sidebar should not display the message with markdown", async () => {
+    // Validate last message contents on Sidebar displays hello __hello__ without applying the markdown
+    await chatsSidebarFirstUser.validateLastMessageDisplayed("__hello__");
   });
 
   it("Chat User A - Sidebar - Context Menu - Clear Unreads", async () => {
