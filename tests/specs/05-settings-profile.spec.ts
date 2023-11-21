@@ -235,7 +235,7 @@ export default async function settingsProfile() {
     // Ensure that value placed in Status is the did key from the user
     const statusInputText =
       await settingsProfileFirstUser.getStatusInputElement();
-    await expect(statusInputText).toHaveTextContaining("did:key:");
+    await expect(statusInputText).toHaveTextContaining("Test123#");
 
     // Clear value from status input
     await settingsProfileFirstUser.deleteStatus();
