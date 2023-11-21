@@ -53,7 +53,7 @@ export default async function createChatAccountsTests() {
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus();
+    await settingsProfileFirstUser.pasteUserKeyInStatus(username);
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
@@ -102,7 +102,7 @@ export default async function createChatAccountsTests() {
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus();
+    await settingsProfileFirstUser.pasteUserKeyInStatus(username);
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart

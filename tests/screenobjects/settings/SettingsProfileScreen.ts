@@ -15,7 +15,7 @@ import {
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
-const {keyboard, Key} = require("@nut-tree/nut-js");
+const { keyboard, Key } = require("@nut-tree/nut-js");
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -310,7 +310,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await this.hoverOnElement(copyIdButton);
   }
 
-  async pasteUserKeyInStatus() {
+  async pasteUserKeyInStatus(username: string) {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
     const currentDriver = await this.getCurrentDriver();
@@ -328,12 +328,13 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await statusInput.waitUntil(
       async () => {
         const statusInputText = await statusInput.getText();
-        return await statusInputText.includes("did:key");
+        return await statusInputText.includes(username + "#");
       },
       {
         timeout: 5000,
-        timeoutMsg: "Expected status input to contain did:key after 5 seconds",
-      }
+        timeoutMsg:
+          "Expected status input to contain username# after 5 seconds",
+      },
     );
   }
 

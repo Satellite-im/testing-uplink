@@ -40,7 +40,7 @@ export async function setupBeforeCreateGroupTests() {
   await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
   // Paste copied DID Key into Status Input
-  await settingsProfileFirstUser.pasteUserKeyInStatus();
+  await settingsProfileFirstUser.pasteUserKeyInStatus(usernameA);
   const didkeyA = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
   // Grab cache folder and restart
@@ -83,7 +83,7 @@ export async function setupBeforeCreateGroupTests() {
   await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
   // Paste copied DID Key into Status Input
-  await settingsProfileFirstUser.pasteUserKeyInStatus();
+  await settingsProfileFirstUser.pasteUserKeyInStatus(usernameB);
   const didkeyB = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
   // Grab cache folder and restart
