@@ -15,7 +15,7 @@ const SELECTORS_WINDOWS = {
   EMOJI_SUGGESTIONS_CLOSE_BUTTON: '[name="emoji-suggestions-close-button"]',
   EMOJI_SUGGESTIONS_CONTAINER: '[name="emoji-suggestions-container"]',
   EMOJI_SUGGESTIONS_HEADER: "<Text>",
-  EMOJI_SUGGESTED: '//Group[contains(@value, "emoji-suggested-")]',
+  EMOJI_SUGGESTED: '//Group[contains(@Name, "emoji-suggested-")]',
   EMOJI_SUGGESTED_VALUE: "<Text>",
 };
 
@@ -25,7 +25,7 @@ const SELECTORS_MACOS = {
   EMOJI_SUGGESTIONS_HEADER:
     '-ios class chain:**/XCUIElementTypeStaticText[`value == "SUGGESTED EMOJI"`][2]',
   EMOJI_SUGGESTED:
-    '//XCUIElementTypeGroup[contains(@value, "emoji-suggested-")]',
+    '//XCUIElementTypeGroup[contains(@label, "emoji-suggested-")]',
   EMOJI_SUGGESTED_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
@@ -88,13 +88,14 @@ export default class EmojiSuggestions extends UplinkMainScreen {
 
   async getEmojisSuggested() {
     await this.emojiSuggestionsContainer.waitForDisplayed();
-    const emojiSuggestedList = await this.instance.$$(
+    const emojiSuggestedList = await this.emojiSuggestionsContainer.$$(
       SELECTORS.EMOJI_SUGGESTED,
     );
     let results = [];
     for (let item of emojiSuggestedList) {
       const itemValue = await item.$(SELECTORS.EMOJI_SUGGESTED_VALUE);
       const itemValueText = await itemValue.getText();
+      console.log(itemValueText);
       results.push(itemValueText);
     }
     return results;
