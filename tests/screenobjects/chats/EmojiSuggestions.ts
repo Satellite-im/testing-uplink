@@ -12,13 +12,18 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
+  EMOJI_SUGGESTIONS_CLOSE_BUTTON: '[name="emoji-suggestions-close-button"]',
   EMOJI_SUGGESTIONS_CONTAINER: '[name="emoji-suggestions-container"]',
+  EMOJI_SUGGESTIONS_HEADER: "<Text>",
   EMOJI_SUGGESTED: '//Group[contains(@value, "emoji-suggested-")]',
   EMOJI_SUGGESTED_VALUE: "<Text>",
 };
 
 const SELECTORS_MACOS = {
+  EMOJI_SUGGESTIONS_CLOSE_BUTTON: "~emoji-suggestion-close-button",
   EMOJI_SUGGESTIONS_CONTAINER: "~emoji-suggestions-container",
+  EMOJI_SUGGESTIONS_HEADER:
+    '-ios class chain:**/XCUIElementTypeStaticText[`value == "SUGGESTED EMOJI"`][2]',
   EMOJI_SUGGESTED:
     '//XCUIElementTypeGroup[contains(@value, "emoji-suggested-")]',
   EMOJI_SUGGESTED_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
@@ -33,8 +38,18 @@ export default class EmojiSuggestions extends UplinkMainScreen {
     super(executor, SELECTORS.EMOJI_SUGGESTIONS_CONTAINER);
   }
 
+  get emojiSuggestionsCloseButton() {
+    return this.emojiSuggestionsContainer.$(
+      SELECTORS.EMOJI_SUGGESTIONS_CLOSE_BUTTON,
+    );
+  }
+
   get emojiSuggestionsContainer() {
     return this.instance.$(SELECTORS.EMOJI_SUGGESTIONS_CONTAINER);
+  }
+
+  get emojiSuggestionsHeader() {
+    return this.emojiSuggestionsContainer.$(SELECTORS.EMOJI_SUGGESTIONS_HEADER);
   }
 
   get emojiSuggested() {
@@ -58,11 +73,30 @@ export default class EmojiSuggestions extends UplinkMainScreen {
         '[name="emoji-suggested-"' + emojiToClick + '"]';
       emojiLocator = await this.instance.findElement(
         "name",
-        emojiLocatorWindows
+        emojiLocatorWindows,
       );
       emojiElement = await this.instance.$(emojiLocator);
     }
     await this.hoverOnElement(emojiElement);
     await emojiElement.click();
+  }
+
+  async clickOnCloseButton() {
+    const closeButton = await this.emojiSuggestionsCloseButton;
+    await closeButton.click();
+  }
+
+  async getEmojisSuggested() {
+    await this.emojiSuggestionsContainer.waitForDisplayed();
+    const emojiSuggestedList = await this.instance.$$(
+      SELECTORS.EMOJI_SUGGESTED,
+    );
+    let results = [];
+    for (let item of emojiSuggestedList) {
+      const itemValue = await item.$(SELECTORS.EMOJI_SUGGESTED_VALUE);
+      const itemValueText = await itemValue.getText();
+      results.push(itemValueText);
+    }
+    return results;
   }
 }
