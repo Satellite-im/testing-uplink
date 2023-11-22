@@ -36,6 +36,8 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_BLOCK: '[name="friends-block"]',
   CONTEXT_MENU_CHAT: '[name="friends-chat"]',
+  CONTEXT_MENU_COPY_DID_KEY: "<Button>[2]",
+  CONTEXT_MENU_COPY_ID: "<Button>[1]",
   CONTEXT_MENU_FAVORITES_ADD: '[name="favorites-add"]',
   CONTEXT_MENU_FAVORITES_REMOVE: '[name="favorites-remove"]',
   CONTEXT_MENU_INCOMING_ACCEPT: '[name="friends-accept"]',
@@ -93,6 +95,10 @@ const SELECTORS_MACOS = {
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_BLOCK: "~friends-block",
   CONTEXT_MENU_CHAT: "~friends-chat",
+  CONTEXT_MENU_COPY_DID_KEY:
+    '-ios class chain:**/XCUIElementTypeButton[`label == "copy-id-context"`][2]',
+  CONTEXT_MENU_COPY_ID:
+    '-ios class chain:**/XCUIElementTypeButton[`label == "copy-id-context"`][1]',
   CONTEXT_MENU_FAVORITES_ADD: "~favorites-add",
   CONTEXT_MENU_FAVORITES_REMOVE: "~favorites-remove",
   CONTEXT_MENU_INCOMING_ACCEPT: "~friends-accept",
@@ -220,6 +226,14 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   get contextMenuChat() {
     return this.instance.$(SELECTORS.CONTEXT_MENU_CHAT);
+  }
+
+  get contextMenuCopyDidKey() {
+    return this.instance.$(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
+  }
+
+  get contextMenuCopyId() {
+    return this.instance.$(SELECTORS.CONTEXT_MENU_COPY_ID);
   }
 
   get contextMenuFavoritesAdd() {
@@ -900,6 +914,16 @@ export default class FriendsScreen extends UplinkMainScreen {
     await contextMenuChat.click();
   }
 
+  async clickOnContextMenuCopyDidKey() {
+    const contextMenuCopyDidKey = await this.contextMenuCopyDidKey;
+    await contextMenuCopyDidKey.click();
+  }
+
+  async clickOnContextMenuCopyId() {
+    const contextMenuCopyId = await this.contextMenuCopyId;
+    await contextMenuCopyId.click();
+  }
+
   async clickOnContextMenuFavoritesAdd() {
     const contextMenuFavoritesAdd = await this.contextMenuFavoritesAdd;
     await contextMenuFavoritesAdd.click();
@@ -942,6 +966,19 @@ export default class FriendsScreen extends UplinkMainScreen {
       await rightClickOnMacOS(friendElement, this.executor);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(friendElement, this.executor);
+    }
+    const contextMenu = await this.contextMenu;
+    await contextMenu.waitForExist();
+  }
+
+  async openCopyIDContextMenu() {
+    const copyIdButton = await this.copyIdButton;
+    await copyIdButton.click();
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await rightClickOnMacOS(copyIdButton, this.executor);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await rightClickOnWindows(copyIdButton, this.executor);
     }
     const contextMenu = await this.contextMenu;
     await contextMenu.waitForExist();

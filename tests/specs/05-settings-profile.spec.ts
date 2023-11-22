@@ -18,7 +18,7 @@ export default async function settingsProfile() {
     const prereleaseIndicatorText =
       await settingsProfileFirstUser.prereleaseIndicatorText;
     await expect(prereleaseIndicatorText).toHaveTextContaining(
-      "Pre-release | Issues/Feedback"
+      "Pre-release | Issues/Feedback",
     );
   });
 
@@ -34,18 +34,18 @@ export default async function settingsProfile() {
     const yourNewProfileHeaderText =
       await settingsProfileFirstUser.yourNewProfileHeaderTextValue;
     await expect(yourNewProfileHeaderText).toHaveTextContaining(
-      "YOUR NEW PROFILE!"
+      "YOUR NEW PROFILE!",
     );
     const yourNewProfileDescriptionOne =
       await settingsProfileFirstUser.yourNewProfileDescriptionTextOneValue;
     await expect(yourNewProfileDescriptionOne).toHaveTextContaining(
-      "Tell the world all about yourself, well.. tell them as much as you can while we're still under construction, at least."
+      "Tell the world all about yourself, well.. tell them as much as you can while we're still under construction, at least.",
     );
 
     const yourNewProfileDescriptionTwo =
       await settingsProfileFirstUser.yourNewProfileDescriptionTextTwoValue;
     await expect(yourNewProfileDescriptionTwo).toHaveTextContaining(
-      "First step, pick out a profile picture and maybe even a banner too!"
+      "First step, pick out a profile picture and maybe even a banner too!",
     );
   });
 
@@ -75,7 +75,7 @@ export default async function settingsProfile() {
   it("Settings Profile - Profile picture - Display Crop Tool Modal", async () => {
     // Click on profile picture upload button and select the file logo.jpg
     await settingsProfileFirstUser.selectProfilePicture(
-      "./tests/fixtures/logo.jpg"
+      "./tests/fixtures/logo.jpg",
     );
 
     // Validate Crop Tool Modal is displayed
@@ -114,7 +114,7 @@ export default async function settingsProfile() {
   it("Settings Profile - Profile Picture - Crop Image and add profile picture", async () => {
     // Click on profile picture upload button and select the file logo.jpg
     await settingsProfileFirstUser.selectProfilePicture(
-      "./tests/fixtures/logo.jpg"
+      "./tests/fixtures/logo.jpg",
     );
 
     // Validate Crop Tool Modal is displayed
@@ -152,7 +152,7 @@ export default async function settingsProfile() {
   it("Settings Profile - Crop banner and add banner picture", async () => {
     // Click on banner picture upload button and select the file banner.jpg
     await settingsProfileFirstUser.selectBannerPicture(
-      "./tests/fixtures/banner.jpg"
+      "./tests/fixtures/banner.jpg",
     );
 
     // Validate Crop Tool Modal is displayed
@@ -172,7 +172,7 @@ export default async function settingsProfile() {
 
     // Click on profile picture upload button and select the file second-profile.jpg
     await settingsProfileFirstUser.selectProfilePicture(
-      "./tests/fixtures/second-profile.png"
+      "./tests/fixtures/second-profile.png",
     );
 
     // Validate Crop Tool Modal is displayed
@@ -192,7 +192,7 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
     await settingsProfileFirstUser.selectBannerPicture(
-      "./tests/fixtures/second-banner.jpg"
+      "./tests/fixtures/second-banner.jpg",
     );
 
     // Validate Crop Tool Modal is displayed
@@ -228,15 +228,14 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
   });
 
-  // Skipping test - requires adding validation to ensure clipboard is not empty before pasting
-  xit("Settings Profile - Copied ID can be placed on any text field", async () => {
+  it("Settings Profile - Copied ID can be placed on any text field", async () => {
     // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus();
+    await settingsProfileFirstUser.pasteUserKeyInStatus("Test123");
 
     // Ensure that value placed in Status is the did key from the user
     const statusInputText =
       await settingsProfileFirstUser.getStatusInputElement();
-    await expect(statusInputText).toHaveTextContaining("did:key:");
+    await expect(statusInputText).toHaveTextContaining("Test123#");
 
     // Clear value from status input
     await settingsProfileFirstUser.deleteStatus();
@@ -248,7 +247,7 @@ export default async function settingsProfile() {
 
     // Enter status value with 129 characters
     await settingsProfileFirstUser.enterStatus(
-      "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"
+      "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789",
     );
 
     // Validate input error message is displayed
@@ -256,7 +255,7 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
-      "Maximum of 128 characters exceeded."
+      "Maximum of 128 characters exceeded.",
     );
 
     // Clear value from status input
@@ -273,7 +272,7 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
-      "Please enter at least 4 characters."
+      "Please enter at least 4 characters.",
     );
 
     // Clear value from username input, then enter a valid value again
@@ -290,7 +289,7 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
-      "Spaces are not allowed."
+      "Spaces are not allowed.",
     );
 
     // Clear value from username input, then enter a valid value again
@@ -308,7 +307,7 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
-      "Not allowed character(s): &^%*#$"
+      "Not allowed character(s): &^%*#$",
     );
 
     // Clear value from username input, then enter a valid value again
@@ -321,13 +320,13 @@ export default async function settingsProfile() {
 
     // Enter username value with more than 32 characters
     await settingsProfileFirstUser.enterUsername(
-      "12345678901234567890123456789012345"
+      "12345678901234567890123456789012345",
     );
     // Validate that error message is displayed
     await settingsProfileFirstUser.inputError.waitForExist();
     const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
-      "Maximum of 32 characters exceeded."
+      "Maximum of 32 characters exceeded.",
     );
 
     // Clear value from username input, then enter a valid value again
