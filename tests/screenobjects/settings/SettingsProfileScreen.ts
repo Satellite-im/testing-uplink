@@ -4,6 +4,8 @@ import {
   getUplinkWindowHandle,
   hoverOnMacOS,
   hoverOnWindows,
+  rightClickOnMacOS,
+  rightClickOnWindows,
   selectFileOnMacos,
   selectFileOnWindows,
 } from "@helpers/commands";
@@ -15,7 +17,7 @@ import {
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
-const {keyboard, Key} = require("@nut-tree/nut-js");
+const { keyboard, Key } = require("@nut-tree/nut-js");
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -27,6 +29,8 @@ const SELECTORS_WINDOWS = {
   CLEAR_AVATAR_BUTTON: "[name='clear-avatar']",
   CLEAR_BANNER_BUTTON: "[name='clear-banner']",
   CONTEXT_MENU: '[name="Context Menu"]',
+  CONTEXT_MENU_COPY_DID_KEY: "<Button>[2]",
+  CONTEXT_MENU_COPY_ID: "<Button>[1]",
   COPY_ID_BUTTON: '[name="copy-id-button"]',
   DISMISS_BUTTON: '[name="welcome-message-dismiss"]',
   INPUT_ERROR: '[name="input-error"]',
@@ -58,6 +62,10 @@ const SELECTORS_MACOS = {
   CLEAR_AVATAR_BUTTON: "clear-avatar",
   CLEAR_BANNER_BUTTON: "clear-banner",
   CONTEXT_MENU: "~Context Menu",
+  CONTEXT_MENU_COPY_DID_KEY:
+    '-ios class chain:**/XCUIElementTypeButton[`label == "copy-id-context"`][2]',
+  CONTEXT_MENU_COPY_ID:
+    '-ios class chain:**/XCUIElementTypeButton[`label == "copy-id-context"`][1]',
   COPY_ID_BUTTON: "~copy-id-button",
   DISMISS_BUTTON: "~welcome-message-dismiss",
   INPUT_ERROR: "~input-error",
@@ -111,6 +119,14 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   get contextMenuProfile() {
     return this.profileHeader.$(SELECTORS.CONTEXT_MENU);
+  }
+
+  get contextMenuCopyDidKey() {
+    return this.instance.$(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
+  }
+
+  get contextMenuCopyId() {
+    return this.instance.$(SELECTORS.CONTEXT_MENU_COPY_ID);
   }
 
   get copyIDButton() {
@@ -310,7 +326,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await this.hoverOnElement(copyIdButton);
   }
 
-  async pasteUserKeyInStatus() {
+  async pasteUserKeyInStatus(username: string) {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
     const currentDriver = await this.getCurrentDriver();
@@ -328,12 +344,13 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await statusInput.waitUntil(
       async () => {
         const statusInputText = await statusInput.getText();
-        return await statusInputText.includes("did:key");
+        return await statusInputText.includes(username + "#");
       },
       {
         timeout: 5000,
-        timeoutMsg: "Expected status input to contain did:key after 5 seconds",
-      }
+        timeoutMsg:
+          "Expected status input to contain username# after 5 seconds",
+      },
     );
   }
 
@@ -386,5 +403,30 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   async validateSettingsProfileIsShown() {
     const settingsProfile = await this.settingsProfile;
     await settingsProfile.waitForExist();
+  }
+
+  // Copy ID Context Menu
+
+  async clickOnContextMenuCopyDidKey() {
+    const contextMenuCopyDidKey = await this.contextMenuCopyDidKey;
+    await contextMenuCopyDidKey.click();
+  }
+
+  async clickOnContextMenuCopyId() {
+    const contextMenuCopyId = await this.contextMenuCopyId;
+    await contextMenuCopyId.click();
+  }
+
+  async openCopyIDContextMenu() {
+    const copyIdButton = await this.copyIDButton;
+    await copyIdButton.click();
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await rightClickOnMacOS(copyIdButton, this.executor);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await rightClickOnWindows(copyIdButton, this.executor);
+    }
+    const contextMenu = await this.contextMenu;
+    await contextMenu.waitForExist();
   }
 }
