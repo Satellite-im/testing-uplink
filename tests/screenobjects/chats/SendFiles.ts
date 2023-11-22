@@ -173,12 +173,18 @@ export default class SendFiles extends UplinkMainScreen {
     await closeButton.click();
   }
 
-  async clickOnFileOrFolder(locator: string) {
-    const fileOrFolderLocator = await this.getLocatorOfFolderFile(locator);
-    const fileOrFolderElement = await this.instance
-      .$(fileOrFolderLocator)
+  async clickOnFile(locator: string) {
+    const fileLocator = await this.getLocatorOfFolderFile(locator);
+    const fileElement = await this.instance
+      .$(fileLocator)
       .$(SELECTORS.FILE_THUMBNAIL);
-    await fileOrFolderElement.click();
+    await fileElement.click();
+  }
+
+  async clickOnFolder(locator: string) {
+    const folderLocator = await this.getLocatorOfFolderFile(locator);
+    const folderElement = await this.instance.$(folderLocator);
+    await folderElement.click();
   }
 
   async clickOnFolderCrumb(folderName: string) {
