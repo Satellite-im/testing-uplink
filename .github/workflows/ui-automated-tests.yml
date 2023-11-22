@@ -527,16 +527,17 @@ jobs:
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          external_repository: Satellite-im/test-reports
+          deploy_key: ${{ secrets.DEPLOY_KEY }}
           publish_branch: gh-pages
-          publish_dir: allure-history
+          publish_dir: allure-test-repository
 
       - name: Comment PR with the Test Results
         if: success()
         uses: mshick/add-pr-comment@v2
         with:
           message: |
-            UI Automated Tests execution is complete! You can find the test results report [here](https://satellite-im.github.io/testing-uplink/${{ github.run_number }})
+            UI Automated Tests execution is complete! You can find the test results report [here](https://satellite-im.github.io/test-report/${{ github.run_number }})
 
   remove-artifacts:
     needs:
