@@ -47,7 +47,7 @@ export default async function messageInputTests() {
   });
 
   it("Emoji Suggested List - Displays expected data", async () => {
-    await chatsInputFirstUser.typeMessageOnInput(":smile");
+    await chatsInputFirstUser.typeMessageOnInput(":en");
     await emojiSuggestionsFirstUser.waitForIsShown(true);
 
     // Validate header text from Emoji Suggested List
@@ -61,10 +61,10 @@ export default async function messageInputTests() {
     const currentEmojiSuggestedList =
       await emojiSuggestionsFirstUser.getEmojisSuggested();
     const expectedEmojiSuggestedList = [
-      "😃 :smiley:",
-      "😄 :smile:",
-      "😸 :smile_cat:",
-      "😺 :smiley_cat:",
+      "✉️ :envelope:",
+      "🏴󠁧󠁢󠁥󠁮󠁧󠁿 :england:",
+      "📩 :envelop_with_arrow:",
+      "🔚 :end:",
     ];
     await expect(currentEmojiSuggestedList).toEqual(expectedEmojiSuggestedList);
   });
