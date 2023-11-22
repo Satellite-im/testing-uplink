@@ -25,7 +25,7 @@ export default async function createReusableAccounts() {
 
   it("Add profile picture - Chat User A", async () => {
     await settingsProfileFirstUser.selectProfilePicture(
-      "./tests/fixtures/logo.jpg"
+      "./tests/fixtures/logo.jpg",
     );
 
     // Validate Crop Tool Modal is displayed
@@ -40,7 +40,7 @@ export default async function createReusableAccounts() {
 
   it("Add banner picture - Chat User A", async () => {
     await settingsProfileFirstUser.selectBannerPicture(
-      "./tests/fixtures/banner.jpg"
+      "./tests/fixtures/banner.jpg",
     );
   });
 
@@ -53,7 +53,7 @@ export default async function createReusableAccounts() {
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus();
+    await settingsProfileFirstUser.pasteUserKeyInStatus(username);
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
@@ -76,7 +76,7 @@ export default async function createReusableAccounts() {
 
   it("Add profile picture - Chat User B", async () => {
     await settingsProfileFirstUser.selectProfilePicture(
-      "./tests/fixtures/second-profile.png"
+      "./tests/fixtures/second-profile.png",
     );
 
     // Validate Crop Tool Modal is displayed
@@ -92,7 +92,7 @@ export default async function createReusableAccounts() {
   it("Add banner picture - Chat User B", async () => {
     it("Settings Profile - Change banner picture", async () => {
       await settingsProfileFirstUser.selectBannerPicture(
-        "./tests/fixtures/second-banner.jpg"
+        "./tests/fixtures/second-banner.jpg",
       );
     });
   });
@@ -106,7 +106,7 @@ export default async function createReusableAccounts() {
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus();
+    await settingsProfileFirstUser.pasteUserKeyInStatus(username);
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
