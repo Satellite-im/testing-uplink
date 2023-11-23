@@ -46,7 +46,8 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   PINNED_MESSAGE_ATTACHMENTS_FILE_INFO: "~file-info",
   PINNED_MESSAGE_ATTACHMENTS_FILE_META: "~file-meta",
-  PINNED_MESSAGE_ATTACHMENTS_FILE_META_TEXT: "<Text>",
+  PINNED_MESSAGE_ATTACHMENTS_FILE_META_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText",
   PINNED_MESSAGE_ATTACHMENTS_FILE_NAME: "~file-name",
   PINNED_MESSAGE_ATTACHMENTS_FILE_NAME_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText",

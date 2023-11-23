@@ -75,7 +75,7 @@ export default async function chatTopbarTests() {
     await chatsContextMenuFirstUser.selectContextOptionPin();
 
     // Ensure that message shows a pin indicator
-    await chatsMessageGroupsFirstUser.validateLastMessageReceivedHasPinIndicator();
+    await chatsMessageGroupsFirstUser.validateLastMessageSentHasPinIndicator();
   });
 
   it("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {
@@ -86,7 +86,7 @@ export default async function chatTopbarTests() {
     // Validate pinned message shows timestamp, sender and message
     await pinnedMessagesFirstUser.validateFirstPinnedMessageImageProfileIsShown();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageTimestampIsShown();
-    await pinnedMessagesFirstUser.validateFirstPinnedMessageSender("ChatUserB");
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageSender("ChatUserA");
     await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Attached2");
   });
 
