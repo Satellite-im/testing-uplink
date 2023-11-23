@@ -70,7 +70,7 @@ export default async function chatTopbarTests() {
 
   it("Pinned Messages - Pin a message with attachments", async () => {
     // Look for the latest message received by User A, open context menu and pin message
-    await chatsMessagesFirstUser.openContextMenuOnLastReceived();
+    await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.selectContextOptionPin();
 

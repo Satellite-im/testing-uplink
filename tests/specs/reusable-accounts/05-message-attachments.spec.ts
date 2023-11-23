@@ -159,7 +159,7 @@ export default async function messageAttachmentsTests() {
 
   it("Send Files on Chats - Delete attachment before sending the message", async () => {
     // Click on upload button and attach a file to compose attachment
-    await chatsAttachmentFirstUser.deleteFileOnComposeAttachment();
+    await chatsAttachmentFirstUser.clickOnDeleteAttachment(0);
   });
 
   it("Send File from Add Files - Select a file and send message with attachment", async () => {

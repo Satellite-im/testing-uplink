@@ -135,6 +135,7 @@ export default class ComposeAttachments extends UplinkMainScreen {
     const attachmentToDelete = await this.instance.$$(
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
     )[attachment];
+    await this.hoverOnElement(attachmentToDelete);
     const deleteAttachmentButton = await attachmentToDelete.$(
       SELECTORS.COMPOSE_ATTACHMENTS_BUTTON,
     );
