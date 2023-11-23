@@ -279,9 +279,12 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   async enterUsername(username: string) {
     const input = await this.usernameInput;
-    await input.click();
     await input.clearValue();
-    await input.addValue(username);
+    await input.setValue(username);
+    const usernameInputText = await input.getText();
+    if (usernameInputText !== username) {
+      await this.enterUsername(username);
+    }
   }
 
   async getCopiedDidFromStatusInput() {
