@@ -61,8 +61,7 @@ export default class EmojiSuggestions extends UplinkMainScreen {
   }
 
   async clickOnEmojiSuggested(emojiToClick: string) {
-    const container = await this.emojiSuggestionsContainer;
-    await container.waitForDisplayed();
+    await this.emojiSuggestionsContainer.waitForDisplayed();
     const currentDriver = await this.getCurrentDriver();
     let emojiLocator, emojiElement;
     if (currentDriver === MACOS_DRIVER) {
@@ -95,7 +94,6 @@ export default class EmojiSuggestions extends UplinkMainScreen {
     for (let item of emojiSuggestedList) {
       const itemValue = await item.$(SELECTORS.EMOJI_SUGGESTED_VALUE);
       const itemValueText = await itemValue.getText();
-      console.log(itemValueText);
       results.push(itemValueText);
     }
     return results;
