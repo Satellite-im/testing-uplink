@@ -171,6 +171,12 @@ export default class InputBar extends UplinkMainScreen {
     return longText;
   }
 
+  async getValueFromInputBar() {
+    const inputText = await this.inputText;
+    const inputTextValue = await inputText.getText();
+    return inputTextValue;
+  }
+
   async hoverOnSendButton() {
     const sendButton = await this.sendMessageButton;
     await this.hoverOnElement(sendButton);
