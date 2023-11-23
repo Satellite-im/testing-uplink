@@ -5,7 +5,7 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-
+const { keyboard, Key } = require("@nut-tree/nut-js");
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
@@ -99,5 +99,9 @@ export default class EmojiSuggestions extends UplinkMainScreen {
       results.push(itemValueText);
     }
     return results;
+  }
+
+  async pressEscKey() {
+    await keyboard.type(Key.Escape);
   }
 }

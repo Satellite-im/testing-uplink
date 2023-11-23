@@ -47,6 +47,7 @@ export default async function messageInputTests() {
   });
 
   it("Emoji Suggested List - Displays expected data", async () => {
+    // Type :en to show emoji suggestions starting with "en"
     await chatsInputFirstUser.typeMessageOnInput(":en");
     await emojiSuggestionsFirstUser.waitForIsShown(true);
 
@@ -63,18 +64,50 @@ export default async function messageInputTests() {
     const expectedEmojiSuggestedList = [
       "✉️ :envelope:",
       "🏴󠁧󠁢󠁥󠁮󠁧󠁿 :england:",
-      "📩 :envelop_with_arrow:",
+      "📩 :envelope_with_arrow:",
       "🔚 :end:",
     ];
     await expect(currentEmojiSuggestedList).toEqual(expectedEmojiSuggestedList);
   });
 
   it("Emoji Suggested List - Can be closed without choosing suggestion", async () => {
-    // Close Emoji Suggested List
+    // Close Emoji Suggested List using the Close Button
     await emojiSuggestionsFirstUser.clickOnCloseButton();
+
+    // Validate Emoji Suggested List is closed
     await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed({
       reverse: true,
     });
+
+    // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
+    await chatsInputFirstUser.typeMessageOnInput(":en");
+    await emojiSuggestionsFirstUser.waitForIsShown(true);
+
+    // Close Emoji Suggested List using the ESC key
+    await emojiSuggestionsFirstUser.pressEscKey();
+
+    // Validate Emoji Suggested List is closed
+    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed({
+      reverse: true,
+    });
+  });
+
+  it("Emoji Suggested List - Selected emoji is added to input bar", async () => {
+    // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
+    await chatsInputFirstUser.typeMessageOnInput(":en");
+    await emojiSuggestionsFirstUser.waitForIsShown(true);
+
+    // Select first emoji from emoji list (envelope "✉️")
+    await emojiSuggestionsFirstUser.clickOnEmojiSuggested("✉️");
+
+    // Emoji Suggested List is closed after picking up one emoji
+    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed({
+      reverse: true,
+    });
+
+    // Get value from Input Bar and ensure that is equal to "✉️"
+    const inputBarValue = await chatsInputFirstUser.getValueFromInputBar();
+    await expect(inputBarValue).toEqual("✉️");
   });
 
   it("Chat Input Text - Validate texts with ** markdown are sent in bolds", async () => {
