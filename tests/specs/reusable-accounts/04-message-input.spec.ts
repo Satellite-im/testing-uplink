@@ -49,25 +49,24 @@ export default async function messageInputTests() {
   it("Emoji Suggested List - Displays expected data", async () => {
     // Type :en to show emoji suggestions starting with "en"
     await chatsInputFirstUser.typeMessageOnInput(":en");
-    await emojiSuggestionsFirstUser.waitForIsShown(true);
+    await emojiSuggestionsFirstUser.validateEmojiSuggestionsContainerIsShown();
 
     // Validate header text from Emoji Suggested List
-    const emojiSuggestionsHeader =
-      await emojiSuggestionsFirstUser.emojiSuggestionsHeader;
-    await expect(emojiSuggestionsHeader).toHaveTextContaining(
+    await emojiSuggestionsFirstUser.validateEmojiSuggestionsHeader(
       "SUGGESTED EMOJI",
     );
 
     // Validate results are correct in Emoji Suggestion List
-    const currentEmojiSuggestedList =
-      await emojiSuggestionsFirstUser.getEmojisSuggested();
     const expectedEmojiSuggestedList = [
       "✉️ :envelope:",
       "🏴󠁧󠁢󠁥󠁮󠁧󠁿 :england:",
       "📩 :envelope_with_arrow:",
       "🔚 :end:",
     ];
-    await expect(currentEmojiSuggestedList).toEqual(expectedEmojiSuggestedList);
+
+    await emojiSuggestionsFirstUser.validateEmojiSuggestionsReceived(
+      expectedEmojiSuggestedList,
+    );
   });
 
   it("Emoji Suggested List - Can be closed without choosing suggestion", async () => {

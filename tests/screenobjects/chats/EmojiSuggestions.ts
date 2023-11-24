@@ -102,4 +102,20 @@ export default class EmojiSuggestions extends UplinkMainScreen {
   async pressEscKey() {
     await keyboard.type(Key.Escape);
   }
+
+  async validateEmojiSuggestionsContainerIsShown() {
+    const emojiSuggestionsContainer = await this.emojiSuggestionsContainer;
+    await emojiSuggestionsContainer.waitForDisplayed();
+  }
+
+  async validateEmojiSuggestionsHeader(expectedHeader: string) {
+    const emojiSuggestionsHeader = await this.emojiSuggestionsHeader;
+    await expect(emojiSuggestionsHeader).toBeDisplayed();
+    await expect(emojiSuggestionsHeader).toHaveTextContaining(expectedHeader);
+  }
+
+  async validateEmojiSuggestionsReceived(expectedEmojiList: string[]) {
+    const emojiSuggestedList = await this.getEmojisSuggested();
+    await expect(emojiSuggestedList).toEqual(expectedEmojiList);
+  }
 }
