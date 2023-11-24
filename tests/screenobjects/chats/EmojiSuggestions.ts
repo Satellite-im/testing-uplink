@@ -104,6 +104,7 @@ export default class EmojiSuggestions extends UplinkMainScreen {
   }
 
   async validateEmojiSuggestionsContainerIsShown() {
+    await browser.pause(1000);
     const emojiSuggestionsContainer = await this.emojiSuggestionsContainer;
     await emojiSuggestionsContainer.waitForDisplayed();
   }

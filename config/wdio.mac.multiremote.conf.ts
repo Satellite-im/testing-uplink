@@ -40,6 +40,15 @@ export const config: WebdriverIO.Config = {
     exclude: [
         // 'path/to/excluded/files'
     ],
+    mochaOpts: {
+      ui: "bdd",
+      /**
+       * NOTE: This has been increased for more stable Appium Native app
+       * tests because they can take a bit longer.
+       */
+      timeout: 180000, // 3min
+      bail: true,
+  },
     //
     // ============
     // Capabilities
