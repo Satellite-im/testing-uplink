@@ -19,7 +19,7 @@ describe("MacOS Chats Tests", function () {
   describe("Chat Replies Tests", repliesTests.bind(this));
   describe("Message Context Menu Tests", messageContextMenuTests.bind(this));
   describe("Message Input Tests", messageInputTests.bind(this));
-  xdescribe("Message Attachments Tests", messageAttachmentsTests.bind(this));
+  describe("Message Attachments Tests", messageAttachmentsTests.bind(this));
   describe("Chat Topbar Tests", chatTopbarTests.bind(this));
   describe("Quick Profile Tests", quickProfileTests.bind(this));
   describe("Sidebar Chats Tests", sidebarChatsTests.bind(this));

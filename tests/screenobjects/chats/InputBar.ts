@@ -196,12 +196,12 @@ export default class InputBar extends UplinkMainScreen {
 
   async pressEnterKeyOnInputBar() {
     const currentDriver = await this.getCurrentDriver();
-    let enterValue;
-    currentDriver === WINDOWS_DRIVER
-      ? (enterValue = "\uE007")
-      : (enterValue = "\n");
-    const inputText = await this.inputText;
-    await inputText.addValue(enterValue);
+    if (currentDriver === WINDOWS_DRIVER) {
+      const inputText = await this.inputText;
+      await inputText.addValue("\uE007");
+    } else {
+      await this.clickOnSendMessage();
+    }
   }
 
   async selectUploadFromLocalDisk() {

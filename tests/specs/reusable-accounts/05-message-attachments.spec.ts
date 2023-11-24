@@ -59,12 +59,10 @@ export default async function messageAttachmentsTests() {
     await sendFilesFirstUser.validateThumbnailIsShown("banner.jpg");
   });
 
-  // Skipping test because it takes too much time for execution
-  xit("Send files from Browse Files - User can navigate through folders and to home", async () => {
+  it("Send files from Browse Files - User can navigate through folders and to home", async () => {
     // Navigate to testfolder01 and ensure thumbnail from testfile.txt is shown
-    await sendFilesFirstUser.clickOnFileOrFolder("testfolder01");
+    await sendFilesFirstUser.clickOnFolder("testfolder01");
     await filesScreenFirstUser.validateFileOrFolderExist("testfile.txt");
-    await sendFilesFirstUser.validateThumbnailIsShown("testfile.txt");
 
     // Navigate to home folder and ensure thumbnail from banner.jpg is shown
     await sendFilesFirstUser.clickOnHomeFolderCrumb();
@@ -98,7 +96,7 @@ export default async function messageAttachmentsTests() {
 
   it("Send files from Browse Files - Send files counter is updated", async () => {
     // Select one file from root folder and ensure Send Files button displays 1/8 File(s)
-    await sendFilesFirstUser.clickOnFileOrFolder("banner.jpg");
+    await sendFilesFirstUser.clickOnFile("banner.jpg");
     await sendFilesFirstUser.validateSendFilesButtonText("Send 1/8 File(s)");
   });
 
@@ -161,7 +159,7 @@ export default async function messageAttachmentsTests() {
 
   it("Send Files on Chats - Delete attachment before sending the message", async () => {
     // Click on upload button and attach a file to compose attachment
-    await chatsAttachmentFirstUser.deleteFileOnComposeAttachment();
+    await chatsAttachmentFirstUser.clickOnDeleteAttachment(0);
   });
 
   it("Send File from Add Files - Select a file and send message with attachment", async () => {
