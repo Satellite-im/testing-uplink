@@ -574,8 +574,8 @@ export default class Messages extends UplinkMainScreen {
         return await this.instance.$(receivedMessageLocator);
       },
       {
-        timeout: 30000,
-        timeoutMsg: "Expected chat message was not received after 30 seconds",
+        timeout: 15000,
+        timeoutMsg: "Expected chat message was not received after 15 seconds",
       },
     );
   }
