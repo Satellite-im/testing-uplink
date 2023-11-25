@@ -205,8 +205,8 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   async selectUploadFromLocalDisk() {
-    const uploadButtonLocalDisk = await this.uploadButtonLocalDisk;
-    await uploadButtonLocalDisk.click();
+    await this.uploadButtonLocalDisk.waitForDisplayed();
+    await this.uploadButtonLocalDisk.click();
   }
 
   async selectUploadFromStorage() {
