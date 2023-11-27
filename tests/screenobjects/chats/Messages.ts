@@ -78,9 +78,9 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_LINK_EMBED_ICON: "~embed-icon",
   CHAT_MESSAGE_LINK_EMBED_TITLE: "~link-title",
   CHAT_MESSAGE_LOCAL:
-    '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-local"`]',
+    '//XCUIElementTypeGroup[contains(@label, "local") and starts-with(@label, "message")]',
   CHAT_MESSAGE_REMOTE:
-    '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]',
+    '//XCUIElementTypeGroup[contains(@label, "remote") and starts-with(@label, "message")]',
   CHAT_MESSAGE_REPLY: "~message-reply",
   CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
