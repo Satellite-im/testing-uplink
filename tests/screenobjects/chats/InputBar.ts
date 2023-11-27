@@ -257,9 +257,4 @@ export default class InputBar extends UplinkMainScreen {
       await selectFileOnWindows(relativePath, uplinkContext, executor);
     }
   }
-
-  async openUploadFilesFromStorage() {
-    await this.clickOnUploadFile();
-    await this.selectUploadFromStorage();
-  }
 }

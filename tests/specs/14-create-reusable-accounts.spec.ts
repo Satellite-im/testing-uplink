@@ -47,13 +47,14 @@ export default async function createReusableAccounts() {
   it("Save test account - Chat User A", async () => {
     // Click on Copy ID button and assert Toast Notification is displayed
     const username = "ChatUserA";
-    await settingsProfileFirstUser.clickOnCopyIDButton();
+    await settingsProfileFirstUser.openCopyIDContextMenu();
+    await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
 
     // Wait for toast notification to be closed
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus(username);
+    await settingsProfileFirstUser.pasteUserKeyInStatus();
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
@@ -100,13 +101,14 @@ export default async function createReusableAccounts() {
   it("Save test account - Chat User B", async () => {
     const username = "ChatUserB";
     // Click on Copy ID button and assert Toast Notification is displayed
-    await settingsProfileFirstUser.clickOnCopyIDButton();
+    await settingsProfileFirstUser.openCopyIDContextMenu();
+    await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
 
     // Wait for toast notification to be closed
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus(username);
+    await settingsProfileFirstUser.pasteUserKeyInStatus();
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart

@@ -49,12 +49,7 @@ export default async function messageInputTests() {
   it("Emoji Suggested List - Displays expected data", async () => {
     // Type :en to show emoji suggestions starting with "en"
     await chatsInputFirstUser.typeMessageOnInput(":en");
-    await emojiSuggestionsFirstUser.validateEmojiSuggestionsContainerIsShown();
-
-    // Validate header text from Emoji Suggested List
-    await emojiSuggestionsFirstUser.validateEmojiSuggestionsHeader(
-      "SUGGESTED EMOJI",
-    );
+    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed();
 
     // Validate results are correct in Emoji Suggestion List
     const expectedEmojiSuggestedList = [
@@ -66,6 +61,11 @@ export default async function messageInputTests() {
 
     await emojiSuggestionsFirstUser.validateEmojiSuggestionsReceived(
       expectedEmojiSuggestedList,
+    );
+
+    // Validate header text from Emoji Suggested List
+    await emojiSuggestionsFirstUser.validateEmojiSuggestionsHeader(
+      "SUGGESTED EMOJI",
     );
   });
 
@@ -80,7 +80,7 @@ export default async function messageInputTests() {
 
     // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
     await chatsInputFirstUser.typeMessageOnInput(":en");
-    await emojiSuggestionsFirstUser.waitForIsShown(true);
+    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed();
 
     // Close Emoji Suggested List using the ESC key
     await emojiSuggestionsFirstUser.pressEscKey();
@@ -94,7 +94,7 @@ export default async function messageInputTests() {
   it("Emoji Suggested List - Selected emoji is added to input bar", async () => {
     // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
     await chatsInputFirstUser.typeMessageOnInput(":en");
-    await emojiSuggestionsFirstUser.waitForIsShown(true);
+    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed();
 
     // Select first emoji from emoji list (envelope "✉️")
     await emojiSuggestionsFirstUser.clickOnEmojiSuggested("✉️");

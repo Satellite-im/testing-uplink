@@ -34,13 +34,14 @@ export async function setupBeforeCreateGroupTests() {
   await settingsProfileFirstUser.validateSettingsProfileIsShown();
 
   // Click on Copy ID button and assert Toast Notification is displayed
-  await settingsProfileFirstUser.clickOnCopyIDButton();
+  await settingsProfileFirstUser.openCopyIDContextMenu();
+  await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
 
   // Wait for toast notification to be closed
   await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
   // Paste copied DID Key into Status Input
-  await settingsProfileFirstUser.pasteUserKeyInStatus(usernameA);
+  await settingsProfileFirstUser.pasteUserKeyInStatus();
   const didkeyA = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
   // Grab cache folder and restart
@@ -77,13 +78,14 @@ export async function setupBeforeCreateGroupTests() {
   await settingsProfileFirstUser.validateSettingsProfileIsShown();
 
   // Click on Copy ID button and assert Toast Notification is displayed
-  await settingsProfileFirstUser.clickOnCopyIDButton();
+  await settingsProfileFirstUser.openCopyIDContextMenu();
+  await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
 
   // Wait for toast notification of Copied To Clipboard to not exist
   await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
   // Paste copied DID Key into Status Input
-  await settingsProfileFirstUser.pasteUserKeyInStatus(usernameB);
+  await settingsProfileFirstUser.pasteUserKeyInStatus();
   const didkeyB = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
   // Grab cache folder and restart

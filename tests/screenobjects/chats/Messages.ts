@@ -491,15 +491,7 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(messageSentLocator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected chat message was not sent after 15 seconds",
-      },
-    );
+    await this.instance.$(messageSentLocator).waitForExist();
   }
 
   async waitForReceivingCodeMessage(expectedLanguage: string) {
@@ -517,15 +509,7 @@ export default class Messages extends UplinkMainScreen {
         '")]';
     }
 
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(codeMessageReceivedLocator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected code message was not received after 15 seconds",
-      },
-    );
+    await this.instance.$(codeMessageReceivedLocator).waitForExist();
   }
 
   async waitForReceivingLink(expectedMessage: string) {
@@ -542,16 +526,7 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(linkReceivedLocator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected link message was not received after 15 seconds",
-      },
-    );
+    await this.instance.$(linkReceivedLocator).waitForExist();
   }
 
   async waitForReceivingMessage(expectedMessage: string) {
@@ -568,16 +543,7 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(receivedMessageLocator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected chat message was not received after 15 seconds",
-      },
-    );
+    await this.instance.$(receivedMessageLocator).waitForExist();
   }
 
   // Messages Sent Methods

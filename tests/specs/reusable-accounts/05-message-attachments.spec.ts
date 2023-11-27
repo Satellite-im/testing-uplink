@@ -20,7 +20,8 @@ let sendFilesFirstUser = new SendFiles(USER_A_INSTANCE);
 export default async function messageAttachmentsTests() {
   it("Send files from Browse Files - No files are displayed on modal and user can close modal", async () => {
     // Go to upload button and then select Browser Files (from Uplink storage)
-    await chatsInputFirstUser.openUploadFilesFromStorage();
+    await chatsInputFirstUser.clickOnUploadFile();
+    await chatsInputFirstUser.selectUploadFromStorage();
     await sendFilesFirstUser.validateSendFilesModalIsShown();
     await sendFilesFirstUser.validateNoFilesAvailableIsShown();
 
@@ -53,7 +54,8 @@ export default async function messageAttachmentsTests() {
   it("Send files from Browse Files - Thumbnails are displayed on modal", async () => {
     // Open modal to send files from storage
     await chatsTopbarFirstUser.validateTopbarExists();
-    await chatsInputFirstUser.openUploadFilesFromStorage();
+    await chatsInputFirstUser.clickOnUploadFile();
+    await chatsInputFirstUser.selectUploadFromStorage();
     await sendFilesFirstUser.validateSendFilesModalIsShown();
 
     // Go to Home Folder and validate thumbnail for file is shown
@@ -81,7 +83,8 @@ export default async function messageAttachmentsTests() {
     // Return to Chat Screen and open again the Send Files from Storage modal
     await filesScreenFirstUser.goToMainScreen();
     await chatsTopbarFirstUser.validateTopbarExists();
-    await chatsInputFirstUser.openUploadFilesFromStorage();
+    await chatsInputFirstUser.clickOnUploadFile();
+    await chatsInputFirstUser.selectUploadFromStorage();
     await sendFilesFirstUser.validateSendFilesModalIsShown();
   });
 

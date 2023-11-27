@@ -228,9 +228,9 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
   });
 
-  it("Settings Profile - Copied ID can be placed on any text field", async () => {
-    // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus("Test123");
+  it("Settings Profile - Copied Username# can be placed on any text field", async () => {
+    // Paste copied Username into Status Input
+    await settingsProfileFirstUser.pasteUserNameInStatus("Test123");
 
     // Ensure that value placed in Status is the did key from the user
     const statusInputText =

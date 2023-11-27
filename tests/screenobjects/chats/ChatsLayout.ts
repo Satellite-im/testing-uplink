@@ -70,14 +70,6 @@ export default class ChatsLayout extends UplinkMainScreen {
   }
 
   async validateChatLayoutIsShown() {
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.chatLayout;
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected chat layout was never displayed after 15 seconds",
-      },
-    );
+    await this.chatLayout.waitForExist();
   }
 }
