@@ -25,7 +25,7 @@ const SELECTORS_MACOS = {
   EMOJI_SUGGESTIONS_HEADER:
     '-ios class chain:**/XCUIElementTypeStaticText[`value == "SUGGESTED EMOJI"`][2]',
   EMOJI_SUGGESTED:
-    '//XCUIElementTypeGroup[contains(@label, "emoji-suggested-")]',
+    '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "emoji-suggested-"`]',
   EMOJI_SUGGESTED_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 

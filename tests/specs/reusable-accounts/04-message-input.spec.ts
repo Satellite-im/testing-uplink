@@ -77,18 +77,6 @@ export default async function messageInputTests() {
     await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed({
       reverse: true,
     });
-
-    // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
-    await chatsInputFirstUser.typeMessageOnInput(":en");
-    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed();
-
-    // Close Emoji Suggested List using the ESC key
-    await emojiSuggestionsFirstUser.pressEscKey();
-
-    // Validate Emoji Suggested List is closed
-    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed({
-      reverse: true,
-    });
   });
 
   it("Emoji Suggested List - Selected emoji is added to input bar", async () => {

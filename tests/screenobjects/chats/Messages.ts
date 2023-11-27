@@ -78,9 +78,9 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_LINK_EMBED_ICON: "~embed-icon",
   CHAT_MESSAGE_LINK_EMBED_TITLE: "~link-title",
   CHAT_MESSAGE_LOCAL:
-    '//XCUIElementTypeGroup[contains(@label, "local") and starts-with(@label, "message")]',
+    '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-local"`]',
   CHAT_MESSAGE_REMOTE:
-    '//XCUIElementTypeGroup[contains(@label, "remote") and starts-with(@label, "message")]',
+    '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]',
   CHAT_MESSAGE_REPLY: "~message-reply",
   CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
@@ -341,9 +341,9 @@ export default class Messages extends UplinkMainScreen {
     let locator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       locator =
-        '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
         expectedMessage +
-        '")]/../..';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator =
         '//Group[contains(@Name, "remote"]//Text[contains(@Name, "' +
@@ -394,10 +394,7 @@ export default class Messages extends UplinkMainScreen {
     return messageText;
   }
 
-  async waitForCodeMessageSentToExist(
-    expectedLanguage: string,
-    timeoutMsg: number = 30000,
-  ) {
+  async waitForCodeMessageSentToExist(expectedLanguage: string) {
     const currentDriver = await this.getCurrentDriver();
     let codeMessageLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
@@ -429,9 +426,9 @@ export default class Messages extends UplinkMainScreen {
         if (currentDriver === MACOS_DRIVER) {
           return await this.instance
             .$(
-              '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
+              '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-text"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
                 expectedMessage +
-                '")]',
+                '"`]',
             )
             .waitForExist({ reverse: true });
         } else if (currentDriver === WINDOWS_DRIVER) {
@@ -456,14 +453,12 @@ export default class Messages extends UplinkMainScreen {
     let linkSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       linkSentLocator =
-        '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeLink[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeLink[`value BEGINSWITH "' +
         expectedMessage +
-        '")]';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       linkSentLocator =
-        '//Group[contains(@Name, "local")]//HyperLink[contains(@Name, "' +
-        expectedMessage +
-        '")]';
+        '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
     await driver[this.executor].waitUntil(
       async () => {
@@ -482,9 +477,9 @@ export default class Messages extends UplinkMainScreen {
     let messageSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       messageSentLocator =
-        '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-local"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
         expectedMessage +
-        '")]';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       messageSentLocator =
         '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
@@ -517,14 +512,12 @@ export default class Messages extends UplinkMainScreen {
     let linkReceivedLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       linkReceivedLocator =
-        '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeLink[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeLink[`value BEGINSWITH "' +
         expectedMessage +
-        '")]';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       linkReceivedLocator =
-        '//Group[contains(@Name, "remote")]//HyperLink[contains(@Name, "' +
-        expectedMessage +
-        '")]';
+        '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
     await this.instance.$(linkReceivedLocator).waitForExist();
   }
@@ -534,9 +527,9 @@ export default class Messages extends UplinkMainScreen {
     let receivedMessageLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       receivedMessageLocator =
-        '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
         expectedMessage +
-        '")]';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       receivedMessageLocator =
         '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +

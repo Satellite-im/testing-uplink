@@ -78,7 +78,7 @@ export default class MessageGroup extends UplinkMainScreen {
   constructor(executor: string) {
     super(
       executor,
-      SELECTORS.MESSAGE_GROUP_WRAP_REMOTE || SELECTORS.MESSAGE_GROUP_WRAP_SENT
+      SELECTORS.MESSAGE_GROUP_WRAP_REMOTE || SELECTORS.MESSAGE_GROUP_WRAP_SENT,
     );
   }
 
@@ -247,7 +247,7 @@ export default class MessageGroup extends UplinkMainScreen {
   async getLastGroupWrapReceivedOnline() {
     const groupWrap = await this.getLastGroupWrapReceived();
     const onlineStatus = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
+      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE,
     );
     await onlineStatus.waitForExist();
     return onlineStatus;
@@ -281,7 +281,7 @@ export default class MessageGroup extends UplinkMainScreen {
   async getLastGroupWrapSentOnline() {
     const groupWrap = await this.getLastGroupWrapSent();
     const onlineStatus = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE
+      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE,
     );
     await onlineStatus.waitForExist();
     return onlineStatus;
@@ -306,7 +306,7 @@ export default class MessageGroup extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected pin indicator was never added to received message after 15 seconds",
-      }
+      },
     );
 
     const pinIndicator = await lastGroupReceived.$(SELECTORS.PIN_INDICATOR);
@@ -340,7 +340,7 @@ export default class MessageGroup extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected pin indicator was never added to sent message after 15 seconds",
-      }
+      },
     );
 
     const pinIndicator = await lastGroupSent.$(SELECTORS.PIN_INDICATOR);
@@ -375,7 +375,7 @@ export default class MessageGroup extends UplinkMainScreen {
   async getLastMessageReceivedReactionsContainer() {
     const lastGroupReceived = await this.getLastReceivedGroup();
     const reactionContainers = await lastGroupReceived.$$(
-      SELECTORS.MESSAGE_REACTION_CONTAINER
+      SELECTORS.MESSAGE_REACTION_CONTAINER,
     );
     const lastContainerIndex = (await reactionContainers.length) - 1;
     const lastContainerLocator = await reactionContainers[lastContainerIndex];
@@ -386,7 +386,7 @@ export default class MessageGroup extends UplinkMainScreen {
     const reactionsContainer =
       await this.getLastMessageReceivedReactionsContainer();
     const remoteReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_REMOTE
+      SELECTORS.EMOJI_REACTION_REMOTE,
     );
     let results = [];
     for (let reaction of remoteReactions) {
@@ -401,7 +401,7 @@ export default class MessageGroup extends UplinkMainScreen {
     const reactionsContainer =
       await this.getLastMessageReceivedReactionsContainer();
     const selfReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_SELF
+      SELECTORS.EMOJI_REACTION_SELF,
     );
     let results = [];
     for (let reaction of selfReactions) {
@@ -415,7 +415,7 @@ export default class MessageGroup extends UplinkMainScreen {
   async getLastMessageSentReactionsContainer() {
     const lastGroupSent = await this.getLastSentGroup();
     const reactionContainers = await lastGroupSent.$$(
-      SELECTORS.MESSAGE_REACTION_CONTAINER
+      SELECTORS.MESSAGE_REACTION_CONTAINER,
     );
     const lastContainerIndex = (await reactionContainers.length) - 1;
     const lastContainerLocator = await reactionContainers[lastContainerIndex];
@@ -426,7 +426,7 @@ export default class MessageGroup extends UplinkMainScreen {
     const reactionsContainer =
       await this.getLastMessageSentReactionsContainer();
     const remoteReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_REMOTE
+      SELECTORS.EMOJI_REACTION_REMOTE,
     );
     let results = [];
     for (let reaction of remoteReactions) {
@@ -441,7 +441,7 @@ export default class MessageGroup extends UplinkMainScreen {
     const reactionsContainer =
       await this.getLastMessageSentReactionsContainer();
     const selfReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_SELF
+      SELECTORS.EMOJI_REACTION_SELF,
     );
     let results = [];
     for (let reaction of selfReactions) {
@@ -457,9 +457,9 @@ export default class MessageGroup extends UplinkMainScreen {
     let emojiReactionLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       emojiReactionLocator =
-        '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "emoji-reaction-remote"`]/**/XCUIElementTypeStaticText[`value CONTAINS[cd] "' +
         expectedReaction +
-        '")]';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       emojiReactionLocator =
         '//Group[contains(@Name, "emoji-reaction-remote")]//Text[contains(@Name, "' +
@@ -474,7 +474,7 @@ export default class MessageGroup extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected remote emoji reaction is still not displayed after 15 seconds",
-      }
+      },
     );
   }
 
@@ -483,9 +483,9 @@ export default class MessageGroup extends UplinkMainScreen {
     let emojiReactionLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       emojiReactionLocator =
-        '//XCUIElementTypeGroup[contains(@label, "emoji-reaction-self")]//XCUIElementTypeStaticText[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "emoji-reaction-self"`]/**/XCUIElementTypeStaticText[`value CONTAINS[cd] "' +
         expectedReaction +
-        '")]';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       emojiReactionLocator =
         '//Group[contains(@Name, "emoji-reaction-self")]/Text[contains(@Name, "' +
@@ -500,7 +500,7 @@ export default class MessageGroup extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected self emoji reaction is still not displayed after 15 seconds",
-      }
+      },
     );
   }
 
@@ -509,7 +509,7 @@ export default class MessageGroup extends UplinkMainScreen {
   async getFirstMessageInLastGroupReceived() {
     const lastGroupSent = await this.getLastReceivedGroup();
     const firstMessage = await lastGroupSent.$(
-      SELECTORS.CHAT_MESSAGE_LOCAL_FIRST
+      SELECTORS.CHAT_MESSAGE_LOCAL_FIRST,
     );
     return firstMessage;
   }
@@ -517,7 +517,7 @@ export default class MessageGroup extends UplinkMainScreen {
   async getLastMessageInLastGroupReceived() {
     const lastGroupSent = await this.getLastReceivedGroup();
     const lastMessage = await lastGroupSent.$(
-      SELECTORS.CHAT_MESSAGE_LOCAL_LAST
+      SELECTORS.CHAT_MESSAGE_LOCAL_LAST,
     );
     return lastMessage;
   }
@@ -525,7 +525,7 @@ export default class MessageGroup extends UplinkMainScreen {
   async getMiddleMessageInLastGroupReceived(index: number) {
     const lastGroupSent = await this.getLastReceivedGroup();
     const middleMessage = await lastGroupSent.$$(
-      SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE
+      SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE,
     )[index];
     return middleMessage;
   }
