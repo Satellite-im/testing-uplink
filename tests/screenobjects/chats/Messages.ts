@@ -453,7 +453,7 @@ export default class Messages extends UplinkMainScreen {
     let linkSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       linkSentLocator =
-        '-ios class chain:**/XCUIElementTypeLink[`value BEGINSWITH "' +
+        '-ios class chain:**/XCUIElementTypeLink/XCUIElementTypeStaticText[`value BEGINSWITH "' +
         expectedMessage +
         '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
@@ -512,7 +512,7 @@ export default class Messages extends UplinkMainScreen {
     let linkReceivedLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       linkReceivedLocator =
-        '-ios class chain:**/XCUIElementTypeLink[`value BEGINSWITH "' +
+        '-ios class chain:**/XCUIElementTypeLink/XCUIElementTypeStaticText[`value BEGINSWITH "' +
         expectedMessage +
         '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {

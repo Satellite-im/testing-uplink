@@ -161,16 +161,14 @@ export default async function messageInputTests() {
     await activateFirstApplication();
     await chatsInputFirstUser.typeMessageOnInput("https://www.google.com");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForLinkSentToExist(
-      "https://www.google.com",
-    );
+    await chatsMessagesFirstUser.waitForLinkSentToExist("Google");
   });
 
   it("Chat Input Text - Validate text starting with www. is sent as link", async () => {
     // With Chat User A
     await chatsInputFirstUser.typeMessageOnInput("www.apple.com");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForLinkSentToExist("www.apple.com");
+    await chatsMessagesFirstUser.waitForLinkSentToExist("Apple");
   });
 
   it("Chat User - Chat Messages containing links contents on local side", async () => {
@@ -195,10 +193,10 @@ export default async function messageInputTests() {
   it("Chat Input Text - Validate messages with links were received correctly", async () => {
     // With Chat User B, validate message with URL starting with https:// was received as link
     await activateSecondApplication();
-    await chatsMessagesFirstUser.waitForReceivingLink("https://www.google.com");
+    await chatsMessagesFirstUser.waitForReceivingLink("Google");
 
     // With Chat User B, validate message with URL starting with www. was received as link
-    await chatsMessagesFirstUser.waitForReceivingLink("www.apple.com");
+    await chatsMessagesFirstUser.waitForReceivingLink("Apple");
   });
 
   it("Chat User - Chat Messages containing links contents on remote side", async () => {
