@@ -104,14 +104,12 @@ export default class EmojiSuggestions extends UplinkMainScreen {
   }
 
   async validateEmojiSuggestionsContainerIsShown() {
-    await browser.pause(1000);
-    const emojiSuggestionsContainer = await this.emojiSuggestionsContainer;
-    await emojiSuggestionsContainer.waitForDisplayed();
+    await this.emojiSuggestionsContainer.waitForDisplayed();
   }
 
   async validateEmojiSuggestionsHeader(expectedHeader: string) {
+    await this.emojiSuggestionsHeader.waitForDisplayed();
     const emojiSuggestionsHeader = await this.emojiSuggestionsHeader;
-    await expect(emojiSuggestionsHeader).toBeDisplayed();
     await expect(emojiSuggestionsHeader).toHaveTextContaining(expectedHeader);
   }
 
