@@ -5,6 +5,7 @@ import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import Messages from "@screenobjects/chats/Messages";
 import SendFiles from "@screenobjects/chats/SendFiles";
+import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   activateSecondApplication,
@@ -12,6 +13,7 @@ import {
 let chatsAttachmentFirstUser = new ComposeAttachment(USER_A_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let sendFilesFirstUser = new SendFiles(USER_A_INSTANCE);
 
@@ -50,6 +52,7 @@ export default async function messageAttachmentsTests() {
 
   it("Send files from Browse Files - Thumbnails are displayed on modal", async () => {
     // Open modal to send files from storage
+    await chatsTopbarFirstUser.validateTopbarExists();
     await chatsInputFirstUser.openUploadFilesFromStorage();
     await sendFilesFirstUser.validateSendFilesModalIsShown();
 
@@ -77,6 +80,7 @@ export default async function messageAttachmentsTests() {
 
     // Return to Chat Screen and open again the Send Files from Storage modal
     await filesScreenFirstUser.goToMainScreen();
+    await chatsTopbarFirstUser.validateTopbarExists();
     await chatsInputFirstUser.openUploadFilesFromStorage();
     await sendFilesFirstUser.validateSendFilesModalIsShown();
   });

@@ -210,8 +210,8 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   async selectUploadFromStorage() {
-    const uploadButtonStorage = await this.uploadButtonStorage;
-    await uploadButtonStorage.click();
+    await this.uploadButtonStorage.waitForDisplayed();
+    await this.uploadButtonStorage.click();
   }
 
   async typeCodeOnInputBar(language: string, codeToType: string) {
