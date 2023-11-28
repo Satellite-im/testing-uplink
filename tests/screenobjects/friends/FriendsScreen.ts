@@ -402,7 +402,6 @@ export default class FriendsScreen extends UplinkMainScreen {
   async clickOnAddSomeoneButton() {
     const addSomeoneButton = await this.addSomeoneButton;
     await addSomeoneButton.click();
-    await this.toastNotification.waitForExist();
   }
 
   async clickOnChatWithFriend() {

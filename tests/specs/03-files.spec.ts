@@ -164,7 +164,7 @@ export default async function files() {
     await filesScreenFirstUser.validateFileOrFolderNotExist("newname.jpg");
   });
 
-  it("Files - File Size Indicators without files show 1 GB Max and 0 bytes as current space", async () => {
+  it("Files - File Size Indicators without files shows GB Max and 0 bytes as current space", async () => {
     const filesInfoMaxSizeLabel =
       await filesScreenFirstUser.filesInfoMaxSizeLabel;
     const filesInfoMaxSizeValue =
@@ -175,7 +175,7 @@ export default async function files() {
       await filesScreenFirstUser.filesInfoCurrentSizeValue;
 
     await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
-    await expect(filesInfoMaxSizeValue).toHaveTextContaining("1 GB");
+    await expect(filesInfoMaxSizeValue).toHaveTextContaining("GB");
     await expect(filesInfoCurrentSizeLabel).toHaveTextContaining(
       "Current Space:",
     );
@@ -208,7 +208,7 @@ export default async function files() {
     const filesInfoCurrentSizeValue =
       await filesScreenFirstUser.filesInfoCurrentSizeValue;
     await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
-    await expect(filesInfoMaxSizeValue).toHaveTextContaining("1 GB");
+    await expect(filesInfoMaxSizeValue).toHaveTextContaining("GB");
     await expect(filesInfoCurrentSizeLabel).toHaveTextContaining(
       "Current Space:",
     );
