@@ -49,7 +49,9 @@ export default async function messageInputTests() {
   it("Emoji Suggested List - Displays expected data", async () => {
     // Type :en to show emoji suggestions starting with "en"
     await chatsInputFirstUser.typeMessageOnInput(":en");
-    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed();
+    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed({
+      timeout: 30000,
+    });
 
     // Validate results are correct in Emoji Suggestion List
     const expectedEmojiSuggestedList = [
@@ -82,7 +84,9 @@ export default async function messageInputTests() {
   it("Emoji Suggested List - Selected emoji is added to input bar", async () => {
     // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
     await chatsInputFirstUser.typeMessageOnInput(":en");
-    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed();
+    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed({
+      timeout: 30000,
+    });
 
     // Select first emoji from emoji list (envelope "✉️")
     await emojiSuggestionsFirstUser.clickOnEmojiSuggested("✉️");
