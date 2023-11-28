@@ -1,10 +1,9 @@
 import "module-alias/register";
-import allureReporter from '@wdio/allure-reporter'
 import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { homedir } from "os";
 import { join } from "path";
 const fsp = require("fs").promises;
-const { readFileSync, rmSync } = require("fs");
+const { rmSync } = require("fs");
 
 // @ts-expect-error
 export const config: WebdriverIO.Config = {
@@ -31,8 +30,6 @@ export const config: WebdriverIO.Config = {
     exclude: [
         // 'path/to/excluded/files'
     ],
-    // The number of times to retry the entire specfile when it fails as a whole
-    specFileRetries: 0,
     //
     // ============
     // Capabilities
