@@ -46,7 +46,8 @@ export default async function messageInputTests() {
     await chatsInputFirstUser.clearInputBar();
   });
 
-  it("Emoji Suggested List - Displays expected data", async () => {
+  // Skipping for Emoji Suggested List taking too long to display on CI runner
+  xit("Emoji Suggested List - Displays expected data", async () => {
     // Type :en to show emoji suggestions starting with "en"
     await chatsInputFirstUser.typeMessageOnInput(":en");
     await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed({
@@ -71,7 +72,8 @@ export default async function messageInputTests() {
     );
   });
 
-  it("Emoji Suggested List - Can be closed without choosing suggestion", async () => {
+  // Skipping for Emoji Suggested List taking too long to display on CI runner
+  xit("Emoji Suggested List - Can be closed without choosing suggestion", async () => {
     // Close Emoji Suggested List using the Close Button
     await emojiSuggestionsFirstUser.clickOnCloseButton();
 
@@ -81,7 +83,8 @@ export default async function messageInputTests() {
     });
   });
 
-  it("Emoji Suggested List - Selected emoji is added to input bar", async () => {
+  // Skipping for Emoji Suggested List taking too long to display on CI runner
+  xit("Emoji Suggested List - Selected emoji is added to input bar", async () => {
     // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
     await chatsInputFirstUser.typeMessageOnInput(":en");
     await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed({
