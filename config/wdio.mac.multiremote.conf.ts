@@ -27,14 +27,6 @@ export const config: WebdriverIO.Config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    // The number of times to retry the entire specfile when it fails as a whole
-    specFileRetries: 2,
-    //
-    // Delay in seconds between the spec file retry attempts
-    specFileRetriesDelay: 30,
-    //
-    // Whether or not retried specfiles should be retried immediately or deferred to the end of the queue
-    specFileRetriesDeferred: false,
     specs: [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")],
     // Patterns to exclude.
     exclude: [
