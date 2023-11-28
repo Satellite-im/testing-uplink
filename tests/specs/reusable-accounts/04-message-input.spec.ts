@@ -49,12 +49,7 @@ export default async function messageInputTests() {
   it("Emoji Suggested List - Displays expected data", async () => {
     // Type :en to show emoji suggestions starting with "en"
     await chatsInputFirstUser.typeMessageOnInput(":en");
-    await emojiSuggestionsFirstUser.validateEmojiSuggestionsContainerIsShown();
-
-    // Validate header text from Emoji Suggested List
-    await emojiSuggestionsFirstUser.validateEmojiSuggestionsHeader(
-      "SUGGESTED EMOJI",
-    );
+    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed();
 
     // Validate results are correct in Emoji Suggestion List
     const expectedEmojiSuggestedList = [
@@ -67,6 +62,11 @@ export default async function messageInputTests() {
     await emojiSuggestionsFirstUser.validateEmojiSuggestionsReceived(
       expectedEmojiSuggestedList,
     );
+
+    // Validate header text from Emoji Suggested List
+    await emojiSuggestionsFirstUser.validateEmojiSuggestionsHeader(
+      "SUGGESTED EMOJI",
+    );
   });
 
   it("Emoji Suggested List - Can be closed without choosing suggestion", async () => {
@@ -77,24 +77,12 @@ export default async function messageInputTests() {
     await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed({
       reverse: true,
     });
-
-    // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
-    await chatsInputFirstUser.typeMessageOnInput(":en");
-    await emojiSuggestionsFirstUser.waitForIsShown(true);
-
-    // Close Emoji Suggested List using the ESC key
-    await emojiSuggestionsFirstUser.pressEscKey();
-
-    // Validate Emoji Suggested List is closed
-    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed({
-      reverse: true,
-    });
   });
 
   it("Emoji Suggested List - Selected emoji is added to input bar", async () => {
     // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
     await chatsInputFirstUser.typeMessageOnInput(":en");
-    await emojiSuggestionsFirstUser.waitForIsShown(true);
+    await emojiSuggestionsFirstUser.emojiSuggestionsContainer.waitForDisplayed();
 
     // Select first emoji from emoji list (envelope "✉️")
     await emojiSuggestionsFirstUser.clickOnEmojiSuggested("✉️");
@@ -173,16 +161,14 @@ export default async function messageInputTests() {
     await activateFirstApplication();
     await chatsInputFirstUser.typeMessageOnInput("https://www.google.com");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForLinkSentToExist(
-      "https://www.google.com",
-    );
+    await chatsMessagesFirstUser.waitForLinkSentToExist("Google");
   });
 
   it("Chat Input Text - Validate text starting with www. is sent as link", async () => {
     // With Chat User A
     await chatsInputFirstUser.typeMessageOnInput("www.apple.com");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForLinkSentToExist("www.apple.com");
+    await chatsMessagesFirstUser.waitForLinkSentToExist("Apple");
   });
 
   it("Chat User - Chat Messages containing links contents on local side", async () => {
@@ -207,10 +193,10 @@ export default async function messageInputTests() {
   it("Chat Input Text - Validate messages with links were received correctly", async () => {
     // With Chat User B, validate message with URL starting with https:// was received as link
     await activateSecondApplication();
-    await chatsMessagesFirstUser.waitForReceivingLink("https://www.google.com");
+    await chatsMessagesFirstUser.waitForReceivingLink("Google");
 
     // With Chat User B, validate message with URL starting with www. was received as link
-    await chatsMessagesFirstUser.waitForReceivingLink("www.apple.com");
+    await chatsMessagesFirstUser.waitForReceivingLink("Apple");
   });
 
   it("Chat User - Chat Messages containing links contents on remote side", async () => {

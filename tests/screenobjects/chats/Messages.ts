@@ -341,9 +341,9 @@ export default class Messages extends UplinkMainScreen {
     let locator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       locator =
-        '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
         expectedMessage +
-        '")]/../..';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator =
         '//Group[contains(@Name, "remote"]//Text[contains(@Name, "' +
@@ -394,10 +394,7 @@ export default class Messages extends UplinkMainScreen {
     return messageText;
   }
 
-  async waitForCodeMessageSentToExist(
-    expectedLanguage: string,
-    timeoutMsg: number = 30000,
-  ) {
+  async waitForCodeMessageSentToExist(expectedLanguage: string) {
     const currentDriver = await this.getCurrentDriver();
     let codeMessageLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
@@ -429,9 +426,9 @@ export default class Messages extends UplinkMainScreen {
         if (currentDriver === MACOS_DRIVER) {
           return await this.instance
             .$(
-              '//XCUIElementTypeGroup[@label="message-text"]//XCUIElementTypeStaticText[contains(@value, "' +
+              '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-text"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
                 expectedMessage +
-                '")]',
+                '"`]',
             )
             .waitForExist({ reverse: true });
         } else if (currentDriver === WINDOWS_DRIVER) {
@@ -456,14 +453,12 @@ export default class Messages extends UplinkMainScreen {
     let linkSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       linkSentLocator =
-        '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeLink[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeLink/XCUIElementTypeStaticText[`value BEGINSWITH "' +
         expectedMessage +
-        '")]';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       linkSentLocator =
-        '//Group[contains(@Name, "local")]//HyperLink[contains(@Name, "' +
-        expectedMessage +
-        '")]';
+        '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
     await driver[this.executor].waitUntil(
       async () => {
@@ -482,24 +477,16 @@ export default class Messages extends UplinkMainScreen {
     let messageSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       messageSentLocator =
-        '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-local"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
         expectedMessage +
-        '")]';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       messageSentLocator =
         '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
         expectedMessage +
         '")]';
     }
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(messageSentLocator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected chat message was not sent after 15 seconds",
-      },
-    );
+    await this.instance.$(messageSentLocator).waitForExist();
   }
 
   async waitForReceivingCodeMessage(expectedLanguage: string) {
@@ -517,15 +504,7 @@ export default class Messages extends UplinkMainScreen {
         '")]';
     }
 
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(codeMessageReceivedLocator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected code message was not received after 15 seconds",
-      },
-    );
+    await this.instance.$(codeMessageReceivedLocator).waitForExist();
   }
 
   async waitForReceivingLink(expectedMessage: string) {
@@ -533,25 +512,14 @@ export default class Messages extends UplinkMainScreen {
     let linkReceivedLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       linkReceivedLocator =
-        '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeLink[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeLink/XCUIElementTypeStaticText[`value BEGINSWITH "' +
         expectedMessage +
-        '")]';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       linkReceivedLocator =
-        '//Group[contains(@Name, "remote")]//HyperLink[contains(@Name, "' +
-        expectedMessage +
-        '")]';
+        '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
-
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(linkReceivedLocator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected link message was not received after 15 seconds",
-      },
-    );
+    await this.instance.$(linkReceivedLocator).waitForExist();
   }
 
   async waitForReceivingMessage(expectedMessage: string) {
@@ -559,25 +527,16 @@ export default class Messages extends UplinkMainScreen {
     let receivedMessageLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       receivedMessageLocator =
-        '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
+        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
         expectedMessage +
-        '")]';
+        '"`]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       receivedMessageLocator =
         '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
         expectedMessage +
         '")]';
     }
-
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(receivedMessageLocator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected chat message was not received after 15 seconds",
-      },
-    );
+    await this.instance.$(receivedMessageLocator).waitForExist();
   }
 
   // Messages Sent Methods

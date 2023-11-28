@@ -32,7 +32,7 @@ export default async function friends() {
     const prereleaseIndicatorText =
       await friendsScreenFirstUser.prereleaseIndicatorText;
     await expect(prereleaseIndicatorText).toHaveTextContaining(
-      "Pre-release | Issues/Feedback"
+      "Pre-release | Issues/Feedback",
     );
   });
 
@@ -77,7 +77,7 @@ export default async function friends() {
   it("Add Friend Input - Error is displayed when number of chars provided is less than expected", async () => {
     const inputError = await friendsScreenFirstUser.inputErrorText;
     await expect(inputError).toHaveTextContaining(
-      "Please enter at least 9 characters."
+      "Please enter at least 9 characters.",
     );
     await friendsScreenFirstUser.deleteAddFriendInput();
   });
@@ -87,7 +87,7 @@ export default async function friends() {
 
     const inputError = await friendsScreenFirstUser.inputErrorText;
     await expect(inputError).toHaveTextContaining(
-      "Not allowed character(s): %"
+      "Not allowed character(s): %",
     );
     await friendsScreenFirstUser.deleteAddFriendInput();
   });
@@ -125,12 +125,12 @@ export default async function friends() {
 
     // Add two more character to add someone input
     await friendsScreenFirstUser.enterFriendDidKey(
-      "did:key:1234567890123456789012345678901234567890123456789"
+      "did:key:1234567890123456789012345678901234567890123456789",
     );
 
     const inputError = await friendsScreenFirstUser.inputErrorText;
     await expect(inputError).toHaveTextContaining(
-      "Maximum of 56 characters exceeded."
+      "Maximum of 56 characters exceeded.",
     );
     await friendsScreenFirstUser.deleteAddFriendInput();
   });
@@ -294,16 +294,14 @@ export default async function friends() {
     // Validate Unfriend button tooltip
     const friendName = await friendsScreenFirstUser.getUserFromAllFriendsList();
     await friendsScreenFirstUser.hoverOnUnfriendDenyUnblockButton(friendName);
-    const unfriendTooltipText = await friendsScreenFirstUser.getUserTooltipText(
-      friendName
-    );
+    const unfriendTooltipText =
+      await friendsScreenFirstUser.getUserTooltipText(friendName);
     await expect(unfriendTooltipText).toHaveTextContaining("Unfriend");
 
     // Validate Block button tooltip
     await friendsScreenFirstUser.hoverOnBlockButton(friendName);
-    const blockTooltipText = await friendsScreenFirstUser.getUserTooltipText(
-      friendName
-    );
+    const blockTooltipText =
+      await friendsScreenFirstUser.getUserTooltipText(friendName);
     await expect(blockTooltipText).toHaveTextContaining("Block");
   });
 
@@ -359,9 +357,8 @@ export default async function friends() {
     // Validate Deny Request button tooltip from Incoming List
     const friendName = await friendsScreenFirstUser.getUserFromIncomingList();
     await friendsScreenFirstUser.hoverOnUnfriendDenyUnblockButton(friendName);
-    const denyTooltipText = await friendsScreenFirstUser.getUserTooltipText(
-      friendName
-    );
+    const denyTooltipText =
+      await friendsScreenFirstUser.getUserTooltipText(friendName);
     await expect(denyTooltipText).toHaveTextContaining("Deny Request");
   });
 
@@ -370,11 +367,10 @@ export default async function friends() {
     const outgoingFriendName =
       await friendsScreenFirstUser.getUserFromOutgoingList();
     await friendsScreenFirstUser.hoverOnUnfriendDenyUnblockButton(
-      outgoingFriendName
+      outgoingFriendName,
     );
-    const unfriendTooltipText = await friendsScreenFirstUser.getUserTooltipText(
-      outgoingFriendName
-    );
+    const unfriendTooltipText =
+      await friendsScreenFirstUser.getUserTooltipText(outgoingFriendName);
     await expect(unfriendTooltipText).toHaveTextContaining("Unfriend");
   });
 
@@ -391,9 +387,8 @@ export default async function friends() {
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.validateIncomingListIsShown();
     const incomingRequestsList = await friendsScreenFirstUser.getIncomingList();
-    const incomingListIncludes = await incomingRequestsList.includes(
-      friendName
-    );
+    const incomingListIncludes =
+      await incomingRequestsList.includes(friendName);
     await expect(incomingListIncludes).toEqual(false);
   });
 
@@ -433,9 +428,8 @@ export default async function friends() {
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.validateOutgoingListIsShown();
     const outgoingRequestsList = await friendsScreenFirstUser.getOutgoingList();
-    const outgoingListIncludes = await outgoingRequestsList.includes(
-      friendName
-    );
+    const outgoingListIncludes =
+      await outgoingRequestsList.includes(friendName);
     expect(outgoingListIncludes).toEqual(false);
   });
 
@@ -446,9 +440,8 @@ export default async function friends() {
     // Validate Deny Request button tooltip from Incoming List
     const friendName = await friendsScreenFirstUser.getUserFromBlockedList();
     await friendsScreenFirstUser.hoverOnUnfriendDenyUnblockButton(friendName);
-    const unblockTooltipText = await friendsScreenFirstUser.getUserTooltipText(
-      friendName
-    );
+    const unblockTooltipText =
+      await friendsScreenFirstUser.getUserTooltipText(friendName);
     await expect(unblockTooltipText).toHaveTextContaining("Unblock");
   });
 
@@ -575,9 +568,8 @@ export default async function friends() {
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.validateIncomingListIsShown();
     const incomingRequestsList = await friendsScreenFirstUser.getIncomingList();
-    const incomingListIncludes = await incomingRequestsList.includes(
-      friendName
-    );
+    const incomingListIncludes =
+      await incomingRequestsList.includes(friendName);
     await expect(incomingListIncludes).toEqual(false);
   });
 

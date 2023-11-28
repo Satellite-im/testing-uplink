@@ -402,6 +402,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async clickOnAddSomeoneButton() {
     const addSomeoneButton = await this.addSomeoneButton;
     await addSomeoneButton.click();
+    await this.toastNotification.waitForExist();
   }
 
   async clickOnChatWithFriend() {
@@ -815,6 +816,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateIncomingListIsShown() {
+    await this.noRequests.waitForExist({ reverse: true });
     const incomingList = await this.incomingRequestsList;
     await incomingList.waitForExist();
   }
@@ -841,6 +843,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateOutgoingListIsShown() {
+    await this.noRequests.waitForExist({ reverse: true });
     const outgoingList = await this.outgoingRequestsList;
     await outgoingList.waitForExist();
   }

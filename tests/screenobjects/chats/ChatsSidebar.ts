@@ -437,7 +437,6 @@ export default class ChatsSidebar extends UplinkMainScreen {
         .$(SELECTORS.SIDEBAR)
         .$('[name="' + username + '"]');
     }
-    await locator.waitForExist();
     return locator;
   }
 
@@ -454,32 +453,15 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async waitForGroupToBeCreated(groupname: string) {
     const element = await this.getExistingElementByAriaLabel(groupname);
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(SELECTORS.SIDEBAR).$(element);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected chat group was never displayed on Sidebar after 15 seconds",
-      },
-    );
+    await this.instance.$(SELECTORS.SIDEBAR).$(element).waitForExist();
   }
 
   async waitForGroupToBeDeleted(groupname: string) {
     const element = await this.getNonExistingElementByAriaLabel(groupname);
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance
-          .$(SELECTORS.SIDEBAR)
-          .$(element)
-          .waitForExist({ reverse: true });
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Sidebar group was never deleted after 15 seconds",
-      },
-    );
+    await this.instance
+      .$(SELECTORS.SIDEBAR)
+      .$(element)
+      .waitForExist({ reverse: true });
   }
 
   async getSidebarGroupPlusSome(groupname: string) {
