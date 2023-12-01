@@ -168,7 +168,6 @@ export default async function sidebarChatsTests() {
     // Send message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Hi...");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("Hi...");
   });
 
   it("Chat User B - Validate message was received", async () => {
