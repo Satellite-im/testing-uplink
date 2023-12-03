@@ -232,10 +232,56 @@ export default async function settingsProfile() {
     // Paste copied Username into Status Input
     await settingsProfileFirstUser.pasteUserNameInStatus("Test123");
 
-    // Ensure that value placed in Status is the did key from the user
+    // Ensure that value placed in Status is the username
     const statusInputText =
       await settingsProfileFirstUser.getStatusInputElement();
     await expect(statusInputText).toHaveTextContaining("Test123#");
+
+    // Clear value from status input
+    await settingsProfileFirstUser.deleteStatus();
+  });
+
+  it("Settings Profile - Right Click On Copy ID Button to Copy Username", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+    // Right click on Copy ID button and select Copy ID
+    await settingsProfileFirstUser.openCopyIDContextMenu();
+    await settingsProfileFirstUser.clickOnContextMenuCopyId();
+
+    // Wait for toast notification to be closed
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+    // Paste copied Username into Status Input
+    await settingsProfileFirstUser.pasteUserNameInStatus("Test123");
+
+    // Ensure that value placed in Status is the username
+    const statusInputText =
+      await settingsProfileFirstUser.getStatusInputElement();
+    await expect(statusInputText).toHaveTextContaining("Test123#");
+
+    // Clear value from status input
+    await settingsProfileFirstUser.deleteStatus();
+  });
+
+  it("Settings Profile - Right Click On Copy ID Button to Copy DID", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+    // Right click on Copy DID button and select Copy ID
+    await settingsProfileFirstUser.openCopyIDContextMenu();
+    await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
+
+    // Wait for toast notification to be closed
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+    // Paste copied DID Key into Status Input
+    await settingsProfileFirstUser.pasteUserKeyInStatus();
+
+    // Ensure that value placed in Status is the did key from the user
+    const statusInputText =
+      await settingsProfileFirstUser.getStatusInputElement();
+    await expect(statusInputText).toHaveTextContaining("did:key");
 
     // Clear value from status input
     await settingsProfileFirstUser.deleteStatus();
