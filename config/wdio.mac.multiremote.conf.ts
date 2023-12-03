@@ -147,7 +147,7 @@ export const config: WebdriverIO.Config = {
       }
   },
 
-  onWorkerEnd: async function (cid, exitCode, specs, retries) {
+  afterSuite: async function (suite) {
     // Close second application if open
     await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
       {
