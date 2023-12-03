@@ -3,6 +3,7 @@ import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal"
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
+import { getClipboardValue } from "@helpers/commands";
 let cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
@@ -226,19 +227,10 @@ export default async function settingsProfile() {
 
     // Wait for toast notification to be closed
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
-  });
 
-  it("Settings Profile - Copied Username# can be placed on any text field", async () => {
-    // Paste copied Username into Status Input
-    await settingsProfileFirstUser.pasteUserNameInStatus("Test123");
-
-    // Ensure that value placed in Status is the username
-    const statusInputText =
-      await settingsProfileFirstUser.getStatusInputElement();
-    await expect(statusInputText).toHaveTextContaining("Test123#");
-
-    // Clear value from status input
-    await settingsProfileFirstUser.deleteStatus();
+    // Validate clipboard text contains Username#
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toHaveTextContaining("ChatUserA#");
   });
 
   it("Settings Profile - Right Click On Copy ID Button to Copy Username", async () => {
@@ -249,19 +241,9 @@ export default async function settingsProfile() {
     await settingsProfileFirstUser.openCopyIDContextMenu();
     await settingsProfileFirstUser.clickOnContextMenuCopyId();
 
-    // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
-
-    // Paste copied Username into Status Input
-    await settingsProfileFirstUser.pasteUserNameInStatus("Test123");
-
-    // Ensure that value placed in Status is the username
-    const statusInputText =
-      await settingsProfileFirstUser.getStatusInputElement();
-    await expect(statusInputText).toHaveTextContaining("Test123#");
-
-    // Clear value from status input
-    await settingsProfileFirstUser.deleteStatus();
+    // Validate clipboard text contains Username#
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toHaveTextContaining("Test123#");
   });
 
   it("Settings Profile - Right Click On Copy ID Button to Copy DID", async () => {
@@ -275,16 +257,9 @@ export default async function settingsProfile() {
     // Wait for toast notification to be closed
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
-    // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus();
-
-    // Ensure that value placed in Status is the did key from the user
-    const statusInputText =
-      await settingsProfileFirstUser.getStatusInputElement();
-    await expect(statusInputText).toHaveTextContaining("did:key");
-
-    // Clear value from status input
-    await settingsProfileFirstUser.deleteStatus();
+    // Validate clipboard text contains Did Key
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toHaveTextContaining("did:key");
   });
 
   it("Settings Profile - Status with more than 128 characters", async () => {

@@ -1,5 +1,5 @@
 import "module-alias/register";
-import { resetAndLoginWithCache } from "@helpers/commands";
+import { getClipboardValue, resetAndLoginWithCache } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
@@ -100,12 +100,42 @@ export default async function friends() {
     await friendsScreenFirstUser.deleteAddFriendInput();
   });
 
-  it("User can copy its own ID by clicking on button", async () => {
-    // Click on Copy ID button and grab clipboard value
+  it("User can copy its own username by clicking on button", async () => {
+    // Click on Copy ID button
     await friendsScreenFirstUser.clickOnCopyID();
 
     // Wait for toast notification to disappear
     await friendsScreenFirstUser.waitUntilNotificationIsClosed();
+
+    // Validate clipboard text contains Username#
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toHaveTextContaining("ChatUserA#");
+  });
+
+  it("User can copy its own DID key using the context menu from Copy Button", async () => {
+    // Right Click on Copy ID button and select Copy DID
+    await friendsScreenFirstUser.openCopyIDContextMenu();
+    await friendsScreenFirstUser.clickOnContextMenuCopyDidKey();
+
+    // Wait for toast notification to disappear
+    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
+
+    // Validate clipboard text contains Did Key
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toHaveTextContaining("did:key");
+  });
+
+  it("User can copy its own username using the context menu from Copy Button", async () => {
+    // Right Click on Copy ID button and select Copy ID
+    await friendsScreenFirstUser.openCopyIDContextMenu();
+    await friendsScreenFirstUser.clickOnContextMenuCopyId();
+
+    // Wait for toast notification to disappear
+    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
+
+    // Validate clipboard text contains Username#
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toHaveTextContaining("ChatUserA#");
   });
 
   it("Add Friend Input - Error is displayed when the user tries to add themselves", async () => {
