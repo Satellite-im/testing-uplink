@@ -2,7 +2,7 @@ import "module-alias/register";
 import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
-import { USER_A_INSTANCE } from "@helpers/constants";
+import { USER_A_INSTANCE, MACOS_DRIVER } from "@helpers/constants";
 import { getClipboardValue } from "@helpers/commands";
 let cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
@@ -234,16 +234,21 @@ export default async function settingsProfile() {
   });
 
   it("Settings Profile - Right Click On Copy ID Button to Copy Username", async () => {
-    // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    const currentDriver = await settingsProfileFirstUser.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      // Wait for toast notification to be closed before starting test
+      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
-    // Right click on Copy ID button and select Copy ID
-    await settingsProfileFirstUser.openCopyIDContextMenu();
-    await settingsProfileFirstUser.clickOnContextMenuCopyId();
+      // Right click on Copy ID button and select Copy ID
+      await settingsProfileFirstUser.openCopyIDContextMenu();
+      await settingsProfileFirstUser.clickOnContextMenuCopyId();
 
-    // Validate clipboard text contains Username#
-    const clipboardText = await getClipboardValue();
-    await expect(clipboardText).toContain("Test123#");
+      // Validate clipboard text contains Username#
+      const clipboardText = await getClipboardValue();
+      await expect(clipboardText).toContain("Test123#");
+    } else {
+      console.log("Skipping test on Windows since it requires appium updates");
+    }
   });
 
   it("Settings Profile - Right Click On Copy ID Button to Copy DID", async () => {
