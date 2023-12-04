@@ -230,7 +230,7 @@ export default async function settingsProfile() {
 
     // Validate clipboard text contains Username#
     const clipboardText = await getClipboardValue();
-    await expect(clipboardText).toHaveTextContaining("ChatUserA#");
+    await expect(clipboardText).toContain("Test123#");
   });
 
   it("Settings Profile - Right Click On Copy ID Button to Copy Username", async () => {
@@ -243,7 +243,7 @@ export default async function settingsProfile() {
 
     // Validate clipboard text contains Username#
     const clipboardText = await getClipboardValue();
-    await expect(clipboardText).toHaveTextContaining("Test123#");
+    await expect(clipboardText).toContain("Test123#");
   });
 
   it("Settings Profile - Right Click On Copy ID Button to Copy DID", async () => {
@@ -259,7 +259,7 @@ export default async function settingsProfile() {
 
     // Validate clipboard text contains Did Key
     const clipboardText = await getClipboardValue();
-    await expect(clipboardText).toHaveTextContaining("did:key");
+    await expect(clipboardText).toContain("did:key");
   });
 
   it("Settings Profile - Status with more than 128 characters", async () => {

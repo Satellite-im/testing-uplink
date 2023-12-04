@@ -109,7 +109,7 @@ export default async function friends() {
 
     // Validate clipboard text contains Username#
     const clipboardText = await getClipboardValue();
-    await expect(clipboardText).toHaveTextContaining("ChatUserA#");
+    await expect(clipboardText).toContain("ChatUserA#");
   });
 
   it("User can copy its own DID key using the context menu from Copy Button", async () => {
@@ -122,7 +122,7 @@ export default async function friends() {
 
     // Validate clipboard text contains Did Key
     const clipboardText = await getClipboardValue();
-    await expect(clipboardText).toHaveTextContaining("did:key");
+    await expect(clipboardText).toContain("did:key");
   });
 
   it("User can copy its own username using the context menu from Copy Button", async () => {
@@ -135,7 +135,7 @@ export default async function friends() {
 
     // Validate clipboard text contains Username#
     const clipboardText = await getClipboardValue();
-    await expect(clipboardText).toHaveTextContaining("ChatUserA#");
+    await expect(clipboardText).toContain("ChatUserA#");
   });
 
   it("Add Friend Input - Error is displayed when the user tries to add themselves", async () => {
