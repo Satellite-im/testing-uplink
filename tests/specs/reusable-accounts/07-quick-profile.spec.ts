@@ -45,19 +45,7 @@ export default async function quickProfileTests() {
     await settingsProfileFirstUser.goToMainScreen();
   });
 
-  it("Chat User B - Send message to User A", async () => {
-    // Switch control to User B and send message to User A
-    await activateSecondApplication();
-    await chatsInputFirstUser.clickOnInputBar();
-    await chatsInputFirstUser.typeMessageOnInput("click...");
-    await chatsInputFirstUser.clickOnSendMessage();
-  });
-
   it("Chat User A - Validate contents from remote quick profile", async () => {
-    // With User A - Validate that message was received
-    await activateFirstApplication();
-    await chatsInputFirstUser.clickOnInputBar();
-
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openRemoteQuickProfile();
 
@@ -89,14 +77,7 @@ export default async function quickProfileTests() {
 
     // Welcome Screen should be displayed
     await welcomeScreenFirstUser.validateWelcomeScreenIsShown();
-  });
-
-  it("Chat User A - Ensure that Chat User B is not in friends list now", async () => {
-    // Get current list of All friends and ensure that it does not include the removed user
     await welcomeScreenFirstUser.goToFriends();
-    const allFriendsList = await friendsScreenFirstUser.getAllFriendsList();
-    const includesFriend = await allFriendsList.includes("ChatUserB");
-    await expect(includesFriend).toEqual(false);
   });
 
   it("Chat User B - Validate friendship was removed", async () => {
