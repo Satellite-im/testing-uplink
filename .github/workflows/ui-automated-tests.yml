@@ -539,15 +539,7 @@ jobs:
             UI Automated Tests execution is complete! You can find the test results report [here](https://satellite-im.github.io/testing-uplink/${{ github.run_number }})
 
   remove-artifacts:
-    needs:
-      [
-        build-mac,
-        build-windows,
-        test-mac,
-        test-mac-chats,
-        test-windows,
-        publish-test-results,
-      ]
+    needs: publish-test-results
     runs-on: ubuntu-latest
 
     steps:
