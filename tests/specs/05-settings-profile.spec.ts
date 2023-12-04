@@ -234,37 +234,37 @@ export default async function settingsProfile() {
   });
 
   it("Settings Profile - Right Click On Copy ID Button to Copy Username", async () => {
+    // Wait for toast notification to be closed before starting test
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+    // Right click on Copy ID button and select Copy ID
+    await settingsProfileFirstUser.openCopyIDContextMenu();
+    await settingsProfileFirstUser.clickOnContextMenuCopyId();
+
+    // Validate clipboard text contains Username#
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toContain("Test123#");
+  });
+
+  it("Settings Profile - Right Click On Copy ID Button to Copy DID", async () => {
     const currentDriver = await settingsProfileFirstUser.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       // Wait for toast notification to be closed before starting test
       await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
-      // Right click on Copy ID button and select Copy ID
+      // Right click on Copy DID button and select Copy ID
       await settingsProfileFirstUser.openCopyIDContextMenu();
-      await settingsProfileFirstUser.clickOnContextMenuCopyId();
+      await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
 
-      // Validate clipboard text contains Username#
+      // Wait for toast notification to be closed
+      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+      // Validate clipboard text contains Did Key
       const clipboardText = await getClipboardValue();
-      await expect(clipboardText).toContain("Test123#");
+      await expect(clipboardText).toContain("did:key");
     } else {
       console.log("Skipping test on Windows since it requires appium updates");
     }
-  });
-
-  it("Settings Profile - Right Click On Copy ID Button to Copy DID", async () => {
-    // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
-
-    // Right click on Copy DID button and select Copy ID
-    await settingsProfileFirstUser.openCopyIDContextMenu();
-    await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
-
-    // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
-
-    // Validate clipboard text contains Did Key
-    const clipboardText = await getClipboardValue();
-    await expect(clipboardText).toContain("did:key");
   });
 
   it("Settings Profile - Status with more than 128 characters", async () => {
