@@ -138,18 +138,12 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Send friend request to User A", async () => {
     // Obtain did key from Chat User B
     const friendDidKey = await getUserKey("ChatUserA", USER_A_INSTANCE);
-    await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
-    await friendsScreenFirstUser.clickOnAddSomeoneButton();
+    await friendsScreenFirstUser.sendFriendRequestWithRetry(
+      friendDidKey,
+      "ChatUserA",
+    );
 
-    // Wait for toast notification to be closed
-    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
-
-    // Validate friend request appears on pending list
-    await friendsScreenFirstUser.hoverOnPendingListButton();
-    await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.validateOutgoingListIsShown();
-    await friendsScreenFirstUser.validateOutgoingListIsNotEmpty();
-
+    // Go to All Friends List
     await friendsScreenFirstUser.goToAllFriendsList();
     await friendsScreenFirstUser.validateAllFriendsListIsShown();
   });
