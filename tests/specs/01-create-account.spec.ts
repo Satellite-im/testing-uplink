@@ -101,7 +101,7 @@ export default async function createAccount() {
   it("Enter a pin with spaces", async () => {
     // Enter pin value with spaces
     await createPinFirstUser.pinInput.click();
-    await createPinFirstUser.enterPin("1234" + "             ");
+    await createPinFirstUser.enterPin("1234" + "   ");
     await createPinFirstUser.inputError.waitForExist();
     const inputErrorText = await createPinFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
