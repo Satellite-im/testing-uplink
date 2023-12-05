@@ -21,7 +21,7 @@ export default async function createAccount() {
       await createPinFirstUser.unlockWarningParagraph;
     await unlockWarningParagraph.waitForExist();
     await expect(unlockWarningParagraph).toHaveTextContaining(
-      "(this is used to encrypt all of the data Uplink stores on your computer when you're not using it so nobody can read your data.)"
+      "(this is used to encrypt all of the data Uplink stores on your computer when you're not using it so nobody can read your data.)",
     );
   });
 
@@ -42,7 +42,7 @@ export default async function createAccount() {
     const helpButtonTooltipText =
       await createPinFirstUser.helpButtonTooltipText;
     await expect(helpButtonTooltipText).toHaveTextContaining(
-      "Help (right-click)"
+      "Help (right-click)",
     );
   });
 
@@ -63,7 +63,7 @@ export default async function createAccount() {
     await createPinFirstUser.inputError.waitForExist();
     const inputErrorText = await createPinFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Please enter at least 4 characters"
+      "Please enter at least 4 characters",
     );
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
@@ -75,7 +75,7 @@ export default async function createAccount() {
     await createPinFirstUser.inputError.waitForExist();
     const inputErrorText = await createPinFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Please enter at least 4 characters"
+      "Please enter at least 4 characters",
     );
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
@@ -84,12 +84,12 @@ export default async function createAccount() {
   });
 
   it("Enter a pin with more than 32 characters", async () => {
-    await createPinFirstUser.enterPin("12345678901234567890123456789012345");
+    await createPinFirstUser.enterPin("12345678901234567890123456789012");
 
     await createPinFirstUser.inputError.waitForExist();
     const inputErrorText = await createPinFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Maximum of 32 characters exceeded"
+      "Maximum of 32 characters exceeded",
     );
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
@@ -104,7 +104,7 @@ export default async function createAccount() {
     await createPinFirstUser.inputError.waitForExist();
     const inputErrorText = await createPinFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Spaces are not allowed."
+      "Spaces are not allowed.",
     );
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
@@ -131,7 +131,7 @@ export default async function createAccount() {
     await createUserFirstUser.inputError.waitForExist();
     const inputErrorText = await createUserFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Please enter at least 4 characters"
+      "Please enter at least 4 characters",
     );
   });
 
@@ -144,13 +144,13 @@ export default async function createAccount() {
     await createUserFirstUser.inputError.waitForExist();
     const inputErrorText = await createUserFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Please enter at least 4 characters"
+      "Please enter at least 4 characters",
     );
   });
 
   it("Username with more than 32 characters and attempt to continue", async () => {
     await createUserFirstUser.enterUsername(
-      "12345678901234567890123456789012345"
+      "123456789012345678901234567890123",
     );
     const statusOfButton =
       await createPinFirstUser.getStatusOfCreateAccountButton();
@@ -159,7 +159,7 @@ export default async function createAccount() {
     await createUserFirstUser.inputError.waitForExist();
     const inputErrorText = await createUserFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Maximum of 32 characters exceeded"
+      "Maximum of 32 characters exceeded",
     );
   });
 
@@ -174,7 +174,7 @@ export default async function createAccount() {
     await createUserFirstUser.inputError.waitForExist();
     const inputErrorText = await createUserFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Spaces are not allowed."
+      "Spaces are not allowed.",
     );
   });
 
@@ -187,7 +187,7 @@ export default async function createAccount() {
     await createUserFirstUser.inputError.waitForExist();
     const inputErrorText = await createUserFirstUser.inputErrorText;
     await expect(inputErrorText).toHaveTextContaining(
-      "Not allowed character(s): .%@"
+      "Not allowed character(s): .%@",
     );
   });
 
