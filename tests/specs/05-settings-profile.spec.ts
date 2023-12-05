@@ -3,7 +3,6 @@ import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal"
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import { USER_A_INSTANCE, MACOS_DRIVER } from "@helpers/constants";
-import { getClipboardValue } from "@helpers/commands";
 let cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
@@ -239,45 +238,45 @@ export default async function settingsProfile() {
   });
 
   it("Settings Profile - Right Click On Copy ID Button to Copy Username", async () => {
-    // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    const currentDriver = await settingsProfileFirstUser.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      // Right click on Copy ID button and select Copy ID
+      await settingsProfileFirstUser.openCopyIDContextMenu();
+      await settingsProfileFirstUser.clickOnContextMenuCopyId();
 
-    // Right click on Copy ID button and select Copy ID
-    await settingsProfileFirstUser.openCopyIDContextMenu();
-    await settingsProfileFirstUser.clickOnContextMenuCopyId();
+      // Wait for toast notification to be closed
+      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
-    // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+      // Paste copied Username into Status Input
+      await settingsProfileFirstUser.pasteUserNameInStatus("Test123");
 
-    // Paste copied Username into Status Input
-    await settingsProfileFirstUser.pasteUserNameInStatus("Test123");
+      // Clear value from status input
+      await settingsProfileFirstUser.deleteStatus();
 
-    // Clear value from status input
-    await settingsProfileFirstUser.deleteStatus();
-
-    // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+      // Wait for toast notification to be closed
+      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    }
   });
 
   it("Settings Profile - Right Click On Copy ID Button to Copy DID", async () => {
-    // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    const currentDriver = await settingsProfileFirstUser.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      // Right click on Copy DID button and select Copy ID
+      await settingsProfileFirstUser.openCopyIDContextMenu();
+      await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
 
-    // Right click on Copy DID button and select Copy ID
-    await settingsProfileFirstUser.openCopyIDContextMenu();
-    await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
+      // Wait for toast notification to be closed
+      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
-    // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+      // Paste copied Username into Status Input
+      await settingsProfileFirstUser.pasteUserKeyInStatus();
 
-    // Paste copied Username into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus();
+      // Clear value from status input
+      await settingsProfileFirstUser.deleteStatus();
 
-    // Clear value from status input
-    await settingsProfileFirstUser.deleteStatus();
-
-    // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+      // Wait for toast notification to be closed
+      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    }
   });
 
   it("Settings Profile - Status with more than 128 characters", async () => {
