@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
 import {
   MACOS_DRIVER,

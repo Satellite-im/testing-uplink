@@ -1,11 +1,11 @@
-import "module-alias/register";
+require("module-alias/register");
 import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import { USER_A_INSTANCE, MACOS_DRIVER } from "@helpers/constants";
-let cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
-let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+const cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
+const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
+const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
 
 export default async function settingsProfile() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {

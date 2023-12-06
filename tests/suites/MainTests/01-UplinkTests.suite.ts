@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import createAccount from "@specs/01-create-account.spec";
 import chats from "@specs/02-chats.spec";
 import files from "@specs/03-files.spec";

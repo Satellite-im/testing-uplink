@@ -1,5 +1,5 @@
 const { keyboard, Key } = require("@nut-tree/nut-js");
-import "module-alias/register";
+require("module-alias/register");
 import { getClipboardMacOS } from "@helpers/commands";
 import {
   MACOS_DRIVER,

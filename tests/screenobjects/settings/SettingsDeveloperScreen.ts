@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 import { clickOnSwitchMacOS } from "@helpers/commands";
 import {
@@ -233,8 +233,8 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnCompressAndDownloadCache() {
-    const compressAndDownloadCacheButton = await this
-      .compressAndDownloadCacheButton;
+    const compressAndDownloadCacheButton =
+      await this.compressAndDownloadCacheButton;
     await compressAndDownloadCacheButton.click();
   }
 
