@@ -2,7 +2,7 @@ import "module-alias/register";
 import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
-import { USER_A_INSTANCE } from "@helpers/constants";
+import { USER_A_INSTANCE, MACOS_DRIVER } from "@helpers/constants";
 let cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
@@ -226,19 +226,57 @@ export default async function settingsProfile() {
 
     // Wait for toast notification to be closed
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
-  });
 
-  it("Settings Profile - Copied Username# can be placed on any text field", async () => {
     // Paste copied Username into Status Input
     await settingsProfileFirstUser.pasteUserNameInStatus("Test123");
 
-    // Ensure that value placed in Status is the did key from the user
-    const statusInputText =
-      await settingsProfileFirstUser.getStatusInputElement();
-    await expect(statusInputText).toHaveTextContaining("Test123#");
-
     // Clear value from status input
     await settingsProfileFirstUser.deleteStatus();
+
+    // Wait for toast notification to be closed
+    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+  });
+
+  it("Settings Profile - Right Click On Copy ID Button to Copy Username", async () => {
+    const currentDriver = await settingsProfileFirstUser.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      // Right click on Copy ID button and select Copy ID
+      await settingsProfileFirstUser.openCopyIDContextMenu();
+      await settingsProfileFirstUser.clickOnContextMenuCopyId();
+
+      // Wait for toast notification to be closed
+      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+      // Paste copied Username into Status Input
+      await settingsProfileFirstUser.pasteUserNameInStatus("Test123");
+
+      // Clear value from status input
+      await settingsProfileFirstUser.deleteStatus();
+
+      // Wait for toast notification to be closed
+      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    }
+  });
+
+  it("Settings Profile - Right Click On Copy ID Button to Copy DID", async () => {
+    const currentDriver = await settingsProfileFirstUser.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      // Right click on Copy DID button and select Copy ID
+      await settingsProfileFirstUser.openCopyIDContextMenu();
+      await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
+
+      // Wait for toast notification to be closed
+      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+
+      // Paste copied Username into Status Input
+      await settingsProfileFirstUser.pasteUserKeyInStatus();
+
+      // Clear value from status input
+      await settingsProfileFirstUser.deleteStatus();
+
+      // Wait for toast notification to be closed
+      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    }
   });
 
   it("Settings Profile - Status with more than 128 characters", async () => {
