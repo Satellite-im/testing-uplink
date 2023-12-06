@@ -13,15 +13,15 @@ import {
   activateFirstApplication,
   activateSecondApplication,
 } from "@helpers/commands";
-let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-let contextMenuSidebarFirstUser = new ContextMenuSidebar(USER_A_INSTANCE);
-let editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
-let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const contextMenuSidebarFirstUser = new ContextMenuSidebar(USER_A_INSTANCE);
+const editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
+const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
+const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
 
 export default async function groupChatSidebarTests() {
   it("Group Chat - Add group to favorites", async () => {

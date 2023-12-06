@@ -14,14 +14,14 @@ import Topbar from "@screenobjects/chats/Topbar";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 
-let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
-let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-let chatsQuickProfileFirstUser = new QuickProfile(USER_A_INSTANCE);
-let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
+const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+const chatsQuickProfileFirstUser = new QuickProfile(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function quickProfileTests() {
   it("Chat User A - Validate contents from local quick profile", async () => {

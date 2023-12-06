@@ -2,8 +2,8 @@ require("module-alias/register");
 import SettingsAboutScreen from "@screenobjects/settings/SettingsAboutScreen";
 import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
-let settingsAboutFirstUser = new SettingsAboutScreen(USER_A_INSTANCE);
-let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
+const settingsAboutFirstUser = new SettingsAboutScreen(USER_A_INSTANCE);
+const settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
   USER_A_INSTANCE,
 );
 

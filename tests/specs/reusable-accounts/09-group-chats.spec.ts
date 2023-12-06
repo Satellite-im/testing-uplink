@@ -11,13 +11,13 @@ import {
   activateFirstApplication,
   activateSecondApplication,
 } from "@helpers/commands";
-let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-let createGroupFirstUser = new CreateGroupChat(USER_A_INSTANCE);
-let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-let sidebarSearchFirstUser = new SidebarSearch(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const createGroupFirstUser = new CreateGroupChat(USER_A_INSTANCE);
+const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
+const sidebarSearchFirstUser = new SidebarSearch(USER_A_INSTANCE);
 
 export default async function groupChatTests() {
   it("Chat User A - Create Group Chat button tooltip", async () => {

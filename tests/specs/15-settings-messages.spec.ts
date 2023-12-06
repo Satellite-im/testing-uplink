@@ -2,8 +2,8 @@ require("module-alias/register");
 import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
 import SettingsMessagesScreen from "@screenobjects/settings/SettingsMessagesScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
-let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
-let settingsMessagesFirstUser = new SettingsMessagesScreen(USER_A_INSTANCE);
+const settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
+const settingsMessagesFirstUser = new SettingsMessagesScreen(USER_A_INSTANCE);
 
 export default async function settingsMessages() {
   it("Settings Messages - Go To Messages Settings", async () => {

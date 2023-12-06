@@ -2,8 +2,8 @@ require("module-alias/register");
 import SettingsAudioScreen from "@screenobjects/settings/SettingsAudioScreen";
 import SettingsMessagesScreen from "@screenobjects/settings/SettingsMessagesScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
-let settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
-let settingsMessagesFirstUser = new SettingsMessagesScreen(USER_A_INSTANCE);
+const settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
+const settingsMessagesFirstUser = new SettingsMessagesScreen(USER_A_INSTANCE);
 
 export default async function settingsAudio() {
   it("Settings Audio - Assert screen texts for input/output device and sample rate selection", async () => {

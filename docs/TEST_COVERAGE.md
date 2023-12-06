@@ -53,11 +53,11 @@ This document provides a test coverage matrix of the Uplink features already aut
 
 - [x] Any message you send yourself should appear within a colored message bubble.
 - [x] Any message received should appear with a grey bubble.
-- [ ]  The chat you are in should be highlighted in the sidebar.
+- [ ] The chat you are in should be highlighted in the sidebar.
 - [x] User Profile Pic should appear next to their message and be up to date.
 - [x] Username should appear above each message or bulk of messages sent or received.
 - [x] Clicking the _Heart_ should add the friend to your _Favorites_.
-- [x]  Current chat should be displayed at the top of the list in the sidebar.
+- [x] Current chat should be displayed at the top of the list in the sidebar.
 - [x] Timestamps should be updated in chat and sidebar. (now, then goes by minutes-hours-days)
 - [ ] Clicking _Phone_ icon should open call modal.
 - [ ] Chat should close if the user blocks the friend they are in the current chat with.

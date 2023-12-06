@@ -2,8 +2,8 @@ require("module-alias/register");
 import SettingsDeveloperScreen from "@screenobjects/settings/SettingsDeveloperScreen";
 import SettingsLicensesScreen from "@screenobjects/settings/SettingsLicenses";
 import { USER_A_INSTANCE } from "@helpers/constants";
-let settingsDeveloperFirstUser = new SettingsDeveloperScreen(USER_A_INSTANCE);
-let settingsLicensesFirstUser = new SettingsLicensesScreen(USER_A_INSTANCE);
+const settingsDeveloperFirstUser = new SettingsDeveloperScreen(USER_A_INSTANCE);
+const settingsLicensesFirstUser = new SettingsLicensesScreen(USER_A_INSTANCE);
 
 export default async function settingsDeveloper() {
   it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {
