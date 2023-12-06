@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";

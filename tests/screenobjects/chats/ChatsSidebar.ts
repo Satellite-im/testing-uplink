@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import {
   MACOS_DRIVER as macDriver,
   WINDOWS_DRIVER as windowsDriver,

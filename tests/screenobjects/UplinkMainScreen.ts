@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import AppScreen from "@screenobjects/AppScreen";
 import { hoverOnMacOS, hoverOnWindows } from "@helpers/commands";
 import {

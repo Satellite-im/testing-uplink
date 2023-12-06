@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
 import {
   MACOS_DRIVER,
@@ -216,12 +216,12 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
   async clickOnEnableAutomatically() {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === WINDOWS_DRIVER) {
-      const enableAutomaticallyCheckbox = await this
-        .enableAutomaticallyCheckbox;
+      const enableAutomaticallyCheckbox =
+        await this.enableAutomaticallyCheckbox;
       await enableAutomaticallyCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      const enableAutomaticallyCheckbox = await this
-        .enableAutomaticallyCheckbox;
+      const enableAutomaticallyCheckbox =
+        await this.enableAutomaticallyCheckbox;
       await clickOnSwitchMacOS(enableAutomaticallyCheckbox, this.executor);
     }
   }

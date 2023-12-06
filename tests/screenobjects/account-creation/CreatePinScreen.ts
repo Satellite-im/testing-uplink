@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import {
   USER_A_INSTANCE,

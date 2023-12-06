@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 export default class AppScreen {
   public executor;
   private locator;
@@ -13,8 +13,8 @@ export default class AppScreen {
   }
 
   async getCurrentDriver() {
-    const currentDriver = await driver[this.executor].capabilities
-      .automationName;
+    const currentDriver =
+      await driver[this.executor].capabilities.automationName;
     return currentDriver;
   }
 

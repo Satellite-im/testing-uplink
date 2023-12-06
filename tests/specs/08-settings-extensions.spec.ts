@@ -1,9 +1,11 @@
-import "module-alias/register";
+require("module-alias/register");
 import SettingsAudioScreen from "@screenobjects/settings/SettingsAudioScreen";
 import SettingsExtensionsScreen from "@screenobjects/settings/SettingsExtensionsScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
-let settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
-let settingsExtensionsFirstUser = new SettingsExtensionsScreen(USER_A_INSTANCE);
+const settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
+const settingsExtensionsFirstUser = new SettingsExtensionsScreen(
+  USER_A_INSTANCE,
+);
 
 export default async function settingsExtensions() {
   it("Settings Extensions - Validate that buttons are displayed in front", async () => {
@@ -27,10 +29,10 @@ export default async function settingsExtensions() {
 
     await expect(emojiSelectorTitle).toHaveTextContaining("Emoji Selector");
     await expect(emojiSelectorDeveloper).toHaveTextContaining(
-      "SATELLITE <DEVS@SATELLITE.IM>"
+      "SATELLITE <DEVS@SATELLITE.IM>",
     );
     await expect(emojiSelectorDescription).toHaveTextContaining(
-      "Browse the standard unicode library of emoji's and send them to friends."
+      "Browse the standard unicode library of emoji's and send them to friends.",
     );
   });
 
@@ -41,9 +43,8 @@ export default async function settingsExtensions() {
     // Validate that switch from Emoji Selector now has value = '0' (disabled)
     const toggleElement =
       await settingsExtensionsFirstUser.emojiSelectorCheckboxValue;
-    const emojiSelectorState = await settingsExtensionsFirstUser.getToggleState(
-      toggleElement
-    );
+    const emojiSelectorState =
+      await settingsExtensionsFirstUser.getToggleState(toggleElement);
     await expect(emojiSelectorState).toEqual("0");
   });
 
@@ -54,9 +55,8 @@ export default async function settingsExtensions() {
     // Validate that switch from Emoji Selector now has value = '1' (active)
     const toggleElement =
       await settingsExtensionsFirstUser.emojiSelectorCheckboxValue;
-    const emojiSelectorState = await settingsExtensionsFirstUser.getToggleState(
-      toggleElement
-    );
+    const emojiSelectorState =
+      await settingsExtensionsFirstUser.getToggleState(toggleElement);
     await expect(emojiSelectorState).toEqual("1");
   });
 
@@ -68,13 +68,13 @@ export default async function settingsExtensions() {
     const installedAlertText =
       await settingsExtensionsFirstUser.installedAlertText;
     await expect(installedAlertText).toHaveTextContaining(
-      "Extensions are pre-compiled on external hardware. For added security you can compile extensions from source and place in the `extensions` folder."
+      "Extensions are pre-compiled on external hardware. For added security you can compile extensions from source and place in the `extensions` folder.",
     );
 
     const extensionsSearchHeader =
       await settingsExtensionsFirstUser.extensionsSearchHeader;
     await expect(extensionsSearchHeader).toHaveTextContaining(
-      "SEARCH EXTENSIONS"
+      "SEARCH EXTENSIONS",
     );
 
     await settingsExtensionsFirstUser.extensionsSearchInput.waitForExist();
@@ -91,25 +91,25 @@ export default async function settingsExtensions() {
     const openExtensionsHeader =
       await settingsExtensionsFirstUser.openExtensionsHeaderText;
     await expect(openExtensionsHeader).toHaveTextContaining(
-      "OPEN EXTENSIONS FOLDER"
+      "OPEN EXTENSIONS FOLDER",
     );
 
     const openExtensionsDescription =
       await settingsExtensionsFirstUser.openExtensionsDescriptionText;
     await expect(openExtensionsDescription).toHaveTextContaining(
-      "Open the local directory containing your installed extensions."
+      "Open the local directory containing your installed extensions.",
     );
 
     const enableAutomaticallyHeader =
       await settingsExtensionsFirstUser.enableAutomaticallyHeader;
     await expect(enableAutomaticallyHeader).toHaveTextContaining(
-      "ENABLE AUTOMATICALLY"
+      "ENABLE AUTOMATICALLY",
     );
 
     const enableAutomaticallyDescription =
       await settingsExtensionsFirstUser.enableAutomaticallyDescription;
     await expect(enableAutomaticallyDescription).toHaveTextContaining(
-      "When turned on, new extensions will automatically be enabled by default."
+      "When turned on, new extensions will automatically be enabled by default.",
     );
   });
 
