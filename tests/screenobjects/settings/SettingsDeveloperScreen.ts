@@ -233,8 +233,8 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   async clickOnCompressAndDownloadCache() {
-    const compressAndDownloadCacheButton = await this
-      .compressAndDownloadCacheButton;
+    const compressAndDownloadCacheButton =
+      await this.compressAndDownloadCacheButton;
     await compressAndDownloadCacheButton.click();
   }
 

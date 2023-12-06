@@ -55,8 +55,8 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
   }
 
   async getCurrentDriver() {
-    const currentDriver = await driver[this.executor].capabilities
-      .automationName;
+    const currentDriver =
+      await driver[this.executor].capabilities.automationName;
     return currentDriver;
   }
 

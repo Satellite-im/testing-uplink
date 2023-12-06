@@ -2,9 +2,9 @@ import "module-alias/register";
 import SettingsAboutScreen from "@screenobjects/settings/SettingsAboutScreen";
 import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
-let settingsAboutFirstUser = new SettingsAboutScreen(USER_A_INSTANCE);
-let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
-  USER_A_INSTANCE
+const settingsAboutFirstUser = new SettingsAboutScreen(USER_A_INSTANCE);
+const settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
+  USER_A_INSTANCE,
 );
 
 export default async function settingsAbout() {
@@ -31,7 +31,7 @@ export default async function settingsAbout() {
       await settingsAboutFirstUser.openWebsiteDescription;
     await expect(openWebsiteHeader).toHaveTextContaining("OPEN WEBSITE");
     await expect(openWebsiteDescription).toHaveTextContaining(
-      "Opens our website in your default web browser."
+      "Opens our website in your default web browser.",
     );
 
     // Validate the header and description texts from Settings Section - About - Open Source Code
@@ -40,7 +40,7 @@ export default async function settingsAbout() {
       await settingsAboutFirstUser.openSourceDescription;
     await expect(openSourceHeader).toHaveTextContaining("OPEN SOURCE CODE");
     await expect(openSourceDescription).toHaveTextContaining(
-      "Opens the codebase in your default web browser."
+      "Opens the codebase in your default web browser.",
     );
   });
 
