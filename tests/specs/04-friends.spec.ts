@@ -197,9 +197,9 @@ export default async function friends() {
     await friendsScreenFirstUser.goToBlockedList();
     await friendsScreenFirstUser.validateNoRequestsIsShown();
 
-    // Ensure that No requests message contains the text "Nothing to see here"
+    // Ensure that No requests message contains the text "NOTHING TO SEE HERE"
     const noRequestsText = await friendsScreenFirstUser.noRequestsText;
-    await expect(noRequestsText).toHaveText("Nothing to see here");
+    await expect(noRequestsText).toHaveText("NOTHING TO SEE HERE");
   });
 
   it("Switch to All Friends view and validate elements displayed", async () => {
@@ -491,9 +491,9 @@ export default async function friends() {
     await friendsScreenFirstUser.goToBlockedList();
     await friendsScreenFirstUser.validateNoRequestsIsShown();
 
-    // Ensure that No requests message contains the text "Nothing to see here"
+    // Ensure that No requests message contains the text "NOTHING TO SEE HERE"
     const noRequestsText = await friendsScreenFirstUser.noRequestsText;
-    await expect(noRequestsText).toHaveText("Nothing to see here");
+    await expect(noRequestsText).toHaveText("NOTHING TO SEE HERE");
   });
 
   it("Context Menu - Chat with Friend", async () => {
@@ -643,9 +643,9 @@ export default async function friends() {
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.validateNoRequestsIsShown();
 
-    // Ensure that No requests message contains the text "Nothing to see here"
+    // Ensure that No requests message contains the text "NOTHING TO SEE HERE"
     const noRequestsText = await friendsScreenFirstUser.noRequestsText;
-    await expect(noRequestsText).toHaveText("Nothing to see here");
+    await expect(noRequestsText).toHaveText("NOTHING TO SEE HERE");
   });
 
   it("Context Menu - Unblock User", async () => {
@@ -670,8 +670,8 @@ export default async function friends() {
     await friendsScreenFirstUser.goToBlockedList();
     await friendsScreenFirstUser.validateNoRequestsIsShown();
 
-    // Ensure that No requests message contains the text "Nothing to see here"
+    // Ensure that No requests message contains the text "NOTHING TO SEE HERE"
     const noRequestsText = await friendsScreenFirstUser.noRequestsText;
-    await expect(noRequestsText).toHaveText("Nothing to see here");
+    await expect(noRequestsText).toHaveText("NOTHING TO SEE HERE");
   });
 }
