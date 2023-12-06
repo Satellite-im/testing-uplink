@@ -12,12 +12,12 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let uplinkMainFirstUser = new UplinkMainScreen(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
+const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
+const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const uplinkMainFirstUser = new UplinkMainScreen(USER_A_INSTANCE);
 const users = ["ChatUserB", "ChatUserC", "ChatUserD"];
 
 export default async function friends() {
@@ -515,7 +515,7 @@ export default async function friends() {
 
   it("Context Menu - Add friend to Favorites and contents displayed on Favorites Sidebar", async () => {
     // Open Context Menu from first user listed in Friends List
-    let friendName = await friendsScreenFirstUser.getUserFromAllFriendsList();
+    const friendName = await friendsScreenFirstUser.getUserFromAllFriendsList();
     await friendsScreenFirstUser.openFriendContextMenu(friendName);
 
     // Select second option "Favorites" from Context Menu

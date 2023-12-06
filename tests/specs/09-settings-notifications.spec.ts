@@ -2,11 +2,11 @@ import "module-alias/register";
 import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
-let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
-  USER_A_INSTANCE
+const settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
+  USER_A_INSTANCE,
 );
-let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
-  USER_A_INSTANCE
+const settingsNotificationsFirstUser = new SettingsNotificationsScreen(
+  USER_A_INSTANCE,
 );
 
 export default async function settingsNotifications() {
@@ -24,7 +24,7 @@ export default async function settingsNotifications() {
       await settingsNotificationsFirstUser.enabledNotificationsDescription;
     await expect(enabledHeader).toHaveTextContaining("ENABLED");
     await expect(enabledDescription).toHaveTextContaining(
-      "Enable notifications for incoming calls, messages, and more."
+      "Enable notifications for incoming calls, messages, and more.",
     );
 
     const friendsHeader =
@@ -33,7 +33,7 @@ export default async function settingsNotifications() {
       await settingsNotificationsFirstUser.friendsNotificationsDescription;
     await expect(friendsHeader).toHaveTextContaining("FRIENDS");
     await expect(friendsDescription).toHaveTextContaining(
-      "Enable notifications for friend requests."
+      "Enable notifications for friend requests.",
     );
 
     const messagesHeader =
@@ -42,7 +42,7 @@ export default async function settingsNotifications() {
       await settingsNotificationsFirstUser.messagesNotificationsDescription;
     await expect(messagesHeader).toHaveTextContaining("MESSAGES");
     await expect(messagesDescription).toHaveTextContaining(
-      "Enable notifications for new messages."
+      "Enable notifications for new messages.",
     );
 
     const settingsHeader =
@@ -51,7 +51,7 @@ export default async function settingsNotifications() {
       await settingsNotificationsFirstUser.settingsNotificationsDescription;
     await expect(settingsHeader).toHaveTextContaining("SETTINGS");
     await expect(settingsDescription).toHaveText(
-      "Enable notifications for updates and important alerts."
+      "Enable notifications for updates and important alerts.",
     );
   });
 
@@ -60,33 +60,29 @@ export default async function settingsNotifications() {
     await settingsNotificationsFirstUser.clickOnEnabledNotifications();
     const enabledToggle =
       await settingsNotificationsFirstUser.enabledNotificationsControllerValue;
-    const enabledState = await settingsNotificationsFirstUser.getToggleState(
-      enabledToggle
-    );
+    const enabledState =
+      await settingsNotificationsFirstUser.getToggleState(enabledToggle);
     await expect(enabledState).toEqual("0");
 
     // Validate that toggle switch for FRIENDS has now value = "0" (disabled)
     const friendsToggle =
       await settingsNotificationsFirstUser.friendsNotificationsControllerValue;
-    const friendsState = await settingsNotificationsFirstUser.getToggleState(
-      friendsToggle
-    );
+    const friendsState =
+      await settingsNotificationsFirstUser.getToggleState(friendsToggle);
     await expect(friendsState).toEqual("0");
 
     // Validate that toggle switch for MESSAGES has now value = "0" (disabled)
     const messagesToggle =
       await settingsNotificationsFirstUser.messagesNotificationsControllerValue;
-    const messagesState = await settingsNotificationsFirstUser.getToggleState(
-      messagesToggle
-    );
+    const messagesState =
+      await settingsNotificationsFirstUser.getToggleState(messagesToggle);
     await expect(messagesState).toEqual("0");
 
     // Validate that toggle switch for SETTINGS has now value = "0" (disabled)
     const settingsToggle =
       await settingsNotificationsFirstUser.settingsNotificationsControllerValue;
-    const settingsState = await settingsNotificationsFirstUser.getToggleState(
-      settingsToggle
-    );
+    const settingsState =
+      await settingsNotificationsFirstUser.getToggleState(settingsToggle);
     await expect(settingsState).toEqual("0");
   });
 
@@ -95,33 +91,29 @@ export default async function settingsNotifications() {
     await settingsNotificationsFirstUser.clickOnEnabledNotifications();
     const enabledToggle =
       await settingsNotificationsFirstUser.enabledNotificationsControllerValue;
-    const enabledState = await settingsNotificationsFirstUser.getToggleState(
-      enabledToggle
-    );
+    const enabledState =
+      await settingsNotificationsFirstUser.getToggleState(enabledToggle);
     await expect(enabledState).toEqual("1");
 
     // Validate that toggle switch for FRIENDS has now value = "1" (enabled)
     const friendsToggle =
       await settingsNotificationsFirstUser.friendsNotificationsControllerValue;
-    const friendsState = await settingsNotificationsFirstUser.getToggleState(
-      friendsToggle
-    );
+    const friendsState =
+      await settingsNotificationsFirstUser.getToggleState(friendsToggle);
     await expect(friendsState).toEqual("1");
 
     // Validate that toggle switch for MESSAGES has now value = "1" (enabled)
     const messagesToggle =
       await settingsNotificationsFirstUser.messagesNotificationsControllerValue;
-    const messagesState = await settingsNotificationsFirstUser.getToggleState(
-      messagesToggle
-    );
+    const messagesState =
+      await settingsNotificationsFirstUser.getToggleState(messagesToggle);
     await expect(messagesState).toEqual("1");
 
     // Validate that toggle switch for SETTINGS has now value = "1" (enabled)
     const settingsToggle =
       await settingsNotificationsFirstUser.settingsNotificationsControllerValue;
-    const settingsState = await settingsNotificationsFirstUser.getToggleState(
-      settingsToggle
-    );
+    const settingsState =
+      await settingsNotificationsFirstUser.getToggleState(settingsToggle);
     await expect(settingsState).toEqual("0");
   });
 
@@ -136,33 +128,29 @@ export default async function settingsNotifications() {
     // Validate that toggle switch for ENABLED has now value = "1" (enabled)
     const enabledToggle =
       await settingsNotificationsFirstUser.enabledNotificationsControllerValue;
-    const enabledState = await settingsNotificationsFirstUser.getToggleState(
-      enabledToggle
-    );
+    const enabledState =
+      await settingsNotificationsFirstUser.getToggleState(enabledToggle);
     await expect(enabledState).toEqual("1");
 
     // Validate that toggle switch for FRIENDS has now value = 1" (enabled)
     const friendsToggle =
       await settingsNotificationsFirstUser.friendsNotificationsControllerValue;
-    const friendsState = await settingsNotificationsFirstUser.getToggleState(
-      friendsToggle
-    );
+    const friendsState =
+      await settingsNotificationsFirstUser.getToggleState(friendsToggle);
     await expect(friendsState).toEqual("1");
 
     // Validate that toggle switch for MESSAGES still has value = "0" (disabled)
     const messagesToggle =
       await settingsNotificationsFirstUser.messagesNotificationsControllerValue;
-    const messagesState = await settingsNotificationsFirstUser.getToggleState(
-      messagesToggle
-    );
+    const messagesState =
+      await settingsNotificationsFirstUser.getToggleState(messagesToggle);
     await expect(messagesState).toEqual("0");
 
     // Validate that toggle switch for SETTINGS still has value = "0" (disabled)
     const settingsToggle =
       await settingsNotificationsFirstUser.settingsNotificationsControllerValue;
-    const settingsState = await settingsNotificationsFirstUser.getToggleState(
-      settingsToggle
-    );
+    const settingsState =
+      await settingsNotificationsFirstUser.getToggleState(settingsToggle);
     await expect(settingsState).toEqual("0");
   });
 
@@ -176,33 +164,29 @@ export default async function settingsNotifications() {
     // Validate that toggle switch for ENABLED still has value = "1" (enabled)
     const enabledToggle =
       await settingsNotificationsFirstUser.enabledNotificationsControllerValue;
-    const enabledState = await settingsNotificationsFirstUser.getToggleState(
-      enabledToggle
-    );
+    const enabledState =
+      await settingsNotificationsFirstUser.getToggleState(enabledToggle);
     await expect(enabledState).toEqual("1");
 
     // Validate that toggle switch for FRIENDS now has value = "0" (disabled)
     const friendsToggle =
       await settingsNotificationsFirstUser.friendsNotificationsControllerValue;
-    const friendsState = await settingsNotificationsFirstUser.getToggleState(
-      friendsToggle
-    );
+    const friendsState =
+      await settingsNotificationsFirstUser.getToggleState(friendsToggle);
     await expect(friendsState).toEqual("0");
 
     // Validate that toggle switch for MESSAGES has now value = 1" (enabled)
     const messagesToggle =
       await settingsNotificationsFirstUser.messagesNotificationsControllerValue;
-    const messagesState = await settingsNotificationsFirstUser.getToggleState(
-      messagesToggle
-    );
+    const messagesState =
+      await settingsNotificationsFirstUser.getToggleState(messagesToggle);
     await expect(messagesState).toEqual("1");
 
     // Validate that toggle switch for SETTINGS still has value = "0" (disabled)
     const settingsToggle =
       await settingsNotificationsFirstUser.settingsNotificationsControllerValue;
-    const settingsState = await settingsNotificationsFirstUser.getToggleState(
-      settingsToggle
-    );
+    const settingsState =
+      await settingsNotificationsFirstUser.getToggleState(settingsToggle);
     await expect(settingsState).toEqual("0");
   });
 
@@ -216,33 +200,29 @@ export default async function settingsNotifications() {
     // Validate that toggle switch for ENABLED still has value = "1" (enabled)
     const enabledToggle =
       await settingsNotificationsFirstUser.enabledNotificationsControllerValue;
-    const enabledState = await settingsNotificationsFirstUser.getToggleState(
-      enabledToggle
-    );
+    const enabledState =
+      await settingsNotificationsFirstUser.getToggleState(enabledToggle);
     await expect(enabledState).toEqual("1");
 
     // Validate that toggle switch for FRIENDS still has value = "0" (disabled)
     const friendsToggle =
       await settingsNotificationsFirstUser.friendsNotificationsControllerValue;
-    const friendsState = await settingsNotificationsFirstUser.getToggleState(
-      friendsToggle
-    );
+    const friendsState =
+      await settingsNotificationsFirstUser.getToggleState(friendsToggle);
     await expect(friendsState).toEqual("0");
 
     // Validate that toggle switch for MESSAGES still has value = "0" (disabled)
     const messagesToggle =
       await settingsNotificationsFirstUser.messagesNotificationsControllerValue;
-    const messagesState = await settingsNotificationsFirstUser.getToggleState(
-      messagesToggle
-    );
+    const messagesState =
+      await settingsNotificationsFirstUser.getToggleState(messagesToggle);
     await expect(messagesState).toEqual("0");
 
     // Validate that toggle switch for SETTINGS now has value = "1" (enabled)
     const settingsToggle =
       await settingsNotificationsFirstUser.settingsNotificationsControllerValue;
-    const settingsState = await settingsNotificationsFirstUser.getToggleState(
-      settingsToggle
-    );
+    const settingsState =
+      await settingsNotificationsFirstUser.getToggleState(settingsToggle);
     await expect(settingsState).toEqual("1");
   });
 }

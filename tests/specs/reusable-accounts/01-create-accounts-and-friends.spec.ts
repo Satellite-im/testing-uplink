@@ -21,21 +21,21 @@ import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
-let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
-let emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
-let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
-let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
+const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
+const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
+const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
+const emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
+const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
+const settingsNotificationsFirstUser = new SettingsNotificationsScreen(
   USER_A_INSTANCE,
 );
-let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function createChatAccountsTests() {
   it("Chat User A - Create Account", async () => {

@@ -191,7 +191,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected Favorite User was never displayed after 15 seconds",
-      }
+      },
     );
     const favoritesElement = await this.instance
       .$(SELECTORS.SLIMBAR)
@@ -209,7 +209,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected user image was never displayed on Favorites Sidebar after 15 seconds",
-      }
+      },
     );
     const userImage = await favoriteLocator.$(SELECTORS.FAVORITES_USER_IMAGE);
     return userImage;
@@ -220,18 +220,18 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     await driver[this.executor].waitUntil(
       async () => {
         return await favoriteLocator.$(
-          SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP
+          SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP,
         );
       },
       {
         timeout: 15000,
         timeoutMsg:
           "Expected user image group wrap was never displayed on Favorites Sidebar after 15 seconds",
-      }
+      },
     );
 
     const userImageGroupWrap = await favoriteLocator.$(
-      SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP
+      SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP,
     );
     return userImageGroupWrap;
   }
@@ -239,7 +239,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   async getFavoritesUserImageProfile(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     const imageProfile = await favoriteLocator.$(
-      SELECTORS.FAVORITES_USER_IMAGE_PROFILE
+      SELECTORS.FAVORITES_USER_IMAGE_PROFILE,
     );
     await imageProfile.waitForExist();
     return imageProfile;
@@ -248,7 +248,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   async getFavoritesUserImageWrap(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     const userImageWrap = await favoriteLocator.$(
-      SELECTORS.FAVORITES_USER_IMAGE_WRAP
+      SELECTORS.FAVORITES_USER_IMAGE_WRAP,
     );
     await userImageWrap.waitForExist();
     return userImageWrap;
@@ -257,7 +257,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   async getFavoritesUserIndicator(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     const indicator = await favoriteLocator.$(
-      SELECTORS.FAVORITES_USER_INDICATOR
+      SELECTORS.FAVORITES_USER_INDICATOR,
     );
     await indicator.waitForExist();
     return indicator;
@@ -266,7 +266,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   async getFavoritesUserIndicatorOffline(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
     const indicatorOffline = await favoriteLocator.$(
-      SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE
+      SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE,
     );
     await indicatorOffline.waitForExist();
     return indicatorOffline;
@@ -277,18 +277,18 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     await driver[this.executor].waitUntil(
       async () => {
         return await favoriteLocator.$(
-          SELECTORS.FAVORITES_USER_INDICATOR_ONLINE
+          SELECTORS.FAVORITES_USER_INDICATOR_ONLINE,
         );
       },
       {
         timeout: 15000,
         timeoutMsg:
           "Expected indicator online was never displayed on Favorite User after 15 seconds",
-      }
+      },
     );
 
     const indicatorOnline = await favoriteLocator.$(
-      SELECTORS.FAVORITES_USER_INDICATOR_ONLINE
+      SELECTORS.FAVORITES_USER_INDICATOR_ONLINE,
     );
     return indicatorOnline;
   }
@@ -314,7 +314,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
         timeout: 15000,
         timeoutMsg:
           "Expected Context Menu was never displayed after 15 seconds",
-      }
+      },
     );
   }
 
@@ -370,7 +370,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Expected Favorites were never displayed after 15 seconds",
-      }
+      },
     );
   }
 
@@ -380,9 +380,8 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   }
 
   async validateFavoritesIndicatorOnline(username: string) {
-    const indicatorOnline = await this.getFavoritesUserIndicatorOnline(
-      username
-    );
+    const indicatorOnline =
+      await this.getFavoritesUserIndicatorOnline(username);
     await indicatorOnline.waitForDisplayed();
   }
 }

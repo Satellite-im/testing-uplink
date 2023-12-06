@@ -6,12 +6,12 @@ import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
-let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-let slimbarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
+const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+const slimbarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
+const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function chats() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
@@ -19,7 +19,7 @@ export default async function chats() {
     const prereleaseIndicatorText =
       await welcomeScreenFirstUser.prereleaseIndicatorText;
     await expect(prereleaseIndicatorText).toHaveTextContaining(
-      "Pre-release | Issues/Feedback"
+      "Pre-release | Issues/Feedback",
     );
   });
 
@@ -42,7 +42,7 @@ export default async function chats() {
     await welcomeScreenFirstUser.addFriendsButton.waitForExist();
     const addSomeoneText = await welcomeScreenFirstUser.addSomeoneText;
     await expect(addSomeoneText).toHaveTextContaining(
-      "Things are better with friends."
+      "Things are better with friends.",
     );
   });
 

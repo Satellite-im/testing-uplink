@@ -8,10 +8,10 @@ import {
   activateFirstApplication,
   activateSecondApplication,
 } from "@helpers/commands";
-let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-let emojiSuggestionsFirstUser = new EmojiSuggestions(USER_A_INSTANCE);
+const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+const emojiSuggestionsFirstUser = new EmojiSuggestions(USER_A_INSTANCE);
 
 export default async function messageInputTests() {
   it("Chat User A - Message Input - User cannot send empty messages", async () => {

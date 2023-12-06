@@ -2,8 +2,8 @@ import "module-alias/register";
 import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
 import SettingsMessagesScreen from "@screenobjects/settings/SettingsMessagesScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
-let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
-let settingsMessagesFirstUser = new SettingsMessagesScreen(USER_A_INSTANCE);
+const settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
+const settingsMessagesFirstUser = new SettingsMessagesScreen(USER_A_INSTANCE);
 
 export default async function settingsMessages() {
   it("Settings Messages - Go To Messages Settings", async () => {
@@ -20,7 +20,7 @@ export default async function settingsMessages() {
       await settingsMessagesFirstUser.convertEmojiDescription;
     await expect(convertEmojiHeader).toHaveTextContaining("CONVERT EMOJI");
     await expect(convertEmojiDescription).toHaveTextContaining(
-      "Convert Emoji text like ':)' into an emoji symbol like '😊'."
+      "Convert Emoji text like ':)' into an emoji symbol like '😊'.",
     );
 
     // Validate Markdown Support texts
@@ -29,10 +29,10 @@ export default async function settingsMessages() {
     const markdownSupportDescription =
       await settingsMessagesFirstUser.markdownSupportDescription;
     await expect(markdownSupportHeader).toHaveTextContaining(
-      "MARKDOWN SUPPORT"
+      "MARKDOWN SUPPORT",
     );
     await expect(markdownSupportDescription).toHaveTextContaining(
-      "Enables the support of the Markdown markup language in messaging."
+      "Enables the support of the Markdown markup language in messaging.",
     );
   });
 
@@ -41,9 +41,8 @@ export default async function settingsMessages() {
     await settingsMessagesFirstUser.clickOnConvertEmoji();
     const convertEmojiToggle =
       await settingsMessagesFirstUser.convertEmojiControllerValue;
-    const convertEmojiState = await settingsMessagesFirstUser.getToggleState(
-      convertEmojiToggle
-    );
+    const convertEmojiState =
+      await settingsMessagesFirstUser.getToggleState(convertEmojiToggle);
     await expect(convertEmojiState).toEqual("0");
 
     // Click on switch slider for Markdown Support to disable option and then validate that toggle has now value = "0" (disabled)
@@ -51,7 +50,7 @@ export default async function settingsMessages() {
     const markdownSupportToggle =
       await settingsMessagesFirstUser.markdownSupportControllerValue;
     const markdownSupportState = await settingsMessagesFirstUser.getToggleState(
-      markdownSupportToggle
+      markdownSupportToggle,
     );
     await expect(markdownSupportState).toEqual("0");
   });
@@ -61,9 +60,8 @@ export default async function settingsMessages() {
     await settingsMessagesFirstUser.clickOnConvertEmoji();
     const convertEmojiToggle =
       await settingsMessagesFirstUser.convertEmojiControllerValue;
-    const convertEmojiState = await settingsMessagesFirstUser.getToggleState(
-      convertEmojiToggle
-    );
+    const convertEmojiState =
+      await settingsMessagesFirstUser.getToggleState(convertEmojiToggle);
     await expect(convertEmojiState).toEqual("1");
 
     // Click on switch slider for Markdown Support to enable option and then validate that toggle has now value = "1" (enabled)
@@ -71,7 +69,7 @@ export default async function settingsMessages() {
     const markdownSupportToggle =
       await settingsMessagesFirstUser.markdownSupportControllerValue;
     const markdownSupportState = await settingsMessagesFirstUser.getToggleState(
-      markdownSupportToggle
+      markdownSupportToggle,
     );
     await expect(markdownSupportState).toEqual("1");
   });

@@ -6,11 +6,11 @@ import MessageGroup from "@screenobjects/chats/MessageGroup";
 import Messages from "@screenobjects/chats/Messages";
 import ReplyPrompt from "@screenobjects/chats/ReplyPrompt";
 import { activateFirstApplication } from "@helpers/commands";
-let chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
-let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
-let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-let chatsReplyPromptFirstUser = new ReplyPrompt(USER_A_INSTANCE);
+const chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
+const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+const chatsReplyPromptFirstUser = new ReplyPrompt(USER_A_INSTANCE);
 
 export default async function repliesTests() {
   it("Chat User B - Reply popup - Validate contents and close it", async () => {
