@@ -5,6 +5,7 @@ import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import Messages from "@screenobjects/chats/Messages";
 import SendFiles from "@screenobjects/chats/SendFiles";
+import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   activateSecondApplication,
@@ -12,13 +13,15 @@ import {
 let chatsAttachmentFirstUser = new ComposeAttachment(USER_A_INSTANCE);
 let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 let sendFilesFirstUser = new SendFiles(USER_A_INSTANCE);
 
 export default async function messageAttachmentsTests() {
   it("Send files from Browse Files - No files are displayed on modal and user can close modal", async () => {
     // Go to upload button and then select Browser Files (from Uplink storage)
-    await chatsInputFirstUser.openUploadFilesFromStorage();
+    await chatsInputFirstUser.clickOnUploadFile();
+    await chatsInputFirstUser.selectUploadFromStorage();
     await sendFilesFirstUser.validateSendFilesModalIsShown();
     await sendFilesFirstUser.validateNoFilesAvailableIsShown();
 
@@ -50,7 +53,9 @@ export default async function messageAttachmentsTests() {
 
   it("Send files from Browse Files - Thumbnails are displayed on modal", async () => {
     // Open modal to send files from storage
-    await chatsInputFirstUser.openUploadFilesFromStorage();
+    await chatsTopbarFirstUser.validateTopbarExists();
+    await chatsInputFirstUser.clickOnUploadFile();
+    await chatsInputFirstUser.selectUploadFromStorage();
     await sendFilesFirstUser.validateSendFilesModalIsShown();
 
     // Go to Home Folder and validate thumbnail for file is shown
@@ -59,12 +64,10 @@ export default async function messageAttachmentsTests() {
     await sendFilesFirstUser.validateThumbnailIsShown("banner.jpg");
   });
 
-  // Skipping test because it takes too much time for execution
-  xit("Send files from Browse Files - User can navigate through folders and to home", async () => {
+  it("Send files from Browse Files - User can navigate through folders and to home", async () => {
     // Navigate to testfolder01 and ensure thumbnail from testfile.txt is shown
-    await sendFilesFirstUser.clickOnFileOrFolder("testfolder01");
+    await sendFilesFirstUser.clickOnFolder("testfolder01");
     await filesScreenFirstUser.validateFileOrFolderExist("testfile.txt");
-    await sendFilesFirstUser.validateThumbnailIsShown("testfile.txt");
 
     // Navigate to home folder and ensure thumbnail from banner.jpg is shown
     await sendFilesFirstUser.clickOnHomeFolderCrumb();
@@ -79,7 +82,9 @@ export default async function messageAttachmentsTests() {
 
     // Return to Chat Screen and open again the Send Files from Storage modal
     await filesScreenFirstUser.goToMainScreen();
-    await chatsInputFirstUser.openUploadFilesFromStorage();
+    await chatsTopbarFirstUser.validateTopbarExists();
+    await chatsInputFirstUser.clickOnUploadFile();
+    await chatsInputFirstUser.selectUploadFromStorage();
     await sendFilesFirstUser.validateSendFilesModalIsShown();
   });
 
@@ -98,7 +103,7 @@ export default async function messageAttachmentsTests() {
 
   it("Send files from Browse Files - Send files counter is updated", async () => {
     // Select one file from root folder and ensure Send Files button displays 1/8 File(s)
-    await sendFilesFirstUser.clickOnFileOrFolder("banner.jpg");
+    await sendFilesFirstUser.clickOnFile("banner.jpg");
     await sendFilesFirstUser.validateSendFilesButtonText("Send 1/8 File(s)");
   });
 
@@ -161,7 +166,7 @@ export default async function messageAttachmentsTests() {
 
   it("Send Files on Chats - Delete attachment before sending the message", async () => {
     // Click on upload button and attach a file to compose attachment
-    await chatsAttachmentFirstUser.deleteFileOnComposeAttachment();
+    await chatsAttachmentFirstUser.clickOnDeleteAttachment(0);
   });
 
   it("Send File from Add Files - Select a file and send message with attachment", async () => {

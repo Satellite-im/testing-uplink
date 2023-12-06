@@ -109,59 +109,50 @@ export async function saveTestKeys(
 // Login or Create Users Functions
 
 export async function createNewUser(username: string) {
-  const pinScreen = await createPinFirstUser.unlockLayout;
-  await pinScreen.waitForExist();
+  await createPinFirstUser.unlockLayout.waitForExist();
 
   // Enter pin for test user
   await createPinFirstUser.enterPin("1234");
-  const createPinButton = await createPinFirstUser.createAccountButton;
-  await createPinButton.waitForEnabled();
+  await createPinFirstUser.createAccountButton.waitForEnabled();
   await createPinFirstUser.clickOnCreateAccount();
 
   // Enter Username and click on Create Account
   await createUserFirstUser.enterUsername(username);
-  const createUserButton = await createUserFirstUser.createAccountButton;
-  await createUserButton.waitForEnabled();
+  await createUserFirstUser.createAccountButton.waitForEnabled();
   await createUserFirstUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  const welcomeLayout = await welcomeScreenFirstUser.welcomeLayout;
-  await welcomeLayout.waitForExist();
+  await welcomeScreenFirstUser.welcomeLayout.waitForExist();
 
   // Workaround to ensure that user clicks on Add Someone
   await welcomeScreenFirstUser.clickAddSomeone();
-  const friendsLayout = await friendsScreenFirstUser.friendsBody;
-  await friendsLayout.waitForExist();
+  await friendsScreenFirstUser.friendsBody.waitForExist();
 }
 
 export async function createNewUserSecondInstance(username: string) {
   // Reset Pin before creating new user
-  const unlockLayout = await createPinSecondUser.unlockLayout;
-  await unlockLayout.waitForExist();
+  await createPinSecondUser.unlockLayout.waitForExist();
   await createPinSecondUser.openHelpButtonMenu();
   await createPinSecondUser.clickOnResetAccount();
 
   // Enter pin for test user
   await createPinSecondUser.enterPin("1234");
-  const createPinButton = await createPinSecondUser.createAccountButton;
-  await createPinButton.waitForEnabled();
+  await createPinSecondUser.createAccountButton.waitForEnabled();
   await createPinSecondUser.clickOnCreateAccount();
 
   // Enter Username and click on Create Account
   await createUserSecondUser.enterUsername(username);
-  const createUserButton = await createUserSecondUser.createAccountButton;
-  await createUserButton.waitForEnabled();
+  await createUserSecondUser.createAccountButton.waitForEnabled();
   await createUserSecondUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  const welcomeLayout = await welcomeScreenSecondUser.welcomeLayout;
-  await welcomeLayout.waitForExist();
+  await welcomeScreenSecondUser.welcomeLayout.waitForExist();
 
   // Workaround to ensure that user clicks on Add Someone
   await welcomeScreenSecondUser.clickAddSomeone();
-  const friendsLayout = await friendsScreenSecondUser.friendsBody;
-  await friendsLayout.waitForExist();
+  await friendsScreenSecondUser.friendsBody.waitForExist();
 }
+
 export async function loginWithTestUser() {
   // Enter pin for test user
   const unlockScreen = await createPinFirstUser.unlockLayout;

@@ -279,9 +279,12 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   async enterUsername(username: string) {
     const input = await this.usernameInput;
-    await input.click();
     await input.clearValue();
-    await input.addValue(username);
+    await input.setValue(username);
+    const usernameInputText = await input.getText();
+    if (usernameInputText !== username) {
+      await this.enterUsername(username);
+    }
   }
 
   async getCopiedDidFromStatusInput() {
@@ -326,7 +329,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await this.hoverOnElement(copyIdButton);
   }
 
-  async pasteUserKeyInStatus(username: string) {
+  async pasteUserNameInStatus(username: string) {
     // Assuming that user already clicked on Copy ID button
     // If driver is macos, then get clipboard and pass it to enterStatus function
     const currentDriver = await this.getCurrentDriver();
@@ -350,6 +353,33 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
         timeout: 5000,
         timeoutMsg:
           "Expected status input to contain username# after 5 seconds",
+      },
+    );
+  }
+
+  async pasteUserKeyInStatus() {
+    // Assuming that user already clicked on Copy ID button
+    // If driver is macos, then get clipboard and pass it to enterStatus function
+    const currentDriver = await this.getCurrentDriver();
+    const statusInput = await this.statusInput;
+    if (currentDriver === MACOS_DRIVER) {
+      const userKey = await getClipboardMacOS();
+      await this.enterStatus(userKey);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      // If driver is windows, then click on status input to place cursor there and simulate a control + v
+      await browser.pause(1000);
+      await statusInput.click();
+      await statusInput.clearValue();
+      await keyboard.type(Key.LeftControl, Key.V);
+    }
+    await statusInput.waitUntil(
+      async () => {
+        const statusInputText = await statusInput.getText();
+        return await statusInputText.includes("did:key");
+      },
+      {
+        timeout: 5000,
+        timeoutMsg: "Expected status input to contain did key after 5 seconds",
       },
     );
   }

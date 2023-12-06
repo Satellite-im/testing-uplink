@@ -47,13 +47,14 @@ export default async function createChatAccountsTests() {
     await settingsProfileFirstUser.validateSettingsProfileIsShown();
 
     // Click on Copy ID button and assert Toast Notification is displayed
-    await settingsProfileFirstUser.clickOnCopyIDButton();
+    await settingsProfileFirstUser.openCopyIDContextMenu();
+    await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
 
     // Wait for toast notification to be closed
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus(username);
+    await settingsProfileFirstUser.pasteUserKeyInStatus();
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
@@ -96,13 +97,14 @@ export default async function createChatAccountsTests() {
     await settingsProfileFirstUser.validateSettingsProfileIsShown();
 
     // Click on Copy ID button and assert Toast Notification is displayed
-    await settingsProfileFirstUser.clickOnCopyIDButton();
+    await settingsProfileFirstUser.openCopyIDContextMenu();
+    await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
 
     // Wait for toast notification of Copied To Clipboard to not exist
     await settingsProfileFirstUser.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus(username);
+    await settingsProfileFirstUser.pasteUserKeyInStatus();
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart

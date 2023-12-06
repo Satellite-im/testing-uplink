@@ -105,7 +105,7 @@ export const config: WebdriverIO.Config = {
          * NOTE: This has been increased for more stable Appium Native app
          * tests because they can take a bit longer.
          */
-        timeout: 120000, // 2min
+        timeout: 180000, // 3min
         bail: true,
     },
     

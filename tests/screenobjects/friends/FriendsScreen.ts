@@ -664,16 +664,19 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async goToAllFriendsList() {
+    await browser.pause(1000);
     const allFriendsButton = await this.allFriendsButton;
     await allFriendsButton.click();
   }
 
   async goToBlockedList() {
+    await browser.pause(1000);
     const blockedListButton = await this.blockedListButton;
     await blockedListButton.click();
   }
 
   async goToPendingFriendsList() {
+    await browser.pause(1000);
     const pendingFriendsButton = await this.pendingFriendsButton;
     await pendingFriendsButton.click();
   }
@@ -815,6 +818,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateIncomingListIsShown() {
+    await this.noRequests.waitForExist({ reverse: true });
     const incomingList = await this.incomingRequestsList;
     await incomingList.waitForExist();
   }
@@ -841,6 +845,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateOutgoingListIsShown() {
+    await this.noRequests.waitForExist({ reverse: true });
     const outgoingList = await this.outgoingRequestsList;
     await outgoingList.waitForExist();
   }

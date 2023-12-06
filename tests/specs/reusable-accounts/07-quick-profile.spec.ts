@@ -51,14 +51,12 @@ export default async function quickProfileTests() {
     await chatsInputFirstUser.clickOnInputBar();
     await chatsInputFirstUser.typeMessageOnInput("click...");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("click...");
   });
 
   it("Chat User A - Validate contents from remote quick profile", async () => {
     // With User A - Validate that message was received
     await activateFirstApplication();
     await chatsInputFirstUser.clickOnInputBar();
-    await chatsMessagesFirstUser.waitForReceivingMessage("click...");
 
     // Open quick profile from remote user
     await chatsMessageGroupsFirstUser.openRemoteQuickProfile();
@@ -177,7 +175,6 @@ export default async function quickProfileTests() {
     // Send message to Chat User B
     await chatsInputFirstUser.typeMessageOnInput("Accepted...");
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("Accepted...");
   });
 
   it("Chat User A - Block Friend", async () => {

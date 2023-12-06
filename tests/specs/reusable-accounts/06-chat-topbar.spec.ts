@@ -15,21 +15,9 @@ let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
 let pinnedMessagesFirstUser = new PinnedMessages(USER_A_INSTANCE);
 
 export default async function chatTopbarTests() {
-  it("Chat User B - Send a message to Chat User A", async () => {
-    // Send a message to Chat User A
-    await chatsInputFirstUser.typeMessageOnInput("Temp...");
-    await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("Temp...");
-  });
-
-  it("Chat User A - Receive message from Chat User B", async () => {
-    // Assert message received from Chat User A
-    await activateFirstApplication();
-    await chatsMessagesFirstUser.waitForReceivingMessage("Temp...");
-  });
-
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
+    await activateFirstApplication();
     await chatsTopbarFirstUser.hoverOnFavoritesButton();
     const favoritesAddTooltipText =
       await chatsTopbarFirstUser.topbarAddToFavoritesTooltipText;
@@ -82,12 +70,12 @@ export default async function chatTopbarTests() {
 
   it("Pinned Messages - Pin a message with attachments", async () => {
     // Look for the latest message received by User A, open context menu and pin message
-    await chatsMessagesFirstUser.openContextMenuOnLastReceived();
+    await chatsMessagesFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.selectContextOptionPin();
 
     // Ensure that message shows a pin indicator
-    await chatsMessageGroupsFirstUser.validateLastMessageReceivedHasPinIndicator();
+    await chatsMessageGroupsFirstUser.validateLastMessageSentHasPinIndicator();
   });
 
   it("Pinned Messages - Pinned message shows timestamp, sender and message", async () => {
@@ -98,12 +86,11 @@ export default async function chatTopbarTests() {
     // Validate pinned message shows timestamp, sender and message
     await pinnedMessagesFirstUser.validateFirstPinnedMessageImageProfileIsShown();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageTimestampIsShown();
-    await pinnedMessagesFirstUser.validateFirstPinnedMessageSender("ChatUserB");
-    await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Temp...");
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageSender("ChatUserA");
+    await pinnedMessagesFirstUser.validateFirstPinnedMessageText("Attached2");
   });
 
-  // Skipping due to issue with Upload files button
-  xit("Pinned Messages - Pinned message with attachment shows icon, extension, filename and metadata", async () => {
+  it("Pinned Messages - Pinned message with attachment shows icon, extension, filename and metadata", async () => {
     // Validate attachment elements are shown in pinned message
     await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileIcon();
     await pinnedMessagesFirstUser.validateFirstPinnedMessageAttachmentFileIconExtension(
