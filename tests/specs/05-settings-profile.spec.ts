@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";

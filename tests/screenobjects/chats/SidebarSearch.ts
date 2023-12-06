@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import {
   WINDOWS_DRIVER as windowsDriver,
   USER_A_INSTANCE as firstUserInstance,
@@ -208,7 +208,7 @@ export default class SidebarSearch extends UplinkMainScreen {
 
   get sidebarSearchParticipantInGroupResult() {
     return this.instance.$$(
-      SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT
+      SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT,
     );
   }
 
@@ -309,9 +309,8 @@ export default class SidebarSearch extends UplinkMainScreen {
   // Search bar methods
 
   async clickOnGroupResultFromSidebarSearch(result: number) {
-    const elementToClick = await this.getSidebarSearchGroupResultLocator(
-      result
-    );
+    const elementToClick =
+      await this.getSidebarSearchGroupResultLocator(result);
     await elementToClick.click();
   }
 
@@ -379,7 +378,7 @@ export default class SidebarSearch extends UplinkMainScreen {
 
   async getSidebarSearchResultsParticipantsInGroups() {
     const list = await this.instance.$$(
-      SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT
+      SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT,
     );
     let results = [];
     for (let item of list) {
@@ -407,7 +406,7 @@ export default class SidebarSearch extends UplinkMainScreen {
 
   async getSidebarSearchParticipantInGroupResultLocator(result: number) {
     let element = await this.instance.$$(
-      SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT
+      SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT,
     )[result];
     return element;
   }

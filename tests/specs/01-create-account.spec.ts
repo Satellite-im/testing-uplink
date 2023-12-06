@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import { maximizeWindow } from "@helpers/commands";
 import { USER_A_INSTANCE } from "@helpers/constants";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";

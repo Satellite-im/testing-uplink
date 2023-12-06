@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
@@ -19,7 +19,7 @@ export default async function chats() {
     const prereleaseIndicatorText =
       await welcomeScreenFirstUser.prereleaseIndicatorText;
     await expect(prereleaseIndicatorText).toHaveTextContaining(
-      "Pre-release | Issues/Feedback"
+      "Pre-release | Issues/Feedback",
     );
   });
 
@@ -42,7 +42,7 @@ export default async function chats() {
     await welcomeScreenFirstUser.addFriendsButton.waitForExist();
     const addSomeoneText = await welcomeScreenFirstUser.addSomeoneText;
     await expect(addSomeoneText).toHaveTextContaining(
-      "Things are better with friends."
+      "Things are better with friends.",
     );
   });
 

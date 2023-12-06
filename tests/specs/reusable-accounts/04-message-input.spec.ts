@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import { USER_A_INSTANCE } from "@helpers/constants";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import EmojiSuggestions from "@screenobjects/chats/EmojiSuggestions";

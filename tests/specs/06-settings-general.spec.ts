@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import {
@@ -27,7 +27,7 @@ export default async function settingsGeneral() {
     const fontDescription = await settingsGeneralFirstUser.fontDescription;
     await expect(fontHeader).toHaveTextContaining("FONT");
     await expect(fontDescription).toHaveTextContaining(
-      "Change the font of the app."
+      "Change the font of the app.",
     );
 
     // FONT SCALING
@@ -36,7 +36,7 @@ export default async function settingsGeneral() {
       await settingsGeneralFirstUser.fontScalingDescription;
     await expect(fontScalingHeader).toHaveTextContaining("FONT SCALING");
     await expect(fontScalingDescription).toHaveTextContaining(
-      "Scale the font size up or down to your liking."
+      "Scale the font size up or down to your liking.",
     );
 
     // THEME
@@ -44,7 +44,7 @@ export default async function settingsGeneral() {
     const themeDescription = await settingsGeneralFirstUser.themeDescription;
     await expect(themeHeader).toHaveTextContaining("THEME");
     await expect(themeDescription).toHaveTextContaining(
-      "Change the theme of the app."
+      "Change the theme of the app.",
     );
   });
 
@@ -67,7 +67,7 @@ export default async function settingsGeneral() {
     const clearAccentTooltipText =
       await settingsGeneralFirstUser.settingsGeneralElementTooltipText;
     await expect(clearAccentTooltipText).toHaveTextContaining(
-      "Clear accent color"
+      "Clear accent color",
     );
   });
 
@@ -128,7 +128,7 @@ export default async function settingsGeneral() {
       await settingsGeneralFirstUser.selectGreyAccentColor();
     } else if (currentDriver === WINDOWS_DRIVER) {
       console.log(
-        "Skipping test on Windows since it needs visual implementation"
+        "Skipping test on Windows since it needs visual implementation",
       );
     }
   });

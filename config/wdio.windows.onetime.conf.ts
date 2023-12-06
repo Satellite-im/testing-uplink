@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { homedir } from "os";
 import { join } from "path";

@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import allureReporter from '@wdio/allure-reporter'
 import { config as sharedConfig } from '@config/wdio.shared.conf';
 import { join } from "path";

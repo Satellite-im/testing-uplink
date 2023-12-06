@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { USER_A_INSTANCE, WINDOWS_DRIVER } from "@helpers/constants";
 
@@ -176,7 +176,7 @@ export default class QuickProfile extends UplinkMainScreen {
 
   get quickProfileUserVolumeLabelText() {
     return this.quickProfileUserVolumeLabel.$(
-      SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL_TEXT
+      SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL_TEXT,
     );
   }
 
@@ -186,7 +186,7 @@ export default class QuickProfile extends UplinkMainScreen {
 
   get quickProfileUserVolumeRangeInput() {
     return this.quickProfileUserVolumeRange.$(
-      SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE_INPUT
+      SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE_INPUT,
     );
   }
 

@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import createChatAccountsTests from "@specs/reusable-accounts/01-create-accounts-and-friends.spec";
 
 describe("Windows Chats Tests", function () {

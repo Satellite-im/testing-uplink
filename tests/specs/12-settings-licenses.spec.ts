@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import SettingsAboutScreen from "@screenobjects/settings/SettingsAboutScreen";
 import SettingsLicensesScreen from "@screenobjects/settings/SettingsLicenses";
 import { USER_A_INSTANCE } from "@helpers/constants";
@@ -17,7 +17,7 @@ export default async function settingsLicenses() {
       await settingsLicensesFirstUser.heroiconsDescription;
     await expect(heroiconsHeader).toHaveTextContaining("HEROICONS");
     await expect(heroiconsDescription).toHaveTextContaining(
-      "We have expanded upon the heroicons library we offer any additional icons under the same license as the original author."
+      "We have expanded upon the heroicons library we offer any additional icons under the same license as the original author.",
     );
 
     // Validate MIT License button is present
