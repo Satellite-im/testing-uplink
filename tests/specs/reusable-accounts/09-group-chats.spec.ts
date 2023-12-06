@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import CreateGroupChat from "@screenobjects/chats/CreateGroupChat";
 import FilesScreen from "@screenobjects/files/FilesScreen";

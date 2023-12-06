@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import {
   WINDOWS_DRIVER as windowsDriver,
   USER_A_INSTANCE as firstUserInstance,

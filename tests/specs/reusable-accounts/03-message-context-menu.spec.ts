@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import { USER_A_INSTANCE } from "@helpers/constants";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";

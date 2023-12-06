@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 export default class AppScreen {
   public executor;
   private locator;

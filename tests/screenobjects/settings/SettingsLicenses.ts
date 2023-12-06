@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 import { USER_A_INSTANCE, WINDOWS_DRIVER } from "@helpers/constants";
 

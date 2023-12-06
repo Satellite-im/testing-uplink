@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import { USER_A_INSTANCE } from "@helpers/constants";
 import ComposeAttachment from "@screenobjects/chats/ComposeAttachment";
 import FilesScreen from "@screenobjects/files/FilesScreen";

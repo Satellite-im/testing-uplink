@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import SettingsAboutScreen from "@screenobjects/settings/SettingsAboutScreen";
 import SettingsLicensesScreen from "@screenobjects/settings/SettingsLicenses";
 import { USER_A_INSTANCE } from "@helpers/constants";

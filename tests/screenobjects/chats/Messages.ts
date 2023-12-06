@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import { faker } from "@faker-js/faker";
 import {
   MACOS_DRIVER,

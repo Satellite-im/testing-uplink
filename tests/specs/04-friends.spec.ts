@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import { getClipboardValue, resetAndLoginWithCache } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
