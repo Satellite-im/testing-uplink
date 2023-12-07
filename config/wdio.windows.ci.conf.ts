@@ -1,8 +1,8 @@
 require("module-alias/register");
-import allureReporter from '@wdio/allure-reporter'
-import { config as sharedConfig } from '@config/wdio.shared.conf';
-import { homedir } from "os";
-import { join } from "path";
+const allureReporter = require('@wdio/allure-reporter').default;
+const sharedConfig = require('@config/wdio.shared.conf.ts').config;
+const homedir = require("os").homedir;
+const join = require("path").join;
 const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
 
