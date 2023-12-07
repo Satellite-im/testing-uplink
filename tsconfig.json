@@ -4,6 +4,7 @@
     "sourceMap": false,
     "target": "es2019",
     "module": "commonjs",
+    "esModuleInterop": true,
     "removeComments": true,
     "resolveJsonModule" : true,
     "noImplicitAny": true,
