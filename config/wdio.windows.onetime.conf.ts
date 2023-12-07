@@ -1,7 +1,7 @@
 require("module-alias/register");
-import { config as sharedConfig } from '@config/wdio.shared.conf';
-import { homedir } from "os";
-import { join } from "path";
+const sharedConfig = require('@config/wdio.shared.conf.ts').config;
+const homedir = require("os").homedir;
+const join = require("path").join;
 const fsp = require("fs").promises;
 const { rmSync } = require("fs");
 
