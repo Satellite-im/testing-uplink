@@ -20,6 +20,7 @@ const SELECTORS_WINDOWS = {
   QUICK_PROFILE_INDICATOR_ONLINE: '[name="indicator-online"]',
   QUICK_PROFILE_MESSAGE: '[name="quick-profile-message"]',
   QUICK_PROFILE_SELF_EDIT: '[name="quick-profile-self-edit"]',
+  QUICK_PROFILE_SHARE_DID: '[name="friends-share"]',
   QUICK_PROFILE_UNBLOCK: '[name="quick-profile-unblock"]',
   QUICK_PROFILE_USER_IMAGE: '[name="profile-image"]',
   QUICK_PROFILE_USER_NAME: '[name="profile-name"]',
@@ -44,6 +45,7 @@ const SELECTORS_MACOS = {
   QUICK_PROFILE_INDICATOR_OFFLINE: "~indicator-offline",
   QUICK_PROFILE_MESSAGE: "~quick-profile-message",
   QUICK_PROFILE_SELF_EDIT: "~quick-profile-self-edit",
+  QUICK_PROFILE_SHARE_DID: "~friends-share",
   QUICK_PROFILE_UNBLOCK: "~quick-profile-unblock",
   QUICK_PROFILE_USER_IMAGE: "~profile-image",
   QUICK_PROFILE_USER_NAME: "~profile-name",
@@ -128,6 +130,10 @@ export default class QuickProfile extends UplinkMainScreen {
       .$(SELECTORS.QUICK_PROFILE_FRIEND_REMOVE);
   }
 
+  get quickProfileShareDid() {
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_SHARE_DID);
+  }
+
   get quickProfileUnblockUser() {
     return this.instance
       .$(SELECTORS.QUICK_PROFILE)
@@ -162,13 +168,6 @@ export default class QuickProfile extends UplinkMainScreen {
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE_TEXT);
   }
-
-  /*
-  QUICK_PROFILE_USER_VOLUME_LABEL: "~user-volume-label",
-  QUICK_PROFILE_USER_VOLUME_LABEL_TEXT: "~User Volume",
-  QUICK_PROFILE_USER_VOLUME_RANGE: "~range-quick-profile-speaker",
-  QUICK_PROFILE_USER_VOLUME_RANGE_INPUT: "~range-input",
-  */
 
   get quickProfileUserVolumeLabel() {
     return this.instance.$(SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL);
@@ -208,6 +207,11 @@ export default class QuickProfile extends UplinkMainScreen {
   async clickOnRemoveUser() {
     const removeUser = await this.quickProfileRemoveFriend;
     await removeUser.click();
+  }
+
+  async clickOnShareDid() {
+    const shareDid = await this.quickProfileShareDid;
+    await shareDid.click();
   }
 
   async clickOnUnblockUser() {
