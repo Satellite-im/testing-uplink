@@ -1,9 +1,10 @@
 require("module-alias/register");
-import allureReporter from '@wdio/allure-reporter'
-import { config as sharedConfig } from '@config/wdio.shared.conf';
-import { homedir } from "os";
-import { join } from "path";
-import { MACOS_BUNDLE_ID, MACOS_DRIVER } from "@helpers/constants";
+const allureReporter = require('@wdio/allure-reporter').default;
+const sharedConfig = require('@config/wdio.shared.conf.ts').config;
+const homedir = require("os").homedir;
+const join = require("path").join;
+const MACOS_BUNDLE_ID = require("@helpers/constants").MACOS_BUNDLE_ID;
+const MACOS_DRIVER = require("@helpers/constants").MACOS_DRIVER;
 const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
 
