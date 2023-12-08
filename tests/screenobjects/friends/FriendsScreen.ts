@@ -400,8 +400,8 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async clickOnAddSomeoneButton() {
-    const addSomeoneButton = await this.addSomeoneButton;
-    await addSomeoneButton.click();
+    await this.addSomeoneButton.waitForExist();
+    await this.addSomeoneButton.click();
   }
 
   async clickOnChatWithFriend() {
@@ -420,6 +420,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async enterFriendDidKey(didkey: string) {
+    await this.addSomeoneInput.waitForExist();
     const addSomeoneInput = await this.addSomeoneInput;
     await addSomeoneInput.clearValue();
     await addSomeoneInput.setValue(didkey);
@@ -665,20 +666,20 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async goToAllFriendsList() {
     await browser.pause(1000);
-    const allFriendsButton = await this.allFriendsButton;
-    await allFriendsButton.click();
+    await this.allFriendsButton.waitForExist();
+    await this.allFriendsButton.click();
   }
 
   async goToBlockedList() {
     await browser.pause(1000);
-    const blockedListButton = await this.blockedListButton;
-    await blockedListButton.click();
+    await this.blockedListButton.waitForExist();
+    await this.blockedListButton.click();
   }
 
   async goToPendingFriendsList() {
     await browser.pause(1000);
-    const pendingFriendsButton = await this.pendingFriendsButton;
-    await pendingFriendsButton.click();
+    await this.pendingFriendsButton.waitForExist();
+    await this.pendingFriendsButton.click();
   }
 
   async hoverOnBlockButton(username: string) {
@@ -703,6 +704,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async hoverOnPendingListButton() {
+    await this.pendingFriendsButton.waitForExist();
     const locator = await this.pendingFriendsButton;
     await this.hoverOnElement(locator);
   }
@@ -729,6 +731,26 @@ export default class FriendsScreen extends UplinkMainScreen {
       await addSomeoneInput.clearValue();
       await keyboard.type(Key.LeftControl, Key.V);
     }
+  }
+
+  async sendFriendRequest(didkey: string, username: string) {
+    // Obtain did key from Chat User B
+    await this.enterFriendDidKey(didkey);
+    await this.clickOnAddSomeoneButton();
+
+    // Wait for toast notification to be closed
+    await this.waitUntilNotificationIsClosed();
+
+    // Validate friend request appears on pending list
+    await this.hoverOnPendingListButton();
+    await this.goToPendingFriendsList();
+    await this.validateOutgoingListIsShown();
+    await this.validateOutgoingListIsNotEmpty();
+  }
+
+  async removeOrCancelFirstUser() {
+    await this.removeOrDenyFriendButton.waitForExist();
+    await this.removeOrDenyFriendButton.click();
   }
 
   async removeOrCancelUser(name: string) {
@@ -776,6 +798,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateBlockedListIsShown() {
+    await this.noRequests.waitForExist({ reverse: true, timeout: 30000 });
     const blockedList = await this.blockedList;
     await blockedList.waitForExist();
   }
@@ -791,8 +814,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateFriendsScreenIsShown() {
-    const friendsScreen = await this.friendsBody;
-    await friendsScreen.waitForExist();
+    await this.friendsBody.waitForExist();
   }
 
   async validateIncomingListIsNotEmpty() {
@@ -818,7 +840,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateIncomingListIsShown() {
-    await this.noRequests.waitForExist({ reverse: true });
+    await this.noRequests.waitForExist({ reverse: true, timeout: 30000 });
     const incomingList = await this.incomingRequestsList;
     await incomingList.waitForExist();
   }
@@ -845,9 +867,8 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateOutgoingListIsShown() {
-    await this.noRequests.waitForExist({ reverse: true });
-    const outgoingList = await this.outgoingRequestsList;
-    await outgoingList.waitForExist();
+    await this.noRequests.waitForExist({ reverse: true, timeout: 30000 });
+    await this.outgoingRequestsList.waitForExist();
   }
 
   async validateRemoveOrDenyButtonIsShown() {

@@ -350,17 +350,9 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]/../..';
     }
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(locator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected message was never received after 15 seconds",
-      },
-    );
-    const element = await this.instance.$(locator);
-    return element;
+    const messageReceived = await this.instance.$(locator);
+    await messageReceived.waitForExist();
+    return messageReceived;
   }
 
   async getLastMessageReceivedLocator() {
@@ -408,15 +400,8 @@ export default class Messages extends UplinkMainScreen {
         expectedLanguage +
         '")]';
     }
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(codeMessageLocator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected code message was never sent after 15 seconds",
-      },
-    );
+    const codeMessage = await this.instance.$(codeMessageLocator);
+    await codeMessage.waitForExist();
   }
 
   async waitForMessageToBeDeleted(expectedMessage: string) {
@@ -460,16 +445,8 @@ export default class Messages extends UplinkMainScreen {
       linkSentLocator =
         '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(linkSentLocator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected chat message with link was not sent after 15 seconds",
-      },
-    );
+    const link = await this.instance.$(linkSentLocator);
+    await link.waitForExist();
   }
 
   async waitForMessageSentToExist(expectedMessage: string) {
@@ -486,7 +463,8 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-    await this.instance.$(messageSentLocator).waitForExist();
+    const messageSent = await this.instance.$(messageSentLocator);
+    await messageSent.waitForExist();
   }
 
   async waitForReceivingCodeMessage(expectedLanguage: string) {
@@ -504,7 +482,8 @@ export default class Messages extends UplinkMainScreen {
         '")]';
     }
 
-    await this.instance.$(codeMessageReceivedLocator).waitForExist();
+    const codeMessage = await this.instance.$(codeMessageReceivedLocator);
+    await codeMessage.waitForExist();
   }
 
   async waitForReceivingLink(expectedMessage: string) {
@@ -519,7 +498,8 @@ export default class Messages extends UplinkMainScreen {
       linkReceivedLocator =
         '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
-    await this.instance.$(linkReceivedLocator).waitForExist();
+    const link = await this.instance.$(linkReceivedLocator);
+    await link.waitForExist();
   }
 
   async waitForReceivingMessage(expectedMessage: string) {
@@ -536,7 +516,8 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-    await this.instance.$(receivedMessageLocator).waitForExist();
+    const messageReceived = await this.instance.$(receivedMessageLocator);
+    await messageReceived.waitForExist();
   }
 
   // Messages Sent Methods
@@ -602,16 +583,9 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]/../..';
     }
-
-    await driver[this.executor].waitUntil(
-      async () => {
-        return await this.instance.$(messageSentLocator);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Expected chat message was not sent after 15 seconds",
-      },
-    );
+    const messageSent = await this.instance.$(messageSentLocator);
+    await messageSent.waitForExist();
+    return messageSent;
   }
 
   async getLastMessageSentLocator() {
