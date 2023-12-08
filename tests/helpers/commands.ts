@@ -231,6 +231,7 @@ export async function launchSecondApplication() {
       arguments: ["--path", homedir() + "/.uplinkUserB"],
     },
   ]);
+  await browser.pause(5000);
 }
 
 export async function activateFirstApplication(

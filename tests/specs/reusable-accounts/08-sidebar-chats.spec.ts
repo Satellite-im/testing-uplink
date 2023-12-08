@@ -52,10 +52,7 @@ export default async function sidebarChatsTests() {
     const friendDidKey = await getUserKey("ChatUserB", USER_A_INSTANCE);
 
     // Send Friend Request to Chat User B
-    await friendsScreenFirstUser.sendFriendRequestWithRetry(
-      friendDidKey,
-      "ChatUserB",
-    );
+    await friendsScreenFirstUser.sendFriendRequest(friendDidKey, "ChatUserB");
   });
 
   it("Chat User B - Validate button badge displays the number of incoming requests", async () => {

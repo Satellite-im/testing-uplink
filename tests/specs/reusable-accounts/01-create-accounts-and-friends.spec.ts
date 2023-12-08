@@ -138,10 +138,7 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Send friend request to User A", async () => {
     // Obtain did key from Chat User B
     const friendDidKey = await getUserKey("ChatUserA", USER_A_INSTANCE);
-    await friendsScreenFirstUser.sendFriendRequestWithRetry(
-      friendDidKey,
-      "ChatUserA",
-    );
+    await friendsScreenFirstUser.sendFriendRequest(friendDidKey, "ChatUserA");
 
     // Go to All Friends List
     await friendsScreenFirstUser.goToAllFriendsList();

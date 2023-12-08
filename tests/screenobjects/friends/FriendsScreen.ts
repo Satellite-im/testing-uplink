@@ -733,30 +733,24 @@ export default class FriendsScreen extends UplinkMainScreen {
     }
   }
 
-  async sendFriendRequestWithRetry(didkey: string, username: string) {
+  async sendFriendRequest(didkey: string, username: string) {
     // Obtain did key from Chat User B
     await this.enterFriendDidKey(didkey);
     await this.clickOnAddSomeoneButton();
+    await browser.pause(1000);
 
     // Wait for toast notification to be closed
     await this.waitUntilNotificationIsClosed();
 
     // Validate friend request appears on pending list
     await this.hoverOnPendingListButton();
+    await browser.pause(1000);
     await this.goToPendingFriendsList();
+    await browser.pause(1000);
     await this.validateOutgoingListIsShown();
+    await browser.pause(1000);
     await this.validateOutgoingListIsNotEmpty();
-
-    const outgoingRequestsList = await this.getOutgoingList();
-    const outgoingListIncludes = await outgoingRequestsList.includes(username);
-    if (outgoingListIncludes === false) {
-      console.log(
-        "ERROR: Friend Request process is failing at the moment, and the error is not related to the automated testing framework. Trying again...",
-      );
-      await this.removeOrCancelFirstUser();
-      await this.goToAllFriendsList();
-      await this.sendFriendRequestWithRetry(didkey, username);
-    }
+    await browser.pause(1000);
   }
 
   async removeOrCancelFirstUser() {

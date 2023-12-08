@@ -114,10 +114,7 @@ export default async function quickProfileTests() {
     const friendDidKey = await getUserKey("ChatUserB", USER_A_INSTANCE);
 
     // Send friend request to Chat User B
-    await friendsScreenFirstUser.sendFriendRequestWithRetry(
-      friendDidKey,
-      "ChatUserB",
-    );
+    await friendsScreenFirstUser.sendFriendRequest(friendDidKey, "ChatUserB");
   });
 
   it("Chat User B - Validate that User A is now a friend", async () => {
