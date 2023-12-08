@@ -169,7 +169,7 @@ export default async function createChatAccountsTests() {
     // Switch control to User B
     await activateSecondApplication();
 
-    // With User A - Go to pending requests list, wait for receiving the friend request and accept it
+    // With User B - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenFirstUser.waitUntilUserAcceptedFriendRequest();
 
     // Validate friend is now on all friends list

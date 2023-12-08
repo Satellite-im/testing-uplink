@@ -737,20 +737,15 @@ export default class FriendsScreen extends UplinkMainScreen {
     // Obtain did key from Chat User B
     await this.enterFriendDidKey(didkey);
     await this.clickOnAddSomeoneButton();
-    await browser.pause(1000);
 
     // Wait for toast notification to be closed
     await this.waitUntilNotificationIsClosed();
 
     // Validate friend request appears on pending list
     await this.hoverOnPendingListButton();
-    await browser.pause(1000);
     await this.goToPendingFriendsList();
-    await browser.pause(1000);
     await this.validateOutgoingListIsShown();
-    await browser.pause(1000);
     await this.validateOutgoingListIsNotEmpty();
-    await browser.pause(1000);
   }
 
   async removeOrCancelFirstUser() {

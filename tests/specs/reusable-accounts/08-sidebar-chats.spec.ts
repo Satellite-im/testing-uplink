@@ -53,6 +53,10 @@ export default async function sidebarChatsTests() {
 
     // Send Friend Request to Chat User B
     await friendsScreenFirstUser.sendFriendRequest(friendDidKey, "ChatUserB");
+
+    // Go to All Friends List
+    await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
   });
 
   it("Chat User B - Validate button badge displays the number of incoming requests", async () => {
