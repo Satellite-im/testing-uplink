@@ -50,17 +50,13 @@ export default async function sidebarChatsTests() {
   it("Chat User A - Send friend request again to Chat User B", async () => {
     // Obtain did key from Chat User B
     const friendDidKey = await getUserKey("ChatUserB", USER_A_INSTANCE);
-    await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
-    await friendsScreenFirstUser.clickOnAddSomeoneButton();
 
-    // Wait for toast notification to be closed
-    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
+    // Send Friend Request to Chat User B
+    await friendsScreenFirstUser.sendFriendRequest(friendDidKey, "ChatUserB");
 
-    // Validate that friend request was sent
-    await friendsScreenFirstUser.hoverOnPendingListButton();
-    await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.validateOutgoingListIsShown();
-    await friendsScreenFirstUser.validateRemoveOrDenyButtonIsShown();
+    // Go to All Friends List
+    await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
   });
 
   it("Chat User B - Validate button badge displays the number of incoming requests", async () => {

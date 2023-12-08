@@ -45,17 +45,9 @@ export default async function quickProfileTests() {
     await settingsProfileFirstUser.goToMainScreen();
   });
 
-  it("Chat User B - Send message to User A", async () => {
-    // Switch control to User B and send message to User A
+  it("Chat User B - Validate contents from remote quick profile", async () => {
+    // With User B - Validate that message was received
     await activateSecondApplication();
-    await chatsInputFirstUser.clickOnInputBar();
-    await chatsInputFirstUser.typeMessageOnInput("click...");
-    await chatsInputFirstUser.clickOnSendMessage();
-  });
-
-  it("Chat User A - Validate contents from remote quick profile", async () => {
-    // With User A - Validate that message was received
-    await activateFirstApplication();
     await chatsInputFirstUser.clickOnInputBar();
 
     // Open quick profile from remote user
@@ -73,7 +65,7 @@ export default async function quickProfileTests() {
     // Validate username from quick profile
     const quickProfileUsername =
       await chatsQuickProfileFirstUser.quickProfileUserNameValueText;
-    await expect(quickProfileUsername).toHaveTextContaining("ChatUserB");
+    await expect(quickProfileUsername).toHaveTextContaining("ChatUserA");
 
     // Click outside to close quick profile
     await chatsInputFirstUser.clickOnInputBar();
@@ -81,6 +73,7 @@ export default async function quickProfileTests() {
 
   it("Chat User A - Remove Friend", async () => {
     // Open quick profile from remote user
+    await activateFirstApplication();
     await chatsMessageGroupsFirstUser.openRemoteQuickProfile();
     await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
@@ -112,17 +105,13 @@ export default async function quickProfileTests() {
     // Obtain did key from Chat User B
     await activateFirstApplication();
     const friendDidKey = await getUserKey("ChatUserB", USER_A_INSTANCE);
-    await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
-    await friendsScreenFirstUser.clickOnAddSomeoneButton();
 
-    // Wait for toast notification to be closed
-    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
+    // Send friend request to Chat User B
+    await friendsScreenFirstUser.sendFriendRequest(friendDidKey, "ChatUserB");
 
-    // Validate friend request appears on pending list
-    await friendsScreenFirstUser.hoverOnPendingListButton();
-    await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.validateOutgoingListIsShown();
-    await friendsScreenFirstUser.validateOutgoingListIsNotEmpty();
+    // Go to All Friends List
+    await friendsScreenFirstUser.goToAllFriendsList();
+    await friendsScreenFirstUser.validateAllFriendsListIsShown();
   });
 
   it("Chat User B - Validate that User A is now a friend", async () => {
@@ -149,9 +138,9 @@ export default async function quickProfileTests() {
   it("Chat User A - Wait until friend request is accepted again", async () => {
     // Validate friend is now on all friends list
     await activateFirstApplication();
-    await friendsScreenFirstUser.goToAllFriendsList();
-    await friendsScreenFirstUser.validateAllFriendsListIsShown();
-    await friendsScreenFirstUser.validateAllFriendsListIsNotEmpty();
+
+    // Validate friend is now on all friends list
+    await friendsScreenFirstUser.waitUntilUserAcceptedFriendRequest();
 
     // Go to chat with User B
     await friendsScreenFirstUser.validateChatWithFriendButtonIsShown();
