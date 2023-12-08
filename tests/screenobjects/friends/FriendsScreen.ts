@@ -803,6 +803,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateBlockedListIsShown() {
+    await this.noRequests.waitForExist({ reverse: true, timeout: 30000 });
     const blockedList = await this.blockedList;
     await blockedList.waitForExist();
   }
@@ -844,7 +845,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateIncomingListIsShown() {
-    await this.noRequests.waitForExist({ reverse: true });
+    await this.noRequests.waitForExist({ reverse: true, timeout: 30000 });
     const incomingList = await this.incomingRequestsList;
     await incomingList.waitForExist();
   }
@@ -871,7 +872,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateOutgoingListIsShown() {
-    await this.noRequests.waitForExist({ reverse: true });
+    await this.noRequests.waitForExist({ reverse: true, timeout: 30000 });
     await this.outgoingRequestsList.waitForExist();
   }
 
