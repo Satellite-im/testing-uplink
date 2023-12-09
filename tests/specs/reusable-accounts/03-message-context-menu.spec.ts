@@ -1,4 +1,5 @@
 require("module-alias/register");
+import { getClipboardValue } from "@helpers/commands";
 import { USER_A_INSTANCE } from "@helpers/constants";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -26,11 +27,31 @@ export default async function messageContextMenuTests() {
     await chatsMessagesFirstUser.waitForMessageSentToExist("Three...");
   });
 
+  it("Chat User A - Context Menu - Copy Text from Message Sent", async () => {
+    await chatsMessagesFirstUser.openContextMenuOnLastSent();
+    await chatsContextMenuFirstUser.validateContextMenuIsOpen();
+    await chatsContextMenuFirstUser.selectContextOptionCopy();
+
+    // Validate clipboard text contains Username#
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toContain("Three...");
+  });
+
   it("Chat User B - Receive two messages from Chat User B", async () => {
     // Assert messages received from Chat User B
     await activateSecondApplication();
     await chatsMessagesFirstUser.waitForReceivingMessage("Two...");
     await chatsMessagesFirstUser.waitForReceivingMessage("Three...");
+  });
+
+  it("Chat User B - Context Menu - Copy Text from Message Received", async () => {
+    await chatsMessagesFirstUser.openContextMenuOnLastReceived();
+    await chatsContextMenuFirstUser.validateContextMenuIsOpen();
+    await chatsContextMenuFirstUser.selectContextOptionCopy();
+
+    // Validate clipboard text contains Username#
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toContain("Three...");
   });
 
   it("Chat User A - Context Menu - Delete Message", async () => {
