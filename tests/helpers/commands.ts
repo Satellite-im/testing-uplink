@@ -224,11 +224,11 @@ export async function launchApplication(
   }
 }
 
-export async function launchSecondApplication() {
+export async function launchUplinkInstance(cachePath: string) {
   await driver[USER_A_INSTANCE].executeScript("macos: launchApp", [
     {
       bundleId: MACOS_USER_B_BUNDLE_ID,
-      arguments: ["--path", homedir() + "/.uplinkUserB"],
+      arguments: ["--path", homedir() + cachePath],
     },
   ]);
   await browser.pause(5000);
