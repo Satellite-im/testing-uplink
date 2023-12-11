@@ -10,7 +10,7 @@ import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal"
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 const cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
-const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+const settingsProfileFirstUser = new SettingsProfileScreen();
 const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function createReusableAccounts() {

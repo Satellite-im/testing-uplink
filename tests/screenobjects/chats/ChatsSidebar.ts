@@ -113,15 +113,15 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   get sidebar() {
-    return this.instance.$(SELECTORS.SIDEBAR);
+    return SELECTORS.SIDEBAR;
   }
 
   get sidebarChatsSection() {
-    return this.instance.$(SELECTORS.SIDEBAR_CHATS_SECTION);
+    return SELECTORS.SIDEBAR_CHATS_SECTION;
   }
 
   get sidebarChildren() {
-    return this.instance.$(SELECTORS.SIDEBAR_CHILDREN);
+    return SELECTORS.SIDEBAR_CHILDREN;
   }
 
   get sidebarChatsUser() {
@@ -262,15 +262,15 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   get sidebarCreateGroupChatTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOOLTIP;
   }
 
   get sidebarCreateGroupChatTooltipText() {
-    return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return SELECTORS.TOOLTIP.$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get sidebarGroupChatImage() {
-    return this.instance.$(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE);
+    return SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE;
   }
 
   get sidebarGroupChatPlusSome() {
@@ -314,7 +314,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   get sidebarSearch() {
-    return this.instance.$(SELECTORS.SIDEBAR_SEARCH);
+    return SELECTORS.SIDEBAR_SEARCH;
   }
 
   // Validations or assertions
@@ -431,7 +431,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === macDriver) {
-      locator = await this.instance.$(SELECTORS.SIDEBAR).$("~" + username);
+      locator = await this.$(SELECTORS.SIDEBAR).$("~" + username);
     } else if (currentDriver === windowsDriver) {
       locator = await this.instance
         .$(SELECTORS.SIDEBAR)
@@ -453,7 +453,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async waitForGroupToBeCreated(groupname: string) {
     const element = await this.getExistingElementByAriaLabel(groupname);
-    await this.instance.$(SELECTORS.SIDEBAR).$(element).waitForExist();
+    await this.$(SELECTORS.SIDEBAR).$(element).waitForExist();
   }
 
   async waitForGroupToBeDeleted(groupname: string) {

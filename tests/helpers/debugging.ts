@@ -7,7 +7,6 @@ import {
   launchSecondApplication,
   saveTestKeys,
 } from "./commands";
-import { USER_A_INSTANCE } from "./constants";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import Topbar from "@screenobjects/chats/Topbar";
@@ -15,14 +14,14 @@ import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
-let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
+let chatsTopbarFirstUser = new Topbar();
+let createPinFirstUser = new CreatePinScreen();
+let friendsScreenFirstUser = new FriendsScreen();
+let settingsGeneralFirstUser = new SettingsGeneralScreen();
 let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
   USER_A_INSTANCE,
 );
-let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+let settingsProfileFirstUser = new SettingsProfileScreen();
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export async function setupBeforeCreateGroupTests() {

@@ -45,7 +45,7 @@ export default class EmojiSuggestions extends UplinkMainScreen {
   }
 
   get emojiSuggestionsContainer() {
-    return this.instance.$(SELECTORS.EMOJI_SUGGESTIONS_CONTAINER);
+    return SELECTORS.EMOJI_SUGGESTIONS_CONTAINER;
   }
 
   get emojiSuggestionsHeader() {
@@ -66,15 +66,12 @@ export default class EmojiSuggestions extends UplinkMainScreen {
     let emojiLocator, emojiElement;
     if (currentDriver === MACOS_DRIVER) {
       emojiLocator = "~emoji-suggested-" + emojiToClick;
-      emojiElement = await this.instance.$(emojiLocator);
+      emojiElement = await this.$(emojiLocator);
     } else if (currentDriver === WINDOWS_DRIVER) {
       const emojiLocatorWindows =
         '[name="emoji-suggested-"' + emojiToClick + '"]';
-      emojiLocator = await this.instance.findElement(
-        "name",
-        emojiLocatorWindows,
-      );
-      emojiElement = await this.instance.$(emojiLocator);
+      emojiLocator = await this.findElement("name", emojiLocatorWindows);
+      emojiElement = await this.$(emojiLocator);
     }
     await this.hoverOnElement(emojiElement);
     await emojiElement.click();

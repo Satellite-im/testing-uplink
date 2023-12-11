@@ -141,27 +141,27 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   get exploreButton() {
-    return this.instance.$(SELECTORS.EXPLORE_BUTTON);
+    return SELECTORS.EXPLORE_BUTTON;
   }
 
   get extensionsBrowser() {
-    return this.instance.$(SELECTORS.EXTENSIONS_BROWSER);
+    return SELECTORS.EXTENSIONS_BROWSER;
   }
 
   get extensionsExplore() {
-    return this.instance.$(SELECTORS.EXTENSIONS_EXPLORE_SECTION);
+    return SELECTORS.EXTENSIONS_EXPLORE_SECTION;
   }
 
   get extensionsExploreBanner() {
-    return this.instance.$(SELECTORS.EXTENSIONS_EXPLORE_BANNER);
+    return SELECTORS.EXTENSIONS_EXPLORE_BANNER;
   }
 
   get extensionsSearchHeader() {
-    return this.instance.$(SELECTORS.EXTENSIONS_SEARCH_HEADER);
+    return SELECTORS.EXTENSIONS_SEARCH_HEADER;
   }
 
   get extensionsSearchInput() {
-    return this.instance.$(SELECTORS.EXTENSIONS_SEARCH_INPUT);
+    return SELECTORS.EXTENSIONS_SEARCH_INPUT;
   }
 
   get extensionsSettingsButton() {
@@ -177,7 +177,7 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   get installedButton() {
-    return this.instance.$(SELECTORS.INSTALLED_BUTTON);
+    return SELECTORS.INSTALLED_BUTTON;
   }
 
   get openExtensionsDescriptionText() {
@@ -195,11 +195,11 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   get openExtensionsFolderButton() {
-    return this.instance.$(SELECTORS.OPEN_EXTENSIONS_FOLDER_BUTTON);
+    return SELECTORS.OPEN_EXTENSIONS_FOLDER_BUTTON;
   }
 
   get settingsExtensions() {
-    return this.instance.$(SELECTORS.SETTINGS_EXTENSIONS);
+    return SELECTORS.SETTINGS_EXTENSIONS;
   }
 
   async clickOnEmojiSelectorCheckbox() {

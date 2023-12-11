@@ -38,11 +38,11 @@ export default class ChatsLayout extends UplinkMainScreen {
   }
 
   get chatLayout() {
-    return this.instance.$(SELECTORS.CHAT_LAYOUT);
+    return SELECTORS.CHAT_LAYOUT;
   }
 
   get encryptedMessages() {
-    return this.instance.$(SELECTORS.ENCRYPTED_MESSAGES);
+    return SELECTORS.ENCRYPTED_MESSAGES;
   }
 
   get encryptedMessagesText() {
@@ -52,7 +52,7 @@ export default class ChatsLayout extends UplinkMainScreen {
   }
 
   get typingIndicator() {
-    return this.instance.$(SELECTORS.CHAT_LAYOUT).$(SELECTORS.TYPING_INDICATOR);
+    return SELECTORS.CHAT_LAYOUT.$(SELECTORS.TYPING_INDICATOR);
   }
 
   get typingIndicatorText() {

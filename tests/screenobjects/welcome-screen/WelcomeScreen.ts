@@ -31,7 +31,7 @@ export default class WelcomeScreen extends UplinkMainScreen {
   }
 
   get addFriendsButton() {
-    return this.instance.$(SELECTORS.ADD_FRIENDS_BUTTON);
+    return SELECTORS.ADD_FRIENDS_BUTTON;
   }
 
   get addSomeoneText() {
@@ -41,11 +41,11 @@ export default class WelcomeScreen extends UplinkMainScreen {
   }
 
   get welcomeImage() {
-    return this.instance.$(SELECTORS.WELCOME_LAYOUT).$(SELECTORS.WELCOME_IMAGE);
+    return SELECTORS.WELCOME_LAYOUT.$(SELECTORS.WELCOME_IMAGE);
   }
 
   get welcomeLayout() {
-    return this.instance.$(SELECTORS.WELCOME_LAYOUT);
+    return SELECTORS.WELCOME_LAYOUT;
   }
 
   async clickAddSomeone() {

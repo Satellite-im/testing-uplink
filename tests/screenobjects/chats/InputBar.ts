@@ -63,15 +63,15 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   get editMessageInput() {
-    return this.instance.$(SELECTORS.EDIT_MESSAGE_INPUT);
+    return SELECTORS.EDIT_MESSAGE_INPUT;
   }
 
   get emojiButton() {
-    return this.instance.$(SELECTORS.EMOJI_BUTTON);
+    return SELECTORS.EMOJI_BUTTON;
   }
 
   get inputCharCounter() {
-    return this.instance.$(SELECTORS.INPUT_CHAR_COUNTER);
+    return SELECTORS.INPUT_CHAR_COUNTER;
   }
 
   get inputCharCounterText() {
@@ -81,11 +81,11 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   get inputCharMaxText() {
-    return this.instance.$(SELECTORS.INPUT_CHAR_MAX_TEXT);
+    return SELECTORS.INPUT_CHAR_MAX_TEXT;
   }
 
   get inputGroup() {
-    return this.instance.$(SELECTORS.CHAT_LAYOUT).$(SELECTORS.INPUT_GROUP);
+    return SELECTORS.CHAT_LAYOUT.$(SELECTORS.INPUT_GROUP);
   }
 
   get inputText() {
@@ -96,35 +96,35 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   get sendMessageButton() {
-    return this.instance.$(SELECTORS.SEND_MESSAGE_BUTTON);
+    return SELECTORS.SEND_MESSAGE_BUTTON;
   }
 
   get sendMessageTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOOLTIP;
   }
 
   get sendMessageTooltipText() {
-    return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return SELECTORS.TOOLTIP.$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get uploadButton() {
-    return this.instance.$(SELECTORS.UPLOAD_BUTTON);
+    return SELECTORS.UPLOAD_BUTTON;
   }
 
   get uploadTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOOLTIP;
   }
 
   get uploadTooltipText() {
-    return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return SELECTORS.TOOLTIP.$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get uploadButtonStorage() {
-    return this.instance.$(SELECTORS.UPLOAD_BUTTON_STORAGE);
+    return SELECTORS.UPLOAD_BUTTON_STORAGE;
   }
 
   get uploadButtonLocalDisk() {
-    return this.instance.$(SELECTORS.UPLOAD_BUTTON_LOCAL_DISK);
+    return SELECTORS.UPLOAD_BUTTON_LOCAL_DISK;
   }
 
   async clearInputBar() {

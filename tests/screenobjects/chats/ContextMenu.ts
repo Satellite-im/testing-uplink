@@ -47,7 +47,7 @@ export default class ContextMenu extends UplinkMainScreen {
   }
 
   get contextMenu() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU);
+    return SELECTORS.CONTEXT_MENU;
   }
 
   get contextMessagesCancelEdit() {
@@ -157,13 +157,13 @@ export default class ContextMenu extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance.$(
+      locator = await this.$(
         '//XCUIElementTypeGroup[@label="Context Menu"]/XCUIElementTypeButton[@Value="' +
           reaction +
           '"]',
       );
     } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = await this.instance.$(
+      locator = await this.$(
         '//Group[@Name="Context Menu"]/Button[@Name="' + reaction + '"]',
       );
     }

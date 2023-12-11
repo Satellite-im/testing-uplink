@@ -97,7 +97,7 @@ export default class OutgoingCallModal extends UplinkMainScreen {
   }
 
   get outgoingCallLabel() {
-    return this.instance.$(SELECTORS.OUTGOING_CALL_LABEL);
+    return SELECTORS.OUTGOING_CALL_LABEL;
   }
 
   get outgoingCallLabelText() {
@@ -109,7 +109,7 @@ export default class OutgoingCallModal extends UplinkMainScreen {
   }
 
   get remoteControls() {
-    return this.instance.$(SELECTORS.REMOTE_CONTROLS);
+    return SELECTORS.REMOTE_CONTROLS;
   }
 
   get userImageGroupWrap() {

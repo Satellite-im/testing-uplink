@@ -96,7 +96,7 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   get editGroupModal() {
-    return this.instance.$(SELECTORS.EDIT_GROUP_MODAL);
+    return SELECTORS.EDIT_GROUP_MODAL;
   }
 
   get editGroupSection() {
@@ -117,11 +117,11 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   get groupNameInput() {
-    return this.instance.$(SELECTORS.GROUP_NAME_INPUT);
+    return SELECTORS.GROUP_NAME_INPUT;
   }
 
   get groupNameInputError() {
-    return this.instance.$(SELECTORS.GROUP_NAME_INPUT_ERROR);
+    return SELECTORS.GROUP_NAME_INPUT_ERROR;
   }
 
   get groupNameInputErrorText() {
@@ -252,9 +252,7 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async clickOnFirstAddButton() {
-    const firstAddButton = await this.instance.$$(
-      SELECTORS.ADD_PARTICIPANT_BUTTON,
-    )[0];
+    const firstAddButton = await this.$$(SELECTORS.ADD_PARTICIPANT_BUTTON)[0];
     await driver[this.executor].waitUntil(
       async () => {
         return await firstAddButton;
@@ -269,7 +267,7 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async clickOnFirstRemoveButton() {
-    const removeParticipantButton = await this.instance.$$(
+    const removeParticipantButton = await this.$$(
       SELECTORS.REMOVE_PARTICIPANT_BUTTON,
     )[0];
     await driver[this.executor].waitUntil(

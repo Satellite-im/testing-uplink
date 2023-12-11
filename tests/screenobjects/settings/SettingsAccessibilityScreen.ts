@@ -71,7 +71,7 @@ export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
   }
 
   get settingsAccessibility() {
-    return this.instance.$(SELECTORS.SETTINGS_ACCESSIBILITY);
+    return SELECTORS.SETTINGS_ACCESSIBILITY;
   }
 
   async clickOnOpenDyslexic() {

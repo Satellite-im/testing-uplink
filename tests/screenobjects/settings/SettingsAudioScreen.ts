@@ -240,7 +240,7 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   get settingsAudio() {
-    return this.instance.$(SELECTORS.SETTINGS_AUDIO);
+    return SELECTORS.SETTINGS_AUDIO;
   }
 
   // Click on dropdowns and sliders methods

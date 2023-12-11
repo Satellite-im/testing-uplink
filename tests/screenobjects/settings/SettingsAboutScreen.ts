@@ -66,11 +66,11 @@ export default class SettingsAboutScreen extends SettingsBaseScreen {
   }
 
   get checkForUpdatesButton() {
-    return this.instance.$(SELECTORS.CHECK_FOR_UPDATES_BUTTON);
+    return SELECTORS.CHECK_FOR_UPDATES_BUTTON;
   }
 
   get openSourceCodeButton() {
-    return this.instance.$(SELECTORS.OPEN_SOURCE_CODE_BUTTON);
+    return SELECTORS.OPEN_SOURCE_CODE_BUTTON;
   }
 
   get openSourceDescription() {
@@ -88,7 +88,7 @@ export default class SettingsAboutScreen extends SettingsBaseScreen {
   }
 
   get openWebsiteButton() {
-    return this.instance.$(SELECTORS.OPEN_WEBSITE_BUTTON);
+    return SELECTORS.OPEN_WEBSITE_BUTTON;
   }
 
   get openWebsiteDescription() {

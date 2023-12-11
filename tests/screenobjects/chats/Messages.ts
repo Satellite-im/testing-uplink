@@ -137,11 +137,11 @@ export default class Messages extends UplinkMainScreen {
   }
 
   get chatMessageFileEmbedLocal() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
+    return SELECTORS.CHAT_MESSAGE_FILE_EMBED;
   }
 
   get chatMessageFileEmbedRemote() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE);
+    return SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE;
   }
 
   get chatMessageFileIconLocal() {
@@ -221,7 +221,7 @@ export default class Messages extends UplinkMainScreen {
   }
 
   get chatMessageImageContainer() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_IMAGE_CONTAINER);
+    return SELECTORS.CHAT_MESSAGE_IMAGE_CONTAINER;
   }
 
   get chatMessageImageFile() {
@@ -231,7 +231,7 @@ export default class Messages extends UplinkMainScreen {
   }
 
   get chatMessageImageModal() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_IMAGE_MODAL);
+    return SELECTORS.CHAT_MESSAGE_IMAGE_MODAL;
   }
 
   get chatMessageImageModalFile() {
@@ -241,7 +241,7 @@ export default class Messages extends UplinkMainScreen {
   }
 
   get chatMessageLinkEmbed() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_LINK_EMBED);
+    return SELECTORS.CHAT_MESSAGE_LINK_EMBED;
   }
 
   get chatMessageLinkEmbedDetails() {
@@ -263,15 +263,15 @@ export default class Messages extends UplinkMainScreen {
   }
 
   get chatMessageLocal() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_LOCAL);
+    return$(SELECTORS.CHAT_MESSAGE_LOCAL);
   }
 
   get chatMessageRemote() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_REMOTE);
+    return$(SELECTORS.CHAT_MESSAGE_REMOTE);
   }
 
   get chatMessageReply() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_REPLY);
+    return SELECTORS.CHAT_MESSAGE_REPLY;
   }
 
   get chatMessageReplyText() {
@@ -287,7 +287,7 @@ export default class Messages extends UplinkMainScreen {
   }
 
   get chatMessageTextGroup() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
+    return$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
   // Messages Received Methods
@@ -350,7 +350,7 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]/../..';
     }
-    const messageReceived = await this.instance.$(locator);
+    const messageReceived = await this.$(locator);
     await messageReceived.waitForExist();
     return messageReceived;
   }
@@ -400,7 +400,7 @@ export default class Messages extends UplinkMainScreen {
         expectedLanguage +
         '")]';
     }
-    const codeMessage = await this.instance.$(codeMessageLocator);
+    const codeMessage = await this.$(codeMessageLocator);
     await codeMessage.waitForExist();
   }
 
@@ -445,7 +445,7 @@ export default class Messages extends UplinkMainScreen {
       linkSentLocator =
         '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
-    const link = await this.instance.$(linkSentLocator);
+    const link = await this.$(linkSentLocator);
     await link.waitForExist();
   }
 
@@ -463,7 +463,7 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-    const messageSent = await this.instance.$(messageSentLocator);
+    const messageSent = await this.$(messageSentLocator);
     await messageSent.waitForExist();
   }
 
@@ -482,7 +482,7 @@ export default class Messages extends UplinkMainScreen {
         '")]';
     }
 
-    const codeMessage = await this.instance.$(codeMessageReceivedLocator);
+    const codeMessage = await this.$(codeMessageReceivedLocator);
     await codeMessage.waitForExist();
   }
 
@@ -498,7 +498,7 @@ export default class Messages extends UplinkMainScreen {
       linkReceivedLocator =
         '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
-    const link = await this.instance.$(linkReceivedLocator);
+    const link = await this.$(linkReceivedLocator);
     await link.waitForExist();
   }
 
@@ -516,7 +516,7 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-    const messageReceived = await this.instance.$(receivedMessageLocator);
+    const messageReceived = await this.$(receivedMessageLocator);
     await messageReceived.waitForExist();
   }
 
@@ -583,7 +583,7 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]/../..';
     }
-    const messageSent = await this.instance.$(messageSentLocator);
+    const messageSent = await this.$(messageSentLocator);
     await messageSent.waitForExist();
     return messageSent;
   }

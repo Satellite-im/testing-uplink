@@ -107,14 +107,14 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get addPictureButton() {
-    return this.instance.$(SELECTORS.ADD_PICTURE_BUTTON);
+    return SELECTORS.ADD_PICTURE_BUTTON;
   }
 
   get clearAvatarButton() {
-    return this.instance.$(SELECTORS.CLEAR_AVATAR_BUTTON);
+    return SELECTORS.CLEAR_AVATAR_BUTTON;
   }
   get clearBannerButton() {
-    return this.instance.$(SELECTORS.CLEAR_BANNER_BUTTON);
+    return SELECTORS.CLEAR_BANNER_BUTTON;
   }
 
   get contextMenuProfile() {
@@ -122,11 +122,11 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get contextMenuCopyDidKey() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
+    return SELECTORS.CONTEXT_MENU_COPY_DID_KEY;
   }
 
   get contextMenuCopyId() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_COPY_ID);
+    return SELECTORS.CONTEXT_MENU_COPY_ID;
   }
 
   get copyIDButton() {
@@ -136,7 +136,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get copyIDTooltip() {
-    return this.instance.$(SELECTORS.PROFILE_CONTENT).$(SELECTORS.TOOLTIP);
+    return SELECTORS.PROFILE_CONTENT.$(SELECTORS.TOOLTIP);
   }
 
   get copyIDTooltipText() {
@@ -147,11 +147,11 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get dismissButton() {
-    return this.instance.$(SELECTORS.DISMISS_BUTTON);
+    return SELECTORS.DISMISS_BUTTON;
   }
 
   get inputError() {
-    return this.instance.$(SELECTORS.INPUT_ERROR);
+    return SELECTORS.INPUT_ERROR;
   }
 
   get inputErrorMessage() {
@@ -161,11 +161,11 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get profileBanner() {
-    return this.instance.$(SELECTORS.PROFILE_BANNER);
+    return SELECTORS.PROFILE_BANNER;
   }
 
   get profileBannerClear() {
-    return this.instance.$(SELECTORS.PROFILE_BANNER_CLEAR);
+    return SELECTORS.PROFILE_BANNER_CLEAR;
   }
 
   get profileBannerTooltip() {
@@ -175,35 +175,35 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get profileContent() {
-    return this.instance.$(SELECTORS.PROFILE_CONTENT);
+    return SELECTORS.PROFILE_CONTENT;
   }
 
   get profileHeader() {
-    return this.instance.$(SELECTORS.PROFILE_HEADER);
+    return SELECTORS.PROFILE_HEADER;
   }
 
   get profilePicture() {
-    return this.instance.$(SELECTORS.PROFILE_PICTURE);
+    return SELECTORS.PROFILE_PICTURE;
   }
 
   get profilePictureClear() {
-    return this.instance.$(SELECTORS.PROFILE_PICTURE_CLEAR);
+    return SELECTORS.PROFILE_PICTURE_CLEAR;
   }
 
   get settingsProfile() {
-    return this.instance.$(SELECTORS.SETTINGS_PROFILE);
+    return SELECTORS.SETTINGS_PROFILE;
   }
 
   get statusInput() {
-    return this.instance.$(SELECTORS.STATUS_INPUT);
+    return SELECTORS.STATUS_INPUT;
   }
 
   get statusLabel() {
-    return this.instance.$(SELECTORS.PROFILE_CONTENT).$(SELECTORS.STATUS_LABEL);
+    return SELECTORS.PROFILE_CONTENT.$(SELECTORS.STATUS_LABEL);
   }
 
   get usernameInput() {
-    return this.instance.$(SELECTORS.USERNAME_INPUT);
+    return SELECTORS.USERNAME_INPUT;
   }
 
   get usernameLabel() {
@@ -213,11 +213,11 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get yourNewProfile() {
-    return this.instance.$(SELECTORS.YOUR_NEW_PROFILE);
+    return SELECTORS.YOUR_NEW_PROFILE;
   }
 
   get yourNewProfileDescriptionTextOne() {
-    return this.instance.$(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE);
+    return SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE;
   }
 
   get yourNewProfileDescriptionTextOneValue() {
@@ -227,7 +227,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get yourNewProfileDescriptionTextTwo() {
-    return this.instance.$(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO);
+    return SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO;
   }
 
   get yourNewProfileDescriptionTextTwoValue() {
@@ -237,7 +237,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get yourNewProfileHeaderText() {
-    return this.instance.$(SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT);
+    return SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT;
   }
 
   get yourNewProfileHeaderTextValue() {

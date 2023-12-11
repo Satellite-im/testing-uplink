@@ -7,9 +7,9 @@ import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
 const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen();
 const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+const settingsProfileFirstUser = new SettingsProfileScreen();
 const slimbarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 

@@ -14,7 +14,7 @@ import {
 const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar();
 const createGroupFirstUser = new CreateGroupChat(USER_A_INSTANCE);
 const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 const sidebarSearchFirstUser = new SidebarSearch(USER_A_INSTANCE);

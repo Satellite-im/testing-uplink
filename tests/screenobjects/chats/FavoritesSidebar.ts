@@ -68,7 +68,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   }
 
   get favorites() {
-    return this.instance.$(SELECTORS.SLIMBAR).$(SELECTORS.FAVORITES);
+    return SELECTORS.SLIMBAR.$(SELECTORS.FAVORITES);
   }
 
   get favoritesChat() {
@@ -140,7 +140,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   }
 
   get slimbar() {
-    return this.instance.$(SELECTORS.SLIMBAR);
+    return SELECTORS.SLIMBAR;
   }
 
   get slimbarButtonNav() {
@@ -185,7 +185,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(SELECTORS.SLIMBAR).$(favoritesLocator);
+        return await this.$(SELECTORS.SLIMBAR).$(favoritesLocator);
       },
       {
         timeout: 15000,

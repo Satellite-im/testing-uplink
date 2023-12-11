@@ -16,12 +16,12 @@ import {
 const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar();
 const contextMenuSidebarFirstUser = new ContextMenuSidebar(USER_A_INSTANCE);
 const editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
 const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen();
 
 export default async function groupChatSidebarTests() {
   it("Group Chat - Add group to favorites", async () => {

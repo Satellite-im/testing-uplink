@@ -97,7 +97,7 @@ export default class SettingsMessagesScreen extends SettingsBaseScreen {
   }
 
   get settingsMessages() {
-    return this.instance.$(SELECTORS.SETTINGS_MESSAGES);
+    return SELECTORS.SETTINGS_MESSAGES;
   }
 
   async clickOnConvertEmoji() {

@@ -16,7 +16,7 @@ const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
 const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen();
 const uplinkMainFirstUser = new UplinkMainScreen(USER_A_INSTANCE);
 const users = ["ChatUserB", "ChatUserC", "ChatUserD"];
 

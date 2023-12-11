@@ -54,7 +54,7 @@ export default class ReplyPrompt extends UplinkMainScreen {
   }
 
   get replyPopUp() {
-    return this.instance.$(SELECTORS.REPLY_POPUP);
+    return SELECTORS.REPLY_POPUP;
   }
 
   get replyPopUpCloseButton() {

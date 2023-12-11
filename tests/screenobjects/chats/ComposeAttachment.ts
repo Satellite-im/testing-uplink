@@ -55,7 +55,7 @@ export default class ComposeAttachments extends UplinkMainScreen {
   }
 
   get composeAttachments() {
-    return this.instance.$(SELECTORS.COMPOSE_ATTACHMENTS);
+    return SELECTORS.COMPOSE_ATTACHMENTS;
   }
 
   get composeAttachmentsButton() {
@@ -132,7 +132,7 @@ export default class ComposeAttachments extends UplinkMainScreen {
 
   async clickOnDeleteAttachment(attachment: number) {
     // Get the locator of attachment to delete by passing the index
-    const attachmentToDelete = await this.instance.$$(
+    const attachmentToDelete = await this.$$(
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
     )[attachment];
     await this.hoverOnElement(attachmentToDelete);
@@ -150,7 +150,7 @@ export default class ComposeAttachments extends UplinkMainScreen {
   async getListOfAttachmentsEmbed() {
     const composeAttachments = await this.composeAttachments;
     await composeAttachments.waitForExist();
-    const filesAttached = await this.instance.$$(
+    const filesAttached = await this.$$(
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
     );
     let results = [];

@@ -56,7 +56,7 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get clearCacheButton() {
-    return this.instance.$(SELECTORS.CLEAR_CACHE_BUTTON);
+    return SELECTORS.CLEAR_CACHE_BUTTON;
   }
 
   get clearCacheDescription() {
@@ -74,7 +74,7 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get compressAndDownloadCacheButton() {
-    return this.instance.$(SELECTORS.COMPRESS_BUTTON);
+    return SELECTORS.COMPRESS_BUTTON;
   }
 
   get compressAndDownloadCacheDescription() {
@@ -144,7 +144,7 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get openCacheButton() {
-    return this.instance.$(SELECTORS.OPEN_CACHE_FOLDER_BUTTON);
+    return SELECTORS.OPEN_CACHE_FOLDER_BUTTON;
   }
 
   get openCacheDescription() {
@@ -162,7 +162,7 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get printStateButton() {
-    return this.instance.$(SELECTORS.PRINT_STATE_BUTTON);
+    return SELECTORS.PRINT_STATE_BUTTON;
   }
 
   get printStateDescription() {
@@ -206,11 +206,11 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
   }
 
   get settingsDeveloper() {
-    return this.instance.$(SELECTORS.SETTINGS_DEVELOPER);
+    return SELECTORS.SETTINGS_DEVELOPER;
   }
 
   get testNotificationButton() {
-    return this.instance.$(SELECTORS.TEST_NOTIFICATIONS_BUTTON);
+    return SELECTORS.TEST_NOTIFICATIONS_BUTTON;
   }
 
   get testNotificationDescription() {

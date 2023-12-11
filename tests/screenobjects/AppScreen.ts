@@ -19,7 +19,7 @@ export default class AppScreen {
   }
 
   async waitForIsShown(isShown = true): Promise<boolean | void> {
-    const locator = await this.instance.$(this.locator);
+    const locator = await this.$(this.locator);
     return locator.waitForDisplayed({
       reverse: !isShown,
     });

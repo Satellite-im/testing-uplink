@@ -10,7 +10,7 @@ import {
   activateSecondApplication,
 } from "@helpers/commands";
 const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar();
 const editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
 const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);

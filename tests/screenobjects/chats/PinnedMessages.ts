@@ -84,7 +84,7 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   get pinnedMessageAttachments() {
-    return this.instance.$$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS);
+    return$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS);
   }
 
   get pinnedMessageAttachmentsFileEmbed() {
@@ -136,19 +136,19 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   get pinnedMessageButtonContainer() {
-    return this.instance.$(SELECTORS.PINNED_MESSAGE_BUTTON_CONTAINER);
+    return SELECTORS.PINNED_MESSAGE_BUTTON_CONTAINER;
   }
 
   get pinnedMessageButtonGoTo() {
-    return this.instance.$(SELECTORS.PINNED_MESSAGE_BUTTON_GO_TO);
+    return SELECTORS.PINNED_MESSAGE_BUTTON_GO_TO;
   }
 
   get pinnedMessageButtonUnpin() {
-    return this.instance.$(SELECTORS.PINNED_MESSAGE_BUTTON_UNPIN);
+    return SELECTORS.PINNED_MESSAGE_BUTTON_UNPIN;
   }
 
   get pinnedMessageSender() {
-    return this.instance.$(SELECTORS.PINNED_MESSAGE_SENDER);
+    return SELECTORS.PINNED_MESSAGE_SENDER;
   }
 
   get pinnedMessageSenderText() {
@@ -156,11 +156,11 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   get pinnedMessageSingleContainer() {
-    return this.instance.$$(SELECTORS.PINNED_MESSAGE_SINGLE_CONTAINER);
+    return$(SELECTORS.PINNED_MESSAGE_SINGLE_CONTAINER);
   }
 
   get pinnedMessageTimestamp() {
-    return this.instance.$(SELECTORS.PINNED_MESSAGE_TIMESTAMP);
+    return SELECTORS.PINNED_MESSAGE_TIMESTAMP;
   }
 
   get pinnedMessageTimestampText() {
@@ -182,11 +182,11 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   get pinnedMessageUserImageWrap() {
-    return this.instance.$(SELECTORS.PINNED_MESSAGE_USER_IMAGE_WRAP);
+    return SELECTORS.PINNED_MESSAGE_USER_IMAGE_WRAP;
   }
 
   get pinnedMessageValue() {
-    return this.instance.$(SELECTORS.PINNED_MESSAGE_VALUE);
+    return SELECTORS.PINNED_MESSAGE_VALUE;
   }
 
   get pinnedMessageValueText() {
@@ -194,19 +194,19 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   get pinnedMessageWrap() {
-    return this.instance.$$(SELECTORS.PINNED_MESSAGE_WRAP);
+    return$(SELECTORS.PINNED_MESSAGE_WRAP);
   }
 
   get pinContainer() {
-    return this.instance.$(SELECTORS.PIN_CONTAINER);
+    return SELECTORS.PIN_CONTAINER;
   }
 
   get pinContainerLabel() {
-    return this.instance.$(SELECTORS.PIN_CONTAINER_LABEL);
+    return SELECTORS.PIN_CONTAINER_LABEL;
   }
 
   get pinEmpty() {
-    return this.instance.$(SELECTORS.PIN_EMPTY);
+    return SELECTORS.PIN_EMPTY;
   }
 
   get pinModalLabel() {
@@ -214,7 +214,7 @@ export default class PinnedMessages extends UplinkMainScreen {
   }
 
   get pinModalMain() {
-    return this.instance.$(SELECTORS.PIN_MODAL_MAIN);
+    return SELECTORS.PIN_MODAL_MAIN;
   }
 
   // Clicking methods

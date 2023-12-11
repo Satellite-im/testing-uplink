@@ -36,23 +36,23 @@ export default class CreateUserScreen extends UplinkMainScreen {
   }
 
   get createAccountButton() {
-    return this.instance.$(SELECTORS.CREATE_ACCOUNT_BUTTON);
+    return SELECTORS.CREATE_ACCOUNT_BUTTON;
   }
 
   get inputError() {
-    return this.instance.$(SELECTORS.INPUT_ERROR);
+    return SELECTORS.INPUT_ERROR;
   }
 
   get inputErrorText() {
-    return this.instance.$(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
+    return SELECTORS.INPUT_ERROR.$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get unlockLayout() {
-    return this.instance.$(SELECTORS.UNLOCK_LAYOUT);
+    return SELECTORS.UNLOCK_LAYOUT;
   }
 
   get usernameInput() {
-    return this.instance.$(SELECTORS.USERNAME_INPUT);
+    return SELECTORS.USERNAME_INPUT;
   }
 
   async enterUsername(username: string) {

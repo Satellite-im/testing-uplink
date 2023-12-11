@@ -61,57 +61,57 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
   }
 
   async waitForIsShown(isShown = true): Promise<boolean | void> {
-    return this.instance.$(SELECTORS.SETTINGS_LAYOUT).waitForDisplayed({
+    return SELECTORS.SETTINGS_LAYOUT.waitForDisplayed({
       reverse: !isShown,
     });
   }
 
   get aboutButton() {
-    return this.instance.$(SELECTORS.ABOUT_BUTTON);
+    return SELECTORS.ABOUT_BUTTON;
   }
 
   get accessibilityButton() {
-    return this.instance.$(SELECTORS.ACCESSIBILITY_BUTTON);
+    return SELECTORS.ACCESSIBILITY_BUTTON;
   }
 
   get audioButton() {
-    return this.instance.$(SELECTORS.AUDIO_BUTTON);
+    return SELECTORS.AUDIO_BUTTON;
   }
 
   get developerButton() {
-    return this.instance.$(SELECTORS.DEVELOPER_BUTTON);
+    return SELECTORS.DEVELOPER_BUTTON;
   }
 
   get extensionsButton() {
-    return this.instance.$(SELECTORS.EXTENSIONS_BUTTON);
+    return SELECTORS.EXTENSIONS_BUTTON;
   }
 
   get generalButton() {
-    return this.instance.$(SELECTORS.GENERAL_BUTTON);
+    return SELECTORS.GENERAL_BUTTON;
   }
 
   get licensesButton() {
-    return this.instance.$(SELECTORS.LICENSES_BUTTON);
+    return SELECTORS.LICENSES_BUTTON;
   }
 
   get messagesButton() {
-    return this.instance.$(SELECTORS.MESSAGES_BUTTON);
+    return SELECTORS.MESSAGES_BUTTON;
   }
 
   get notificationsButton() {
-    return this.instance.$(SELECTORS.NOTIFICATIONS_BUTTON);
+    return SELECTORS.NOTIFICATIONS_BUTTON;
   }
 
   get profileButton() {
-    return this.instance.$(SELECTORS.PROFILE_BUTTON);
+    return SELECTORS.PROFILE_BUTTON;
   }
 
   get settingsLayout() {
-    return this.instance.$(SELECTORS.SETTINGS_LAYOUT);
+    return SELECTORS.SETTINGS_LAYOUT;
   }
 
   get settingsSearchInput() {
-    return this.instance.$(SELECTORS.SETTINGS_SEARCH_INPUT);
+    return SELECTORS.SETTINGS_SEARCH_INPUT;
   }
 
   async goToAboutSettings() {

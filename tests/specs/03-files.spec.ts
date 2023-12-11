@@ -5,7 +5,7 @@ import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
 const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
 const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen();
 
 export default async function files() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {

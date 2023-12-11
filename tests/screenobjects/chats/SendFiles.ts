@@ -81,23 +81,23 @@ export default class SendFiles extends UplinkMainScreen {
   }
 
   get closeButtonModal() {
-    return this.instance.$(SELECTORS.CLOSE_BUTTON_MODAL);
+    return SELECTORS.CLOSE_BUTTON_MODAL;
   }
 
   get contextMenu() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU);
+    return SELECTORS.CONTEXT_MENU;
   }
 
   get contextMenuFilesRename() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_RENAME);
+    return SELECTORS.CONTEXT_MENU_FILES_RENAME;
   }
 
   get contextMenuFolderDelete() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FOLDER_DELETE);
+    return SELECTORS.CONTEXT_MENU_FOLDER_DELETE;
   }
 
   get contextMenuFolderRename() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FOLDER_RENAME);
+    return SELECTORS.CONTEXT_MENU_FOLDER_RENAME;
   }
 
   get fileFolderNameText() {
@@ -145,11 +145,11 @@ export default class SendFiles extends UplinkMainScreen {
   }
 
   get inputFileName() {
-    return this.instance.$(SELECTORS.INPUT_FILE_NAME);
+    return SELECTORS.INPUT_FILE_NAME;
   }
 
   get inputFolderName() {
-    return this.instance.$(SELECTORS.INPUT_FOLDER_NAME);
+    return SELECTORS.INPUT_FOLDER_NAME;
   }
 
   get noFilesAvailable() {
@@ -161,7 +161,7 @@ export default class SendFiles extends UplinkMainScreen {
   }
 
   get sendFilesLayout() {
-    return this.instance.$(SELECTORS.SEND_FILES_LAYOUT);
+    return SELECTORS.SEND_FILES_LAYOUT;
   }
 
   get sendFilesModalSendButton() {
@@ -183,7 +183,7 @@ export default class SendFiles extends UplinkMainScreen {
 
   async clickOnFolder(locator: string) {
     const folderLocator = await this.getLocatorOfFolderFile(locator);
-    const folderElement = await this.instance.$(folderLocator);
+    const folderElement = await this.$(folderLocator);
     await folderElement.click();
   }
 
@@ -280,7 +280,7 @@ export default class SendFiles extends UplinkMainScreen {
     await inputFileName.waitForExist();
     await inputFileName.setValue(newName);
     const newFile = await this.getLocatorOfFolderFile(newName + extension);
-    const newFileElement = await this.instance.$(newFile);
+    const newFileElement = await this.$(newFile);
     await newFileElement.waitForExist();
   }
 
@@ -289,19 +289,19 @@ export default class SendFiles extends UplinkMainScreen {
     await inputFolderName.waitForExist();
     await inputFolderName.setValue(newName);
     const newFolder = await this.getLocatorOfFolderFile(newName);
-    const newFolderElement = await this.instance.$(newFolder);
+    const newFolderElement = await this.$(newFolder);
     await newFolderElement.waitForExist();
   }
 
   async validateFileOrFolderExist(locator: string) {
     const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
-    const fileFolderElement = await this.instance.$(fileFolderElementLocator);
+    const fileFolderElement = await this.$(fileFolderElementLocator);
     await fileFolderElement.waitForExist();
   }
 
   async validateFileOrFolderNotExist(locator: string) {
     const fileFolderLocator = await this.getLocatorOfDeletedElement(locator);
-    await this.instance.$(fileFolderLocator).waitForExist({ reverse: true });
+    await this.$(fileFolderLocator).waitForExist({ reverse: true });
   }
 
   async validateNoFilesAvailableIsShown() {
@@ -326,7 +326,7 @@ export default class SendFiles extends UplinkMainScreen {
 
   async validateThumbnailIsShown(name: string) {
     const fileElementLocator = await this.getLocatorOfFolderFile(name);
-    const fileElement = await this.instance.$(fileElementLocator);
+    const fileElement = await this.$(fileElementLocator);
     const fileThumbnail = await fileElement.$(SELECTORS.FILE_THUMBNAIL);
     await fileThumbnail.waitForExist();
   }

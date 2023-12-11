@@ -69,7 +69,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbar() {
-    return this.instance.$(SELECTORS.TOPBAR);
+    return SELECTORS.TOPBAR;
   }
 
   get topbarAddToFavorites() {
@@ -79,7 +79,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarAddToFavoritesTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOOLTIP);
   }
 
   get topbarAddToFavoritesTooltipText() {
@@ -90,11 +90,11 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarCall() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_CALL);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOPBAR_CALL);
   }
 
   get topbarCallTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOOLTIP);
   }
 
   get topbarCallTooltipText() {
@@ -105,11 +105,11 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarEditGroup() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_EDIT_GROUP);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOPBAR_EDIT_GROUP);
   }
 
   get topbarEditGroupTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOOLTIP);
   }
 
   get topbarEditGroupTooltipText() {
@@ -120,7 +120,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarIndicator() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOPBAR_INDICATOR);
   }
 
   get topbarIndicatorOffline() {
@@ -142,7 +142,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarPinnedMessagesTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOOLTIP);
   }
 
   get topbarPinnedMessagesTooltipText() {
@@ -159,7 +159,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarUserImage() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOPBAR_USER_IMAGE);
   }
 
   get topbarUserImageProfile() {
@@ -175,11 +175,11 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarUserInfo() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_INFO);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOPBAR_USER_INFO);
   }
 
   get topbarUserName() {
-    return this.instance.$(SELECTORS.TOPBAR_USER_NAME);
+    return SELECTORS.TOPBAR_USER_NAME;
   }
 
   get topbarUserNameValue() {
@@ -189,7 +189,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarUserStatus() {
-    return this.instance.$(SELECTORS.TOPBAR_USER_STATUS);
+    return SELECTORS.TOPBAR_USER_STATUS;
   }
 
   get topbarUserStatusValue() {
@@ -199,11 +199,11 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarVideocall() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_VIDEOCALL);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOPBAR_VIDEOCALL);
   }
 
   get topbarVideocallTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOOLTIP);
   }
 
   get topbarVideocallTooltipText() {
@@ -214,7 +214,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get viewGroupTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOOLTIP);
   }
 
   get viewGroupTooltipText() {

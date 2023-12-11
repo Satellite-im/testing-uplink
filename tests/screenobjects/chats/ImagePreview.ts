@@ -35,7 +35,7 @@ export default class ImagePreview extends UplinkMainScreen {
   }
 
   get previewModal() {
-    return this.instance.$(SELECTORS.PREVIEW_MODAL);
+    return SELECTORS.PREVIEW_MODAL;
   }
 
   get previewModalCloseButton() {

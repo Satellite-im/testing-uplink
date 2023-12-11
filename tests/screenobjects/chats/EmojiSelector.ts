@@ -36,7 +36,7 @@ export default class EmojiSelector extends UplinkMainScreen {
   }
 
   get emoji() {
-    return this.instance.$(SELECTORS.EMOJI_SELECTOR).$$(SELECTORS.EMOJI);
+    return SELECTORS.EMOJI_SELECTOR.$$(SELECTORS.EMOJI);
   }
 
   get emojiValue() {
@@ -47,7 +47,7 @@ export default class EmojiSelector extends UplinkMainScreen {
   }
 
   get emojiSelector() {
-    return this.instance.$(SELECTORS.EMOJI_SELECTOR);
+    return SELECTORS.EMOJI_SELECTOR;
   }
 
   get emojisContainer() {
@@ -67,7 +67,7 @@ export default class EmojiSelector extends UplinkMainScreen {
         .$(SELECTORS.EMOJI_SELECTOR)
         .$(emojiLocator);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      emojiLocator = await this.instance.findElement("name", emojiToClick);
+      emojiLocator = await this.findElement("name", emojiToClick);
       emojiElement = await this.instance
         .$(SELECTORS.EMOJI_SELECTOR)
         .$(emojiLocator);

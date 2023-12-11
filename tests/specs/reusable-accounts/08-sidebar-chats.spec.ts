@@ -20,12 +20,12 @@ const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar();
 const contextMenuSidebarFirstUser = new ContextMenuSidebar(USER_A_INSTANCE);
 const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
 const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen();
+const settingsProfileFirstUser = new SettingsProfileScreen();
 const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function sidebarChatsTests() {

@@ -78,7 +78,7 @@ export default class SidebarSearch extends UplinkMainScreen {
   }
 
   get sidebarResultDropdownName() {
-    return this.instance.$$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME);
+    return$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME);
   }
 
   get sidebarResultHighlightedTypedChars() {
@@ -108,11 +108,11 @@ export default class SidebarSearch extends UplinkMainScreen {
   }
 
   get sidebarSearchContainerResults() {
-    return this.instance.$(SELECTORS.SIDEBAR_SEARCH_CONTAINER_RESULTS);
+    return SELECTORS.SIDEBAR_SEARCH_CONTAINER_RESULTS;
   }
 
   get sidebarSearchGroupResult() {
-    return this.instance.$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT);
+    return$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT);
   }
 
   get sidebarSearchGroupIndicator() {
@@ -188,7 +188,7 @@ export default class SidebarSearch extends UplinkMainScreen {
   }
 
   get sidebarSearchHeader() {
-    return this.instance.$$(SELECTORS.SIDEBAR_SEARCH_HEADER);
+    return$(SELECTORS.SIDEBAR_SEARCH_HEADER);
   }
 
   get sidebarSearchHeaderText() {
@@ -198,7 +198,7 @@ export default class SidebarSearch extends UplinkMainScreen {
   }
 
   get sidebarSearchMembersLabel() {
-    return this.instance.$$(SELECTORS.SIDEBAR_SEARCH_MEMBERS_LABEL);
+    return$(SELECTORS.SIDEBAR_SEARCH_MEMBERS_LABEL);
   }
   get sidebarSearchMembersLabelText() {
     return this.instance
@@ -207,9 +207,7 @@ export default class SidebarSearch extends UplinkMainScreen {
   }
 
   get sidebarSearchParticipantInGroupResult() {
-    return this.instance.$$(
-      SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT,
-    );
+    return$(SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT);
   }
 
   get sidebarSearchParticipantInGroupIndicator() {
@@ -258,7 +256,7 @@ export default class SidebarSearch extends UplinkMainScreen {
   }
 
   get sidebarSearchUserResult() {
-    return this.instance.$$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT);
+    return$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT);
   }
 
   get sidebarSearchUserResultIndicator() {
@@ -326,7 +324,7 @@ export default class SidebarSearch extends UplinkMainScreen {
   }
 
   async getSidebarSearchResultsGroupsNotMatchingName() {
-    const list = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT);
+    const list = await this.$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT);
     let results = [];
     for (let item of list) {
       const result = await item
@@ -339,7 +337,7 @@ export default class SidebarSearch extends UplinkMainScreen {
   }
 
   async getSidebarSearchResultsGroupsMatchingName() {
-    const list = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT);
+    const list = await this.$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT);
     let results = [];
     for (let item of list) {
       const resultHighlighted = await item
@@ -358,7 +356,7 @@ export default class SidebarSearch extends UplinkMainScreen {
   }
 
   async getSidebarSearchResultsUsers() {
-    const list = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT);
+    const list = await this.$$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT);
     let results = [];
     for (let item of list) {
       const resultHighlighted = await item
@@ -377,7 +375,7 @@ export default class SidebarSearch extends UplinkMainScreen {
   }
 
   async getSidebarSearchResultsParticipantsInGroups() {
-    const list = await this.instance.$$(
+    const list = await this.$$(
       SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT,
     );
     let results = [];
@@ -398,23 +396,19 @@ export default class SidebarSearch extends UplinkMainScreen {
   }
 
   async getSidebarSearchGroupResultLocator(result: number) {
-    let element = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)[
-      result
-    ];
+    let element = await this.$$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)[result];
     return element;
   }
 
   async getSidebarSearchParticipantInGroupResultLocator(result: number) {
-    let element = await this.instance.$$(
+    let element = await this.$$(
       SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT,
     )[result];
     return element;
   }
 
   async getSidebarSearchUserResultLocator(result: number) {
-    let element = await this.instance.$$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)[
-      result
-    ];
+    let element = await this.$$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)[result];
     return element;
   }
 }

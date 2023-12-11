@@ -153,27 +153,27 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   get acceptFriendRequestButton() {
-    return this.instance.$(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON);
+    return SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON;
   }
 
   get addSomeoneButton() {
-    return this.instance.$(SELECTORS.ADD_SOMEONE_BUTTON);
+    return SELECTORS.ADD_SOMEONE_BUTTON;
   }
 
   get addSomeoneInput() {
-    return this.instance.$(SELECTORS.ADD_SOMEONE_INPUT);
+    return SELECTORS.ADD_SOMEONE_INPUT;
   }
 
   get addSomeoneLabel() {
-    return this.instance.$(SELECTORS.ADD_SOMEONE_LABEL);
+    return SELECTORS.ADD_SOMEONE_LABEL;
   }
 
   get allFriendsButton() {
-    return this.instance.$(SELECTORS.ALL_FRIENDS_BUTTON);
+    return SELECTORS.ALL_FRIENDS_BUTTON;
   }
 
   get allFriendsFriends() {
-    return this.instance.$(SELECTORS.FRIENDS_LIST).$$(SELECTORS.FRIEND);
+    return SELECTORS.FRIENDS_LIST.$$(SELECTORS.FRIEND);
   }
 
   get allFriendsFriendsImages() {
@@ -197,79 +197,79 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   get blockFriendButton() {
-    return this.instance.$(SELECTORS.BLOCK_FRIEND_BUTTON);
+    return SELECTORS.BLOCK_FRIEND_BUTTON;
   }
 
   get blockedListButton() {
-    return this.instance.$(SELECTORS.BLOCKED_LIST_BUTTON);
+    return SELECTORS.BLOCKED_LIST_BUTTON;
   }
 
   get blockedList() {
-    return this.instance.$(SELECTORS.BLOCKED_LIST);
+    return SELECTORS.BLOCKED_LIST;
   }
 
   get blockedListLabel() {
-    return this.instance.$(SELECTORS.BLOCKED_LIST_LABEL);
+    return SELECTORS.BLOCKED_LIST_LABEL;
   }
 
   get chatWithFriendButton() {
-    return this.instance.$(SELECTORS.CHAT_WITH_FRIEND_BUTTON);
+    return SELECTORS.CHAT_WITH_FRIEND_BUTTON;
   }
 
   get contextMenu() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU);
+    return SELECTORS.CONTEXT_MENU;
   }
 
   get contextMenuBlock() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_BLOCK);
+    return SELECTORS.CONTEXT_MENU_BLOCK;
   }
 
   get contextMenuChat() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_CHAT);
+    return SELECTORS.CONTEXT_MENU_CHAT;
   }
 
   get contextMenuCopyDidKey() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
+    return SELECTORS.CONTEXT_MENU_COPY_DID_KEY;
   }
 
   get contextMenuCopyId() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_COPY_ID);
+    return SELECTORS.CONTEXT_MENU_COPY_ID;
   }
 
   get contextMenuFavoritesAdd() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FAVORITES_ADD);
+    return SELECTORS.CONTEXT_MENU_FAVORITES_ADD;
   }
 
   get contextMenuFavoritesRemove() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FAVORITES_REMOVE);
+    return SELECTORS.CONTEXT_MENU_FAVORITES_REMOVE;
   }
 
   get contextMenuIncomingAccept() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_INCOMING_ACCEPT);
+    return SELECTORS.CONTEXT_MENU_INCOMING_ACCEPT;
   }
 
   get contextMenuIncomingDeny() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_INCOMING_DENY);
+    return SELECTORS.CONTEXT_MENU_INCOMING_DENY;
   }
 
   get contextMenuOutgoingCancel() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_OUTGOING_CANCEL);
+    return SELECTORS.CONTEXT_MENU_OUTGOING_CANCEL;
   }
 
   get contextMenuRemove() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_REMOVE);
+    return SELECTORS.CONTEXT_MENU_REMOVE;
   }
 
   get contextMenuUnblock() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_UNBLOCK);
+    return SELECTORS.CONTEXT_MENU_UNBLOCK;
   }
 
   get copyIdButton() {
-    return this.instance.$(SELECTORS.FRIENDS_BODY).$(SELECTORS.COPY_ID_BUTTON);
+    return SELECTORS.FRIENDS_BODY.$(SELECTORS.COPY_ID_BUTTON);
   }
 
   get friendInfo() {
-    return this.instance.$(SELECTORS.FRIEND_INFO);
+    return SELECTORS.FRIEND_INFO;
   }
 
   get friendInfoCurrentStatus() {
@@ -285,7 +285,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   get friendInfoUsername() {
-    return this.instance.$$(SELECTORS.FRIEND_INFO_USERNAME);
+    return$(SELECTORS.FRIEND_INFO_USERNAME);
   }
 
   get friendInfoUsernameCode() {
@@ -301,15 +301,15 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   get friendRecords() {
-    return this.instance.$$(SELECTORS.FRIEND_RECORD);
+    return$(SELECTORS.FRIEND_RECORD);
   }
 
   get friendsBody() {
-    return this.instance.$(SELECTORS.FRIENDS_BODY);
+    return SELECTORS.FRIENDS_BODY;
   }
 
   get friendsButtonBadge() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.FRIENDS_BUTTON_BADGE);
+    return SELECTORS.TOPBAR.$(SELECTORS.FRIENDS_BUTTON_BADGE);
   }
 
   get friendsButtonBadgeText() {
@@ -320,35 +320,35 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   get friendsControls() {
-    return this.instance.$(SELECTORS.FRIENDS_CONTROLS);
+    return SELECTORS.FRIENDS_CONTROLS;
   }
 
   get friendsLayout() {
-    return this.instance.$(SELECTORS.FRIENDS_LAYOUT);
+    return SELECTORS.FRIENDS_LAYOUT;
   }
 
   get friendsList() {
-    return this.instance.$(SELECTORS.FRIENDS_LIST);
+    return SELECTORS.FRIENDS_LIST;
   }
 
   get friendsListLabel() {
-    return this.instance.$(SELECTORS.FRIENDS_LIST_LABEL);
+    return SELECTORS.FRIENDS_LIST_LABEL;
   }
 
   get incomingRequestsList() {
-    return this.instance.$(SELECTORS.INCOMING_REQUESTS_LIST);
+    return SELECTORS.INCOMING_REQUESTS_LIST;
   }
 
   get incomingRequestsListLabel() {
-    return this.instance.$(SELECTORS.INCOMING_REQUESTS_LIST_LABEL);
+    return SELECTORS.INCOMING_REQUESTS_LIST_LABEL;
   }
 
   get inputError() {
-    return this.instance.$(SELECTORS.INPUT_ERROR);
+    return SELECTORS.INPUT_ERROR;
   }
 
   get inputErrorText() {
-    return this.instance.$(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
+    return SELECTORS.INPUT_ERROR.$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get noRequests() {
@@ -360,23 +360,23 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   get outgoingRequestsList() {
-    return this.instance.$(SELECTORS.OUTGOING_REQUESTS_LIST);
+    return SELECTORS.OUTGOING_REQUESTS_LIST;
   }
 
   get outgoingRequestsListLabel() {
-    return this.instance.$(SELECTORS.OUTGOING_REQUESTS_LIST_LABEL);
+    return SELECTORS.OUTGOING_REQUESTS_LIST_LABEL;
   }
 
   get pendingFriendsButton() {
-    return this.instance.$(SELECTORS.PENDING_FRIENDS_BUTTON);
+    return SELECTORS.PENDING_FRIENDS_BUTTON;
   }
 
   get removeOrDenyFriendButton() {
-    return this.instance.$(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON);
+    return SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON;
   }
 
   get topbar() {
-    return this.instance.$(SELECTORS.TOPBAR);
+    return SELECTORS.TOPBAR;
   }
 
   async acceptIncomingRequest(name: string) {
@@ -460,7 +460,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async getAllFriendsList() {
     const friendsList = await this.friendsList;
     await friendsList.waitForExist();
-    const friends = await this.instance.$$(SELECTORS.FRIEND_INFO_USERNAME);
+    const friends = await this.$$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend.$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
@@ -473,7 +473,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async getBlockedList() {
     const blockedList = await this.blockedList;
     await blockedList.waitForExist();
-    const friends = await this.instance.$$(SELECTORS.FRIEND_INFO_USERNAME);
+    const friends = await this.$$(SELECTORS.FRIEND_INFO_USERNAME);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend.$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
@@ -487,7 +487,7 @@ export default class FriendsScreen extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance.$(SELECTORS.FRIENDS_BODY).$("~" + username);
+      locator = await this.$(SELECTORS.FRIENDS_BODY).$("~" + username);
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await this.instance
         .$(SELECTORS.FRIENDS_BODY)

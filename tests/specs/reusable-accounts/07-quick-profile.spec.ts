@@ -18,9 +18,9 @@ const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
 const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 const chatsQuickProfileFirstUser = new QuickProfile(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar();
+const friendsScreenFirstUser = new FriendsScreen();
+const settingsProfileFirstUser = new SettingsProfileScreen();
 const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function quickProfileTests() {

@@ -1,13 +1,9 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-import {
-  USER_A_INSTANCE,
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -49,48 +45,48 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class CreatePinScreen extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.UNLOCK_LAYOUT);
+  constructor() {
+    super(SELECTORS.UNLOCK_LAYOUT);
   }
 
   get accountResetButton() {
-    return this.instance.$(SELECTORS.ACCOUNT_RESET_BUTTON);
+    return $(SELECTORS.ACCOUNT_RESET_BUTTON);
   }
 
   get createAccountButton() {
-    return this.instance.$(SELECTORS.CREATE_ACCOUNT_BUTTON);
+    return $(SELECTORS.CREATE_ACCOUNT_BUTTON);
   }
 
   get helpButton() {
-    return this.instance.$(SELECTORS.HELP_BUTTON);
+    return $(SELECTORS.HELP_BUTTON);
   }
 
   get helpButtonTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get helpButtonTooltipText() {
-    return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get inputError() {
-    return this.instance.$(SELECTORS.INPUT_ERROR);
+    return $(SELECTORS.INPUT_ERROR);
   }
 
   get inputErrorText() {
-    return this.inputError.$(SELECTORS.INPUT_ERROR_TEXT);
+    return $(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get pinInput() {
-    return this.instance.$(SELECTORS.PIN_INPUT);
+    return SELECTORS.PIN_INPUT;
   }
 
   get unlockLayout() {
-    return this.instance.$(SELECTORS.UNLOCK_LAYOUT);
+    return SELECTORS.UNLOCK_LAYOUT;
   }
 
   get unlockImage() {
-    return this.instance.$(SELECTORS.UNLOCK_LAYOUT).$(SELECTORS.UNLOCK_IMAGE);
+    return SELECTORS.UNLOCK_LAYOUT.$(SELECTORS.UNLOCK_IMAGE);
   }
 
   get unlockWarningHeader() {

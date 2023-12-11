@@ -149,7 +149,7 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
   }
 
   get settingsNotifications() {
-    return this.instance.$(SELECTORS.SETTINGS_NOTIFICATIONS);
+    return SELECTORS.SETTINGS_NOTIFICATIONS;
   }
 
   async clickOnEnabledNotifications() {

@@ -233,11 +233,11 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get settingsGeneral() {
-    return this.instance.$(SELECTORS.SETTINGS_GENERAL);
+    return SELECTORS.SETTINGS_GENERAL;
   }
 
   get settingsGeneralElementTooltip() {
-    return this.instance.$(SELECTORS.SETTINGS_GENERAL).$(SELECTORS.TOOLTIP);
+    return SELECTORS.SETTINGS_GENERAL.$(SELECTORS.TOOLTIP);
   }
 
   get settingsGeneralElementTooltipText() {
@@ -248,7 +248,7 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get slideSelector() {
-    return this.instance.$(SELECTORS.SLIDE_SELECTOR);
+    return SELECTORS.SLIDE_SELECTOR;
   }
 
   get slideSelectorButtonMinus() {

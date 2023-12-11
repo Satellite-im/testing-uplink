@@ -11,7 +11,7 @@ const chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
 const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
 const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar();
 const pinnedMessagesFirstUser = new PinnedMessages(USER_A_INSTANCE);
 
 export default async function chatTopbarTests() {

@@ -5,7 +5,7 @@ import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen
 import { USER_A_INSTANCE, MACOS_DRIVER } from "@helpers/constants";
 const cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
 const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+const settingsProfileFirstUser = new SettingsProfileScreen();
 
 export default async function settingsProfile() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {

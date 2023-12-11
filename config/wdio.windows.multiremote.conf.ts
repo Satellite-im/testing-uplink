@@ -2,7 +2,6 @@ require("module-alias/register");
 const allureReporter = require('@wdio/allure-reporter').default;
 const sharedConfig = require('@config/wdio.shared.conf.ts').config;
 const join = require("path").join;
-const USER_A_INSTANCE = require("@helpers/constants").USER_A_INSTANCE;
 const fsp = require("fs").promises;
 const userACacheFolder = join(process.cwd(), "./apps/ChatUserA/.user")
 const userBCacheFolder = join(process.cwd(), "./apps/ChatUserB/.user")
@@ -146,7 +145,7 @@ export const config: WebdriverIO.Config = {
 
   beforeTest: async function (test) {
     // Start video recording for each test and instance
-    await driver[USER_A_INSTANCE].executeScript("windows: startRecordingScreen", [
+    await driver.executeScript("windows: startRecordingScreen", [
       {
         deviceId: 1
       },
@@ -160,7 +159,7 @@ export const config: WebdriverIO.Config = {
       imageFile = await driver.takeScreenshot();  
     
       // Stop video recording for both instances and save video into base64 format
-      base64VideoUserA = await driver[USER_A_INSTANCE].executeScript("windows: stopRecordingScreen", [
+      base64VideoUserA = await driver.executeScript("windows: stopRecordingScreen", [
         {
           remotePath: ""
         },

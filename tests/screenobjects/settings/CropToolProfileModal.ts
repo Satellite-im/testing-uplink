@@ -55,7 +55,7 @@ export default class CropImageProfileModal extends UplinkMainScreen {
   // Getters from UI Locators
 
   get cropImageModal() {
-    return this.instance.$(SELECTORS.CROP_IMAGE_MODAL);
+    return SELECTORS.CROP_IMAGE_MODAL;
   }
 
   get cropImagePreview() {

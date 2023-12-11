@@ -80,15 +80,15 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get backButton() {
-    return this.instance.$(SELECTORS.BACK_BUTTON);
+    return SELECTORS.BACK_BUTTON;
   }
 
   get buttonNav() {
-    return this.instance.$(SELECTORS.BUTTON_NAV);
+    return SELECTORS.BUTTON_NAV;
   }
 
   get buttonNavBarButtonBadge() {
-    return this.instance.$(SELECTORS.BUTTON_NAV).$(SELECTORS.BUTTON_BADGE);
+    return SELECTORS.BUTTON_NAV.$(SELECTORS.BUTTON_BADGE);
   }
 
   get buttonNavBarButtonBadgeText() {
@@ -99,11 +99,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get chatsButton() {
-    return this.instance.$(SELECTORS.CHATS_BUTTON);
+    return SELECTORS.CHATS_BUTTON;
   }
 
   get chatsButtonTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOOLTIP;
   }
 
   get chatsButtonTooltipText() {
@@ -113,15 +113,15 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get contextMenu() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU);
+    return SELECTORS.CONTEXT_MENU;
   }
 
   get filesButton() {
-    return this.instance.$(SELECTORS.FILES_BUTTON);
+    return SELECTORS.FILES_BUTTON;
   }
 
   get filesButtonTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOOLTIP;
   }
 
   get filesButtonTooltipText() {
@@ -131,11 +131,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get friendsButton() {
-    return this.instance.$(SELECTORS.FRIENDS_BUTTON);
+    return SELECTORS.FRIENDS_BUTTON;
   }
 
   get friendsButtonTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOOLTIP;
   }
 
   get friendsButtonTooltipText() {
@@ -145,11 +145,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get hamburgerButton() {
-    return this.instance.$(SELECTORS.HAMBURGER_BUTTON);
+    return SELECTORS.HAMBURGER_BUTTON;
   }
 
   get prereleaseIndicator() {
-    return this.instance.$(SELECTORS.PRE_RELEASE_INDICATOR);
+    return SELECTORS.PRE_RELEASE_INDICATOR;
   }
 
   get prereleaseIndicatorText() {
@@ -159,11 +159,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get settingsButton() {
-    return this.instance.$(SELECTORS.SETTINGS_BUTTON);
+    return SELECTORS.SETTINGS_BUTTON;
   }
 
   get settingsButtonTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOOLTIP;
   }
 
   get settingsButtonTooltipText() {
@@ -173,15 +173,15 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get skeletalUser() {
-    return this.instance.$$(SELECTORS.SKELETAL_USER)[0];
+    return$(SELECTORS.SKELETAL_USER)[0];
   }
 
   get toastNotifications() {
-    return this.instance.$$(SELECTORS.TOAST_NOTIFICATION);
+    return$(SELECTORS.TOAST_NOTIFICATION);
   }
 
   get toastNotification() {
-    return this.instance.$(SELECTORS.TOAST_NOTIFICATION);
+    return SELECTORS.TOAST_NOTIFICATION;
   }
 
   get toastNotificationClose() {
@@ -197,7 +197,7 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get updateAvailable() {
-    return this.instance.$(SELECTORS.UPDATE_AVAILABLE);
+    return SELECTORS.UPDATE_AVAILABLE;
   }
 
   get updateAvailableText() {
@@ -207,15 +207,15 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get updateMenuDismiss() {
-    return this.instance.$(SELECTORS.UPDATE_MENU_DISMISS);
+    return SELECTORS.UPDATE_MENU_DISMISS;
   }
 
   get updateMenuDownload() {
-    return this.instance.$(SELECTORS.UPDATE_MENU_DOWNLOAD);
+    return SELECTORS.UPDATE_MENU_DOWNLOAD;
   }
 
   get window() {
-    return this.instance.$(SELECTORS.WINDOW);
+    return SELECTORS.WINDOW;
   }
 
   // Toast Notifications methods
@@ -314,12 +314,12 @@ export default class UplinkMainScreen extends AppScreen {
 
   // Multiremote functions
   async switchToOtherUserWindow() {
-    const currentInstance = await this.instance.getWindowHandle();
-    await this.instance.switchToWindow(currentInstance);
+    const currentInstance = await this.getWindowHandle();
+    await this.switchToWindow(currentInstance);
   }
 
   async showUplinkWindow() {
-    const window = await this.instance.window;
+    const window = await this.window;
     await window.click();
     await window.waitForExist();
   }

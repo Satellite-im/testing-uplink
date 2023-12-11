@@ -68,7 +68,7 @@ export default class QuickProfile extends UplinkMainScreen {
   }
 
   get quickProfile() {
-    return this.instance.$(SELECTORS.CHAT_LAYOUT).$(SELECTORS.QUICK_PROFILE);
+    return SELECTORS.CHAT_LAYOUT.$(SELECTORS.QUICK_PROFILE);
   }
 
   get quickProfileBannerImage() {
@@ -170,7 +170,7 @@ export default class QuickProfile extends UplinkMainScreen {
   }
 
   get quickProfileUserVolumeLabel() {
-    return this.instance.$(SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL);
+    return SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL;
   }
 
   get quickProfileUserVolumeLabelText() {
@@ -180,7 +180,7 @@ export default class QuickProfile extends UplinkMainScreen {
   }
 
   get quickProfileUserVolumeRange() {
-    return this.instance.$(SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE);
+    return SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE;
   }
 
   get quickProfileUserVolumeRangeInput() {

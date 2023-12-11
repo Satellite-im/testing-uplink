@@ -127,11 +127,11 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   get addFolderButton() {
-    return this.instance.$(SELECTORS.ADD_FOLDER_BUTTON);
+    return SELECTORS.ADD_FOLDER_BUTTON;
   }
 
   get addFolderTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOOLTIP);
   }
 
   get addFolderTooltipText() {
@@ -142,63 +142,63 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   get contextMenu() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU);
+    return SELECTORS.CONTEXT_MENU;
   }
 
   get contextMenuFilesDelete() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_DELETE);
+    return SELECTORS.CONTEXT_MENU_FILES_DELETE;
   }
 
   get contextMenuFilesDownload() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_DOWNLOAD);
+    return SELECTORS.CONTEXT_MENU_FILES_DOWNLOAD;
   }
 
   get contextMenuFilesRename() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_RENAME);
+    return SELECTORS.CONTEXT_MENU_FILES_RENAME;
   }
 
   get contextMenuFilesShare() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_SHARE);
+    return SELECTORS.CONTEXT_MENU_FILES_SHARE;
   }
 
   get contextMenuFolderDelete() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FOLDER_DELETE);
+    return SELECTORS.CONTEXT_MENU_FOLDER_DELETE;
   }
 
   get contextMenuFolderRename() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FOLDER_RENAME);
+    return SELECTORS.CONTEXT_MENU_FOLDER_RENAME;
   }
 
   get crumb() {
-    return this.instance.$$(SELECTORS.CRUMB);
+    return$(SELECTORS.CRUMB);
   }
 
   get crumbHomeDir() {
-    return this.instance.$(SELECTORS.CRUMB_HOME_FOLDER);
+    return SELECTORS.CRUMB_HOME_FOLDER;
   }
 
   get crumbText() {
-    return this.instance.$$(SELECTORS.CRUMB).$(SELECTORS.CRUMB_TEXT);
+    return$(SELECTORS.CRUMB).$(SELECTORS.CRUMB_TEXT);
   }
 
   get fileFolderNameText() {
-    return this.instance.$(SELECTORS.FILE_FOLDER_NAME_TEXT);
+    return SELECTORS.FILE_FOLDER_NAME_TEXT;
   }
 
   get filesBody() {
-    return this.instance.$(SELECTORS.FILES_BODY);
+    return SELECTORS.FILES_BODY;
   }
 
   get filesBreadcrumbs() {
-    return this.instance.$(SELECTORS.FILES_BREADCRUMBS);
+    return SELECTORS.FILES_BREADCRUMBS;
   }
 
   get filesInfo() {
-    return this.instance.$(SELECTORS.FILES_INFO);
+    return SELECTORS.FILES_INFO;
   }
 
   get filesInfoCurrentSize() {
-    return this.instance.$(SELECTORS.FILES_INFO_CURRENT_SIZE);
+    return SELECTORS.FILES_INFO_CURRENT_SIZE;
   }
 
   get filesInfoCurrentSizeLabel() {
@@ -214,7 +214,7 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   get filesInfoMaxSize() {
-    return this.instance.$(SELECTORS.FILES_INFO_MAX_SIZE);
+    return SELECTORS.FILES_INFO_MAX_SIZE;
   }
 
   get filesInfoMaxSizeLabel() {
@@ -230,43 +230,43 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   get filesLayout() {
-    return this.instance.$(SELECTORS.FILES_LAYOUT);
+    return SELECTORS.FILES_LAYOUT;
   }
 
   get filesList() {
-    return this.instance.$(SELECTORS.FILES_LIST);
+    return SELECTORS.FILES_LIST;
   }
 
   get inputError() {
-    return this.instance.$(SELECTORS.INPUT_ERROR);
+    return SELECTORS.INPUT_ERROR;
   }
 
   get inputErrorText() {
-    return this.instance.$(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
+    return SELECTORS.INPUT_ERROR.$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get inputFileName() {
-    return this.instance.$(SELECTORS.INPUT_FILE_NAME);
+    return SELECTORS.INPUT_FILE_NAME;
   }
 
   get inputFolderName() {
-    return this.instance.$(SELECTORS.INPUT_FOLDER_NAME);
+    return SELECTORS.INPUT_FOLDER_NAME;
   }
 
   get showSidebar() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.SHOW_SIDEBAR);
+    return SELECTORS.TOPBAR.$(SELECTORS.SHOW_SIDEBAR);
   }
 
   get topbar() {
-    return this.instance.$(SELECTORS.TOPBAR);
+    return SELECTORS.TOPBAR;
   }
 
   get uploadFileButton() {
-    return this.instance.$(SELECTORS.UPLOAD_FILE_BUTTON);
+    return SELECTORS.UPLOAD_FILE_BUTTON;
   }
 
   get uploadFileTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return SELECTORS.TOPBAR.$(SELECTORS.TOOLTIP);
   }
 
   get uploadFileTooltipText() {
@@ -277,15 +277,15 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   get uploadFileIndicatorFilename() {
-    return this.instance.$(SELECTORS.UPLOAD_FILE_INDICATOR_FILENAME);
+    return SELECTORS.UPLOAD_FILE_INDICATOR_FILENAME;
   }
 
   get uploadFileIndicatorProgress() {
-    return this.instance.$(SELECTORS.UPLOAD_FILE_INDICATOR_PROGRESS);
+    return SELECTORS.UPLOAD_FILE_INDICATOR_PROGRESS;
   }
 
   get uploadProgressBar() {
-    return this.instance.$(SELECTORS.UPLOAD_PROGRESS_BAR);
+    return SELECTORS.UPLOAD_PROGRESS_BAR;
   }
 
   get uploadProgressBarContentsFilename() {
@@ -330,7 +330,7 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async clickOnFileOrFolder(locator: string) {
     const fileOrFolderLocator = await this.getLocatorOfFolderFile(locator);
-    const fileOrFolderElement = await this.instance.$(fileOrFolderLocator);
+    const fileOrFolderElement = await this.$(fileOrFolderLocator);
     await fileOrFolderElement.click();
   }
 
@@ -346,7 +346,7 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async clickOnHomeFolderCrumb() {
-    const homeFolder = await this.instance.$(SELECTORS.CRUMB_HOME_FOLDER);
+    const homeFolder = await this.$(SELECTORS.CRUMB_HOME_FOLDER);
     await homeFolder.click();
   }
 
@@ -385,7 +385,7 @@ export default class FilesScreen extends UplinkMainScreen {
     // If name was typed correctly, continue with method execution
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(name);
-    const newFolderElement = await this.instance.$(newFolder);
+    const newFolderElement = await this.$(newFolder);
     await newFolderElement.waitForExist();
   }
 
@@ -496,7 +496,7 @@ export default class FilesScreen extends UplinkMainScreen {
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
     const newFile = await this.getLocatorOfFolderFile(newName + extension);
-    const newFileElement = await this.instance.$(newFile);
+    const newFileElement = await this.$(newFile);
     await newFileElement.waitForExist();
   }
 
@@ -507,7 +507,7 @@ export default class FilesScreen extends UplinkMainScreen {
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(newName);
-    const newFolderElement = await this.instance.$(newFolder);
+    const newFolderElement = await this.$(newFolder);
     await newFolderElement.waitForExist();
   }
 
@@ -526,13 +526,13 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async validateFileOrFolderExist(locator: string, timeout: number = 30000) {
     const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
-    const fileFolderElement = await this.instance.$(fileFolderElementLocator);
+    const fileFolderElement = await this.$(fileFolderElementLocator);
     await fileFolderElement.waitForExist({ timeout: timeout });
   }
 
   async validateFileOrFolderNotExist(locator: string) {
     const fileFolderLocator = await this.getLocatorOfDeletedElement(locator);
-    await this.instance.$(fileFolderLocator).waitForExist({ reverse: true });
+    await this.$(fileFolderLocator).waitForExist({ reverse: true });
   }
 
   async validateFilesScreenIsShown() {

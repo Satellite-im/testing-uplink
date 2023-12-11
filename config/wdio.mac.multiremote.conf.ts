@@ -6,7 +6,6 @@ const join = require("path").join;
 const MACOS_USER_A_BUNDLE_ID = require("@helpers/constants").MACOS_USER_A_BUNDLE_ID;
 const MACOS_USER_B_BUNDLE_ID = require("@helpers/constants").MACOS_USER_B_BUNDLE_ID;
 const MACOS_DRIVER = require("@helpers/constants").MACOS_DRIVER;
-const USER_A_INSTANCE = require("@helpers/constants").USER_A_INSTANCE;
 const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
 
@@ -30,11 +29,12 @@ export const config: WebdriverIO.Config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")],
+    specs: [join(process.cwd(), "./tests/specs/reusable-accounts/01-*.spec.ts")],
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
     ],
+    maxInstances: 1,
     //
     // ============
     // Capabilities
@@ -96,6 +96,8 @@ export const config: WebdriverIO.Config = {
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
     onPrepare: async function() {
+      const cacheFolderSourceA = join(process.cwd(), "./tests/fixtures/users/mac2/ChatUserA");
+      const cacheFolderSourceB = join(process.cwd(), "./tests/fixtures/users/mac2/ChatUserB");
       const cacheFolderUserA = homedir() + "/.uplink/.user";
       const cacheFolderUserB = homedir() + "/.uplinkUserB/.user";
       const allureResultsFolder = join(process.cwd(), "./allure-results");
@@ -114,7 +116,9 @@ export const config: WebdriverIO.Config = {
       try {
         await rmSync(cacheFolderUserA, { recursive: true, force: true });
         await rmSync(cacheFolderUserB, { recursive: true, force: true });
-        console.log("Deleted Cache Folder Successfully!");
+        await fsp.cp(cacheFolderSourceA, cacheFolderUserA, { recursive: true }, { force: true });
+        await fsp.cp(cacheFolderSourceB, cacheFolderUserB, { recursive: true }, { force: true });
+        console.log("Deleted and Copied Cache Folder Successfully!");
       } catch (error) {
         console.error(
           `Got an error trying to delete Cache Folder: ${error.message}`
@@ -141,7 +145,7 @@ export const config: WebdriverIO.Config = {
           allureReporter.addAttachment(imageTitle, data, 'image/png')
 
           // Close second application if open
-          await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
+          await driver.executeScript("macos: terminateApp", [
             {
               bundleId: MACOS_USER_B_BUNDLE_ID,
             },
@@ -152,7 +156,7 @@ export const config: WebdriverIO.Config = {
 
   afterSuite: async function (suite) {
     // Close second application if open
-    await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
+    await driver.executeScript("macos: terminateApp", [
       {
         bundleId: MACOS_USER_B_BUNDLE_ID,
       },

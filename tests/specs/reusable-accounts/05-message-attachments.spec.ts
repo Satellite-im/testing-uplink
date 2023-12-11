@@ -13,7 +13,7 @@ import {
 const chatsAttachmentFirstUser = new ComposeAttachment(USER_A_INSTANCE);
 const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar();
 const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
 const sendFilesFirstUser = new SendFiles(USER_A_INSTANCE);
 

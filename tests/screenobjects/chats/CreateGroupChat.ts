@@ -72,7 +72,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   get createGroupChatSection() {
-    return this.instance.$(SELECTORS.CREATE_GROUP_CHAT_SECTION);
+    return SELECTORS.CREATE_GROUP_CHAT_SECTION;
   }
 
   get createGroupInputError() {

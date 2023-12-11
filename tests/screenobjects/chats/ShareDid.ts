@@ -53,7 +53,7 @@ export default class ShareDidModal extends UplinkMainScreen {
   }
 
   get shareDidModal() {
-    return this.instance.$(SELECTORS.SHARE_DID_MODAL);
+    return SELECTORS.SHARE_DID_MODAL;
   }
 
   get shareDidModalButton() {

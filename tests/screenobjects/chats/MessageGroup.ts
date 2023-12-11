@@ -83,27 +83,27 @@ export default class MessageGroup extends UplinkMainScreen {
   }
 
   get chatMessageLocalFirst() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_LOCAL_FIRST);
+    return SELECTORS.CHAT_MESSAGE_LOCAL_FIRST;
   }
 
   get chatMessageLocalLast() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_LOCAL_LAST);
+    return SELECTORS.CHAT_MESSAGE_LOCAL_LAST;
   }
 
   get chatMessageLocalMiddle() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE);
+    return$(SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE);
   }
 
   get chatMessageRemoteFirst() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_REMOTE_FIRST);
+    return SELECTORS.CHAT_MESSAGE_REMOTE_FIRST;
   }
 
   get chatMessageRemoteLast() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_REMOTE_LAST);
+    return SELECTORS.CHAT_MESSAGE_REMOTE_LAST;
   }
 
   get chatMessageRemoteMiddle() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_REMOTE_MIDDLE);
+    return$(SELECTORS.CHAT_MESSAGE_REMOTE_MIDDLE);
   }
 
   get chatMessageTextValue() {
@@ -113,7 +113,7 @@ export default class MessageGroup extends UplinkMainScreen {
   }
 
   get chatMessageTextGroup() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
+    return$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
   get emojiReactionRemote() {
@@ -143,19 +143,19 @@ export default class MessageGroup extends UplinkMainScreen {
   }
 
   get messageGroupReceived() {
-    return this.instance.$$(SELECTORS.MESSAGE_GROUP_REMOTE);
+    return$(SELECTORS.MESSAGE_GROUP_REMOTE);
   }
 
   get messageGroupSent() {
-    return this.instance.$$(SELECTORS.MESSAGE_GROUP_SENT);
+    return$(SELECTORS.MESSAGE_GROUP_SENT);
   }
 
   get messageGroupWrapLocal() {
-    return this.instance.$$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL);
+    return$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL);
   }
 
   get messageGroupWrapRemote() {
-    return this.instance.$$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE);
+    return$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE);
   }
 
   get messageGroupTimeAgo() {
@@ -212,11 +212,11 @@ export default class MessageGroup extends UplinkMainScreen {
   }
 
   get messageReactionContainer() {
-    return this.instance.$$(SELECTORS.MESSAGE_REACTION_CONTAINER);
+    return$(SELECTORS.MESSAGE_REACTION_CONTAINER);
   }
 
   get pinIndicator() {
-    return this.instance.$$(SELECTORS.PIN_INDICATOR);
+    return$(SELECTORS.PIN_INDICATOR);
   }
 
   // Message Group Wraps Received Methods
@@ -468,7 +468,7 @@ export default class MessageGroup extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(emojiReactionLocator);
+        return await this.$(emojiReactionLocator);
       },
       {
         timeout: 15000,
@@ -494,7 +494,7 @@ export default class MessageGroup extends UplinkMainScreen {
     }
     await driver[this.executor].waitUntil(
       async () => {
-        return await this.instance.$(emojiReactionLocator);
+        return await this.$(emojiReactionLocator);
       },
       {
         timeout: 15000,
