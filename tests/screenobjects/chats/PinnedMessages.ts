@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import { WINDOWS_DRIVER, USER_A_INSTANCE } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 

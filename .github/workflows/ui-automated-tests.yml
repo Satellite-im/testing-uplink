@@ -156,7 +156,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18.17.1
           cache: "npm"
 
       - name: Cache NPM dependencies 🔨
@@ -264,7 +264,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18.17.1
           cache: "npm"
 
       - name: Cache NPM dependencies 🔨
@@ -374,7 +374,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 18.17.1
           cache: "npm"
 
       - name: Cache NPM dependencies 🔨
@@ -539,17 +539,6 @@ jobs:
           message: |
             UI Automated Tests execution is complete! You can find the test results report [here](https://satellite-im.github.io/test-report/${{ github.run_number }})
 
-      - name: Delete artifacts not required on failed execution
-        uses: geekyeggo/delete-artifact@v2
-        with:
-          name: |
-            test-report-macos-ci
-            test-report-macos-chats
-            test-report-windows-ci
-            test-allure-mac-ci
-            test-allure-mac-chats
-            test-allure-windows-ci
-
   remove-label:
     needs:
       [
@@ -573,6 +562,12 @@ jobs:
             Uplink-windows-latest
             uplink-windows-assets
             Uplink-macos-latest
+            test-report-macos-ci
+            test-report-macos-chats
+            test-report-windows-ci
+            test-allure-mac-ci
+            test-allure-mac-chats
+            test-allure-windows-ci
 
       - name: Remove label if all test jobs succeeded
         uses: buildsville/add-remove-label@v2.0.0

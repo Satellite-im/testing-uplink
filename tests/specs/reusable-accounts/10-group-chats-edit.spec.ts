@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import EditGroup from "@screenobjects/chats/EditGroup";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
@@ -9,11 +9,11 @@ import {
   activateFirstApplication,
   activateSecondApplication,
 } from "@helpers/commands";
-let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-let editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
-let filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
+const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
+const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function groupChatEditTests() {
   it("Chat User A - Edit Group Chat button tooltip", async () => {

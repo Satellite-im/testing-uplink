@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import {
   activateFirstApplication,
   activateSecondApplication,
@@ -21,21 +21,21 @@ import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
-let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
-let emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
-let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
-let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
+const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
+const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
+const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
+const createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
+const emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
+const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
+const settingsNotificationsFirstUser = new SettingsNotificationsScreen(
   USER_A_INSTANCE,
 );
-let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function createChatAccountsTests() {
   it("Chat User A - Create Account", async () => {
@@ -138,18 +138,9 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Send friend request to User A", async () => {
     // Obtain did key from Chat User B
     const friendDidKey = await getUserKey("ChatUserA", USER_A_INSTANCE);
-    await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
-    await friendsScreenFirstUser.clickOnAddSomeoneButton();
+    await friendsScreenFirstUser.sendFriendRequest(friendDidKey, "ChatUserA");
 
-    // Wait for toast notification to be closed
-    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
-
-    // Validate friend request appears on pending list
-    await friendsScreenFirstUser.hoverOnPendingListButton();
-    await friendsScreenFirstUser.goToPendingFriendsList();
-    await friendsScreenFirstUser.validateOutgoingListIsShown();
-    await friendsScreenFirstUser.validateOutgoingListIsNotEmpty();
-
+    // Go to All Friends List
     await friendsScreenFirstUser.goToAllFriendsList();
     await friendsScreenFirstUser.validateAllFriendsListIsShown();
   });
@@ -178,7 +169,7 @@ export default async function createChatAccountsTests() {
     // Switch control to User B
     await activateSecondApplication();
 
-    // With User A - Go to pending requests list, wait for receiving the friend request and accept it
+    // With User B - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenFirstUser.waitUntilUserAcceptedFriendRequest();
 
     // Validate friend is now on all friends list

@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
@@ -18,7 +18,7 @@ import {
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
-const { mouse, Button } = require("@nut-tree/nut-js");
+const { clipboard, mouse, Button } = require("@nut-tree/nut-js");
 let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
 let createPinSecondUser = new CreatePinScreen(USER_B_INSTANCE);
 let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
@@ -231,6 +231,7 @@ export async function launchSecondApplication() {
       arguments: ["--path", homedir() + "/.uplinkUserB"],
     },
   ]);
+  await browser.pause(5000);
 }
 
 export async function activateFirstApplication(
@@ -325,6 +326,11 @@ export async function clickOnSwitchMacOS(
 export async function getClipboardMacOS() {
   const clipboard = await execSync("pbpaste", { encoding: "utf8" });
   return clipboard;
+}
+
+export async function getClipboardValue() {
+  const clipboardValue = await clipboard.getContent();
+  return clipboardValue;
 }
 
 export async function hoverOnMacOS(

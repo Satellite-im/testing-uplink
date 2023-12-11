@@ -1,12 +1,12 @@
-import "module-alias/register";
+require("module-alias/register");
 import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import { USER_A_INSTANCE } from "@helpers/constants";
-let settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
-  USER_A_INSTANCE
+const settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
+  USER_A_INSTANCE,
 );
-let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
-  USER_A_INSTANCE
+const settingsNotificationsFirstUser = new SettingsNotificationsScreen(
+  USER_A_INSTANCE,
 );
 
 export default async function settingsAccessibility() {
@@ -22,7 +22,7 @@ export default async function settingsAccessibility() {
       await settingsAccessibilityFirstUser.openDyslexicDescription;
     await expect(openDyslexicHeader).toHaveTextContaining("OPEN DYSLEXIC");
     await expect(openDyslexicDescription).toHaveTextContaining(
-      "Open Dyslexic may help some users who suffer from dyslexia, it's a custom font you can enable."
+      "Open Dyslexic may help some users who suffer from dyslexia, it's a custom font you can enable.",
     );
   });
 

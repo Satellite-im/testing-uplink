@@ -1,5 +1,5 @@
-import "module-alias/register";
-import { resetAndLoginWithCache } from "@helpers/commands";
+require("module-alias/register");
+import { getClipboardValue, resetAndLoginWithCache } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
@@ -12,12 +12,12 @@ import {
   USER_A_INSTANCE,
 } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-let chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-let chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-let favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let uplinkMainFirstUser = new UplinkMainScreen(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
+const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
+const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
+const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const uplinkMainFirstUser = new UplinkMainScreen(USER_A_INSTANCE);
 const users = ["ChatUserB", "ChatUserC", "ChatUserD"];
 
 export default async function friends() {
@@ -100,12 +100,42 @@ export default async function friends() {
     await friendsScreenFirstUser.deleteAddFriendInput();
   });
 
-  it("User can copy its own ID by clicking on button", async () => {
-    // Click on Copy ID button and grab clipboard value
+  it("User can copy its own username by clicking on button", async () => {
+    // Click on Copy ID button
     await friendsScreenFirstUser.clickOnCopyID();
 
     // Wait for toast notification to disappear
     await friendsScreenFirstUser.waitUntilNotificationIsClosed();
+
+    // Validate clipboard text contains Username#
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toContain("ChatUserA#");
+  });
+
+  it("User can copy its own DID key using the context menu from Copy Button", async () => {
+    // Right Click on Copy ID button and select Copy DID
+    await friendsScreenFirstUser.openCopyIDContextMenu();
+    await friendsScreenFirstUser.clickOnContextMenuCopyDidKey();
+
+    // Wait for toast notification to disappear
+    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
+
+    // Validate clipboard text contains Did Key
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toContain("did:key");
+  });
+
+  it("User can copy its own username using the context menu from Copy Button", async () => {
+    // Right Click on Copy ID button and select Copy ID
+    await friendsScreenFirstUser.openCopyIDContextMenu();
+    await friendsScreenFirstUser.clickOnContextMenuCopyId();
+
+    // Wait for toast notification to disappear
+    await friendsScreenFirstUser.waitUntilNotificationIsClosed();
+
+    // Validate clipboard text contains Username#
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toContain("ChatUserA#");
   });
 
   it("Add Friend Input - Error is displayed when the user tries to add themselves", async () => {
@@ -167,9 +197,9 @@ export default async function friends() {
     await friendsScreenFirstUser.goToBlockedList();
     await friendsScreenFirstUser.validateNoRequestsIsShown();
 
-    // Ensure that No requests message contains the text "Nothing to see here"
+    // Ensure that No requests message contains the text "NOTHING TO SEE HERE"
     const noRequestsText = await friendsScreenFirstUser.noRequestsText;
-    await expect(noRequestsText).toHaveText("Nothing to see here");
+    await expect(noRequestsText).toHaveText("NOTHING TO SEE HERE");
   });
 
   it("Switch to All Friends view and validate elements displayed", async () => {
@@ -461,9 +491,9 @@ export default async function friends() {
     await friendsScreenFirstUser.goToBlockedList();
     await friendsScreenFirstUser.validateNoRequestsIsShown();
 
-    // Ensure that No requests message contains the text "Nothing to see here"
+    // Ensure that No requests message contains the text "NOTHING TO SEE HERE"
     const noRequestsText = await friendsScreenFirstUser.noRequestsText;
-    await expect(noRequestsText).toHaveText("Nothing to see here");
+    await expect(noRequestsText).toHaveText("NOTHING TO SEE HERE");
   });
 
   it("Context Menu - Chat with Friend", async () => {
@@ -485,7 +515,7 @@ export default async function friends() {
 
   it("Context Menu - Add friend to Favorites and contents displayed on Favorites Sidebar", async () => {
     // Open Context Menu from first user listed in Friends List
-    let friendName = await friendsScreenFirstUser.getUserFromAllFriendsList();
+    const friendName = await friendsScreenFirstUser.getUserFromAllFriendsList();
     await friendsScreenFirstUser.openFriendContextMenu(friendName);
 
     // Select second option "Favorites" from Context Menu
@@ -613,9 +643,9 @@ export default async function friends() {
     await friendsScreenFirstUser.goToPendingFriendsList();
     await friendsScreenFirstUser.validateNoRequestsIsShown();
 
-    // Ensure that No requests message contains the text "Nothing to see here"
+    // Ensure that No requests message contains the text "NOTHING TO SEE HERE"
     const noRequestsText = await friendsScreenFirstUser.noRequestsText;
-    await expect(noRequestsText).toHaveText("Nothing to see here");
+    await expect(noRequestsText).toHaveText("NOTHING TO SEE HERE");
   });
 
   it("Context Menu - Unblock User", async () => {
@@ -640,8 +670,8 @@ export default async function friends() {
     await friendsScreenFirstUser.goToBlockedList();
     await friendsScreenFirstUser.validateNoRequestsIsShown();
 
-    // Ensure that No requests message contains the text "Nothing to see here"
+    // Ensure that No requests message contains the text "NOTHING TO SEE HERE"
     const noRequestsText = await friendsScreenFirstUser.noRequestsText;
-    await expect(noRequestsText).toHaveText("Nothing to see here");
+    await expect(noRequestsText).toHaveText("NOTHING TO SEE HERE");
   });
 }

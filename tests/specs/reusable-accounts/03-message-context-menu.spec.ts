@@ -1,4 +1,5 @@
-import "module-alias/register";
+require("module-alias/register");
+import { getClipboardValue } from "@helpers/commands";
 import { USER_A_INSTANCE } from "@helpers/constants";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -8,10 +9,10 @@ import {
   activateFirstApplication,
   activateSecondApplication,
 } from "@helpers/commands";
-let chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
-let chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-let chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-let chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
+const chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
+const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
+const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
 
 export default async function messageContextMenuTests() {
   it("Chat User A - Send two messages to Chat User B", async () => {
@@ -26,11 +27,31 @@ export default async function messageContextMenuTests() {
     await chatsMessagesFirstUser.waitForMessageSentToExist("Three...");
   });
 
+  it("Chat User A - Context Menu - Copy Text from Message Sent", async () => {
+    await chatsMessagesFirstUser.openContextMenuOnLastSent();
+    await chatsContextMenuFirstUser.validateContextMenuIsOpen();
+    await chatsContextMenuFirstUser.selectContextOptionCopy();
+
+    // Validate clipboard text contains Username#
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toContain("Three...");
+  });
+
   it("Chat User B - Receive two messages from Chat User B", async () => {
     // Assert messages received from Chat User B
     await activateSecondApplication();
     await chatsMessagesFirstUser.waitForReceivingMessage("Two...");
     await chatsMessagesFirstUser.waitForReceivingMessage("Three...");
+  });
+
+  it("Chat User B - Context Menu - Copy Text from Message Received", async () => {
+    await chatsMessagesFirstUser.openContextMenuOnLastReceived();
+    await chatsContextMenuFirstUser.validateContextMenuIsOpen();
+    await chatsContextMenuFirstUser.selectContextOptionCopy();
+
+    // Validate clipboard text contains Username#
+    const clipboardText = await getClipboardValue();
+    await expect(clipboardText).toContain("Three...");
   });
 
   it("Chat User A - Context Menu - Delete Message", async () => {

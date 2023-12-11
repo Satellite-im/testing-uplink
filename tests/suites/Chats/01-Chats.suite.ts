@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import chatTopbarTests from "@specs/reusable-accounts/06-chat-topbar.spec";
 import createChatAccountsTests from "@specs/reusable-accounts/01-create-accounts-and-friends.spec";
 import groupChatTests from "@specs/reusable-accounts/09-group-chats.spec";

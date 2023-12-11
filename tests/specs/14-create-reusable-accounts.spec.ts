@@ -1,4 +1,4 @@
-import "module-alias/register";
+require("module-alias/register");
 import {
   createNewUser,
   grabCacheFolder,
@@ -9,9 +9,9 @@ import { USER_A_INSTANCE } from "@helpers/constants";
 import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-let cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
-let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
+const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
+const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
 
 export default async function createReusableAccounts() {
   it("Create reusable account - Chat User A", async () => {

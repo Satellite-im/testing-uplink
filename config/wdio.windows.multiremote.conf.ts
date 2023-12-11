@@ -1,8 +1,8 @@
-import "module-alias/register";
-import allureReporter from '@wdio/allure-reporter'
-import { config as sharedConfig } from '@config/wdio.shared.conf';
-import { join } from "path";
-import { USER_A_INSTANCE } from "@helpers/constants";
+require("module-alias/register");
+const allureReporter = require('@wdio/allure-reporter').default;
+const sharedConfig = require('@config/wdio.shared.conf.ts').config;
+const join = require("path").join;
+const USER_A_INSTANCE = require("@helpers/constants").USER_A_INSTANCE;
 const fsp = require("fs").promises;
 const userACacheFolder = join(process.cwd(), "./apps/ChatUserA/.user")
 const userBCacheFolder = join(process.cwd(), "./apps/ChatUserB/.user")
