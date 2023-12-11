@@ -509,6 +509,7 @@ jobs:
         if: success()
         continue-on-error: true
         with:
+          repository: Satellite-im/test-reports
           ref: gh-pages
           path: gh-pages
 
@@ -528,9 +529,9 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           external_repository: Satellite-im/test-reports
-          deploy_key: ${{ secrets.DEPLOY_KEY }}
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           publish_branch: gh-pages
-          publish_dir: allure-test-repository
+          publish_dir: allure-history
 
       - name: Comment PR with the Test Results
         if: success()
