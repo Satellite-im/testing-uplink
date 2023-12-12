@@ -13,6 +13,7 @@ import QuickProfile from "@screenobjects/chats/QuickProfile";
 import Topbar from "@screenobjects/chats/Topbar";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
+import chats from "@specs/02-chats.spec";
 
 const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
@@ -48,6 +49,7 @@ export default async function quickProfileTests() {
   it("Chat User B - Validate contents from remote quick profile", async () => {
     // With User B - Validate that message was received
     await activateSecondApplication();
+    await chatsInputFirstUser.waitForIsShown(true);
     await chatsInputFirstUser.clickOnInputBar();
 
     // Open quick profile from remote user
@@ -74,6 +76,7 @@ export default async function quickProfileTests() {
   it("Chat User A - Remove Friend", async () => {
     // Open quick profile from remote user
     await activateFirstApplication();
+    await chatsInputFirstUser.waitForIsShown(true);
     await chatsMessageGroupsFirstUser.openRemoteQuickProfile();
     await chatsQuickProfileFirstUser.quickProfile.waitForExist();
 
@@ -95,6 +98,7 @@ export default async function quickProfileTests() {
   it("Chat User B - Validate friendship was removed", async () => {
     // Switch control to User B
     await activateSecondApplication();
+    await welcomeScreenFirstUser.waitForIsShown(true);
 
     // With User B - Go to Friends and wait for User A to remove friendship with User B
     await welcomeScreenFirstUser.goToFriends();
@@ -104,6 +108,7 @@ export default async function quickProfileTests() {
   it("Chat User A - Send friend request again to User B", async () => {
     // Obtain did key from Chat User B
     await activateFirstApplication();
+    await friendsScreenFirstUser.waitForIsShown(true);
     const friendDidKey = await getUserKey("ChatUserB", USER_A_INSTANCE);
 
     // Send friend request to Chat User B
@@ -117,6 +122,7 @@ export default async function quickProfileTests() {
   it("Chat User B - Validate that User A is now a friend", async () => {
     // Switch control to User B
     await activateSecondApplication();
+    await friendsScreenFirstUser.waitForIsShown(true);
 
     // With User B - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreenFirstUser.hoverOnFriendsButton();
@@ -138,6 +144,7 @@ export default async function quickProfileTests() {
   it("Chat User A - Wait until friend request is accepted again", async () => {
     // Validate friend is now on all friends list
     await activateFirstApplication();
+    await friendsScreenFirstUser.waitForIsShown(true);
 
     // Validate friend is now on all friends list
     await friendsScreenFirstUser.waitUntilUserAcceptedFriendRequest();
@@ -154,6 +161,7 @@ export default async function quickProfileTests() {
   it("Chat User B - Send message to User B", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await activateSecondApplication();
+    await friendsScreenFirstUser.waitForIsShown(true);
     await friendsScreenFirstUser.validateChatWithFriendButtonIsShown();
     await friendsScreenFirstUser.hoverOnChatWithFriendButton("ChatUserA");
     await friendsScreenFirstUser.clickOnChatWithFriend();
@@ -169,6 +177,7 @@ export default async function quickProfileTests() {
   it("Chat User A - Block Friend", async () => {
     // Switch control to User A
     await activateFirstApplication();
+    await chatsInputFirstUser.waitForIsShown(true);
 
     // With User A - Validate that message was received
     await chatsMessagesFirstUser.waitForReceivingMessage("Accepted...");
@@ -199,6 +208,7 @@ export default async function quickProfileTests() {
   it("Chat User B - Validate that User A blocked User B", async () => {
     // Switch control to User B
     await activateSecondApplication();
+    await chatsInputFirstUser.waitForIsShown(true);
 
     // With User B - Go to Friends and wait for User A to remove friendship with User B
     await chatsInputFirstUser.goToFriends();
