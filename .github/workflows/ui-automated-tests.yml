@@ -528,8 +528,8 @@ jobs:
         if: success()
         uses: peaceiris/actions-gh-pages@v3
         with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           external_repository: Satellite-im/test-reports
-          github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: allure-history
 
