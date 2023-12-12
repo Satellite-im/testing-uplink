@@ -4,7 +4,7 @@ import {
   activateSecondApplication,
   createNewUser,
   getUserKey,
-  launchUplinkInstance,
+  launchSecondApplication,
   saveTestKeys,
 } from "@helpers/commands";
 import { USER_A_INSTANCE } from "@helpers/constants";
@@ -88,7 +88,7 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Create Account", async () => {
     // Launch second application
     const folderSecondApp = "/.uplinkUserB";
-    await launchUplinkInstance(folderSecondApp);
+    await launchSecondApplication();
 
     // Create a new account and go to Settings Profile
     await createPinFirstUser.waitForIsShown(true);

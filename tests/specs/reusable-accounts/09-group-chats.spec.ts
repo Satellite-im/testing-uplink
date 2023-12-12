@@ -17,7 +17,7 @@ import {
   activateFirstApplication,
   activateSecondApplication,
   createNewUser,
-  launchUplinkInstance,
+  launchThirdApplication,
   getUserKey,
   saveTestKeys,
 } from "@helpers/commands";
@@ -41,7 +41,7 @@ export default async function groupChatTests() {
   it("Chat User C - Create Account", async () => {
     // Launch third application
     const folderThirdApp = "/.uplinkUserC";
-    await launchUplinkInstance(folderThirdApp);
+    await launchThirdApplication(folderThirdApp);
 
     // Create a new account and go to Settings Profile
     await createPinFirstUser.waitForIsShown(true);

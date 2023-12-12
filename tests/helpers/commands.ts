@@ -10,8 +10,8 @@ import {
   MACOS_DRIVER,
   MACOS_USER_A_BUNDLE_ID,
   MACOS_USER_B_BUNDLE_ID,
+  MACOS_USER_C_BUNDLE_ID,
   USER_A_INSTANCE,
-  USER_B_INSTANCE,
   WINDOWS_APP,
   WINDOWS_DRIVER,
 } from "./constants";
@@ -20,13 +20,9 @@ const { execSync } = require("child_process");
 const fsp = require("fs").promises;
 const { clipboard, mouse, Button } = require("@nut-tree/nut-js");
 let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
-let createPinSecondUser = new CreatePinScreen(USER_B_INSTANCE);
 let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
-let createUserSecondUser = new CreateUserScreen(USER_B_INSTANCE);
 let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
 let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
-let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
 
 // Users cache helper functions
 
@@ -129,30 +125,6 @@ export async function createNewUser(username: string) {
   await friendsScreenFirstUser.friendsBody.waitForExist();
 }
 
-export async function createNewUserSecondInstance(username: string) {
-  // Reset Pin before creating new user
-  await createPinSecondUser.unlockLayout.waitForExist();
-  await createPinSecondUser.openHelpButtonMenu();
-  await createPinSecondUser.clickOnResetAccount();
-
-  // Enter pin for test user
-  await createPinSecondUser.enterPin("1234");
-  await createPinSecondUser.createAccountButton.waitForEnabled();
-  await createPinSecondUser.clickOnCreateAccount();
-
-  // Enter Username and click on Create Account
-  await createUserSecondUser.enterUsername(username);
-  await createUserSecondUser.createAccountButton.waitForEnabled();
-  await createUserSecondUser.clickOnCreateAccount();
-
-  // Ensure Main Screen is displayed
-  await welcomeScreenSecondUser.welcomeLayout.waitForExist();
-
-  // Workaround to ensure that user clicks on Add Someone
-  await welcomeScreenSecondUser.clickAddSomeone();
-  await friendsScreenSecondUser.friendsBody.waitForExist();
-}
-
 export async function loginWithTestUser() {
   // Enter pin for test user
   const unlockScreen = await createPinFirstUser.unlockLayout;
@@ -167,23 +139,6 @@ export async function loginWithTestUser() {
   const currentDriver = await welcomeScreenFirstUser.getCurrentDriver();
   if (currentDriver === WINDOWS_DRIVER) {
     await maximizeWindow(USER_A_INSTANCE);
-  }
-}
-
-export async function loginWithTestUserSecondInstance() {
-  // Enter pin for test user
-  const unlockLayout = await createPinSecondUser.unlockLayout;
-  await unlockLayout.waitForExist();
-  await createPinSecondUser.enterPin("1234");
-
-  // Ensure Main Screen is displayed
-  const welcomeLayout = await welcomeScreenSecondUser.welcomeLayout;
-  await welcomeLayout.waitForExist();
-
-  // Only maximize if current driver is windows
-  const currentDriver = await welcomeScreenSecondUser.getCurrentDriver();
-  if (currentDriver === WINDOWS_DRIVER) {
-    await maximizeWindow(USER_B_INSTANCE);
   }
 }
 
@@ -224,11 +179,21 @@ export async function launchApplication(
   }
 }
 
-export async function launchUplinkInstance(cachePath: string) {
+export async function launchSecondApplication() {
   await driver[USER_A_INSTANCE].executeScript("macos: launchApp", [
     {
       bundleId: MACOS_USER_B_BUNDLE_ID,
-      arguments: ["--path", homedir() + cachePath],
+      arguments: ["--path", homedir() + "/.uplinkUserB"],
+    },
+  ]);
+  await browser.pause(5000);
+}
+
+export async function launchThirdApplication() {
+  await driver[USER_A_INSTANCE].executeScript("macos: launchApp", [
+    {
+      bundleId: MACOS_USER_C_BUNDLE_ID,
+      arguments: ["--path", homedir() + "/.uplinkUserC"],
     },
   ]);
   await browser.pause(5000);
@@ -267,6 +232,25 @@ export async function activateSecondApplication(
     await driver[instance].executeScript("macos: activateApp", [
       {
         bundleId: MACOS_USER_B_BUNDLE_ID,
+      },
+    ]);
+  }
+}
+
+export async function activateThirdApplication(
+  instance: string = USER_A_INSTANCE,
+) {
+  const currentOS = await driver[instance].capabilities.automationName;
+  if (currentOS === WINDOWS_DRIVER) {
+    await driver[instance].executeScript("windows: activateApp", [
+      {
+        app: join(process.cwd(), WINDOWS_APP),
+      },
+    ]);
+  } else if (currentOS === MACOS_DRIVER) {
+    await driver[instance].executeScript("macos: activateApp", [
+      {
+        bundleId: MACOS_USER_C_BUNDLE_ID,
       },
     ]);
   }

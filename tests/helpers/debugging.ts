@@ -4,7 +4,7 @@ import {
   activateSecondApplication,
   createNewUser,
   getUserKey,
-  launchUplinkInstance,
+  launchSecondApplication,
   saveTestKeys,
 } from "./commands";
 import { USER_A_INSTANCE } from "./constants";
@@ -69,7 +69,7 @@ export async function setupBeforeCreateGroupTests() {
 
   // Launch second application
   const folderSecondApp = "/.uplinkUserB";
-  await launchUplinkInstance(folderSecondApp);
+  await launchSecondApplication();
 
   // Create a new account and go to Settings Profile
   await createPinFirstUser.waitForIsShown(true);
