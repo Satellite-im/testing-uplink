@@ -5,6 +5,7 @@ const homedir = require("os").homedir;
 const join = require("path").join;
 const MACOS_USER_A_BUNDLE_ID = require("@helpers/constants").MACOS_USER_A_BUNDLE_ID;
 const MACOS_USER_B_BUNDLE_ID = require("@helpers/constants").MACOS_USER_B_BUNDLE_ID;
+const MACOS_USER_C_BUNDLE_ID = require("@helpers/constants").MACOS_USER_B_BUNDLE_ID;
 const MACOS_DRIVER = require("@helpers/constants").MACOS_DRIVER;
 const USER_A_INSTANCE = require("@helpers/constants").USER_A_INSTANCE;
 const fsp = require("fs").promises;
@@ -98,6 +99,7 @@ export const config: WebdriverIO.Config = {
     onPrepare: async function() {
       const cacheFolderUserA = homedir() + "/.uplink/.user";
       const cacheFolderUserB = homedir() + "/.uplinkUserB/.user";
+      const cacheFolderUserC = homedir() + "/.uplinkUserC/.user";
       const allureResultsFolder = join(process.cwd(), "./allure-results");
       const testReportFolder =  join(process.cwd(), "./test-report");
       const testResultsFolder =  join(process.cwd(), "./test-results");
@@ -114,6 +116,7 @@ export const config: WebdriverIO.Config = {
       try {
         await rmSync(cacheFolderUserA, { recursive: true, force: true });
         await rmSync(cacheFolderUserB, { recursive: true, force: true });
+        await rmSync(cacheFolderUserC, { recursive: true, force: true });
         console.log("Deleted Cache Folder Successfully!");
       } catch (error) {
         console.error(
@@ -154,7 +157,17 @@ export const config: WebdriverIO.Config = {
     // Close second application if open
     await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
       {
+        bundleId: MACOS_USER_A_BUNDLE_ID,
+      },
+    ]);
+    await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
+      {
         bundleId: MACOS_USER_B_BUNDLE_ID,
+      },
+    ]);
+    await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
+      {
+        bundleId: MACOS_USER_C_BUNDLE_ID,
       },
     ]);
   },
