@@ -415,11 +415,8 @@ export async function rightClickOnMacOS(
   locator: WebdriverIO.Element,
   instance: string,
 ) {
-  await driver[instance].executeScript("macos: rightClick", [
-    {
-      elementId: locator,
-    },
-  ]);
+  await driver[instance].moveToElement(locator.elementId);
+  await mouse.click(Button.RIGHT);
 }
 
 // Windows driver helper functions
