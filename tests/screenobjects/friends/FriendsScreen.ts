@@ -6,11 +6,7 @@ import {
 } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-import {
-  getClipboardMacOS,
-  rightClickOnMacOS,
-  rightClickOnWindows,
-} from "@helpers/commands";
+import { getClipboardMacOS, rightClickOnWindows } from "@helpers/commands";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 const { keyboard, Key } = require("@nut-tree/nut-js");
@@ -989,7 +985,7 @@ export default class FriendsScreen extends UplinkMainScreen {
     const friendElement = await this.getExistingFriendByAriaLabel(name);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(friendElement, this.executor);
+      await this.rightClickOnMacOS(friendElement);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(friendElement, this.executor);
     }
@@ -1002,7 +998,7 @@ export default class FriendsScreen extends UplinkMainScreen {
     await copyIdButton.click();
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(copyIdButton, this.executor);
+      await this.rightClickOnMacOS(copyIdButton);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(copyIdButton, this.executor);
     }

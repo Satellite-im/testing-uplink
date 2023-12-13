@@ -7,7 +7,6 @@ import {
 } from "@helpers/constants";
 import {
   getUplinkWindowHandle,
-  rightClickOnMacOS,
   rightClickOnWindows,
   saveFileOnMacOS,
   saveFileOnWindows,
@@ -561,7 +560,7 @@ export default class FilesScreen extends UplinkMainScreen {
       .$(SELECTORS.FILE_FOLDER_NAME_TEXT);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(fileFolderToRightClick, this.executor);
+      await this.rightClickOnMacOS(fileFolderToRightClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(fileFolderToRightClick, this.executor);
     }

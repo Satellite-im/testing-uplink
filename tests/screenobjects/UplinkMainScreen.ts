@@ -1,12 +1,12 @@
 require("module-alias/register");
 import AppScreen from "@screenobjects/AppScreen";
-import { hoverOnMacOS, hoverOnWindows } from "@helpers/commands";
+import { hoverOnWindows } from "@helpers/commands";
 import {
   MACOS_DRIVER,
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
 } from "@helpers/constants";
-
+const { mouse, straightTo, Point, Button } = require("@nut-tree/nut-js");
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
 
@@ -261,6 +261,34 @@ export default class UplinkMainScreen extends AppScreen {
 
   // NavBar methods
 
+  async getElementPositionX(element: WebdriverIO.Element) {
+    // Get X coordinate from the element
+    const elementLocator = await this.instance.$(element);
+    const elementX = await elementLocator.getLocation("x");
+    return elementX;
+  }
+
+  async getElementPositionY(element: WebdriverIO.Element) {
+    // Get Y coordinate from the element
+    const elementLocator = await this.instance.$(element);
+    const elementY = await elementLocator.getLocation("y");
+    return elementY;
+  }
+
+  async hoverOnMacOS(locator: WebdriverIO.Element) {
+    // Hover on X and Y coordinates previously retrieved
+    const elementX = await this.getElementPositionX(locator);
+    const elementY = await this.getElementPositionY(locator);
+    await mouse.move(straightTo(new Point(elementX, elementY)));
+  }
+
+  async rightClickOnMacOS(element: WebdriverIO.Element) {
+    const elementX = await this.getElementPositionX(element);
+    const elementY = await this.getElementPositionY(element);
+    await mouse.move(straightTo(new Point(elementX, elementY)));
+    await mouse.click(Button.RIGHT);
+  }
+
   async goToFiles() {
     const button = await this.filesButton;
     await button.click();
@@ -286,7 +314,7 @@ export default class UplinkMainScreen extends AppScreen {
   async hoverOnElement(element: WebdriverIO.Element) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await hoverOnMacOS(element, this.executor);
+      await this.hoverOnMacOS(element);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await hoverOnWindows(element, this.executor);
     }

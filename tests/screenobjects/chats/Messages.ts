@@ -7,7 +7,6 @@ import {
 } from "@helpers/constants";
 import {
   getUplinkWindowHandle,
-  rightClickOnMacOS,
   rightClickOnWindows,
   saveFileOnMacOS,
   saveFileOnWindows,
@@ -42,8 +41,8 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT: "<Text>",
   CHAT_MESSAGE_LINK_EMBED_ICON: '[name="embed-icon"]',
   CHAT_MESSAGE_LINK_EMBED_TITLE: '[name="link-title"]',
-  CHAT_MESSAGE_LOCAL: '//Group[starts-with(@Name, "message-local")]',
-  CHAT_MESSAGE_REMOTE: '//Group[starts-with(@Name, "message-remote")]',
+  CHAT_MESSAGE_LOCAL: '[name="message-local"]',
+  CHAT_MESSAGE_REMOTE: '[name="message-remote"]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
   CHAT_MESSAGE_REPLY_TEXT: "<Text>",
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
@@ -75,10 +74,8 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_LINK_EMBED_ICON: "~embed-icon",
   CHAT_MESSAGE_LINK_EMBED_TITLE: "~link-title",
-  CHAT_MESSAGE_LOCAL:
-    '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-local"`]',
-  CHAT_MESSAGE_REMOTE:
-    '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]',
+  CHAT_MESSAGE_LOCAL: "~message-local",
+  CHAT_MESSAGE_REMOTE: "~message-remote",
   CHAT_MESSAGE_REPLY: "~message-reply",
   CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
@@ -866,7 +863,7 @@ export default class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(messageToClick, this.executor);
+      await this.rightClickOnMacOS(messageToClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(messageToClick, this.executor);
     }
@@ -877,7 +874,7 @@ export default class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(messageToClick, this.executor);
+      await this.rightClickOnMacOS(messageToClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(messageToClick, this.executor);
     }
@@ -888,7 +885,7 @@ export default class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(messageToClick, this.executor);
+      await this.rightClickOnMacOS(messageToClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(messageToClick, this.executor);
     }
@@ -899,7 +896,7 @@ export default class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(messageToClick, this.executor);
+      await this.rightClickOnMacOS(messageToClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(messageToClick, this.executor);
     }

@@ -4,7 +4,6 @@ import {
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
 } from "@helpers/constants";
-import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;

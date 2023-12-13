@@ -5,7 +5,7 @@ import {
   MACOS_DRIVER,
   WINDOWS_DRIVER,
 } from "@helpers/constants";
-import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
+import { rightClickOnWindows } from "@helpers/commands";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
 let SELECTORS = {};
@@ -140,7 +140,7 @@ export default class CreatePinScreen extends UplinkMainScreen {
     const helpButton = await this.helpButton;
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(helpButton, this.executor);
+      await this.rightClickOnMacOS(helpButton);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(helpButton, this.executor);
     }

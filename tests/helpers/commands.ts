@@ -339,20 +339,6 @@ export async function getClipboardValue() {
   return clipboardValue;
 }
 
-export async function hoverOnMacOS(
-  element: WebdriverIO.Element,
-  instance: string,
-) {
-  // Hover on X and Y coordinates previously retrieved
-  const currentInstance = await browser.getInstance(instance);
-  const elementLocator = await currentInstance.$(element);
-
-  // Get X and Y coordinates to hover on from element
-  const elementX = await elementLocator.getLocation("x");
-  const elementY = await elementLocator.getLocation("y");
-  await mouse.move(straightTo(new Point(elementX, elementY)));
-}
-
 export async function saveFileOnMacOS(filename: string, instance: string) {
   const currentInstance = await browser.getInstance(instance);
 
@@ -417,20 +403,6 @@ export async function selectFileOnMacos(
 
   // Wait until Dialog is closed
   await openPanel.waitForExist({ reverse: true });
-}
-
-export async function rightClickOnMacOS(
-  element: WebdriverIO.Element,
-  instance: string,
-) {
-  const currentInstance = await browser.getInstance(instance);
-  const elementLocator = await currentInstance.$(element);
-
-  // Get X and Y coordinates to hover on from element
-  const elementX = await elementLocator.getLocation("x");
-  const elementY = await elementLocator.getLocation("y");
-  await mouse.move(straightTo(new Point(elementX, elementY)));
-  await mouse.click(Button.RIGHT);
 }
 
 // Windows driver helper functions

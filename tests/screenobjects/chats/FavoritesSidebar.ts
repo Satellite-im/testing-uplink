@@ -4,7 +4,7 @@ import {
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
 } from "@helpers/constants";
-import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
+import { rightClickOnWindows } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
@@ -302,7 +302,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const userImageProfile = await this.getFavoritesUserImageProfile(name);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(userImageProfile, this.executor);
+      await this.rightClickOnMacOS(userImageProfile);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(userImageProfile, this.executor);
     }

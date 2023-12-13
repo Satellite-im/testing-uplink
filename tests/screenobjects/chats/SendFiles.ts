@@ -4,7 +4,7 @@ import {
   WINDOWS_DRIVER,
   USER_A_INSTANCE,
 } from "@helpers/constants";
-import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
+import { rightClickOnWindows } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
 const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
@@ -340,7 +340,7 @@ export default class SendFiles extends UplinkMainScreen {
       .$(SELECTORS.FILE_FOLDER_NAME_TEXT);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(fileFolderToRightClick, this.executor);
+      await this.rightClickOnMacOS(fileFolderToRightClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(fileFolderToRightClick, this.executor);
     }

@@ -2,9 +2,7 @@ require("module-alias/register");
 import {
   getClipboardMacOS,
   getUplinkWindowHandle,
-  hoverOnMacOS,
   hoverOnWindows,
-  rightClickOnMacOS,
   rightClickOnWindows,
   selectFileOnMacos,
   selectFileOnWindows,
@@ -318,7 +316,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     const bannerLocator = await this.profileBanner;
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await hoverOnMacOS(bannerLocator, this.executor);
+      await this.hoverOnMacOS(bannerLocator);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await hoverOnWindows(bannerLocator, this.executor);
     }
@@ -452,7 +450,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await copyIdButton.click();
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(copyIdButton, this.executor);
+      await this.rightClickOnMacOS(copyIdButton);
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(copyIdButton, this.executor);
     }

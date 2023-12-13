@@ -4,7 +4,7 @@ import {
   WINDOWS_DRIVER as windowsDriver,
   USER_A_INSTANCE as firstUserInstance,
 } from "@helpers/constants";
-import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
+import { rightClickOnWindows } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
 const currentOS = driver[firstUserInstance].capabilities.automationName;
@@ -563,7 +563,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {
-      await rightClickOnMacOS(imageToRightClick, this.executor);
+      await this.rightClickOnMacOS(imageToRightClick);
     } else if (currentDriver === windowsDriver) {
       await rightClickOnWindows(imageToRightClick, this.executor);
     }
@@ -574,7 +574,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {
-      await rightClickOnMacOS(imageToRightClick, this.executor);
+      await this.rightClickOnMacOS(imageToRightClick);
     } else if (currentDriver === windowsDriver) {
       await rightClickOnWindows(imageToRightClick, this.executor);
     }
@@ -586,7 +586,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {
-      await rightClickOnMacOS(imageToRightClick, this.executor);
+      await this.rightClickOnMacOS(imageToRightClick);
     } else if (currentDriver === windowsDriver) {
       await rightClickOnWindows(imageToRightClick, this.executor);
     }
