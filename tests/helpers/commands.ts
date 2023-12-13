@@ -415,7 +415,7 @@ export async function rightClickOnMacOS(
   locator: WebdriverIO.Element,
   instance: string,
 ) {
-  await driver[instance].moveToElement(locator.elementId);
+  await this.hoverOnMacOS(locator, instance);
   await mouse.click(Button.RIGHT);
 }
 
