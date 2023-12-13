@@ -42,10 +42,8 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT: "<Text>",
   CHAT_MESSAGE_LINK_EMBED_ICON: '[name="embed-icon"]',
   CHAT_MESSAGE_LINK_EMBED_TITLE: '[name="link-title"]',
-  CHAT_MESSAGE_LOCAL:
-    '//Group[contains(@Name, "local") and starts-with(@Name, "message")]',
-  CHAT_MESSAGE_REMOTE:
-    '//Group[contains(@Name, "remote") and starts-with(@Name, "message")]',
+  CHAT_MESSAGE_LOCAL: '//Group[starts-with(@Name, "message-local")]',
+  CHAT_MESSAGE_REMOTE: '//Group[starts-with(@Name, "message-remote")]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
   CHAT_MESSAGE_REPLY_TEXT: "<Text>",
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
@@ -78,9 +76,9 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_LINK_EMBED_ICON: "~embed-icon",
   CHAT_MESSAGE_LINK_EMBED_TITLE: "~link-title",
   CHAT_MESSAGE_LOCAL:
-    '//XCUIElementTypeGroup[contains(@label, "local") and starts-with(@label, "message")]',
+    '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-local"`]',
   CHAT_MESSAGE_REMOTE:
-    '//XCUIElementTypeGroup[contains(@label, "remote") and starts-with(@label, "message")]',
+    '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]',
   CHAT_MESSAGE_REPLY: "~message-reply",
   CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",

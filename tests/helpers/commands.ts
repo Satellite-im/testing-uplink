@@ -18,7 +18,13 @@ import {
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
-const { clipboard, mouse, Button } = require("@nut-tree/nut-js");
+const {
+  clipboard,
+  mouse,
+  straightTo,
+  Point,
+  Button,
+} = require("@nut-tree/nut-js");
 let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
 let createPinSecondUser = new CreatePinScreen(USER_B_INSTANCE);
 let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
@@ -334,15 +340,17 @@ export async function getClipboardValue() {
 }
 
 export async function hoverOnMacOS(
-  locator: WebdriverIO.Element,
+  element: WebdriverIO.Element,
   instance: string,
 ) {
   // Hover on X and Y coordinates previously retrieved
-  await driver[instance].executeScript("macos: hover", [
-    {
-      elementId: locator,
-    },
-  ]);
+  const currentInstance = await browser.getInstance(instance);
+  const elementLocator = await currentInstance.$(element);
+
+  // Get X and Y coordinates to hover on from element
+  const elementX = await elementLocator.getLocation("x");
+  const elementY = await elementLocator.getLocation("y");
+  await mouse.move(straightTo(new Point(elementX, elementY)));
 }
 
 export async function saveFileOnMacOS(filename: string, instance: string) {
@@ -412,15 +420,16 @@ export async function selectFileOnMacos(
 }
 
 export async function rightClickOnMacOS(
-  locator: WebdriverIO.Element,
+  element: WebdriverIO.Element,
   instance: string,
 ) {
-  // Hover on X and Y coordinates previously retrieved
-  await driver[instance].executeScript("macos: hover", [
-    {
-      elementId: locator,
-    },
-  ]);
+  const currentInstance = await browser.getInstance(instance);
+  const elementLocator = await currentInstance.$(element);
+
+  // Get X and Y coordinates to hover on from element
+  const elementX = await elementLocator.getLocation("x");
+  const elementY = await elementLocator.getLocation("y");
+  await mouse.move(straightTo(new Point(elementX, elementY)));
   await mouse.click(Button.RIGHT);
 }
 
