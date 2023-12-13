@@ -415,7 +415,12 @@ export async function rightClickOnMacOS(
   locator: WebdriverIO.Element,
   instance: string,
 ) {
-  await this.hoverOnMacOS(locator, instance);
+  // Hover on X and Y coordinates previously retrieved
+  await driver[instance].executeScript("macos: hover", [
+    {
+      elementId: locator,
+    },
+  ]);
   await mouse.click(Button.RIGHT);
 }
 
