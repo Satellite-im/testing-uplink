@@ -226,13 +226,23 @@ export default class SendFiles extends UplinkMainScreen {
   async typeOnFileNameInput(name: string) {
     const inputFileName = await this.inputFileName;
     await inputFileName.waitForExist();
+    await inputFileName.clearValue();
     await inputFileName.setValue(name);
+    const inputFileNameValue = await inputFileName.getText();
+    if (inputFileNameValue !== name) {
+      await this.typeOnFileNameInput(name);
+    }
   }
 
   async typeOnFolderNameInput(name: string) {
     const inputFolderName = await this.inputFolderName;
     await inputFolderName.waitForExist();
+    await inputFolderName.clearValue();
     await inputFolderName.setValue(name);
+    const inputFolderNameValue = await inputFolderName.getText();
+    if (inputFolderNameValue !== name) {
+      await this.typeOnFolderNameInput(name);
+    }
   }
 
   async getCurrentFolder() {
@@ -278,19 +288,31 @@ export default class SendFiles extends UplinkMainScreen {
   async updateNameFile(newName: string, extension: string = "") {
     const inputFileName = await this.inputFileName;
     await inputFileName.waitForExist();
+    await inputFileName.clearValue();
     await inputFileName.setValue(newName);
-    const newFile = await this.getLocatorOfFolderFile(newName + extension);
-    const newFileElement = await this.instance.$(newFile);
-    await newFileElement.waitForExist();
+    const inputFileNameValue = await inputFileName.getText();
+    if (inputFileNameValue !== newName) {
+      await this.updateNameFile(newName, extension);
+    } else {
+      const newFile = await this.getLocatorOfFolderFile(newName + extension);
+      const newFileElement = await this.instance.$(newFile);
+      await newFileElement.waitForExist();
+    }
   }
 
   async updateNameFolder(newName: string) {
     const inputFolderName = await this.inputFolderName;
     await inputFolderName.waitForExist();
+    await inputFolderName.clearValue();
     await inputFolderName.setValue(newName);
-    const newFolder = await this.getLocatorOfFolderFile(newName);
-    const newFolderElement = await this.instance.$(newFolder);
-    await newFolderElement.waitForExist();
+    const inputFolderNameValue = await inputFolderName.getText();
+    if (inputFolderNameValue !== newName) {
+      await this.updateNameFolder(newName);
+    } else {
+      const newFolder = await this.getLocatorOfFolderFile(newName);
+      const newFolderElement = await this.instance.$(newFolder);
+      await newFolderElement.waitForExist();
+    }
   }
 
   async validateFileOrFolderExist(locator: string) {
