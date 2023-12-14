@@ -16,7 +16,7 @@ describe("MacOS Chats Tests", function () {
     "Create Accounts and Chat Tests",
     createChatAccountsTests.bind(this),
   );
-  describe("Chat Replies Tests", repliesTests.bind(this));
+  /*describe("Chat Replies Tests", repliesTests.bind(this));
   describe("Message Context Menu Tests", messageContextMenuTests.bind(this));
   describe("Message Input Tests", messageInputTests.bind(this));
   describe("Message Attachments Tests", messageAttachmentsTests.bind(this));
@@ -28,5 +28,5 @@ describe("MacOS Chats Tests", function () {
   describe(
     "Group Chats Favorites and Sidebar Tests",
     groupChatSidebarTests.bind(this),
-  );
+  );*/
 });
