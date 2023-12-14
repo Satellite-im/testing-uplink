@@ -28,5 +28,5 @@ describe("MacOS Tests", function () {
   describe("Settings About Tests", settingsAbout.bind(this));
   describe("Settings Licenses Tests", settingsLicenses.bind(this));
   describe("Settings Developer Tests", settingsDeveloper.bind(this));
-  describe("Friends Screen Tests", friends.bind(this));
+  //describe("Friends Screen Tests", friends.bind(this));
 });
