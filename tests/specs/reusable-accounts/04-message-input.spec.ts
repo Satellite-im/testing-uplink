@@ -8,6 +8,7 @@ import {
   activateFirstApplication,
   activateSecondApplication,
 } from "@helpers/commands";
+import chats from "@specs/02-chats.spec";
 const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
 const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
 const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
@@ -17,6 +18,7 @@ export default async function messageInputTests() {
   it("Chat User A - Message Input - User cannot send empty messages", async () => {
     // Ensure that input bar is empty and click on send message button
     await activateFirstApplication();
+    await chatsInputFirstUser.waitForIsShown(true);
     await chatsInputFirstUser.clearInputBar();
     await chatsInputFirstUser.clickOnInputBar();
     await chatsInputFirstUser.clickOnSendMessage();
@@ -148,6 +150,7 @@ export default async function messageInputTests() {
   it("Chat Input Text - Validate messages with bold markdowns were received in expected format", async () => {
     // With Chat User B, validate message with with ** markdown was received in bolds
     await activateSecondApplication();
+    await chatsInputFirstUser.waitForIsShown(true);
     await chatsMessagesFirstUser.waitForReceivingMessage("Bolds1");
 
     // With Chat User B, validate message with with __ markdown was received in bolds
@@ -166,6 +169,7 @@ export default async function messageInputTests() {
   it("Chat Input Text - Validate text starting with https:// is sent as link", async () => {
     // With Chat User A
     await activateFirstApplication();
+    await chatsInputFirstUser.waitForIsShown(true);
     await chatsInputFirstUser.typeMessageOnInput("https://www.google.com");
     await chatsInputFirstUser.clickOnSendMessage();
     await chatsMessagesFirstUser.waitForLinkSentToExist("Google");
@@ -200,6 +204,7 @@ export default async function messageInputTests() {
   it("Chat Input Text - Validate messages with links were received correctly", async () => {
     // With Chat User B, validate message with URL starting with https:// was received as link
     await activateSecondApplication();
+    await chatsInputFirstUser.waitForIsShown(true);
     await chatsMessagesFirstUser.waitForReceivingLink("Google");
 
     // With Chat User B, validate message with URL starting with www. was received as link
@@ -229,6 +234,7 @@ export default async function messageInputTests() {
   xit("Typing Indicator - Send a long message to trigger typing indicator on remote side", async () => {
     // With User A
     await activateFirstApplication();
+    await chatsInputFirstUser.waitForIsShown(true);
     // Generate a random text with 100 chars
     const shortText = await chatsInputFirstUser.generateShortRandomText();
     // Type the text with 90 chars on input bar
@@ -239,6 +245,7 @@ export default async function messageInputTests() {
   xit("Validate Typing Indicator is displayed if remote user is typing", async () => {
     // Switch to second user and validate that Typing Indicator is displayed
     await activateSecondApplication();
+    await chatsInputFirstUser.waitForIsShown(true);
     await chatsLayoutFirstUser.typingIndicator.waitForExist({
       timeout: 30000,
     });

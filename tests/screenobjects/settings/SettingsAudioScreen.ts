@@ -15,6 +15,7 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  BUTTON: "<Button>",
   DROPDOWN_MENU: "<ComboBox>",
   DROPDOWN_OPTION: '[name="Selector Option"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
@@ -31,6 +32,7 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  BUTTON: "-ios class chain:**/XCUIElementTypeButton",
   DROPDOWN_MENU: "~Selector",
   DROPDOWN_OPTION: "~Selector Option",
   SETTINGS_CONTROL: "~settings-control",
@@ -57,52 +59,52 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
 
   get callTimerCheckbox() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
+      .$$(SELECTORS.SETTINGS_SECTION)[8]
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get callTimerControllerValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
+      .$$(SELECTORS.SETTINGS_SECTION)[8]
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get callTimerDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
+      .$$(SELECTORS.SETTINGS_SECTION)[8]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get callTimerHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
+      .$$(SELECTORS.SETTINGS_SECTION)[8]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get echoCancellationCheckbox() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get echoCancellationControllerValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get echoCancellationDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get echoCancellationHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+      .$$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -134,109 +136,117 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
+  get inputDeviceTestButton() {
+    return this.instance.$$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.BUTTON);
+  }
+
   get interfaceSoundsCheckbox() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get interfaceSoundsControllerValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get interfaceSoundsDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get interfaceSoundsHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+      .$$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get mediaSoundsCheckbox() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get mediaSoundsControllerValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get mediaSoundsDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get mediaSoundsHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+      .$$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get messageSoundsCheckbox() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[5]
+      .$$(SELECTORS.SETTINGS_SECTION)[7]
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get messageSoundsControllerValue() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[5]
+      .$$(SELECTORS.SETTINGS_SECTION)[7]
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get messageSoundsDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[5]
+      .$$(SELECTORS.SETTINGS_SECTION)[7]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get messageSoundsHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[5]
+      .$$(SELECTORS.SETTINGS_SECTION)[7]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get outputDeviceDescription() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get outputDeviceDropdown() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.DROPDOWN_MENU);
   }
 
   get outputDeviceDropdownOption() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.DROPDOWN_MENU)
       .$$(SELECTORS.DROPDOWN_OPTION);
   }
 
   get outputDeviceHeader() {
     return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+      .$$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get outputDeviceTestButton() {
+    return this.instance.$$(SELECTORS.SETTINGS_SECTION)[3].$(SELECTORS.BUTTON);
   }
 
   get settingsAudio() {
@@ -248,6 +258,11 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
   async clickOnInputDeviceDropdown() {
     const inputDeviceDropdown = await this.inputDeviceDropdown;
     await inputDeviceDropdown.click();
+  }
+
+  async clickOnInputDeviceTestButton() {
+    const inputDeviceTestButton = await this.inputDeviceTestButton;
+    await inputDeviceTestButton.click();
   }
 
   async clickOnCallTimer() {
@@ -303,6 +318,11 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
   async clickOnOutputDeviceDropdown() {
     const outputDeviceDropdown = await this.outputDeviceDropdown;
     await outputDeviceDropdown.click();
+  }
+
+  async clickOnOutputDeviceTestButton() {
+    const outputDeviceTestButton = await this.outputDeviceTestButton;
+    await outputDeviceTestButton.click();
   }
 
   // Input, Output and Sample Rate selection methods
