@@ -139,23 +139,7 @@ export const config: WebdriverIO.Config = {
           // Add to Screenshot to Allure Reporter
           const data = await readFileSync(`${imageFolder}/${imageTitle}`);
           allureReporter.addAttachment(imageTitle, data, 'image/png')
-
-          // Close second application if open
-          await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
-            {
-              bundleId: MACOS_USER_B_BUNDLE_ID,
-            },
-          ]);
         }
       }
-  },
-
-  afterSuite: async function (suite) {
-    // Close second application if open
-    await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
-      {
-        bundleId: MACOS_USER_B_BUNDLE_ID,
-      },
-    ]);
   },
 }
