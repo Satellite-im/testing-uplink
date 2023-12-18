@@ -54,7 +54,7 @@ export const config: WebdriverIO.Config = {
           platformName: "mac",
           "appium:automationName": MACOS_DRIVER,
           "appium:bundleId": MACOS_USER_A_BUNDLE_ID,
-          "appium:arguments": ["--path", homedir() + "/.uplink"],
+          "appium:arguments": ["--discovery disable", "--path", homedir() + "/.uplink"],
           "appium:systemPort": 4725,
           "appium:prerun": {
             command: 'do shell script "rm -rf ~/.uplink && rm -rf ~/.uplinkUserB"',
