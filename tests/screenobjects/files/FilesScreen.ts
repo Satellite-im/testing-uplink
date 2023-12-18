@@ -544,7 +544,7 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async openFilesContextMenu(name: string) {
     const elementLocator = await this.getLocatorOfFolderFile(name);
-    const fileFolderToRightClick = $(elementLocator).$(
+    const fileFolderToRightClick = await $(elementLocator).$(
       SELECTORS.FILE_FOLDER_NAME_TEXT,
     );
     const currentDriver = await this.getCurrentDriver();
