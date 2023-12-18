@@ -228,7 +228,12 @@ export async function launchSecondApplication() {
   await driver[USER_A_INSTANCE].executeScript("macos: launchApp", [
     {
       bundleId: MACOS_USER_B_BUNDLE_ID,
-      arguments: ["--discovery disable", "--path", homedir() + "/.uplinkUserB"],
+      arguments: [
+        "--discovery",
+        "disable",
+        "--path",
+        homedir() + "/.uplinkUserB",
+      ],
     },
   ]);
   await browser.pause(5000);
