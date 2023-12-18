@@ -5,14 +5,13 @@ import Messages from "@screenobjects/chats/Messages";
 import MessageGroup from "@screenobjects/chats/MessageGroup";
 import PinnedMessages from "@screenobjects/chats/PinnedMessages";
 import Topbar from "@screenobjects/chats/Topbar";
-import { USER_A_INSTANCE } from "@helpers/constants";
 import { activateFirstApplication } from "@helpers/commands";
-const chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
-const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-const pinnedMessagesFirstUser = new PinnedMessages(USER_A_INSTANCE);
+const chatsContextMenuFirstUser = new ContextMenu();
+const chatsInputFirstUser = new InputBar();
+const chatsMessagesFirstUser = new Messages();
+const chatsMessageGroupsFirstUser = new MessageGroup();
+const chatsTopbarFirstUser = new Topbar();
+const pinnedMessagesFirstUser = new PinnedMessages();
 
 export default async function chatTopbarTests() {
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {

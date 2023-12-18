@@ -251,8 +251,7 @@ const SELECTORS_WINDOWS = {
 
 ```js
 get composeAttachmentsButton() {
-    return this.instance
-      .$(SELECTORS.COMPOSE_ATTACHMENTS)
+    return $(SELECTORS.COMPOSE_ATTACHMENTS)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_BUTTON);
   }
 ```

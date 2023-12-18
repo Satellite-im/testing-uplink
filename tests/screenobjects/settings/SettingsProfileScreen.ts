@@ -9,14 +9,10 @@ import {
   selectFileOnMacos,
   selectFileOnWindows,
 } from "@helpers/commands";
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 const { keyboard, Key } = require("@nut-tree/nut-js");
 let SELECTORS = {};
 
@@ -102,19 +98,19 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsProfileScreen extends SettingsBaseScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SETTINGS_PROFILE);
+  constructor() {
+    super(SELECTORS.SETTINGS_PROFILE);
   }
 
   get addPictureButton() {
-    return this.instance.$(SELECTORS.ADD_PICTURE_BUTTON);
+    return $(SELECTORS.ADD_PICTURE_BUTTON);
   }
 
   get clearAvatarButton() {
-    return this.instance.$(SELECTORS.CLEAR_AVATAR_BUTTON);
+    return $(SELECTORS.CLEAR_AVATAR_BUTTON);
   }
   get clearBannerButton() {
-    return this.instance.$(SELECTORS.CLEAR_BANNER_BUTTON);
+    return $(SELECTORS.CLEAR_BANNER_BUTTON);
   }
 
   get contextMenuProfile() {
@@ -122,128 +118,119 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
   }
 
   get contextMenuCopyDidKey() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
+    return $(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
   }
 
   get contextMenuCopyId() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_COPY_ID);
+    return $(SELECTORS.CONTEXT_MENU_COPY_ID);
   }
 
   get copyIDButton() {
-    return this.instance
-      .$(SELECTORS.PROFILE_CONTENT)
-      .$(SELECTORS.COPY_ID_BUTTON);
+    return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.COPY_ID_BUTTON);
   }
 
   get copyIDTooltip() {
-    return this.instance.$(SELECTORS.PROFILE_CONTENT).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.TOOLTIP);
   }
 
   get copyIDTooltipText() {
-    return this.instance
-      .$(SELECTORS.PROFILE_CONTENT)
+    return $(SELECTORS.PROFILE_CONTENT)
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get dismissButton() {
-    return this.instance.$(SELECTORS.DISMISS_BUTTON);
+    return $(SELECTORS.DISMISS_BUTTON);
   }
 
   get inputError() {
-    return this.instance.$(SELECTORS.INPUT_ERROR);
+    return $(SELECTORS.INPUT_ERROR);
   }
 
   get inputErrorMessage() {
-    return this.instance
-      .$(SELECTORS.INPUT_ERROR)
-      .$(SELECTORS.INPUT_ERROR_MESSAGE);
+    return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_MESSAGE);
   }
 
   get profileBanner() {
-    return this.instance.$(SELECTORS.PROFILE_BANNER);
+    return $(SELECTORS.PROFILE_BANNER);
   }
 
   get profileBannerClear() {
-    return this.instance.$(SELECTORS.PROFILE_BANNER_CLEAR);
+    return $(SELECTORS.PROFILE_BANNER_CLEAR);
   }
 
   get profileBannerTooltip() {
-    return this.instance
-      .$(SELECTORS.PROFILE_BANNER)
-      .$(SELECTORS.PROFILE_BANNER_TOOLTIP);
+    return $(SELECTORS.PROFILE_BANNER).$(SELECTORS.PROFILE_BANNER_TOOLTIP);
   }
 
   get profileContent() {
-    return this.instance.$(SELECTORS.PROFILE_CONTENT);
+    return $(SELECTORS.PROFILE_CONTENT);
   }
 
   get profileHeader() {
-    return this.instance.$(SELECTORS.PROFILE_HEADER);
+    return $(SELECTORS.PROFILE_HEADER);
   }
 
   get profilePicture() {
-    return this.instance.$(SELECTORS.PROFILE_PICTURE);
+    return $(SELECTORS.PROFILE_PICTURE);
   }
 
   get profilePictureClear() {
-    return this.instance.$(SELECTORS.PROFILE_PICTURE_CLEAR);
+    return $(SELECTORS.PROFILE_PICTURE_CLEAR);
   }
 
   get settingsProfile() {
-    return this.instance.$(SELECTORS.SETTINGS_PROFILE);
+    return $(SELECTORS.SETTINGS_PROFILE);
   }
 
   get statusInput() {
-    return this.instance.$(SELECTORS.STATUS_INPUT);
+    return $(SELECTORS.STATUS_INPUT);
   }
 
   get statusLabel() {
-    return this.instance.$(SELECTORS.PROFILE_CONTENT).$(SELECTORS.STATUS_LABEL);
+    return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.STATUS_LABEL);
   }
 
   get usernameInput() {
-    return this.instance.$(SELECTORS.USERNAME_INPUT);
+    return $(SELECTORS.USERNAME_INPUT);
   }
 
   get usernameLabel() {
-    return this.instance
-      .$(SELECTORS.PROFILE_CONTENT)
-      .$(SELECTORS.USERNAME_LABEL);
+    return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.USERNAME_LABEL);
   }
 
   get yourNewProfile() {
-    return this.instance.$(SELECTORS.YOUR_NEW_PROFILE);
+    return $(SELECTORS.YOUR_NEW_PROFILE);
   }
 
   get yourNewProfileDescriptionTextOne() {
-    return this.instance.$(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE);
+    return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE);
   }
 
   get yourNewProfileDescriptionTextOneValue() {
-    return this.instance
-      .$(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE)
-      .$(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE_VALUE);
+    return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE).$(
+      SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE_VALUE,
+    );
   }
 
   get yourNewProfileDescriptionTextTwo() {
-    return this.instance.$(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO);
+    return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO);
   }
 
   get yourNewProfileDescriptionTextTwoValue() {
-    return this.instance
-      .$(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO)
-      .$(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO_VALUE);
+    return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO).$(
+      SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO_VALUE,
+    );
   }
 
   get yourNewProfileHeaderText() {
-    return this.instance.$(SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT);
+    return $(SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT);
   }
 
   get yourNewProfileHeaderTextValue() {
-    return this.instance
-      .$(SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT)
-      .$(SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT_VALUE);
+    return $(SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT).$(
+      SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT_VALUE,
+    );
   }
 
   async clickOnAddPictureButton() {
@@ -318,9 +305,9 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     const bannerLocator = await this.profileBanner;
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await hoverOnMacOS(bannerLocator, this.executor);
+      await hoverOnMacOS(bannerLocator);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await hoverOnWindows(bannerLocator, this.executor);
+      await hoverOnWindows(bannerLocator);
     }
   }
 
@@ -391,13 +378,12 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     if (currentDriver === MACOS_DRIVER) {
       const profileBannerMac = await this.profileBanner;
       await profileBannerMac.click();
-      await selectFileOnMacos(relativePath, this.executor);
+      await selectFileOnMacos(relativePath);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const executor = await this.executor;
-      const uplinkContext = await getUplinkWindowHandle(executor);
+      const uplinkContext = await getUplinkWindowHandle();
       const profileBannerWindows = await this.profileBanner;
       await profileBannerWindows.click();
-      await selectFileOnWindows(relativePath, uplinkContext, executor);
+      await selectFileOnWindows(relativePath, uplinkContext);
     }
   }
 
@@ -408,13 +394,12 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await this.clickOnAddPictureButton();
-      await selectFileOnMacos(relativePath, this.executor);
+      await selectFileOnMacos(relativePath);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const executor = await this.executor;
-      const uplinkContext = await getUplinkWindowHandle(executor);
+      const uplinkContext = await getUplinkWindowHandle();
       const profilePictureImage = await this.profilePicture;
       await profilePictureImage.click();
-      await selectFileOnWindows(relativePath, uplinkContext, executor);
+      await selectFileOnWindows(relativePath, uplinkContext);
     }
   }
 
@@ -452,9 +437,9 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await copyIdButton.click();
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(copyIdButton, this.executor);
+      await rightClickOnMacOS(copyIdButton);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(copyIdButton, this.executor);
+      await rightClickOnWindows(copyIdButton);
     }
     const contextMenu = await this.contextMenu;
     await contextMenu.waitForExist();

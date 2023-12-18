@@ -1,13 +1,9 @@
 require("module-alias/register");
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -63,84 +59,72 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class FavoritesSidebar extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SLIMBAR);
+  constructor() {
+    super(SELECTORS.SLIMBAR);
   }
 
   get favorites() {
-    return this.instance.$(SELECTORS.SLIMBAR).$(SELECTORS.FAVORITES);
+    return $(SELECTORS.SLIMBAR).$(SELECTORS.FAVORITES);
   }
 
   get favoritesChat() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
-      .$(SELECTORS.FAVORITES_CONTEXT_CHAT);
+    return $(SELECTORS.SLIMBAR).$(SELECTORS.FAVORITES_CONTEXT_CHAT);
   }
 
   get favoritesRemove() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
-      .$(SELECTORS.FAVORITES_CONTEXT_REMOVE);
+    return $(SELECTORS.SLIMBAR).$(SELECTORS.FAVORITES_CONTEXT_REMOVE);
   }
 
   get favoriteUsers() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
+    return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER);
   }
 
   get favoritesUserImage() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
+    return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE);
   }
 
   get favoritesUserImageGroupWrap() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
+    return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP);
   }
 
   get favoritesUserImageProfile() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
+    return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
   }
 
   get favoritesUserImageWrap() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
+    return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_WRAP);
   }
 
   get favoritesUserIndicator() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
+    return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_INDICATOR);
   }
 
   get favoritesUserIndicatorOffline() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
+    return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE);
   }
 
   get favoritesUserIndicatorOnline() {
-    return this.instance
-      .$(SELECTORS.SLIMBAR)
+    return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
   }
 
   get slimbar() {
-    return this.instance.$(SELECTORS.SLIMBAR);
+    return $(SELECTORS.SLIMBAR);
   }
 
   get slimbarButtonNav() {
@@ -183,9 +167,9 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       favoritesLocator = '[name="' + username + '"]';
     }
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
-        return await this.instance.$(SELECTORS.SLIMBAR).$(favoritesLocator);
+        return await $(SELECTORS.SLIMBAR).$(favoritesLocator);
       },
       {
         timeout: 15000,
@@ -193,15 +177,13 @@ export default class FavoritesSidebar extends UplinkMainScreen {
           "Expected Favorite User was never displayed after 15 seconds",
       },
     );
-    const favoritesElement = await this.instance
-      .$(SELECTORS.SLIMBAR)
-      .$(favoritesLocator);
+    const favoritesElement = await $(SELECTORS.SLIMBAR).$(favoritesLocator);
     return favoritesElement;
   }
 
   async getFavoritesUserImage(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await favoriteLocator.$(SELECTORS.FAVORITES_USER_IMAGE);
       },
@@ -217,7 +199,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
 
   async getFavoritesUserImageGroupWrap(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await favoriteLocator.$(
           SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP,
@@ -274,7 +256,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
 
   async getFavoritesUserIndicatorOnline(username: string) {
     const favoriteLocator = await this.getFavoritesUserByAriaLabel(username);
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await favoriteLocator.$(
           SELECTORS.FAVORITES_USER_INDICATOR_ONLINE,
@@ -302,11 +284,11 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     const userImageProfile = await this.getFavoritesUserImageProfile(name);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(userImageProfile, this.executor);
+      await rightClickOnMacOS(userImageProfile);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(userImageProfile, this.executor);
+      await rightClickOnWindows(userImageProfile);
     }
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.contextMenu;
       },
@@ -363,7 +345,7 @@ export default class FavoritesSidebar extends UplinkMainScreen {
   }
 
   async validateFavoritesAreShown() {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.favorites;
       },

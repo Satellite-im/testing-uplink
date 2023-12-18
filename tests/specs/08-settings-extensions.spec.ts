@@ -1,11 +1,8 @@
 require("module-alias/register");
 import SettingsAudioScreen from "@screenobjects/settings/SettingsAudioScreen";
 import SettingsExtensionsScreen from "@screenobjects/settings/SettingsExtensionsScreen";
-import { USER_A_INSTANCE } from "@helpers/constants";
-const settingsAudioFirstUser = new SettingsAudioScreen(USER_A_INSTANCE);
-const settingsExtensionsFirstUser = new SettingsExtensionsScreen(
-  USER_A_INSTANCE,
-);
+const settingsAudioFirstUser = new SettingsAudioScreen();
+const settingsExtensionsFirstUser = new SettingsExtensionsScreen();
 
 export default async function settingsExtensions() {
   it("Settings Extensions - Validate that buttons are displayed in front", async () => {

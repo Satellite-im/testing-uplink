@@ -1,13 +1,9 @@
 require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -53,204 +49,174 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsAudioScreen extends SettingsBaseScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SETTINGS_AUDIO);
+  constructor() {
+    super(SELECTORS.SETTINGS_AUDIO);
   }
 
   get callTimerCheckbox() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[8]
-      .$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_SECTION)[8].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get callTimerControllerValue() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[8]
-      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return $$(SELECTORS.SETTINGS_SECTION)[8].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX,
+    );
   }
 
   get callTimerDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[8]
+    return $$(SELECTORS.SETTINGS_SECTION)[8]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get callTimerHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[8]
+    return $$(SELECTORS.SETTINGS_SECTION)[8]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get echoCancellationCheckbox() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
-      .$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_SECTION)[4].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get echoCancellationControllerValue() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
-      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX,
+    );
   }
 
   get echoCancellationDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get echoCancellationHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get inputDeviceDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get inputDeviceDropdown() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
-      .$(SELECTORS.DROPDOWN_MENU);
+    return $$(SELECTORS.SETTINGS_SECTION)[0].$(SELECTORS.DROPDOWN_MENU);
   }
 
   get inputDeviceDropdownOption() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.DROPDOWN_MENU)
       .$$(SELECTORS.DROPDOWN_OPTION);
   }
 
   get inputDeviceHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get inputDeviceTestButton() {
-    return this.instance.$$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.BUTTON);
+    return $$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.BUTTON);
   }
 
   get interfaceSoundsCheckbox() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[5]
-      .$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_SECTION)[5].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get interfaceSoundsControllerValue() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[5]
-      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return $$(SELECTORS.SETTINGS_SECTION)[5].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX,
+    );
   }
 
   get interfaceSoundsDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[5]
+    return $$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get interfaceSoundsHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[5]
+    return $$(SELECTORS.SETTINGS_SECTION)[5]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get mediaSoundsCheckbox() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
-      .$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_SECTION)[6].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get mediaSoundsControllerValue() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
-      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return $$(SELECTORS.SETTINGS_SECTION)[6].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX,
+    );
   }
 
   get mediaSoundsDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
+    return $$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get mediaSoundsHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[6]
+    return $$(SELECTORS.SETTINGS_SECTION)[6]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get messageSoundsCheckbox() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[7]
-      .$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_SECTION)[7].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get messageSoundsControllerValue() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[7]
-      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return $$(SELECTORS.SETTINGS_SECTION)[7].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX,
+    );
   }
 
   get messageSoundsDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[7]
+    return $$(SELECTORS.SETTINGS_SECTION)[7]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get messageSoundsHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[7]
+    return $$(SELECTORS.SETTINGS_SECTION)[7]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get outputDeviceDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get outputDeviceDropdown() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
-      .$(SELECTORS.DROPDOWN_MENU);
+    return $$(SELECTORS.SETTINGS_SECTION)[2].$(SELECTORS.DROPDOWN_MENU);
   }
 
   get outputDeviceDropdownOption() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.DROPDOWN_MENU)
       .$$(SELECTORS.DROPDOWN_OPTION);
   }
 
   get outputDeviceHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get outputDeviceTestButton() {
-    return this.instance.$$(SELECTORS.SETTINGS_SECTION)[3].$(SELECTORS.BUTTON);
+    return $$(SELECTORS.SETTINGS_SECTION)[3].$(SELECTORS.BUTTON);
   }
 
   get settingsAudio() {
-    return this.instance.$(SELECTORS.SETTINGS_AUDIO);
+    return $(SELECTORS.SETTINGS_AUDIO);
   }
 
   // Click on dropdowns and sliders methods
@@ -271,7 +237,7 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
     if (currentDriver === WINDOWS_DRIVER) {
       await callTimerCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      await clickOnSwitchMacOS(callTimerCheckbox, this.executor);
+      await clickOnSwitchMacOS(callTimerCheckbox);
     }
   }
 
@@ -281,7 +247,7 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
     if (currentDriver === WINDOWS_DRIVER) {
       await echoCancellationCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      await clickOnSwitchMacOS(echoCancellationCheckbox, this.executor);
+      await clickOnSwitchMacOS(echoCancellationCheckbox);
     }
   }
 
@@ -291,7 +257,7 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
     if (currentDriver === WINDOWS_DRIVER) {
       await interfaceSoundsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      await clickOnSwitchMacOS(interfaceSoundsCheckbox, this.executor);
+      await clickOnSwitchMacOS(interfaceSoundsCheckbox);
     }
   }
 
@@ -301,7 +267,7 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
     if (currentDriver === WINDOWS_DRIVER) {
       await mediaSoundsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      await clickOnSwitchMacOS(mediaSoundsCheckbox, this.executor);
+      await clickOnSwitchMacOS(mediaSoundsCheckbox);
     }
   }
 
@@ -311,7 +277,7 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
     if (currentDriver === WINDOWS_DRIVER) {
       await messageSoundsCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      await clickOnSwitchMacOS(messageSoundsCheckbox, this.executor);
+      await clickOnSwitchMacOS(messageSoundsCheckbox);
     }
   }
 

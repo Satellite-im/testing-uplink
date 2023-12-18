@@ -1,12 +1,8 @@
 require("module-alias/register");
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -56,8 +52,8 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class OutgoingCallModal extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.REMOTE_CONTROLS);
+  constructor() {
+    super(SELECTORS.REMOTE_CONTROLS);
   }
 
   get callControls() {
@@ -97,7 +93,7 @@ export default class OutgoingCallModal extends UplinkMainScreen {
   }
 
   get outgoingCallLabel() {
-    return this.instance.$(SELECTORS.OUTGOING_CALL_LABEL);
+    return $(SELECTORS.OUTGOING_CALL_LABEL);
   }
 
   get outgoingCallLabelText() {
@@ -109,7 +105,7 @@ export default class OutgoingCallModal extends UplinkMainScreen {
   }
 
   get remoteControls() {
-    return this.instance.$(SELECTORS.REMOTE_CONTROLS);
+    return $(SELECTORS.REMOTE_CONTROLS);
   }
 
   get userImageGroupWrap() {

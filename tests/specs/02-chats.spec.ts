@@ -5,13 +5,12 @@ import FilesScreen from "@screenobjects/files/FilesScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-import { USER_A_INSTANCE } from "@helpers/constants";
-const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-const slimbarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const filesScreenFirstUser = new FilesScreen();
+const friendsScreenFirstUser = new FriendsScreen();
+const chatsSidebarFirstUser = new ChatsSidebar();
+const settingsProfileFirstUser = new SettingsProfileScreen();
+const slimbarFirstUser = new FavoritesSidebar();
+const welcomeScreenFirstUser = new WelcomeScreen();
 
 export default async function chats() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {

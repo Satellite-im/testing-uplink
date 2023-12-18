@@ -1,12 +1,8 @@
 require("module-alias/register");
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -68,226 +64,191 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsGeneralScreen extends SettingsBaseScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SETTINGS_GENERAL);
+  constructor() {
+    super(SELECTORS.SETTINGS_GENERAL);
   }
 
   get accentColorButtonBlue() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[4];
   }
 
   get accentColorButtonGreen() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[3];
   }
 
   get accentColorButtonGrey() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[7];
   }
 
   get accentColorButtonOrange() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[1];
   }
 
   get accentColorButtonPink() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[6];
   }
 
   get accentColorButtonRed() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[0];
   }
 
   get accentColorButtonViolet() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[5];
   }
 
   get accentColorButtonYellow() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[2];
   }
 
   get appLanguageDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get appLanguageHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get appLanguageDropdown() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
-      .$(SELECTORS.DROPDOWN_MENU);
+    return $$(SELECTORS.SETTINGS_SECTION)[0].$(SELECTORS.DROPDOWN_MENU);
   }
 
   get clearAccentColorButton() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[4]
+    return $$(SELECTORS.SETTINGS_SECTION)[4]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.CLEAR_ACCENT_COLOR_BUTTON);
   }
 
   get darkLightThemeToggle() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.DARK_LIGHT_THEME_TOGGLE);
   }
 
   get fontDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontDropdown() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
-      .$(SELECTORS.DROPDOWN_MENU);
+    return $$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.DROPDOWN_MENU);
   }
 
   get fontScalingDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontScalingHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[2]
+    return $$(SELECTORS.SETTINGS_SECTION)[2]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontScalingButtonMinus() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[2]
+    return $$(SELECTORS.SETTINGS_CONTROL)[2]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
   }
 
   get fontScalingButtonPlus() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[2]
+    return $$(SELECTORS.SETTINGS_CONTROL)[2]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
   }
 
   get fontScalingValue() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[2]
+    return $$(SELECTORS.SETTINGS_CONTROL)[2]
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE_TEXT);
   }
 
   get openFontsFolderButton() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.OPEN_FONTS_FOLDER_BUTTON);
   }
 
   get openThemesFolderButton() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.OPEN_THEMES_FOLDER_BUTTON);
   }
 
   get settingsGeneral() {
-    return this.instance.$(SELECTORS.SETTINGS_GENERAL);
+    return $(SELECTORS.SETTINGS_GENERAL);
   }
 
   get settingsGeneralElementTooltip() {
-    return this.instance.$(SELECTORS.SETTINGS_GENERAL).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.SETTINGS_GENERAL).$(SELECTORS.TOOLTIP);
   }
 
   get settingsGeneralElementTooltipText() {
-    return this.instance
-      .$(SELECTORS.SETTINGS_GENERAL)
+    return $(SELECTORS.SETTINGS_GENERAL)
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get slideSelector() {
-    return this.instance.$(SELECTORS.SLIDE_SELECTOR);
+    return $(SELECTORS.SLIDE_SELECTOR);
   }
 
   get slideSelectorButtonMinus() {
-    return this.instance
-      .$(SELECTORS.SLIDE_SELECTOR)
-      .$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
+    return $(SELECTORS.SLIDE_SELECTOR).$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
   }
 
   get slideSelectorButtonPlus() {
-    return this.instance
-      .$(SELECTORS.SLIDE_SELECTOR)
-      .$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
+    return $(SELECTORS.SLIDE_SELECTOR).$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
   }
 
   get slideSelectorValue() {
-    return this.instance
-      .$(SELECTORS.SLIDE_SELECTOR)
+    return $(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE_TEXT);
   }
 
   get themeDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get themeHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
+    return $$(SELECTORS.SETTINGS_SECTION)[3]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get themeDropdown() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[3]
-      .$(SELECTORS.DROPDOWN_MENU);
+    return $$(SELECTORS.SETTINGS_SECTION)[3].$(SELECTORS.DROPDOWN_MENU);
   }
 
   // Click on buttons methods
@@ -379,39 +340,33 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
   async selectAppLanguage(language: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$$("-ios class chain:**/XCUIElementTypePopUpButton")[0]
-        .addValue(language + "\n");
+      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[0].addValue(
+        language + "\n",
+      );
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$$('[name="settings-control"]')[0]
-        .addValue(language + "\uE007");
+      await $$('[name="settings-control"]')[0].addValue(language + "\uE007");
     }
   }
 
   async selectFont(font: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$$("-ios class chain:**/XCUIElementTypePopUpButton")[1]
-        .addValue(font + "\n");
+      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[1].addValue(
+        font + "\n",
+      );
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$$('[name="settings-control"]')[2]
-        .addValue(font + "\uE007");
+      await $$('[name="settings-control"]')[2].addValue(font + "\uE007");
     }
   }
 
   async selectTheme(theme: string) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await this.instance
-        .$$("-ios class chain:**/XCUIElementTypePopUpButton")[2]
-        .addValue(theme + "\n");
+      await $$("-ios class chain:**/XCUIElementTypePopUpButton")[2].addValue(
+        theme + "\n",
+      );
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await this.instance
-        .$$('[name="settings-control"]')[1]
-        .addValue(theme + "\uE007");
+      await $$('[name="settings-control"]')[1].addValue(theme + "\uE007");
     }
   }
 

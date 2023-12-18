@@ -1,12 +1,8 @@
 require("module-alias/register");
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 const { keyboard, Key } = require("@nut-tree/nut-js");
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -34,8 +30,8 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class EmojiSuggestions extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.EMOJI_SUGGESTIONS_CONTAINER);
+  constructor() {
+    super(SELECTORS.EMOJI_SUGGESTIONS_CONTAINER);
   }
 
   get emojiSuggestionsCloseButton() {
@@ -45,7 +41,7 @@ export default class EmojiSuggestions extends UplinkMainScreen {
   }
 
   get emojiSuggestionsContainer() {
-    return this.instance.$(SELECTORS.EMOJI_SUGGESTIONS_CONTAINER);
+    return $(SELECTORS.EMOJI_SUGGESTIONS_CONTAINER);
   }
 
   get emojiSuggestionsHeader() {
@@ -66,15 +62,12 @@ export default class EmojiSuggestions extends UplinkMainScreen {
     let emojiLocator, emojiElement;
     if (currentDriver === MACOS_DRIVER) {
       emojiLocator = "~emoji-suggested-" + emojiToClick;
-      emojiElement = await this.instance.$(emojiLocator);
+      emojiElement = await $(emojiLocator);
     } else if (currentDriver === WINDOWS_DRIVER) {
       const emojiLocatorWindows =
         '[name="emoji-suggested-"' + emojiToClick + '"]';
-      emojiLocator = await this.instance.findElement(
-        "name",
-        emojiLocatorWindows,
-      );
-      emojiElement = await this.instance.$(emojiLocator);
+      emojiLocator = await driver.findElement("name", emojiLocatorWindows);
+      emojiElement = await $(emojiLocator);
     }
     await this.hoverOnElement(emojiElement);
     await emojiElement.click();

@@ -1,14 +1,10 @@
 const { keyboard, Key } = require("@nut-tree/nut-js");
 require("module-alias/register");
 import { getClipboardMacOS } from "@helpers/commands";
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -63,8 +59,8 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class CreateGroupChat extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.CREATE_GROUP_CHAT_SECTION);
+  constructor() {
+    super(SELECTORS.CREATE_GROUP_CHAT_SECTION);
   }
 
   get createGroupChatButton() {
@@ -72,18 +68,15 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   get createGroupChatSection() {
-    return this.instance.$(SELECTORS.CREATE_GROUP_CHAT_SECTION);
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION);
   }
 
   get createGroupInputError() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_NAME)
-      .$(SELECTORS.CREATE_GROUP_INPUT_ERROR);
+    return $(SELECTORS.CREATE_GROUP_NAME).$(SELECTORS.CREATE_GROUP_INPUT_ERROR);
   }
 
   get createGroupInputErrorText() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_NAME)
+    return $(SELECTORS.CREATE_GROUP_NAME)
       .$(SELECTORS.CREATE_GROUP_INPUT_ERROR)
       .$(SELECTORS.CREATE_GROUP_INPUT_ERROR_TEXT);
   }
@@ -141,15 +134,13 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   get groupNameInput() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_NAME)
-      .$(SELECTORS.GROUP_NAME_INPUT);
+    return $(SELECTORS.CREATE_GROUP_NAME).$(SELECTORS.GROUP_NAME_INPUT);
   }
 
   get userSearchInput() {
-    return this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
-      .$(SELECTORS.USER_SEARCH_INPUT);
+    return $(SELECTORS.CREATE_GROUP_CHAT_SECTION).$(
+      SELECTORS.USER_SEARCH_INPUT,
+    );
   }
 
   async clearGroupNameInput() {
@@ -159,9 +150,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await groupNameInput.click();
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await driver[this.executor].touchAction([
-        { action: "press", element: locator },
-      ]);
+      await driver.touchAction([{ action: "press", element: locator }]);
     }
     await groupNameInput.setValue("");
   }
@@ -181,8 +170,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let friendLocator;
     if (currentDriver === MACOS_DRIVER) {
-      friendLocator = await this.instance
-        .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      friendLocator = await $(SELECTORS.CREATE_GROUP_CHAT_SECTION)
         .$(SELECTORS.FRIENDS_LIST)
         .$(
           '//XCUIElementTypeGroup[@label="friend-name"]/XCUIElementTypeStaticText[contains(@value, "' +
@@ -190,8 +178,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
             '")]/../..',
         );
     } else if (currentDriver === WINDOWS_DRIVER) {
-      friendLocator = await this.instance
-        .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+      friendLocator = await $(SELECTORS.CREATE_GROUP_CHAT_SECTION)
         .$(SELECTORS.FRIENDS_LIST)
         .$(
           '//Group[@Name="friend-name"]/Text[contains(@Name, "' +
@@ -210,8 +197,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   }
 
   async getFriendFromListMacOS(username: string) {
-    const friendLocator = await this.instance
-      .$(SELECTORS.CREATE_GROUP_CHAT_SECTION)
+    const friendLocator = $(SELECTORS.CREATE_GROUP_CHAT_SECTION)
       .$(SELECTORS.FRIENDS_LIST)
       .$(
         '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[`value == "' +
@@ -251,14 +237,10 @@ export default class CreateGroupChat extends UplinkMainScreen {
       const userKey = await getClipboardMacOS();
       await groupNameInput.setValue(userKey + userKey);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await driver[this.executor].touchAction([
-        { action: "press", element: groupNameInput },
-      ]);
+      await driver.touchAction([{ action: "press", element: groupNameInput }]);
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
       await keyboard.type(Key.LeftControl, Key.V);
-      await driver[this.executor].touchAction([
-        { action: "press", element: locator },
-      ]);
+      await driver.touchAction([{ action: "press", element: locator }]);
       await keyboard.type(Key.LeftControl, Key.V);
     }
   }

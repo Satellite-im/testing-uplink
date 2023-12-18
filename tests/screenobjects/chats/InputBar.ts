@@ -1,10 +1,6 @@
 require("module-alias/register");
 import { faker } from "@faker-js/faker";
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import {
   getUplinkWindowHandle,
   selectFileOnMacos,
@@ -12,7 +8,7 @@ import {
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 const { keyboard, Key } = require("@nut-tree/nut-js");
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -58,73 +54,70 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class InputBar extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.INPUT_GROUP);
+  constructor() {
+    super(SELECTORS.INPUT_GROUP);
   }
 
   get editMessageInput() {
-    return this.instance.$(SELECTORS.EDIT_MESSAGE_INPUT);
+    return $(SELECTORS.EDIT_MESSAGE_INPUT);
   }
 
   get emojiButton() {
-    return this.instance.$(SELECTORS.EMOJI_BUTTON);
+    return $(SELECTORS.EMOJI_BUTTON);
   }
 
   get inputCharCounter() {
-    return this.instance.$(SELECTORS.INPUT_CHAR_COUNTER);
+    return $(SELECTORS.INPUT_CHAR_COUNTER);
   }
 
   get inputCharCounterText() {
-    return this.instance
-      .$(SELECTORS.INPUT_CHAR_COUNTER)
-      .$(SELECTORS.INPUT_CHAR_COUNTER_TEXT);
+    return $(SELECTORS.INPUT_CHAR_COUNTER).$(SELECTORS.INPUT_CHAR_COUNTER_TEXT);
   }
 
   get inputCharMaxText() {
-    return this.instance.$(SELECTORS.INPUT_CHAR_MAX_TEXT);
+    return $(SELECTORS.INPUT_CHAR_MAX_TEXT);
   }
 
   get inputGroup() {
-    return this.instance.$(SELECTORS.CHAT_LAYOUT).$(SELECTORS.INPUT_GROUP);
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.INPUT_GROUP);
   }
 
   get inputText() {
-    return this.instance
-      .$(SELECTORS.CHAT_LAYOUT)
+    return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.INPUT_GROUP)
       .$(SELECTORS.INPUT_TEXT);
   }
 
   get sendMessageButton() {
-    return this.instance.$(SELECTORS.SEND_MESSAGE_BUTTON);
+    return $(SELECTORS.SEND_MESSAGE_BUTTON);
   }
 
   get sendMessageTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get sendMessageTooltipText() {
-    return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get uploadButton() {
-    return this.instance.$(SELECTORS.UPLOAD_BUTTON);
+    return $(SELECTORS.UPLOAD_BUTTON);
   }
 
   get uploadTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get uploadTooltipText() {
-    return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get uploadButtonStorage() {
-    return this.instance.$(SELECTORS.UPLOAD_BUTTON_STORAGE);
+    return $(SELECTORS.UPLOAD_BUTTON_STORAGE);
   }
 
   get uploadButtonLocalDisk() {
-    return this.instance.$(SELECTORS.UPLOAD_BUTTON_LOCAL_DISK);
+    return $(SELECTORS.UPLOAD_BUTTON_LOCAL_DISK);
   }
 
   async clearInputBar() {
@@ -248,13 +241,12 @@ export default class InputBar extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.clickOnUploadFile();
       await this.selectUploadFromLocalDisk();
-      await selectFileOnMacos(relativePath, this.executor);
+      await selectFileOnMacos(relativePath);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const executor = await this.executor;
-      const uplinkContext = await getUplinkWindowHandle(executor);
+      const uplinkContext = await getUplinkWindowHandle();
       await this.clickOnUploadFile();
       await this.selectUploadFromLocalDisk();
-      await selectFileOnWindows(relativePath, uplinkContext, executor);
+      await selectFileOnWindows(relativePath, uplinkContext);
     }
   }
 }

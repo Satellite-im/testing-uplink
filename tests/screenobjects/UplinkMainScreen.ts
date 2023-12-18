@@ -1,13 +1,9 @@
 require("module-alias/register");
 import AppScreen from "@screenobjects/AppScreen";
 import { hoverOnMacOS, hoverOnWindows } from "@helpers/commands";
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -75,147 +71,134 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class UplinkMainScreen extends AppScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.WINDOW);
+  constructor() {
+    super(SELECTORS.WINDOW);
   }
 
   get backButton() {
-    return this.instance.$(SELECTORS.BACK_BUTTON);
+    return $(SELECTORS.BACK_BUTTON);
   }
 
   get buttonNav() {
-    return this.instance.$(SELECTORS.BUTTON_NAV);
+    return $(SELECTORS.BUTTON_NAV);
   }
 
   get buttonNavBarButtonBadge() {
-    return this.instance.$(SELECTORS.BUTTON_NAV).$(SELECTORS.BUTTON_BADGE);
+    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.BUTTON_BADGE);
   }
 
   get buttonNavBarButtonBadgeText() {
-    return this.instance
-      .$(SELECTORS.BUTTON_NAV)
+    return $(SELECTORS.BUTTON_NAV)
       .$(SELECTORS.BUTTON_BADGE)
       .$(SELECTORS.BUTTON_BADGE_TEXT);
   }
 
   get chatsButton() {
-    return this.instance.$(SELECTORS.CHATS_BUTTON);
+    return $(SELECTORS.CHATS_BUTTON);
   }
 
   get chatsButtonTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get chatsButtonTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get contextMenu() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU);
+    return $(SELECTORS.CONTEXT_MENU);
   }
 
   get filesButton() {
-    return this.instance.$(SELECTORS.FILES_BUTTON);
+    return $(SELECTORS.FILES_BUTTON);
   }
 
   get filesButtonTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get filesButtonTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get friendsButton() {
-    return this.instance.$(SELECTORS.FRIENDS_BUTTON);
+    return $(SELECTORS.FRIENDS_BUTTON);
   }
 
   get friendsButtonTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get friendsButtonTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get hamburgerButton() {
-    return this.instance.$(SELECTORS.HAMBURGER_BUTTON);
+    return $(SELECTORS.HAMBURGER_BUTTON);
   }
 
   get prereleaseIndicator() {
-    return this.instance.$(SELECTORS.PRE_RELEASE_INDICATOR);
+    return $(SELECTORS.PRE_RELEASE_INDICATOR);
   }
 
   get prereleaseIndicatorText() {
-    return this.instance
-      .$(SELECTORS.PRE_RELEASE_INDICATOR)
-      .$(SELECTORS.PRE_RELEASE_INDICATOR_TEXT);
+    return $(SELECTORS.PRE_RELEASE_INDICATOR).$(
+      SELECTORS.PRE_RELEASE_INDICATOR_TEXT,
+    );
   }
 
   get settingsButton() {
-    return this.instance.$(SELECTORS.SETTINGS_BUTTON);
+    return $(SELECTORS.SETTINGS_BUTTON);
   }
 
   get settingsButtonTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get settingsButtonTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
   get skeletalUser() {
-    return this.instance.$$(SELECTORS.SKELETAL_USER)[0];
+    return $$(SELECTORS.SKELETAL_USER)[0];
   }
 
   get toastNotifications() {
-    return this.instance.$$(SELECTORS.TOAST_NOTIFICATION);
+    return $$(SELECTORS.TOAST_NOTIFICATION);
   }
 
   get toastNotification() {
-    return this.instance.$(SELECTORS.TOAST_NOTIFICATION);
+    return $(SELECTORS.TOAST_NOTIFICATION);
   }
 
   get toastNotificationClose() {
-    return this.instance
-      .$(SELECTORS.TOAST_NOTIFICATION)
-      .$(SELECTORS.TOAST_NOTIFICATION_CLOSE);
+    return $(SELECTORS.TOAST_NOTIFICATION).$(
+      SELECTORS.TOAST_NOTIFICATION_CLOSE,
+    );
   }
 
   get toastNotificationText() {
-    return this.instance
-      .$(SELECTORS.TOAST_NOTIFICATION)
-      .$(SELECTORS.TOAST_NOTIFICATION_TEXT);
+    return $(SELECTORS.TOAST_NOTIFICATION).$(SELECTORS.TOAST_NOTIFICATION_TEXT);
   }
 
   get updateAvailable() {
-    return this.instance.$(SELECTORS.UPDATE_AVAILABLE);
+    return $(SELECTORS.UPDATE_AVAILABLE);
   }
 
   get updateAvailableText() {
-    return this.instance
-      .$(SELECTORS.UPDATE_AVAILABLE)
-      .$(SELECTORS.UPDATE_AVAILABLE_TEXT);
+    return $(SELECTORS.UPDATE_AVAILABLE).$(SELECTORS.UPDATE_AVAILABLE_TEXT);
   }
 
   get updateMenuDismiss() {
-    return this.instance.$(SELECTORS.UPDATE_MENU_DISMISS);
+    return $(SELECTORS.UPDATE_MENU_DISMISS);
   }
 
   get updateMenuDownload() {
-    return this.instance.$(SELECTORS.UPDATE_MENU_DOWNLOAD);
+    return $(SELECTORS.UPDATE_MENU_DOWNLOAD);
   }
 
   get window() {
-    return this.instance.$(SELECTORS.WINDOW);
+    return $(SELECTORS.WINDOW);
   }
 
   // Toast Notifications methods
@@ -286,9 +269,9 @@ export default class UplinkMainScreen extends AppScreen {
   async hoverOnElement(element: WebdriverIO.Element) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await hoverOnMacOS(element, this.executor);
+      await hoverOnMacOS(element);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await hoverOnWindows(element, this.executor);
+      await hoverOnWindows(element);
     }
   }
 
@@ -314,12 +297,12 @@ export default class UplinkMainScreen extends AppScreen {
 
   // Multiremote functions
   async switchToOtherUserWindow() {
-    const currentInstance = await this.instance.getWindowHandle();
-    await this.instance.switchToWindow(currentInstance);
+    const currentInstance = await driver.getWindowHandle();
+    await driver.switchToWindow(currentInstance);
   }
 
   async showUplinkWindow() {
-    const window = await this.instance.window;
+    const window = await this.window;
     await window.click();
     await window.waitForExist();
   }

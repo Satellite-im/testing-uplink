@@ -4,7 +4,6 @@ import {
   activateSecondApplication,
   getUserKey,
 } from "@helpers/commands";
-import { USER_A_INSTANCE } from "@helpers/constants";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "@screenobjects/chats/ContextMenuSidebar";
@@ -16,17 +15,17 @@ import FilesScreen from "@screenobjects/files/FilesScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-const contextMenuSidebarFirstUser = new ContextMenuSidebar(USER_A_INSTANCE);
-const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar();
+const chatsLayoutFirstUser = new ChatsLayout();
+const chatsMessagesFirstUser = new Messages();
+const chatsSidebarFirstUser = new ChatsSidebar();
+const chatsTopbarFirstUser = new Topbar();
+const contextMenuSidebarFirstUser = new ContextMenuSidebar();
+const favoritesSidebarFirstUser = new FavoritesSidebar();
+const filesScreenFirstUser = new FilesScreen();
+const friendsScreenFirstUser = new FriendsScreen();
+const settingsProfileFirstUser = new SettingsProfileScreen();
+const welcomeScreenFirstUser = new WelcomeScreen();
 
 export default async function sidebarChatsTests() {
   it("Chat User A - Unblock the other Chat User", async () => {
@@ -50,7 +49,7 @@ export default async function sidebarChatsTests() {
 
   it("Chat User A - Send friend request again to Chat User B", async () => {
     // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey("ChatUserB", USER_A_INSTANCE);
+    const friendDidKey = await getUserKey("ChatUserB");
 
     // Send Friend Request to Chat User B
     await friendsScreenFirstUser.sendFriendRequest(friendDidKey, "ChatUserB");

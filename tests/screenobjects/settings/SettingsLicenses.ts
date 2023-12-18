@@ -1,8 +1,8 @@
 require("module-alias/register");
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
-import { USER_A_INSTANCE, WINDOWS_DRIVER } from "@helpers/constants";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -33,27 +33,24 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsLicensesScreen extends SettingsBaseScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SETTINGS_LICENSES);
+  constructor() {
+    super(SELECTORS.SETTINGS_LICENSES);
   }
 
   get heroiconsDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get heroiconsHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get heroiconsButton() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.SETTINGS_CONTROL_BUTTON);
   }

@@ -1,16 +1,15 @@
 require("module-alias/register");
-import { USER_A_INSTANCE } from "@helpers/constants";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageGroup from "@screenobjects/chats/MessageGroup";
 import Messages from "@screenobjects/chats/Messages";
 import ReplyPrompt from "@screenobjects/chats/ReplyPrompt";
 import { activateFirstApplication } from "@helpers/commands";
-const chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
-const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
-const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-const chatsReplyPromptFirstUser = new ReplyPrompt(USER_A_INSTANCE);
+const chatsContextMenuFirstUser = new ContextMenu();
+const chatsInputFirstUser = new InputBar();
+const chatsMessageGroupsFirstUser = new MessageGroup();
+const chatsMessagesFirstUser = new Messages();
+const chatsReplyPromptFirstUser = new ReplyPrompt();
 
 export default async function repliesTests() {
   it("Chat User B - Reply popup - Validate contents and close it", async () => {

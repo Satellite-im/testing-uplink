@@ -5,17 +5,16 @@ import {
   resetApp,
   saveTestKeys,
 } from "@helpers/commands";
-import { USER_A_INSTANCE } from "@helpers/constants";
 import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-const cropProfileFirstUser = new CropImageProfileModal(USER_A_INSTANCE);
-const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const cropProfileFirstUser = new CropImageProfileModal();
+const settingsProfileFirstUser = new SettingsProfileScreen();
+const welcomeScreenFirstUser = new WelcomeScreen();
 
 export default async function createReusableAccounts() {
   it("Create reusable account - Chat User A", async () => {
-    await resetApp(USER_A_INSTANCE);
+    await resetApp();
     // Create New User and go to Settings Profile Screen
     const username = "ChatUserA";
     await createNewUser(username);
@@ -58,13 +57,13 @@ export default async function createReusableAccounts() {
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey, USER_A_INSTANCE);
+    await saveTestKeys(username, didkey);
 
     // Update profile picture from user A
 
     // Update banner picture from user A
-    await grabCacheFolder(username, USER_A_INSTANCE);
-    await resetApp(USER_A_INSTANCE);
+    await grabCacheFolder(username);
+    await resetApp();
   });
 
   it("Create reusable account - Chat User B", async () => {
@@ -112,7 +111,7 @@ export default async function createReusableAccounts() {
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey, USER_A_INSTANCE);
-    await grabCacheFolder(username, USER_A_INSTANCE);
+    await saveTestKeys(username, didkey);
+    await grabCacheFolder(username);
   });
 }

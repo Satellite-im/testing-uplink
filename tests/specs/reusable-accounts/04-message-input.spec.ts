@@ -1,5 +1,4 @@
 require("module-alias/register");
-import { USER_A_INSTANCE } from "@helpers/constants";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import EmojiSuggestions from "@screenobjects/chats/EmojiSuggestions";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -8,11 +7,10 @@ import {
   activateFirstApplication,
   activateSecondApplication,
 } from "@helpers/commands";
-import chats from "@specs/02-chats.spec";
-const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-const emojiSuggestionsFirstUser = new EmojiSuggestions(USER_A_INSTANCE);
+const chatsLayoutFirstUser = new ChatsLayout();
+const chatsInputFirstUser = new InputBar();
+const chatsMessagesFirstUser = new Messages();
+const emojiSuggestionsFirstUser = new EmojiSuggestions();
 
 export default async function messageInputTests() {
   it("Chat User A - Message Input - User cannot send empty messages", async () => {

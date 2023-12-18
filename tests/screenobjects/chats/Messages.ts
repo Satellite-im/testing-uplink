@@ -1,10 +1,6 @@
 require("module-alias/register");
 import { faker } from "@faker-js/faker";
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import {
   getUplinkWindowHandle,
   rightClickOnMacOS,
@@ -14,7 +10,7 @@ import {
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -92,202 +88,192 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class Messages extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(
-      executor,
-      SELECTORS.CHAT_MESSAGE_LOCAL || SELECTORS.CHAT_MESSAGE_REMOTE,
-    );
+  constructor() {
+    super(SELECTORS.CHAT_MESSAGE_LOCAL || SELECTORS.CHAT_MESSAGE_REMOTE);
   }
 
   get chatMessageCodeCopyButton() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON);
+    return $(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
+      SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON,
+    );
   }
 
   get chatMessageCodeLanguage() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE);
+    return $(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
+      SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE,
+    );
   }
 
   get chatMessageCodePane() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
+    return $(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
+      SELECTORS.CHAT_MESSAGE_CODE_PANE,
+    );
   }
 
   get chatMessageCodePaneMessages() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+    return $(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_CODE_PANE)
       .$$(SELECTORS.CHAT_MESSAGE_CODE_MESSAGES);
   }
 
   get chatMessageFileButtonLocal() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
+    );
   }
 
   get chatMessageFileButtonRemote() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
+    );
   }
 
   get chatMessageFileEmbedLocal() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
   }
 
   get chatMessageFileEmbedRemote() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE);
   }
 
   get chatMessageFileIconLocal() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_ICON,
+    );
   }
 
   get chatMessageFileIconRemote() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_ICON,
+    );
   }
 
   get chatMessageFileInfoLocal() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_INFO);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_INFO,
+    );
   }
 
   get chatMessageFileInfoRemote() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_INFO);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_INFO,
+    );
   }
 
   get chatMessageFileMetaLocal() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_META);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_META,
+    );
   }
 
   get chatMessageFileMetaRemote() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_META);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_META,
+    );
   }
 
   get chatMessageFileMetaTextLocal() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
   }
 
   get chatMessageFileMetaTextRemote() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
   }
 
   get chatMessageFileNameLocal() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_FILE_NAME,
+    );
   }
 
   get chatMessageFileNameRemote() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME);
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
+      SELECTORS.CHAT_MESSAGE_FILE_NAME,
+    );
   }
 
   get chatMessageFileNameTextLocal() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
 
   get chatMessageFileNameTextRemote() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
 
   get chatMessageImageContainer() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_IMAGE_CONTAINER);
+    return $(SELECTORS.CHAT_MESSAGE_IMAGE_CONTAINER);
   }
 
   get chatMessageImageFile() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_IMAGE_CONTAINER)
-      .$(SELECTORS.CHAT_MESSAGE_IMAGE_FILE);
+    return $(SELECTORS.CHAT_MESSAGE_IMAGE_CONTAINER).$(
+      SELECTORS.CHAT_MESSAGE_IMAGE_FILE,
+    );
   }
 
   get chatMessageImageModal() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_IMAGE_MODAL);
+    return $(SELECTORS.CHAT_MESSAGE_IMAGE_MODAL);
   }
 
   get chatMessageImageModalFile() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_IMAGE_MODAL)
-      .$(SELECTORS.CHAT_MESSAGE_IMAGE_MODAL_FILE);
+    return $(SELECTORS.CHAT_MESSAGE_IMAGE_MODAL).$(
+      SELECTORS.CHAT_MESSAGE_IMAGE_MODAL_FILE,
+    );
   }
 
   get chatMessageLinkEmbed() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_LINK_EMBED);
+    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED);
   }
 
   get chatMessageLinkEmbedDetails() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS);
+    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS,
+    );
   }
 
   get chatMessageLinkEmbedIcon() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON);
+    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON,
+    );
   }
 
   get chatMessageLinkEmbedTitle() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE);
+    return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE,
+    );
   }
 
   get chatMessageLocal() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_LOCAL);
+    return $$(SELECTORS.CHAT_MESSAGE_LOCAL);
   }
 
   get chatMessageRemote() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_REMOTE);
+    return $$(SELECTORS.CHAT_MESSAGE_REMOTE);
   }
 
   get chatMessageReply() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_REPLY);
+    return $(SELECTORS.CHAT_MESSAGE_REPLY);
   }
 
   get chatMessageReplyText() {
-    return this.instance
-      .$(SELECTORS.CHAT_MESSAGE_REPLY)
-      .$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
+    return $(SELECTORS.CHAT_MESSAGE_REPLY).$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
   }
 
   get chatMessageTextValue() {
-    return this.instance
-      .$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
+      SELECTORS.CHAT_MESSAGE_TEXT_VALUE,
+    );
   }
 
   get chatMessageTextGroup() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
+    return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
   // Messages Received Methods
@@ -350,7 +336,7 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]/../..';
     }
-    const messageReceived = await this.instance.$(locator);
+    const messageReceived = await $(locator);
     await messageReceived.waitForExist();
     return messageReceived;
   }
@@ -400,30 +386,26 @@ export default class Messages extends UplinkMainScreen {
         expectedLanguage +
         '")]';
     }
-    const codeMessage = await this.instance.$(codeMessageLocator);
+    const codeMessage = await $(codeMessageLocator);
     await codeMessage.waitForExist();
   }
 
   async waitForMessageToBeDeleted(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         if (currentDriver === MACOS_DRIVER) {
-          return await this.instance
-            .$(
-              '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-text"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-                expectedMessage +
-                '"`]',
-            )
-            .waitForExist({ reverse: true });
+          return await $(
+            '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-text"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
+              expectedMessage +
+              '"`]',
+          ).waitForExist({ reverse: true });
         } else if (currentDriver === WINDOWS_DRIVER) {
-          return await this.instance
-            .$(
-              '//Group[@Name="message-text"]//Text[contains(@Name, "' +
-                expectedMessage +
-                '")]',
-            )
-            .waitForExist({ reverse: true });
+          return await $(
+            '//Group[@Name="message-text"]//Text[contains(@Name, "' +
+              expectedMessage +
+              '")]',
+          ).waitForExist({ reverse: true });
         }
       },
       {
@@ -445,7 +427,7 @@ export default class Messages extends UplinkMainScreen {
       linkSentLocator =
         '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
-    const link = await this.instance.$(linkSentLocator);
+    const link = await $(linkSentLocator);
     await link.waitForExist();
   }
 
@@ -463,7 +445,7 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-    const messageSent = await this.instance.$(messageSentLocator);
+    const messageSent = await $(messageSentLocator);
     await messageSent.waitForExist();
   }
 
@@ -482,7 +464,7 @@ export default class Messages extends UplinkMainScreen {
         '")]';
     }
 
-    const codeMessage = await this.instance.$(codeMessageReceivedLocator);
+    const codeMessage = await $(codeMessageReceivedLocator);
     await codeMessage.waitForExist();
   }
 
@@ -498,7 +480,7 @@ export default class Messages extends UplinkMainScreen {
       linkReceivedLocator =
         '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
-    const link = await this.instance.$(linkReceivedLocator);
+    const link = await $(linkReceivedLocator);
     await link.waitForExist();
   }
 
@@ -516,7 +498,7 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-    const messageReceived = await this.instance.$(receivedMessageLocator);
+    const messageReceived = await $(receivedMessageLocator);
     await messageReceived.waitForExist();
   }
 
@@ -583,7 +565,7 @@ export default class Messages extends UplinkMainScreen {
         expectedMessage +
         '")]/../..';
     }
-    const messageSent = await this.instance.$(messageSentLocator);
+    const messageSent = await $(messageSentLocator);
     await messageSent.waitForExist();
     return messageSent;
   }
@@ -650,12 +632,11 @@ export default class Messages extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await downloadButton.click();
-      await saveFileOnMacOS(filename, this.executor);
+      await saveFileOnMacOS(filename);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const executor = await this.executor;
-      const uplinkContext = await getUplinkWindowHandle(executor);
+      const uplinkContext = await getUplinkWindowHandle();
       await downloadButton.click();
-      await saveFileOnWindows(filename, uplinkContext, executor);
+      await saveFileOnWindows(filename, uplinkContext);
     }
   }
 
@@ -673,12 +654,11 @@ export default class Messages extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await downloadButton.click();
-      await saveFileOnMacOS(filename, this.executor);
+      await saveFileOnMacOS(filename);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const executor = await this.executor;
-      const uplinkContext = await getUplinkWindowHandle(executor);
+      const uplinkContext = await getUplinkWindowHandle();
       await downloadButton.click();
-      await saveFileOnWindows(filename, uplinkContext, executor);
+      await saveFileOnWindows(filename, uplinkContext);
     }
   }
 
@@ -868,9 +848,9 @@ export default class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(messageToClick, this.executor);
+      await rightClickOnMacOS(messageToClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(messageToClick, this.executor);
+      await rightClickOnWindows(messageToClick);
     }
   }
 
@@ -879,9 +859,9 @@ export default class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(messageToClick, this.executor);
+      await rightClickOnMacOS(messageToClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(messageToClick, this.executor);
+      await rightClickOnWindows(messageToClick);
     }
   }
 
@@ -890,9 +870,9 @@ export default class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(messageToClick, this.executor);
+      await rightClickOnMacOS(messageToClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(messageToClick, this.executor);
+      await rightClickOnWindows(messageToClick);
     }
   }
 
@@ -901,9 +881,9 @@ export default class Messages extends UplinkMainScreen {
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(messageToClick, this.executor);
+      await rightClickOnMacOS(messageToClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(messageToClick, this.executor);
+      await rightClickOnWindows(messageToClick);
     }
   }
 

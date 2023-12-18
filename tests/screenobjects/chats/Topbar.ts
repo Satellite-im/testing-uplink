@@ -1,11 +1,7 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-import {
-  USER_A_INSTANCE,
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-} from "@helpers/constants";
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -64,164 +60,130 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class Topbar extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.TOPBAR);
+  constructor() {
+    super(SELECTORS.TOPBAR);
   }
 
   get topbar() {
-    return this.instance.$(SELECTORS.TOPBAR);
+    return $(SELECTORS.TOPBAR);
   }
 
   get topbarAddToFavorites() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOPBAR_ADD_TO_FAVORITES);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_ADD_TO_FAVORITES);
   }
 
   get topbarAddToFavoritesTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get topbarAddToFavoritesTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarCall() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_CALL);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_CALL);
   }
 
   get topbarCallTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get topbarCallTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarEditGroup() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_EDIT_GROUP);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_EDIT_GROUP);
   }
 
   get topbarEditGroupTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get topbarEditGroupTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarIndicator() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR);
   }
 
   get topbarIndicatorOffline() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOPBAR_INDICATOR_OFFLINE);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_OFFLINE);
   }
 
   get topbarIndicatorOnline() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOPBAR_INDICATOR_ONLINE);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_ONLINE);
   }
 
   get topbarPinnedMessages() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOPBAR_PINNED_MESSAGES);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_PINNED_MESSAGES);
   }
 
   get topbarPinnedMessagesTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get topbarPinnedMessagesTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarRemoveFromFavorites() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOPBAR_REMOVE_FROM_FAVORITES);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_REMOVE_FROM_FAVORITES);
   }
 
   get topbarUserImage() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE);
   }
 
   get topbarUserImageProfile() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOPBAR_USER_IMAGE_PROFILE);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE_PROFILE);
   }
 
   get topbarUserImageWrap() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOPBAR_USER_IMAGE_WRAP);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE_WRAP);
   }
 
   get topbarUserInfo() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_INFO);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_INFO);
   }
 
   get topbarUserName() {
-    return this.instance.$(SELECTORS.TOPBAR_USER_NAME);
+    return $(SELECTORS.TOPBAR_USER_NAME);
   }
 
   get topbarUserNameValue() {
-    return this.instance
-      .$(SELECTORS.TOPBAR_USER_NAME)
-      .$(SELECTORS.TOPBAR_USER_NAME_VALUE);
+    return $(SELECTORS.TOPBAR_USER_NAME).$(SELECTORS.TOPBAR_USER_NAME_VALUE);
   }
 
   get topbarUserStatus() {
-    return this.instance.$(SELECTORS.TOPBAR_USER_STATUS);
+    return $(SELECTORS.TOPBAR_USER_STATUS);
   }
 
   get topbarUserStatusValue() {
-    return this.instance
-      .$(SELECTORS.TOPBAR_USER_STATUS)
-      .$(SELECTORS.TOPBAR_USER_STATUS_VALUE);
+    return $(SELECTORS.TOPBAR_USER_STATUS).$(
+      SELECTORS.TOPBAR_USER_STATUS_VALUE,
+    );
   }
 
   get topbarVideocall() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_VIDEOCALL);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_VIDEOCALL);
   }
 
   get topbarVideocallTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get topbarVideocallTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get viewGroupTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get viewGroupTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   // Top Bar Methods
@@ -230,7 +192,7 @@ export default class Topbar extends UplinkMainScreen {
     const topbarAddToFavorites = await this.topbarAddToFavorites;
     await this.hoverOnElement(topbarAddToFavorites);
     await topbarAddToFavorites.click();
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.topbarRemoveFromFavorites;
       },
@@ -314,7 +276,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   async validateTopbarIndicatorOnline() {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.topbarIndicatorOnline;
       },
@@ -327,7 +289,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   async validateTopbarUserName(username: string) {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return (await this.topbarUserNameValue.getText()) === username;
       },
@@ -340,7 +302,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   async validateTopbarUserImage() {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.topbarUserImage;
       },
@@ -353,7 +315,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   async validateTopbarExists() {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.topbar;
       },
@@ -365,7 +327,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   async waitUntilRemoteUserIsOnline() {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.topbarIndicatorOnline;
       },

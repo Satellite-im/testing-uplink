@@ -4,7 +4,6 @@ import {
   activateSecondApplication,
   getUserKey,
 } from "@helpers/commands";
-import { USER_A_INSTANCE } from "@helpers/constants";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageGroup from "@screenobjects/chats/MessageGroup";
@@ -13,16 +12,14 @@ import QuickProfile from "@screenobjects/chats/QuickProfile";
 import Topbar from "@screenobjects/chats/Topbar";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-import chats from "@specs/02-chats.spec";
-
-const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
-const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-const chatsQuickProfileFirstUser = new QuickProfile(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar();
+const chatsMessageGroupsFirstUser = new MessageGroup();
+const chatsMessagesFirstUser = new Messages();
+const chatsQuickProfileFirstUser = new QuickProfile();
+const chatsTopbarFirstUser = new Topbar();
+const friendsScreenFirstUser = new FriendsScreen();
+const settingsProfileFirstUser = new SettingsProfileScreen();
+const welcomeScreenFirstUser = new WelcomeScreen();
 
 export default async function quickProfileTests() {
   it("Chat User A - Validate contents from local quick profile", async () => {
@@ -109,7 +106,7 @@ export default async function quickProfileTests() {
     // Obtain did key from Chat User B
     await activateFirstApplication();
     await friendsScreenFirstUser.waitForIsShown(true);
-    const friendDidKey = await getUserKey("ChatUserB", USER_A_INSTANCE);
+    const friendDidKey = await getUserKey("ChatUserB");
 
     // Send friend request to Chat User B
     await friendsScreenFirstUser.sendFriendRequest(friendDidKey, "ChatUserB");

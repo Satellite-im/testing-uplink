@@ -1,8 +1,8 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-import { USER_A_INSTANCE, WINDOWS_DRIVER } from "@helpers/constants";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -50,12 +50,12 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class ComposeAttachments extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.COMPOSE_ATTACHMENTS);
+  constructor() {
+    super(SELECTORS.COMPOSE_ATTACHMENTS);
   }
 
   get composeAttachments() {
-    return this.instance.$(SELECTORS.COMPOSE_ATTACHMENTS);
+    return $(SELECTORS.COMPOSE_ATTACHMENTS);
   }
 
   get composeAttachmentsButton() {
@@ -132,7 +132,7 @@ export default class ComposeAttachments extends UplinkMainScreen {
 
   async clickOnDeleteAttachment(attachment: number) {
     // Get the locator of attachment to delete by passing the index
-    const attachmentToDelete = await this.instance.$$(
+    const attachmentToDelete = await $$(
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
     )[attachment];
     await this.hoverOnElement(attachmentToDelete);
@@ -150,9 +150,7 @@ export default class ComposeAttachments extends UplinkMainScreen {
   async getListOfAttachmentsEmbed() {
     const composeAttachments = await this.composeAttachments;
     await composeAttachments.waitForExist();
-    const filesAttached = await this.instance.$$(
-      SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
-    );
+    const filesAttached = await $$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED);
     let results = [];
     for (let fileAttached of filesAttached) {
       const fileName = await fileAttached
@@ -167,7 +165,7 @@ export default class ComposeAttachments extends UplinkMainScreen {
 
   async validateAttachmentIsAdded() {
     const composeAttachmentsFileEmbed = await this.composeAttachmentsFileEmbed;
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await composeAttachmentsFileEmbed;
       },

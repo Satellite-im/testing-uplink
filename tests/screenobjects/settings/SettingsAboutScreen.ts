@@ -1,8 +1,8 @@
 require("module-alias/register");
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
-import { USER_A_INSTANCE, WINDOWS_DRIVER } from "@helpers/constants";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -47,74 +47,66 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsAboutScreen extends SettingsBaseScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.OPEN_WEBSITE_BUTTON);
+  constructor() {
+    super(SELECTORS.OPEN_WEBSITE_BUTTON);
   }
 
   get aboutDescription() {
-    return this.instance
-      .$(SELECTORS.ABOUT_SECTION)
+    return $(SELECTORS.ABOUT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get aboutHeader() {
-    return this.instance
-      .$(SELECTORS.ABOUT_SECTION)
+    return $(SELECTORS.ABOUT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get checkForUpdatesButton() {
-    return this.instance.$(SELECTORS.CHECK_FOR_UPDATES_BUTTON);
+    return $(SELECTORS.CHECK_FOR_UPDATES_BUTTON);
   }
 
   get openSourceCodeButton() {
-    return this.instance.$(SELECTORS.OPEN_SOURCE_CODE_BUTTON);
+    return $(SELECTORS.OPEN_SOURCE_CODE_BUTTON);
   }
 
   get openSourceDescription() {
-    return this.instance
-      .$(SELECTORS.OPEN_SOURCE_CODE_SECTION)
+    return $(SELECTORS.OPEN_SOURCE_CODE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openSourceHeader() {
-    return this.instance
-      .$(SELECTORS.OPEN_SOURCE_CODE_SECTION)
+    return $(SELECTORS.OPEN_SOURCE_CODE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get openWebsiteButton() {
-    return this.instance.$(SELECTORS.OPEN_WEBSITE_BUTTON);
+    return $(SELECTORS.OPEN_WEBSITE_BUTTON);
   }
 
   get openWebsiteDescription() {
-    return this.instance
-      .$(SELECTORS.OPEN_WEBSITE_SECTION)
+    return $(SELECTORS.OPEN_WEBSITE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openWebsiteHeader() {
-    return this.instance
-      .$(SELECTORS.OPEN_WEBSITE_SECTION)
+    return $(SELECTORS.OPEN_WEBSITE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get versionDescription() {
-    return this.instance
-      .$(SELECTORS.VERSION_SECTION)
+    return $(SELECTORS.VERSION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get versionHeader() {
-    return this.instance
-      .$(SELECTORS.VERSION_SECTION)
+    return $(SELECTORS.VERSION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }

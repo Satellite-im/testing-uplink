@@ -1,10 +1,6 @@
 require("module-alias/register");
 import { faker } from "@faker-js/faker";
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import {
   getUplinkWindowHandle,
   rightClickOnMacOS,
@@ -16,7 +12,7 @@ import {
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -122,199 +118,193 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class FilesScreen extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.FILES_LAYOUT);
+  constructor() {
+    super(SELECTORS.FILES_LAYOUT);
   }
 
   get addFolderButton() {
-    return this.instance.$(SELECTORS.ADD_FOLDER_BUTTON);
+    return $(SELECTORS.ADD_FOLDER_BUTTON);
   }
 
   get addFolderTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get addFolderTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get contextMenu() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU);
+    return $(SELECTORS.CONTEXT_MENU);
   }
 
   get contextMenuFilesDelete() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_DELETE);
+    return $(SELECTORS.CONTEXT_MENU_FILES_DELETE);
   }
 
   get contextMenuFilesDownload() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_DOWNLOAD);
+    return $(SELECTORS.CONTEXT_MENU_FILES_DOWNLOAD);
   }
 
   get contextMenuFilesRename() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_RENAME);
+    return $(SELECTORS.CONTEXT_MENU_FILES_RENAME);
   }
 
   get contextMenuFilesShare() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_SHARE);
+    return $(SELECTORS.CONTEXT_MENU_FILES_SHARE);
   }
 
   get contextMenuFolderDelete() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FOLDER_DELETE);
+    return $(SELECTORS.CONTEXT_MENU_FOLDER_DELETE);
   }
 
   get contextMenuFolderRename() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FOLDER_RENAME);
+    return $(SELECTORS.CONTEXT_MENU_FOLDER_RENAME);
   }
 
   get crumb() {
-    return this.instance.$$(SELECTORS.CRUMB);
+    return $$(SELECTORS.CRUMB);
   }
 
   get crumbHomeDir() {
-    return this.instance.$(SELECTORS.CRUMB_HOME_FOLDER);
+    return $(SELECTORS.CRUMB_HOME_FOLDER);
   }
 
   get crumbText() {
-    return this.instance.$$(SELECTORS.CRUMB).$(SELECTORS.CRUMB_TEXT);
+    return $$(SELECTORS.CRUMB).$(SELECTORS.CRUMB_TEXT);
   }
 
   get fileFolderNameText() {
-    return this.instance.$(SELECTORS.FILE_FOLDER_NAME_TEXT);
+    return $(SELECTORS.FILE_FOLDER_NAME_TEXT);
   }
 
   get filesBody() {
-    return this.instance.$(SELECTORS.FILES_BODY);
+    return $(SELECTORS.FILES_BODY);
   }
 
   get filesBreadcrumbs() {
-    return this.instance.$(SELECTORS.FILES_BREADCRUMBS);
+    return $(SELECTORS.FILES_BREADCRUMBS);
   }
 
   get filesInfo() {
-    return this.instance.$(SELECTORS.FILES_INFO);
+    return $(SELECTORS.FILES_INFO);
   }
 
   get filesInfoCurrentSize() {
-    return this.instance.$(SELECTORS.FILES_INFO_CURRENT_SIZE);
+    return $(SELECTORS.FILES_INFO_CURRENT_SIZE);
   }
 
   get filesInfoCurrentSizeLabel() {
-    return this.instance
-      .$(SELECTORS.FILES_INFO_CURRENT_SIZE)
-      .$(SELECTORS.FILES_INFO_CURRENT_SIZE_HEADER);
+    return $(SELECTORS.FILES_INFO_CURRENT_SIZE).$(
+      SELECTORS.FILES_INFO_CURRENT_SIZE_HEADER,
+    );
   }
 
   get filesInfoCurrentSizeValue() {
-    return this.instance
-      .$(SELECTORS.FILES_INFO_CURRENT_SIZE)
-      .$(SELECTORS.FILES_INFO_CURRENT_SIZE_VALUE);
+    return $(SELECTORS.FILES_INFO_CURRENT_SIZE).$(
+      SELECTORS.FILES_INFO_CURRENT_SIZE_VALUE,
+    );
   }
 
   get filesInfoMaxSize() {
-    return this.instance.$(SELECTORS.FILES_INFO_MAX_SIZE);
+    return $(SELECTORS.FILES_INFO_MAX_SIZE);
   }
 
   get filesInfoMaxSizeLabel() {
-    return this.instance
-      .$(SELECTORS.FILES_INFO_MAX_SIZE)
-      .$(SELECTORS.FILES_INFO_MAX_SIZE_HEADER);
+    return $(SELECTORS.FILES_INFO_MAX_SIZE).$(
+      SELECTORS.FILES_INFO_MAX_SIZE_HEADER,
+    );
   }
 
   get filesInfoMaxSizeValue() {
-    return this.instance
-      .$(SELECTORS.FILES_INFO_MAX_SIZE)
-      .$(SELECTORS.FILES_INFO_MAX_SIZE_VALUE);
+    return $(SELECTORS.FILES_INFO_MAX_SIZE).$(
+      SELECTORS.FILES_INFO_MAX_SIZE_VALUE,
+    );
   }
 
   get filesLayout() {
-    return this.instance.$(SELECTORS.FILES_LAYOUT);
+    return $(SELECTORS.FILES_LAYOUT);
   }
 
   get filesList() {
-    return this.instance.$(SELECTORS.FILES_LIST);
+    return $(SELECTORS.FILES_LIST);
   }
 
   get inputError() {
-    return this.instance.$(SELECTORS.INPUT_ERROR);
+    return $(SELECTORS.INPUT_ERROR);
   }
 
   get inputErrorText() {
-    return this.instance.$(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
+    return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get inputFileName() {
-    return this.instance.$(SELECTORS.INPUT_FILE_NAME);
+    return $(SELECTORS.INPUT_FILE_NAME);
   }
 
   get inputFolderName() {
-    return this.instance.$(SELECTORS.INPUT_FOLDER_NAME);
+    return $(SELECTORS.INPUT_FOLDER_NAME);
   }
 
   get showSidebar() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.SHOW_SIDEBAR);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.SHOW_SIDEBAR);
   }
 
   get topbar() {
-    return this.instance.$(SELECTORS.TOPBAR);
+    return $(SELECTORS.TOPBAR);
   }
 
   get uploadFileButton() {
-    return this.instance.$(SELECTORS.UPLOAD_FILE_BUTTON);
+    return $(SELECTORS.UPLOAD_FILE_BUTTON);
   }
 
   get uploadFileTooltip() {
-    return this.instance.$(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
   get uploadFileTooltipText() {
-    return this.instance
-      .$(SELECTORS.TOPBAR)
-      .$(SELECTORS.TOOLTIP)
-      .$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get uploadFileIndicatorFilename() {
-    return this.instance.$(SELECTORS.UPLOAD_FILE_INDICATOR_FILENAME);
+    return $(SELECTORS.UPLOAD_FILE_INDICATOR_FILENAME);
   }
 
   get uploadFileIndicatorProgress() {
-    return this.instance.$(SELECTORS.UPLOAD_FILE_INDICATOR_PROGRESS);
+    return $(SELECTORS.UPLOAD_FILE_INDICATOR_PROGRESS);
   }
 
   get uploadProgressBar() {
-    return this.instance.$(SELECTORS.UPLOAD_PROGRESS_BAR);
+    return $(SELECTORS.UPLOAD_PROGRESS_BAR);
   }
 
   get uploadProgressBarContentsFilename() {
-    return this.instance
-      .$(SELECTORS.UPLOAD_PROGRESS_BAR)
-      .$(SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_FILENAME);
+    return $(SELECTORS.UPLOAD_PROGRESS_BAR).$(
+      SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_FILENAME,
+    );
   }
 
   get uploadProgressBarContentsPercentage() {
-    return this.instance
-      .$(SELECTORS.UPLOAD_PROGRESS_BAR)
-      .$(SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_PERCENTAGE);
+    return $(SELECTORS.UPLOAD_PROGRESS_BAR).$(
+      SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_PERCENTAGE,
+    );
   }
 
   get uploadProgressBarContentsQueue() {
-    return this.instance
-      .$(SELECTORS.UPLOAD_PROGRESS_BAR)
-      .$(SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_QUEUE);
+    return $(SELECTORS.UPLOAD_PROGRESS_BAR).$(
+      SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_QUEUE,
+    );
   }
 
   get uploadProgressBarHeaderDescription() {
-    return this.instance
-      .$(SELECTORS.UPLOAD_PROGRESS_BAR)
-      .$(SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION);
+    return $(SELECTORS.UPLOAD_PROGRESS_BAR).$(
+      SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION,
+    );
   }
   get uploadProgressBarHeaderPercentage() {
-    return this.instance
-      .$(SELECTORS.UPLOAD_PROGRESS_BAR)
-      .$(SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE);
+    return $(SELECTORS.UPLOAD_PROGRESS_BAR).$(
+      SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE,
+    );
   }
 
   async clickOnCreateFolder() {
@@ -330,7 +320,7 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async clickOnFileOrFolder(locator: string) {
     const fileOrFolderLocator = await this.getLocatorOfFolderFile(locator);
-    const fileOrFolderElement = await this.instance.$(fileOrFolderLocator);
+    const fileOrFolderElement = await $(fileOrFolderLocator);
     await fileOrFolderElement.click();
   }
 
@@ -346,7 +336,7 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async clickOnHomeFolderCrumb() {
-    const homeFolder = await this.instance.$(SELECTORS.CRUMB_HOME_FOLDER);
+    const homeFolder = await $(SELECTORS.CRUMB_HOME_FOLDER);
     await homeFolder.click();
   }
 
@@ -385,7 +375,7 @@ export default class FilesScreen extends UplinkMainScreen {
     // If name was typed correctly, continue with method execution
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(name);
-    const newFolderElement = await this.instance.$(newFolder);
+    const newFolderElement = await $(newFolder);
     await newFolderElement.waitForExist();
   }
 
@@ -430,12 +420,11 @@ export default class FilesScreen extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await this.clickOnFilesDownload();
-      await saveFileOnMacOS(filename, this.executor);
+      await saveFileOnMacOS(filename);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const executor = await this.executor;
-      const uplinkContext = await getUplinkWindowHandle(executor);
+      const uplinkContext = await getUplinkWindowHandle();
       await this.clickOnFilesDownload();
-      await saveFileOnWindows(filename, uplinkContext, executor);
+      await saveFileOnWindows(filename, uplinkContext);
     }
   }
 
@@ -496,7 +485,7 @@ export default class FilesScreen extends UplinkMainScreen {
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
     const newFile = await this.getLocatorOfFolderFile(newName + extension);
-    const newFileElement = await this.instance.$(newFile);
+    const newFileElement = await $(newFile);
     await newFileElement.waitForExist();
   }
 
@@ -507,7 +496,7 @@ export default class FilesScreen extends UplinkMainScreen {
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(newName);
-    const newFolderElement = await this.instance.$(newFolder);
+    const newFolderElement = await $(newFolder);
     await newFolderElement.waitForExist();
   }
 
@@ -515,24 +504,23 @@ export default class FilesScreen extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await this.clickOnUploadFile();
-      await selectFileOnMacos(relativePath, this.executor);
+      await selectFileOnMacos(relativePath);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const executor = await this.executor;
-      const uplinkContext = await getUplinkWindowHandle(executor);
+      const uplinkContext = await getUplinkWindowHandle();
       await this.clickOnUploadFile();
-      await selectFileOnWindows(relativePath, uplinkContext, executor);
+      await selectFileOnWindows(relativePath, uplinkContext);
     }
   }
 
   async validateFileOrFolderExist(locator: string, timeout: number = 30000) {
     const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
-    const fileFolderElement = await this.instance.$(fileFolderElementLocator);
+    const fileFolderElement = await $(fileFolderElementLocator);
     await fileFolderElement.waitForExist({ timeout: timeout });
   }
 
   async validateFileOrFolderNotExist(locator: string) {
     const fileFolderLocator = await this.getLocatorOfDeletedElement(locator);
-    await this.instance.$(fileFolderLocator).waitForExist({ reverse: true });
+    await $(fileFolderLocator).waitForExist({ reverse: true });
   }
 
   async validateFilesScreenIsShown() {
@@ -556,14 +544,14 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async openFilesContextMenu(name: string) {
     const elementLocator = await this.getLocatorOfFolderFile(name);
-    const fileFolderToRightClick = await this.instance
-      .$(elementLocator)
-      .$(SELECTORS.FILE_FOLDER_NAME_TEXT);
+    const fileFolderToRightClick = await $(elementLocator).$(
+      SELECTORS.FILE_FOLDER_NAME_TEXT,
+    );
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(fileFolderToRightClick, this.executor);
+      await rightClickOnMacOS(fileFolderToRightClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(fileFolderToRightClick, this.executor);
+      await rightClickOnWindows(fileFolderToRightClick);
     }
     await this.contextMenu.waitForExist();
   }

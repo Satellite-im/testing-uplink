@@ -9,15 +9,14 @@ import {
   CHAT_USER_B_ID,
   CHAT_USER_C_ID,
   CHAT_USER_L_ID,
-  USER_A_INSTANCE,
 } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-const uplinkMainFirstUser = new UplinkMainScreen(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar();
+const chatsLayoutFirstUser = new ChatsLayout();
+const chatsSidebarFirstUser = new ChatsSidebar();
+const favoritesSidebarFirstUser = new FavoritesSidebar();
+const friendsScreenFirstUser = new FriendsScreen();
+const uplinkMainFirstUser = new UplinkMainScreen();
 const users = ["ChatUserB", "ChatUserC", "ChatUserD"];
 
 export default async function friends() {
