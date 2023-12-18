@@ -74,7 +74,7 @@ export default class CreatePinScreen extends UplinkMainScreen {
   }
 
   get inputErrorText() {
-    return $(SELECTORS.INPUT_ERROR_TEXT);
+    return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get pinInput() {
