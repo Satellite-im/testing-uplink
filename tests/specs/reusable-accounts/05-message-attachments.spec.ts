@@ -1,5 +1,4 @@
 require("module-alias/register");
-import { USER_A_INSTANCE } from "@helpers/constants";
 import ComposeAttachment from "@screenobjects/chats/ComposeAttachment";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -10,12 +9,12 @@ import {
   activateFirstApplication,
   activateSecondApplication,
 } from "@helpers/commands";
-const chatsAttachmentFirstUser = new ComposeAttachment(USER_A_INSTANCE);
-const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-const sendFilesFirstUser = new SendFiles(USER_A_INSTANCE);
+const chatsAttachmentFirstUser = new ComposeAttachment();
+const chatsInputFirstUser = new InputBar();
+const chatsMessagesFirstUser = new Messages();
+const chatsTopbarFirstUser = new Topbar();
+const filesScreenFirstUser = new FilesScreen();
+const sendFilesFirstUser = new SendFiles();
 
 export default async function messageAttachmentsTests() {
   it("Send files from Browse Files - No files are displayed on modal and user can close modal", async () => {

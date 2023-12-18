@@ -1,12 +1,8 @@
 require("module-alias/register");
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -46,72 +42,67 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsBaseScreen extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SETTINGS_LAYOUT);
-  }
-
-  get instance() {
-    return browser.getInstance(this.executor);
+  constructor() {
+    super(SELECTORS.SETTINGS_LAYOUT);
   }
 
   async getCurrentDriver() {
-    const currentDriver =
-      await driver[this.executor].capabilities.automationName;
+    const currentDriver = await driver.capabilities.automationName;
     return currentDriver;
   }
 
   async waitForIsShown(isShown = true): Promise<boolean | void> {
-    return this.instance.$(SELECTORS.SETTINGS_LAYOUT).waitForDisplayed({
+    return $(SELECTORS.SETTINGS_LAYOUT).waitForDisplayed({
       reverse: !isShown,
     });
   }
 
   get aboutButton() {
-    return this.instance.$(SELECTORS.ABOUT_BUTTON);
+    return $(SELECTORS.ABOUT_BUTTON);
   }
 
   get accessibilityButton() {
-    return this.instance.$(SELECTORS.ACCESSIBILITY_BUTTON);
+    return $(SELECTORS.ACCESSIBILITY_BUTTON);
   }
 
   get audioButton() {
-    return this.instance.$(SELECTORS.AUDIO_BUTTON);
+    return $(SELECTORS.AUDIO_BUTTON);
   }
 
   get developerButton() {
-    return this.instance.$(SELECTORS.DEVELOPER_BUTTON);
+    return $(SELECTORS.DEVELOPER_BUTTON);
   }
 
   get extensionsButton() {
-    return this.instance.$(SELECTORS.EXTENSIONS_BUTTON);
+    return $(SELECTORS.EXTENSIONS_BUTTON);
   }
 
   get generalButton() {
-    return this.instance.$(SELECTORS.GENERAL_BUTTON);
+    return $(SELECTORS.GENERAL_BUTTON);
   }
 
   get licensesButton() {
-    return this.instance.$(SELECTORS.LICENSES_BUTTON);
+    return $(SELECTORS.LICENSES_BUTTON);
   }
 
   get messagesButton() {
-    return this.instance.$(SELECTORS.MESSAGES_BUTTON);
+    return $(SELECTORS.MESSAGES_BUTTON);
   }
 
   get notificationsButton() {
-    return this.instance.$(SELECTORS.NOTIFICATIONS_BUTTON);
+    return $(SELECTORS.NOTIFICATIONS_BUTTON);
   }
 
   get profileButton() {
-    return this.instance.$(SELECTORS.PROFILE_BUTTON);
+    return $(SELECTORS.PROFILE_BUTTON);
   }
 
   get settingsLayout() {
-    return this.instance.$(SELECTORS.SETTINGS_LAYOUT);
+    return $(SELECTORS.SETTINGS_LAYOUT);
   }
 
   get settingsSearchInput() {
-    return this.instance.$(SELECTORS.SETTINGS_SEARCH_INPUT);
+    return $(SELECTORS.SETTINGS_SEARCH_INPUT);
   }
 
   async goToAboutSettings() {

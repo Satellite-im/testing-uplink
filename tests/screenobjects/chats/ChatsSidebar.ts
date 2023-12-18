@@ -2,12 +2,11 @@ require("module-alias/register");
 import {
   MACOS_DRIVER as macDriver,
   WINDOWS_DRIVER as windowsDriver,
-  USER_A_INSTANCE as firstUserInstance,
 } from "@helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver[firstUserInstance].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -89,65 +88,57 @@ currentOS === windowsDriver
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class ChatsSidebar extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SIDEBAR_CHATS_SECTION);
+  constructor() {
+    super(SELECTORS.SIDEBAR_CHATS_SECTION);
   }
 
   get chatSearchInput() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_SEARCH)
-      .$(SELECTORS.CHAT_SEARCH_INPUT);
+    return $(SELECTORS.SIDEBAR_SEARCH).$(SELECTORS.CHAT_SEARCH_INPUT);
   }
 
   get siderbarChatsHeader() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
-      .$(SELECTORS.SIDERBAR_CHATS_HEADER);
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$(
+      SELECTORS.SIDERBAR_CHATS_HEADER,
+    );
   }
 
   get siderbarChatsHeaderText() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDERBAR_CHATS_HEADER)
       .$(SELECTORS.SIDEBAR_CHATS_HEADER_TEXT);
   }
 
   get sidebar() {
-    return this.instance.$(SELECTORS.SIDEBAR);
+    return $(SELECTORS.SIDEBAR);
   }
 
   get sidebarChatsSection() {
-    return this.instance.$(SELECTORS.SIDEBAR_CHATS_SECTION);
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION);
   }
 
   get sidebarChildren() {
-    return this.instance.$(SELECTORS.SIDEBAR_CHILDREN);
+    return $(SELECTORS.SIDEBAR_CHILDREN);
   }
 
   get sidebarChatsUser() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
-      .$(SELECTORS.SIDEBAR_CHATS_USER);
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$(SELECTORS.SIDEBAR_CHATS_USER);
   }
 
   get sidebarChatsUserBadge() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE);
   }
 
   get sidebarChatsUserBadgeNumber() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_NUMBER);
   }
 
   get sidebarChatsUserBadgeNumberValue() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_NUMBER)
@@ -155,16 +146,14 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   get sidebarChatsUserBadgeTimeAgo() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO);
   }
 
   get sidebarChatsUserBadgeTimeAgoValue() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO)
@@ -172,149 +161,134 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   get sidebarChatsUserImage() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
   }
 
   get sidebarChatsUserImageProfile() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
-      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_PROFILE);
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$$(
+      SELECTORS.SIDEBAR_CHATS_USER_IMAGE_PROFILE,
+    );
   }
 
   get sidebarChatsUserImageWrap() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP);
   }
 
   get sidebarChatsUserInfo() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$(SELECTORS.SIDEBAR_CHATS_USER_INFO);
   }
 
   get sidebarChatsUserName() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$(SELECTORS.SIDEBAR_CHATS_USER_NAME);
   }
   get sidebarChatsUserNameValue() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$(SELECTORS.SIDEBAR_CHATS_USER_NAME)
       .$(SELECTORS.SIDEBAR_CHATS_USER_NAME_VALUE);
   }
 
   get sidebarChatsUserIndicator() {
-    return this.instance
-      .$$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $$(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_INDICATOR);
   }
 
   get sidebarChatsUserOfflineIndicator() {
-    return this.instance
-      .$$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $$(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
   }
 
   get sidebarChatsUserOnlineIndicator() {
-    return this.instance
-      .$$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $$(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
   }
 
   get sidebarChatsUserProfileTyping() {
-    return this.instance
-      .$$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $$(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_PROFILE_TYPING);
   }
 
   get sidebarChatsUserStatus() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS);
   }
 
   get sidebarChatsUserStatusValue() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
   }
 
   get sidebarCreateGroupChat() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_CHATS_SECTION)
-      .$(SELECTORS.SIDEBAR_CREATE_GROUP_CHAT_BUTTON);
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION).$(
+      SELECTORS.SIDEBAR_CREATE_GROUP_CHAT_BUTTON,
+    );
   }
 
   get sidebarCreateGroupChatTooltip() {
-    return this.instance.$(SELECTORS.TOOLTIP);
+    return $(SELECTORS.TOOLTIP);
   }
 
   get sidebarCreateGroupChatTooltipText() {
-    return this.instance.$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get sidebarGroupChatImage() {
-    return this.instance.$(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE);
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE);
   }
 
   get sidebarGroupChatPlusSome() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
-      .$(SELECTORS.SIDEBAR_GROUP_CHAT_PLUS_SOME);
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE).$(
+      SELECTORS.SIDEBAR_GROUP_CHAT_PLUS_SOME,
+    );
   }
 
   get sidebarGroupChatUserImages() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
       .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
   }
 
   get sidebarGroupChatUserImageWraps() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
-      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP);
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE).$$(
+      SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP,
+    );
   }
 
   get sidebarGroupChatUserIndicator() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
       .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_INDICATOR);
   }
 
   get sidebarGroupChatUserIndicatorOffline() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
       .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
   }
 
   get sidebarGroupChatsUserIndicatorOnline() {
-    return this.instance
-      .$(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
+    return $(SELECTORS.SIDEBAR_GROUP_CHAT_IMAGE)
       .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
   }
 
   get sidebarSearch() {
-    return this.instance.$(SELECTORS.SIDEBAR_SEARCH);
+    return $(SELECTORS.SIDEBAR_SEARCH);
   }
 
   // Validations or assertions
@@ -341,7 +315,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateNoUnreadMessages() {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.sidebarChatsUserBadge.waitForExist({ reverse: true });
       },
@@ -354,7 +328,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateNoSidebarChatsAreDisplayed() {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.sidebarChatsUserImageProfile.waitForExist({
           reverse: true,
@@ -369,10 +343,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async validateSidebarChatIsNotDisplayed(username: string) {
     const locator = await this.getNonExistingElementByAriaLabel(username);
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
-        return await this.instance
-          .$(SELECTORS.SIDEBAR)
+        return await $(SELECTORS.SIDEBAR)
           .$(locator)
           .waitForExist({ reverse: true });
       },
@@ -384,7 +357,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateNoSidebarGroupChatsAreDisplayed() {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.sidebarGroupChatImage.waitForExist({ reverse: true });
       },
@@ -413,7 +386,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
   // Waiting methods
 
   async waitForReceivingMessageOnSidebar() {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.sidebarChatsUserStatusValue;
       },
@@ -431,11 +404,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === macDriver) {
-      locator = await this.instance.$(SELECTORS.SIDEBAR).$("~" + username);
+      locator = await $(SELECTORS.SIDEBAR).$("~" + username);
     } else if (currentDriver === windowsDriver) {
-      locator = await this.instance
-        .$(SELECTORS.SIDEBAR)
-        .$('[name="' + username + '"]');
+      locator = await $(SELECTORS.SIDEBAR).$('[name="' + username + '"]');
     }
     return locator;
   }
@@ -453,15 +424,12 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async waitForGroupToBeCreated(groupname: string) {
     const element = await this.getExistingElementByAriaLabel(groupname);
-    await this.instance.$(SELECTORS.SIDEBAR).$(element).waitForExist();
+    await $(SELECTORS.SIDEBAR).$(element).waitForExist();
   }
 
   async waitForGroupToBeDeleted(groupname: string) {
     const element = await this.getNonExistingElementByAriaLabel(groupname);
-    await this.instance
-      .$(SELECTORS.SIDEBAR)
-      .$(element)
-      .waitForExist({ reverse: true });
+    await $(SELECTORS.SIDEBAR).$(element).waitForExist({ reverse: true });
   }
 
   async getSidebarGroupPlusSome(groupname: string) {
@@ -525,7 +493,7 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async getSidebarUserIndicatorOnline(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await userLocator
           .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
@@ -563,9 +531,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {
-      await rightClickOnMacOS(imageToRightClick, this.executor);
+      await rightClickOnMacOS(imageToRightClick);
     } else if (currentDriver === windowsDriver) {
-      await rightClickOnWindows(imageToRightClick, this.executor);
+      await rightClickOnWindows(imageToRightClick);
     }
   }
 
@@ -574,9 +542,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {
-      await rightClickOnMacOS(imageToRightClick, this.executor);
+      await rightClickOnMacOS(imageToRightClick);
     } else if (currentDriver === windowsDriver) {
-      await rightClickOnWindows(imageToRightClick, this.executor);
+      await rightClickOnWindows(imageToRightClick);
     }
   }
 
@@ -586,9 +554,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === macDriver) {
-      await rightClickOnMacOS(imageToRightClick, this.executor);
+      await rightClickOnMacOS(imageToRightClick);
     } else if (currentDriver === windowsDriver) {
-      await rightClickOnWindows(imageToRightClick, this.executor);
+      await rightClickOnWindows(imageToRightClick);
     }
   }
 

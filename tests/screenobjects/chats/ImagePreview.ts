@@ -1,12 +1,8 @@
 require("module-alias/register");
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -30,12 +26,12 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class ImagePreview extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.PREVIEW_MODAL);
+  constructor() {
+    super(SELECTORS.PREVIEW_MODAL);
   }
 
   get previewModal() {
-    return this.instance.$(SELECTORS.PREVIEW_MODAL);
+    return $(SELECTORS.PREVIEW_MODAL);
   }
 
   get previewModalCloseButton() {

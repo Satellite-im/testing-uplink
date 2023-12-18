@@ -7,7 +7,6 @@ import {
   launchSecondApplication,
   saveTestKeys,
 } from "./commands";
-import { USER_A_INSTANCE } from "./constants";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import Topbar from "@screenobjects/chats/Topbar";
@@ -15,15 +14,13 @@ import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-let chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
-let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
-let settingsNotificationsFirstUser = new SettingsNotificationsScreen(
-  USER_A_INSTANCE,
-);
-let settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+let chatsTopbarFirstUser = new Topbar();
+let createPinFirstUser = new CreatePinScreen();
+let friendsScreenFirstUser = new FriendsScreen();
+let settingsGeneralFirstUser = new SettingsGeneralScreen();
+let settingsNotificationsFirstUser = new SettingsNotificationsScreen();
+let settingsProfileFirstUser = new SettingsProfileScreen();
+let welcomeScreenFirstUser = new WelcomeScreen();
 
 export async function setupBeforeCreateGroupTests() {
   // Create a new account and go to Settings Profile
@@ -45,7 +42,7 @@ export async function setupBeforeCreateGroupTests() {
   const didkeyA = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
   // Grab cache folder and restart
-  await saveTestKeys(usernameA, didkeyA, USER_A_INSTANCE);
+  await saveTestKeys(usernameA, didkeyA);
 
   // Go to General Settings and reduce Font Size by 0.5
   await settingsProfileFirstUser.goToGeneralSettings();
@@ -89,7 +86,7 @@ export async function setupBeforeCreateGroupTests() {
   const didkeyB = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
   // Grab cache folder and restart
-  await saveTestKeys(usernameB, didkeyB, USER_A_INSTANCE);
+  await saveTestKeys(usernameB, didkeyB);
 
   // Go to General Settings and reduce Font Size by 0.5
   await settingsProfileFirstUser.goToGeneralSettings();
@@ -112,7 +109,7 @@ export async function setupBeforeCreateGroupTests() {
   await friendsScreenFirstUser.validateFriendsScreenIsShown();
 
   // Obtain did key from Chat User B
-  const friendDidKey = await getUserKey("ChatUserA", USER_A_INSTANCE);
+  const friendDidKey = await getUserKey("ChatUserA");
   await friendsScreenFirstUser.enterFriendDidKey(friendDidKey);
   await friendsScreenFirstUser.clickOnAddSomeoneButton();
 

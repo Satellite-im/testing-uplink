@@ -1,13 +1,9 @@
 require("module-alias/register");
 import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
-import {
-  USER_A_INSTANCE,
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-} from "@helpers/constants";
-const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-const settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
+const settingsProfileFirstUser = new SettingsProfileScreen();
+const settingsGeneralFirstUser = new SettingsGeneralScreen();
 
 export default async function settingsGeneral() {
   it("Settings General - Validate header and description texts are correct", async () => {

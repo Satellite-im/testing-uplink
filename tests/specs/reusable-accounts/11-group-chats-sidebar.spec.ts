@@ -8,20 +8,19 @@ import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import Messages from "@screenobjects/chats/Messages";
 import Topbar from "@screenobjects/chats/Topbar";
-import { USER_A_INSTANCE } from "@helpers/constants";
 import {
   activateFirstApplication,
   activateSecondApplication,
 } from "@helpers/commands";
-const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-const contextMenuSidebarFirstUser = new ContextMenuSidebar(USER_A_INSTANCE);
-const editGroupFirstUser = new EditGroup(USER_A_INSTANCE);
-const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar();
+const chatsMessagesFirstUser = new Messages();
+const chatsSidebarFirstUser = new ChatsSidebar();
+const chatsTopbarFirstUser = new Topbar();
+const contextMenuSidebarFirstUser = new ContextMenuSidebar();
+const editGroupFirstUser = new EditGroup();
+const favoritesSidebarFirstUser = new FavoritesSidebar();
+const filesScreenFirstUser = new FilesScreen();
+const friendsScreenFirstUser = new FriendsScreen();
 
 export default async function groupChatSidebarTests() {
   it("Group Chat - Add group to favorites", async () => {

@@ -7,7 +7,6 @@ import {
   launchSecondApplication,
   saveTestKeys,
 } from "@helpers/commands";
-import { USER_A_INSTANCE } from "@helpers/constants";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import EmojiSelector from "@screenobjects/chats/EmojiSelector";
@@ -21,21 +20,19 @@ import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-const chatsLayoutFirstUser = new ChatsLayout(USER_A_INSTANCE);
-const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
-const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-const createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
-const emojiSelectorFirstUser = new EmojiSelector(USER_A_INSTANCE);
-const favoritesSidebarFirstUser = new FavoritesSidebar(USER_A_INSTANCE);
-const friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-const settingsGeneralFirstUser = new SettingsGeneralScreen(USER_A_INSTANCE);
-const settingsNotificationsFirstUser = new SettingsNotificationsScreen(
-  USER_A_INSTANCE,
-);
-const settingsProfileFirstUser = new SettingsProfileScreen(USER_A_INSTANCE);
-const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar();
+const chatsLayoutFirstUser = new ChatsLayout();
+const chatsMessageGroupsFirstUser = new MessageGroup();
+const chatsMessagesFirstUser = new Messages();
+const chatsTopbarFirstUser = new Topbar();
+const createPinFirstUser = new CreatePinScreen();
+const emojiSelectorFirstUser = new EmojiSelector();
+const favoritesSidebarFirstUser = new FavoritesSidebar();
+const friendsScreenFirstUser = new FriendsScreen();
+const settingsGeneralFirstUser = new SettingsGeneralScreen();
+const settingsNotificationsFirstUser = new SettingsNotificationsScreen();
+const settingsProfileFirstUser = new SettingsProfileScreen();
+const welcomeScreenFirstUser = new WelcomeScreen();
 
 export default async function createChatAccountsTests() {
   it("Chat User A - Create Account", async () => {
@@ -58,7 +55,7 @@ export default async function createChatAccountsTests() {
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey, USER_A_INSTANCE);
+    await saveTestKeys(username, didkey);
   });
 
   it("Chat User A - Settings General - Reduce font size", async () => {
@@ -108,7 +105,7 @@ export default async function createChatAccountsTests() {
     const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
-    await saveTestKeys(username, didkey, USER_A_INSTANCE);
+    await saveTestKeys(username, didkey);
   });
 
   it("Chat User B - Settings General - Reduce font size", async () => {
@@ -137,7 +134,7 @@ export default async function createChatAccountsTests() {
 
   it("Chat User B - Send friend request to User A", async () => {
     // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey("ChatUserA", USER_A_INSTANCE);
+    const friendDidKey = await getUserKey("ChatUserA");
     await friendsScreenFirstUser.sendFriendRequest(friendDidKey, "ChatUserA");
 
     // Go to All Friends List

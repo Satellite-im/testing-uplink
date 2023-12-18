@@ -1,8 +1,8 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-import { USER_A_INSTANCE, WINDOWS_DRIVER } from "@helpers/constants";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -49,92 +49,72 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class ReplyPrompt extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.REPLY_POPUP);
+  constructor() {
+    super(SELECTORS.REPLY_POPUP);
   }
 
   get replyPopUp() {
-    return this.instance.$(SELECTORS.REPLY_POPUP);
+    return $(SELECTORS.REPLY_POPUP);
   }
 
   get replyPopUpCloseButton() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
-      .$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
   }
 
   get replyPopUpContent() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
-      .$(SELECTORS.REPLY_POPUP_CONTENT);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_CONTENT);
   }
 
   get replyPopUpHeader() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
-      .$(SELECTORS.REPLY_POPUP_HEADER);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_HEADER);
   }
 
   get replyPopUpIndicator() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
-      .$(SELECTORS.REPLY_POPUP_INDICATOR);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_INDICATOR);
   }
 
   get replyPopUpIndicatorOffline() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
-      .$(SELECTORS.REPLY_POPUP_INDICATOR_OFFLINE);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_INDICATOR_OFFLINE);
   }
 
   get replyPopUpIndicatorOnline() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
-      .$(SELECTORS.REPLY_POPUP_INDICATOR_ONLINE);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_INDICATOR_ONLINE);
   }
 
   get replyPopUpLocalTextToReply() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
-      .$(SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY);
+    return $(SELECTORS.REPLY_POPUP).$(
+      SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY,
+    );
   }
 
   get replyPopUpLocalTextToReplyValue() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
+    return $(SELECTORS.REPLY_POPUP)
       .$(SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY)
       .$(SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY_VALUE);
   }
 
   get replyPopUpRemoteTextToReply() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
-      .$(SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY);
+    return $(SELECTORS.REPLY_POPUP).$(
+      SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY,
+    );
   }
 
   get replyPopUpRemoteTextToReplyValue() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
+    return $(SELECTORS.REPLY_POPUP)
       .$(SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY)
       .$(SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE);
   }
 
   get replyPopUpUserImage() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
-      .$(SELECTORS.REPLY_POPUP_USER_IMAGE);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_USER_IMAGE);
   }
 
   get replyPopUpUserImageProfile() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
-      .$(SELECTORS.REPLY_POPUP_USER_IMAGE_PROFILE);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_USER_IMAGE_PROFILE);
   }
 
   get replyPopUpUserImageWrap() {
-    return this.instance
-      .$(SELECTORS.REPLY_POPUP)
-      .$(SELECTORS.REPLY_POPUP_USER_IMAGE_WRAP);
+    return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_USER_IMAGE_WRAP);
   }
 
   async closeReplyModal() {
@@ -159,7 +139,7 @@ export default class ReplyPrompt extends UplinkMainScreen {
   }
 
   async waitForReplyModalToNotExist() {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.replyPopUp.waitForExist({ reverse: true });
       },

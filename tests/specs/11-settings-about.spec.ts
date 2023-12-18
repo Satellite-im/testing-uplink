@@ -1,11 +1,8 @@
 require("module-alias/register");
 import SettingsAboutScreen from "@screenobjects/settings/SettingsAboutScreen";
 import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
-import { USER_A_INSTANCE } from "@helpers/constants";
-const settingsAboutFirstUser = new SettingsAboutScreen(USER_A_INSTANCE);
-const settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
-  USER_A_INSTANCE,
-);
+const settingsAboutFirstUser = new SettingsAboutScreen();
+const settingsAccessibilityFirstUser = new SettingsAccessibilityScreen();
 
 export default async function settingsAbout() {
   it("Settings About - Validate header and description texts from settings sections", async () => {

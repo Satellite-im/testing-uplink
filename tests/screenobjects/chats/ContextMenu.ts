@@ -1,12 +1,8 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-import {
-  MACOS_DRIVER,
-  USER_A_INSTANCE,
-  WINDOWS_DRIVER,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -42,90 +38,64 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class ContextMenu extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.CONTEXT_MENU);
+  constructor() {
+    super(SELECTORS.CONTEXT_MENU);
   }
 
   get contextMenu() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU);
+    return $(SELECTORS.CONTEXT_MENU);
   }
 
   get contextMessagesCancelEdit() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.CONTEXT_MESSAGES_CANCEL_EDIT);
+    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_CANCEL_EDIT);
   }
 
   get contextMessagesCopy() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.CONTEXT_MESSAGES_COPY);
+    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_COPY);
   }
 
   get contextMessagesDelete() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.CONTEXT_MESSAGES_DELETE);
+    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_DELETE);
   }
 
   get contextMessagesEdit() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.CONTEXT_MESSAGES_EDIT);
+    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_EDIT);
   }
 
   get contextMessagesPin() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.CONTEXT_MESSAGES_PIN);
+    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_PIN);
   }
 
   get contextMessagesReact() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.CONTEXT_MESSAGES_REACT);
+    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_REACT);
   }
 
   get contextMessagesReply() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.CONTEXT_MESSAGES_REPLY);
+    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_REPLY);
   }
 
   get emojiRecentFirst() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$$(SELECTORS.EMOJI_BUTTON)[0];
+    return $(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON)[0];
   }
 
   get emojiRecentSecond() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$$(SELECTORS.EMOJI_BUTTON)[1];
+    return $(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON)[1];
   }
 
   get emojiRecentThird() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$$(SELECTORS.EMOJI_BUTTON)[2];
+    return $(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON)[2];
   }
 
   get emojiRecentFourth() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$$(SELECTORS.EMOJI_BUTTON)[3];
+    return $(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON)[3];
   }
 
   get emojiRecentFifth() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$$(SELECTORS.EMOJI_BUTTON)[4];
+    return $(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON)[4];
   }
 
   get openEmojiSelector() {
-    return this.instance
-      .$(SELECTORS.CONTEXT_MENU)
-      .$(SELECTORS.OPEN_EMOJI_PICKER);
+    return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.OPEN_EMOJI_PICKER);
   }
 
   async clickOnOpenEmojiSelector() {
@@ -157,13 +127,13 @@ export default class ContextMenu extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance.$(
+      locator = await $(
         '//XCUIElementTypeGroup[@label="Context Menu"]/XCUIElementTypeButton[@Value="' +
           reaction +
           '"]',
       );
     } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = await this.instance.$(
+      locator = await $(
         '//Group[@Name="Context Menu"]/Button[@Name="' + reaction + '"]',
       );
     }

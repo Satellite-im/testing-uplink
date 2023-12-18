@@ -1,14 +1,13 @@
 require("module-alias/register");
-const allureReporter = require('@wdio/allure-reporter').default;
-const sharedConfig = require('@config/wdio.shared.conf.ts').config;
+const allureReporter = require("@wdio/allure-reporter").default;
+const sharedConfig = require("@config/wdio.shared.conf.ts").config;
 const homedir = require("os").homedir;
 const join = require("path").join;
 const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
 
-// @ts-expect-error
 export const config: WebdriverIO.Config = {
-  ...sharedConfig, 
+  ...sharedConfig,
   ...{
     //
     // ==================
@@ -26,10 +25,12 @@ export const config: WebdriverIO.Config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [join(process.cwd(), "./tests/suites/MainTests/02-UplinkWindows.suite.ts")],
+    specs: [
+      join(process.cwd(), "./tests/suites/MainTests/02-UplinkWindows.suite.ts"),
+    ],
     // Patterns to exclude.
     exclude: [
-        // 'path/to/excluded/files'
+      // 'path/to/excluded/files'
     ],
     //
     // ============
@@ -45,23 +46,21 @@ export const config: WebdriverIO.Config = {
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
     port: 4723,
-    path: '/',
-    capabilities: {
-      userA: {
-        capabilities: {
-          platformName: "windows",
-          "appium:deviceName": "WindowsPC",
-          "appium:automationName": "windows",
-          "appium:app": join(process.cwd(), "\\apps\\bin\\uplink.exe"),
-          "appium:appArguments": "--discovery disable",
-          "ms:waitForAppLaunch": 50,
-          "appium:prerun": {
-            command: 'If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }',
-          },  
-        }
+    path: "/",
+    capabilities: [
+      {
+        platformName: "windows",
+        "appium:deviceName": "WindowsPC",
+        "appium:automationName": "windows",
+        "appium:app": join(process.cwd(), "\\apps\\bin\\uplink.exe"),
+        "appium:appArguments": "--discovery disable",
+        "ms:waitForAppLaunch": 50,
+        "appium:prerun": {
+          command:
+            "If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }",
+        },
       },
-    },
-
+    ],
 
     //
     // ===================
@@ -73,25 +72,28 @@ export const config: WebdriverIO.Config = {
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: [
-      ["spec", 
+      [
+        "spec",
         {
           showPreface: false,
         },
-      ], 
-      ['allure', 
+      ],
+      [
+        "allure",
         {
-          outputDir: './allure-results',
+          outputDir: "./allure-results",
           disableWebdriverStepsReporting: true,
           disableWebdriverScreenshotsReporting: false,
-        }
+        },
       ],
-      ['junit', 
+      [
+        "junit",
         {
-          outputDir: './test-report/',
+          outputDir: "./test-report/",
           outputFileFormat: function (options) {
             return `test-results-windows-ci-${options.cid}.xml`;
-          }
-        }
+          },
+        },
       ],
     ],
     //
@@ -102,14 +104,20 @@ export const config: WebdriverIO.Config = {
     // it and to build services around it. You can either apply a single function or an array of
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
-    onPrepare: async function() {
+    onPrepare: async function () {
       // Declare constants for folder locations
-      const cacheFolder = homedir() + "\\.uplink\\.user"
-      const sourceReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\FriendsTestUser")
-      const targetReusableData = join(process.cwd(), "\\tests\\fixtures\\users\\windows\\FriendsTestUser")
+      const cacheFolder = homedir() + "\\.uplink\\.user";
+      const sourceReusableData = join(
+        process.cwd(),
+        "\\tests\\fixtures\\users\\FriendsTestUser",
+      );
+      const targetReusableData = join(
+        process.cwd(),
+        "\\tests\\fixtures\\users\\windows\\FriendsTestUser",
+      );
       const allureResultsFolder = join(process.cwd(), "\\allure-results");
-      const testReportFolder =  join(process.cwd(), "\\test-report");
-      const testResultsFolder =  join(process.cwd(), "\\test-results");
+      const testReportFolder = join(process.cwd(), "\\test-report");
+      const testResultsFolder = join(process.cwd(), "\\test-results");
       try {
         await rmSync(allureResultsFolder, { recursive: true, force: true });
         await rmSync(testReportFolder, { recursive: true, force: true });
@@ -117,7 +125,7 @@ export const config: WebdriverIO.Config = {
         console.log("Deleted Artifacts Folders Successfully!");
       } catch (error) {
         console.error(
-            `Got an error trying to delete artifacts folders: ${error.message}`
+          `Got an error trying to delete artifacts folders: ${error.message}`,
         );
       }
       // Execute the actions to clean up folders and copy required data
@@ -126,16 +134,19 @@ export const config: WebdriverIO.Config = {
         console.log("Deleted Cache Folder Successfully!");
       } catch (error) {
         console.error(
-          `Got an error trying to delete Cache Folder: ${error.message}`
+          `Got an error trying to delete Cache Folder: ${error.message}`,
         );
       }
       try {
         await fsp.mkdir(targetReusableData, { recursive: true });
-        await fsp.cp(sourceReusableData, targetReusableData, { recursive: true, force: true });
+        await fsp.cp(sourceReusableData, targetReusableData, {
+          recursive: true,
+          force: true,
+        });
         console.log("Copied Friends Test User Data successfully!");
       } catch (error) {
         console.error(
-          `Got an error trying to copy Friends Test Folder: ${error.message}`
+          `Got an error trying to copy Friends Test Folder: ${error.message}`,
         );
       }
     },
@@ -146,43 +157,50 @@ export const config: WebdriverIO.Config = {
       // Start video recording for each test
       await driver.executeScript("windows: startRecordingScreen", [
         {
-          deviceId: 1
+          deviceId: 1,
         },
       ]);
     },
 
     afterTest: async function (test, describe, { error }) {
-        // Stop video recording and saved it into base64 format
-        const base64Video = await driver.executeScript("windows: stopRecordingScreen", [
+      // Stop video recording and saved it into base64 format
+      const base64Video = await driver.executeScript(
+        "windows: stopRecordingScreen",
+        [
           {
-            remotePath: ""
+            remotePath: "",
           },
-        ]);
-        if (error) {
-          let imageFile = await driver.takeScreenshot();
-          let imageFolder = join(process.cwd(), "./test-results/windows-ci", test.parent);
-          const imageTitle = test.title + " - Failed.png"
-          const videoTitle = test.title + " - Failed.mp4"
-          await fsp.mkdir(imageFolder, {recursive: true});
-          await fsp.writeFile(
-            imageFolder + "/" + imageTitle,
-            imageFile,
-            "base64"
-          );
+        ],
+      );
+      if (error) {
+        let imageFile = await driver.takeScreenshot();
+        let imageFolder = join(
+          process.cwd(),
+          "./test-results/windows-ci",
+          test.parent,
+        );
+        const imageTitle = test.title + " - Failed.png";
+        const videoTitle = test.title + " - Failed.mp4";
+        await fsp.mkdir(imageFolder, { recursive: true });
+        await fsp.writeFile(
+          imageFolder + "/" + imageTitle,
+          imageFile,
+          "base64",
+        );
 
-          // Write Video File if test failure and add it to failed screenshots folder
-          await fsp.writeFile(
-            imageFolder + "/" + videoTitle,
-            base64Video,
-            "base64"
-          );
+        // Write Video File if test failure and add it to failed screenshots folder
+        await fsp.writeFile(
+          imageFolder + "/" + videoTitle,
+          base64Video,
+          "base64",
+        );
 
-          // Add to Screenshot to Allure Reporter
-          const data = await readFileSync(`${imageFolder}/${imageTitle}`);
-          const dataVideo = await readFileSync(`${imageFolder}/${videoTitle}`);
-          allureReporter.addAttachment(imageTitle, data, 'image/png')
-          allureReporter.addAttachment(videoTitle, dataVideo, 'video/mp4')
-        }
+        // Add to Screenshot to Allure Reporter
+        const data = await readFileSync(`${imageFolder}/${imageTitle}`);
+        const dataVideo = await readFileSync(`${imageFolder}/${videoTitle}`);
+        allureReporter.addAttachment(imageTitle, data, "image/png");
+        allureReporter.addAttachment(videoTitle, dataVideo, "video/mp4");
       }
-  }
-}
+    },
+  },
+};

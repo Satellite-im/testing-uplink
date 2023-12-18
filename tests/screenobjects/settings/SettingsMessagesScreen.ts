@@ -1,13 +1,9 @@
 require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -40,64 +36,56 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsMessagesScreen extends SettingsBaseScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SETTINGS_MESSAGES);
+  constructor() {
+    super(SELECTORS.SETTINGS_MESSAGES);
   }
 
   get convertEmojiCheckbox() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[0]
-      .$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get convertEmojiControllerValue() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[0]
-      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX,
+    );
   }
 
   get convertEmojiDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get convertEmojiHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get markdownSupportCheckbox() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[1]
-      .$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get markdownSupportControllerValue() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_CONTROL)[1]
-      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX,
+    );
   }
 
   get markdownSupportDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get markdownSupportHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsMessages() {
-    return this.instance.$(SELECTORS.SETTINGS_MESSAGES);
+    return $(SELECTORS.SETTINGS_MESSAGES);
   }
 
   async clickOnConvertEmoji() {
@@ -107,7 +95,7 @@ export default class SettingsMessagesScreen extends SettingsBaseScreen {
       await convertEmoji.click();
     } else if (currentDriver === MACOS_DRIVER) {
       const convertEmoji = await this.convertEmojiCheckbox;
-      await clickOnSwitchMacOS(convertEmoji, this.executor);
+      await clickOnSwitchMacOS(convertEmoji);
     }
   }
 
@@ -118,7 +106,7 @@ export default class SettingsMessagesScreen extends SettingsBaseScreen {
       await markdownSupport.click();
     } else if (currentDriver === MACOS_DRIVER) {
       const markdownSupport = await this.markdownSupportCheckbox;
-      await clickOnSwitchMacOS(markdownSupport, this.executor);
+      await clickOnSwitchMacOS(markdownSupport);
     }
   }
 

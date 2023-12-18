@@ -1,8 +1,8 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-import { USER_A_INSTANCE, WINDOWS_DRIVER } from "@helpers/constants";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -63,71 +63,58 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class QuickProfile extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.QUICK_PROFILE);
+  constructor() {
+    super(SELECTORS.QUICK_PROFILE);
   }
 
   get quickProfile() {
-    return this.instance.$(SELECTORS.CHAT_LAYOUT).$(SELECTORS.QUICK_PROFILE);
+    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.QUICK_PROFILE);
   }
 
   get quickProfileBannerImage() {
-    return this.instance
-      .$(SELECTORS.CHAT_LAYOUT)
+    return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_BANNER_IMAGE);
   }
 
   get quickProfileBlockUser() {
-    return this.instance
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_BLOCK);
+    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_BLOCK);
   }
 
   get quickProfileEditProfile() {
-    return this.instance
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_SELF_EDIT);
+    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_SELF_EDIT);
   }
 
   get quickProfileIdentityHeader() {
-    return this.instance
-      .$(SELECTORS.CHAT_LAYOUT)
+    return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_IDENTITY_HEADER);
   }
 
   get quickProfileIndicator() {
-    return this.instance
-      .$(SELECTORS.CHAT_LAYOUT)
+    return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_INDICATOR);
   }
 
   get quickProfileIndicatorOffline() {
-    return this.instance
-      .$(SELECTORS.CHAT_LAYOUT)
+    return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_INDICATOR_OFFLINE);
   }
 
   get quickProfileIndicatorOnline() {
-    return this.instance
-      .$(SELECTORS.CHAT_LAYOUT)
+    return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_INDICATOR_ONLINE);
   }
 
   get quickProfileMessage() {
-    return this.instance
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_MESSAGE);
+    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_MESSAGE);
   }
 
   get quickProfileRemoveFriend() {
-    return this.instance
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_FRIEND_REMOVE);
+    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_FRIEND_REMOVE);
   }
 
   get quickProfileShareDid() {
@@ -135,42 +122,36 @@ export default class QuickProfile extends UplinkMainScreen {
   }
 
   get quickProfileUnblockUser() {
-    return this.instance
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_UNBLOCK);
+    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_UNBLOCK);
   }
 
   get quickProfileUserImage() {
-    return this.instance
-      .$(SELECTORS.CHAT_LAYOUT)
+    return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_IMAGE);
   }
 
   get quickProfileUserName() {
-    return this.instance
-      .$(SELECTORS.CHAT_LAYOUT)
+    return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME);
   }
 
   get quickProfileUserNameValue() {
-    return this.instance
-      .$(SELECTORS.CHAT_LAYOUT)
+    return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE);
   }
 
   get quickProfileUserNameValueText() {
-    return this.instance
-      .$(SELECTORS.CHAT_LAYOUT)
+    return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE_TEXT);
   }
 
   get quickProfileUserVolumeLabel() {
-    return this.instance.$(SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL);
+    return $(SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL);
   }
 
   get quickProfileUserVolumeLabelText() {
@@ -180,7 +161,7 @@ export default class QuickProfile extends UplinkMainScreen {
   }
 
   get quickProfileUserVolumeRange() {
-    return this.instance.$(SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE);
+    return $(SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE);
   }
 
   get quickProfileUserVolumeRangeInput() {

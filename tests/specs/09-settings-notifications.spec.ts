@@ -1,13 +1,8 @@
 require("module-alias/register");
 import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
-import { USER_A_INSTANCE } from "@helpers/constants";
-const settingsAccessibilityFirstUser = new SettingsAccessibilityScreen(
-  USER_A_INSTANCE,
-);
-const settingsNotificationsFirstUser = new SettingsNotificationsScreen(
-  USER_A_INSTANCE,
-);
+const settingsAccessibilityFirstUser = new SettingsAccessibilityScreen();
+const settingsNotificationsFirstUser = new SettingsNotificationsScreen();
 
 export default async function settingsNotifications() {
   it("Settings - Notifications - Go To Notifications Settings", async () => {

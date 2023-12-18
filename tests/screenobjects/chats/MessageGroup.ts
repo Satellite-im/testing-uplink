@@ -1,13 +1,8 @@
 require("module-alias/register");
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
-import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -75,148 +70,138 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class MessageGroup extends UplinkMainScreen {
-  constructor(executor: string) {
+  constructor() {
     super(
-      executor,
       SELECTORS.MESSAGE_GROUP_WRAP_REMOTE || SELECTORS.MESSAGE_GROUP_WRAP_SENT,
     );
   }
 
   get chatMessageLocalFirst() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_LOCAL_FIRST);
+    return $(SELECTORS.CHAT_MESSAGE_LOCAL_FIRST);
   }
 
   get chatMessageLocalLast() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_LOCAL_LAST);
+    return $(SELECTORS.CHAT_MESSAGE_LOCAL_LAST);
   }
 
   get chatMessageLocalMiddle() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE);
+    return $$(SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE);
   }
 
   get chatMessageRemoteFirst() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_REMOTE_FIRST);
+    return $(SELECTORS.CHAT_MESSAGE_REMOTE_FIRST);
   }
 
   get chatMessageRemoteLast() {
-    return this.instance.$(SELECTORS.CHAT_MESSAGE_REMOTE_LAST);
+    return $(SELECTORS.CHAT_MESSAGE_REMOTE_LAST);
   }
 
   get chatMessageRemoteMiddle() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_REMOTE_MIDDLE);
+    return $$(SELECTORS.CHAT_MESSAGE_REMOTE_MIDDLE);
   }
 
   get chatMessageTextValue() {
-    return this.instance
-      .$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
+      SELECTORS.CHAT_MESSAGE_TEXT_VALUE,
+    );
   }
 
   get chatMessageTextGroup() {
-    return this.instance.$$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
+    return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
   get emojiReactionRemote() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_REACTION_CONTAINER)
-      .$$(SELECTORS.EMOJI_REACTION_REMOTE);
+    return $$(SELECTORS.MESSAGE_REACTION_CONTAINER).$$(
+      SELECTORS.EMOJI_REACTION_REMOTE,
+    );
   }
 
   get emojiReactionRemoteValue() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_REACTION_CONTAINER)
+    return $$(SELECTORS.MESSAGE_REACTION_CONTAINER)
       .$$(SELECTORS.EMOJI_REACTION_REMOTE)
       .$(SELECTORS.EMOJI_REACTION_VALUE);
   }
 
   get emojiReactionSelf() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_REACTION_CONTAINER)
-      .$$(SELECTORS.EMOJI_REACTION_SELF);
+    return $$(SELECTORS.MESSAGE_REACTION_CONTAINER).$$(
+      SELECTORS.EMOJI_REACTION_SELF,
+    );
   }
 
   get emojiReactionSelfValue() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_REACTION_CONTAINER)
+    return $$(SELECTORS.MESSAGE_REACTION_CONTAINER)
       .$$(SELECTORS.EMOJI_REACTION_SELF)
       .$(SELECTORS.EMOJI_REACTION_VALUE);
   }
 
   get messageGroupReceived() {
-    return this.instance.$$(SELECTORS.MESSAGE_GROUP_REMOTE);
+    return $$(SELECTORS.MESSAGE_GROUP_REMOTE);
   }
 
   get messageGroupSent() {
-    return this.instance.$$(SELECTORS.MESSAGE_GROUP_SENT);
+    return $$(SELECTORS.MESSAGE_GROUP_SENT);
   }
 
   get messageGroupWrapLocal() {
-    return this.instance.$$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL);
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL);
   }
 
   get messageGroupWrapRemote() {
-    return this.instance.$$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE);
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE);
   }
 
   get messageGroupTimeAgo() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO);
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP).$(SELECTORS.MESSAGE_GROUP_TIME_AGO);
   }
 
   get messageGroupTimeAgoValue() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
   }
 
   get messageGroupUserImage() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
   }
 
   get messageGroupUserImageProfile() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE);
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP).$(
+      SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE,
+    );
   }
 
   get messageGroupUserImageWrap() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP);
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP).$(
+      SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP,
+    );
   }
 
   get messageGroupUserIndicator() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR);
   }
 
   get messageGroupUserIndicatorOffline() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE);
   }
 
   get messageGroupUserIndicatorOnline() {
-    return this.instance
-      .$$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
   }
 
   get messageReactionContainer() {
-    return this.instance.$$(SELECTORS.MESSAGE_REACTION_CONTAINER);
+    return $$(SELECTORS.MESSAGE_REACTION_CONTAINER);
   }
 
   get pinIndicator() {
-    return this.instance.$$(SELECTORS.PIN_INDICATOR);
+    return $$(SELECTORS.PIN_INDICATOR);
   }
 
   // Message Group Wraps Received Methods
@@ -298,7 +283,7 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async getLastMessageReceivedPinIndicator() {
     const lastGroupReceived = await this.getLastReceivedGroup();
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await lastGroupReceived.$(SELECTORS.PIN_INDICATOR);
       },
@@ -332,7 +317,7 @@ export default class MessageGroup extends UplinkMainScreen {
 
   async getLastMessageSentPinIndicator() {
     const lastGroupSent = await this.getLastSentGroup();
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await lastGroupSent.$(SELECTORS.PIN_INDICATOR);
       },
@@ -466,9 +451,9 @@ export default class MessageGroup extends UplinkMainScreen {
         expectedReaction +
         '")]';
     }
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
-        return await this.instance.$(emojiReactionLocator);
+        return await $(emojiReactionLocator);
       },
       {
         timeout: 15000,
@@ -492,9 +477,9 @@ export default class MessageGroup extends UplinkMainScreen {
         expectedReaction +
         '")]';
     }
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
-        return await this.instance.$(emojiReactionLocator);
+        return await $(emojiReactionLocator);
       },
       {
         timeout: 15000,

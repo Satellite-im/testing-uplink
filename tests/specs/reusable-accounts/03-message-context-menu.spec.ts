@@ -1,6 +1,5 @@
 require("module-alias/register");
 import { getClipboardValue } from "@helpers/commands";
-import { USER_A_INSTANCE } from "@helpers/constants";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageGroup from "@screenobjects/chats/MessageGroup";
@@ -9,10 +8,10 @@ import {
   activateFirstApplication,
   activateSecondApplication,
 } from "@helpers/commands";
-const chatsContextMenuFirstUser = new ContextMenu(USER_A_INSTANCE);
-const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-const chatsMessageGroupsFirstUser = new MessageGroup(USER_A_INSTANCE);
+const chatsContextMenuFirstUser = new ContextMenu();
+const chatsInputFirstUser = new InputBar();
+const chatsMessagesFirstUser = new Messages();
+const chatsMessageGroupsFirstUser = new MessageGroup();
 
 export default async function messageContextMenuTests() {
   it("Chat User A - Send two messages to Chat User B", async () => {

@@ -1,8 +1,8 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-import { USER_A_INSTANCE, WINDOWS_DRIVER } from "@helpers/constants";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -48,12 +48,12 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class ShareDidModal extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SHARE_DID_MODAL);
+  constructor() {
+    super(SELECTORS.SHARE_DID_MODAL);
   }
 
   get shareDidModal() {
-    return this.instance.$(SELECTORS.SHARE_DID_MODAL);
+    return $(SELECTORS.SHARE_DID_MODAL);
   }
 
   get shareDidModalButton() {

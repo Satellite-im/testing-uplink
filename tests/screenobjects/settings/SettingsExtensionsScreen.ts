@@ -1,13 +1,9 @@
 require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -79,127 +75,116 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsExtensionsScreen extends SettingsBaseScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SETTINGS_EXTENSIONS);
+  constructor() {
+    super(SELECTORS.SETTINGS_EXTENSIONS);
   }
 
   get emojiSelectorCheckbox() {
-    return this.instance
-      .$(SELECTORS.EXTENSIONS_BROWSER)
-      .$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.EXTENSIONS_BROWSER).$(SELECTORS.SWITCH_SLIDER);
   }
 
   get emojiSelectorCheckboxValue() {
-    return this.instance
-      .$(SELECTORS.EXTENSIONS_BROWSER)
+    return $(SELECTORS.EXTENSIONS_BROWSER)
       .$(SELECTORS.SWITCH_SLIDER)
       .$(SELECTORS.SWITCH_SLIDER_VALUE);
   }
 
   get emojiSelectorDescription() {
-    return this.instance
-      .$(SELECTORS.EXTENSIONS_BROWSER)
-      .$(SELECTORS.EMOJI_SELECTOR_DESCRIPTION);
+    return $(SELECTORS.EXTENSIONS_BROWSER).$(
+      SELECTORS.EMOJI_SELECTOR_DESCRIPTION,
+    );
   }
 
   get emojiSelectorDeveloper() {
-    return this.instance
-      .$(SELECTORS.EXTENSIONS_BROWSER)
-      .$(SELECTORS.EMOJI_SELECTOR_DEVELOPER);
+    return $(SELECTORS.EXTENSIONS_BROWSER).$(
+      SELECTORS.EMOJI_SELECTOR_DEVELOPER,
+    );
   }
 
   get emojiSelectorTitle() {
-    return this.instance
-      .$(SELECTORS.EXTENSIONS_BROWSER)
-      .$(SELECTORS.EMOJI_SELECTOR_TITLE);
+    return $(SELECTORS.EXTENSIONS_BROWSER).$(SELECTORS.EMOJI_SELECTOR_TITLE);
   }
 
   get enableAutomaticallyCheckbox() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
-      .$(SELECTORS.SWITCH_SLIDER);
+    return $$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.SWITCH_SLIDER);
   }
 
   get enableAutomaticallyControllerValue() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
-      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
+      SELECTORS.SETTINGS_CONTROL_CHECKBOX,
+    );
   }
 
   get enableAutomaticallyDescription() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get enableAutomaticallyHeader() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[1]
+    return $$(SELECTORS.SETTINGS_SECTION)[1]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get exploreButton() {
-    return this.instance.$(SELECTORS.EXPLORE_BUTTON);
+    return $(SELECTORS.EXPLORE_BUTTON);
   }
 
   get extensionsBrowser() {
-    return this.instance.$(SELECTORS.EXTENSIONS_BROWSER);
+    return $(SELECTORS.EXTENSIONS_BROWSER);
   }
 
   get extensionsExplore() {
-    return this.instance.$(SELECTORS.EXTENSIONS_EXPLORE_SECTION);
+    return $(SELECTORS.EXTENSIONS_EXPLORE_SECTION);
   }
 
   get extensionsExploreBanner() {
-    return this.instance.$(SELECTORS.EXTENSIONS_EXPLORE_BANNER);
+    return $(SELECTORS.EXTENSIONS_EXPLORE_BANNER);
   }
 
   get extensionsSearchHeader() {
-    return this.instance.$(SELECTORS.EXTENSIONS_SEARCH_HEADER);
+    return $(SELECTORS.EXTENSIONS_SEARCH_HEADER);
   }
 
   get extensionsSearchInput() {
-    return this.instance.$(SELECTORS.EXTENSIONS_SEARCH_INPUT);
+    return $(SELECTORS.EXTENSIONS_SEARCH_INPUT);
   }
 
   get extensionsSettingsButton() {
-    return this.instance
-      .$(SELECTORS.SETTINGS_EXTENSIONS)
-      .$(SELECTORS.EXTENSIONS_SETTINGS_BUTTON);
+    return $(SELECTORS.SETTINGS_EXTENSIONS).$(
+      SELECTORS.EXTENSIONS_SETTINGS_BUTTON,
+    );
   }
 
   get installedAlertText() {
-    return this.instance
-      .$(SELECTORS.EXTENSIONS_EXPLORE_BANNER)
-      .$(SELECTORS.INSTALLED_ALERT_TEXT);
+    return $(SELECTORS.EXTENSIONS_EXPLORE_BANNER).$(
+      SELECTORS.INSTALLED_ALERT_TEXT,
+    );
   }
 
   get installedButton() {
-    return this.instance.$(SELECTORS.INSTALLED_BUTTON);
+    return $(SELECTORS.INSTALLED_BUTTON);
   }
 
   get openExtensionsDescriptionText() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.OPEN_EXTENSIONS_DESCRIPTION_TEXT);
   }
 
   get openExtensionsHeaderText() {
-    return this.instance
-      .$$(SELECTORS.SETTINGS_SECTION)[0]
+    return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.OPEN_EXTENSIONS_HEADER_TEXT);
   }
 
   get openExtensionsFolderButton() {
-    return this.instance.$(SELECTORS.OPEN_EXTENSIONS_FOLDER_BUTTON);
+    return $(SELECTORS.OPEN_EXTENSIONS_FOLDER_BUTTON);
   }
 
   get settingsExtensions() {
-    return this.instance.$(SELECTORS.SETTINGS_EXTENSIONS);
+    return $(SELECTORS.SETTINGS_EXTENSIONS);
   }
 
   async clickOnEmojiSelectorCheckbox() {
@@ -209,7 +194,7 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
       await emojiSelectorCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
       const emojiSelectorCheckbox = await this.emojiSelectorCheckbox;
-      await clickOnSwitchMacOS(emojiSelectorCheckbox, this.executor);
+      await clickOnSwitchMacOS(emojiSelectorCheckbox);
     }
   }
 
@@ -222,7 +207,7 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
     } else if (currentDriver === MACOS_DRIVER) {
       const enableAutomaticallyCheckbox =
         await this.enableAutomaticallyCheckbox;
-      await clickOnSwitchMacOS(enableAutomaticallyCheckbox, this.executor);
+      await clickOnSwitchMacOS(enableAutomaticallyCheckbox);
     }
   }
 

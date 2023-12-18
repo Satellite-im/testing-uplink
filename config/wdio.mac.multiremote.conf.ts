@@ -1,18 +1,18 @@
 require("module-alias/register");
-const allureReporter = require('@wdio/allure-reporter').default;
-const sharedConfig = require('@config/wdio.shared.conf.ts').config;
+const allureReporter = require("@wdio/allure-reporter").default;
+const sharedConfig = require("@config/wdio.shared.conf.ts").config;
 const homedir = require("os").homedir;
 const join = require("path").join;
-const MACOS_USER_A_BUNDLE_ID = require("@helpers/constants").MACOS_USER_A_BUNDLE_ID;
-const MACOS_USER_B_BUNDLE_ID = require("@helpers/constants").MACOS_USER_B_BUNDLE_ID;
+const MACOS_USER_A_BUNDLE_ID =
+  require("@helpers/constants").MACOS_USER_A_BUNDLE_ID;
+const MACOS_USER_B_BUNDLE_ID =
+  require("@helpers/constants").MACOS_USER_B_BUNDLE_ID;
 const MACOS_DRIVER = require("@helpers/constants").MACOS_DRIVER;
-const USER_A_INSTANCE = require("@helpers/constants").USER_A_INSTANCE;
 const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
 
-// @ts-expect-error
 export const config: WebdriverIO.Config = {
-  ...sharedConfig, 
+  ...sharedConfig,
   ...{
     //
     // ==================
@@ -33,7 +33,7 @@ export const config: WebdriverIO.Config = {
     specs: [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")],
     // Patterns to exclude.
     exclude: [
-        // 'path/to/excluded/files'
+      // 'path/to/excluded/files'
     ],
     //
     // ============
@@ -48,43 +48,50 @@ export const config: WebdriverIO.Config = {
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
-    capabilities: {
-      userA: {
-        capabilities: {
-          platformName: "mac",
-          "appium:automationName": MACOS_DRIVER,
-          "appium:bundleId": MACOS_USER_A_BUNDLE_ID,
-          "appium:arguments": ["--discovery", "disable", "--path", homedir() + "/.uplink"],
-          "appium:systemPort": 4725,
-          "appium:prerun": {
-            command: 'do shell script "rm -rf ~/.uplink && rm -rf ~/.uplinkUserB"',
-          },  
-        }
+    capabilities: [
+      {
+        platformName: "mac",
+        "appium:automationName": MACOS_DRIVER,
+        "appium:bundleId": MACOS_USER_A_BUNDLE_ID,
+        "appium:arguments": [
+          "--discovery",
+          "disable",
+          "--path",
+          homedir() + "/.uplink",
+        ],
+        "appium:systemPort": 4725,
+        "appium:prerun": {
+          command:
+            'do shell script "rm -rf ~/.uplink && rm -rf ~/.uplinkUserB"',
+        },
       },
-    },
+    ],
     // Test reporter for stdout.
     // The only one supported by default is 'dot'
     // see also: https://webdriver.io/docs/dot-reporter
     reporters: [
-      ["spec", 
+      [
+        "spec",
         {
           showPreface: false,
         },
-      ], 
-      ['allure', 
+      ],
+      [
+        "allure",
         {
-          outputDir: './allure-results',
+          outputDir: "./allure-results",
           disableWebdriverStepsReporting: true,
           disableWebdriverScreenshotsReporting: false,
-        }
+        },
       ],
-      ['junit', 
+      [
+        "junit",
         {
-          outputDir: './test-report/',
+          outputDir: "./test-report/",
           outputFileFormat: function (options) {
             return `test-results-macos-multiremote-${options.cid}.xml`;
-          }
-        }
+          },
+        },
       ],
     ],
     //
@@ -95,12 +102,12 @@ export const config: WebdriverIO.Config = {
     // it and to build services around it. You can either apply a single function or an array of
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
-    onPrepare: async function() {
+    /*onPrepare: async function () {
       const cacheFolderUserA = homedir() + "/.uplink/.user";
       const cacheFolderUserB = homedir() + "/.uplinkUserB/.user";
       const allureResultsFolder = join(process.cwd(), "./allure-results");
-      const testReportFolder =  join(process.cwd(), "./test-report");
-      const testResultsFolder =  join(process.cwd(), "./test-results");
+      const testReportFolder = join(process.cwd(), "./test-report");
+      const testResultsFolder = join(process.cwd(), "./test-results");
       try {
         await rmSync(allureResultsFolder, { recursive: true, force: true });
         await rmSync(testReportFolder, { recursive: true, force: true });
@@ -108,7 +115,7 @@ export const config: WebdriverIO.Config = {
         console.log("Deleted Artifacts Folders Successfully!");
       } catch (error) {
         console.error(
-            `Got an error trying to delete artifacts folders: ${error.message}`
+          `Got an error trying to delete artifacts folders: ${error.message}`,
         );
       }
       try {
@@ -117,45 +124,49 @@ export const config: WebdriverIO.Config = {
         console.log("Deleted Cache Folder Successfully!");
       } catch (error) {
         console.error(
-          `Got an error trying to delete Cache Folder: ${error.message}`
+          `Got an error trying to delete Cache Folder: ${error.message}`,
         );
       }
-    },
+    },*/
     /**
      * Function to be executed after a test (in Mocha/Jasmine).
      */
     afterTest: async function (test, describe, { error }) {
-        if (error) {
-          let imageFile = await driver.takeScreenshot();
-          const imageFolder = join(process.cwd(), "./test-results/macos-multiremote", test.parent);
-          const imageTitle = test.title + " - Failed.png";
-          await fsp.mkdir(imageFolder, {recursive: true});
-          await fsp.writeFile(
-            imageFolder + "/" + imageTitle,
-            imageFile,
-            "base64"
-          );
+      if (error) {
+        let imageFile = await driver.takeScreenshot();
+        const imageFolder = join(
+          process.cwd(),
+          "./test-results/macos-multiremote",
+          test.parent,
+        );
+        const imageTitle = test.title + " - Failed.png";
+        await fsp.mkdir(imageFolder, { recursive: true });
+        await fsp.writeFile(
+          imageFolder + "/" + imageTitle,
+          imageFile,
+          "base64",
+        );
 
-          // Add to Screenshot to Allure Reporter
-          const data = await readFileSync(`${imageFolder}/${imageTitle}`);
-          allureReporter.addAttachment(imageTitle, data, 'image/png')
+        // Add to Screenshot to Allure Reporter
+        const data = await readFileSync(`${imageFolder}/${imageTitle}`);
+        allureReporter.addAttachment(imageTitle, data, "image/png");
 
-          // Close second application if open
-          await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
-            {
-              bundleId: MACOS_USER_B_BUNDLE_ID,
-            },
-          ]);
-        }
+        // Close second application if open
+        await driver.executeScript("macos: terminateApp", [
+          {
+            bundleId: MACOS_USER_B_BUNDLE_ID,
+          },
+        ]);
       }
+    },
   },
 
   afterSuite: async function (suite) {
     // Close second application if open
-    await driver[USER_A_INSTANCE].executeScript("macos: terminateApp", [
+    await driver.executeScript("macos: terminateApp", [
       {
         bundleId: MACOS_USER_B_BUNDLE_ID,
       },
     ]);
   },
-}
+};

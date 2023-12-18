@@ -1,13 +1,9 @@
 require("module-alias/register");
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -72,8 +68,8 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SendFiles extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SEND_FILES_LAYOUT);
+  constructor() {
+    super(SELECTORS.SEND_FILES_LAYOUT);
   }
 
   get closeButton() {
@@ -81,23 +77,23 @@ export default class SendFiles extends UplinkMainScreen {
   }
 
   get closeButtonModal() {
-    return this.instance.$(SELECTORS.CLOSE_BUTTON_MODAL);
+    return $(SELECTORS.CLOSE_BUTTON_MODAL);
   }
 
   get contextMenu() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU);
+    return $(SELECTORS.CONTEXT_MENU);
   }
 
   get contextMenuFilesRename() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FILES_RENAME);
+    return $(SELECTORS.CONTEXT_MENU_FILES_RENAME);
   }
 
   get contextMenuFolderDelete() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FOLDER_DELETE);
+    return $(SELECTORS.CONTEXT_MENU_FOLDER_DELETE);
   }
 
   get contextMenuFolderRename() {
-    return this.instance.$(SELECTORS.CONTEXT_MENU_FOLDER_RENAME);
+    return $(SELECTORS.CONTEXT_MENU_FOLDER_RENAME);
   }
 
   get fileFolderNameText() {
@@ -145,11 +141,11 @@ export default class SendFiles extends UplinkMainScreen {
   }
 
   get inputFileName() {
-    return this.instance.$(SELECTORS.INPUT_FILE_NAME);
+    return $(SELECTORS.INPUT_FILE_NAME);
   }
 
   get inputFolderName() {
-    return this.instance.$(SELECTORS.INPUT_FOLDER_NAME);
+    return $(SELECTORS.INPUT_FOLDER_NAME);
   }
 
   get noFilesAvailable() {
@@ -161,7 +157,7 @@ export default class SendFiles extends UplinkMainScreen {
   }
 
   get sendFilesLayout() {
-    return this.instance.$(SELECTORS.SEND_FILES_LAYOUT);
+    return $(SELECTORS.SEND_FILES_LAYOUT);
   }
 
   get sendFilesModalSendButton() {
@@ -175,15 +171,13 @@ export default class SendFiles extends UplinkMainScreen {
 
   async clickOnFile(locator: string) {
     const fileLocator = await this.getLocatorOfFolderFile(locator);
-    const fileElement = await this.instance
-      .$(fileLocator)
-      .$(SELECTORS.FILE_THUMBNAIL);
+    const fileElement = await $(fileLocator).$(SELECTORS.FILE_THUMBNAIL);
     await fileElement.click();
   }
 
   async clickOnFolder(locator: string) {
     const folderLocator = await this.getLocatorOfFolderFile(locator);
-    const folderElement = await this.instance.$(folderLocator);
+    const folderElement = await $(folderLocator);
     await folderElement.click();
   }
 
@@ -295,7 +289,7 @@ export default class SendFiles extends UplinkMainScreen {
       await this.updateNameFile(newName, extension);
     } else {
       const newFile = await this.getLocatorOfFolderFile(newName + extension);
-      const newFileElement = await this.instance.$(newFile);
+      const newFileElement = await $(newFile);
       await newFileElement.waitForExist();
     }
   }
@@ -310,20 +304,20 @@ export default class SendFiles extends UplinkMainScreen {
       await this.updateNameFolder(newName);
     } else {
       const newFolder = await this.getLocatorOfFolderFile(newName);
-      const newFolderElement = await this.instance.$(newFolder);
+      const newFolderElement = await $(newFolder);
       await newFolderElement.waitForExist();
     }
   }
 
   async validateFileOrFolderExist(locator: string) {
     const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
-    const fileFolderElement = await this.instance.$(fileFolderElementLocator);
+    const fileFolderElement = await $(fileFolderElementLocator);
     await fileFolderElement.waitForExist();
   }
 
   async validateFileOrFolderNotExist(locator: string) {
     const fileFolderLocator = await this.getLocatorOfDeletedElement(locator);
-    await this.instance.$(fileFolderLocator).waitForExist({ reverse: true });
+    await $(fileFolderLocator).waitForExist({ reverse: true });
   }
 
   async validateNoFilesAvailableIsShown() {
@@ -348,7 +342,7 @@ export default class SendFiles extends UplinkMainScreen {
 
   async validateThumbnailIsShown(name: string) {
     const fileElementLocator = await this.getLocatorOfFolderFile(name);
-    const fileElement = await this.instance.$(fileElementLocator);
+    const fileElement = await $(fileElementLocator);
     const fileThumbnail = await fileElement.$(SELECTORS.FILE_THUMBNAIL);
     await fileThumbnail.waitForExist();
   }
@@ -357,14 +351,14 @@ export default class SendFiles extends UplinkMainScreen {
 
   async openFilesContextMenu(name: string) {
     const elementLocator = await this.getLocatorOfFolderFile(name);
-    const fileFolderToRightClick = await this.instance
-      .$(elementLocator)
-      .$(SELECTORS.FILE_FOLDER_NAME_TEXT);
+    const fileFolderToRightClick = await $(elementLocator).$(
+      SELECTORS.FILE_FOLDER_NAME_TEXT,
+    );
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(fileFolderToRightClick, this.executor);
+      await rightClickOnMacOS(fileFolderToRightClick);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(fileFolderToRightClick, this.executor);
+      await rightClickOnWindows(fileFolderToRightClick);
     }
     await this.contextMenu.waitForExist();
   }

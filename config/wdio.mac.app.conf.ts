@@ -1,15 +1,15 @@
 require("module-alias/register");
-const allureReporter = require('@wdio/allure-reporter').default;
-const sharedConfig = require('@config/wdio.shared.conf.ts').config;
+const allureReporter = require("@wdio/allure-reporter").default;
+const sharedConfig = require("@config/wdio.shared.conf.ts").config;
 const homedir = require("os").homedir;
 const join = require("path").join;
 const MACOS_BUNDLE_ID = require("@helpers/constants").MACOS_BUNDLE_ID;
-const MACOS_DRIVER = require("@helpers/constants").MACOS_DRIVER;const fsp = require("fs").promises;
+const MACOS_DRIVER = require("@helpers/constants").MACOS_DRIVER;
+const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
 
-// @ts-expect-error
 export const config: WebdriverIO.Config = {
-  ...sharedConfig, 
+  ...sharedConfig,
   ...{
     //
     // ==================
@@ -27,10 +27,12 @@ export const config: WebdriverIO.Config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [join(process.cwd(), "./tests/suites/MainTests/01-UplinkTests.suite.ts")],
+    specs: [
+      join(process.cwd(), "./tests/suites/MainTests/01-UplinkTests.suite.ts"),
+    ],
     // Patterns to exclude.
     exclude: [
-        // 'path/to/excluded/files'
+      // 'path/to/excluded/files'
     ],
     //
     // ============
@@ -47,22 +49,24 @@ export const config: WebdriverIO.Config = {
     // https://docs.saucelabs.com/reference/platforms-configurator
     //
     port: 4723,
-    path: '/',
-    capabilities: {
-      userA: {
-        capabilities: {
-          platformName: "mac",
-          "appium:automationName": MACOS_DRIVER,
-          "appium:bundleId": MACOS_BUNDLE_ID,
-          "appium:arguments": ["--discovery", "disable", "--path", homedir() + "/.uplink"],
-          "appium:systemPort": 4724,
-          "appium:prerun": {
-            command: 'do shell script "rm -rf ~/.uplink"',
-          },  
-        }
+    path: "/",
+    capabilities: [
+      {
+        platformName: "mac",
+        "appium:automationName": MACOS_DRIVER,
+        "appium:bundleId": MACOS_BUNDLE_ID,
+        "appium:arguments": [
+          "--discovery",
+          "disable",
+          "--path",
+          homedir() + "/.uplink",
+        ],
+        "appium:systemPort": 4724,
+        "appium:prerun": {
+          command: 'do shell script "rm -rf ~/.uplink"',
+        },
       },
-    }
-    ,
+    ],
     //
     // ===================
     // Test Configurations
@@ -70,27 +74,30 @@ export const config: WebdriverIO.Config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     reporters: [
-      ["spec", 
+      [
+        "spec",
         {
           showPreface: false,
         },
-      ], 
-      ['allure', 
+      ],
+      [
+        "allure",
         {
-          outputDir: './allure-results',
+          outputDir: "./allure-results",
           disableWebdriverStepsReporting: true,
           disableWebdriverScreenshotsReporting: false,
-        }
+        },
       ],
-      ['junit', 
+      [
+        "junit",
         {
-          outputDir: './test-report/',
+          outputDir: "./test-report/",
           outputFileFormat: function (options) {
             return `test-results-macos-app-${options.cid}.xml`;
-          }
-        }
+          },
+        },
       ],
-    ],    
+    ],
     //
     // =====
     // Hooks
@@ -99,11 +106,11 @@ export const config: WebdriverIO.Config = {
     // it and to build services around it. You can either apply a single function or an array of
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
-    onPrepare: async function() {
+    onPrepare: async function () {
       const cacheFolder = homedir() + "/.uplink/.user";
       const allureResultsFolder = join(process.cwd(), "./allure-results");
-      const testReportFolder =  join(process.cwd(), "./test-report");
-      const testResultsFolder =  join(process.cwd(), "./test-results");
+      const testReportFolder = join(process.cwd(), "./test-report");
+      const testResultsFolder = join(process.cwd(), "./test-results");
       try {
         await rmSync(allureResultsFolder, { recursive: true, force: true });
         await rmSync(testReportFolder, { recursive: true, force: true });
@@ -111,7 +118,7 @@ export const config: WebdriverIO.Config = {
         console.log("Deleted Artifacts Folders Successfully!");
       } catch (error) {
         console.error(
-            `Got an error trying to delete artifacts folders: ${error.message}`
+          `Got an error trying to delete artifacts folders: ${error.message}`,
         );
       }
       try {
@@ -119,28 +126,31 @@ export const config: WebdriverIO.Config = {
         console.log("Deleted Cache Folder Successfully!");
       } catch (error) {
         console.error(
-          `Got an error trying to delete Cache Folder: ${error.message}`
+          `Got an error trying to delete Cache Folder: ${error.message}`,
         );
       }
     },
-    
+
     afterTest: async function (test, describe, { error }) {
       if (error) {
         let imageFile = await driver.takeScreenshot();
-        const imageFolder = join(process.cwd(), "./test-results/macos-app", test.parent);
-        const imageTitle = test.title + " - Failed.png"
-        await fsp.mkdir(imageFolder, {recursive: true});
+        const imageFolder = join(
+          process.cwd(),
+          "./test-results/macos-app",
+          test.parent,
+        );
+        const imageTitle = test.title + " - Failed.png";
+        await fsp.mkdir(imageFolder, { recursive: true });
         await fsp.writeFile(
           imageFolder + "/" + imageTitle,
           imageFile,
-          "base64"
+          "base64",
         );
 
         // Add to Screenshot to Allure Reporter
         const data = await readFileSync(`${imageFolder}/${imageTitle}`);
-        allureReporter.addAttachment(imageTitle, data, 'image/png')
+        allureReporter.addAttachment(imageTitle, data, "image/png");
       }
     },
-  }
-    
-}
+  },
+};

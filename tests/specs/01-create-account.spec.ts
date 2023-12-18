@@ -1,12 +1,11 @@
 require("module-alias/register");
 import { maximizeWindow } from "@helpers/commands";
-import { USER_A_INSTANCE } from "@helpers/constants";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-const createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
-const createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
-const welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
+const createPinFirstUser = new CreatePinScreen();
+const createUserFirstUser = new CreateUserScreen();
+const welcomeScreenFirstUser = new WelcomeScreen();
 
 export default async function createAccount() {
   it("Validate warning texts are displayed on screen", async () => {

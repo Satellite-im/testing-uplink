@@ -1,13 +1,9 @@
 require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -40,38 +36,32 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.SETTINGS_AUDIO);
+  constructor() {
+    super(SELECTORS.SETTINGS_AUDIO);
   }
 
   get openDyslexicCheckbox() {
-    return this.instance
-      .$(SELECTORS.SETTINGS_CONTROL)
-      .$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.SETTINGS_CONTROL).$(SELECTORS.SWITCH_SLIDER);
   }
 
   get openDyslexicControllerValue() {
-    return this.instance
-      .$(SELECTORS.SETTINGS_CONTROL)
-      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return $(SELECTORS.SETTINGS_CONTROL).$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get openDyslexicDescription() {
-    return this.instance
-      .$(SELECTORS.SETTINGS_SECTION)
+    return $(SELECTORS.SETTINGS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openDyslexicHeader() {
-    return this.instance
-      .$(SELECTORS.SETTINGS_SECTION)
+    return $(SELECTORS.SETTINGS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsAccessibility() {
-    return this.instance.$(SELECTORS.SETTINGS_ACCESSIBILITY);
+    return $(SELECTORS.SETTINGS_ACCESSIBILITY);
   }
 
   async clickOnOpenDyslexic() {
@@ -80,7 +70,7 @@ export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
     if (currentDriver === WINDOWS_DRIVER) {
       await openDyslexicCheckbox.click();
     } else if (currentDriver === MACOS_DRIVER) {
-      await clickOnSwitchMacOS(openDyslexicCheckbox, this.executor);
+      await clickOnSwitchMacOS(openDyslexicCheckbox);
     }
   }
 }

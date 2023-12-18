@@ -10,8 +10,6 @@ import {
   MACOS_DRIVER,
   MACOS_USER_A_BUNDLE_ID,
   MACOS_USER_B_BUNDLE_ID,
-  USER_A_INSTANCE,
-  USER_B_INSTANCE,
   WINDOWS_APP,
   WINDOWS_DRIVER,
 } from "./constants";
@@ -19,14 +17,10 @@ const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
 const { clipboard, mouse, Button } = require("@nut-tree/nut-js");
-let createPinFirstUser = new CreatePinScreen(USER_A_INSTANCE);
-let createPinSecondUser = new CreatePinScreen(USER_B_INSTANCE);
-let createUserFirstUser = new CreateUserScreen(USER_A_INSTANCE);
-let createUserSecondUser = new CreateUserScreen(USER_B_INSTANCE);
-let friendsScreenFirstUser = new FriendsScreen(USER_A_INSTANCE);
-let friendsScreenSecondUser = new FriendsScreen(USER_B_INSTANCE);
-let welcomeScreenFirstUser = new WelcomeScreen(USER_A_INSTANCE);
-let welcomeScreenSecondUser = new WelcomeScreen(USER_B_INSTANCE);
+let createPinFirstUser = new CreatePinScreen();
+let createUserFirstUser = new CreateUserScreen();
+let friendsScreenFirstUser = new FriendsScreen();
+let welcomeScreenFirstUser = new WelcomeScreen();
 
 // Users cache helper functions
 
@@ -42,9 +36,9 @@ export async function deleteCache() {
   }
 }
 
-export async function grabCacheFolder(username: string, instance: string) {
+export async function grabCacheFolder(username: string) {
   const source = homedir() + "/.uplink";
-  const currentDriver = await driver[instance].capabilities.automationName;
+  const currentDriver = await driver.capabilities.automationName;
   const target = "./tests/fixtures/users/" + currentDriver + "/" + username;
   await fsp.mkdir(target, { recursive: true });
   try {
@@ -57,9 +51,9 @@ export async function grabCacheFolder(username: string, instance: string) {
   }
 }
 
-export async function loadTestUserData(user: string, instance: string) {
+export async function loadTestUserData(user: string) {
   // Move files
-  const currentDriver = await driver[instance].capabilities.automationName;
+  const currentDriver = await driver.capabilities.automationName;
   let source, target;
   source = "./tests/fixtures/users/" + currentDriver + "/" + user;
   target = homedir() + "/.uplink";
@@ -76,9 +70,9 @@ export async function loadTestUserData(user: string, instance: string) {
 
 // DidKeys and username handling functions
 
-export async function getUserKey(username: string, instance: string) {
+export async function getUserKey(username: string) {
   // Read user data and store variable with DID Key from JSON file
-  const currentDriver = await driver[instance].capabilities.automationName;
+  const currentDriver = await driver.capabilities.automationName;
   const source =
     "./tests/fixtures/users/" + currentDriver + "/" + username + ".json";
   const jsonFile = await readFileSync(source);
@@ -87,13 +81,9 @@ export async function getUserKey(username: string, instance: string) {
   return didkey;
 }
 
-export async function saveTestKeys(
-  username: string,
-  didkey: string,
-  instance: string,
-) {
+export async function saveTestKeys(username: string, didkey: string) {
   // Save JSON file with keys
-  const currentDriver = await driver[instance].capabilities.automationName;
+  const currentDriver = await driver.capabilities.automationName;
   const target = "./tests/fixtures/users/" + currentDriver;
   const filepath = target + "/" + username + ".json";
   await fsp.mkdir(target, { recursive: true });
@@ -129,30 +119,6 @@ export async function createNewUser(username: string) {
   await friendsScreenFirstUser.friendsBody.waitForExist();
 }
 
-export async function createNewUserSecondInstance(username: string) {
-  // Reset Pin before creating new user
-  await createPinSecondUser.unlockLayout.waitForExist();
-  await createPinSecondUser.openHelpButtonMenu();
-  await createPinSecondUser.clickOnResetAccount();
-
-  // Enter pin for test user
-  await createPinSecondUser.enterPin("1234");
-  await createPinSecondUser.createAccountButton.waitForEnabled();
-  await createPinSecondUser.clickOnCreateAccount();
-
-  // Enter Username and click on Create Account
-  await createUserSecondUser.enterUsername(username);
-  await createUserSecondUser.createAccountButton.waitForEnabled();
-  await createUserSecondUser.clickOnCreateAccount();
-
-  // Ensure Main Screen is displayed
-  await welcomeScreenSecondUser.welcomeLayout.waitForExist();
-
-  // Workaround to ensure that user clicks on Add Someone
-  await welcomeScreenSecondUser.clickAddSomeone();
-  await friendsScreenSecondUser.friendsBody.waitForExist();
-}
-
 export async function loginWithTestUser() {
   // Enter pin for test user
   const unlockScreen = await createPinFirstUser.unlockLayout;
@@ -166,57 +132,39 @@ export async function loginWithTestUser() {
   // Only maximize if current driver is windows
   const currentDriver = await welcomeScreenFirstUser.getCurrentDriver();
   if (currentDriver === WINDOWS_DRIVER) {
-    await maximizeWindow(USER_A_INSTANCE);
+    await maximizeWindow();
   }
 }
 
-export async function loginWithTestUserSecondInstance() {
-  // Enter pin for test user
-  const unlockLayout = await createPinSecondUser.unlockLayout;
-  await unlockLayout.waitForExist();
-  await createPinSecondUser.enterPin("1234");
-
-  // Ensure Main Screen is displayed
-  const welcomeLayout = await welcomeScreenSecondUser.welcomeLayout;
-  await welcomeLayout.waitForExist();
-
-  // Only maximize if current driver is windows
-  const currentDriver = await welcomeScreenSecondUser.getCurrentDriver();
-  if (currentDriver === WINDOWS_DRIVER) {
-    await maximizeWindow(USER_B_INSTANCE);
-  }
-}
-
-export async function resetApp(instance: string) {
-  await closeApplication(instance);
+export async function resetApp() {
+  await closeApplication();
   await deleteCache();
-  await launchApplication(instance, MACOS_BUNDLE_ID, WINDOWS_APP);
+  await launchApplication(MACOS_BUNDLE_ID, WINDOWS_APP);
 }
 
 export async function resetAndLoginWithCache(user: string) {
-  await closeApplication(USER_A_INSTANCE);
+  await closeApplication();
   await deleteCache();
-  await loadTestUserData(user, USER_A_INSTANCE);
-  await launchApplication(USER_A_INSTANCE, MACOS_BUNDLE_ID, WINDOWS_APP);
+  await loadTestUserData(user);
+  await launchApplication(MACOS_BUNDLE_ID, WINDOWS_APP);
   await loginWithTestUser();
 }
 
 // Application Manage Functions
 
 export async function launchApplication(
-  instance: string = USER_A_INSTANCE,
   bundle: string = MACOS_BUNDLE_ID,
   appLocation: string = WINDOWS_APP,
 ) {
-  const currentOS = await driver[instance].capabilities.automationName;
+  const currentOS = await driver.capabilities.automationName;
   if (currentOS === WINDOWS_DRIVER) {
-    await driver[instance].executeScript("windows: launchApp", [
+    await driver.executeScript("windows: launchApp", [
       {
         app: join(process.cwd(), appLocation),
       },
     ]);
   } else if (currentOS === MACOS_DRIVER) {
-    await driver[instance].executeScript("macos: launchApp", [
+    await driver.executeScript("macos: launchApp", [
       {
         bundleId: bundle,
       },
@@ -225,7 +173,7 @@ export async function launchApplication(
 }
 
 export async function launchSecondApplication() {
-  await driver[USER_A_INSTANCE].executeScript("macos: launchApp", [
+  await driver.executeScript("macos: launchApp", [
     {
       bundleId: MACOS_USER_B_BUNDLE_ID,
       arguments: [
@@ -239,18 +187,16 @@ export async function launchSecondApplication() {
   await browser.pause(5000);
 }
 
-export async function activateFirstApplication(
-  instance: string = USER_A_INSTANCE,
-) {
-  const currentOS = await driver[instance].capabilities.automationName;
+export async function activateFirstApplication() {
+  const currentOS = await driver.capabilities.automationName;
   if (currentOS === WINDOWS_DRIVER) {
-    await driver[instance].executeScript("windows: activateApp", [
+    await driver.executeScript("windows: activateApp", [
       {
         app: join(process.cwd(), WINDOWS_APP),
       },
     ]);
   } else if (currentOS === MACOS_DRIVER) {
-    await driver[instance].executeScript("macos: activateApp", [
+    await driver.executeScript("macos: activateApp", [
       {
         bundleId: MACOS_USER_A_BUNDLE_ID,
       },
@@ -258,18 +204,16 @@ export async function activateFirstApplication(
   }
 }
 
-export async function activateSecondApplication(
-  instance: string = USER_A_INSTANCE,
-) {
-  const currentOS = await driver[instance].capabilities.automationName;
+export async function activateSecondApplication() {
+  const currentOS = await driver.capabilities.automationName;
   if (currentOS === WINDOWS_DRIVER) {
-    await driver[instance].executeScript("windows: activateApp", [
+    await driver.executeScript("windows: activateApp", [
       {
         app: join(process.cwd(), WINDOWS_APP),
       },
     ]);
   } else if (currentOS === MACOS_DRIVER) {
-    await driver[instance].executeScript("macos: activateApp", [
+    await driver.executeScript("macos: activateApp", [
       {
         bundleId: MACOS_USER_B_BUNDLE_ID,
       },
@@ -277,16 +221,16 @@ export async function activateSecondApplication(
   }
 }
 
-export async function closeApplication(instance: string) {
-  const currentOS = await driver[instance].capabilities.automationName;
+export async function closeApplication() {
+  const currentOS = await driver.capabilities.automationName;
   if (currentOS === WINDOWS_DRIVER) {
-    await driver[instance].executeScript("windows: closeApp", [
+    await driver.executeScript("windows: closeApp", [
       {
         app: join(process.cwd(), WINDOWS_APP),
       },
     ]);
   } else if (currentOS === MACOS_DRIVER) {
-    await driver[instance].executeScript("macos: terminateApp", [
+    await driver.executeScript("macos: terminateApp", [
       {
         bundleId: MACOS_BUNDLE_ID,
       },
@@ -294,33 +238,28 @@ export async function closeApplication(instance: string) {
   }
 }
 
-export async function maximizeWindow(instance: string) {
-  const currentOS = await driver[instance].capabilities.automationName;
-  const currentInstance = await browser.getInstance(instance);
+export async function maximizeWindow() {
+  const currentOS = await driver.capabilities.automationName;
   if (currentOS === WINDOWS_DRIVER) {
-    const button = await currentInstance.$('[name="square-button"]');
+    const button = await $('[name="square-button"]');
     await button.click();
   } else if (currentOS === MACOS_DRIVER) {
-    const button = await currentInstance.$("~_XCUI:FullScreenWindow");
+    const button = await $("~_XCUI:FullScreenWindow");
     await button.click();
   }
 }
 
 // MacOS driver helper functions
 
-export async function clickOnSwitchMacOS(
-  element: WebdriverIO.Element,
-  instance: string,
-) {
-  const currentInstance = await browser.getInstance(instance);
-  const elementLocator = await currentInstance.$(element);
+export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
+  const elementLocator = await $(element);
 
   // Get X and Y coordinates to hover on from element
   const elementX = await elementLocator.getLocation("x");
   const elementY = await elementLocator.getLocation("y");
 
   // Hover on X and Y coordinates previously retrieved
-  await driver[instance].executeScript("macos: click", [
+  await driver.executeScript("macos: click", [
     {
       x: elementX,
       y: elementY,
@@ -338,31 +277,26 @@ export async function getClipboardValue() {
   return clipboardValue;
 }
 
-export async function hoverOnMacOS(
-  locator: WebdriverIO.Element,
-  instance: string,
-) {
+export async function hoverOnMacOS(locator: WebdriverIO.Element) {
   // Hover on X and Y coordinates previously retrieved
-  await driver[instance].executeScript("macos: hover", [
+  await driver.executeScript("macos: hover", [
     {
       elementId: locator,
     },
   ]);
 }
 
-export async function saveFileOnMacOS(filename: string, instance: string) {
-  const currentInstance = await browser.getInstance(instance);
-
+export async function saveFileOnMacOS(filename: string) {
   // Wait for Save Dialog to be displayed
-  const savePanel = await currentInstance.$("~save-panel");
+  const savePanel = await $("~save-panel");
   await savePanel.waitForExist();
 
   // Type the new file name
-  const saveAsInputField = await currentInstance.$("~saveAsNameTextField");
+  const saveAsInputField = await $("~saveAsNameTextField");
   await saveAsInputField.setValue(filename);
 
   // Click on OK Button to save into Downloads folder
-  const okButton = await currentInstance.$("~OKButton");
+  const okButton = await $("~OKButton");
   await okButton.click();
 
   // Wait until Save Dialog is closed
@@ -373,21 +307,16 @@ export async function saveFileOnMacOS(filename: string, instance: string) {
   rmSync(target, { force: true });
 }
 
-export async function selectFileOnMacos(
-  relativePath: string,
-  instance: string,
-) {
-  const currentInstance = await browser.getInstance(instance);
-
+export async function selectFileOnMacos(relativePath: string) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
 
   // Wait for Open Panel to be displayed
-  const openPanel = await currentInstance.$("~open-panel");
+  const openPanel = await $("~open-panel");
   await openPanel.waitForExist();
 
   // Open Go To File
-  await driver[instance].executeScript("macos: keys", [
+  await driver.executeScript("macos: keys", [
     {
       keys: [
         {
@@ -398,29 +327,26 @@ export async function selectFileOnMacos(
   ]);
 
   //Ensure that Go To File is displayed on screen
-  const goToWindow = await currentInstance.$("~GoToWindow");
+  const goToWindow = await $("~GoToWindow");
   await goToWindow.waitForExist();
 
   // Remove the / and type filepath into go to file section and ensure that it contains the filepath expected
-  const textField = await currentInstance
-    .$("~GoToWindow")
-    .$("-ios class chain:**/XCUIElementTypeTextField");
+  const textField = await $("~GoToWindow").$(
+    "-ios class chain:**/XCUIElementTypeTextField",
+  );
   await textField.clearValue();
   await textField.addValue(filepath + "\n");
 
   // Hit Enter and then click on OK to close open panel
-  const okButton = await currentInstance.$("~OKButton");
+  const okButton = await $("~OKButton");
   await okButton.click();
 
   // Wait until Dialog is closed
   await openPanel.waitForExist({ reverse: true });
 }
 
-export async function rightClickOnMacOS(
-  locator: WebdriverIO.Element,
-  instance: string,
-) {
-  await driver[instance].executeScript("macos: rightClick", [
+export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
+  await driver.executeScript("macos: rightClick", [
     {
       elementId: locator,
     },
@@ -429,89 +355,76 @@ export async function rightClickOnMacOS(
 
 // Windows driver helper functions
 
-export async function hoverOnWindows(
-  locator: WebdriverIO.Element,
-  instance: string,
-) {
-  await driver[instance].moveToElement(locator.elementId);
+export async function hoverOnWindows(locator: WebdriverIO.Element) {
+  await driver.moveToElement(locator.elementId);
 }
 
-export async function rightClickOnWindows(
-  locator: WebdriverIO.Element,
-  instance: string,
-) {
-  await driver[instance].moveToElement(locator.elementId);
+export async function rightClickOnWindows(locator: WebdriverIO.Element) {
+  await driver.moveToElement(locator.elementId);
   await mouse.click(Button.RIGHT);
 }
 
 export async function saveFileOnWindows(
   filename: string,
   uplinkContext: string,
-  instance: string,
 ) {
-  // Get the filepath to select on browser
-  const filepath = join(process.cwd(), "\\tests\\fixtures\\", filename);
-
   // Pause for 5 seconds until explorer window is displayed and switch to it
   await browser.pause(5000);
-  const windows = await driver[instance].getWindowHandles();
+  const windows = await driver.getWindowHandles();
   let explorerWindow;
   windows[0] === uplinkContext
     ? (explorerWindow = windows[1])
     : (explorerWindow = windows[0]);
-  await driver[instance].switchToWindow(explorerWindow);
+  await driver.switchToWindow(explorerWindow);
 
   // Wait for Save Panel to be displayed
-  const titleBar = await driver[instance].$("~TitleBar");
+  const titleBar = await $("~TitleBar");
   await titleBar.waitForExist();
 
   // Type file location and hit enter
-  const editInput = await driver[instance].$(
-    "/Window/Pane[1]/ComboBox[1]/Edit",
-  );
+  const editInput = await $("/Window/Pane[1]/ComboBox[1]/Edit");
   await editInput.clearValue();
   await editInput.setValue(filename + "\uE007");
 
   // Wait for Save Panel not to be displayed
   await titleBar.waitForExist({ reverse: true });
 
-  await driver[instance].switchToWindow(uplinkContext);
+  await driver.switchToWindow(uplinkContext);
 }
 
 export async function selectFileOnWindows(
   relativePath: string,
   uplinkContext: string,
-  instance: string,
 ) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
   await browser.pause(5000);
-  const windows = await driver[instance].getWindowHandles();
+  const windows = await driver.getWindowHandles();
   let explorerWindow;
   windows[0] === uplinkContext
     ? (explorerWindow = windows[1])
     : (explorerWindow = windows[0]);
-  await driver[instance].switchToWindow(explorerWindow);
+  await driver.switchToWindow(explorerWindow);
 
   // Wait for Save Panel to be displayed
-  const listView = await driver[instance].$("~listview");
+  const listView = await $("~listview");
   await listView.waitForExist({ timeout: 25000 });
 
   // Type file location and hit enter
-  const editField = await driver[instance].$("//Window/ComboBox/Edit");
+  const editField = await $("//Window/ComboBox/Edit");
   await editField.clearValue();
   await editField.setValue(filepath + "\uE007");
 
   // Wait for Save Panel not to be displayed
   await listView.waitForExist({ reverse: true });
-  await driver[instance].switchToWindow(uplinkContext);
+  await driver.switchToWindow(uplinkContext);
 }
 
-export async function getUplinkWindowHandle(instance: string) {
+export async function getUplinkWindowHandle() {
   // Do a for loop that will try to do the next lines for 3 times
   for (let i = 0; i < 3; i++) {
     try {
-      const uplinkContext = await driver[instance].getWindowHandle();
+      const uplinkContext = await driver.getWindowHandle();
       if (typeof uplinkContext !== "undefined") {
         return uplinkContext.toString();
       }

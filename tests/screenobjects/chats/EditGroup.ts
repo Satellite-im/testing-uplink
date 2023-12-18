@@ -1,12 +1,8 @@
 require("module-alias/register");
-import {
-  MACOS_DRIVER,
-  WINDOWS_DRIVER,
-  USER_A_INSTANCE,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -77,8 +73,8 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class EditGroup extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.EDIT_GROUP_MODAL);
+  constructor() {
+    super(SELECTORS.EDIT_GROUP_MODAL);
   }
 
   get addMembers() {
@@ -96,7 +92,7 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   get editGroupModal() {
-    return this.instance.$(SELECTORS.EDIT_GROUP_MODAL);
+    return $(SELECTORS.EDIT_GROUP_MODAL);
   }
 
   get editGroupSection() {
@@ -117,17 +113,17 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   get groupNameInput() {
-    return this.instance.$(SELECTORS.GROUP_NAME_INPUT);
+    return $(SELECTORS.GROUP_NAME_INPUT);
   }
 
   get groupNameInputError() {
-    return this.instance.$(SELECTORS.GROUP_NAME_INPUT_ERROR);
+    return $(SELECTORS.GROUP_NAME_INPUT_ERROR);
   }
 
   get groupNameInputErrorText() {
-    return this.instance
-      .$(SELECTORS.GROUP_NAME_INPUT_ERROR)
-      .$(SELECTORS.GROUP_NAME_INPUT_ERROR_TEXT);
+    return $(SELECTORS.GROUP_NAME_INPUT_ERROR).$(
+      SELECTORS.GROUP_NAME_INPUT_ERROR_TEXT,
+    );
   }
 
   get nothingHereText() {
@@ -252,10 +248,8 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async clickOnFirstAddButton() {
-    const firstAddButton = await this.instance.$$(
-      SELECTORS.ADD_PARTICIPANT_BUTTON,
-    )[0];
-    await driver[this.executor].waitUntil(
+    const firstAddButton = await $$(SELECTORS.ADD_PARTICIPANT_BUTTON)[0];
+    await driver.waitUntil(
       async () => {
         return await firstAddButton;
       },
@@ -269,10 +263,10 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async clickOnFirstRemoveButton() {
-    const removeParticipantButton = await this.instance.$$(
+    const removeParticipantButton = await $$(
       SELECTORS.REMOVE_PARTICIPANT_BUTTON,
     )[0];
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await removeParticipantButton;
       },
@@ -296,8 +290,7 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async getParticipantsList() {
-    const participants = await this.instance
-      .$(SELECTORS.EDIT_GROUP_MODAL)
+    const participants = await $(SELECTORS.EDIT_GROUP_MODAL)
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER);
@@ -316,8 +309,7 @@ export default class EditGroup extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === MACOS_DRIVER) {
-      locator = await this.instance
-        .$(SELECTORS.EDIT_GROUP_MODAL)
+      locator = await $(SELECTORS.EDIT_GROUP_MODAL)
         .$(SELECTORS.EDIT_GROUP_SECTION)
         .$(
           '//XCUIElementTypeGroup[@label="Friend Container"]/XCUIElementTypeGroup/XCUIElementTypeStaticText[contains(@value, "' +
@@ -325,8 +317,7 @@ export default class EditGroup extends UplinkMainScreen {
             '")]/../..',
         );
     } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = await this.instance
-        .$(SELECTORS.EDIT_GROUP_MODAL)
+      locator = await $(SELECTORS.EDIT_GROUP_MODAL)
         .$(SELECTORS.EDIT_GROUP_SECTION)
         .$(
           '//Group[@Name="Friend Container"]/Group/Text[contains(@Name, "' +
@@ -355,7 +346,7 @@ export default class EditGroup extends UplinkMainScreen {
 
   async getParticipantIndicatorOnline(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await userLocator.$(SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE);
       },
@@ -462,7 +453,7 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   async validateParticipantIndicatorOnline(username: string) {
-    await driver[this.executor].waitUntil(
+    await driver.waitUntil(
       async () => {
         return await this.getParticipantIndicatorOnline(username);
       },

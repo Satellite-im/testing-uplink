@@ -6,18 +6,17 @@ import InputBar from "@screenobjects/chats/InputBar";
 import Messages from "@screenobjects/chats/Messages";
 import SidebarSearch from "@screenobjects/chats/SidebarSearch";
 import Topbar from "@screenobjects/chats/Topbar";
-import { USER_A_INSTANCE } from "@helpers/constants";
 import {
   activateFirstApplication,
   activateSecondApplication,
 } from "@helpers/commands";
-const chatsInputFirstUser = new InputBar(USER_A_INSTANCE);
-const chatsMessagesFirstUser = new Messages(USER_A_INSTANCE);
-const chatsSidebarFirstUser = new ChatsSidebar(USER_A_INSTANCE);
-const chatsTopbarFirstUser = new Topbar(USER_A_INSTANCE);
-const createGroupFirstUser = new CreateGroupChat(USER_A_INSTANCE);
-const filesScreenFirstUser = new FilesScreen(USER_A_INSTANCE);
-const sidebarSearchFirstUser = new SidebarSearch(USER_A_INSTANCE);
+const chatsInputFirstUser = new InputBar();
+const chatsMessagesFirstUser = new Messages();
+const chatsSidebarFirstUser = new ChatsSidebar();
+const chatsTopbarFirstUser = new Topbar();
+const createGroupFirstUser = new CreateGroupChat();
+const filesScreenFirstUser = new FilesScreen();
+const sidebarSearchFirstUser = new SidebarSearch();
 
 export default async function groupChatTests() {
   it("Chat User A - Create Group Chat button tooltip", async () => {

@@ -1,12 +1,8 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-import {
-  MACOS_DRIVER,
-  USER_A_INSTANCE,
-  WINDOWS_DRIVER,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 
-const currentOS = driver[USER_A_INSTANCE].capabilities.automationName;
+const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -31,28 +27,28 @@ currentOS === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class CreateUserScreen extends UplinkMainScreen {
-  constructor(executor: string) {
-    super(executor, SELECTORS.UNLOCK_LAYOUT);
+  constructor() {
+    super(SELECTORS.UNLOCK_LAYOUT);
   }
 
   get createAccountButton() {
-    return this.instance.$(SELECTORS.CREATE_ACCOUNT_BUTTON);
+    return $(SELECTORS.CREATE_ACCOUNT_BUTTON);
   }
 
   get inputError() {
-    return this.instance.$(SELECTORS.INPUT_ERROR);
+    return $(SELECTORS.INPUT_ERROR);
   }
 
   get inputErrorText() {
-    return this.instance.$(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
+    return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get unlockLayout() {
-    return this.instance.$(SELECTORS.UNLOCK_LAYOUT);
+    return $(SELECTORS.UNLOCK_LAYOUT);
   }
 
   get usernameInput() {
-    return this.instance.$(SELECTORS.USERNAME_INPUT);
+    return $(SELECTORS.USERNAME_INPUT);
   }
 
   async enterUsername(username: string) {
