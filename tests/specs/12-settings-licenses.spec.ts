@@ -10,16 +10,16 @@ export default async function settingsLicenses() {
     await settingsAboutFirstUser.goToLicensesSettings();
     await settingsLicensesFirstUser.waitForIsShown(true);
 
-    // Validate the header and description texts from Heroicons
-    const heroiconsHeader = await settingsLicensesFirstUser.heroiconsHeader;
-    const heroiconsDescription =
-      await settingsLicensesFirstUser.heroiconsDescription;
-    await expect(heroiconsHeader).toHaveTextContaining("HEROICONS");
-    await expect(heroiconsDescription).toHaveTextContaining(
-      "We have expanded upon the heroicons library we offer any additional icons under the same license as the original author.",
+    // Validate the header and description texts from MIT license
+    const licenseHeader = await settingsLicensesFirstUser.licenseHeader;
+    const licenseDescription =
+      await settingsLicensesFirstUser.licenseDescription;
+    await expect(licenseHeader).toHaveTextContaining("UPLINK");
+    await expect(licenseDescription).toHaveTextContaining(
+      "Both code and icons are under the MIT license.",
     );
 
     // Validate MIT License button is present
-    await settingsLicensesFirstUser.heroiconsButton.waitForExist();
+    await settingsLicensesFirstUser.licenseButton.waitForExist();
   });
 }
