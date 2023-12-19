@@ -37,26 +37,26 @@ export default class SettingsLicensesScreen extends SettingsBaseScreen {
     super(SELECTORS.SETTINGS_LICENSES);
   }
 
-  get heroiconsDescription() {
+  get licenseDescription() {
     return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get heroiconsHeader() {
+  get licenseHeader() {
     return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get heroiconsButton() {
+  get licenseButton() {
     return $$(SELECTORS.SETTINGS_SECTION)[0]
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.SETTINGS_CONTROL_BUTTON);
   }
 
-  async clickOnShowHeroiconsLicenses() {
-    const heroiconsButton = await this.heroiconsButton;
-    await heroiconsButton.click();
+  async clickOnShowMITLicenses() {
+    const licenseButton = await this.licenseButton;
+    await licenseButton.click();
   }
 }
