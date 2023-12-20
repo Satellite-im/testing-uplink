@@ -9,7 +9,7 @@ import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "@screenobjects/chats/ContextMenuSidebar";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import InputBar from "@screenobjects/chats/InputBar";
-import Messages from "@screenobjects/chats/Messages";
+import Messages from "@screenobjects/chats/MessageLocal";
 import Topbar from "@screenobjects/chats/Topbar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";

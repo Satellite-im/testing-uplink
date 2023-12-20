@@ -1,8 +1,8 @@
 require("module-alias/register");
 import InputBar from "@screenobjects/chats/InputBar";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
-import Messages from "@screenobjects/chats/Messages";
-import MessageGroup from "@screenobjects/chats/MessageGroup";
+import Messages from "@screenobjects/chats/MessageLocal";
+import MessageGroup from "@screenobjects/chats/MessageGroupLocal";
 import PinnedMessages from "@screenobjects/chats/PinnedMessages";
 import Topbar from "@screenobjects/chats/Topbar";
 import { activateFirstApplication } from "@helpers/commands";

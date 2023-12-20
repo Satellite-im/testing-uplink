@@ -2,7 +2,7 @@ require("module-alias/register");
 import ComposeAttachment from "@screenobjects/chats/ComposeAttachment";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
-import Messages from "@screenobjects/chats/Messages";
+import Messages from "@screenobjects/chats/MessageLocal";
 import SendFiles from "@screenobjects/chats/SendFiles";
 import Topbar from "@screenobjects/chats/Topbar";
 import {

@@ -11,14 +11,10 @@ import repliesTests from "@specs/reusable-accounts/02-chat-replies.spec";
 import quickProfileTests from "@specs/reusable-accounts/07-quick-profile.spec";
 import sidebarChatsTests from "@specs/reusable-accounts/08-sidebar-chats.spec";
 
-describe("MacOS Chats Tests", function () {
-  describe(
-    "Create Accounts and Chat Tests",
-    createChatAccountsTests.bind(this),
-  );
-  /*describe("Chat Replies Tests", repliesTests.bind(this));
-  describe("Message Context Menu Tests", messageContextMenuTests.bind(this));
-  describe("Message Input Tests", messageInputTests.bind(this));
+describe("Create Accounts and Chat Tests", createChatAccountsTests.bind(this));
+describe("Chat Replies Tests", repliesTests.bind(this));
+describe("Message Context Menu Tests", messageContextMenuTests.bind(this));
+/*describe("Message Input Tests", messageInputTests.bind(this));
   describe("Message Attachments Tests", messageAttachmentsTests.bind(this));
   describe("Chat Topbar Tests", chatTopbarTests.bind(this));
   describe("Quick Profile Tests", quickProfileTests.bind(this));
@@ -29,4 +25,3 @@ describe("MacOS Chats Tests", function () {
     "Group Chats Favorites and Sidebar Tests",
     groupChatSidebarTests.bind(this),
   );*/
-});

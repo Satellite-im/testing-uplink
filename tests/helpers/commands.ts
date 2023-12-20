@@ -124,16 +124,6 @@ export async function loginWithTestUser() {
   const unlockScreen = await createPinFirstUser.unlockLayout;
   await unlockScreen.waitForExist();
   await createPinFirstUser.enterPin("1234");
-
-  // Ensure Main Screen is displayed
-  const welcomeLayout = await welcomeScreenFirstUser.welcomeLayout;
-  await welcomeLayout.waitForExist();
-
-  // Only maximize if current driver is windows
-  const currentDriver = await welcomeScreenFirstUser.getCurrentDriver();
-  if (currentDriver === WINDOWS_DRIVER) {
-    await maximizeWindow();
-  }
 }
 
 export async function resetApp() {
@@ -170,6 +160,21 @@ export async function launchApplication(
       },
     ]);
   }
+}
+
+export async function launchFirstApplication() {
+  await driver.executeScript("macos: launchApp", [
+    {
+      bundleId: MACOS_USER_A_BUNDLE_ID,
+      arguments: [
+        "--discovery",
+        "disable",
+        "--path",
+        homedir() + "/.uplinkUserA",
+      ],
+    },
+  ]);
+  await browser.pause(5000);
 }
 
 export async function launchSecondApplication() {
@@ -236,6 +241,22 @@ export async function closeApplication() {
       },
     ]);
   }
+}
+
+export async function closeFirstApplication() {
+  await driver.executeScript("macos: terminateApp", [
+    {
+      bundleId: MACOS_USER_A_BUNDLE_ID,
+    },
+  ]);
+}
+
+export async function closeSecondApplication() {
+  await driver.executeScript("macos: terminateApp", [
+    {
+      bundleId: MACOS_USER_B_BUNDLE_ID,
+    },
+  ]);
 }
 
 export async function maximizeWindow() {
@@ -346,11 +367,9 @@ export async function selectFileOnMacos(relativePath: string) {
 }
 
 export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
-  await driver.executeScript("macos: rightClick", [
-    {
-      elementId: locator,
-    },
-  ]);
+  console.log(locator);
+  await hoverOnMacOS(locator);
+  await mouse.click(Button.RIGHT);
 }
 
 // Windows driver helper functions
