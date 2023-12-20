@@ -16,7 +16,13 @@ import {
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
-const { clipboard, mouse, Button } = require("@nut-tree/nut-js");
+const {
+  clipboard,
+  Point,
+  mouse,
+  straightTo,
+  Button,
+} = require("@nut-tree/nut-js");
 let createPinFirstUser = new CreatePinScreen();
 let createUserFirstUser = new CreateUserScreen();
 let friendsScreenFirstUser = new FriendsScreen();
@@ -299,12 +305,13 @@ export async function getClipboardValue() {
 }
 
 export async function hoverOnMacOS(locator: WebdriverIO.Element) {
-  // Hover on X and Y coordinates previously retrieved
-  await driver.executeScript("macos: hover", [
-    {
-      elementId: locator,
-    },
-  ]);
+  const elementLocator = await $(locator);
+
+  // Get X and Y coordinates to hover on from element
+  const elementX = await elementLocator.getLocation("x");
+  const elementY = await elementLocator.getLocation("y");
+
+  await mouse.move(straightTo(new Point(elementX, elementY)));
 }
 
 export async function saveFileOnMacOS(filename: string) {
@@ -367,8 +374,13 @@ export async function selectFileOnMacos(relativePath: string) {
 }
 
 export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
-  console.log(locator);
-  await hoverOnMacOS(locator);
+  const elementLocator = await $(locator);
+
+  // Get X and Y coordinates to hover on from element
+  const elementX = await elementLocator.getLocation("x");
+  const elementY = await elementLocator.getLocation("y");
+
+  await mouse.move(straightTo(new Point(elementX, elementY)));
   await mouse.click(Button.RIGHT);
 }
 
