@@ -39,6 +39,16 @@ export default async function settingsAbout() {
     await expect(openSourceDescription).toHaveTextContaining(
       "Opens the codebase in your default web browser.",
     );
+
+    // Validate the header and description texts from Settings Section - About - MadeIn
+    const madeInHeader = await settingsAboutFirstUser.madeInHeader;
+    const madeInDescription = await settingsAboutFirstUser.madeInDescription;
+    const madeInText = await settingsAboutFirstUser.madeInText;
+    await expect(madeInHeader).toHaveTextContaining("MADE IN");
+    await expect(madeInDescription).toHaveTextContaining(
+      "Our team is all over the world with different backgrounds and day-to-day lives, all working on a common goal to build Uplink & Satellite together.",
+    );
+    await expect(madeInText).toHaveTextContaining("🇺🇸🇲🇽🇩🇪🇵🇹🇧🇷🇮🇹🇺🇦🇧🇾🇯🇵🇦🇺🇮🇩");
   });
 
   // Test skipped since we need to research on how to return properly to the app before implementing this test
