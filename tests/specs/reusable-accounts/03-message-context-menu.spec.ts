@@ -2,10 +2,7 @@ require("module-alias/register");
 import {
   launchFirstApplication,
   launchSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
   getClipboardValue,
-  loginWithTestUser,
 } from "@helpers/commands";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -46,8 +43,6 @@ export default async function messageContextMenuTests() {
   it("Chat User B - Receive two messages from Chat User B", async () => {
     // Assert messages received from Chat User B
     await launchSecondApplication();
-    await loginWithTestUser();
-    await closeFirstApplication();
     await messageRemoteFirstUser.waitForReceivingMessage("Two...");
     await messageRemoteFirstUser.waitForReceivingMessage("Three...");
   });
@@ -65,8 +60,6 @@ export default async function messageContextMenuTests() {
   it("Chat User A - Context Menu - Delete Message", async () => {
     // Open context menu on last message sent and select option for deleting
     await launchFirstApplication();
-    await loginWithTestUser();
-    await closeSecondApplication();
     await messageLocalFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.selectContextOptionDelete();
@@ -79,8 +72,6 @@ export default async function messageContextMenuTests() {
   it("Chat User B - Validate Message was deleted and is no longer visible in remote chat", async () => {
     // Switch to Chat User B window
     await launchSecondApplication();
-    await loginWithTestUser();
-    await closeFirstApplication();
 
     // With User B - Validate that last message is "Two..."
     await messageRemoteFirstUser.waitForReceivingMessage("Two...");
@@ -92,8 +83,6 @@ export default async function messageContextMenuTests() {
   it("Chat User A - React to sent message and multiple reactions in a message", async () => {
     // React with 😂 emoji
     await launchFirstApplication();
-    await loginWithTestUser();
-    await closeSecondApplication();
     await messageLocalFirstUser.openContextMenuOnLastSent();
     await chatsContextMenuFirstUser.validateContextMenuIsOpen();
     await chatsContextMenuFirstUser.clickOnFirstReaction();
@@ -131,8 +120,6 @@ export default async function messageContextMenuTests() {
   it("Chat User B - Receive reaction in sent message", async () => {
     // Return to Chat User B window
     await launchSecondApplication();
-    await loginWithTestUser();
-    await closeFirstApplication();
     await chatsInputFirstUser.clickOnInputBar();
     await chatsInputFirstUser.typeMessageOnInput("Hello");
     await chatsInputFirstUser.clearInputBar();

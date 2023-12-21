@@ -87,7 +87,6 @@ export default async function repliesTests() {
     // Switch control to User A
     await launchFirstApplication();
     await loginWithTestUser();
-    await closeSecondApplication();
 
     // With User A - Validate that reply message is received
     await messageRemoteFirstUser.chatMessageReply.waitForExist();
