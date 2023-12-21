@@ -304,9 +304,7 @@ export async function getClipboardValue() {
   return clipboardValue;
 }
 
-export async function hoverOnMacOS(locator: WebdriverIO.Element) {
-  const elementLocator = await $(locator);
-
+export async function hoverOnMacOS(elementLocator: WebdriverIO.Element) {
   // Get X and Y coordinates to hover on from element
   const elementX = await elementLocator.getLocation("x");
   const elementY = await elementLocator.getLocation("y");
@@ -373,9 +371,7 @@ export async function selectFileOnMacos(relativePath: string) {
   await openPanel.waitForExist({ reverse: true });
 }
 
-export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
-  const elementLocator = await $(locator);
-
+export async function rightClickOnMacOS(elementLocator: WebdriverIO.Element) {
   // Get X and Y coordinates to hover on from element
   const elementX = await elementLocator.getLocation("x");
   const elementY = await elementLocator.getLocation("y");
