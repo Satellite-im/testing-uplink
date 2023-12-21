@@ -1,7 +1,7 @@
 require("module-alias/register");
 import {
-  activateFirstApplication,
-  activateSecondApplication,
+  launchFirstApplication,
+  launchSecondApplication,
   closeFirstApplication,
   closeSecondApplication,
   getClipboardValue,
@@ -45,7 +45,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User B - Receive two messages from Chat User B", async () => {
     // Assert messages received from Chat User B
-    await activateSecondApplication();
+    await launchSecondApplication();
     await loginWithTestUser();
     await closeFirstApplication();
     await messageRemoteFirstUser.waitForReceivingMessage("Two...");
@@ -64,7 +64,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User A - Context Menu - Delete Message", async () => {
     // Open context menu on last message sent and select option for deleting
-    await activateFirstApplication();
+    await launchFirstApplication();
     await loginWithTestUser();
     await closeSecondApplication();
     await messageLocalFirstUser.openContextMenuOnLastSent();
@@ -78,7 +78,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User B - Validate Message was deleted and is no longer visible in remote chat", async () => {
     // Switch to Chat User B window
-    await activateSecondApplication();
+    await launchSecondApplication();
     await loginWithTestUser();
     await closeFirstApplication();
 
@@ -91,7 +91,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User A - React to sent message and multiple reactions in a message", async () => {
     // React with 😂 emoji
-    await activateFirstApplication();
+    await launchFirstApplication();
     await loginWithTestUser();
     await closeSecondApplication();
     await messageLocalFirstUser.openContextMenuOnLastSent();
@@ -130,7 +130,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User B - Receive reaction in sent message", async () => {
     // Return to Chat User B window
-    await activateSecondApplication();
+    await launchSecondApplication();
     await loginWithTestUser();
     await closeFirstApplication();
     await chatsInputFirstUser.clickOnInputBar();

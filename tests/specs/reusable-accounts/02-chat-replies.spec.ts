@@ -7,8 +7,8 @@ import MessageLocal from "@screenobjects/chats/MessageLocal";
 import MessageRemote from "@screenobjects/chats/MessageRemote";
 import ReplyPrompt from "@screenobjects/chats/ReplyPrompt";
 import {
-  activateFirstApplication,
-  activateSecondApplication,
+  launchFirstApplication,
+  launchSecondApplication,
   closeFirstApplication,
   closeSecondApplication,
   loginWithTestUser,
@@ -25,7 +25,7 @@ export default async function repliesTests() {
   before(async () => {
     await closeSecondApplication();
     await closeFirstApplication();
-    await activateSecondApplication();
+    await launchSecondApplication();
     await loginWithTestUser();
   });
 
@@ -85,7 +85,7 @@ export default async function repliesTests() {
 
   it("Chat User A - Validate reply message contents", async () => {
     // Switch control to User A
-    await activateFirstApplication();
+    await launchFirstApplication();
     await loginWithTestUser();
     await closeSecondApplication();
 

@@ -16,13 +16,7 @@ import {
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
-const {
-  clipboard,
-  Point,
-  mouse,
-  straightTo,
-  Button,
-} = require("@nut-tree/nut-js");
+const { clipboard, mouse, Button } = require("@nut-tree/nut-js");
 let createPinFirstUser = new CreatePinScreen();
 let createUserFirstUser = new CreateUserScreen();
 let friendsScreenFirstUser = new FriendsScreen();
@@ -172,12 +166,7 @@ export async function launchFirstApplication() {
   await driver.executeScript("macos: launchApp", [
     {
       bundleId: MACOS_USER_A_BUNDLE_ID,
-      arguments: [
-        "--discovery",
-        "disable",
-        "--path",
-        homedir() + "/.uplinkUserA",
-      ],
+      arguments: ["--discovery", "disable", "--path", homedir() + "/.uplink"],
     },
   ]);
   await browser.pause(5000);
@@ -305,17 +294,10 @@ export async function getClipboardValue() {
 }
 
 export async function hoverOnMacOS(locator: WebdriverIO.Element) {
-  const elementLocator = await $(locator);
-
-  // Get X and Y coordinates to hover on from element
-  const elementX = await elementLocator.getLocation("x");
-  const elementY = await elementLocator.getLocation("y");
-
-  // Hover on X and Y coordinates previously retrieved
+  const elementId = await locator.elementId;
   await driver.executeScript("macos: hover", [
     {
-      x: elementX,
-      y: elementY,
+      elementId: elementId,
     },
   ]);
 }
@@ -380,19 +362,13 @@ export async function selectFileOnMacos(relativePath: string) {
 }
 
 export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
-  const elementLocator = await $(locator);
-
-  // Get X and Y coordinates to hover on from element
-  const elementX = await elementLocator.getLocation("x");
-  const elementY = await elementLocator.getLocation("y");
-
-  // Hover on X and Y coordinates previously retrieved
+  const elementId = await locator.elementId;
   await driver.executeScript("macos: rightClick", [
     {
-      x: elementX,
-      y: elementY,
+      elementId: elementId,
     },
   ]);
+  await mouse.click(Button.RIGHT);
 }
 
 // Windows driver helper functions
