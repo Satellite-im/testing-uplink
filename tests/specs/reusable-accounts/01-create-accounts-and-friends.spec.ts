@@ -13,8 +13,10 @@ import EmojiSelector from "@screenobjects/chats/EmojiSelector";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
-import MessageGroup from "@screenobjects/chats/MessageGroup";
-import Messages from "@screenobjects/chats/Messages";
+import MessageGroupLocal from "@screenobjects/chats/MessageGroupLocal";
+import MessageGroupRemote from "@screenobjects/chats/MessageGroupRemote";
+import MessageLocal from "@screenobjects/chats/MessageLocal";
+import MessageRemote from "@screenobjects/chats/MessageRemote";
 import Topbar from "@screenobjects/chats/Topbar";
 import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
@@ -22,8 +24,10 @@ import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 const chatsInputFirstUser = new InputBar();
 const chatsLayoutFirstUser = new ChatsLayout();
-const chatsMessageGroupsFirstUser = new MessageGroup();
-const chatsMessagesFirstUser = new Messages();
+const messageGroupLocalFirstUser = new MessageGroupLocal();
+const messageGroupRemoteFirstUser = new MessageGroupRemote();
+const messageLocalFirstUser = new MessageLocal();
+const messageRemoteFirstUser = new MessageRemote();
 const chatsTopbarFirstUser = new Topbar();
 const createPinFirstUser = new CreatePinScreen();
 const emojiSelectorFirstUser = new EmojiSelector();
@@ -221,10 +225,10 @@ export default async function createChatAccountsTests() {
   it("Input Bar - Click on send button will send the message to the other user", async () => {
     // Send message to the other user
     await chatsInputFirstUser.clickOnSendMessage();
-    await chatsMessagesFirstUser.waitForMessageSentToExist("Testing...😀");
+    await messageLocalFirstUser.waitForMessageSentToExist("Testing...😀");
 
     const textFromMessage =
-      await chatsMessagesFirstUser.getFirstMessageSentText();
+      await messageLocalFirstUser.getFirstMessageSentText();
     await expect(textFromMessage).toHaveTextContaining("Testing...😀");
   });
 
@@ -239,7 +243,7 @@ export default async function createChatAccountsTests() {
   it("Chat User A - Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo =
-      await chatsMessageGroupsFirstUser.getLastMessageSentTimeAgo();
+      await messageGroupLocalFirstUser.getLastMessageSentTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
     );
@@ -248,14 +252,14 @@ export default async function createChatAccountsTests() {
 
   it("Chat User A - Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const messageText = await chatsMessagesFirstUser.getFirstMessageSentText();
+    const messageText = await messageLocalFirstUser.getFirstMessageSentText();
     await expect(messageText).toHaveTextContaining("Testing...😀");
   });
 
   it("Chat User A - Validate Chat Message Group displays username picture", async () => {
     //Your user image should be displayed next to the message
     const userImage =
-      await chatsMessageGroupsFirstUser.getLastGroupWrapSentImage();
+      await messageGroupLocalFirstUser.getLastGroupWrapSentImage();
     await userImage.waitForExist();
   });
 
@@ -292,25 +296,25 @@ export default async function createChatAccountsTests() {
 
   it("Chat User B - Assert message received from Chat User A", async () => {
     // Validate message received from Chat User A
-    await chatsMessagesFirstUser.waitForReceivingMessage("Testing...😀");
+    await messageRemoteFirstUser.waitForReceivingMessage("Testing...😀");
 
     //Any message you sent yourself should appear within a colored message bubble
     const textFromMessage =
-      await chatsMessagesFirstUser.getLastMessageReceivedText();
+      await messageRemoteFirstUser.getLastMessageReceivedText();
     await expect(textFromMessage).toHaveTextContaining("Testing...😀");
   });
 
   it("Chat User B - Validate Chat Message Group from remote user displays username picture", async () => {
     //Your user image should be displayed next to the message
     const userImage =
-      await chatsMessageGroupsFirstUser.getLastGroupWrapReceivedImage();
+      await messageGroupRemoteFirstUser.getLastGroupWrapReceivedImage();
     await userImage.waitForExist();
   });
 
   it("Chat User B - Validate Chat Message received displays timestamp and user who sent it", async () => {
     //Timestamp should be displayed when you send a message
     const timeAgo =
-      await chatsMessageGroupsFirstUser.getLastMessageReceivedTimeAgo();
+      await messageGroupRemoteFirstUser.getLastMessageReceivedTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
     );

@@ -3,7 +3,7 @@ import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import CreateGroupChat from "@screenobjects/chats/CreateGroupChat";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
-import Messages from "@screenobjects/chats/Messages";
+import Messages from "@screenobjects/chats/MessageLocal";
 import SidebarSearch from "@screenobjects/chats/SidebarSearch";
 import Topbar from "@screenobjects/chats/Topbar";
 import {

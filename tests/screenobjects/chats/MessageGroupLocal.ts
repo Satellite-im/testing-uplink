@@ -8,21 +8,14 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
-  CHAT_MESSAGE_LOCAL_FIRST: '[name="message-local-message-first"]',
-  CHAT_MESSAGE_LOCAL_LAST: '[name="message-local-message-last"]',
-  CHAT_MESSAGE_LOCAL_MIDDLE: '[name="message-local-message-middle"]',
-  CHAT_MESSAGE_REMOTE_FIRST: '[name="message-remote-message-first"]',
-  CHAT_MESSAGE_REMOTE_LAST: '[name="message-remote-message-last"]',
-  CHAT_MESSAGE_REMOTE_MIDDLE: '[name="message-remote-message-middle"]',
+  CHAT_MESSAGE_LOCAL: '[name="message-local"]',
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
   CHAT_MESSAGE_TEXT_VALUE: "<Text>",
   EMOJI_REACTION_REMOTE: '[name="emoji-reaction-remote"]',
   EMOJI_REACTION_SELF: '[name="emoji-reaction-self"]',
   EMOJI_REACTION_VALUE: "<Text>",
-  MESSAGE_GROUP_REMOTE: '[name="message-group-remote"]',
   MESSAGE_GROUP_SENT: '[name="message-group"]',
   MESSAGE_GROUP_WRAP_LOCAL: '[name="message-group-wrap-local"]',
-  MESSAGE_GROUP_WRAP_REMOTE: '[name="message-group-wrap-remote"]',
   MESSAGE_GROUP_TIME_AGO: '[name="time-ago"]',
   MESSAGE_GROUP_TIME_AGO_TEXT: "<Text>",
   MESSAGE_GROUP_USER_IMAGE: '[name="User Image"]',
@@ -37,21 +30,14 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
-  CHAT_MESSAGE_LOCAL_FIRST: "~message-local-message-first",
-  CHAT_MESSAGE_LOCAL_LAST: "~message-local-message-last",
-  CHAT_MESSAGE_LOCAL_MIDDLE: "~message-local-message-middle",
-  CHAT_MESSAGE_REMOTE_FIRST: "~message-remote-message-first",
-  CHAT_MESSAGE_REMOTE_LAST: "~message-remote-message-last",
-  CHAT_MESSAGE_REMOTE_MIDDLE: "~message-remote-message-middle",
+  CHAT_MESSAGE_LOCAL: "~message-local",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
   CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   EMOJI_REACTION_REMOTE: "~emoji-reaction-remote",
   EMOJI_REACTION_SELF: "~emoji-reaction-self",
   EMOJI_REACTION_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
-  MESSAGE_GROUP_REMOTE: "~message-group-remote",
   MESSAGE_GROUP_SENT: "~message-group",
   MESSAGE_GROUP_WRAP_LOCAL: "~message-group-wrap-local",
-  MESSAGE_GROUP_WRAP_REMOTE: "~message-group-wrap-remote",
   MESSAGE_GROUP_TIME_AGO: "~time-ago",
   MESSAGE_GROUP_TIME_AGO_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   MESSAGE_GROUP_USER_IMAGE: "~User Image",
@@ -69,35 +55,13 @@ currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class MessageGroup extends UplinkMainScreen {
+export default class MessageGroupLocal extends UplinkMainScreen {
   constructor() {
-    super(
-      SELECTORS.MESSAGE_GROUP_WRAP_REMOTE || SELECTORS.MESSAGE_GROUP_WRAP_SENT,
-    );
+    super(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL);
   }
 
-  get chatMessageLocalFirst() {
-    return $(SELECTORS.CHAT_MESSAGE_LOCAL_FIRST);
-  }
-
-  get chatMessageLocalLast() {
-    return $(SELECTORS.CHAT_MESSAGE_LOCAL_LAST);
-  }
-
-  get chatMessageLocalMiddle() {
-    return $$(SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE);
-  }
-
-  get chatMessageRemoteFirst() {
-    return $(SELECTORS.CHAT_MESSAGE_REMOTE_FIRST);
-  }
-
-  get chatMessageRemoteLast() {
-    return $(SELECTORS.CHAT_MESSAGE_REMOTE_LAST);
-  }
-
-  get chatMessageRemoteMiddle() {
-    return $$(SELECTORS.CHAT_MESSAGE_REMOTE_MIDDLE);
+  get chatMessageLocal() {
+    return $(SELECTORS.CHAT_MESSAGE_LOCAL);
   }
 
   get chatMessageTextValue() {
@@ -134,10 +98,6 @@ export default class MessageGroup extends UplinkMainScreen {
       .$(SELECTORS.EMOJI_REACTION_VALUE);
   }
 
-  get messageGroupReceived() {
-    return $$(SELECTORS.MESSAGE_GROUP_REMOTE);
-  }
-
   get messageGroupSent() {
     return $$(SELECTORS.MESSAGE_GROUP_SENT);
   }
@@ -146,52 +106,50 @@ export default class MessageGroup extends UplinkMainScreen {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL);
   }
 
-  get messageGroupWrapRemote() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE);
-  }
-
   get messageGroupTimeAgo() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP).$(SELECTORS.MESSAGE_GROUP_TIME_AGO);
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL).$(
+      SELECTORS.MESSAGE_GROUP_TIME_AGO,
+    );
   }
 
   get messageGroupTimeAgoValue() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
   }
 
   get messageGroupUserImage() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
   }
 
   get messageGroupUserImageProfile() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP).$(
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL).$(
       SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE,
     );
   }
 
   get messageGroupUserImageWrap() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP).$(
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL).$(
       SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP,
     );
   }
 
   get messageGroupUserIndicator() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR);
   }
 
   get messageGroupUserIndicatorOffline() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE);
   }
 
   get messageGroupUserIndicatorOnline() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP)
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
   }
@@ -202,40 +160,6 @@ export default class MessageGroup extends UplinkMainScreen {
 
   get pinIndicator() {
     return $$(SELECTORS.PIN_INDICATOR);
-  }
-
-  // Message Group Wraps Received Methods
-
-  async getLastGroupWrapReceived() {
-    const messageGroupWraps = await this.messageGroupWrapRemote;
-    const lastGroupWrapIndex = (await messageGroupWraps.length) - 1;
-    const lastGroupWrap = await messageGroupWraps[lastGroupWrapIndex];
-    return lastGroupWrap;
-  }
-
-  async getLastGroupWrapReceivedImage() {
-    const groupWrap = await this.getLastGroupWrapReceived();
-    const userImage = await groupWrap
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
-      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
-    await userImage.waitForExist();
-    return userImage;
-  }
-
-  async getLastGroupWrapReceivedIndicator() {
-    const groupWrap = await this.getLastGroupWrapReceived();
-    const indicator = await groupWrap.$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR);
-    await indicator.waitForExist();
-    return indicator;
-  }
-
-  async getLastGroupWrapReceivedOnline() {
-    const groupWrap = await this.getLastGroupWrapReceived();
-    const onlineStatus = await groupWrap.$(
-      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE,
-    );
-    await onlineStatus.waitForExist();
-    return onlineStatus;
   }
 
   // Message Group Wraps Sent Methods
@@ -270,41 +194,6 @@ export default class MessageGroup extends UplinkMainScreen {
     );
     await onlineStatus.waitForExist();
     return onlineStatus;
-  }
-
-  // Group Messages Received Methods
-
-  async getLastReceivedGroup() {
-    const messageGroupsReceived = await this.messageGroupReceived;
-    const lastGroupIndex = (await messageGroupsReceived.length) - 1;
-    const lastGroupLocator = await messageGroupsReceived[lastGroupIndex];
-    return lastGroupLocator;
-  }
-
-  async getLastMessageReceivedPinIndicator() {
-    const lastGroupReceived = await this.getLastReceivedGroup();
-    await driver.waitUntil(
-      async () => {
-        return await lastGroupReceived.$(SELECTORS.PIN_INDICATOR);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected pin indicator was never added to received message after 15 seconds",
-      },
-    );
-
-    const pinIndicator = await lastGroupReceived.$(SELECTORS.PIN_INDICATOR);
-    return pinIndicator;
-  }
-
-  async getLastMessageReceivedTimeAgo() {
-    const lastGroupReceived = await this.getLastReceivedGroup();
-    const timeAgoText = await lastGroupReceived
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
-      .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
-    await timeAgoText.waitForExist();
-    return timeAgoText;
   }
 
   // Group Messages Sent Methods
@@ -349,53 +238,7 @@ export default class MessageGroup extends UplinkMainScreen {
     await imageToClick.click();
   }
 
-  async openRemoteQuickProfile() {
-    const imageToClick = await this.getLastGroupWrapReceivedIndicator();
-    await this.hoverOnElement(imageToClick);
-    await imageToClick.click();
-  }
-
   // Reactions Methods
-
-  async getLastMessageReceivedReactionsContainer() {
-    const lastGroupReceived = await this.getLastReceivedGroup();
-    const reactionContainers = await lastGroupReceived.$$(
-      SELECTORS.MESSAGE_REACTION_CONTAINER,
-    );
-    const lastContainerIndex = (await reactionContainers.length) - 1;
-    const lastContainerLocator = await reactionContainers[lastContainerIndex];
-    return lastContainerLocator;
-  }
-
-  async getLastMessageReceivedRemoteReactions() {
-    const reactionsContainer =
-      await this.getLastMessageReceivedReactionsContainer();
-    const remoteReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_REMOTE,
-    );
-    let results = [];
-    for (let reaction of remoteReactions) {
-      const reactionValue = await reaction.$(SELECTORS.EMOJI_REACTION_VALUE);
-      const reactionValueText = await reactionValue.getText();
-      results.push(reactionValueText);
-    }
-    return results;
-  }
-
-  async getLastMessageReceivedSelfReactions() {
-    const reactionsContainer =
-      await this.getLastMessageReceivedReactionsContainer();
-    const selfReactions = await reactionsContainer.$$(
-      SELECTORS.EMOJI_REACTION_SELF,
-    );
-    let results = [];
-    for (let reaction of selfReactions) {
-      const reactionValue = await reaction.$(SELECTORS.EMOJI_REACTION_VALUE);
-      const reactionValueText = await reactionValue.getText();
-      results.push(reactionValueText);
-    }
-    return results;
-  }
 
   async getLastMessageSentReactionsContainer() {
     const lastGroupSent = await this.getLastSentGroup();
@@ -489,38 +332,8 @@ export default class MessageGroup extends UplinkMainScreen {
     );
   }
 
-  // Get messages locators from last message group received
-
-  async getFirstMessageInLastGroupReceived() {
-    const lastGroupSent = await this.getLastReceivedGroup();
-    const firstMessage = await lastGroupSent.$(
-      SELECTORS.CHAT_MESSAGE_LOCAL_FIRST,
-    );
-    return firstMessage;
-  }
-
-  async getLastMessageInLastGroupReceived() {
-    const lastGroupSent = await this.getLastReceivedGroup();
-    const lastMessage = await lastGroupSent.$(
-      SELECTORS.CHAT_MESSAGE_LOCAL_LAST,
-    );
-    return lastMessage;
-  }
-
-  async getMiddleMessageInLastGroupReceived(index: number) {
-    const lastGroupSent = await this.getLastReceivedGroup();
-    const middleMessage = await lastGroupSent.$$(
-      SELECTORS.CHAT_MESSAGE_LOCAL_MIDDLE,
-    )[index];
-    return middleMessage;
-  }
-
   // Pin Indicator validations
 
-  async validateLastMessageReceivedHasPinIndicator() {
-    const pinIndicator = await this.getLastMessageReceivedPinIndicator();
-    await pinIndicator.waitForExist();
-  }
   async validateLastMessageSentHasPinIndicator() {
     const pinIndicator = await this.getLastMessageSentPinIndicator();
     await pinIndicator.waitForExist();

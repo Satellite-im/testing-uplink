@@ -2,7 +2,7 @@ require("module-alias/register");
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import EmojiSuggestions from "@screenobjects/chats/EmojiSuggestions";
 import InputBar from "@screenobjects/chats/InputBar";
-import Messages from "@screenobjects/chats/Messages";
+import Messages from "@screenobjects/chats/MessageLocal";
 import {
   activateFirstApplication,
   activateSecondApplication,

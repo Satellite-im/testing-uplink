@@ -22,7 +22,6 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_CODE_PANE: "<Pane>",
   CHAT_MESSAGE_FILE_BUTTON: '[name="attachment-button"]',
   CHAT_MESSAGE_FILE_EMBED: '[name="file-embed"]',
-  CHAT_MESSAGE_FILE_EMBED_REMOTE: '[name="file-embed-remote"]',
   CHAT_MESSAGE_FILE_ICON: '[name="file-icon"]',
   CHAT_MESSAGE_FILE_INFO: '[name="file-info"]',
   CHAT_MESSAGE_FILE_META: '[name="file-meta"]',
@@ -38,10 +37,7 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT: "<Text>",
   CHAT_MESSAGE_LINK_EMBED_ICON: '[name="embed-icon"]',
   CHAT_MESSAGE_LINK_EMBED_TITLE: '[name="link-title"]',
-  CHAT_MESSAGE_LOCAL:
-    '//Group[contains(@Name, "local") and starts-with(@Name, "message")]',
-  CHAT_MESSAGE_REMOTE:
-    '//Group[contains(@Name, "remote") and starts-with(@Name, "message")]',
+  CHAT_MESSAGE_LOCAL: '[name="message-local"]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
   CHAT_MESSAGE_REPLY_TEXT: "<Text>",
   CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
@@ -56,7 +52,6 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_CODE_PANE: "-ios class chain:**/XCUIElementTypeGroup",
   CHAT_MESSAGE_FILE_BUTTON: "~attachment-button",
   CHAT_MESSAGE_FILE_EMBED: "~file-embed",
-  CHAT_MESSAGE_FILE_EMBED_REMOTE: "~file-embed-remote",
   CHAT_MESSAGE_FILE_ICON: "~file-icon",
   CHAT_MESSAGE_FILE_INFO: "~file-info",
   CHAT_MESSAGE_FILE_META: "~file-meta",
@@ -73,10 +68,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_LINK_EMBED_ICON: "~embed-icon",
   CHAT_MESSAGE_LINK_EMBED_TITLE: "~link-title",
-  CHAT_MESSAGE_LOCAL:
-    '//XCUIElementTypeGroup[contains(@label, "local") and starts-with(@label, "message")]',
-  CHAT_MESSAGE_REMOTE:
-    '//XCUIElementTypeGroup[contains(@label, "remote") and starts-with(@label, "message")]',
+  CHAT_MESSAGE_LOCAL: "~message-local",
   CHAT_MESSAGE_REPLY: "~message-reply",
   CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_TEXT_GROUP: "~message-text",
@@ -87,9 +79,9 @@ currentOS === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class Messages extends UplinkMainScreen {
+export default class MessageLocal extends UplinkMainScreen {
   constructor() {
-    super(SELECTORS.CHAT_MESSAGE_LOCAL || SELECTORS.CHAT_MESSAGE_REMOTE);
+    super(SELECTORS.CHAT_MESSAGE_LOCAL);
   }
 
   get chatMessageCodeCopyButton() {
@@ -122,28 +114,12 @@ export default class Messages extends UplinkMainScreen {
     );
   }
 
-  get chatMessageFileButtonRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
-      SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
-    );
-  }
-
   get chatMessageFileEmbedLocal() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
   }
 
-  get chatMessageFileEmbedRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE);
-  }
-
   get chatMessageFileIconLocal() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
-      SELECTORS.CHAT_MESSAGE_FILE_ICON,
-    );
-  }
-
-  get chatMessageFileIconRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
       SELECTORS.CHAT_MESSAGE_FILE_ICON,
     );
   }
@@ -154,20 +130,8 @@ export default class Messages extends UplinkMainScreen {
     );
   }
 
-  get chatMessageFileInfoRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
-      SELECTORS.CHAT_MESSAGE_FILE_INFO,
-    );
-  }
-
   get chatMessageFileMetaLocal() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
-      SELECTORS.CHAT_MESSAGE_FILE_META,
-    );
-  }
-
-  get chatMessageFileMetaRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
       SELECTORS.CHAT_MESSAGE_FILE_META,
     );
   }
@@ -178,32 +142,14 @@ export default class Messages extends UplinkMainScreen {
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
   }
 
-  get chatMessageFileMetaTextRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_META)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
-  }
-
   get chatMessageFileNameLocal() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED).$(
       SELECTORS.CHAT_MESSAGE_FILE_NAME,
     );
   }
 
-  get chatMessageFileNameRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
-      SELECTORS.CHAT_MESSAGE_FILE_NAME,
-    );
-  }
-
   get chatMessageFileNameTextLocal() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
-  }
-
-  get chatMessageFileNameTextRemote() {
-    return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
@@ -254,10 +200,6 @@ export default class Messages extends UplinkMainScreen {
     return $$(SELECTORS.CHAT_MESSAGE_LOCAL);
   }
 
-  get chatMessageRemote() {
-    return $$(SELECTORS.CHAT_MESSAGE_REMOTE);
-  }
-
   get chatMessageReply() {
     return $(SELECTORS.CHAT_MESSAGE_REPLY);
   }
@@ -276,101 +218,7 @@ export default class Messages extends UplinkMainScreen {
     return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
-  // Messages Received Methods
-
-  async clickOnCopyCodeOfLastMessageReceived() {
-    const element = await this.getLastMessageReceivedCodeCopyButton();
-    await element.click();
-  }
-
-  async getLastMessageReceivedCodeCopyButton() {
-    const message = await this.getLastMessageReceivedLocator();
-    const messageCodeCopyButton = await message
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON);
-    return messageCodeCopyButton;
-  }
-
-  async getLastMessageReceivedCodeLanguage() {
-    const message = await this.getLastMessageReceivedLocator();
-    const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
-    const messageCodeLanguage = await messageText.$(
-      SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE,
-    );
-    return messageCodeLanguage;
-  }
-
-  async getLastMessageReceivedCodePane() {
-    const message = await this.getLastMessageReceivedLocator();
-    const messageCodePane = await message
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
-    await messageCodePane.waitForExist();
-    return messageCodePane;
-  }
-
-  async getLastMessageReceivedCodeMessage() {
-    const messageCodePane = await this.getLastMessageReceivedCodePane();
-    let messageResult = "";
-    const messageResultElements = await messageCodePane.$$(
-      SELECTORS.CHAT_MESSAGE_CODE_MESSAGES,
-    );
-    for (let element of messageResultElements) {
-      const codeMessageText = await element.getText();
-      messageResult += codeMessageText;
-    }
-    return messageResult;
-  }
-
-  async getMessageReceivedLocator(expectedMessage: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let locator: string = "";
-    if (currentDriver === MACOS_DRIVER) {
-      locator =
-        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-        expectedMessage +
-        '"`]';
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      locator =
-        '//Group[contains(@Name, "remote"]//Text[contains(@Name, "' +
-        expectedMessage +
-        '")]/../..';
-    }
-    const messageReceived = await $(locator);
-    await messageReceived.waitForExist();
-    return messageReceived;
-  }
-
-  async getLastMessageReceivedLocator() {
-    const messages = await this.chatMessageRemote;
-    const lastMessageIndex = (await messages.length) - 1;
-    const lastMessage = await messages[lastMessageIndex];
-    return lastMessage;
-  }
-
-  async getLastMessageReceivedText() {
-    const message = await this.getLastMessageReceivedLocator();
-    const messageText = await message
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    await messageText.waitForExist();
-    return messageText;
-  }
-
-  async getFirstMessageReceivedLocator() {
-    const messages = await this.chatMessageRemote;
-    const firstMessage = await messages[0];
-    return firstMessage;
-  }
-
-  async getFirstMessageReceivedText() {
-    const message = await this.getFirstMessageReceivedLocator();
-    const messageText = await message
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
-    await messageText.waitForExist();
-    return messageText;
-  }
+  // Message Local Methods
 
   async waitForCodeMessageSentToExist(expectedLanguage: string) {
     const currentDriver = await this.getCurrentDriver();
@@ -447,59 +295,6 @@ export default class Messages extends UplinkMainScreen {
     }
     const messageSent = await $(messageSentLocator);
     await messageSent.waitForExist();
-  }
-
-  async waitForReceivingCodeMessage(expectedLanguage: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let codeMessageReceivedLocator: string = "";
-    if (currentDriver === MACOS_DRIVER) {
-      codeMessageReceivedLocator =
-        '//XCUIElementTypeGroup[contains(@label, "remote")]//XCUIElementTypeStaticText[contains(@value, "' +
-        expectedLanguage +
-        '")]';
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      codeMessageReceivedLocator =
-        '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
-        expectedLanguage +
-        '")]';
-    }
-
-    const codeMessage = await $(codeMessageReceivedLocator);
-    await codeMessage.waitForExist();
-  }
-
-  async waitForReceivingLink(expectedMessage: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let linkReceivedLocator: string = "";
-    if (currentDriver === MACOS_DRIVER) {
-      linkReceivedLocator =
-        '-ios class chain:**/XCUIElementTypeLink/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-        expectedMessage +
-        '"`]';
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      linkReceivedLocator =
-        '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
-    }
-    const link = await $(linkReceivedLocator);
-    await link.waitForExist();
-  }
-
-  async waitForReceivingMessage(expectedMessage: string) {
-    const currentDriver = await this.getCurrentDriver();
-    let receivedMessageLocator: string = "";
-    if (currentDriver === MACOS_DRIVER) {
-      receivedMessageLocator =
-        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-        expectedMessage +
-        '"`]';
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      receivedMessageLocator =
-        '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
-        expectedMessage +
-        '")]';
-    }
-    const messageReceived = await $(receivedMessageLocator);
-    await messageReceived.waitForExist();
   }
 
   // Messages Sent Methods
@@ -618,28 +413,6 @@ export default class Messages extends UplinkMainScreen {
 
   // Download files methods
 
-  async downloadLastReceivedFile(extension: string) {
-    // Generate a random filename for downloaded file
-    const filename = faker.lorem.word(5) + extension;
-
-    // First, obtain image locator and hover on it
-    await this.hoverOnLastFileReceived();
-
-    // Now with button visible, get download button from last received file
-    const downloadButton = await this.getLastMessageReceivedDownloadButton();
-
-    // Finally, depending on the driver running, execute the custom command to download file
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await downloadButton.click();
-      await saveFileOnMacOS(filename);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await getUplinkWindowHandle();
-      await downloadButton.click();
-      await saveFileOnWindows(filename, uplinkContext);
-    }
-  }
-
   async downloadLastSentFile(extension: string) {
     // Generate a random filename for downloaded file
     const filename = faker.lorem.word(6) + extension;
@@ -647,7 +420,7 @@ export default class Messages extends UplinkMainScreen {
     // First, obtain image locator and hover on it
     await this.hoverOnLastFileSent();
 
-    // Now with button visible, get download button from last received file
+    // Now with button visible, get download button from last sent file
     const downloadButton = await this.getLastMessageSentDownloadButton();
 
     // Finally, depending on the driver running, execute the custom command to download file
@@ -664,62 +437,12 @@ export default class Messages extends UplinkMainScreen {
 
   // Hover on Last Message With Files Methods
 
-  async hoverOnLastFileReceived() {
-    const imageToDownload = await this.getLastMessageReceivedFileEmbed();
-    await this.hoverOnElement(imageToDownload);
-  }
-
   async hoverOnLastFileSent() {
     const imageToDownload = await this.getLastMessageSentFileEmbed();
     await this.hoverOnElement(imageToDownload);
   }
 
   // Messages With Files Methods
-
-  async getLastMessageReceivedDownloadButton() {
-    const lastMessage = await this.getLastMessageReceivedLocator();
-    const getLastMessageDownloadButton = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
-    );
-    await getLastMessageDownloadButton.waitForExist();
-    return getLastMessageDownloadButton;
-  }
-
-  async getLastMessageReceivedFileEmbed() {
-    const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageFileEmbed = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE,
-    );
-    await lastMessageFileEmbed.waitForExist();
-    return lastMessageFileEmbed;
-  }
-
-  async getLastMessageReceivedFileIcon() {
-    const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageFileIcon = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_FILE_ICON,
-    );
-    await lastMessageFileIcon.waitForExist();
-    return lastMessageFileIcon;
-  }
-
-  async getLastMessageReceivedFileMeta() {
-    const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageFileMeta = await lastMessage
-      .$(SELECTORS.CHAT_MESSAGE_FILE_META)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
-    await lastMessageFileMeta.waitForExist();
-    return lastMessageFileMeta;
-  }
-
-  async getLastMessageReceivedFileName() {
-    const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageFileName = await lastMessage
-      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
-      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
-    await lastMessageFileName.waitForExist();
-    return lastMessageFileName;
-  }
 
   async getLastMessageSentDownloadButton() {
     const lastMessage = await this.getLastMessageSentLocator();
@@ -767,42 +490,6 @@ export default class Messages extends UplinkMainScreen {
   }
 
   // Messages With Links Methods
-  async getLastMessageReceivedLinkEmbed() {
-    const lastMessage = await this.getLastMessageReceivedLocator();
-    const lastMessageLinkEmbed = await lastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED,
-    );
-    await lastMessageLinkEmbed.waitForExist({ timeout: 30000 });
-    return lastMessageLinkEmbed;
-  }
-
-  async getLastMessageReceivedLinkEmbedDetailsText() {
-    const linkEmbedLastMessage = await this.getLastMessageReceivedLinkEmbed();
-    const linkEmbedDetailsText = await linkEmbedLastMessage
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
-      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
-    await linkEmbedDetailsText.waitForExist();
-    return linkEmbedDetailsText;
-  }
-
-  async getLastMessageReceivedLinkEmbedIcon() {
-    const linkEmbedLastMessage = await this.getLastMessageReceivedLinkEmbed();
-    const linkEmbedIcon = await linkEmbedLastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON,
-    );
-    await linkEmbedIcon.waitForExist();
-    return linkEmbedIcon;
-  }
-
-  async getLastMessageReceivedLinkEmbedIconTitle() {
-    const linkEmbedIconLastMessage =
-      await this.getLastMessageReceivedLinkEmbedIcon();
-    const iconTitle = await linkEmbedIconLastMessage.$(
-      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE,
-    );
-    await iconTitle.waitForExist();
-    return iconTitle;
-  }
 
   async getLastMessageSentLinkEmbed() {
     const lastMessage = await this.getLastMessageSentLocator();
@@ -843,30 +530,8 @@ export default class Messages extends UplinkMainScreen {
 
   // Context Menu Functions
 
-  async openContextMenuOnReceivedMessage(message: string) {
-    const messageToClick = await this.getMessageReceivedLocator(message);
-    await this.hoverOnElement(messageToClick);
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(messageToClick);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(messageToClick);
-    }
-  }
-
   async openContextMenuOnSentMessage(message: string) {
     const messageToClick = await this.getMessageSentLocator(message);
-    await this.hoverOnElement(messageToClick);
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(messageToClick);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(messageToClick);
-    }
-  }
-
-  async openContextMenuOnLastReceived() {
-    const messageToClick = await this.getLastMessageReceivedLocator();
     await this.hoverOnElement(messageToClick);
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
@@ -887,12 +552,7 @@ export default class Messages extends UplinkMainScreen {
     }
   }
 
-  // Click on last message sent or received
-  async clickOnLastReceivedMessage() {
-    const messageToClick = await this.getLastMessageReceivedLocator();
-    await this.hoverOnElement(messageToClick);
-    await messageToClick.click();
-  }
+  // Click on last message sent
 
   async clickOnLastSentMessage() {
     const messageToClick = await this.getLastMessageSentLocator();

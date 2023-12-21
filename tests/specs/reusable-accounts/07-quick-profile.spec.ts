@@ -6,8 +6,8 @@ import {
 } from "@helpers/commands";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
-import MessageGroup from "@screenobjects/chats/MessageGroup";
-import Messages from "@screenobjects/chats/Messages";
+import MessageGroup from "@screenobjects/chats/MessageGroupLocal";
+import Messages from "@screenobjects/chats/MessageLocal";
 import QuickProfile from "@screenobjects/chats/QuickProfile";
 import Topbar from "@screenobjects/chats/Topbar";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";

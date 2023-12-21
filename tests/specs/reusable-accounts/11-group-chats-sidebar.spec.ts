@@ -6,7 +6,7 @@ import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
-import Messages from "@screenobjects/chats/Messages";
+import Messages from "@screenobjects/chats/MessageLocal";
 import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
