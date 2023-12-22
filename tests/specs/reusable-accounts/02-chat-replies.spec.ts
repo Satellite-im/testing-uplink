@@ -31,7 +31,6 @@ export default async function repliesTests() {
 
   it("Chat User B - Reply popup - Validate contents and close it", async () => {
     // Open Context Menu on Last Message Received and select Reply
-    await messageRemote.waitForReceivingMessage("Three...");
     await messageRemote.openContextMenuOnLastReceived();
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.selectContextOptionReply();
