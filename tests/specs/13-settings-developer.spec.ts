@@ -1,20 +1,20 @@
 require("module-alias/register");
 import SettingsDeveloperScreen from "@screenobjects/settings/SettingsDeveloperScreen";
 import SettingsLicensesScreen from "@screenobjects/settings/SettingsLicenses";
-const settingsDeveloperFirstUser = new SettingsDeveloperScreen();
-const settingsLicensesFirstUser = new SettingsLicensesScreen();
+const settingsDeveloper = new SettingsDeveloperScreen();
+const settingsLicenses = new SettingsLicensesScreen();
 
-export default async function settingsDeveloper() {
+export default async function settingsDeveloperTests() {
   it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await settingsLicensesFirstUser.goToDeveloperSettings();
-    await settingsDeveloperFirstUser.waitForIsShown(true);
+    await settingsLicenses.goToDeveloperSettings();
+    await settingsDeveloper.waitForIsShown(true);
 
     // Validate EXPERIMENTAL FEATURES section
     const experimentalHeader =
-      await settingsDeveloperFirstUser.experimentalFeaturesHeader;
+      await settingsDeveloper.experimentalFeaturesHeader;
     const experimentalDescription =
-      await settingsDeveloperFirstUser.experimentalFeaturesDescription;
+      await settingsDeveloper.experimentalFeaturesDescription;
     await expect(experimentalHeader).toHaveTextContaining(
       "EXPERIMENTAL FEATURES",
     );
@@ -23,10 +23,9 @@ export default async function settingsDeveloper() {
     );
 
     // Validate DEVELOPER MODE section
-    const developerModeHeader =
-      await settingsDeveloperFirstUser.developerModeHeader;
+    const developerModeHeader = await settingsDeveloper.developerModeHeader;
     const developerModeDescription =
-      await settingsDeveloperFirstUser.developerModeDescription;
+      await settingsDeveloper.developerModeDescription;
     await expect(developerModeHeader).toHaveTextContaining("DEVELOPER MODE");
     await expect(developerModeDescription).toHaveTextContaining(
       "Enabling developer mode adds logging and displays helpful debug information on the UI.",
@@ -34,9 +33,9 @@ export default async function settingsDeveloper() {
 
     // Validate TEST NOTIFICATION section
     const testNotificationHeader =
-      await settingsDeveloperFirstUser.testNotificationHeader;
+      await settingsDeveloper.testNotificationHeader;
     const testNotificationDescription =
-      await settingsDeveloperFirstUser.testNotificationDescription;
+      await settingsDeveloper.testNotificationDescription;
     await expect(testNotificationHeader).toHaveTextContaining(
       "TEST NOTIFICATION",
     );
@@ -45,9 +44,8 @@ export default async function settingsDeveloper() {
     );
 
     // Validate OPEN CACHE section
-    const openCacheHeader = await settingsDeveloperFirstUser.openCacheHeader;
-    const openCacheDescription =
-      await settingsDeveloperFirstUser.openCacheDescription;
+    const openCacheHeader = await settingsDeveloper.openCacheHeader;
+    const openCacheDescription = await settingsDeveloper.openCacheDescription;
     await expect(openCacheHeader).toHaveTextContaining("OPEN CACHE");
     await expect(openCacheDescription).toHaveTextContaining(
       "Open the cache in your default file browser.",
@@ -55,9 +53,9 @@ export default async function settingsDeveloper() {
 
     // Validate COMPRESS & DOWNLOAD CACHE section
     const compressAndDownloadHeader =
-      await settingsDeveloperFirstUser.compressAndDownloadCacheHeader;
+      await settingsDeveloper.compressAndDownloadCacheHeader;
     const compressAndDownloadDescription =
-      await settingsDeveloperFirstUser.compressAndDownloadCacheDescription;
+      await settingsDeveloper.compressAndDownloadCacheDescription;
     await expect(compressAndDownloadHeader).toHaveTextContaining(
       "COMPRESS & DOWNLOAD CACHE",
     );
@@ -66,27 +64,24 @@ export default async function settingsDeveloper() {
     );
 
     // Validate PRINT STATE section
-    const printStateHeader = await settingsDeveloperFirstUser.printStateHeader;
-    const printStateDescription =
-      await settingsDeveloperFirstUser.printStateDescription;
+    const printStateHeader = await settingsDeveloper.printStateHeader;
+    const printStateDescription = await settingsDeveloper.printStateDescription;
     await expect(printStateHeader).toHaveTextContaining("PRINT STATE");
     await expect(printStateDescription).toHaveTextContaining(
       "Display State in the debug logger",
     );
 
     // Validate CLEAR CACHE section
-    const clearCacheHeader = await settingsDeveloperFirstUser.clearCacheHeader;
-    const clearCacheDescription =
-      await settingsDeveloperFirstUser.clearCacheDescription;
+    const clearCacheHeader = await settingsDeveloper.clearCacheHeader;
+    const clearCacheDescription = await settingsDeveloper.clearCacheDescription;
     await expect(clearCacheHeader).toHaveTextContaining("CLEAR CACHE");
     await expect(clearCacheDescription).toHaveTextContaining(
       "Reset your account, basically.",
     );
 
     // Validate SAVE LOGS IN A FILE section
-    const saveLogsHeader = await settingsDeveloperFirstUser.saveLogsHeader;
-    const saveLogsDescription =
-      await settingsDeveloperFirstUser.saveLogsDescription;
+    const saveLogsHeader = await settingsDeveloper.saveLogsHeader;
+    const saveLogsDescription = await settingsDeveloper.saveLogsDescription;
     await expect(saveLogsHeader).toHaveTextContaining("SAVE LOGS IN A FILE");
     await expect(saveLogsDescription).toHaveTextContaining(
       "Enabling this option, logs will be saved in a file and will be persistent.",
@@ -95,78 +90,74 @@ export default async function settingsDeveloper() {
 
   it("Settings Developer - Save Logs switch", async () => {
     // Click on SAVE LOGS IN FILE switch to activate the option
-    await settingsDeveloperFirstUser.clickOnSaveLogs();
+    await settingsDeveloper.clickOnSaveLogs();
 
     // Validate that switch has now value = '1' (active)
-    const toggleElement =
-      await settingsDeveloperFirstUser.saveLogsControllerValue;
+    const toggleElement = await settingsDeveloper.saveLogsControllerValue;
     const saveLogsStatus =
-      await settingsDeveloperFirstUser.getToggleState(toggleElement);
+      await settingsDeveloper.getToggleState(toggleElement);
     await expect(saveLogsStatus).toEqual("1");
   });
 
   // Skipped due to failure on app when disabling the switch the app crashes
   xit("Settings Developer - Disable Save Logs switch", async () => {
     // Click on SAVE LOGS IN FILE switch to disable the option
-    await settingsDeveloperFirstUser.clickOnSaveLogs();
+    await settingsDeveloper.clickOnSaveLogs();
 
     // Validate that switch has now value = '0' (disabled)
-    const toggleElement =
-      await settingsDeveloperFirstUser.saveLogsControllerValue;
+    const toggleElement = await settingsDeveloper.saveLogsControllerValue;
     const saveLogsStatus =
-      await settingsDeveloperFirstUser.getToggleState(toggleElement);
+      await settingsDeveloper.getToggleState(toggleElement);
     await expect(saveLogsStatus).toEqual("0");
   });
 
   // Test skipped since it fails on Windows CI
   xit("Settings Developer - Enable Developer Mode", async () => {
     // Click on DEVELOPER MODE switch to activate the option
-    await settingsDeveloperFirstUser.clickOnDeveloperMode();
+    await settingsDeveloper.clickOnDeveloperMode();
 
     // Validate that switch has now value = '1' (active)
-    const toggleElement =
-      await settingsDeveloperFirstUser.developerModeControllerValue;
+    const toggleElement = await settingsDeveloper.developerModeControllerValue;
     const developerModeStatus =
-      await settingsDeveloperFirstUser.getToggleState(toggleElement);
+      await settingsDeveloper.getToggleState(toggleElement);
     await expect(developerModeStatus).toEqual("1");
   });
 
   // Test skipped since it fails on Windows CI
   xit("Settings Developer - Disable Developer Mode switch", async () => {
     // Click on DEVELOPER MODE switch to disable the option
-    await settingsDeveloperFirstUser.clickOnDeveloperMode();
+    await settingsDeveloper.clickOnDeveloperMode();
 
     // Validate that switch has now value = '0' (disabled)
-    const toggleElement =
-      await settingsDeveloperFirstUser.developerModeControllerValue;
+    const toggleElement = await settingsDeveloper.developerModeControllerValue;
     const developerModeStatus =
-      await settingsDeveloperFirstUser.getToggleState(toggleElement);
+      await settingsDeveloper.getToggleState(toggleElement);
     await expect(developerModeStatus).toEqual("0");
   });
 
   // Skipped because it needs the aria label fixed for test notifications button
   xit("Settings Developer - Click on Test Notification button", async () => {
-    await settingsDeveloperFirstUser.clickOnTestNotifications();
+    await settingsDeveloper.clickOnTestNotifications();
   });
 
   // Skipped for now because it is failing on CI - Needs research
   xit("Settings Developer - Open folder button", async () => {
-    await settingsDeveloperFirstUser.clickOnOpenCache();
-    await settingsDeveloperFirstUser.returnToApp();
+    await settingsDeveloper.clickOnOpenCache();
+    await settingsDeveloper.returnToApp();
   });
 
   // Skipped for now because no action is performed when clicking on the button
   xit("Settings Developer - Compress and Download Cache", async () => {
-    await settingsDeveloperFirstUser.clickOnCompressAndDownloadCache();
+    await settingsDeveloper.clickOnCompressAndDownloadCache();
   });
 
   // Skipped for now because no action is performed when clicking on the button
   xit("Settings Developer - Print State button", async () => {
-    await settingsDeveloperFirstUser.clickOnPrintState();
+    await settingsDeveloper.clickOnPrintState();
   });
 
   // Skipped for now because no action is performed when clicking on the button
   xit("Settings Developer - Clear Cache", async () => {
-    await settingsDeveloperFirstUser.clickOnClearCache();
+    await settingsDeveloper.clickOnClearCache();
   });
 }

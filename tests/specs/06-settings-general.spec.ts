@@ -2,42 +2,40 @@ require("module-alias/register");
 import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
-const settingsProfileFirstUser = new SettingsProfileScreen();
-const settingsGeneralFirstUser = new SettingsGeneralScreen();
+const settingsProfile = new SettingsProfileScreen();
+const settingsGeneral = new SettingsGeneralScreen();
 
-export default async function settingsGeneral() {
+export default async function settingsGeneralTests() {
   it("Settings General - Validate header and description texts are correct", async () => {
     // Go to Settings Screen
-    await settingsProfileFirstUser.goToGeneralSettings();
-    await settingsGeneralFirstUser.waitForIsShown(true);
+    await settingsProfile.goToGeneralSettings();
+    await settingsGeneral.waitForIsShown(true);
 
     // APP LANGUAGE
-    const appLanguageHeader = await settingsGeneralFirstUser.appLanguageHeader;
-    const appLanguageDescription =
-      await settingsGeneralFirstUser.appLanguageDescription;
+    const appLanguageHeader = await settingsGeneral.appLanguageHeader;
+    const appLanguageDescription = await settingsGeneral.appLanguageDescription;
     await expect(appLanguageHeader).toHaveTextContaining("APP LANGUAGE");
     await expect(appLanguageDescription).toHaveText("Change Language.");
 
     // FONT
-    const fontHeader = await settingsGeneralFirstUser.fontHeader;
-    const fontDescription = await settingsGeneralFirstUser.fontDescription;
+    const fontHeader = await settingsGeneral.fontHeader;
+    const fontDescription = await settingsGeneral.fontDescription;
     await expect(fontHeader).toHaveTextContaining("FONT");
     await expect(fontDescription).toHaveTextContaining(
       "Change the font of the app.",
     );
 
     // FONT SCALING
-    const fontScalingHeader = await settingsGeneralFirstUser.fontScalingHeader;
-    const fontScalingDescription =
-      await settingsGeneralFirstUser.fontScalingDescription;
+    const fontScalingHeader = await settingsGeneral.fontScalingHeader;
+    const fontScalingDescription = await settingsGeneral.fontScalingDescription;
     await expect(fontScalingHeader).toHaveTextContaining("FONT SCALING");
     await expect(fontScalingDescription).toHaveTextContaining(
       "Scale the font size up or down to your liking.",
     );
 
     // THEME
-    const themeHeader = await settingsGeneralFirstUser.themeHeader;
-    const themeDescription = await settingsGeneralFirstUser.themeDescription;
+    const themeHeader = await settingsGeneral.themeHeader;
+    const themeDescription = await settingsGeneral.themeDescription;
     await expect(themeHeader).toHaveTextContaining("THEME");
     await expect(themeDescription).toHaveTextContaining(
       "Change the theme of the app.",
@@ -46,22 +44,22 @@ export default async function settingsGeneral() {
 
   it("Settings General - Validate tooltips from buttons", async () => {
     // Validate Open Fonts Folder button tooltip
-    await settingsGeneralFirstUser.hoverOnOpenFontsFolder();
+    await settingsGeneral.hoverOnOpenFontsFolder();
 
     const openFolderTooltipText =
-      await settingsGeneralFirstUser.settingsGeneralElementTooltipText;
+      await settingsGeneral.settingsGeneralElementTooltipText;
     await expect(openFolderTooltipText).toHaveTextContaining("Open Folder");
 
     // Validate Open Themes Folder button tooltip
-    await settingsGeneralFirstUser.hoverOnOpenThemesFolder();
+    await settingsGeneral.hoverOnOpenThemesFolder();
     const openThemesTooltipText =
-      await settingsGeneralFirstUser.settingsGeneralElementTooltipText;
+      await settingsGeneral.settingsGeneralElementTooltipText;
     await expect(openThemesTooltipText).toHaveTextContaining("Open Folder");
 
     // Validate Clear Accent Color button tooltip
-    await settingsGeneralFirstUser.hoverOnClearAccentColor();
+    await settingsGeneral.hoverOnClearAccentColor();
     const clearAccentTooltipText =
-      await settingsGeneralFirstUser.settingsGeneralElementTooltipText;
+      await settingsGeneral.settingsGeneralElementTooltipText;
     await expect(clearAccentTooltipText).toHaveTextContaining(
       "Clear accent color",
     );
@@ -69,59 +67,59 @@ export default async function settingsGeneral() {
 
   // Skipped for now since there are no fonts to select
   xit("Settings General - Change font dropdown selection", async () => {
-    await settingsGeneralFirstUser.clickOnFontDropdown();
-    await settingsGeneralFirstUser.selectFont("Default");
+    await settingsGeneral.clickOnFontDropdown();
+    await settingsGeneral.selectFont("Default");
   });
 
   // Skipping test since it is failing on CI
   xit("Settings General - Change language", async () => {
     // Open Language Picker and select Español México
-    await settingsGeneralFirstUser.clickOnAppLanguageDropdown();
-    await settingsGeneralFirstUser.selectAppLanguage("Español");
+    await settingsGeneral.clickOnAppLanguageDropdown();
+    await settingsGeneral.selectAppLanguage("Español");
   });
 
   // Skipping test since it is failing on CI
   xit("Settings General - Switch back language to EN-US", async () => {
     // Open Language Picker and select Español México
-    await settingsGeneralFirstUser.clickOnAppLanguageDropdown();
-    await settingsGeneralFirstUser.selectAppLanguage("English");
+    await settingsGeneral.clickOnAppLanguageDropdown();
+    await settingsGeneral.selectAppLanguage("English");
   });
 
   it("Settings General - Increase font scaling to 1.25", async () => {
     // Click on increase font scaling button once
-    await settingsGeneralFirstUser.clickOnFontScalingPlus();
+    await settingsGeneral.clickOnFontScalingPlus();
 
     // Validate that current font size is changed to 1.25
-    const fontScalingValue = await settingsGeneralFirstUser.fontScalingValue;
+    const fontScalingValue = await settingsGeneral.fontScalingValue;
     await expect(fontScalingValue).toHaveTextContaining("1.25");
   });
 
   it("Settings General - Reduce font scaling to 0.50", async () => {
     // Click on decrease font scaling button twice
-    await settingsGeneralFirstUser.clickOnFontScalingMinus();
-    await settingsGeneralFirstUser.clickOnFontScalingMinus();
+    await settingsGeneral.clickOnFontScalingMinus();
+    await settingsGeneral.clickOnFontScalingMinus();
 
     // Validate that current font size is changed to 0.50
-    const fontScalingValue = await settingsGeneralFirstUser.fontScalingValue;
+    const fontScalingValue = await settingsGeneral.fontScalingValue;
     await expect(fontScalingValue).toHaveTextContaining("0.75");
   });
 
   it("Settings General - Change theme to Light Theme", async () => {
-    await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
+    await settingsGeneral.clickOnDarkLightThemeToggle();
   });
 
   it("Settings General - Validate user can change accent color", async () => {
-    const currentDriver = await settingsGeneralFirstUser.getCurrentDriver();
+    const currentDriver = await settingsGeneral.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       // Click on all the accent colors (red, orange, yellow, green, blue, violet, pink and finally grey)
-      await settingsGeneralFirstUser.selectRedAccentColor();
-      await settingsGeneralFirstUser.selectOrangeAccentColor();
-      await settingsGeneralFirstUser.selectYellowAccentColor();
-      await settingsGeneralFirstUser.selectGreenAccentColor();
-      await settingsGeneralFirstUser.selectBlueAccentColor();
-      await settingsGeneralFirstUser.selectVioletAccentColor();
-      await settingsGeneralFirstUser.selectPinkAccentColor();
-      await settingsGeneralFirstUser.selectGreyAccentColor();
+      await settingsGeneral.selectRedAccentColor();
+      await settingsGeneral.selectOrangeAccentColor();
+      await settingsGeneral.selectYellowAccentColor();
+      await settingsGeneral.selectGreenAccentColor();
+      await settingsGeneral.selectBlueAccentColor();
+      await settingsGeneral.selectVioletAccentColor();
+      await settingsGeneral.selectPinkAccentColor();
+      await settingsGeneral.selectGreyAccentColor();
     } else if (currentDriver === WINDOWS_DRIVER) {
       console.log(
         "Skipping test on Windows since it needs visual implementation",
@@ -130,10 +128,10 @@ export default async function settingsGeneral() {
   });
 
   it("Settings General - Validate user can clear accent color", async () => {
-    await settingsGeneralFirstUser.clickOnClearAccentColor();
+    await settingsGeneral.clickOnClearAccentColor();
   });
 
   it("Settings General - Return theme to Dark Theme", async () => {
-    await settingsGeneralFirstUser.clickOnDarkLightThemeToggle();
+    await settingsGeneral.clickOnDarkLightThemeToggle();
   });
 }

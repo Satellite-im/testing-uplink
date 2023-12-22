@@ -8,53 +8,49 @@ import {
 import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-const cropProfileFirstUser = new CropImageProfileModal();
-const settingsProfileFirstUser = new SettingsProfileScreen();
-const welcomeScreenFirstUser = new WelcomeScreen();
+const cropProfile = new CropImageProfileModal();
+const settingsProfile = new SettingsProfileScreen();
+const welcomeScreen = new WelcomeScreen();
 
-export default async function createReusableAccounts() {
+export default async function createReusableAccountsTests() {
   it("Create reusable account - Chat User A", async () => {
     await resetApp();
     // Create New User and go to Settings Profile Screen
     const username = "ChatUserA";
     await createNewUser(username);
-    await welcomeScreenFirstUser.goToSettings();
-    await settingsProfileFirstUser.waitForIsShown(true);
+    await welcomeScreen.goToSettings();
+    await settingsProfile.waitForIsShown(true);
   });
 
   it("Add profile picture - Chat User A", async () => {
-    await settingsProfileFirstUser.selectProfilePicture(
-      "./tests/fixtures/logo.jpg",
-    );
+    await settingsProfile.selectProfilePicture("./tests/fixtures/logo.jpg");
 
     // Validate Crop Tool Modal is displayed
-    await cropProfileFirstUser.validateCropToolModalIsShown();
+    await cropProfile.validateCropToolModalIsShown();
 
     // Do not change the size of picture and just confirm on crop modal
-    await cropProfileFirstUser.clickOnConfirmButton();
+    await cropProfile.clickOnConfirmButton();
 
     // Validate new profile picture is displayed
-    await settingsProfileFirstUser.validateProfilePictureIsShown();
+    await settingsProfile.validateProfilePictureIsShown();
   });
 
   it("Add banner picture - Chat User A", async () => {
-    await settingsProfileFirstUser.selectBannerPicture(
-      "./tests/fixtures/banner.jpg",
-    );
+    await settingsProfile.selectBannerPicture("./tests/fixtures/banner.jpg");
   });
 
   it("Save test account - Chat User A", async () => {
     // Click on Copy ID button and assert Toast Notification is displayed
     const username = "ChatUserA";
-    await settingsProfileFirstUser.openCopyIDContextMenu();
-    await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
+    await settingsProfile.openCopyIDContextMenu();
+    await settingsProfile.clickOnContextMenuCopyDidKey();
 
     // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus();
-    const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
+    await settingsProfile.pasteUserKeyInStatus();
+    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
     await saveTestKeys(username, didkey);
@@ -70,28 +66,28 @@ export default async function createReusableAccounts() {
     // Create New User and go to Settings Profile Screen
     const username = "ChatUserB";
     await createNewUser(username);
-    await welcomeScreenFirstUser.goToSettings();
-    await settingsProfileFirstUser.waitForIsShown(true);
+    await welcomeScreen.goToSettings();
+    await settingsProfile.waitForIsShown(true);
   });
 
   it("Add profile picture - Chat User B", async () => {
-    await settingsProfileFirstUser.selectProfilePicture(
+    await settingsProfile.selectProfilePicture(
       "./tests/fixtures/second-profile.png",
     );
 
     // Validate Crop Tool Modal is displayed
-    await cropProfileFirstUser.validateCropToolModalIsShown();
+    await cropProfile.validateCropToolModalIsShown();
 
     // Do not change the size of picture and just confirm on crop modal
-    await cropProfileFirstUser.clickOnConfirmButton();
+    await cropProfile.clickOnConfirmButton();
 
     // Validate new profile picture is displayed
-    await settingsProfileFirstUser.validateProfilePictureIsShown();
+    await settingsProfile.validateProfilePictureIsShown();
   });
 
   it("Add banner picture - Chat User B", async () => {
     it("Settings Profile - Change banner picture", async () => {
-      await settingsProfileFirstUser.selectBannerPicture(
+      await settingsProfile.selectBannerPicture(
         "./tests/fixtures/second-banner.jpg",
       );
     });
@@ -100,15 +96,15 @@ export default async function createReusableAccounts() {
   it("Save test account - Chat User B", async () => {
     const username = "ChatUserB";
     // Click on Copy ID button and assert Toast Notification is displayed
-    await settingsProfileFirstUser.openCopyIDContextMenu();
-    await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
+    await settingsProfile.openCopyIDContextMenu();
+    await settingsProfile.clickOnContextMenuCopyDidKey();
 
     // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfileFirstUser.pasteUserKeyInStatus();
-    const didkey = await settingsProfileFirstUser.getCopiedDidFromStatusInput();
+    await settingsProfile.pasteUserKeyInStatus();
+    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
     await saveTestKeys(username, didkey);
