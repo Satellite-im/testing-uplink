@@ -102,7 +102,7 @@ export const config: WebdriverIO.Config = {
     // it and to build services around it. You can either apply a single function or an array of
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
-    /*onPrepare: async function () {
+    onPrepare: async function () {
       const cacheFolderUserA = homedir() + "/.uplink/.user";
       const cacheFolderUserB = homedir() + "/.uplinkUserB/.user";
       const allureResultsFolder = join(process.cwd(), "./allure-results");
@@ -127,7 +127,7 @@ export const config: WebdriverIO.Config = {
           `Got an error trying to delete Cache Folder: ${error.message}`,
         );
       }
-    },*/
+    },
     /**
      * Function to be executed after a test (in Mocha/Jasmine).
      */

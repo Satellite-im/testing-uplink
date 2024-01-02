@@ -17,10 +17,10 @@ const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
 const { clipboard, mouse, Button } = require("@nut-tree/nut-js");
-let createPinFirstUser = new CreatePinScreen();
-let createUserFirstUser = new CreateUserScreen();
-let friendsScreenFirstUser = new FriendsScreen();
-let welcomeScreenFirstUser = new WelcomeScreen();
+let createPin = new CreatePinScreen();
+let createUser = new CreateUserScreen();
+let friendsScreen = new FriendsScreen();
+let welcomeScreen = new WelcomeScreen();
 
 // Users cache helper functions
 
@@ -99,31 +99,32 @@ export async function saveTestKeys(username: string, didkey: string) {
 // Login or Create Users Functions
 
 export async function createNewUser(username: string) {
-  await createPinFirstUser.unlockLayout.waitForExist();
+  await createPin.unlockLayout.waitForExist();
 
   // Enter pin for test user
-  await createPinFirstUser.enterPin("1234");
-  await createPinFirstUser.createAccountButton.waitForEnabled();
-  await createPinFirstUser.clickOnCreateAccount();
+  await createPin.enterPin("1234");
+  await createPin.createAccountButton.waitForEnabled();
+  await createPin.clickOnCreateAccount();
 
   // Enter Username and click on Create Account
-  await createUserFirstUser.enterUsername(username);
-  await createUserFirstUser.createAccountButton.waitForEnabled();
-  await createUserFirstUser.clickOnCreateAccount();
+  await createUser.enterUsername(username);
+  await createUser.createAccountButton.waitForEnabled();
+  await createUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  await welcomeScreenFirstUser.welcomeLayout.waitForExist();
+  await welcomeScreen.welcomeLayout.waitForExist();
 
   // Workaround to ensure that user clicks on Add Someone
-  await welcomeScreenFirstUser.clickAddSomeone();
-  await friendsScreenFirstUser.friendsBody.waitForExist();
+  await welcomeScreen.clickAddSomeone();
+  await friendsScreen.friendsBody.waitForExist();
 }
 
 export async function loginWithTestUser() {
   // Enter pin for test user
-  const unlockScreen = await createPinFirstUser.unlockLayout;
+  const unlockScreen = await createPin.unlockLayout;
   await unlockScreen.waitForExist();
-  await createPinFirstUser.enterPin("1234");
+  await createPin.enterPin("1234");
+  await createPin.unlockLayout.waitForExist({ reverse: true });
 }
 
 export async function resetApp() {

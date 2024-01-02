@@ -3,374 +3,365 @@ import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal"
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import { MACOS_DRIVER } from "@helpers/constants";
-const cropProfileFirstUser = new CropImageProfileModal();
-const filesScreenFirstUser = new FilesScreen();
-const settingsProfileFirstUser = new SettingsProfileScreen();
+const cropProfile = new CropImageProfileModal();
+const filesScreen = new FilesScreen();
+const settingsProfile = new SettingsProfileScreen();
 
-export default async function settingsProfile() {
+export default async function settingsProfileTests() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     // Go to Settings Screen and select the Settings Screen to validate
-    await filesScreenFirstUser.goToSettings();
-    await settingsProfileFirstUser.waitForIsShown(true);
+    await filesScreen.goToSettings();
+    await settingsProfile.waitForIsShown(true);
 
     // Start validations
-    await settingsProfileFirstUser.prereleaseIndicator.waitForExist();
+    await settingsProfile.prereleaseIndicator.waitForExist();
     const prereleaseIndicatorText =
-      await settingsProfileFirstUser.prereleaseIndicatorText;
+      await settingsProfile.prereleaseIndicatorText;
     await expect(prereleaseIndicatorText).toHaveTextContaining(
       "Pre-release | Issues/Feedback",
     );
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
-    await settingsProfileFirstUser.chatsButton.waitForExist();
-    await settingsProfileFirstUser.filesButton.waitForExist();
-    await settingsProfileFirstUser.friendsButton.waitForExist();
-    await settingsProfileFirstUser.settingsButton.waitForExist();
+    await settingsProfile.chatsButton.waitForExist();
+    await settingsProfile.filesButton.waitForExist();
+    await settingsProfile.friendsButton.waitForExist();
+    await settingsProfile.settingsButton.waitForExist();
   });
 
   it("Settings Profile - Assert texts for Your New Profile dialog", async () => {
-    await settingsProfileFirstUser.yourNewProfile.waitForExist();
+    await settingsProfile.yourNewProfile.waitForExist();
     const yourNewProfileHeaderText =
-      await settingsProfileFirstUser.yourNewProfileHeaderTextValue;
+      await settingsProfile.yourNewProfileHeaderTextValue;
     await expect(yourNewProfileHeaderText).toHaveTextContaining(
       "YOUR NEW PROFILE!",
     );
     const yourNewProfileDescriptionOne =
-      await settingsProfileFirstUser.yourNewProfileDescriptionTextOneValue;
+      await settingsProfile.yourNewProfileDescriptionTextOneValue;
     await expect(yourNewProfileDescriptionOne).toHaveTextContaining(
       "Tell the world all about yourself, well.. tell them as much as you can while we're still under construction, at least.",
     );
 
     const yourNewProfileDescriptionTwo =
-      await settingsProfileFirstUser.yourNewProfileDescriptionTextTwoValue;
+      await settingsProfile.yourNewProfileDescriptionTextTwoValue;
     await expect(yourNewProfileDescriptionTwo).toHaveTextContaining(
       "First step, pick out a profile picture and maybe even a banner too!",
     );
   });
 
   it("Settings Profile - Dismiss Your New Profile dialog", async () => {
-    await settingsProfileFirstUser.clickOnDismissButton();
-    await settingsProfileFirstUser.dismissButton.waitForExist({
+    await settingsProfile.clickOnDismissButton();
+    await settingsProfile.dismissButton.waitForExist({
       reverse: true,
     });
   });
 
   it("Settings Profile - Assert screen and placeholder texts", async () => {
     // Assert username and status labels are displayed on screen
-    const usernameLabel = await settingsProfileFirstUser.usernameLabel;
+    const usernameLabel = await settingsProfile.usernameLabel;
     await expect(usernameLabel).toHaveTextContaining("USERNAME");
 
-    const statusLabel = await settingsProfileFirstUser.statusLabel;
+    const statusLabel = await settingsProfile.statusLabel;
     await expect(statusLabel).toHaveTextContaining("STATUS");
 
     // Assert username and status placeholder values are displayed
-    const usernameInput = await settingsProfileFirstUser.usernameInput;
+    const usernameInput = await settingsProfile.usernameInput;
     await expect(usernameInput).toHaveTextContaining("Test123");
 
-    const statusInput = await settingsProfileFirstUser.statusInput;
+    const statusInput = await settingsProfile.statusInput;
     await expect(statusInput).toHaveTextContaining("");
   });
 
   it("Settings Profile - Profile picture - Display Crop Tool Modal", async () => {
     // Click on profile picture upload button and select the file logo.jpg
-    await settingsProfileFirstUser.selectProfilePicture(
-      "./tests/fixtures/logo.jpg",
-    );
+    await settingsProfile.selectProfilePicture("./tests/fixtures/logo.jpg");
 
     // Validate Crop Tool Modal is displayed
-    await cropProfileFirstUser.validateCropToolModalIsShown();
+    await cropProfile.validateCropToolModalIsShown();
   });
 
   it("Settings Profile - Profile Picture - Crop Tool Modal elements", async () => {
     // Validate Image Preview is displayed on Profile Picture Crop Tool Modal
-    await cropProfileFirstUser.cropImagePreview.waitForExist();
+    await cropProfile.cropImagePreview.waitForExist();
 
     // Validate buttons to increase and decrease zoom are displayed on Profile Picture Crop Tool Modal
-    await cropProfileFirstUser.cropImageRangeDecreaseButton.waitForExist();
-    await cropProfileFirstUser.cropImageRangeIncreaseButton.waitForExist();
+    await cropProfile.cropImageRangeDecreaseButton.waitForExist();
+    await cropProfile.cropImageRangeIncreaseButton.waitForExist();
 
     // Validate input slider for zoom size is displayed on Profile Picture Crop Tool Modal
-    await cropProfileFirstUser.cropImageRangeInputSlider.waitForExist();
+    await cropProfile.cropImageRangeInputSlider.waitForExist();
 
     // Validate buttons to cancel or confirm edition are displayed on Profile Picture Crop Tool Modal
-    await cropProfileFirstUser.cropImageTopbarButtonCancel.waitForExist();
-    await cropProfileFirstUser.cropImageTopbarButtonConfirm.waitForExist();
+    await cropProfile.cropImageTopbarButtonCancel.waitForExist();
+    await cropProfile.cropImageTopbarButtonConfirm.waitForExist();
 
     // Validate helper text is displayed on top of modal
-    await cropProfileFirstUser.cropImageTopbarLabel.waitForExist();
+    await cropProfile.cropImageTopbarLabel.waitForExist();
 
     // Validate default value shown for zoom slider is 1
-    const rangeValueText = await cropProfileFirstUser.cropImageRangeValueText;
+    const rangeValueText = await cropProfile.cropImageRangeValueText;
     await expect(rangeValueText).toHaveTextContaining("1");
   });
 
   it("Settings Profile - Profile Picture - Close Crop Tool Modal", async () => {
     // Click on Cancel button and assert Crop Tool Modal is closed
-    await cropProfileFirstUser.clickOnCancelButton();
-    await cropProfileFirstUser.cropImageModal.waitForExist({ reverse: true });
+    await cropProfile.clickOnCancelButton();
+    await cropProfile.cropImageModal.waitForExist({ reverse: true });
   });
 
   it("Settings Profile - Profile Picture - Crop Image and add profile picture", async () => {
     // Click on profile picture upload button and select the file logo.jpg
-    await settingsProfileFirstUser.selectProfilePicture(
-      "./tests/fixtures/logo.jpg",
-    );
+    await settingsProfile.selectProfilePicture("./tests/fixtures/logo.jpg");
 
     // Validate Crop Tool Modal is displayed
-    await cropProfileFirstUser.validateCropToolModalIsShown();
+    await cropProfile.validateCropToolModalIsShown();
 
     // Click three times on increase button, then one time on decrease button
-    await cropProfileFirstUser.clickMultipleTimesIncreaseButton(3);
-    await cropProfileFirstUser.clickOnDecreaseRangeButton();
+    await cropProfile.clickMultipleTimesIncreaseButton(3);
+    await cropProfile.clickOnDecreaseRangeButton();
 
     // Validate final value shown for zoom slider is 1
-    const rangeValueText = await cropProfileFirstUser.cropImageRangeValueText;
+    const rangeValueText = await cropProfile.cropImageRangeValueText;
     await expect(rangeValueText).toHaveTextContaining("1.2");
 
     // Click on confirm button to save
-    await cropProfileFirstUser.clickOnConfirmButton();
+    await cropProfile.clickOnConfirmButton();
 
     // Validate new profile picture is displayed
-    await settingsProfileFirstUser.validateProfilePictureIsShown();
+    await settingsProfile.validateProfilePictureIsShown();
   });
 
   it("Settings Profile - Validate change banner tooltip", async () => {
     // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Hover on banner picture
-    await settingsProfileFirstUser.hoverOnBanner();
+    await settingsProfile.hoverOnBanner();
 
     // Validate that change banner tooltip is displayed
-    const profileBannerTooltip =
-      await settingsProfileFirstUser.profileBannerTooltip;
+    const profileBannerTooltip = await settingsProfile.profileBannerTooltip;
     await expect(profileBannerTooltip).toHaveTextContaining("Change banner");
   });
 
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
   it("Settings Profile - Crop banner and add banner picture", async () => {
     // Click on banner picture upload button and select the file banner.jpg
-    await settingsProfileFirstUser.selectBannerPicture(
-      "./tests/fixtures/banner.jpg",
-    );
+    await settingsProfile.selectBannerPicture("./tests/fixtures/banner.jpg");
 
     // Validate Crop Tool Modal is displayed
-    await cropProfileFirstUser.validateCropToolModalIsShown();
+    await cropProfile.validateCropToolModalIsShown();
 
     // Change the size of picture and click on confirm button to save
-    await cropProfileFirstUser.clickOnIncreaseRangeButton();
-    await cropProfileFirstUser.clickOnConfirmButton();
+    await cropProfile.clickOnIncreaseRangeButton();
+    await cropProfile.clickOnConfirmButton();
 
     // Validate new banner picture is displayed
-    await settingsProfileFirstUser.validateBannerPictureIsShown();
+    await settingsProfile.validateBannerPictureIsShown();
   });
 
   it("Settings Profile - Change profile picture", async () => {
     // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Click on profile picture upload button and select the file second-profile.jpg
-    await settingsProfileFirstUser.selectProfilePicture(
+    await settingsProfile.selectProfilePicture(
       "./tests/fixtures/second-profile.png",
     );
 
     // Validate Crop Tool Modal is displayed
-    await cropProfileFirstUser.validateCropToolModalIsShown();
+    await cropProfile.validateCropToolModalIsShown();
 
     // Change the size of picture and click on confirm button to save
-    await cropProfileFirstUser.clickOnIncreaseRangeButton();
-    await cropProfileFirstUser.clickOnConfirmButton();
+    await cropProfile.clickOnIncreaseRangeButton();
+    await cropProfile.clickOnConfirmButton();
 
     // Validate new profile picture is displayed
-    await settingsProfileFirstUser.validateProfilePictureIsShown();
+    await settingsProfile.validateProfilePictureIsShown();
   });
 
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
   it("Settings Profile - Change banner picture", async () => {
     // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
-    await settingsProfileFirstUser.selectBannerPicture(
+    await settingsProfile.selectBannerPicture(
       "./tests/fixtures/second-banner.jpg",
     );
 
     // Validate Crop Tool Modal is displayed
-    await cropProfileFirstUser.validateCropToolModalIsShown();
+    await cropProfile.validateCropToolModalIsShown();
 
     // Change the size of picture and click on confirm button to save
-    await cropProfileFirstUser.clickOnIncreaseRangeButton();
-    await cropProfileFirstUser.clickOnConfirmButton();
+    await cropProfile.clickOnIncreaseRangeButton();
+    await cropProfile.clickOnConfirmButton();
 
     // Validate new banner picture is displayed
-    await settingsProfileFirstUser.validateBannerPictureIsShown();
+    await settingsProfile.validateBannerPictureIsShown();
   });
 
   it("Settings Profile - Validate Copy ID button tooltip", async () => {
     // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Validate Copy ID button tooltip
-    await settingsProfileFirstUser.hoverOnCopyID();
+    await settingsProfile.hoverOnCopyID();
 
-    const copyIDTooltipText = await settingsProfileFirstUser.copyIDTooltipText;
+    const copyIDTooltipText = await settingsProfile.copyIDTooltipText;
     await expect(copyIDTooltipText).toHaveTextContaining("Copy ID");
   });
 
   it("Settings Profile - Click On Copy ID Button", async () => {
     // Click on Copy ID button and assert Toast Notification is displayed
-    await settingsProfileFirstUser.clickOnCopyIDButton();
+    await settingsProfile.clickOnCopyIDButton();
 
     // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Paste copied Username into Status Input
-    await settingsProfileFirstUser.pasteUserNameInStatus("Test123");
+    await settingsProfile.pasteUserNameInStatus("Test123");
 
     // Clear value from status input
-    await settingsProfileFirstUser.deleteStatus();
+    await settingsProfile.deleteStatus();
 
     // Wait for toast notification to be closed
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
   });
 
   it("Settings Profile - Right Click On Copy ID Button to Copy Username", async () => {
-    const currentDriver = await settingsProfileFirstUser.getCurrentDriver();
+    const currentDriver = await settingsProfile.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       // Right click on Copy ID button and select Copy ID
-      await settingsProfileFirstUser.openCopyIDContextMenu();
-      await settingsProfileFirstUser.clickOnContextMenuCopyId();
+      await settingsProfile.openCopyIDContextMenu();
+      await settingsProfile.clickOnContextMenuCopyId();
 
       // Wait for toast notification to be closed
-      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+      await settingsProfile.waitUntilNotificationIsClosed();
 
       // Paste copied Username into Status Input
-      await settingsProfileFirstUser.pasteUserNameInStatus("Test123");
+      await settingsProfile.pasteUserNameInStatus("Test123");
 
       // Clear value from status input
-      await settingsProfileFirstUser.deleteStatus();
+      await settingsProfile.deleteStatus();
 
       // Wait for toast notification to be closed
-      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+      await settingsProfile.waitUntilNotificationIsClosed();
     }
   });
 
   it("Settings Profile - Right Click On Copy ID Button to Copy DID", async () => {
-    const currentDriver = await settingsProfileFirstUser.getCurrentDriver();
+    const currentDriver = await settingsProfile.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       // Right click on Copy DID button and select Copy ID
-      await settingsProfileFirstUser.openCopyIDContextMenu();
-      await settingsProfileFirstUser.clickOnContextMenuCopyDidKey();
+      await settingsProfile.openCopyIDContextMenu();
+      await settingsProfile.clickOnContextMenuCopyDidKey();
 
       // Wait for toast notification to be closed
-      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+      await settingsProfile.waitUntilNotificationIsClosed();
 
       // Paste copied Username into Status Input
-      await settingsProfileFirstUser.pasteUserKeyInStatus();
+      await settingsProfile.pasteUserKeyInStatus();
 
       // Clear value from status input
-      await settingsProfileFirstUser.deleteStatus();
+      await settingsProfile.deleteStatus();
 
       // Wait for toast notification to be closed
-      await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+      await settingsProfile.waitUntilNotificationIsClosed();
     }
   });
 
   it("Settings Profile - Status with more than 128 characters", async () => {
     // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Enter status value with 129 characters
-    await settingsProfileFirstUser.enterStatus(
+    await settingsProfile.enterStatus(
       "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789",
     );
 
     // Validate input error message is displayed
     await browser.pause(1000);
-    await settingsProfileFirstUser.inputError.waitForExist();
-    const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
+    await settingsProfile.inputError.waitForExist();
+    const inputErrorText = await settingsProfile.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
       "Maximum of 128 characters exceeded.",
     );
 
     // Clear value from status input
-    await settingsProfileFirstUser.deleteStatus();
+    await settingsProfile.deleteStatus();
   });
 
   it("Settings Profile - Username with less than 4 characters", async () => {
     // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Enter username value with less than 4 characters
-    await settingsProfileFirstUser.enterUsername("123");
+    await settingsProfile.enterUsername("123");
     // Validate that error message is displayed
-    await settingsProfileFirstUser.inputError.waitForExist();
-    const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
+    await settingsProfile.inputError.waitForExist();
+    const inputErrorText = await settingsProfile.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
       "Please enter at least 4 characters.",
     );
 
     // Clear value from username input, then enter a valid value again
-    await settingsProfileFirstUser.enterUsername("Test123");
+    await settingsProfile.enterUsername("Test123");
   });
 
   it("Settings Profile - Username - Spaces are not allowed", async () => {
     // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Enter username value with spaces
-    await settingsProfileFirstUser.enterUsername("1234" + "             ");
+    await settingsProfile.enterUsername("1234" + "             ");
     // Validate that error message is displayed
-    await settingsProfileFirstUser.inputError.waitForExist();
-    const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
+    await settingsProfile.inputError.waitForExist();
+    const inputErrorText = await settingsProfile.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
       "Spaces are not allowed.",
     );
 
     // Clear value from username input, then enter a valid value again
-    await settingsProfileFirstUser.enterUsername("Test123");
+    await settingsProfile.enterUsername("Test123");
   });
 
   it("Settings Profile - Username with non-alphanumeric characters", async () => {
     // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Enter username value with non-alphanumeric characters
-    await settingsProfileFirstUser.enterUsername("test&^%*%#$");
+    await settingsProfile.enterUsername("test&^%*%#$");
     // Validate that error message is displayed
 
-    await settingsProfileFirstUser.inputError.waitForExist();
-    const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
+    await settingsProfile.inputError.waitForExist();
+    const inputErrorText = await settingsProfile.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
       "Not allowed character(s): &^%*#$",
     );
 
     // Clear value from username input, then enter a valid value again
-    await settingsProfileFirstUser.enterUsername("Test123");
+    await settingsProfile.enterUsername("Test123");
   });
 
   it("Settings Profile - Username with more than 32 characters", async () => {
     // Wait for toast notification to be closed before starting test
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Enter username value with more than 32 characters
-    await settingsProfileFirstUser.enterUsername(
-      "12345678901234567890123456789012345",
-    );
+    await settingsProfile.enterUsername("12345678901234567890123456789012345");
     // Validate that error message is displayed
-    await settingsProfileFirstUser.inputError.waitForExist();
-    const inputErrorText = await settingsProfileFirstUser.inputErrorMessage;
+    await settingsProfile.inputError.waitForExist();
+    const inputErrorText = await settingsProfile.inputErrorMessage;
     await expect(inputErrorText).toHaveTextContaining(
       "Maximum of 32 characters exceeded.",
     );
 
     // Clear value from username input, then enter a valid value again
-    await settingsProfileFirstUser.enterUsername("Test123");
+    await settingsProfile.enterUsername("Test123");
 
     // Wait for toast notification to be closed before starting next tests
-    await settingsProfileFirstUser.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
   });
 }
