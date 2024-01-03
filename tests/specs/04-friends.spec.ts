@@ -8,7 +8,7 @@ import InputBar from "@screenobjects/chats/InputBar";
 import {
   CHAT_USER_B_ID,
   CHAT_USER_C_ID,
-  CHAT_USER_L_ID,
+  CHAT_USER_J_ID,
 } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 const chatsInput = new InputBar();
@@ -164,7 +164,7 @@ export default async function friendsTests() {
 
   it("Add Friend Input - Attempt to send friend request to a user with outgoing pending request", async () => {
     // Attempt to send a friend request to ChatUserL, who already received a not accepted yet friend request before
-    await friendsScreen.enterFriendDidKey(CHAT_USER_L_ID);
+    await friendsScreen.enterFriendDidKey(CHAT_USER_J_ID);
 
     // Click on Add Someone Button
     await friendsScreen.clickOnAddSomeoneButton();

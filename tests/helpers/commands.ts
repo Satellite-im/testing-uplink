@@ -157,9 +157,11 @@ export async function launchApplication(
   } else if (currentOS === MACOS_DRIVER) {
     await driver.executeScript("macos: launchApp", [
       {
-        bundleId: bundle,
+        bundleId: MACOS_BUNDLE_ID,
+        arguments: ["--discovery", "disable", "--path", homedir() + "/.uplink"],
       },
     ]);
+    await browser.pause(5000);
   }
 }
 

@@ -1,0 +1,247 @@
+{
+  "route": {
+    "active": ""
+  },
+  "chats": {
+    "all": {},
+    "active": null,
+    "in_sidebar": [],
+    "favorites": []
+  },
+  "friends": {},
+  "scope_ids": {},
+  "settings": {
+    "language": "English (USA)",
+    "update_available": null,
+    "update_dismissed": null,
+    "input_device": null,
+    "output_device": null,
+    "font_scale": 1.0,
+    "user_volumes": {},
+    "pause_global_keybinds": false,
+    "is_recording_new_keybind": false,
+    "keybinds": [
+      [
+        "IncreaseFontSize",
+        {
+          "keys": [
+            187
+          ],
+          "modifiers": [
+            {
+              "shift_key": false,
+              "control_key": true,
+              "alt_key": false,
+              "super_key": false
+            },
+            {
+              "shift_key": true,
+              "control_key": false,
+              "alt_key": false,
+              "super_key": false
+            }
+          ],
+          "system_shortcut": false
+        }
+      ],
+      [
+        "DecreaseFontSize",
+        {
+          "keys": [
+            109
+          ],
+          "modifiers": [
+            {
+              "shift_key": false,
+              "control_key": true,
+              "alt_key": false,
+              "super_key": false
+            },
+            {
+              "shift_key": true,
+              "control_key": false,
+              "alt_key": false,
+              "super_key": false
+            }
+          ],
+          "system_shortcut": false
+        }
+      ],
+      [
+        "ToggleMute",
+        {
+          "keys": [
+            77
+          ],
+          "modifiers": [
+            {
+              "shift_key": false,
+              "control_key": false,
+              "alt_key": false,
+              "super_key": true
+            },
+            {
+              "shift_key": true,
+              "control_key": false,
+              "alt_key": false,
+              "super_key": false
+            }
+          ],
+          "system_shortcut": true
+        }
+      ],
+      [
+        "ToggleDeafen",
+        {
+          "keys": [
+            68
+          ],
+          "modifiers": [
+            {
+              "shift_key": false,
+              "control_key": false,
+              "alt_key": false,
+              "super_key": true
+            },
+            {
+              "shift_key": true,
+              "control_key": false,
+              "alt_key": false,
+              "super_key": false
+            }
+          ],
+          "system_shortcut": true
+        }
+      ],
+      [
+        "OpenDevTools",
+        {
+          "keys": [
+            73
+          ],
+          "modifiers": [
+            {
+              "shift_key": false,
+              "control_key": true,
+              "alt_key": false,
+              "super_key": false
+            },
+            {
+              "shift_key": true,
+              "control_key": false,
+              "alt_key": false,
+              "super_key": false
+            }
+          ],
+          "system_shortcut": false
+        }
+      ],
+      [
+        "ToggleDevmode",
+        {
+          "keys": [
+            68
+          ],
+          "modifiers": [
+            {
+              "shift_key": false,
+              "control_key": true,
+              "alt_key": false,
+              "super_key": false
+            },
+            {
+              "shift_key": true,
+              "control_key": false,
+              "alt_key": false,
+              "super_key": false
+            }
+          ],
+          "system_shortcut": false
+        }
+      ]
+    ]
+  },
+  "ui": {
+    "notifications": {
+      "friends": 4,
+      "messages": 0,
+      "settings": 0
+    },
+    "accent_color": null,
+    "theme": null,
+    "font": null,
+    "enable_overlay": false,
+    "active_welcome": false,
+    "sidebar_hidden": false,
+    "window_maximized": false,
+    "window_size": [
+      950,
+      600
+    ],
+    "window_position": [
+      625,
+      408
+    ],
+    "metadata": {
+      "focused": true,
+      "maximized": false,
+      "minimized": false,
+      "full_screen": false,
+      "minimal_view": false
+    },
+    "emojis": {
+      "emoji_tracker": {
+        "❤️": 0,
+        "😂": 0,
+        "👍": 0,
+        "🖖": 0,
+        "👎": 0
+      }
+    },
+    "emoji_destination": null,
+    "emoji_picker_visible": false,
+    "transform_markdown_text": true,
+    "transform_ascii_emojis": true,
+    "extensions": {
+      "enabled": {}
+    },
+    "show_settings_welcome": true,
+    "show_dev_settings": false,
+    "cached_username": "ChatUserA"
+  },
+  "configuration": {
+    "general": {
+      "dyslexia_support": false,
+      "theme": "",
+      "font": null,
+      "show_splash": false,
+      "enable_overlay": false
+    },
+    "privacy": {
+      "satellite_sync_nodes": false,
+      "safer_file_scanning": false
+    },
+    "audiovideo": {
+      "echo_cancellation": true,
+      "call_timer": false,
+      "interface_sounds": false,
+      "message_sounds": true,
+      "media_sounds": true
+    },
+    "extensions": {
+      "enable": false,
+      "enable_automatically": false
+    },
+    "developer": {
+      "developer_mode": false,
+      "experimental_features": false
+    },
+    "notifications": {
+      "enabled": true,
+      "show_app_icon": false,
+      "friends_notifications": true,
+      "messages_notifications": true,
+      "settings_notifications": false
+    }
+  }
+}
