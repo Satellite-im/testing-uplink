@@ -17,11 +17,11 @@ describe("Message Context Menu Tests", messageContextMenuTests.bind(this));
 describe("Message Input Tests", messageInputTests.bind(this));
 describe("Message Attachments Tests", messageAttachmentsTests.bind(this));
 describe("Chat Topbar Tests", chatTopbarTests.bind(this));
-xdescribe("Quick Profile Tests", quickProfileTests.bind(this));
-xdescribe("Sidebar Chats Tests", sidebarChatsTests.bind(this));
-xdescribe("Group Chats Tests", groupChatTests.bind(this));
-xdescribe("Group Chats Edit Tests", groupChatEditTests.bind(this));
-xdescribe(
+describe("Quick Profile Tests", quickProfileTests.bind(this));
+describe("Sidebar Chats Tests", sidebarChatsTests.bind(this));
+describe("Group Chats Tests", groupChatTests.bind(this));
+describe("Group Chats Edit Tests", groupChatEditTests.bind(this));
+describe(
   "Group Chats Favorites and Sidebar Tests",
   groupChatSidebarTests.bind(this),
 );
