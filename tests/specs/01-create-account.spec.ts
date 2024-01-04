@@ -1,10 +1,14 @@
 require("module-alias/register");
 import { maximizeWindow } from "@helpers/commands";
+import CreateOrImportScreen from "@screenobjects/account-creation/CreateOrImportScreen";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
+import SaveRecoverySeedScreen from "@screenobjects/account-creation/SaveRecoverySeedScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
+const createOrImport = new CreateOrImportScreen();
 const createPin = new CreatePinScreen();
 const createUser = new CreateUserScreen();
+const saveRecoverySeed = new SaveRecoverySeedScreen();
 const welcomeScreen = new WelcomeScreen();
 
 export default async function createAccountTests() {
@@ -109,6 +113,13 @@ export default async function createAccountTests() {
     const statusOfButton = await createPin.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("true");
     await createPin.clickOnCreateAccount();
+  });
+
+  it("Create or Import Account Screen - Click on Create New Account and save receovery seed", async () => {
+    await createOrImport.waitForIsShown(true);
+    await createOrImport.clickOnCreateAccount();
+    await saveRecoverySeed.waitForIsShown(true);
+    await saveRecoverySeed.clickOnISavedItButton();
     await createUser.waitForIsShown(true);
   });
 
