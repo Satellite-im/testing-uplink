@@ -12,12 +12,18 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   CREATE_ACCOUNT_BUTTON: '[name="create-account-button"]',
+  CREATE_USER_HELPER_TEXT: '//Group/Text[contains(@Name, "Time to pick")]',
+  CREATE_USER_LABEL_TEXT: "//Text/Text",
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "<Text>",
 };
 
 const SELECTORS_MACOS = {
   CREATE_ACCOUNT_BUTTON: "~create-account-button",
+  CREATE_USER_HELPER_TEXT:
+    '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[`value CONTAINS[cd] "Time to pick"`]',
+  CREATE_USER_LABEL_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
 };
