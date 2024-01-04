@@ -37,11 +37,11 @@ export default class SaveRecoverySeedScreen extends UplinkMainScreen {
   }
 
   get copySeedHelperText() {
-    return $(SELECTORS.COPY_SEED_HELPER_TEXT);
+    return this.copySeedsWordsLayout.$(SELECTORS.COPY_SEED_HELPER_TEXT);
   }
 
   get copySeedWordsLabel() {
-    return $(SELECTORS.COPY_SEED_WORDS_LABEL);
+    return this.copySeedsWordsLayout.$(SELECTORS.COPY_SEED_WORDS_LABEL);
   }
 
   get copySeedWordsLabelText() {
@@ -53,11 +53,11 @@ export default class SaveRecoverySeedScreen extends UplinkMainScreen {
   }
 
   get goBackButton() {
-    return $(SELECTORS.GO_BACK_BUTTON);
+    return this.copySeedsWordsLayout.$(SELECTORS.GO_BACK_BUTTON);
   }
 
   get iSavedItButton() {
-    return $(SELECTORS.I_SAVED_IT_BUTTON);
+    return this.copySeedsWordsLayout.$(SELECTORS.I_SAVED_IT_BUTTON);
   }
 
   async clickOnGoBackButton() {

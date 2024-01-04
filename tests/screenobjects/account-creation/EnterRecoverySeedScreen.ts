@@ -43,23 +43,23 @@ export default class EnterRecoverySeedScreen extends UplinkMainScreen {
   }
 
   get goBackButton() {
-    return $(SELECTORS.GO_BACK_BUTTON);
+    return this.enterSeedsWordLayout.$(SELECTORS.GO_BACK_BUTTON);
   }
 
   get recoverAccountButton() {
-    return $(SELECTORS.RECOVER_ACCOUNT_BUTTON);
+    return this.enterSeedsWordLayout.$(SELECTORS.RECOVER_ACCOUNT_BUTTON);
   }
 
   get recoverySeedHelperText() {
-    return $(SELECTORS.RECOVERY_SEED_HELPER_TEXT);
+    return this.enterSeedsWordLayout.$(SELECTORS.RECOVERY_SEED_HELPER_TEXT);
   }
 
   get recoverySeedInput() {
-    return $(SELECTORS.RECOVERY_SEED_INPUT);
+    return this.enterSeedsWordLayout.$(SELECTORS.RECOVERY_SEED_INPUT);
   }
 
   get recoverySeedTitle() {
-    return $(SELECTORS.RECOVERY_SEED_TITLE);
+    return this.enterSeedsWordLayout.$(SELECTORS.RECOVERY_SEED_TITLE);
   }
 
   get recoverySeedTitleText() {

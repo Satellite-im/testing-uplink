@@ -37,11 +37,11 @@ export default class CreateOrImportScreen extends UplinkMainScreen {
   }
 
   get createNewAccountButton() {
-    return $(SELECTORS.CREATE_NEW_ACCOUNT_BUTTON);
+    return this.recoveryLayout.$(SELECTORS.CREATE_NEW_ACCOUNT_BUTTON);
   }
 
   get createOrRecoverLabel() {
-    return $(SELECTORS.CREATE_OR_RECOVER_LABEL);
+    return this.recoveryLayout.$(SELECTORS.CREATE_OR_RECOVER_LABEL);
   }
 
   get createOrRecoverLabelText() {
@@ -49,7 +49,7 @@ export default class CreateOrImportScreen extends UplinkMainScreen {
   }
 
   get importAccountButton() {
-    return $(SELECTORS.IMPORT_ACCOUNT_BUTTON);
+    return this.recoveryLayout.$(SELECTORS.IMPORT_ACCOUNT_BUTTON);
   }
 
   get recoveryLayout() {
@@ -57,7 +57,7 @@ export default class CreateOrImportScreen extends UplinkMainScreen {
   }
 
   get recoveryParagraph() {
-    return $(SELECTORS.RECOVERY_PARAGRAPH);
+    return this.recoveryLayout.$(SELECTORS.RECOVERY_PARAGRAPH);
   }
 
   async clickOnCreateAccount() {
