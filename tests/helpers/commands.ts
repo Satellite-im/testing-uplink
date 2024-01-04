@@ -1,7 +1,9 @@
 require("module-alias/register");
+import CreateOrImportScreen from "@screenobjects/account-creation/CreateOrImportScreen";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
+import SaveRecoverySeedScreen from "@screenobjects/account-creation/SaveRecoverySeedScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import { homedir } from "os";
 import { join } from "path";
@@ -17,9 +19,11 @@ const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
 const { clipboard, mouse, Button } = require("@nut-tree/nut-js");
+const createOrImport = new CreateOrImportScreen();
 let createPin = new CreatePinScreen();
 let createUser = new CreateUserScreen();
 let friendsScreen = new FriendsScreen();
+const saveRecoverySeed = new SaveRecoverySeedScreen();
 let welcomeScreen = new WelcomeScreen();
 
 // Users cache helper functions
@@ -105,6 +109,12 @@ export async function createNewUser(username: string) {
   await createPin.enterPin("1234");
   await createPin.createAccountButton.waitForEnabled();
   await createPin.clickOnCreateAccount();
+
+  // Bypass new Recovery Seed Screens
+  await createOrImport.waitForIsShown(true);
+  await createOrImport.clickOnCreateAccount();
+  await saveRecoverySeed.waitForIsShown(true);
+  await saveRecoverySeed.clickOnISavedItButton();
 
   // Enter Username and click on Create Account
   await createUser.enterUsername(username);
