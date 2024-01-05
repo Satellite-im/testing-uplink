@@ -2,6 +2,9 @@ require("module-alias/register");
 import {
   launchFirstApplication,
   launchSecondApplication,
+  closeFirstApplication,
+  closeSecondApplication,
+  loginWithTestUser,
   getUserKey,
 } from "@helpers/commands";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
@@ -106,7 +109,10 @@ export default async function quickProfileTests() {
 
   it("Chat User B - Accept friend request again from User A", async () => {
     // Switch control to User B
+    await closeSecondApplication();
+    await closeFirstApplication();
     await launchSecondApplication();
+    await loginWithTestUser();
     // With User B - Go to Friends and wait for User A to remove friendship with User B
     await welcomeScreen.goToFriends();
     await friendsScreen.waitForIsShown(true);
@@ -146,6 +152,8 @@ export default async function quickProfileTests() {
   it("Chat User A - Block Friend", async () => {
     // Switch control to User A
     await launchFirstApplication();
+    await loginWithTestUser();
+    await welcomeScreen.goToFriends();
     await friendsScreen.waitForIsShown(true);
 
     // Validate friend is now on all friends list
