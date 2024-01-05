@@ -168,8 +168,10 @@ export async function launchApplication(
     await driver.executeScript("macos: launchApp", [
       {
         bundleId: bundle,
+        arguments: ["--discovery", "disable", "--path", homedir() + "/.uplink"],
       },
     ]);
+    await browser.pause(5000);
   }
 }
 
