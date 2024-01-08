@@ -494,11 +494,18 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async getIncomingList() {
+    const currentDriver = await this.getCurrentDriver();
     const incomingList = await this.incomingRequestsList;
     await incomingList.waitForExist();
-    const friends = $(SELECTORS.INCOMING_REQUESTS_LIST).$$(
-      SELECTORS.FRIEND_INFO_USERNAME,
-    );
+    let xpathLocator: string = "";
+    if (currentDriver === MACOS_DRIVER) {
+      xpathLocator =
+        '//XCUIElementTypeGroup[@label="Incoming Requests List"]//XCUIElementTypeGroup[@label="friend-username"]';
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      xpathLocator =
+        '//Group[@Name="Incoming Requests List"]//Group[@Name="friend-username"]';
+    }
+    const friends = await $$(xpathLocator);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend.$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
@@ -515,11 +522,18 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   async getOutgoingList() {
+    const currentDriver = await this.getCurrentDriver();
     const outgoingList = await this.outgoingRequestsList;
     await outgoingList.waitForExist();
-    const friends = $(SELECTORS.OUTGOING_REQUESTS_LIST).$$(
-      SELECTORS.FRIEND_INFO_USERNAME,
-    );
+    let xpathLocator: string = "";
+    if (currentDriver === MACOS_DRIVER) {
+      xpathLocator =
+        '//XCUIElementTypeGroup[@label="Outgoing Requests List"]//XCUIElementTypeGroup[@label="friend-username"]';
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      xpathLocator =
+        '//Group[@Name="Outgoing Requests List"]//Group[@Name="friend-username"]';
+    }
+    const friends = await $$(xpathLocator);
     let results = [];
     for (let friend of friends) {
       const friendName = await friend.$(SELECTORS.FRIEND_INFO_USERNAME_NAME);
