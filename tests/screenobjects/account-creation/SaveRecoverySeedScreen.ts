@@ -13,7 +13,7 @@ const SELECTORS_WINDOWS = {
   COPY_SEED_WORDS_LABEL_TEXT: "<Text>>",
   COPY_SEED_WORDS_LAYOUT: '[name="copy-seed-words-layout"]',
   GO_BACK_BUTTON: '[name="back-button"]',
-  I_SAVED_IT_BUTTON: "<Button>[2]",
+  I_SAVED_IT_BUTTON: '[name="i-saved-it-button"]',
 };
 
 const SELECTORS_MACOS = {
@@ -23,7 +23,7 @@ const SELECTORS_MACOS = {
   COPY_SEED_WORDS_LABEL_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   COPY_SEED_WORDS_LAYOUT: "~copy-seed-words-layout",
   GO_BACK_BUTTON: "~back-button",
-  I_SAVED_IT_BUTTON: "-ios class chain:**/XCUIElementTypeButton[2]",
+  I_SAVED_IT_BUTTON: "~i-saved-it-button",
 };
 
 process.env.DRIVER === WINDOWS_DRIVER
