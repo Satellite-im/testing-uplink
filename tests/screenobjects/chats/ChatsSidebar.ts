@@ -1,12 +1,8 @@
 require("module-alias/register");
-import {
-  MACOS_DRIVER as macDriver,
-  WINDOWS_DRIVER as windowsDriver,
-} from "@helpers/constants";
+import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -83,7 +79,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
 };
 
-currentOS === windowsDriver
+process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
@@ -403,9 +399,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
   async getExistingElementByAriaLabel(username: string) {
     const currentDriver = await this.getCurrentDriver();
     let locator;
-    if (currentDriver === macDriver) {
+    if (currentDriver === MACOS_DRIVER) {
       locator = await $(SELECTORS.SIDEBAR).$("~" + username);
-    } else if (currentDriver === windowsDriver) {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await $(SELECTORS.SIDEBAR).$('[name="' + username + '"]');
     }
     return locator;
@@ -414,9 +410,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
   async getNonExistingElementByAriaLabel(username: string) {
     const currentDriver = await this.getCurrentDriver();
     let locator;
-    if (currentDriver === macDriver) {
+    if (currentDriver === MACOS_DRIVER) {
       locator = "~" + username;
-    } else if (currentDriver === windowsDriver) {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       locator = '[name="' + username + '"]';
     }
     return locator;
@@ -530,9 +526,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const imageToRightClick = await this.getSidebarUserIndicator(username);
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === macDriver) {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(imageToRightClick);
-    } else if (currentDriver === windowsDriver) {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(imageToRightClick);
     }
   }
@@ -541,9 +537,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
     const imageToRightClick = await this.sidebarChatsUser;
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === macDriver) {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(imageToRightClick);
-    } else if (currentDriver === windowsDriver) {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(imageToRightClick);
     }
   }
@@ -553,9 +549,9 @@ export default class ChatsSidebar extends UplinkMainScreen {
       await this.getExistingElementByAriaLabel(groupName);
     await this.hoverOnElement(imageToRightClick);
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === macDriver) {
+    if (currentDriver === MACOS_DRIVER) {
       await rightClickOnMacOS(imageToRightClick);
-    } else if (currentDriver === windowsDriver) {
+    } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(imageToRightClick);
     }
   }

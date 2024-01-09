@@ -42,7 +42,7 @@ export async function deleteCache() {
 
 export async function grabCacheFolder(username: string) {
   const source = homedir() + "/.uplink";
-  const currentDriver = await driver.capabilities.automationName;
+  const currentDriver = process.env.DRIVER;
   const target = "./tests/fixtures/users/" + currentDriver + "/" + username;
   await fsp.mkdir(target, { recursive: true });
   try {
@@ -57,7 +57,7 @@ export async function grabCacheFolder(username: string) {
 
 export async function loadTestUserData(user: string) {
   // Move files
-  const currentDriver = await driver.capabilities.automationName;
+  const currentDriver = process.env.DRIVER;
   let source, target;
   source = "./tests/fixtures/users/" + currentDriver + "/" + user;
   target = homedir() + "/.uplink";
@@ -76,7 +76,7 @@ export async function loadTestUserData(user: string) {
 
 export async function getUserKey(username: string) {
   // Read user data and store variable with DID Key from JSON file
-  const currentDriver = await driver.capabilities.automationName;
+  const currentDriver = process.env.DRIVER;
   const source =
     "./tests/fixtures/users/" + currentDriver + "/" + username + ".json";
   const jsonFile = await readFileSync(source);
@@ -87,7 +87,7 @@ export async function getUserKey(username: string) {
 
 export async function saveTestKeys(username: string, didkey: string) {
   // Save JSON file with keys
-  const currentDriver = await driver.capabilities.automationName;
+  const currentDriver = process.env.DRIVER;
   const target = "./tests/fixtures/users/" + currentDriver;
   const filepath = target + "/" + username + ".json";
   await fsp.mkdir(target, { recursive: true });
@@ -157,14 +157,13 @@ export async function launchApplication(
   bundle: string = MACOS_BUNDLE_ID,
   appLocation: string = WINDOWS_APP,
 ) {
-  const currentOS = await driver.capabilities.automationName;
-  if (currentOS === WINDOWS_DRIVER) {
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
     await driver.executeScript("windows: launchApp", [
       {
         app: join(process.cwd(), appLocation),
       },
     ]);
-  } else if (currentOS === MACOS_DRIVER) {
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
     await driver.executeScript("macos: launchApp", [
       {
         bundleId: bundle,
@@ -201,14 +200,13 @@ export async function launchSecondApplication() {
 }
 
 export async function activateFirstApplication() {
-  const currentOS = await driver.capabilities.automationName;
-  if (currentOS === WINDOWS_DRIVER) {
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
     await driver.executeScript("windows: activateApp", [
       {
         app: join(process.cwd(), WINDOWS_APP),
       },
     ]);
-  } else if (currentOS === MACOS_DRIVER) {
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
     await driver.executeScript("macos: activateApp", [
       {
         bundleId: MACOS_USER_A_BUNDLE_ID,
@@ -218,14 +216,13 @@ export async function activateFirstApplication() {
 }
 
 export async function activateSecondApplication() {
-  const currentOS = await driver.capabilities.automationName;
-  if (currentOS === WINDOWS_DRIVER) {
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
     await driver.executeScript("windows: activateApp", [
       {
         app: join(process.cwd(), WINDOWS_APP),
       },
     ]);
-  } else if (currentOS === MACOS_DRIVER) {
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
     await driver.executeScript("macos: activateApp", [
       {
         bundleId: MACOS_USER_B_BUNDLE_ID,
@@ -235,14 +232,13 @@ export async function activateSecondApplication() {
 }
 
 export async function closeApplication() {
-  const currentOS = await driver.capabilities.automationName;
-  if (currentOS === WINDOWS_DRIVER) {
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
     await driver.executeScript("windows: closeApp", [
       {
         app: join(process.cwd(), WINDOWS_APP),
       },
     ]);
-  } else if (currentOS === MACOS_DRIVER) {
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
     await driver.executeScript("macos: terminateApp", [
       {
         bundleId: MACOS_BUNDLE_ID,
@@ -268,11 +264,10 @@ export async function closeSecondApplication() {
 }
 
 export async function maximizeWindow() {
-  const currentOS = await driver.capabilities.automationName;
-  if (currentOS === WINDOWS_DRIVER) {
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
     const button = await $('[name="square-button"]');
     await button.click();
-  } else if (currentOS === MACOS_DRIVER) {
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
     const button = await $("~_XCUI:FullScreenWindow");
     await button.click();
   }

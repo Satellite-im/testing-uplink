@@ -8,7 +8,6 @@ import {
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 const { keyboard, Key } = require("@nut-tree/nut-js");
-const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -49,7 +48,7 @@ const SELECTORS_MACOS = {
   UPLOAD_BUTTON_STORAGE: "~attach-files-from-storage-into-chat",
 };
 
-currentOS === WINDOWS_DRIVER
+process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 

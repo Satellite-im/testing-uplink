@@ -8,7 +8,6 @@ import {
   rightClickOnWindows,
 } from "@helpers/commands";
 
-const currentOS = driver.capabilities.automationName;
 const { keyboard, Key } = require("@nut-tree/nut-js");
 
 let SELECTORS = {};
@@ -139,7 +138,7 @@ const SELECTORS_MACOS = {
   TOPBAR: "~Topbar",
 };
 
-currentOS === WINDOWS_DRIVER
+process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 

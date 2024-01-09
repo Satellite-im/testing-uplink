@@ -1,8 +1,7 @@
 require("module-alias/register");
-import { WINDOWS_DRIVER as windowsDriver } from "@helpers/constants";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -65,7 +64,7 @@ const SELECTORS_MACOS = {
   SIDEBAR_SEARCH_USER_RESULT: "~search-result-user",
 };
 
-currentOS === windowsDriver
+process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 

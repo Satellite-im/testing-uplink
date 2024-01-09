@@ -1,8 +1,7 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-import { WINDOWS_DRIVER as windowsDriver } from "@helpers/constants";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 
-const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -25,7 +24,7 @@ const SELECTORS_MACOS = {
   TYPING_INDICATOR_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
-currentOS === windowsDriver
+process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 

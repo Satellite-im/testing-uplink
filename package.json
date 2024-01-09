@@ -3,12 +3,11 @@
   "version": "1.0.0",
   "description": "An automation testing framework built with WebdriverIO and Appium to test Uplink Desktop app",
   "scripts": {
-    "mac.app": "wdio config/wdio.mac.app.conf.ts",
-    "mac.ci": "wdio config/wdio.mac.ci.conf.ts",
-    "mac.multiremote": "wdio config/wdio.mac.multiremote.conf.ts",
-    "windows.app": "wdio config/wdio.windows.app.conf.ts",
-    "windows.ci": "wdio config/wdio.windows.ci.conf.ts",
-    "windows.onetimescript": "wdio config/wdio.windows.onetime.conf.ts",
+    "mac.app": "DRIVER=mac2 npx wdio config/wdio.mac.app.conf.ts",
+    "mac.ci": "DRIVER=mac2 npx wdio config/wdio.mac.ci.conf.ts",
+    "mac.multiremote": "DRIVER=mac2 npx wdio config/wdio.mac.multiremote.conf.ts",
+    "windows.app": "powershell -ExecutionPolicy Bypass -File .\\scripts\\windows_app.ps1",
+    "windows.ci": "powershell -File .\\scripts\\windows_ci.ps1",
     "lint": "eslint config tests"
   },
   "repository": {
