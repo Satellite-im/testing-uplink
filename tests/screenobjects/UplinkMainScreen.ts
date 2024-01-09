@@ -3,7 +3,6 @@ import AppScreen from "@screenobjects/AppScreen";
 import { hoverOnMacOS, hoverOnWindows } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 
-const currentOS = driver.capabilities.automationName;
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -66,7 +65,7 @@ const SELECTORS_MACOS = {
   WINDOW: "-ios class chain:**/XCUIElementTypeWindow",
 };
 
-currentOS === WINDOWS_DRIVER
+process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
