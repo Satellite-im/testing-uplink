@@ -6,9 +6,9 @@
     "mac.app": "DRIVER=mac2 npx wdio config/wdio.mac.app.conf.ts",
     "mac.ci": "DRIVER=mac2 npx wdio config/wdio.mac.ci.conf.ts",
     "mac.multiremote": "DRIVER=mac2 npx wdio config/wdio.mac.multiremote.conf.ts",
-    "windows.app": "DRIVER=windows npx wdio config/wdio.windows.app.conf.ts",
-    "windows.ci": "DRIVER=windows npx wdio config/wdio.windows.ci.conf.ts",
-    "windows.onetimescript": "DRIVER=windows npx wdio config/wdio.windows.onetime.conf.ts",
+    "windows.app": "$env:DRIVER=windows -and npx wdio config/wdio.windows.app.conf.ts",
+    "windows.ci": "$env:DRIVER=windows -and npx wdio config/wdio.windows.ci.conf.ts",
+    "windows.onetimescript": "$env:DRIVER=windows -and npx wdio config/wdio.windows.onetime.conf.ts",
     "lint": "eslint config tests"
   },
   "repository": {
