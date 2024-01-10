@@ -26,7 +26,7 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   ABOUT_SECTION: "~about-info-section",
   CHECK_FOR_UPDATES_BUTTON: "~check-for-updates-button",
-  MADE_IN_SECTION: "made-in-section",
+  MADE_IN_SECTION: "~made-in-section",
   OPEN_SOURCE_CODE_SECTION: "~open-codebase-section",
   OPEN_WEBSITE_SECTION: "~open-website-section",
   VERSION_SECTION: "~about-version-section",
