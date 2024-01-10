@@ -6,9 +6,8 @@
     "mac.app": "DRIVER=mac2 npx wdio config/wdio.mac.app.conf.ts",
     "mac.ci": "DRIVER=mac2 npx wdio config/wdio.mac.ci.conf.ts",
     "mac.multiremote": "DRIVER=mac2 npx wdio config/wdio.mac.multiremote.conf.ts",
-    "windows.app": "$env:DRIVER=windows -and npx wdio config/wdio.windows.app.conf.ts",
-    "windows.ci": "$env:DRIVER=windows -and npx wdio config/wdio.windows.ci.conf.ts",
-    "windows.onetimescript": "$env:DRIVER=windows -and npx wdio config/wdio.windows.onetime.conf.ts",
+    "windows.app": "powershell -ExecutionPolicy Bypass -File .\\scripts\\windows_app.ps1",
+    "windows.ci": "powershell -File .\\scripts\\windows_ci.ps1",
     "lint": "eslint config tests"
   },
   "repository": {
