@@ -1,4 +1,5 @@
 require("module-alias/register");
+import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ComposeAttachment from "@screenobjects/chats/ComposeAttachment";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -12,6 +13,7 @@ import {
 } from "@helpers/commands";
 const chatsAttachment = new ComposeAttachment();
 const chatsInput = new InputBar();
+const chatsLayout = new ChatsLayout();
 const chatsTopbar = new Topbar();
 const filesScreen = new FilesScreen();
 const messageLocal = new MessageLocal();
@@ -181,9 +183,12 @@ export default async function messageAttachmentsTests() {
     await messageLocal.waitForMessageSentToExist("Attached2");
   });
 
-  it("Send Files on Chats - Message Sent With Attachment - Attachment Contents", async () => {
-    await messageLocal.chatMessageFileEmbedLocal.waitForExist();
+  it("User can scroll to bottom of chat conversation", async () => {
+    await chatsLayout.clickOnScrollToBottom();
+    await messageLocal.chatMessageFileEmbedLocal.waitForDisplayed();
+  });
 
+  it("Send Files on Chats - Message Sent With Attachment - Attachment Contents", async () => {
     // Validate text from message containing attachment
     const textMessage = await messageLocal.getLastMessageSentText();
     await expect(textMessage).toHaveTextContaining("Attached2");
