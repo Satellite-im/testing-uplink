@@ -10,23 +10,25 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  EMOJI_CONVERSION_SECTION: '[name="emoji-conversion-section"]',
+  MARKDOWN_SUPPORT_SECTION: '[name="markdown-support-section"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
-  SETTINGS_SECTION: '[name="settings-section"]',
   SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 
 const SELECTORS_MACOS = {
+  EMOJI_CONVERSION_SECTION: "~emoji-conversion-section",
+  MARKDOWN_SUPPORT_SECTION: "~markdown-support-section",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
 
@@ -40,45 +42,45 @@ export default class SettingsMessagesScreen extends SettingsBaseScreen {
   }
 
   get convertEmojiCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.EMOJI_CONVERSION_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
   get convertEmojiControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
+    return $(SELECTORS.EMOJI_CONVERSION_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get convertEmojiDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.EMOJI_CONVERSION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get convertEmojiHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.EMOJI_CONVERSION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get markdownSupportCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.MARKDOWN_SUPPORT_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
   get markdownSupportControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
+    return $(SELECTORS.MARKDOWN_SUPPORT_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get markdownSupportDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $(SELECTORS.MARKDOWN_SUPPORT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get markdownSupportHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $(SELECTORS.MARKDOWN_SUPPORT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }

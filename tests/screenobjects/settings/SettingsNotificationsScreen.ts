@@ -10,23 +10,29 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  ENABLED_NOTIFICATIONS_SECTION: '[name="enabled-notifications-section"]',
+  FRIENDS_NOTIFICATIONS_SECTION: '[name="friends-notifications-section"]',
+  MESSAGES_NOTIFICATIONS_SECTION: '[name="messages-notifications-section"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
-  SETTINGS_SECTION: '[name="settings-section"]',
+  SETTINGS_NOTIFICATIONS_SECTION: '[name="settings-notifications-section"]',
   SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 
 const SELECTORS_MACOS = {
+  ENABLED_NOTIFICATIONS_SECTION: "~enabled-notifications-section",
+  FRIENDS_NOTIFICATIONS_SECTION: "~friends-notifications-section",
+  MESSAGES_NOTIFICATIONS_SECTION: "~messages-notifications-section",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  SETTINGS_SECTION: "~settings-section",
+  SETTINGS_NOTIFICATIONS_SECTION: "~settings-notifications-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
 
@@ -40,89 +46,97 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
   }
 
   get enabledNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.ENABLED_NOTIFICATIONS_SECTION).$(
+      SELECTORS.SWITCH_SLIDER,
+    );
   }
 
   get enabledNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[0].$(
+    return $(SELECTORS.ENABLED_NOTIFICATIONS_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get enabledNotificationsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.ENABLED_NOTIFICATIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get enabledNotificationsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.ENABLED_NOTIFICATIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get friendsNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.FRIENDS_NOTIFICATIONS_SECTION).$(
+      SELECTORS.SWITCH_SLIDER,
+    );
   }
 
   get friendsNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[1].$(
+    return $(SELECTORS.FRIENDS_NOTIFICATIONS_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get friendsNotificationsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $(SELECTORS.FRIENDS_NOTIFICATIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get friendsNotificationsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $(SELECTORS.FRIENDS_NOTIFICATIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get messagesNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.MESSAGES_NOTIFICATIONS_SECTION).$(
+      SELECTORS.SWITCH_SLIDER,
+    );
   }
 
   get messagesNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(
+    return $(SELECTORS.MESSAGES_NOTIFICATIONS_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get messagesNotificationsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $(SELECTORS.MESSAGES_NOTIFICATIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get messagesNotificationsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $(SELECTORS.MESSAGES_NOTIFICATIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsNotificationsCheckbox() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.SETTINGS_NOTIFICATIONS_SECTION).$(
+      SELECTORS.SWITCH_SLIDER,
+    );
   }
 
   get settingsNotificationsControllerValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(
+    return $(SELECTORS.SETTINGS_NOTIFICATIONS_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get settingsNotificationsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return $(SELECTORS.SETTINGS_NOTIFICATIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get settingsNotificationsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return $(SELECTORS.SETTINGS_NOTIFICATIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
