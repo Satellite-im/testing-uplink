@@ -32,7 +32,7 @@ const SELECTORS_WINDOWS = {
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
   SWITCH_SLIDER: '[name="Switch Slider"]',
   TEST_NOTIFICATIONS_BUTTON: '[name="test-notifications-button"]',
-  TEST_NOTIFICATION_SECTION: '[name="test-notifications-section"]',
+  TEST_NOTIFICATION_SECTION: '[name="test-notification-section"]',
 };
 
 const SELECTORS_MACOS = {
@@ -55,7 +55,7 @@ const SELECTORS_MACOS = {
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   SWITCH_SLIDER: "~Switch Slider",
   TEST_NOTIFICATIONS_BUTTON: "~test-notifications-button",
-  TEST_NOTIFICATION_SECTION: "~test-notifications-section",
+  TEST_NOTIFICATION_SECTION: "~test-notification-section",
 };
 
 process.env.DRIVER === WINDOWS_DRIVER
