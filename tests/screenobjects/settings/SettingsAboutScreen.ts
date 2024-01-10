@@ -7,12 +7,12 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
-  ABOUT_SECTION: '//Group[@Name="settings-section"][1]',
+  ABOUT_SECTION: '[name="about-info-section"]',
   CHECK_FOR_UPDATES_BUTTON: '[name="check-for-updates-button"]',
-  MADE_IN_SECTION: '//Group[@Name="settings-section"][5]',
-  OPEN_SOURCE_CODE_SECTION: '//Group[@Name="settings-section"][4]',
-  OPEN_WEBSITE_SECTION: '//Group[@Name="settings-section"][3]',
-  VERSION_SECTION: '//Group[@Name="settings-section"][2]',
+  MADE_IN_SECTION: '[name="made-in-section"]',
+  OPEN_SOURCE_CODE_SECTION: '[name="open-codebase-section"]',
+  OPEN_WEBSITE_SECTION: '[name="open-website-section"]',
+  VERSION_SECTION: '[name="about-version-section"]',
   OPEN_SOURCE_CODE_BUTTON: '[name="open-codebase-button"]',
   OPEN_WEBSITE_BUTTON: '[name="open-website-button"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
@@ -24,17 +24,12 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
-  ABOUT_SECTION:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][1]',
+  ABOUT_SECTION: "~about-info-section",
   CHECK_FOR_UPDATES_BUTTON: "~check-for-updates-button",
-  MADE_IN_SECTION:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][4]',
-  OPEN_SOURCE_CODE_SECTION:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][3]',
-  OPEN_WEBSITE_SECTION:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][2]',
-  VERSION_SECTION:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "settings-section"`][5]',
+  MADE_IN_SECTION: "~made-in-section",
+  OPEN_SOURCE_CODE_SECTION: "~open-codebase-section",
+  OPEN_WEBSITE_SECTION: "~open-website-section",
+  VERSION_SECTION: "~about-version-section",
   OPEN_SOURCE_CODE_BUTTON: "~open-codebase-button",
   OPEN_WEBSITE_BUTTON: "~open-website-button",
   SETTINGS_CONTROL: "~settings-control",

@@ -10,21 +10,21 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   SETTINGS_CONTROL: '[name="settings-control"]',
-  SETTINGS_CONTROL_BUTTON: "<Button>",
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
-  SETTINGS_SECTION: '[name="settings-section"]',
+  LICENSES_BUTTON: '[name="licenses-button"]',
+  LICENSES_SECTION: '[name="licenses-section"]',
 };
 
 const SELECTORS_MACOS = {
   SETTINGS_CONTROL: "~settings-control",
-  SETTINGS_CONTROL_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  SETTINGS_SECTION: "~settings-section",
+  LICENSES_BUTTON: "~licenses-button",
+  LICENSES_SECTION: "~licenses-section",
 };
 
 process.env.DRIVER === WINDOWS_DRIVER
@@ -37,21 +37,19 @@ export default class SettingsLicensesScreen extends SettingsBaseScreen {
   }
 
   get licenseDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.LICENSES_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get licenseHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.LICENSES_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get licenseButton() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
-      .$(SELECTORS.SETTINGS_CONTROL)
-      .$(SELECTORS.SETTINGS_CONTROL_BUTTON);
+    return $(SELECTORS.LICENSES_BUTTON);
   }
 
   async clickOnShowMITLicenses() {

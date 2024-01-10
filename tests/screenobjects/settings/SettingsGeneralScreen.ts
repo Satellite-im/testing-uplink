@@ -10,10 +10,14 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   ACCENT_COLOR_BUTTON: "<Group>",
+  APP_LANGUAGE_SECTION: '[name="app-language-section"]',
   CLEAR_ACCENT_COLOR_BUTTON: "<Button>",
+  COLOR_SECTION: '[name="color-section"]',
   DARK_LIGHT_THEME_TOGGLE: '[name="dark-light-toggle"]',
   DROPDOWN_MENU: "<ComboBox>",
   DROPDOWN_OPTION: '[name="Selector Option"]',
+  FONT_SECTION: '[name="font-section"]',
+  FONT_SCALING_SECTION: '[name="font-scaling-section"]',
   OPEN_FONTS_FOLDER_BUTTON: '[name="open-fonts-folder-button"]',
   OPEN_THEMES_FOLDER_BUTTON: '[name="open-themes-folder-button"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
@@ -21,23 +25,27 @@ const SELECTORS_WINDOWS = {
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
-  SETTINGS_SECTION: '[name="settings-section"]',
   SLIDE_SELECTOR: '[name="slide-selector"]',
   SLIDE_SELECTOR_BUTTON_MINUS: '[name="slide-selector-minus"]',
   SLIDE_SELECTOR_BUTTON_PLUS: '[name="slide-selector-plus"]',
   SLIDE_SELECTOR_VALUE: '[name="slide-selector-value"]',
   SLIDE_SELECTOR_VALUE_TEXT: "<Text>",
   SWITCH_SLIDER: '[name="Switch Slider"]',
+  THEME_SECTION: '[name="theme-section"]',
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
 };
 
 const SELECTORS_MACOS = {
   ACCENT_COLOR_BUTTON: "-ios class chain:**/XCUIElementTypeGroup",
+  APP_LANGUAGE_SECTION: "~app-language-section",
   CLEAR_ACCENT_COLOR_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
+  COLOR_SECTION: "~color-section",
   DARK_LIGHT_THEME_TOGGLE: "~dark-light-toggle",
   DROPDOWN_MENU: "~Selector",
   DROPDOWN_OPTION: "~Selector Option",
+  FONT_SECTION: "~font-section",
+  FONT_SCALING_SECTION: "~font-scaling-section",
   OPEN_FONTS_FOLDER_BUTTON: "~open-fonts-folder-button",
   OPEN_THEMES_FOLDER_BUTTON: "~open-themes-folder-button",
   SETTINGS_CONTROL: "~settings-control",
@@ -46,13 +54,13 @@ const SELECTORS_MACOS = {
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  SETTINGS_SECTION: "~settings-section",
   SLIDE_SELECTOR: "~slide-selector",
   SLIDE_SELECTOR_BUTTON_MINUS: "~slide-selector-minus",
   SLIDE_SELECTOR_BUTTON_PLUS: "~slide-selector-plus",
   SLIDE_SELECTOR_VALUE: "~slide-selector-value",
   SLIDE_SELECTOR_VALUE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SWITCH_SLIDER: "~Switch Slider",
+  THEME_SECTION: "~theme-section",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
@@ -68,136 +76,136 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get accentColorButtonBlue() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[4];
   }
 
   get accentColorButtonGreen() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[3];
   }
 
   get accentColorButtonGrey() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[7];
   }
 
   get accentColorButtonOrange() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[1];
   }
 
   get accentColorButtonPink() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[6];
   }
 
   get accentColorButtonRed() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[0];
   }
 
   get accentColorButtonViolet() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[5];
   }
 
   get accentColorButtonYellow() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[2];
   }
 
   get appLanguageDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.APP_LANGUAGE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get appLanguageHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.APP_LANGUAGE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get appLanguageDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0].$(SELECTORS.DROPDOWN_MENU);
+    return $(SELECTORS.APP_LANGUAGE_SECTION).$(SELECTORS.DROPDOWN_MENU);
   }
 
   get clearAccentColorButton() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.CLEAR_ACCENT_COLOR_BUTTON);
   }
 
   get darkLightThemeToggle() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return $(SELECTORS.THEME_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.DARK_LIGHT_THEME_TOGGLE);
   }
 
   get fontDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $(SELECTORS.FONT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $(SELECTORS.FONT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.DROPDOWN_MENU);
+    return $(SELECTORS.FONT_SECTION).$(SELECTORS.DROPDOWN_MENU);
   }
 
   get fontScalingDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $(SELECTORS.FONT_SCALING_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get fontScalingHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $(SELECTORS.FONT_SCALING_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get fontScalingButtonMinus() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2]
+    return $(SELECTORS.FONT_SCALING_SECTION)
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
   }
 
   get fontScalingButtonPlus() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2]
+    return $(SELECTORS.FONT_SCALING_SECTION)
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
   }
 
   get fontScalingValue() {
-    return $$(SELECTORS.SETTINGS_CONTROL)[2]
+    return $(SELECTORS.FONT_SCALING_SECTION)
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE_TEXT);
   }
 
   get openFontsFolderButton() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $(SELECTORS.FONT_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.OPEN_FONTS_FOLDER_BUTTON);
   }
 
   get openThemesFolderButton() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return $(SELECTORS.THEME_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.OPEN_THEMES_FOLDER_BUTTON);
   }
@@ -235,19 +243,19 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
   }
 
   get themeDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return $(SELECTORS.THEME_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get themeHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3]
+    return $(SELECTORS.THEME_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get themeDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(SELECTORS.DROPDOWN_MENU);
+    return $(SELECTORS.THEME_SECTION).$(SELECTORS.DROPDOWN_MENU);
   }
 
   // Click on buttons methods

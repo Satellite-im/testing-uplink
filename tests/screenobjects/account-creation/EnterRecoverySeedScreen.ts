@@ -9,10 +9,10 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   ENTER_SEEDS_WORD_LAYOUT: '[name="enter-seed-words-layout"]',
   GO_BACK_BUTTON: '[name="back-button"]',
-  RECOVER_ACCOUNT_BUTTON: "<Button>[2]",
-  RECOVERY_SEED_HELPER_TEXT:
-    '//Group/Text[contains(@Name, "Type your recovery seed")]',
-  RECOVERY_SEED_INPUT: "<Edit>",
+  RECOVER_ACCOUNT_BUTTON: '[name="recover-account-button"]',
+  RECOVERY_SEED_HELPER: '[name="instructions"]',
+  RECOVERY_SEED_HELPER_TEXT: "<Text>",
+  RECOVERY_SEED_INPUT: '[name="recovery-seed-input"]',
   RECOVERY_SEED_TITLE: '[name="enter-seed-words"]',
   RECOVERY_SEED_TITLE_TEXT: "<Text>",
 };
@@ -20,10 +20,10 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   ENTER_SEEDS_WORD_LAYOUT: "~enter-seed-words-layout",
   GO_BACK_BUTTON: "~back-button",
-  RECOVER_ACCOUNT_BUTTON: "-ios class chain:**/XCUIElementTypeButton[2]",
-  RECOVERY_SEED_HELPER_TEXT:
-    '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[`value CONTAINS[cd] "Type your recovery seed"`]',
-  RECOVERY_SEED_INPUT: "-ios class chain:**/XCUIElementTypeTextField",
+  RECOVER_ACCOUNT_BUTTON: "~recover-account-button",
+  RECOVERY_SEED_HELPER: "~instructions",
+  RECOVERY_SEED_HELPER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  RECOVERY_SEED_INPUT: "~recovery-seed-input",
   RECOVERY_SEED_TITLE: "~enter-seed-words",
   RECOVERY_SEED_TITLE_TEXT: "<Text>",
 };
@@ -49,8 +49,12 @@ export default class EnterRecoverySeedScreen extends UplinkMainScreen {
     return this.enterSeedsWordLayout.$(SELECTORS.RECOVER_ACCOUNT_BUTTON);
   }
 
+  get recoverySeedHelper() {
+    return this.enterSeedsWordLayout.$(SELECTORS.RECOVERY_SEED_HELPER);
+  }
+
   get recoverySeedHelperText() {
-    return this.enterSeedsWordLayout.$(SELECTORS.RECOVERY_SEED_HELPER_TEXT);
+    return this.recoverySeedHelper.$(SELECTORS.RECOVERY_SEED_HELPER_TEXT);
   }
 
   get recoverySeedInput() {

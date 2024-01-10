@@ -11,36 +11,52 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   BUTTON: "<Button>",
+  CALL_TIMER_SECTION: '[name="call-timer-section"]',
   DROPDOWN_MENU: "<ComboBox>",
   DROPDOWN_OPTION: '[name="Selector Option"]',
+  ECHO_CANCELLATION_SECTION: '[name="echo-cancellation-section"]',
+  INPUT_DEVICE_SECTION: '[name="input-device-section"]',
+  INTERFACE_SOUNDS_SECTION: '[name="interface-sounds-section"]',
+  MEDIA_SOUNDS_SECTION: '[name="media-sounds-section"]',
+  MESSAGE_SOUNDS_SECTION: '[name="message-sounds-section"]',
+  OUTPUT_DEVICE_SECTION: '[name="output-device-section"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
-  SETTINGS_SECTION: '[name="settings-section"]',
   SELECTOR: '[name="Switch Slider"]',
   SLIDER: "<Slider>",
   SLIDER_VALUE_INDICATOR: "<Image>[1]",
   SLIDER_VALUE_TEXT: "<Text>",
   SWITCH_SLIDER: '[name="Switch Slider"]',
+  TEST_DEVICE_INPUT_SECTION: "~test-device-input-section",
+  TEST_DEVICE_OUTPUT_SECTION: "~test-device-output-section",
 };
 
 const SELECTORS_MACOS = {
   BUTTON: "-ios class chain:**/XCUIElementTypeButton",
+  CALL_TIMER_SECTION: "~call-timer-section",
   DROPDOWN_MENU: "~Selector",
   DROPDOWN_OPTION: "~Selector Option",
+  ECHO_CANCELLATION_SECTION: "~echo-cancellation-section",
+  INPUT_DEVICE_SECTION: "~input-device-section",
+  INTERFACE_SOUNDS_SECTION: "~interface-sounds-section",
+  MEDIA_SOUNDS_SECTION: "~media-sounds-section",
+  MESSAGE_SOUNDS_SECTION: "~message-sounds-section",
+  OUTPUT_DEVICE_SECTION: "~output-device-section",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  SETTINGS_SECTION: "~settings-section",
   SLIDER: "-ios class chain:**/XCUIElementTypeSlider",
   SLIDER_VALUE_INDICATOR: "-ios class chain:**/XCUIElementTypeValueIndicator",
   SLIDER_VALUE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SWITCH_SLIDER: "~Switch Slider",
+  TEST_DEVICE_INPUT_SECTION: "~test-device-input-section",
+  TEST_DEVICE_OUTPUT_SECTION: "~test-device-output-section",
 };
 
 process.env.DRIVER === WINDOWS_DRIVER
@@ -53,165 +69,165 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
   }
 
   get callTimerCheckbox() {
-    return $$(SELECTORS.SETTINGS_SECTION)[8].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.CALL_TIMER_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
   get callTimerControllerValue() {
-    return $$(SELECTORS.SETTINGS_SECTION)[8].$(
+    return $(SELECTORS.CALL_TIMER_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get callTimerDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[8]
+    return $(SELECTORS.CALL_TIMER_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get callTimerHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[8]
+    return $(SELECTORS.CALL_TIMER_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get echoCancellationCheckbox() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.ECHO_CANCELLATION_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
   get echoCancellationControllerValue() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4].$(
+    return $(SELECTORS.ECHO_CANCELLATION_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get echoCancellationDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $(SELECTORS.ECHO_CANCELLATION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get echoCancellationHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[4]
+    return $(SELECTORS.ECHO_CANCELLATION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get inputDeviceDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.INPUT_DEVICE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get inputDeviceDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0].$(SELECTORS.DROPDOWN_MENU);
+    return $(SELECTORS.INPUT_DEVICE_SECTION).$(SELECTORS.DROPDOWN_MENU);
   }
 
   get inputDeviceDropdownOption() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.INPUT_DEVICE_SECTION)
       .$(SELECTORS.DROPDOWN_MENU)
       .$$(SELECTORS.DROPDOWN_OPTION);
   }
 
   get inputDeviceHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.INPUT_DEVICE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get inputDeviceTestButton() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.BUTTON);
+    return $(SELECTORS.TEST_DEVICE_INPUT_SECTION).$(SELECTORS.BUTTON);
   }
 
   get interfaceSoundsCheckbox() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.INTERFACE_SOUNDS_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
   get interfaceSoundsControllerValue() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5].$(
+    return $(SELECTORS.INTERFACE_SOUNDS_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get interfaceSoundsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5]
+    return $(SELECTORS.INTERFACE_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get interfaceSoundsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[5]
+    return $(SELECTORS.INTERFACE_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get mediaSoundsCheckbox() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.MEDIA_SOUNDS_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
   get mediaSoundsControllerValue() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6].$(
+    return $(SELECTORS.MEDIA_SOUNDS_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get mediaSoundsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6]
+    return $(SELECTORS.MEDIA_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get mediaSoundsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[6]
+    return $(SELECTORS.MEDIA_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get messageSoundsCheckbox() {
-    return $$(SELECTORS.SETTINGS_SECTION)[7].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.MESSAGE_SOUNDS_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
   get messageSoundsControllerValue() {
-    return $$(SELECTORS.SETTINGS_SECTION)[7].$(
+    return $(SELECTORS.MESSAGE_SOUNDS_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get messageSoundsDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[7]
+    return $(SELECTORS.MESSAGE_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get messageSoundsHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[7]
+    return $(SELECTORS.MESSAGE_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get outputDeviceDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $(SELECTORS.OUTPUT_DEVICE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get outputDeviceDropdown() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2].$(SELECTORS.DROPDOWN_MENU);
+    return $(SELECTORS.OUTPUT_DEVICE_SECTION).$(SELECTORS.DROPDOWN_MENU);
   }
 
   get outputDeviceDropdownOption() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $(SELECTORS.OUTPUT_DEVICE_SECTION)
       .$(SELECTORS.DROPDOWN_MENU)
       .$$(SELECTORS.DROPDOWN_OPTION);
   }
 
   get outputDeviceHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[2]
+    return $(SELECTORS.OUTPUT_DEVICE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get outputDeviceTestButton() {
-    return $$(SELECTORS.SETTINGS_SECTION)[3].$(SELECTORS.BUTTON);
+    return $(SELECTORS.TEST_DEVICE_OUTPUT_SECTION).$(SELECTORS.BUTTON);
   }
 
   get settingsAudio() {

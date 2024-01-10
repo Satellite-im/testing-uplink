@@ -7,23 +7,23 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
-  CREATE_NEW_ACCOUNT_BUTTON: "<Button>[1]",
+  CREATE_NEW_ACCOUNT_BUTTON: '[name="create-button"]',
   CREATE_OR_RECOVER_LABEL: '[name="create-or-recover"]',
   CREATE_OR_RECOVER_LABEL_TEXT: "<Text>",
-  IMPORT_ACCOUNT_BUTTON: "<Button>[2]",
+  IMPORT_ACCOUNT_BUTTON: '[name="recover-button"]',
   RECOVERY_LAYOUT: '[name="create-or-recover-layout"]',
-  RECOVERY_PARAGRAPH:
-    '//Group/Text[contains(@Name, "going to create an account")]',
+  RECOVERY_PARAGRAPH: '[name="create-or-recover-instructions"]',
+  RECOVERY_PARAGRAPH_TEXT: "<Text>",
 };
 
 const SELECTORS_MACOS = {
-  CREATE_NEW_ACCOUNT_BUTTON: "-ios class chain:**/XCUIElementTypeButton[1]",
+  CREATE_NEW_ACCOUNT_BUTTON: "~create-button",
   CREATE_OR_RECOVER_LABEL: "~create-or-recover",
   CREATE_OR_RECOVER_LABEL_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  IMPORT_ACCOUNT_BUTTON: "-ios class chain:**/XCUIElementTypeButton[2]",
+  IMPORT_ACCOUNT_BUTTON: "~recovery-button",
   RECOVERY_LAYOUT: "~create-or-recover-layout",
-  RECOVERY_PARAGRAPH:
-    '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[`value CONTAINS[cd] "going to create an account"`]',
+  RECOVERY_PARAGRAPH: "~create-or-recover-instructions",
+  RECOVERY_PARAGRAPH_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
 process.env.DRIVER === WINDOWS_DRIVER
@@ -57,6 +57,10 @@ export default class CreateOrImportScreen extends UplinkMainScreen {
 
   get recoveryParagraph() {
     return this.recoveryLayout.$(SELECTORS.RECOVERY_PARAGRAPH);
+  }
+
+  get recoveryParagraphText() {
+    return this.recoveryParagraph.$(SELECTORS.RECOVERY_PARAGRAPH_TEXT);
   }
 
   async clickOnCreateAccount() {

@@ -10,23 +10,23 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  OPEN_DYSLEXIC_SECTION: '[name="open-dyslexic-section"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
-  SETTINGS_SECTION: '[name="settings-section"]',
   SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 
 const SELECTORS_MACOS = {
+  OPEN_DYSLEXIC_SECTION: "~open-dyslexic-section",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
 };
 
@@ -48,13 +48,13 @@ export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
   }
 
   get openDyslexicDescription() {
-    return $(SELECTORS.SETTINGS_SECTION)
+    return $(SELECTORS.OPEN_DYSLEXIC_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openDyslexicHeader() {
-    return $(SELECTORS.SETTINGS_SECTION)
+    return $(SELECTORS.OPEN_DYSLEXIC_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }

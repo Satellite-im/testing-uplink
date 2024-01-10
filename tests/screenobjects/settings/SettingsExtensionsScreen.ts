@@ -10,6 +10,7 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  AUTO_ENABLE_SECTION: '[name="auto-enable-section"]',
   EMOJI_SELECTOR_DEVELOPER: '//Text[starts-with(@Name, "SATELLITE")]',
   EMOJI_SELECTOR_DESCRIPTION:
     '//Text[starts-with(@Name, "Browse the standard unicode")]',
@@ -26,17 +27,18 @@ const SELECTORS_WINDOWS = {
   OPEN_EXTENSIONS_DESCRIPTION_TEXT: "<Text>[2]",
   OPEN_EXTENSIONS_FOLDER_BUTTON: '[name="open-extensions-folder-button"]',
   OPEN_EXTENSIONS_HEADER_TEXT: "//Text[1]/Text",
+  OPEN_EXTENSIONS_SECTION: '[name="open-extensions-section"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
-  SETTINGS_SECTION: '[name="settings-section"]',
   SWITCH_SLIDER: '[name="Switch Slider"]',
   SWITCH_SLIDER_VALUE: '[name="switch-slider-value"]',
 };
 
 const SELECTORS_MACOS = {
+  AUTO_ENABLE_SECTION: "~auto-enable-section",
   EMOJI_SELECTOR_DEVELOPER:
     '//XCUIElementTypeStaticText[starts-with(@value, "SATELLITE")][1]',
   EMOJI_SELECTOR_DESCRIPTION:
@@ -58,13 +60,13 @@ const SELECTORS_MACOS = {
   OPEN_EXTENSIONS_FOLDER_BUTTON: "~open-extensions-folder-button",
   OPEN_EXTENSIONS_HEADER_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText[1]",
+  OPEN_EXTENSIONS_SECTION: "~open-extensions-section",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  SETTINGS_SECTION: "~settings-section",
   SWITCH_SLIDER: "~Switch Slider",
   SWITCH_SLIDER_VALUE: "~switch-slider-value",
 };
@@ -105,23 +107,23 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   get enableAutomaticallyCheckbox() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(SELECTORS.SWITCH_SLIDER);
+    return $(SELECTORS.AUTO_ENABLE_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
   get enableAutomaticallyControllerValue() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1].$(
+    return $(SELECTORS.AUTO_ENABLE_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get enableAutomaticallyDescription() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $(SELECTORS.AUTO_ENABLE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get enableAutomaticallyHeader() {
-    return $$(SELECTORS.SETTINGS_SECTION)[1]
+    return $(SELECTORS.AUTO_ENABLE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
@@ -167,13 +169,13 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
   }
 
   get openExtensionsDescriptionText() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.OPEN_EXTENSIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.OPEN_EXTENSIONS_DESCRIPTION_TEXT);
   }
 
   get openExtensionsHeaderText() {
-    return $$(SELECTORS.SETTINGS_SECTION)[0]
+    return $(SELECTORS.OPEN_EXTENSIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.OPEN_EXTENSIONS_HEADER_TEXT);
   }
