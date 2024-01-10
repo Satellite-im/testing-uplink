@@ -11,7 +11,8 @@ const SELECTORS_COMMON = {
 
 const SELECTORS_WINDOWS = {
   CREATE_ACCOUNT_BUTTON: '[name="create-account-button"]',
-  CREATE_USER_HELPER_TEXT: '//Group/Text[contains(@Name, "Time to pick")]',
+  CREATE_USER_HELPER: '[name="instructions"]',
+  CREATE_USER_HELPER_TEXT: "<Text>",
   CREATE_USER_LABEL_TEXT: "//Text/Text",
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "<Text>",
@@ -19,8 +20,8 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   CREATE_ACCOUNT_BUTTON: "~create-account-button",
-  CREATE_USER_HELPER_TEXT:
-    '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[`value CONTAINS[cd] "Time to pick"`]',
+  CREATE_USER_HELPER: "~instructions",
+  CREATE_USER_HELPER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   CREATE_USER_LABEL_TEXT:
     "-ios class chain:**/XCUIElementTypeStaticText/XCUIElementTypeStaticText",
   INPUT_ERROR: "~input-error",
@@ -38,6 +39,13 @@ export default class CreateUserScreen extends UplinkMainScreen {
 
   get createAccountButton() {
     return $(SELECTORS.CREATE_ACCOUNT_BUTTON);
+  }
+
+  get createUserHelper() {
+    return $(SELECTORS.CREATE_USER_HELPER);
+  }
+  get createUserHelperText() {
+    return this.createUserHelper.$(SELECTORS.CREATE_USER_HELPER_TEXT);
   }
 
   get inputError() {

@@ -14,6 +14,7 @@ const SELECTORS_WINDOWS = {
   COPY_SEED_WORDS_LAYOUT: '[name="copy-seed-words-layout"]',
   GO_BACK_BUTTON: '[name="back-button"]',
   I_SAVED_IT_BUTTON: '[name="i-saved-it-button"]',
+  SEED_WORD_VALUE_TEXT: "<Text>",
 };
 
 const SELECTORS_MACOS = {
@@ -24,6 +25,7 @@ const SELECTORS_MACOS = {
   COPY_SEED_WORDS_LAYOUT: "~copy-seed-words-layout",
   GO_BACK_BUTTON: "~back-button",
   I_SAVED_IT_BUTTON: "~i-saved-it-button",
+  SEED_WORD_VALUE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
 process.env.DRIVER === WINDOWS_DRIVER
@@ -67,5 +69,26 @@ export default class SaveRecoverySeedScreen extends UplinkMainScreen {
   async clickOnISavedItButton() {
     const iSavedItButton = await this.iSavedItButton;
     await iSavedItButton.click();
+  }
+
+  async getSeedWord(numberOfWord: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let locatorOfWord: string = "";
+    let word: string = "";
+    if (currentDriver === WINDOWS_DRIVER) {
+      locatorOfWord = '[name="seed-word-value-' + numberOfWord + '"]';
+    } else {
+      locatorOfWord = "~seed-word-value-" + numberOfWord;
+    }
+    word = await $(locatorOfWord).$(SELECTORS.SEED_WORD_VALUE_TEXT).getText();
+    return word;
+  }
+
+  async getSeedWords() {
+    let seedWords: string[] = [];
+    for (let i = 1; i <= 12; i++) {
+      seedWords.push(await this.getSeedWord(i.toString()));
+    }
+    return seedWords;
   }
 }

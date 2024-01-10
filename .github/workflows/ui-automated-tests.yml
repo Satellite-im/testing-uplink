@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: Satellite-im/Uplink
-          ref: settings-arias
+          ref: luis/settings-arias
 
       - name: Set up cargo cache 🛠️
         uses: Swatinem/rust-cache@v2
@@ -81,7 +81,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: Satellite-im/Uplink
-          ref: settings-arias
+          ref: luis/settings-arias
 
       - name: Install Rust 💿
         uses: actions-rs/toolchain@v1
