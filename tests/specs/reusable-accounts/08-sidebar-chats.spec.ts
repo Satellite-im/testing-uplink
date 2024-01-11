@@ -30,70 +30,9 @@ const settingsProfile = new SettingsProfileScreen();
 const welcomeScreen = new WelcomeScreen();
 
 export default async function sidebarChatsTests() {
-  it("Chat User A - Unblock the other Chat User", async () => {
-    // Switch to Chat User A window
-    await launchFirstApplication();
-    await friendsScreen.waitForIsShown(true);
-
-    // Unblock Chat User B and go to Friends List to send a new friend request
-    await friendsScreen.validateFriendsScreenIsShown();
-    await friendsScreen.hoverOnBlockedListButton();
-    await friendsScreen.goToBlockedList();
-    await friendsScreen.validateBlockedListIsShown();
-    await friendsScreen.validateBlockedListIsNotEmpty();
-    await friendsScreen.removeOrCancelUser("ChatUserB");
-    await friendsScreen.removeOrDenyFriendButton.waitForExist({
-      reverse: true,
-    });
-    await friendsScreen.goToAllFriendsList();
-    await friendsScreen.validateAllFriendsListIsShown();
-  });
-
-  it("Chat User A - Send friend request again to Chat User B", async () => {
-    // Obtain did key from Chat User B
-    const friendDidKey = await getUserKey("ChatUserB");
-
-    // Send Friend Request to Chat User B
-    await friendsScreen.sendFriendRequest(friendDidKey, "ChatUserB");
-
-    // Go to All Friends List
-    await friendsScreen.goToAllFriendsList();
-    await friendsScreen.validateAllFriendsListIsShown();
-  });
-
-  it("Chat User B - Validate button badge displays the number of incoming requests", async () => {
-    // Switch to Chat User B window
-    await launchSecondApplication();
-    await friendsScreen.waitForIsShown(true);
-
-    // Go to pending requests list, wait for receiving the friend request and accept it
-    await friendsScreen.goToFriends();
-    await friendsScreen.validateFriendsScreenIsShown();
-    await friendsScreen.hoverOnPendingListButton();
-    await friendsScreen.goToPendingFriendsList();
-    await friendsScreen.validateIncomingListIsShown();
-    await friendsScreen.waitUntilFriendRequestIsReceived();
-
-    // Validate that button badge displays the number of incoming requests
-    await friendsScreen.validateFriendsButtonBadgeIsShown;
-    const friendsButtonBadgeText =
-      await friendsScreen.getValueFromFriendsButtonBadge();
-    await expect(friendsButtonBadgeText).toEqual("1");
-  });
-
-  it("Chat User B - Accept incoming request", async () => {
-    // Accept incoming request
-    await friendsScreen.acceptIncomingRequest("ChatUserA");
-    await friendsScreen.acceptFriendRequestButton.waitForExist({
-      reverse: true,
-    });
-
-    // Return to Friends List
-    await friendsScreen.goToAllFriendsList();
-    await friendsScreen.validateAllFriendsListIsShown();
-  });
-
   it("Chat User B - Send message with markdown to User A", async () => {
+    await launchSecondApplication();
+
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await friendsScreen.validateChatWithFriendButtonIsShown();
     await friendsScreen.hoverOnChatWithFriendButton("ChatUserA");

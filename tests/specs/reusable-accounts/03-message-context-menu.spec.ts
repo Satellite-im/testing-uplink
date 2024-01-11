@@ -65,8 +65,7 @@ export default async function messageContextMenuTests() {
     await chatsContextMenu.selectContextOptionDelete();
 
     // Validate that last message was deleted and therefore the last message displayed is "two..."
-    const textMessage = await messageLocal.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("Two...");
+    await messageLocal.waitForMessageToBeDeleted("Three...");
   });
 
   it("Chat User B - Validate Message was deleted and is no longer visible in remote chat", async () => {
