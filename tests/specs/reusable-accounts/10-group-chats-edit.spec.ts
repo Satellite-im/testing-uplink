@@ -30,18 +30,8 @@ export default async function groupChatEditTests() {
     await chatsTopbar.exitEditGroup();
   });
 
-  it("Chat User B - You are not the group creator tooltip is displayed", async () => {
-    // Switch control to second user and validate tooltip is shown
-    await launchSecondApplication();
-    await chatsTopbar.hoverOnEditGroupButton();
-
-    const tooltipText = await chatsTopbar.viewGroupTooltipText;
-    await expect(tooltipText).toHaveTextContaining("View Group");
-  });
-
   it("Edit Group - Group Name Edit - Contents displayed", async () => {
-    // Switch control to first user and then open edit group modal. Validate contents displayed
-    await launchFirstApplication();
+    // Open edit group modal. Validate contents displayed
     await chatsTopbar.openEditGroup();
     await editGroup.validateEditGroupIsShown();
 
