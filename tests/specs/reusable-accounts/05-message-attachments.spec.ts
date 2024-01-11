@@ -10,6 +10,7 @@ import Topbar from "@screenobjects/chats/Topbar";
 import {
   launchFirstApplication,
   launchSecondApplication,
+  scrollUp,
 } from "@helpers/commands";
 const chatsAttachment = new ComposeAttachment();
 const chatsInput = new InputBar();
@@ -181,11 +182,22 @@ export default async function messageAttachmentsTests() {
     await chatsInput.typeMessageOnInput("Attached2");
     await chatsInput.pressEnterKeyOnInputBar();
     await messageLocal.waitForMessageSentToExist("Attached2");
+
+    // Click on last file sent timestamp to move cursor into chat conversation
+    const timestamp = await messageLocal.getLastMessageSentFileName();
+    await timestamp.click();
   });
 
   it("User can scroll to bottom of chat conversation", async () => {
+    // Scroll up 1000 px to ensure that the scroll to bottom button is displayed
+    await scrollUp(1000);
+
+    // Click on Scroll to Bottom button
     await chatsLayout.clickOnScrollToBottom();
-    await messageLocal.chatMessageFileEmbedLocal.waitForDisplayed();
+
+    // Validate that last message is displayed again screen
+    const lastMessage = await messageLocal.chatMessageFileEmbedLocal;
+    await lastMessage.waitForDisplayed();
   });
 
   it("Send Files on Chats - Message Sent With Attachment - Attachment Contents", async () => {

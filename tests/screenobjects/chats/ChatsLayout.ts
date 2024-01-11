@@ -69,8 +69,8 @@ export default class ChatsLayout extends UplinkMainScreen {
   }
 
   async clickOnScrollToBottom() {
-    const scrollToBottomButton = await this.scrollToBottomButton;
-    await scrollToBottomButton.click();
+    await this.scrollToBottomButton.waitForDisplayed();
+    await this.scrollToBottomButton.click();
   }
 
   async validateChatLayoutIsShown() {

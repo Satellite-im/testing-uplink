@@ -310,6 +310,14 @@ export async function hoverOnMacOS(locator: WebdriverIO.Element) {
   ]);
 }
 
+export async function scrollUp(deltaX: number) {
+  await mouse.scrollUp(deltaX);
+}
+
+export async function scrollDown(deltaX: number) {
+  await mouse.scrollDown(deltaX);
+}
+
 export async function saveFileOnMacOS(filename: string) {
   // Wait for Save Dialog to be displayed
   const savePanel = await $("~save-panel");
