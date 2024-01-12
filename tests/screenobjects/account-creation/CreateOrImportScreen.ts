@@ -9,7 +9,7 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   CREATE_NEW_ACCOUNT_BUTTON: '[name="create-button"]',
   CREATE_OR_RECOVER_LABEL: '[name="create-or-recover"]',
-  CREATE_OR_RECOVER_LABEL_TEXT: "<Text>",
+  CREATE_OR_RECOVER_LABEL_TEXT: '//Text[@Name="ACCOUNT CREATION"]',
   IMPORT_ACCOUNT_BUTTON: '[name="recover-button"]',
   RECOVERY_LAYOUT: '[name="create-or-recover-layout"]',
   RECOVERY_PARAGRAPH: '[name="create-or-recover-instructions"]',
