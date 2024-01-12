@@ -124,12 +124,6 @@ export default async function createAccountTests() {
       "We're going to create an account for you. On the next screen, you'll see a set of words. Screenshot this or write it down. This is the only way to backup your account.",
     );
     await expect(createOrImportHeader).toHaveTextContaining("ACCOUNT CREATION");
-
-    const createNewAccountButton = await createOrImport.createNewAccountButton;
-    const importAccountButton = await createOrImport.importAccountButton;
-    await createNewAccountButton.waitForDisplayed();
-    await importAccountButton.waitForDisplayed();
-
     await createOrImport.clickOnCreateAccount();
   });
 
