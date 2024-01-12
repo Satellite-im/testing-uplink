@@ -48,6 +48,10 @@ export default class CreateUserScreen extends UplinkMainScreen {
     return this.createUserHelper.$(SELECTORS.CREATE_USER_HELPER_TEXT);
   }
 
+  get createUserLabelText() {
+    return this.unlockLayout.$(SELECTORS.CREATE_USER_LABEL_TEXT);
+  }
+
   get inputError() {
     return $(SELECTORS.INPUT_ERROR);
   }
