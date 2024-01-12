@@ -139,7 +139,6 @@ export default async function createAccountTests() {
 
     // Validate 12 recovery seed words are displayed on screen
     const seedWords = await saveRecoverySeed.getSeedWords();
-    console.log(seedWords);
     await expect(seedWords.length).toEqual(12);
   });
 
