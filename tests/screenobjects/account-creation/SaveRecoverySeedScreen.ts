@@ -10,7 +10,7 @@ const SELECTORS_WINDOWS = {
   COPY_SEED_HELPER_TEXT:
     '//Group/Text[contains(@Name, "Write these words down")]',
   COPY_SEED_WORDS_LABEL: '[name="copy-seed-words"]',
-  COPY_SEED_WORDS_LABEL_TEXT: "<Text>>",
+  COPY_SEED_WORDS_LABEL_TEXT: '//Text[@Name="RECOVERY SEED"]',
   COPY_SEED_WORDS_LAYOUT: '[name="copy-seed-words-layout"]',
   GO_BACK_BUTTON: '[name="back-button"]',
   I_SAVED_IT_BUTTON: '[name="i-saved-it-button"]',

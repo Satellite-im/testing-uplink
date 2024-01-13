@@ -11,7 +11,7 @@ const SELECTORS_COMMON = {
 const SELECTORS_WINDOWS = {
   ENCRYPTED_MESSAGES: '[name="messages-secured-alert"]',
   ENCRYPTED_MESSAGES_TEXT: "//Group/Text",
-  SCROLL_TO_BOTTOM: '//Text[@value="Scroll to bottom"]',
+  SCROLL_TO_BOTTOM: '//Text[@Name="Scroll to bottom"]',
   TYPING_INDICATOR: '[name="message-typing-indicator"]',
   TYPING_INDICATOR_TEXT: '[name="typing-message"]',
   TYPING_INDICATOR_TEXT_VALUE: "<Text>",
