@@ -1,5 +1,5 @@
 require("module-alias/register");
-import { resetApp } from "@helpers/commands";
+import { getUserRecoverySeed, resetApp } from "@helpers/commands";
 import CreateOrImportScreen from "@screenobjects/account-creation/CreateOrImportScreen";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import EnterRecoverySeedScreen from "@screenobjects/account-creation/EnterRecoverySeedScreen";
@@ -9,7 +9,7 @@ const createPin = new CreatePinScreen();
 const enterRecoverySeed = new EnterRecoverySeedScreen();
 const welcomeScreen = new WelcomeScreen();
 
-export default async function createAccountTests() {
+export default async function importAccountTests() {
   it("Enter Pin Screen - Clear cache, reset app and enter a valid pin", async () => {
     // Clear cache and reset app
     await resetApp();
@@ -39,7 +39,10 @@ export default async function createAccountTests() {
     await expect(screenTitle).toHaveTextContaining("RECOVERY SEED");
   });
 
-  it("Save Recovery Seed Screen - Enter an invalid valid recovery seed", async () => {
+  it("Save Recovery Seed Screen - Enter valid recovery seed and continue", async () => {
+    const recoverySeed = await getUserRecoverySeed("Test123");
+    await enterRecoverySeed.typeOnRecoverySeedInput(recoverySeed);
+    await enterRecoverySeed.clickOnRecoverAccountButton();
     await welcomeScreen.waitForIsShown(true);
   });
 }

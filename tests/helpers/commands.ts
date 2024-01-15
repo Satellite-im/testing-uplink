@@ -151,6 +151,35 @@ export async function resetAndLoginWithCache(user: string) {
   await loginWithTestUser();
 }
 
+export async function saveUserRecoverySeed(username: string, data: string[]) {
+  // Save JSON file with keys
+  const currentDriver = process.env.DRIVER;
+  const target = "./tests/fixtures/users/" + currentDriver;
+  const filepath = target + "/" + username + "-seed.txt";
+  await fsp.mkdir(target, { recursive: true });
+  let recoverySeedWords = "";
+  for (let word of data) {
+    recoverySeedWords += word + " ";
+  }
+  recoverySeedWords = recoverySeedWords.slice(0, -1);
+  console.log(recoverySeedWords);
+  try {
+    await writeFileSync(filepath, recoverySeedWords, "utf8");
+    console.log("Recovery Seed successfully saved");
+  } catch (error) {
+    console.log("An error has occurred while saving recovery seed", error);
+  }
+}
+
+export async function getUserRecoverySeed(username: string) {
+  // Read user data from JSON file
+  const currentDriver = process.env.DRIVER;
+  const source =
+    "./tests/fixtures/users/" + currentDriver + "/" + username + "-seed.txt";
+  const file = await readFileSync(source, { encoding: "utf8", flag: "r" });
+  return file;
+}
+
 // Application Manage Functions
 
 export async function launchApplication(

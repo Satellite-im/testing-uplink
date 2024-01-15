@@ -1,5 +1,5 @@
 require("module-alias/register");
-import { maximizeWindow } from "@helpers/commands";
+import { maximizeWindow, saveUserRecoverySeed } from "@helpers/commands";
 import CreateOrImportScreen from "@screenobjects/account-creation/CreateOrImportScreen";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
@@ -154,6 +154,8 @@ export default async function createAccountTests() {
   it("Save Recovery Seed Screen - User can click on I Saved It to continue", async () => {
     // Click on I Saved It Button to continue to Enter Username Screen
     await saveRecoverySeed.waitForIsShown(true);
+    const recoverySeed = await saveRecoverySeed.getSeedWords();
+    await saveUserRecoverySeed("Test123", recoverySeed);
     await saveRecoverySeed.clickOnISavedItButton();
     await createUser.waitForIsShown(true);
   });
