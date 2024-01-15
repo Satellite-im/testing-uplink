@@ -11,10 +11,11 @@ const SELECTORS_WINDOWS = {
   GO_BACK_BUTTON: '[name="back-button"]',
   RECOVER_ACCOUNT_BUTTON: '[name="recover-account-button"]',
   RECOVERY_SEED_HELPER: '[name="instructions"]',
-  RECOVERY_SEED_HELPER_TEXT: "<Text>",
+  RECOVERY_SEED_HELPER_TEXT:
+    '//Text[contains(@Name, "Type your recovery seed")]',
   RECOVERY_SEED_INPUT: '[name="recovery-seed-input"]',
   RECOVERY_SEED_TITLE: '[name="enter-seed-words"]',
-  RECOVERY_SEED_TITLE_TEXT: "<Text>",
+  RECOVERY_SEED_TITLE_TEXT: '//Text[@Name="RECOVERY SEED"]',
 };
 
 const SELECTORS_MACOS = {
