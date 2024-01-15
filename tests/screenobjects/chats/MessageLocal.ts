@@ -274,8 +274,12 @@ export default class MessageLocal extends UplinkMainScreen {
       linkSentLocator =
         '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
-    const link = await $(linkSentLocator);
-    await link.waitForExist();
+    await driver.waitUntil(async () => {
+      return await $(linkSentLocator).waitForExist({
+        timeout: 45000,
+        timeoutMsg: "Expected message with link was not found after 45 seconds",
+      });
+    });
   }
 
   async waitForMessageSentToExist(expectedMessage: string) {
@@ -292,8 +296,12 @@ export default class MessageLocal extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-    const messageSent = await $(messageSentLocator);
-    await messageSent.waitForExist();
+    await driver.waitUntil(async () => {
+      return await $(messageSentLocator).waitForExist({
+        timeout: 45000,
+        timeoutMsg: "Expected message sent was not found after 45 seconds",
+      });
+    });
   }
 
   // Messages Sent Methods

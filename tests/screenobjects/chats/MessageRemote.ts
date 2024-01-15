@@ -354,9 +354,13 @@ export default class MessageRemote extends UplinkMainScreen {
         expectedLanguage +
         '")]';
     }
-
-    const codeMessage = await $(codeMessageReceivedLocator);
-    await codeMessage.waitForExist();
+    await driver.waitUntil(async () => {
+      return await $(codeMessageReceivedLocator).waitForExist({
+        timeout: 45000,
+        timeoutMsg:
+          "Expected message with code markdown was not found after 45 seconds",
+      });
+    });
   }
 
   async waitForReceivingLink(expectedMessage: string) {
@@ -371,8 +375,12 @@ export default class MessageRemote extends UplinkMainScreen {
       linkReceivedLocator =
         '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
     }
-    const link = await $(linkReceivedLocator);
-    await link.waitForExist();
+    await driver.waitUntil(async () => {
+      return await $(linkReceivedLocator).waitForExist({
+        timeout: 45000,
+        timeoutMsg: "Expected message with link was not found after 45 seconds",
+      });
+    });
   }
 
   async waitForReceivingMessage(expectedMessage: string) {
@@ -389,8 +397,12 @@ export default class MessageRemote extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-    const messageReceived = await $(receivedMessageLocator);
-    await messageReceived.waitForExist();
+    await driver.waitUntil(async () => {
+      return await $(receivedMessageLocator).waitForExist({
+        timeout: 45000,
+        timeoutMsg: "Expected message was not found after 45 seconds",
+      });
+    });
   }
 
   // Replies Methods
