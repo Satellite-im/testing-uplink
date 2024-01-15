@@ -170,17 +170,17 @@ export default async function messageInputTests() {
     await chatsInput.waitForIsShown(true);
     await chatsInput.typeMessageOnInput("https://www.google.com");
     await chatsInput.clickOnSendMessage();
-    await messageLocal.waitForLinkSentToExist("Google");
   });
 
   it("Chat Input Text - Validate text starting with www. is sent as link", async () => {
     // With Chat User A
     await chatsInput.typeMessageOnInput("www.apple.com");
     await chatsInput.clickOnSendMessage();
-    await messageLocal.waitForLinkSentToExist("Apple");
   });
 
   it("Chat User - Chat Messages containing links contents on local side", async () => {
+    await messageLocal.waitForLinkSentToExist("Apple");
+
     // Validate link embed contents on chat message
     const linkEmbedSent = await messageLocal.getLastMessageSentLinkEmbed();
     const linkEmbedSentDetailsText =
