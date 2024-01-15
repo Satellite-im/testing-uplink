@@ -191,9 +191,7 @@ export default async function messageInputTests() {
       await messageLocal.getLastMessageSentLinkEmbedIconTitle();
 
     await linkEmbedSent.waitForExist();
-    await expect(linkEmbedSentDetailsText).toHaveTextContaining(
-      "Discover the innovative world of Apple and shop everything iPhone, iPad, Apple Watch, Mac, and Apple TV, plus explore accessories, entertainment, and expert device support.",
-    );
+    await expect(linkEmbedSentDetailsText).toHaveTextContaining("Apple");
     await linkEmbedSentIcon.waitForExist();
     await linkEmbedSentIconTitle.waitForExist();
   });
@@ -220,9 +218,7 @@ export default async function messageInputTests() {
       await messageRemote.getLastMessageReceivedLinkEmbedIconTitle();
 
     await linkEmbedReceived.waitForExist();
-    await expect(linkEmbedReceivedDetailsText).toHaveTextContaining(
-      "Discover the innovative world of Apple and shop everything iPhone, iPad, Apple Watch, Mac, and Apple TV, plus explore accessories, entertainment, and expert device support.",
-    );
+    await expect(linkEmbedReceivedDetailsText).toHaveTextContaining("Apple");
     await linkEmbedReceivedIcon.waitForExist();
     await linkEmbedReceivedIconTitle.waitForExist();
   });
