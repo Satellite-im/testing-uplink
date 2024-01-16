@@ -26,7 +26,7 @@ export const config: WebdriverIO.Config = {
     // will be called from there.
     //
     specs: [
-      join(process.cwd(), "./tests/suites/MainTests/02-UplinkWindows.suite.ts"),
+      join(process.cwd(), "./tests/suites/MainTests/01-UplinkTests.suite.ts"),
     ],
     // Patterns to exclude.
     exclude: [

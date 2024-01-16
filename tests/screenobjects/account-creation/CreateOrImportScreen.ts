@@ -20,7 +20,7 @@ const SELECTORS_MACOS = {
   CREATE_NEW_ACCOUNT_BUTTON: "~create-button",
   CREATE_OR_RECOVER_LABEL: "~create-or-recover",
   CREATE_OR_RECOVER_LABEL_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  IMPORT_ACCOUNT_BUTTON: "~recovery-button",
+  IMPORT_ACCOUNT_BUTTON: "~recover-button",
   RECOVERY_LAYOUT: "~create-or-recover-layout",
   RECOVERY_PARAGRAPH: "~create-or-recover-instructions",
   RECOVERY_PARAGRAPH_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
