@@ -97,8 +97,8 @@ export default class CreatePinScreen extends UplinkMainScreen {
   }
 
   async enterPin(pin: string) {
-    const pinInput = await this.pinInput;
-    await pinInput.setValue(pin);
+    (await this.pinInput).click();
+    await this.pinInput.setValue(pin);
   }
 
   async clickOnCreateAccount() {
@@ -135,5 +135,21 @@ export default class CreatePinScreen extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(helpButton);
     }
+  }
+
+  async waitUntilCreateAccountButtonIsEnabled() {
+    const currentDriver = await this.getCurrentDriver();
+    let attributeName: string;
+    if (currentDriver === WINDOWS_DRIVER) {
+      attributeName = "IsEnabled";
+    } else {
+      attributeName = "enabled";
+    }
+
+    await driver.waitUntil(async () => {
+      return (
+        (await this.createAccountButton.getAttribute(attributeName)) === "true"
+      );
+    });
   }
 }

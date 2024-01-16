@@ -294,11 +294,9 @@ export async function closeSecondApplication() {
 
 export async function maximizeWindow() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
-    const button = await $('[name="square-button"]');
-    await button.click();
+    await $('[name="square-button"]').click();
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    const button = await $("~_XCUI:FullScreenWindow");
-    await button.click();
+    (await $("~_XCUI:FullScreenWindow")).click();
   }
 }
 

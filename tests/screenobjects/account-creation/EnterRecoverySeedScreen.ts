@@ -26,7 +26,7 @@ const SELECTORS_MACOS = {
   RECOVERY_SEED_HELPER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   RECOVERY_SEED_INPUT: "~recovery-seed-input",
   RECOVERY_SEED_TITLE: "~enter-seed-words",
-  RECOVERY_SEED_TITLE_TEXT: "<Text>",
+  RECOVERY_SEED_TITLE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
 process.env.DRIVER === WINDOWS_DRIVER

@@ -110,6 +110,7 @@ export default async function createAccountTests() {
 
   it("Enter Pin Screen - Enter a valid pin and continue creating a username", async () => {
     await createPin.enterPin("1234");
+    await createPin.waitUntilCreateAccountButtonIsEnabled();
     const statusOfButton = await createPin.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("true");
     await createPin.clickOnCreateAccount();
@@ -230,6 +231,7 @@ export default async function createAccountTests() {
 
   it("Enter Username Screen - Enter valid username to continue", async () => {
     await createUser.enterUsername("Test123");
+    await createUser.waitUntilCreateAccountButtonIsEnabled();
     const statusOfButton = await createPin.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("true");
     await createUser.clickOnCreateAccount();

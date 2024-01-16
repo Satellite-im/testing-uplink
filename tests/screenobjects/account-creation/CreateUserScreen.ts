@@ -96,4 +96,20 @@ export default class CreateUserScreen extends UplinkMainScreen {
     }
     return result.toString().toLowerCase();
   }
+
+  async waitUntilCreateAccountButtonIsEnabled() {
+    const currentDriver = await this.getCurrentDriver();
+    let attributeName: string;
+    if (currentDriver === WINDOWS_DRIVER) {
+      attributeName = "IsEnabled";
+    } else {
+      attributeName = "enabled";
+    }
+
+    await driver.waitUntil(async () => {
+      return (
+        (await this.createAccountButton.getAttribute(attributeName)) === "true"
+      );
+    });
+  }
 }
