@@ -149,6 +149,7 @@ export async function resetAndLoginWithCache(user: string) {
   await loadTestUserData(user);
   await launchApplication(MACOS_BUNDLE_ID, WINDOWS_APP);
   await loginWithTestUser();
+  await maximizeWindow();
 }
 
 export async function saveUserRecoverySeed(username: string, data: string[]) {

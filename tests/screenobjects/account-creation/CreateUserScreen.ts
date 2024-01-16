@@ -98,18 +98,15 @@ export default class CreateUserScreen extends UplinkMainScreen {
   }
 
   async waitUntilCreateAccountButtonIsEnabled() {
-    const currentDriver = await this.getCurrentDriver();
-    let attributeName: string;
-    if (currentDriver === WINDOWS_DRIVER) {
-      attributeName = "IsEnabled";
-    } else {
-      attributeName = "enabled";
-    }
-
-    await driver.waitUntil(async () => {
-      return (
-        (await this.createAccountButton.getAttribute(attributeName)) === "true"
-      );
-    });
+    const createAccountButton = await this.createAccountButton;
+    await driver.waitUntil(
+      async () => {
+        return await createAccountButton.waitForEnabled();
+      },
+      {
+        timeout: 30000,
+        timeoutMsg: "Expected status was not changed to enabled after 30s",
+      },
+    );
   }
 }
