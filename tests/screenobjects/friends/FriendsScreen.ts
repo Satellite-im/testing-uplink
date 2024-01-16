@@ -31,8 +31,8 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_BLOCK: '[name="friends-block"]',
   CONTEXT_MENU_CHAT: '[name="friends-chat"]',
-  CONTEXT_MENU_COPY_DID_KEY: "<Button>[2]",
-  CONTEXT_MENU_COPY_ID: "<Button>[1]",
+  CONTEXT_MENU_COPY_DID_KEY: '[name="copy-id-context"][2]',
+  CONTEXT_MENU_COPY_ID: '[name="copy-id-context"][1]',
   CONTEXT_MENU_FAVORITES_ADD: '[name="favorites-add"]',
   CONTEXT_MENU_FAVORITES_REMOVE: '[name="favorites-remove"]',
   CONTEXT_MENU_INCOMING_ACCEPT: '[name="friends-accept"]',
@@ -220,7 +220,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   get contextMenuCopyDidKey() {
-    return $(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
+    return this.contextMenu.$(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
   }
 
   get contextMenuCopyId() {
