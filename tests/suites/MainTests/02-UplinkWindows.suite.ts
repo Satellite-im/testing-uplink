@@ -2,6 +2,7 @@ require("module-alias/register");
 import createAccountTests from "@specs/01-create-account.spec";
 import chatsTests from "@specs/02-chats.spec";
 import filesTests from "@specs/03-files.spec";
+import friendsTests from "@specs/04-friends.spec";
 import settingsProfileTests from "@specs/05-settings-profile.spec";
 import settingsGeneralTests from "@specs/06-settings-general.spec";
 import settingsMessagesTests from "@specs/15-settings-messages.spec";
@@ -15,6 +16,7 @@ import settingsDeveloperTests from "@specs/13-settings-developer.spec";
 import importAccountTests from "@specs/16-import-account.spec";
 
 describe("MacOS Tests", function () {
+  describe("Friends Screen Tests", friendsTests.bind(this));
   describe("Create Pin and Account Tests", createAccountTests.bind(this));
   describe("Chats Main Screen Tests", chatsTests.bind(this));
   describe("Files Screen Tests", filesTests.bind(this));
