@@ -97,8 +97,8 @@ export default class CreatePinScreen extends UplinkMainScreen {
   }
 
   async enterPin(pin: string) {
-    const pinInput = await this.pinInput;
-    await pinInput.setValue(pin);
+    (await this.pinInput).click();
+    await this.pinInput.setValue(pin);
   }
 
   async clickOnCreateAccount() {
@@ -135,5 +135,18 @@ export default class CreatePinScreen extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await rightClickOnWindows(helpButton);
     }
+  }
+
+  async waitUntilCreateAccountButtonIsEnabled() {
+    const createAccountButton = await this.createAccountButton;
+    await driver.waitUntil(
+      async () => {
+        return await createAccountButton.waitForEnabled();
+      },
+      {
+        timeout: 30000,
+        timeoutMsg: "Expected status was not changed to enabled after 30s",
+      },
+    );
   }
 }

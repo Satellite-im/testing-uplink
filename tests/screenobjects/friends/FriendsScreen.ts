@@ -220,7 +220,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   }
 
   get contextMenuCopyDidKey() {
-    return $(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
+    return this.contextMenu.$(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
   }
 
   get contextMenuCopyId() {

@@ -96,6 +96,7 @@ export const config: WebdriverIO.Config = {
         },
       ],
     ],
+    specFileRetries: 1,
     //
     // =====
     // Hooks

@@ -96,4 +96,17 @@ export default class CreateUserScreen extends UplinkMainScreen {
     }
     return result.toString().toLowerCase();
   }
+
+  async waitUntilCreateAccountButtonIsEnabled() {
+    const createAccountButton = await this.createAccountButton;
+    await driver.waitUntil(
+      async () => {
+        return await createAccountButton.waitForEnabled();
+      },
+      {
+        timeout: 30000,
+        timeoutMsg: "Expected status was not changed to enabled after 30s",
+      },
+    );
+  }
 }
