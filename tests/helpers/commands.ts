@@ -163,7 +163,6 @@ export async function saveUserRecoverySeed(username: string, data: string[]) {
     recoverySeedWords += word + " ";
   }
   recoverySeedWords = recoverySeedWords.slice(0, -1);
-  console.log(recoverySeedWords);
   try {
     await writeFileSync(filepath, recoverySeedWords, "utf8");
     console.log("Recovery Seed successfully saved");
