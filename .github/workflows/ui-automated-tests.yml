@@ -22,7 +22,7 @@ jobs:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
         with:
-          repository:
+          repository: Satellite-im/Uplink
           ref: chatbar_markdown_preview
 
       - name: Set up cargo cache 🛠️
