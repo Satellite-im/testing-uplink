@@ -19,7 +19,7 @@ const SELECTORS_WINDOWS = {
   EMOJI_BUTTON: '[name="send-emoji-button"]',
   INPUT_CHAR_COUNTER: '[name="input-char-counter"]',
   INPUT_CHAR_COUNTER_TEXT: "<Text>",
-  INPUT_CHAR_MAX_TEXT: '//Group[@Name="input-group"]/Text',
+  INPUT_CHAR_MAX_TEXT: '//Group[@Name="input-group"]/Group[4]/Text',
   INPUT_GROUP: '[name="input-group"]',
   INPUT_TEXT: "<Edit>",
   SEND_MESSAGE_BUTTON: '[name="send-message-button"]',
@@ -36,7 +36,7 @@ const SELECTORS_MACOS = {
   INPUT_CHAR_COUNTER: "~input-char-counter",
   INPUT_CHAR_COUNTER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   INPUT_CHAR_MAX_TEXT:
-    '-ios class chain:**/XCUIElementTypeGroup[`label == "input-group"`]/XCUIElementTypeGroup[2]/XCUIElementTypeStaticText',
+    '-ios class chain:**/XCUIElementTypeGroup[`label == "input-group"`]/XCUIElementTypeGroup[4]/XCUIElementTypeStaticText',
   INPUT_GROUP: "~input-group",
   INPUT_TEXT: "-ios class chain:**/XCUIElementTypeTextView",
   SEND_MESSAGE_BUTTON: "~send-message-button",
@@ -165,7 +165,7 @@ export default class InputBar extends UplinkMainScreen {
 
   async getValueFromInputBar() {
     const inputText = await this.inputText;
-    const inputTextValue = await inputText.getText();
+    const inputTextValue = (await inputText.getText()) + " ";
     return inputTextValue;
   }
 
@@ -210,7 +210,7 @@ export default class InputBar extends UplinkMainScreen {
     const inputText = await this.inputText;
     await inputText.clearValue();
     await inputText.addValue("```" + language);
-    const inputTextValueLanguage = await inputText.getText();
+    const inputTextValueLanguage = (await inputText.getText()) + " ";
     if (inputTextValueLanguage.includes("```" + language) === false) {
       await this.typeCodeOnInputBar(language, codeToType);
     } else {
@@ -218,7 +218,7 @@ export default class InputBar extends UplinkMainScreen {
       await keyboard.type(Key.Enter);
       await keyboard.releaseKey(Key.LeftShift);
       await inputText.addValue(codeToType);
-      const inputTextValueCode = await inputText.getText();
+      const inputTextValueCode = (await inputText.getText()) + " ";
       if (inputTextValueCode.includes(codeToType) === false) {
         await this.typeCodeOnInputBar(language, codeToType);
       }
@@ -229,8 +229,9 @@ export default class InputBar extends UplinkMainScreen {
     const inputText = await this.inputText;
     await inputText.clearValue();
     await inputText.setValue(text);
-    const inputTextValue = await inputText.getText();
-    if (inputTextValue !== text) {
+    const inputTextElement = await this.inputText;
+    const inputTextElementValue = (await inputTextElement.getText()) + " ";
+    if (inputTextElementValue !== text) {
       await this.typeMessageOnInput(text);
     }
   }
