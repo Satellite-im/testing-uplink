@@ -30,6 +30,7 @@ const SELECTORS_WINDOWS = {
   DISMISS_BUTTON: '[name="welcome-message-dismiss"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_MESSAGE: "<Text>",
+  ONLINE_STATUS_SECTION: "[name='online-status-section']",
   PROFILE_BANNER: '[name="profile-banner"]',
   PROFILE_BANNER_CLEAR: '[name="clear-banner"]',
   PROFILE_BANNER_TOOLTIP: "<Text>",
@@ -37,6 +38,20 @@ const SELECTORS_WINDOWS = {
   PROFILE_HEADER: '[name="profile-header"]',
   PROFILE_PICTURE: '[name="profile-picture"]',
   PROFILE_PICTURE_CLEAR: '[name="clear-avatar"]',
+  RECOVERY_SEED_SECTION: "[name='recovery-seed-section']",
+  REVEAL_RECOVERY_SEED_BUTTON: "[name='reveal-recovery-seed-button']",
+  SEED_WORDS_SECTION: "[name='seed-words-section']",
+  SELECTOR: "<ComboBox>",
+  SELECTOR_OPTION: '[name="selector-option"]',
+  SELECTOR_OPTION_INDICATOR_DO_NOT_DISTURB: "[name='indicator-do-not-disturb']",
+  SELECTOR_OPTION_INDICATOR_IDLE: "[name='indicator-idle']",
+  SELECTOR_OPTION_INDICATOR_OFFLINE: "[name='indicator-offline']",
+  SELECTOR_OPTION_INDICATOR_ONLINE: "[name='indicator-online']",
+  SELECTOR_OPTIONS_LIST: '[name="selector-options-list"]',
+  SETTINGS_CONTROL: '[name="settings-control"]',
+  SETTINGS_INFO: '[name="settings-info"]',
+  SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
+  SETTINGS_INFO_HEADER: "//Text[1]/Text",
   STATUS_INPUT: '[name="status-input"]',
   STATUS_LABEL: '//Text[@Name="profile-status-label"]/Text',
   TOOLTIP: '[name="tooltip"]',
@@ -65,6 +80,7 @@ const SELECTORS_MACOS = {
   DISMISS_BUTTON: "~welcome-message-dismiss",
   INPUT_ERROR: "~input-error",
   INPUT_ERROR_MESSAGE: "-ios class chain:**/XCUIElementTypeStaticText",
+  ONLINE_STATUS_SECTION: "~online-status-section",
   PROFILE_BANNER: "~profile-banner",
   PROFILE_BANNER_CLEAR: "~clear-banner",
   PROFILE_BANNER_TOOLTIP:
@@ -73,6 +89,21 @@ const SELECTORS_MACOS = {
   PROFILE_HEADER: "~profile-header",
   PROFILE_PICTURE: "~profile-picture",
   PROFILE_PICTURE_CLEAR: "~clear-avatar",
+  RECOVERY_SEED_SECTION: "~recovery-seed-section",
+  REVEAL_RECOVERY_SEED_BUTTON: "~reveal-recovery-seed-button",
+  SEED_WORDS_SECTION: "~seed-words-section",
+  SELECTOR: "~Selector",
+  SELECTOR_OPTION: "~selector-option",
+  SELECTOR_OPTION_INDICATOR_DO_NOT_DISTURB: "~indicator-do-not-disturb",
+  SELECTOR_OPTION_INDICATOR_IDLE: "~indicator-idle",
+  SELECTOR_OPTION_INDICATOR_OFFLINE: "~indicator-offline",
+  SELECTOR_OPTION_INDICATOR_ONLINE: "~indicator-online",
+  SELECTOR_OPTIONS_LIST: "~selector-options-list",
+  SETTINGS_CONTROL: "~settings-control",
+  SETTINGS_INFO: "~settings-info",
+  SETTINGS_INFO_DESCRIPTION:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
   STATUS_INPUT: "~status-input",
   STATUS_LABEL: "-ios class chain:**/XCUIElementTypeStaticText[2]",
   TOOLTIP: "~tooltip",
@@ -150,6 +181,22 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_MESSAGE);
   }
 
+  get onlineStatusSection() {
+    return $(SELECTORS.ONLINE_STATUS_SECTION);
+  }
+
+  get onlineStatusDescription() {
+    return $(SELECTORS.ONLINE_STATUS_SECTION)
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get onlineStatusHeader() {
+    return $(SELECTORS.ONLINE_STATUS_SECTION)
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
   get profileBanner() {
     return $(SELECTORS.PROFILE_BANNER);
   }
@@ -176,6 +223,50 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   get profilePictureClear() {
     return $(SELECTORS.PROFILE_PICTURE_CLEAR);
+  }
+
+  get recoverySeedDescription() {
+    return $(SELECTORS.RECOVERY_SEED_SECTION)
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get recoverySeedHeader() {
+    return $(SELECTORS.RECOVERY_SEED_SECTION)
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get recoverySeedSection() {
+    return $(SELECTORS.RECOVERY_SEED_SECTION);
+  }
+
+  get revealRecoverySeedButton() {
+    return $(SELECTORS.REVEAL_RECOVERY_SEED_BUTTON);
+  }
+
+  get seedWordsDescription() {
+    return $(SELECTORS.SEED_WORDS_SECTION)
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
+  }
+
+  get seedWordsHeader() {
+    return $(SELECTORS.SEED_WORDS_SECTION)
+      .$(SELECTORS.SETTINGS_INFO)
+      .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get seedWordsSection() {
+    return $(SELECTORS.SEED_WORDS_SECTION);
+  }
+
+  get seedWordsWarningPhraseHidden() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get seedWordsWarningPhraseNotHidden() {
+    return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get settingsProfile() {
