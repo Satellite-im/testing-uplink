@@ -1,5 +1,5 @@
 require("module-alias/register");
-import { getClipboardValue, resetAndLoginWithCache } from "@helpers/commands";
+import { resetAndLoginWithCache } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
@@ -104,8 +104,9 @@ export default async function friendsTests() {
     // Wait for toast notification to disappear
     await friendsScreen.waitUntilNotificationIsClosed();
 
-    // Validate clipboard text contains Username#
-    const clipboardText = await getClipboardValue();
+    // Validate value copied from Copy ID is correct
+    await friendsScreen.pasteUserKeyInAddSomeone();
+    const clipboardText = await friendsScreen.getValueFromAddSomeoneInput();
     await expect(clipboardText).toContain("ChatUserA#");
   });
 
@@ -117,8 +118,9 @@ export default async function friendsTests() {
     // Wait for toast notification to disappear
     await friendsScreen.waitUntilNotificationIsClosed();
 
-    // Validate clipboard text contains Did Key
-    const clipboardText = await getClipboardValue();
+    // Validate value copied from Copy DID is correct
+    await friendsScreen.pasteUserKeyInAddSomeone();
+    const clipboardText = await friendsScreen.getValueFromAddSomeoneInput();
     await expect(clipboardText).toContain("did:key");
   });
 
@@ -130,8 +132,9 @@ export default async function friendsTests() {
     // Wait for toast notification to disappear
     await friendsScreen.waitUntilNotificationIsClosed();
 
-    // Validate clipboard text contains Username#
-    const clipboardText = await getClipboardValue();
+    // Validate value copied from Copy ID is correct
+    await friendsScreen.pasteUserKeyInAddSomeone();
+    const clipboardText = await friendsScreen.getValueFromAddSomeoneInput();
     await expect(clipboardText).toContain("ChatUserA#");
   });
 
