@@ -593,8 +593,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await this.selectorOptionIndicatorDoNotDisturb;
     await doNotDisturbStatusOption.click();
 
-    // Close selector and wait until toast notification is closed
-    await this.clickOnSelector();
+    // Wait until toast notification is closed
     await this.waitUntilNotificationIsClosed();
   }
 
@@ -606,8 +605,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     const idleStatusOption = await this.selectorOptionIndicatorIdle;
     await idleStatusOption.click();
 
-    // Close selector and wait until toast notification is closed
-    await this.clickOnSelector();
+    // Wait until toast notification is closed
     await this.waitUntilNotificationIsClosed();
   }
 
@@ -619,8 +617,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     const offlineStatusOption = await this.selectorOptionIndicatorOffline;
     await offlineStatusOption.click();
 
-    // Close selector and wait until toast notification is closed
-    await this.clickOnSelector();
+    // Wait until toast notification is closed
     await this.waitUntilNotificationIsClosed();
   }
 
@@ -632,8 +629,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     const onlineStatusOption = await this.selectorOptionIndicatorOnline;
     await onlineStatusOption.click();
 
-    // Close selector and wait until toast notification is closed
-    await this.clickOnSelector();
+    // Wait until toast notification is closed
     await this.waitUntilNotificationIsClosed();
   }
 

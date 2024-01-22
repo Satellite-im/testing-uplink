@@ -3,7 +3,7 @@ import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal"
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import { MACOS_DRIVER } from "@helpers/constants";
-import { scrollDown } from "@helpers/commands";
+import { getUserRecoverySeed, scrollDown } from "@helpers/commands";
 const cropProfile = new CropImageProfileModal();
 const filesScreen = new FilesScreen();
 const settingsProfile = new SettingsProfileScreen();
@@ -376,7 +376,7 @@ export default async function settingsProfileTests() {
       await settingsProfile.onlineStatusDescription;
     await expect(onlineStatusHeader).toHaveText("ONLINE STATUS");
     await expect(onlineStatusDescription).toHaveText(
-      "Set the appereance of your online status",
+      "Set the appearance of your online status",
     );
 
     // Validate contents of Recovery Seed section on Settings Profile
@@ -386,7 +386,7 @@ export default async function settingsProfileTests() {
 
     await expect(recoverySeedHeader).toHaveText("RECOVERY SEED");
     await expect(recoverySeedDescription).toHaveText(
-      'This seed represents the "master key" to your account. Keep this safe and secure somewhere in order to maintain proper control and security over your Uplink account.',
+      'This seed represents the "master key" for your account. Keep this safe and secure somewhere in order to maintain proper control and security over your Uplink account.',
     );
   });
 
@@ -415,12 +415,17 @@ export default async function settingsProfileTests() {
     await expect(onlineStatus).toHaveText("Idle");
   });
 
-  it("Settings Profile - Recovery Seed - User can reveal seed words", async () => {
+  it("Settings Profile - Recovery Seed - Reveal Seed Words", async () => {
     // Reveal Recovery Seed
     await settingsProfile.clickOnRevealRecoverySeed();
 
+    // Return previously stored seeds
+    const savedRecoverySeed = await getUserRecoverySeed("Test123");
+    const wordsSavedRecoverySeed = await savedRecoverySeed.split(" ");
+
     // Validate seed words displayed are the same as the ones previously stored
-    const seedWords = await settingsProfile.getSeedWords();
-    await expect(seedWords.length).toEqual(12);
+    const seedWordsSettingsProfile = await settingsProfile.getSeedWords();
+    await expect(seedWordsSettingsProfile.length).toEqual(12);
+    await expect(seedWordsSettingsProfile).toEqual(wordsSavedRecoverySeed);
   });
 }
