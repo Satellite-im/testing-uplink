@@ -23,6 +23,9 @@ const welcomeScreen = new WelcomeScreen();
 export default async function importAccountTests() {
   // Wait until toast notification is closed
   it("Offline Friend Requests - Create reusable account for User B", async () => {
+    // Clear cache and reset app
+    await resetApp();
+
     // Create New User and go to Settings Profile Screen
     const username = "UserB";
     await createNewUser(username, true);
