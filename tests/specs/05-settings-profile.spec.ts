@@ -370,7 +370,7 @@ export default async function settingsProfileTests() {
     // Scroll to bottom of the screen
     await scrollDown(1000);
 
-    // Validate contents of Online Status section
+    // Validate contents of Online Status section on Settings Profile
     const onlineStatusHeader = await settingsProfile.onlineStatusHeader;
     const onlineStatusDescription =
       await settingsProfile.onlineStatusDescription;
@@ -379,7 +379,7 @@ export default async function settingsProfileTests() {
       "Set the appereance of your online status",
     );
 
-    // Validate contents of Recovery Seed section
+    // Validate contents of Recovery Seed section on Settings Profile
     const recoverySeedHeader = await settingsProfile.recoverySeedHeader;
     const recoverySeedDescription =
       await settingsProfile.recoverySeedDescription;
@@ -391,6 +391,7 @@ export default async function settingsProfileTests() {
   });
 
   it("Settings Profile - Online Status - Default status is Online", async () => {
+    // Default Online Status is set to "Online"
     const currentOnlineStatus = await settingsProfile.selectorCurrentValue;
     await expect(currentOnlineStatus).toHaveText("Online");
   });
