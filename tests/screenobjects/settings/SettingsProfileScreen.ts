@@ -24,8 +24,8 @@ const SELECTORS_WINDOWS = {
   CLEAR_AVATAR_BUTTON: "[name='clear-avatar']",
   CLEAR_BANNER_BUTTON: "[name='clear-banner']",
   CONTEXT_MENU: '[name="Context Menu"]',
-  CONTEXT_MENU_COPY_DID_KEY: "<Button>[2]",
-  CONTEXT_MENU_COPY_ID: "<Button>[1]",
+  CONTEXT_MENU_COPY_DID_KEY: '//Button[@Name="copy-id-context"][2]',
+  CONTEXT_MENU_COPY_ID: '//Button[@Name="copy-id-context"][1]',
   COPY_ID_BUTTON: '[name="copy-id-button"]',
   DISMISS_BUTTON: '[name="welcome-message-dismiss"]',
   INPUT_ERROR: '[name="input-error"]',
@@ -40,8 +40,10 @@ const SELECTORS_WINDOWS = {
   PROFILE_PICTURE_CLEAR: '[name="clear-avatar"]',
   RECOVERY_SEED_SECTION: "[name='recovery-seed-section']",
   REVEAL_RECOVERY_SEED_BUTTON: "[name='reveal-recovery-seed-button']",
+  SEED_WORD_VALUE_TEXT: "<Text>",
   SEED_WORDS_SECTION: "[name='seed-words-section']",
-  SELECTOR: "<ComboBox>",
+  SELECTOR: "[name='Selector']",
+  SELECTOR_CURRENT_VALUE: "//Group/Text",
   SELECTOR_OPTION: '[name="selector-option"]',
   SELECTOR_OPTION_INDICATOR_DO_NOT_DISTURB: "[name='indicator-do-not-disturb']",
   SELECTOR_OPTION_INDICATOR_IDLE: "[name='indicator-idle']",
@@ -91,8 +93,11 @@ const SELECTORS_MACOS = {
   PROFILE_PICTURE_CLEAR: "~clear-avatar",
   RECOVERY_SEED_SECTION: "~recovery-seed-section",
   REVEAL_RECOVERY_SEED_BUTTON: "~reveal-recovery-seed-button",
+  SEED_WORD_VALUE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SEED_WORDS_SECTION: "~seed-words-section",
   SELECTOR: "~Selector",
+  SELECTOR_CURRENT_VALUE:
+    "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SELECTOR_OPTION: "~selector-option",
   SELECTOR_OPTION_INDICATOR_DO_NOT_DISTURB: "~indicator-do-not-disturb",
   SELECTOR_OPTION_INDICATOR_IDLE: "~indicator-idle",
@@ -267,6 +272,44 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   get seedWordsWarningPhraseNotHidden() {
     return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get selector() {
+    return this.settingsProfile.$(SELECTORS.SELECTOR);
+  }
+
+  get selectorCurrentValue() {
+    return this.selector.$(SELECTORS.SELECTOR_CURRENT_VALUE);
+  }
+
+  get selectorOption() {
+    return this.selector.$(SELECTORS.SELECTOR_OPTION);
+  }
+
+  get selectorOptionIndicatorDoNotDisturb() {
+    return this.selectorOptionsList.$(
+      SELECTORS.SELECTOR_OPTION_INDICATOR_DO_NOT_DISTURB,
+    );
+  }
+
+  get selectorOptionIndicatorIdle() {
+    return this.selectorOptionsList.$(SELECTORS.SELECTOR_OPTION_INDICATOR_IDLE);
+  }
+
+  get selectorOptionIndicatorOffline() {
+    return this.selectorOptionsList.$(
+      SELECTORS.SELECTOR_OPTION_INDICATOR_OFFLINE,
+    );
+  }
+
+  get selectorOptionIndicatorOnline() {
+    return this.selectorOptionsList.$(
+      SELECTORS.SELECTOR_OPTION_INDICATOR_ONLINE,
+    );
+  }
+
+  get selectorOptionsList() {
+    return this.selector.$(SELECTORS.SELECTOR_OPTIONS_LIST);
   }
 
   get settingsProfile() {
@@ -533,5 +576,88 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     }
     const contextMenu = await this.contextMenu;
     await contextMenu.waitForExist();
+  }
+
+  // Online Status Selector Methods
+  async clickOnSelector() {
+    const statusSelector = await this.selector;
+    await statusSelector.click();
+  }
+
+  async selectDoNotDisturbStatus() {
+    // Open selector
+    await this.clickOnSelector();
+
+    // Select the correct option
+    const doNotDisturbStatusOption =
+      await this.selectorOptionIndicatorDoNotDisturb;
+    await doNotDisturbStatusOption.click();
+
+    // Wait until toast notification is closed
+    await this.waitUntilNotificationIsClosed();
+  }
+
+  async selectIdleStatus() {
+    // Open selector
+    await this.clickOnSelector();
+
+    // Select the correct option
+    const idleStatusOption = await this.selectorOptionIndicatorIdle;
+    await idleStatusOption.click();
+
+    // Wait until toast notification is closed
+    await this.waitUntilNotificationIsClosed();
+  }
+
+  async selectOfflineStatus() {
+    // Open selector
+    await this.clickOnSelector();
+
+    // Select the correct option
+    const offlineStatusOption = await this.selectorOptionIndicatorOffline;
+    await offlineStatusOption.click();
+
+    // Wait until toast notification is closed
+    await this.waitUntilNotificationIsClosed();
+  }
+
+  async selectOnlineStatus() {
+    // Open selector
+    await this.clickOnSelector();
+
+    // Select the correct option
+    const onlineStatusOption = await this.selectorOptionIndicatorOnline;
+    await onlineStatusOption.click();
+
+    // Wait until toast notification is closed
+    await this.waitUntilNotificationIsClosed();
+  }
+
+  // Recovery Seed Methods
+
+  async clickOnRevealRecoverySeed() {
+    const revealRecoverySeedButton = await this.revealRecoverySeedButton;
+    await revealRecoverySeedButton.click();
+  }
+
+  async getSeedWord(numberOfWord: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let locatorOfWord: string = "";
+    let word: string = "";
+    if (currentDriver === WINDOWS_DRIVER) {
+      locatorOfWord = '[name="seed-word-value-' + numberOfWord + '"]';
+    } else {
+      locatorOfWord = "~seed-word-value-" + numberOfWord;
+    }
+    word = await $(locatorOfWord).$(SELECTORS.SEED_WORD_VALUE_TEXT).getText();
+    return word;
+  }
+
+  async getSeedWords() {
+    let seedWords: string[] = [];
+    for (let i = 1; i <= 12; i++) {
+      seedWords.push(await this.getSeedWord(i.toString()));
+    }
+    return seedWords;
   }
 }
