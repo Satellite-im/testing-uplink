@@ -16,7 +16,6 @@ import settingsDeveloperTests from "@specs/13-settings-developer.spec";
 import importAccountTests from "@specs/16-import-account.spec";
 
 describe("MacOS Tests", function () {
-  describe("Friends Screen Tests", friendsTests.bind(this));
   describe("Create Pin and Account Tests", createAccountTests.bind(this));
   describe("Chats Main Screen Tests", chatsTests.bind(this));
   describe("Files Screen Tests", filesTests.bind(this));
@@ -36,5 +35,6 @@ describe("MacOS Tests", function () {
   describe("Settings About Tests", settingsAboutTests.bind(this));
   describe("Settings Licenses Tests", settingsLicensesTests.bind(this));
   describe("Settings Developer Tests", settingsDeveloperTests.bind(this));
+  describe("Friends Screen Tests", friendsTests.bind(this));
   describe("Import Account Tests", importAccountTests.bind(this));
 });
