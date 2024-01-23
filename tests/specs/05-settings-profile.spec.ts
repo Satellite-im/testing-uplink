@@ -3,6 +3,7 @@ import CropImageProfileModal from "@screenobjects/settings/CropToolProfileModal"
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import { MACOS_DRIVER } from "@helpers/constants";
+import { getUserRecoverySeed, scrollDown } from "@helpers/commands";
 const cropProfile = new CropImageProfileModal();
 const filesScreen = new FilesScreen();
 const settingsProfile = new SettingsProfileScreen();
@@ -363,5 +364,68 @@ export default async function settingsProfileTests() {
 
     // Wait for toast notification to be closed before starting next tests
     await settingsProfile.waitUntilNotificationIsClosed();
+  });
+
+  it("Settings Profile - Assert contents from Online Status and Recovery Seed", async () => {
+    // Scroll to bottom of the screen
+    await scrollDown(1000);
+
+    // Validate contents of Online Status section on Settings Profile
+    const onlineStatusHeader = await settingsProfile.onlineStatusHeader;
+    const onlineStatusDescription =
+      await settingsProfile.onlineStatusDescription;
+    await expect(onlineStatusHeader).toHaveText("ONLINE STATUS");
+    await expect(onlineStatusDescription).toHaveText(
+      "Set the appearance of your online status",
+    );
+
+    // Validate contents of Recovery Seed section on Settings Profile
+    const recoverySeedHeader = await settingsProfile.recoverySeedHeader;
+    const recoverySeedDescription =
+      await settingsProfile.recoverySeedDescription;
+
+    await expect(recoverySeedHeader).toHaveText("RECOVERY SEED");
+    await expect(recoverySeedDescription).toHaveText(
+      'This seed represents the "master key" for your account. Keep this safe and secure somewhere in order to maintain proper control and security over your Uplink account.',
+    );
+  });
+
+  it("Settings Profile - Online Status - Default status is Online", async () => {
+    // Default Online Status is set to "Online"
+    const currentOnlineStatus = await settingsProfile.selectorCurrentValue;
+    await expect(currentOnlineStatus).toHaveText("Online");
+  });
+
+  it("Settings Profile - Online Status - Status can be changed", async () => {
+    // Change Status to Idle
+    await settingsProfile.selectIdleStatus();
+
+    // Validate status is Idle now
+    const currentOnlineStatus = await settingsProfile.selectorCurrentValue;
+    await expect(currentOnlineStatus).toHaveText("Idle");
+  });
+
+  it("Settings Profile - Online Status - Status value remains when changing screen", async () => {
+    // Go to a different screen, return to Settings Profile and validate status is still Idle
+    await settingsProfile.goToFiles();
+    await filesScreen.goToSettings();
+
+    // Validate status is still Idle
+    const onlineStatus = await settingsProfile.selectorCurrentValue;
+    await expect(onlineStatus).toHaveText("Idle");
+  });
+
+  it("Settings Profile - Recovery Seed - Reveal Seed Words", async () => {
+    // Reveal Recovery Seed
+    await settingsProfile.clickOnRevealRecoverySeed();
+
+    // Return previously stored seeds
+    const savedRecoverySeed = await getUserRecoverySeed("Test123");
+    const wordsSavedRecoverySeed = await savedRecoverySeed.split(" ");
+
+    // Validate seed words displayed are the same as the ones previously stored
+    const seedWordsSettingsProfile = await settingsProfile.getSeedWords();
+    await expect(seedWordsSettingsProfile.length).toEqual(12);
+    await expect(seedWordsSettingsProfile).toEqual(wordsSavedRecoverySeed);
   });
 }
