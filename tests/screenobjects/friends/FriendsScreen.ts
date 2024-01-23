@@ -31,8 +31,8 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_BLOCK: '[name="friends-block"]',
   CONTEXT_MENU_CHAT: '[name="friends-chat"]',
-  CONTEXT_MENU_COPY_DID_KEY: "<Button>[2]",
-  CONTEXT_MENU_COPY_ID: "<Button>[1]",
+  CONTEXT_MENU_COPY_DID_KEY: '//Button[@Name="copy-id-context"][2]',
+  CONTEXT_MENU_COPY_ID: '//Button[@Name="copy-id-context"][1]',
   CONTEXT_MENU_FAVORITES_ADD: '[name="favorites-add"]',
   CONTEXT_MENU_FAVORITES_REMOVE: '[name="favorites-remove"]',
   CONTEXT_MENU_INCOMING_ACCEPT: '[name="friends-accept"]',
@@ -65,7 +65,7 @@ const SELECTORS_WINDOWS = {
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "<Text>",
   NO_REQUESTS: '[name="no-requests"]',
-  NO_REQUESTS_TEXT: "<Text>",
+  NO_REQUESTS_TEXT: "//Text/Text",
   OUTGOING_REQUESTS_LIST: '[name="Outgoing Requests List"]',
   OUTGOING_REQUESTS_LIST_LABEL: '[name="outgoing-list-label"]',
   PENDING_FRIENDS_BUTTON: '[name="pending-friends-button"]',
@@ -654,6 +654,12 @@ export default class FriendsScreen extends UplinkMainScreen {
     return userTooltipText;
   }
 
+  async getValueFromAddSomeoneInput() {
+    const addSomeoneInput = await this.addSomeoneInput;
+    const addSomeoneInputText = await addSomeoneInput.getText();
+    return addSomeoneInputText;
+  }
+
   async getValueFromFriendsButtonBadge() {
     const friendsButtonBadgeValue = await this.friendsButtonBadgeText;
     const friendsButtonBadgeValueText = await friendsButtonBadgeValue.getText();
@@ -837,14 +843,12 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async validateIncomingListIsShown() {
     await this.noRequests.waitForExist({ reverse: true, timeout: 30000 });
-    const incomingList = await this.incomingRequestsList;
-    await incomingList.waitForExist();
+    await this.incomingRequestsList.waitForExist();
   }
 
   async validateNoRequestsIsShown() {
     // Ensure no requests message is displayed
-    const noRequests = await this.noRequests;
-    await noRequests.waitForExist();
+    await this.noRequests.waitForExist();
   }
 
   async validateOutgoingListIsNotEmpty() {
