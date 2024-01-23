@@ -7,7 +7,7 @@
     "mac.ci": "DRIVER=mac2 npx wdio config/wdio.mac.ci.conf.ts",
     "mac.multiremote": "DRIVER=mac2 npx wdio config/wdio.mac.multiremote.conf.ts",
     "windows.app": "powershell -ExecutionPolicy Bypass -File .\\scripts\\windows_app.ps1",
-    "windows.ci": "powershell -File .\\scripts\\windows_ci.ps1",
+    "windows.ci": "powershell -ExecutionPolicy Bypass -File .\\scripts\\windows_ci.ps1",
     "lint": "eslint config tests"
   },
   "repository": {
