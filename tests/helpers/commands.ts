@@ -102,7 +102,10 @@ export async function saveTestKeys(username: string, didkey: string) {
 
 // Login or Create Users Functions
 
-export async function createNewUser(username: string) {
+export async function createNewUser(
+  username: string,
+  saveSeedWords: boolean = false,
+) {
   await createPin.unlockLayout.waitForExist();
 
   // Enter pin for test user
@@ -114,6 +117,10 @@ export async function createNewUser(username: string) {
   await createOrImport.waitForIsShown(true);
   await createOrImport.clickOnCreateAccount();
   await saveRecoverySeed.waitForIsShown(true);
+  if (saveSeedWords === true) {
+    const recoverySeed = await saveRecoverySeed.getSeedWords();
+    await saveUserRecoverySeed(username, recoverySeed);
+  }
   await saveRecoverySeed.clickOnISavedItButton();
 
   // Enter Username and click on Create Account
