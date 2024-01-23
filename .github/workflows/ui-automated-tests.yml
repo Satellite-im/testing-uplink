@@ -73,7 +73,7 @@ jobs:
 
   build-windows:
     runs-on:
-      labels: windows-latest
+      labels: windows-latest-8-cores
 
     steps:
       - name: Checkout testing directory 🔖
@@ -336,7 +336,8 @@ jobs:
 
   test-windows:
     needs: build-windows
-    runs-on: windows-latest
+    runs-on:
+      labels: windows-latest-8-cores
 
     steps:
       - name: Checkout testing directory 🔖
