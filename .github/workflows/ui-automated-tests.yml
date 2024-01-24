@@ -216,14 +216,14 @@ jobs:
     runs-on: macos-13
 
     steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
       - name: Checkout Warp directory 🔖
         uses: actions/checkout@v3
         with:
           repository: Satellite-im/Warp
           path: "./warp"
-
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
 
       - name: Download Key file 🗳️
         uses: actions/download-artifact@v3
@@ -349,6 +349,9 @@ jobs:
     runs-on: macos-13
 
     steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
       - name: Checkout Warp directory 🔖
         uses: actions/checkout@v3
         with:
@@ -481,14 +484,14 @@ jobs:
     runs-on: windows-latest
 
     steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
       - name: Checkout Warp directory 🔖
         uses: actions/checkout@v3
         with:
           repository: Satellite-im/Warp
           path: "./warp"
-
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
 
       - name: Download Key file 🗳️
         uses: actions/download-artifact@v3
