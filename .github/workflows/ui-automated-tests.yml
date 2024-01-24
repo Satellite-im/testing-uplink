@@ -16,19 +16,61 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build-mac:
-    runs-on: macos-13
+  launch-warp:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout Uplink directory 🔖
-        uses: actions/checkout@v3
-        with:
-          repository: Satellite-im/Uplink
-
       - name: Checkout Warp directory 🔖
         uses: actions/checkout@v3
         with:
           repository: Satellite-im/Warp
-          path: "./warp"
+
+      - name: Set up cargo cache 🛠️
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.73.0
+          override: true
+          components: rustfmt, clippy
+
+      - name: Run cargo build shuttle on Warp 🚀
+        working-directory: ./warp
+        run: cargo build --bin shuttle --release
+
+      - name: Launch CI instance of Warp 🚀
+        working-directory: ./warp
+        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > peerID.txt &
+
+      - name: Upload Artifact Peer ID data⬆️
+        uses: actions/upload-artifact@v3
+        with:
+          name: peerID
+          path: peerID.txt
+
+      - name: Upload Artifact Key File data⬆️
+        uses: actions/upload-artifact@v3
+        with:
+          name: keyfile
+          path: key.bin
+
+  build-mac:
+    runs-on: macos-13
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v3
+
+      - name: Checkout Uplink directory 🔖
+        uses: actions/checkout@v3
+        with:
+          repository: Satellite-im/Uplink
+          path: "./Uplink"
+
+      - name: Download Peer ID file 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: peerID
+          path: ./warp
 
       - name: Set up cargo cache 🛠️
         uses: Swatinem/rust-cache@v2
@@ -46,18 +88,8 @@ jobs:
         run: |
           rustup target add x86_64-apple-darwin aarch64-apple-darwin
 
-      - name: Run cargo build shuttle on Warp 🚀
-        working-directory: ./warp
-        run: cargo build --bin shuttle --release
-
-      - name: Launch CI instance of Warp 🚀
-        working-directory: ./warp
-        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > peerID.txt &
-
       - name: Replace Warp Peer ID in Uplink 🚀
-        working-directory: ./
         run: |
-          ls -la -R
           chmod +x ./scripts/replace_node.sh
           ./scripts/replace_node.sh
 
@@ -67,7 +99,7 @@ jobs:
 
       - name: Create ZIP archive on MacOS 🗳️
         run: |
-          ditto -c -k --sequesterRsrc --keepParent target/release/macos/Uplink.app Uplink-Mac-Universal.zip
+          ditto -c -k --sequesterRsrc --keepParent Uplink/target/release/macos/Uplink.app Uplink-Mac-Universal.zip
 
       - name: Calculate hashes 🧮
         run: |
@@ -99,8 +131,21 @@ jobs:
     steps:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
+
+      - name: Checkout Uplink directory 🔖
+        uses: actions/checkout@v3
         with:
           repository: Satellite-im/Uplink
+          path: "./Uplink"
+
+      - name: Download Peer ID file 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: peerID
+          path: ./warp
+
+      - name: Set up cargo cache 🛠️
+        uses: Swatinem/rust-cache@v2
 
       - name: Install Rust 💿
         uses: actions-rs/toolchain@v1
@@ -109,21 +154,26 @@ jobs:
           override: true
           components: rustfmt, clippy
 
+      - name: Replace Warp Peer ID in Uplink 🚀
+        run: |
+          chmod +x ./scripts/replace_node.sh
+          ./scripts/replace_node.sh
+
       - name: Build executable 🖥️
         run: cargo build --release -F production_mode
         continue-on-error: true
 
       - name: Create ZIP archive on Windows 🗳️
-        run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
+        run: Compress-Archive -Path Uplink/target/release/uplink.exe -Destination uplinkWindows.zip
 
       - name: Copy Extensions 🗳️
         run: |
-          mkdir ./ui/extra/extensions
-          cp -r ./target/release/emoji_selector.d ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.dll ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.dll.exp ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.dll.lib ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.pdb ./ui/extra/extensions/
+          mkdir ./Uplink/ui/extra/extensions
+          cp -r ./Uplink/target/release/emoji_selector.d ./Uplink/ui/extra/extensions/
+          cp -r ./Uplink/target/release/emoji_selector.dll ./Uplink/ui/extra/extensions/
+          cp -r ./Uplink/target/release/emoji_selector.dll.exp ./Uplink/ui/extra/extensions/
+          cp -r ./Uplink/target/release/emoji_selector.dll.lib ./Uplink/ui/extra/extensions/
+          cp -r ./Uplink/target/release/emoji_selector.pdb ./Uplink/ui/extra/extensions/
 
       - name: Upload Executable ⬆️
         uses: actions/upload-artifact@v3
@@ -136,10 +186,10 @@ jobs:
         with:
           name: uplink-windows-assets
           path: |
-            ui/extra/images/
-            ui/extra/prism_langs/
-            ui/extra/themes/
-            ui/extra/extensions/
+            Uplink/ui/extra/images/
+            Uplink/ui/extra/prism_langs/
+            Uplink/ui/extra/themes/
+            Uplink/ui/extra/extensions/
 
       - name: Add label if any of build jobs failed
         if: failure()
@@ -155,8 +205,28 @@ jobs:
     runs-on: macos-13
 
     steps:
+      - name: Checkout Warp directory 🔖
+        uses: actions/checkout@v3
+        with:
+          repository: Satellite-im/Warp
+          path: "./warp"
+
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v3
+
+      - name: Download Key file 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: keyfile
+          path: ./warp
+
+      - name: Run cargo build shuttle on Warp 🚀
+        working-directory: ./warp
+        run: cargo build --bin shuttle --release
+
+      - name: Launch CI instance of Warp 🚀
+        working-directory: ./warp
+        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 &
 
       - name: Download the MacOS app 🗳️
         uses: actions/download-artifact@v3
