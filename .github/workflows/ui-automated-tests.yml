@@ -52,7 +52,7 @@ jobs:
 
       - name: Launch CI instance of Warp 🚀
         working-directory: ./warp
-        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > peerID.txt
+        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > peerID.txt &
 
       - name: Replace Warp Peer ID in Uplink 🚀
         run: |
