@@ -92,7 +92,11 @@ jobs:
           chmod +x ./scripts/replace_node.sh
           ./scripts/replace_node.sh
 
+      - name: Output contents from mod.rs file
+        run: cat ./Uplink/common/src/warp_runner/mod.rs
+
       - name: Build executable 🖥️
+        working-directory: ./Uplink
         run: make dmg
         continue-on-error: true
 
@@ -162,7 +166,11 @@ jobs:
         run: |
           .\scripts\replace_node.ps1
 
+      - name: Output contents from mod.rs file
+        run: Get-Content .\Uplink\common\src\warp_runner\mod.rs
+
       - name: Build executable 🖥️
+        working-directory: .\Uplink
         run: cargo build --release -F production_mode
         continue-on-error: true
 
