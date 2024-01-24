@@ -55,8 +55,9 @@ jobs:
         run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > peerID.txt &
 
       - name: Replace Warp Peer ID in Uplink 🚀
+        working-directory: ./
         run: |
-          chmod +x ./scripts/replace_node.sh
+          chmod +x scripts/replace_node.sh
           ./scripts/replace_node.sh
 
       - name: Build executable 🖥️
