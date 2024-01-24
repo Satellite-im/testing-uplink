@@ -57,7 +57,8 @@ jobs:
       - name: Replace Warp Peer ID in Uplink 🚀
         working-directory: ./
         run: |
-          chmod +x scripts/replace_node.sh
+          ls -la -R
+          chmod +x ./scripts/replace_node.sh
           ./scripts/replace_node.sh
 
       - name: Build executable 🖥️
