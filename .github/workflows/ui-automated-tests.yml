@@ -19,10 +19,16 @@ jobs:
   build-mac:
     runs-on: macos-13
     steps:
-      - name: Checkout testing directory 🔖
+      - name: Checkout Uplink directory 🔖
         uses: actions/checkout@v3
         with:
           repository: Satellite-im/Uplink
+
+      - name: Checkout Warp directory 🔖
+        uses: actions/checkout@v3
+        with:
+          repository: Satellite-im/Warp
+          path: "./warp"
 
       - name: Set up cargo cache 🛠️
         uses: Swatinem/rust-cache@v2
@@ -39,6 +45,19 @@ jobs:
           MACOSX_DEPLOYMENT_TARGET: "10.13"
         run: |
           rustup target add x86_64-apple-darwin aarch64-apple-darwin
+
+      - name: Run cargo build shuttle on Warp 🚀
+        working-directory: ./warp
+        run: cargo build --bin shuttle --release
+
+      - name: Launch CI instance of Warp 🚀
+        working-directory: ./warp
+        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > peerID.txt
+
+      - name: Replace Warp Peer ID in Uplink 🚀
+        run: |
+          chmod +x ./scripts/replace_node.sh
+          ./scripts/replace_node.sh
 
       - name: Build executable 🖥️
         run: make dmg
