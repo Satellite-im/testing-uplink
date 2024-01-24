@@ -16,7 +16,7 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  launch-warp:
+  create-node:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Warp directory 🔖
@@ -55,6 +55,7 @@ jobs:
           path: key.bin
 
   build-mac:
+    needs: create-node
     runs-on: macos-13
     steps:
       - name: Checkout testing directory 🔖
@@ -125,6 +126,7 @@ jobs:
           type: add
 
   build-windows:
+    needs: create-node
     runs-on:
       labels: windows-latest
 
