@@ -42,7 +42,8 @@ export default async function messageInputTests() {
 
     // Ensure that latest chars were not added to input bar, since the max number of chars has been reached
     // Input bar text should be equal to long text with 1024 chars
-    await expect(chatsInput.inputText).toHaveText(longText);
+    const inputText = await chatsInput.getValueFromInputBar();
+    await expect(inputText).toHaveText(longText);
 
     // Clear input bar to finish test
     await chatsInput.clearInputBar();
@@ -139,7 +140,9 @@ export default async function messageInputTests() {
 
     // Then, paste it into the input bar and assert the text contents on input bar
     await chatsInput.pasteClipboardOnInputBar();
-    await expect(chatsInput.inputText).toHaveText("let a = 1;");
+
+    const inputText = await chatsInput.getValueFromInputBar();
+    await expect(inputText).toHaveText("let a = 1;");
 
     // Finally, clear the input bar for next tests
     await chatsInput.clearInputBar();
