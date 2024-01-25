@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Warp directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: Satellite-im/Warp
 
@@ -55,11 +55,13 @@ jobs:
   build-mac:
     needs: create-node
     runs-on: macos-13
+
     steps:
       - name: Checkout Uplink directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
+          ref: ci-warp-node
 
       - name: Download Peer ID file 🗳️
         uses: actions/download-artifact@v3
@@ -85,11 +87,8 @@ jobs:
 
       - name: Replace Warp Peer ID in Uplink 🚀
         run: |
-          local_peer_id=$(grep -o 'Local PeerID: [^[:space:]]*' ./warp/peerID.txt | awk '{print $NF}')
-          sed -e "s/12D3KooWJSes8386p2T1sMeZ2DzsNJThKkZWbj4US6uPMpEgBTHu/$local_peer_id/g" \
-            -e "s#/ip4/104.236.194.35/tcp/34053#/ip4/127.0.0.1/tcp/4444#" \
-            ./common/src/warp_runner/mod.rs > temp_file
-          mv temp_file ./common/src/warp_runner/mod.rs
+          chmod +x ./utils/replace_node.sh
+          ./utils/scripts/replace_node.sh
 
       - name: Output contents from mod.rs file
         run: cat ./common/src/warp_runner/mod.rs
@@ -132,9 +131,10 @@ jobs:
 
     steps:
       - name: Checkout Uplink directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
+          ref: ci-warp-node
 
       - name: Download Peer ID file 🗳️
         uses: actions/download-artifact@v3
@@ -152,12 +152,12 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - name: Replace Warp Peer ID in Uplink 🚀
+      - name: Set execution policy
         run: |
-          $localPeerId = Select-String -Path .\warp\peerID.txt -Pattern 'Local PeerID: ([^\s]*)' | ForEach-Object { $_.Matches.Groups[1].Value }
-          (Get-Content .\common\src\warp_runner\mod.rs) -replace '12D3KooWJSes8386p2T1sMeZ2DzsNJThKkZWbj4US6uPMpEgBTHu', $localPeerId `
-                                                              -replace '/ip4/104.236.194.35/tcp/34053', '/ip4/127.0.0.1/tcp/4444' |
-            Set-Content -Path .\common\src\warp_runner\mod.rs
+          Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+
+      - name: Replace Warp Peer ID in Uplink 🚀
+        run: .\utils\replace_node.ps1
 
       - name: Output contents from mod.rs file
         run: Get-Content .\common\src\warp_runner\mod.rs
@@ -209,10 +209,10 @@ jobs:
 
     steps:
       - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout Warp directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: Satellite-im/Warp
           path: "./warp"
@@ -344,10 +344,10 @@ jobs:
 
     steps:
       - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout Warp directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: Satellite-im/Warp
           path: "./warp"
@@ -371,7 +371,7 @@ jobs:
           components: rustfmt, clippy
 
       - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Download the MacOS app 🗳️
         uses: actions/download-artifact@v3
@@ -481,10 +481,10 @@ jobs:
 
     steps:
       - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkout Warp directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: Satellite-im/Warp
           path: "./warp"
@@ -686,7 +686,7 @@ jobs:
           check_name: "UI Automated Test Results Summary for MacOS/Windows"
 
       - name: Get Allure history
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         if: success()
         continue-on-error: true
         with:
@@ -736,7 +736,7 @@ jobs:
 
     steps:
       - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Delete artifacts required on failed execution
         uses: geekyeggo/delete-artifact@v2
