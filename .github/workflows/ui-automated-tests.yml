@@ -92,7 +92,7 @@ jobs:
           mv temp_file ./common/src/warp_runner/mod.rs
 
       - name: Output contents from mod.rs file
-        run: cat ./Uplink/common/src/warp_runner/mod.rs
+        run: cat ./common/src/warp_runner/mod.rs
 
       - name: Build executable 🖥️
         run: make dmg
@@ -155,12 +155,12 @@ jobs:
       - name: Replace Warp Peer ID in Uplink 🚀
         run: |
           $localPeerId = Select-String -Path .\warp\peerID.txt -Pattern 'Local PeerID: ([^\s]*)' | ForEach-Object { $_.Matches.Groups[1].Value }
-          (Get-Content .\Uplink\common\src\warp_runner\mod.rs) -replace '12D3KooWJSes8386p2T1sMeZ2DzsNJThKkZWbj4US6uPMpEgBTHu', $localPeerId `
+          (Get-Content .\common\src\warp_runner\mod.rs) -replace '12D3KooWJSes8386p2T1sMeZ2DzsNJThKkZWbj4US6uPMpEgBTHu', $localPeerId `
                                                               -replace '/ip4/104.236.194.35/tcp/34053', '/ip4/127.0.0.1/tcp/4444' |
-            Set-Content -Path .\Uplink\common\src\warp_runner\mod.rs
+            Set-Content -Path .\common\src\warp_runner\mod.rs
 
       - name: Output contents from mod.rs file
-        run: Get-Content .\Uplink\common\src\warp_runner\mod.rs
+        run: Get-Content .\common\src\warp_runner\mod.rs
 
       - name: Build executable 🖥️
         run: cargo build --release -F production_mode
