@@ -368,9 +368,6 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v4
-
       - name: Download the MacOS app 🗳️
         uses: actions/download-artifact@v3
         with:
