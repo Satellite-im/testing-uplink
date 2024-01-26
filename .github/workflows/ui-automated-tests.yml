@@ -61,7 +61,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
-          ref: ci-warp-node
+
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v4
+        with:
+          path: "./appium-tests"
 
       - name: Download Peer ID file 🗳️
         uses: actions/download-artifact@v3
@@ -87,8 +91,8 @@ jobs:
 
       - name: Replace Warp Peer ID in Uplink 🚀
         run: |
-          chmod +x ./utils/replace_node.sh
-          ./utils/replace_node.sh
+          chmod +x ./appium-tests/scripts/replace_node.sh
+          ./appium-tests/scripts/replace_node.sh
 
       - name: Output contents from mod.rs file
         run: cat ./common/src/warp_runner/mod.rs
@@ -134,7 +138,11 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
-          ref: ci-warp-node
+
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v4
+        with:
+          path: "./appium-tests"
 
       - name: Download Peer ID file 🗳️
         uses: actions/download-artifact@v3
@@ -157,7 +165,7 @@ jobs:
           Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 
       - name: Replace Warp Peer ID in Uplink 🚀
-        run: .\utils\replace_node.ps1
+        run: .\appium-tests\scripts\replace_node.ps1
 
       - name: Output contents from mod.rs file
         run: Get-Content .\common\src\warp_runner\mod.rs
@@ -222,11 +230,6 @@ jobs:
         with:
           name: keyfile
           path: ./warp
-
-      - name: Set up cargo cache 🛠️
-        uses: Swatinem/rust-cache@v2
-        with:
-          cache-directories: "./warp"
 
       - name: Install Rust 💿
         uses: actions-rs/toolchain@v1
@@ -357,11 +360,6 @@ jobs:
         with:
           name: keyfile
           path: ./warp
-
-      - name: Set up cargo cache 🛠️
-        uses: Swatinem/rust-cache@v2
-        with:
-          cache-directories: "./warp"
 
       - name: Install Rust 💿
         uses: actions-rs/toolchain@v1
@@ -494,11 +492,6 @@ jobs:
         with:
           name: keyfile
           path: ./warp
-
-      - name: Set up cargo cache 🛠️
-        uses: Swatinem/rust-cache@v2
-        with:
-          cache-directories: "./warp"
 
       - name: Install Rust 💿
         uses: actions-rs/toolchain@v1

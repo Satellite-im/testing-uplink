@@ -53,7 +53,7 @@ export const config: WebdriverIO.Config = {
         "appium:deviceName": "WindowsPC",
         "appium:automationName": "windows",
         "appium:app": join(process.cwd(), "\\apps\\bin\\uplink.exe"),
-        //"appium:appArguments": "--discovery disable",
+        "appium:appArguments": "--discovery disable",
         "ms:waitForAppLaunch": 50,
         "appium:prerun": {
           command:
