@@ -94,9 +94,6 @@ jobs:
           chmod +x ./appium-tests/scripts/replace_node.sh
           ./appium-tests/scripts/replace_node.sh
 
-      - name: Output contents from Makefile modified file
-        run: cat ./Makefile
-
       - name: Build executable 🖥️
         run: make dmg
         continue-on-error: true
@@ -166,7 +163,6 @@ jobs:
           $localPeerId = Select-String -Path .\warp\peerID.txt -Pattern 'Local PeerID: ([^\s]*)' | ForEach-Object { $_.Matches.Groups[1].Value }
           echo "localPeerId=$localPeerId" >> $env:GITHUB_ENV
           $env:SHUTTLE_ADDR_POINT="/ip4/127.0.0.1/tcp/4444/p2p/" + $localPeerId
-          echo $env:SHUTTLE_ADDR_POINT
           cargo build --release
 
       - name: Create ZIP archive on Windows 🗳️
@@ -566,7 +562,9 @@ jobs:
 
       - name: Run Tests on Windows 🧪
         id: test-execution-windows
-        run: npm run windows.ci
+        run: |
+          $env:DRIVER="windows"
+          npm run windows.ci
 
       - name: Upload Test Report - Windows CI
         if: always()
