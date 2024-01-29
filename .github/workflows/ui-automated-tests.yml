@@ -160,16 +160,14 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - name: Get localPeerId
+      - name: Get localPeerId and build app 🖥️
         id: get_local_peer_id
         run: |
           $localPeerId = Select-String -Path .\warp\peerID.txt -Pattern 'Local PeerID: ([^\s]*)' | ForEach-Object { $_.Matches.Groups[1].Value }
           echo "localPeerId=$localPeerId" >> $env:GITHUB_ENV
-
-      - name: Build app 🖥️
-        run: |
-          $env:SHUTTLE_ADDR_POINT="/ip4/127.0.0.1/tcp/4444/p2p/$localPeerId"
-          cargo build --release -F
+          $env:SHUTTLE_ADDR_POINT="/ip4/127.0.0.1/tcp/4444/p2p/" + $localPeerId
+          echo $env:SHIUUTLE_ADDR_POINT
+          cargo build --release
 
       - name: Create ZIP archive on Windows 🗳️
         run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
