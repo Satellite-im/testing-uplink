@@ -16,13 +16,62 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build-mac:
-    runs-on: macos-13
+  create-node:
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
+      - name: Checkout Warp directory 🔖
+        uses: actions/checkout@v4
+        with:
+          repository: Satellite-im/Warp
+
+      - name: Set up cargo cache 🛠️
+        uses: Swatinem/rust-cache@v2
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.73.0
+          override: true
+          components: rustfmt, clippy
+
+      - name: Run cargo build shuttle on Warp 🚀
+        run: cargo build --bin shuttle --release
+
+      - name: Launch CI instance of Warp 🚀
+        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > peerID.txt &
+
+      - name: Upload Artifact Peer ID data⬆️
+        uses: actions/upload-artifact@v3
+        with:
+          name: peerID
+          path: peerID.txt
+
+      - name: Upload Artifact Key File data⬆️
+        uses: actions/upload-artifact@v3
+        with:
+          name: keyfile
+          path: key.bin
+
+  build-mac:
+    needs: create-node
+    runs-on: macos-13
+
+    steps:
+      - name: Checkout Uplink directory 🔖
+        uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
+
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v4
+        with:
+          path: "./appium-tests"
+
+      - name: Download Peer ID file 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: peerID
+          path: ./warp
 
       - name: Set up cargo cache 🛠️
         uses: Swatinem/rust-cache@v2
@@ -39,6 +88,11 @@ jobs:
           MACOSX_DEPLOYMENT_TARGET: "10.13"
         run: |
           rustup target add x86_64-apple-darwin aarch64-apple-darwin
+
+      - name: Replace Warp Peer ID in Uplink 🚀
+        run: |
+          chmod +x ./appium-tests/scripts/replace_node.sh
+          ./appium-tests/scripts/replace_node.sh
 
       - name: Build executable 🖥️
         run: make dmg
@@ -72,14 +126,29 @@ jobs:
           type: add
 
   build-windows:
+    needs: create-node
     runs-on:
       labels: windows-latest
 
     steps:
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
+      - name: Checkout Uplink directory 🔖
+        uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
+
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v4
+        with:
+          path: "./appium-tests"
+
+      - name: Download Peer ID file 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: peerID
+          path: ./warp
+
+      - name: Set up cargo cache 🛠️
+        uses: Swatinem/rust-cache@v2
 
       - name: Install Rust 💿
         uses: actions-rs/toolchain@v1
@@ -88,9 +157,13 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - name: Build executable 🖥️
-        run: cargo build --release -F production_mode
-        continue-on-error: true
+      - name: Get localPeerId and build app 🖥️
+        id: get_local_peer_id
+        run: |
+          $localPeerId = Select-String -Path .\warp\peerID.txt -Pattern 'Local PeerID: ([^\s]*)' | ForEach-Object { $_.Matches.Groups[1].Value }
+          echo "localPeerId=$localPeerId" >> $env:GITHUB_ENV
+          $env:SHUTTLE_ADDR_POINT="/ip4/127.0.0.1/tcp/4444/p2p/" + $localPeerId
+          cargo build --release
 
       - name: Create ZIP archive on Windows 🗳️
         run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
@@ -135,7 +208,26 @@ jobs:
 
     steps:
       - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Checkout Warp directory 🔖
+        uses: actions/checkout@v4
+        with:
+          repository: Satellite-im/Warp
+          path: "./warp"
+
+      - name: Download Key file 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: keyfile
+          path: ./warp
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.73.0
+          override: true
+          components: rustfmt, clippy
 
       - name: Download the MacOS app 🗳️
         uses: actions/download-artifact@v3
@@ -192,6 +284,14 @@ jobs:
           mkdir ./tests/fixtures/users/mac2
           cp -r ./tests/fixtures/users/FriendsTestUser/ ./tests/fixtures/users/mac2/FriendsTestUser
 
+      - name: Run cargo build shuttle on Warp 🚀
+        working-directory: ./warp
+        run: cargo build --bin shuttle --release
+
+      - name: Launch CI instance of Warp 🚀
+        working-directory: ./warp
+        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 &
+
       - name: Run Tests on MacOS 🧪
         run: npm run mac.ci
 
@@ -238,7 +338,26 @@ jobs:
 
     steps:
       - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Checkout Warp directory 🔖
+        uses: actions/checkout@v4
+        with:
+          repository: Satellite-im/Warp
+          path: "./warp"
+
+      - name: Download Key file 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: keyfile
+          path: ./warp
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.73.0
+          override: true
+          components: rustfmt, clippy
 
       - name: Download the MacOS app 🗳️
         uses: actions/download-artifact@v3
@@ -294,6 +413,14 @@ jobs:
           defaults write -g NSAutomaticPeriodSubstitutionEnabled -bool false
           defaults write -g NSAutomaticSpellingCorrectionEnabled -bool false
 
+      - name: Run cargo build shuttle on Warp 🚀
+        working-directory: ./warp
+        run: cargo build --bin shuttle --release
+
+      - name: Launch CI instance of Warp 🚀
+        working-directory: ./warp
+        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 &
+
       - name: Run Tests on MacOS 🧪
         run: npm run mac.multiremote
 
@@ -340,7 +467,26 @@ jobs:
 
     steps:
       - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: Checkout Warp directory 🔖
+        uses: actions/checkout@v4
+        with:
+          repository: Satellite-im/Warp
+          path: "./warp"
+
+      - name: Download Key file 🗳️
+        uses: actions/download-artifact@v3
+        with:
+          name: keyfile
+          path: ./warp
+
+      - name: Install Rust 💿
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.73.0
+          override: true
+          components: rustfmt, clippy
 
       - name: Change resolution on Windows Runner
         run: Set-DisplayResolution -Width 1920 -Height 1080 -Force
@@ -402,13 +548,23 @@ jobs:
         uses: FedericoCarboni/setup-ffmpeg@v2
         id: setup-ffmpeg
 
+      - name: Run cargo build shuttle on Warp 🚀
+        working-directory: ./warp
+        run: cargo build --bin shuttle --release
+
+      - name: Launch CI instance of Warp 🚀
+        working-directory: ./warp
+        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 &
+
       - name: Delete Cache Folder if exists - Windows
         run: If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }
         shell: powershell
 
       - name: Run Tests on Windows 🧪
         id: test-execution-windows
-        run: npm run windows.ci
+        run: |
+          $env:DRIVER="windows"
+          npm run windows.ci
 
       - name: Upload Test Report - Windows CI
         if: always()
@@ -449,7 +605,15 @@ jobs:
 
   publish-test-results:
     if: always()
-    needs: [build-mac, build-windows, test-mac, test-mac-chats, test-windows]
+    needs:
+      [
+        create-node,
+        build-mac,
+        build-windows,
+        test-mac,
+        test-mac-chats,
+        test-windows,
+      ]
     runs-on: ubuntu-latest
     permissions:
       checks: write
@@ -505,7 +669,7 @@ jobs:
           check_name: "UI Automated Test Results Summary for MacOS/Windows"
 
       - name: Get Allure history
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         if: success()
         continue-on-error: true
         with:
@@ -543,6 +707,7 @@ jobs:
   remove-label:
     needs:
       [
+        create-node,
         build-mac,
         build-windows,
         test-mac,
@@ -554,12 +719,14 @@ jobs:
 
     steps:
       - name: Checkout testing directory 🔖
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Delete artifacts required on failed execution
         uses: geekyeggo/delete-artifact@v2
         with:
           name: |
+            peerID
+            keyfile
             Uplink-windows-latest
             uplink-windows-assets
             Uplink-macos-latest
