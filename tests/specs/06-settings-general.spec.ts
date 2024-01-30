@@ -127,10 +127,12 @@ export default async function settingsGeneralTests() {
     }
   });
 
-  it("Settings General - Validate user can clear accent color", async () => {
+  // Skipping test for Automation Tests Windows Failure on copying assets crashing the app
+  xit("Settings General - Validate user can clear accent color", async () => {
     await settingsGeneral.clickOnClearAccentColor();
   });
 
+  // Skipping test for Automation Tests Windows Failure on copying assets crashing the app
   it("Settings General - Return theme to Dark Theme", async () => {
     await settingsGeneral.clickOnDarkLightThemeToggle();
   });
