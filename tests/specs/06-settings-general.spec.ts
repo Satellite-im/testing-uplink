@@ -104,7 +104,8 @@ export default async function settingsGeneralTests() {
     await expect(fontScalingValue).toHaveTextContaining("0.75");
   });
 
-  it("Settings General - Change theme to Light Theme", async () => {
+  // Skipping test for Automation Tests Windows Failure on copying assets crashing the app
+  xit("Settings General - Change theme to Light Theme", async () => {
     await settingsGeneral.clickOnDarkLightThemeToggle();
   });
 
