@@ -147,6 +147,12 @@ jobs:
           name: peerID
           path: ./warp
 
+      - name: Install Wix
+        uses: actions/checkout@v4
+        with:
+          repository: fbarresi/wix
+          path: wix
+
       - name: Set up cargo cache 🛠️
         uses: Swatinem/rust-cache@v2
 
@@ -156,6 +162,13 @@ jobs:
           toolchain: 1.73.0
           override: true
           components: rustfmt, clippy
+
+      - name: Install cargo wix
+        run: cargo install cargo-wix
+
+      - name: Install FFmpeg
+        uses: FedericoCarboni/setup-ffmpeg@v2
+        id: setup-ffmpeg
 
       - name: Get localPeerId and build app 🖥️
         id: get_local_peer_id
@@ -168,30 +181,14 @@ jobs:
       - name: Create ZIP archive on Windows 🗳️
         run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
 
-      - name: Copy Extensions 🗳️
-        run: |
-          mkdir ./ui/extra/extensions
-          cp -r ./target/release/emoji_selector.d ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.dll ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.dll.exp ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.dll.lib ./ui/extra/extensions/
-          cp -r ./target/release/emoji_selector.pdb ./ui/extra/extensions/
+      - name: Build Installer
+        run: cargo wix --package uplink --no-build --nocapture
 
       - name: Upload Executable ⬆️
         uses: actions/upload-artifact@v3
         with:
           name: Uplink-windows-latest
-          path: uplinkWindows.zip
-
-      - name: Upload Windows Assets
-        uses: actions/upload-artifact@v3
-        with:
-          name: uplink-windows-assets
-          path: |
-            ui/extra/images/
-            ui/extra/prism_langs/
-            ui/extra/themes/
-            ui/extra/extensions/
+          path: target/wix/*.msi
 
       - name: Add label if any of build jobs failed
         if: failure()
