@@ -133,7 +133,7 @@ export default async function settingsGeneralTests() {
   });
 
   // Skipping test for Automation Tests Windows Failure on copying assets crashing the app
-  it("Settings General - Return theme to Dark Theme", async () => {
+  xit("Settings General - Return theme to Dark Theme", async () => {
     await settingsGeneral.clickOnDarkLightThemeToggle();
   });
 }
