@@ -499,13 +499,6 @@ jobs:
         working-directory: ./apps
         run: Get-ChildItem -Recurse
 
-      - name: Extract .zip into apps Directory 🗳️
-        run: Expand-Archive -Path ./apps/Uplink-windows-latest.zip -DestinationPath ./apps
-
-      - name: Show contents from directory
-        working-directory: C:\Program Files\Uplink
-        run: Get-ChildItem -Recurse
-
       - name: Install Uplink Windows App 💿
         working-directory: ./apps
         run: |
