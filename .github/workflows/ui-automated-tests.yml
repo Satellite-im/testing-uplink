@@ -498,21 +498,23 @@ jobs:
       - name: Extract .zip into apps Directory 🗳️
         run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
 
-      - name: Download the Windows app assets
-        uses: actions/download-artifact@v3
-        with:
-          name: uplink-windows-assets
-          path: ./apps
+      - name: Show contents from directory
+        working-directory: C:\Program Files\Uplink
+        run: Get-ChildItem -Recurse
 
-      - name: Move Windows assets to correct locations 💿
+      - name: Install Uplink Windows App 💿
         working-directory: ./apps
         run: |
-          mkdir ./bin/extra
-          mkdir ./extra
-          mv ./uplink.exe ./bin/
-          mv ./images/ ./bin/extra/
-          mv ./prism_langs/ ./bin/extra/
-          mv ./themes/ ./extra/
+          $file = "*.msi" 
+          $log = "install.log" 
+          $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
+          $procLog = Start-Process "powershell" "Get-Content -Path `"$log`" -Wait" -NoNewWindow -PassThru 
+          $procMain.WaitForExit() 
+          $procLog.Kill()
+
+      - name: Show contents from directory
+        working-directory: C:\Program Files\Uplink
+        run: Get-ChildItem -Recurse
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
