@@ -505,6 +505,9 @@ jobs:
         run: |
           msiexec.exe /i "uplink.msi" ALLUSERS=1 /qb /l* "install.log"
 
+      - name: Show all programs installed 💿
+        run: Get-ChildItem -Path C:\*.exe -Recurse -Force
+
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
