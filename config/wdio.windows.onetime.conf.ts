@@ -51,7 +51,7 @@ export const config: WebdriverIO.Config = {
         platformName: "windows",
         "appium:deviceName": "WindowsPC",
         "appium:automationName": "windows",
-        "appium:app": "C:\\Program Files\\Uplink\\uplink.exe",
+        "appium:app": "C:\\uplink\\uplink.exe",
         "appium:appArguments":
           "--discovery disable --path " +
           join(process.cwd(), "\\apps\\onetimescript2") +

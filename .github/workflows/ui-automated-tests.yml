@@ -503,14 +503,7 @@ jobs:
       - name: Install Uplink Windows App 💿
         working-directory: ./apps
         run: |
-          Start-Process msiexec.exe -Wait -ArgumentList '/I .\uplink.msi /quiet /l* .\install.log'
-
-      - name: Show contents of log
-        working-directory: ./apps
-        run: Get-Content -Path .\install.log
-
-      - name: Show all programs installed 💿
-        run: Get-ChildItem -Path C:\Program Files\*.exe -Recurse -Force
+          Start-Process msiexec.exe -Wait -ArgumentList '/I .\uplink.msi TARGETDIR="C:\uplink" /quiet /l* .\install.log'
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
