@@ -495,23 +495,15 @@ jobs:
           name: Uplink-windows-latest
           path: ./apps
 
-      - name: Show contents from directory
+      - name: Rename MSI to generic name
         working-directory: ./apps
-        run: Get-ChildItem -Recurse
+        run: |
+          Get-ChildItem -Recurse -Include "*.msi" | Rename-Item $_ -NewName "uplink.msi"
 
       - name: Install Uplink Windows App 💿
         working-directory: ./apps
         run: |
-          $file = "*.msi" 
-          $log = "install.log" 
-          $procMain = Start-Process "msiexec" "/i `"$file`" /qn /l*! `"$log`"" -NoNewWindow -PassThru
-          $procLog = Start-Process "powershell" "Get-Content -Path `"$log`" -Wait" -NoNewWindow -PassThru 
-          $procMain.WaitForExit() 
-          $procLog.Kill()
-
-      - name: Show contents from directory
-        working-directory: C:\Program Files\Uplink
-        run: Get-ChildItem -Recurse
+          msiexec.exe /i "uplink.msi" ALLUSERS=1 /qb /l* "install.log"
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
