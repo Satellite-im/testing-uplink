@@ -498,7 +498,7 @@ jobs:
       - name: Rename MSI to generic name
         working-directory: ./apps
         run: |
-          Get-ChildItem -Recurse -Include "*.msi" | Rename-Item $_ -NewName "uplink.msi"
+          Get-ChildItem -Recurse -Include "*.msi" | Rename-Item -NewName "uplink.msi"
 
       - name: Install Uplink Windows App 💿
         working-directory: ./apps
