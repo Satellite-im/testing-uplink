@@ -496,7 +496,7 @@ jobs:
           path: ./apps
 
       - name: Extract .zip into apps Directory 🗳️
-        run: Expand-Archive -Path ./apps/uplinkWindows.zip -DestinationPath ./apps
+        run: Expand-Archive -Path ./apps/Uplink-windows-latest.zip -DestinationPath ./apps
 
       - name: Show contents from directory
         working-directory: C:\Program Files\Uplink
