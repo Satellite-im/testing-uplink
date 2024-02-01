@@ -239,7 +239,7 @@ export async function activateFirstApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
     await driver.executeScript("windows: activateApp", [
       {
-        app: join(process.cwd(), WINDOWS_APP),
+        app: WINDOWS_APP,
       },
     ]);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
@@ -255,7 +255,7 @@ export async function activateSecondApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
     await driver.executeScript("windows: activateApp", [
       {
-        app: join(process.cwd(), WINDOWS_APP),
+        app: WINDOWS_APP,
       },
     ]);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
@@ -271,7 +271,7 @@ export async function closeApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
     await driver.executeScript("windows: closeApp", [
       {
-        app: join(process.cwd(), WINDOWS_APP),
+        app: WINDOWS_APP,
       },
     ]);
   } else if (process.env.DRIVER === MACOS_DRIVER) {

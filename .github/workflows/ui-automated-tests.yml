@@ -495,15 +495,13 @@ jobs:
           name: Uplink-windows-latest
           path: ./apps
 
-      - name: Rename MSI to generic name
+      - name: Install MSI
         working-directory: ./apps
         run: |
           Get-ChildItem -Recurse -Include "*.msi" | Rename-Item -NewName "uplink.msi"
-
-      - name: Install Uplink Windows App 💿
-        working-directory: ./apps
-        run: |
-          Start-Process msiexec.exe -Wait -ArgumentList '/I .\uplink.msi TARGETDIR="C:\uplink" /quiet /l* .\install.log'
+          mkdir C:\uplink
+          mv ./uplink.msi C:\uplink
+          Start-Process msiexec.exe -Wait -ArgumentList '/i "C:\uplink\uplink.msi" /qb'
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
