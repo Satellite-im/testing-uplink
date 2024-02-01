@@ -27,10 +27,13 @@ export default async function repliesTests() {
     await closeFirstApplication();
     await launchSecondApplication();
     await loginWithTestUser();
+    await launchFirstApplication();
+    await loginWithTestUser();
   });
 
   it("Chat User B - Reply popup - Validate contents and close it", async () => {
     // Open Context Menu on Last Message Received and select Reply
+    await launchSecondApplication();
     await messageRemote.openContextMenuOnLastReceived();
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.selectContextOptionReply();
@@ -82,7 +85,6 @@ export default async function repliesTests() {
   it("Chat User A - Validate reply message contents", async () => {
     // Switch control to User A
     await launchFirstApplication();
-    await loginWithTestUser();
 
     // With User A - Validate that reply message is received
     await messageRemote.chatMessageReply.waitForExist();
