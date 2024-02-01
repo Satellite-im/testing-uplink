@@ -499,13 +499,18 @@ jobs:
           name: Uplink-windows-latest
           path: ./apps
 
-      - name: Install MSI
+      - name: Install MSI and copy assets
         working-directory: ./apps
         run: |
           Get-ChildItem -Recurse -Include "*.msi" | Rename-Item -NewName "uplink.msi"
           mkdir C:\uplink
           mv ./uplink.msi C:\uplink
           Start-Process msiexec.exe -Wait -ArgumentList '/i "C:\uplink\uplink.msi" /qb'
+
+      - name: Copy assets from Uplink
+        run: |
+          cp -r C:\uplink\bin\uplink.exe C:\uplink
+          cp -r C:\uplink\extensions\ C:\
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3

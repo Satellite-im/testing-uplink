@@ -22,6 +22,7 @@ describe("MacOS Tests", function () {
   describe("Settings General Tests", settingsGeneralTests.bind(this));
   describe("Settings Message Tests", settingsMessagesTests.bind(this));
   describe("Settings Audio Tests", settingsAudioTests.bind(this));
+  describe("Settings Extensions Tests", settingsExtensionsTests.bind(this));
   describe(
     "Settings Accessibility Tests",
     settingsAccessibilityTests.bind(this),
