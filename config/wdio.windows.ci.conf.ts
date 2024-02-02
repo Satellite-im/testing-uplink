@@ -159,7 +159,7 @@ export const config: WebdriverIO.Config = {
           recursive: true,
           force: true,
         });
-        console.log("Copied Themes succesfully to Uplink Folder!");
+        console.log("Copied Themes successfully to Uplink Folder!");
       } catch (error) {
         console.error(
           `Got an error trying to copy Themes to Uplink Folder: ${error.message}`,
