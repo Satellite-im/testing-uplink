@@ -92,8 +92,6 @@ export const config: WebdriverIO.Config = {
     onPrepare: async function () {
       // Declare constants for folder locations
       const cacheFolder = homedir() + "\\.uplink\\.user";
-      const themesFolder = homedir() + "\\.uplink\\themes";
-      const uplinkThemes = "C:\\Program Files\\uplink\\themes";
       const sourceReusableData = join(
         process.cwd(),
         "\\tests\\fixtures\\users\\FriendsTestUser",
@@ -134,18 +132,6 @@ export const config: WebdriverIO.Config = {
       } catch (error) {
         console.error(
           `Got an error trying to copy Friends Test Folder: ${error.message}`,
-        );
-      }
-      try {
-        await fsp.mkdir(themesFolder, { recursive: true });
-        await fsp.cp(uplinkThemes, themesFolder, {
-          recursive: true,
-          force: true,
-        });
-        console.log("Copied Themes successfully to Uplink Folder!");
-      } catch (error) {
-        console.error(
-          `Got an error trying to copy Themes to Uplink Folder: ${error.message}`,
         );
       }
     },
