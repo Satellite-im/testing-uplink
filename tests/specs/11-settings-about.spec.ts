@@ -46,6 +46,7 @@ export default async function settingsAboutTests() {
     await expect(madeInDescription).toHaveTextContaining(
       "Our team is all over the world with different backgrounds and day-to-day lives, all working on a common goal to build Uplink & Satellite together.",
     );
+    await expect(madeInText).toHaveTextContaining("🇺🇸🇲🇽🇩🇪🇵🇹🇧🇷🇮🇹🇺🇦🇧🇾🇯🇵🇦🇺🇮🇩");
   });
 
   // Test skipped since we need to research on how to return properly to the app before implementing this test
