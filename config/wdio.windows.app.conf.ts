@@ -110,7 +110,7 @@ export const config: WebdriverIO.Config = {
       // Declare constants for folder locations
       const cacheFolder = homedir() + "\\.uplink\\.user";
       const themesFolder = homedir() + "\\.uplink\\themes";
-      const uplinkThemes = "C:\\uplink\\themes";
+      const uplinkThemes = "C:\\Program Files\\uplink\\themes";
       const sourceReusableData = join(
         process.cwd(),
         "\\tests\\fixtures\\users\\FriendsTestUser",

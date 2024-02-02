@@ -508,13 +508,13 @@ jobs:
           Start-Process msiexec.exe -Wait -ArgumentList '/i "C:\uplink\uplink.msi" /qb'
 
       - name: Show contents
-        working-directory: C:\uplink
+        working-directory: C:\Program Files\uplink\
         run: Get-ChildItem -Recurse
 
       - name: Copy assets from Uplink
         run: |
-          cp -r C:\uplink\bin\uplink.exe C:\uplink
-          cp -r C:\uplink\extensions\ C:\
+          cp -r C:\Program Files\uplink\bin\uplink.exe C:\Program Files\uplink
+          cp -r C:\Program Files\uplink\extensions\ C:\
 
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
