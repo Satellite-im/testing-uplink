@@ -507,6 +507,10 @@ jobs:
           mv ./uplink.msi C:\uplink
           Start-Process msiexec.exe -Wait -ArgumentList '/i "C:\uplink\uplink.msi" /qb'
 
+      - name: Show contents
+        working-directory: C:\uplink
+        run: Get-ChildItem -Recurse
+
       - name: Copy assets from Uplink
         run: |
           cp -r C:\uplink\bin\uplink.exe C:\uplink
@@ -723,7 +727,6 @@ jobs:
             peerID
             keyfile
             Uplink-windows-latest
-            uplink-windows-assets
             Uplink-macos-latest
             test-report-macos-ci
             test-report-macos-chats
