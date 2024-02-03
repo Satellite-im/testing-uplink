@@ -517,14 +517,6 @@ jobs:
           cp -r C:\Program` Files\uplink\extra\themes\ $home/.uplink/themes
           cp -r C:\Program` Files\uplink\extensions\emoji_selector.dll $home/.uplink/extensions
 
-      - name: Show contents
-        working-directory: C:\Program Files\uplink\
-        run: Get-ChildItem -Recurse
-
-      - name: Show contents
-        working-directory: C:\Program Files\extensions\
-        run: Get-ChildItem -Recurse
-
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
