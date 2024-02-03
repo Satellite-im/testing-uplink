@@ -4,6 +4,7 @@ const homedir = require("os").homedir;
 const join = require("path").join;
 const fsp = require("fs").promises;
 const { rmSync } = require("fs");
+const WINDOWS_APP_LOCATION = require("@helpers/constants").WINDOWS_APP;
 
 export const config: WebdriverIO.Config = {
   ...sharedConfig,
@@ -51,7 +52,7 @@ export const config: WebdriverIO.Config = {
         platformName: "windows",
         "appium:deviceName": "WindowsPC",
         "appium:automationName": "windows",
-        "appium:app": join(process.cwd(), "\\apps\\bin\\uplink.exe"),
+        "appium:app": WINDOWS_APP_LOCATION,
         "appium:appArguments":
           "--discovery disable --path " +
           join(process.cwd(), "\\apps\\onetimescript2") +

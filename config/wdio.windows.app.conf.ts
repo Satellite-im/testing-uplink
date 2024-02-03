@@ -5,6 +5,7 @@ const homedir = require("os").homedir;
 const join = require("path").join;
 const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
+const WINDOWS_APP_LOCATION = require("@helpers/constants").WINDOWS_APP;
 
 export const config: WebdriverIO.Config = {
   ...sharedConfig,
@@ -52,7 +53,7 @@ export const config: WebdriverIO.Config = {
         platformName: "windows",
         "appium:deviceName": "WindowsPC",
         "appium:automationName": "windows",
-        "appium:app": join(process.cwd(), "\\apps\\bin\\uplink.exe"),
+        "appium:app": WINDOWS_APP_LOCATION,
         "appium:appArguments": "--discovery disable",
         "ms:waitForAppLaunch": 30,
         "appium:prerun": {
@@ -136,6 +137,18 @@ export const config: WebdriverIO.Config = {
       } catch (error) {
         console.error(
           `Got an error trying to delete Cache Folder: ${error.message}`,
+        );
+      }
+      try {
+        await fsp.mkdir(targetReusableData, { recursive: true });
+        await fsp.cp(sourceReusableData, targetReusableData, {
+          recursive: true,
+          force: true,
+        });
+        console.log("Copied Friends Test User Data successfully!");
+      } catch (error) {
+        console.error(
+          `Got an error trying to copy Friends Test Folder: ${error.message}`,
         );
       }
       try {
