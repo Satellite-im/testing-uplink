@@ -9,6 +9,8 @@ const SELECTORS_COMMON = {};
 const SELECTORS_WINDOWS = {
   ENTER_SEEDS_WORD_LAYOUT: '[name="enter-seed-words-layout"]',
   GO_BACK_BUTTON: '[name="back-button"]',
+  INPUT_ERROR: '[name="input-error"]',
+  INPUT_ERROR_TEXT: "<Text>",
   RECOVER_ACCOUNT_BUTTON: '[name="recover-account-button"]',
   RECOVERY_SEED_HELPER: '[name="instructions"]',
   RECOVERY_SEED_HELPER_TEXT:
@@ -21,6 +23,8 @@ const SELECTORS_WINDOWS = {
 const SELECTORS_MACOS = {
   ENTER_SEEDS_WORD_LAYOUT: "~enter-seed-words-layout",
   GO_BACK_BUTTON: "~back-button",
+  INPUT_ERROR: "~input-error",
+  INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   RECOVER_ACCOUNT_BUTTON: "~recover-account-button",
   RECOVERY_SEED_HELPER: "~instructions",
   RECOVERY_SEED_HELPER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
@@ -44,6 +48,16 @@ export default class EnterRecoverySeedScreen extends UplinkMainScreen {
 
   get goBackButton() {
     return this.enterSeedsWordLayout.$(SELECTORS.GO_BACK_BUTTON);
+  }
+
+  get inputError() {
+    return this.enterSeedsWordLayout.$(SELECTORS.INPUT_ERROR);
+  }
+
+  get inputErrorText() {
+    return this.enterSeedsWordLayout
+      .$(SELECTORS.INPUT_ERROR)
+      .$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
   get recoverAccountButton() {

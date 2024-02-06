@@ -39,6 +39,14 @@ export default async function importAccountTests() {
   });
 
   it("Save Recovery Seed Screen - Enter valid recovery seed and continue", async () => {
+    await enterRecoverySeed.typeOnRecoverySeedInput("invalid");
+    await enterRecoverySeed.clickOnRecoverAccountButton();
+    await enterRecoverySeed.inputError.waitForExist();
+    const inputErrorText = await enterRecoverySeed.inputErrorText;
+    await expect(inputErrorText).toHaveText("Hmm, that seed didn't work.");
+  });
+
+  it("Save Recovery Seed Screen - Enter valid recovery seed and continue", async () => {
     const recoverySeed = await getUserRecoverySeed("Test123");
     await enterRecoverySeed.typeOnRecoverySeedInput(recoverySeed);
     await enterRecoverySeed.clickOnRecoverAccountButton();
