@@ -8,6 +8,7 @@ import settingsGeneralTests from "@specs/06-settings-general.spec";
 import settingsMessagesTests from "@specs/15-settings-messages.spec";
 import settingsAudioTests from "@specs/07-settings-audio.spec";
 import settingsExtensionsTests from "@specs/08-settings-extensions.spec";
+import settingsKeybindsTests from "@specs/18-settings-keybinds.spec";
 import settingsNotificationsTests from "@specs/09-settings-notifications.spec";
 import settingsAccessibilityTests from "@specs/10-settings-accessibility.spec";
 import settingsAboutTests from "@specs/11-settings-about.spec";
@@ -24,6 +25,10 @@ describe("MacOS Tests", function () {
   describe("Settings Message Tests", settingsMessagesTests.bind(this));
   describe("Settings Audio Tests", settingsAudioTests.bind(this));
   describe("Settings Extensions Tests", settingsExtensionsTests.bind(this));
+  describe(
+    "Settins Keyboard Shortcuts Tests",
+    settingsKeybindsTests.bind(this),
+  );
   describe(
     "Settings Accessibility Tests",
     settingsAccessibilityTests.bind(this),

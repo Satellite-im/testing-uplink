@@ -1,13 +1,13 @@
 require("module-alias/register");
 import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
-import SettingsExtensionsScreen from "@screenobjects/settings/SettingsExtensionsScreen";
+import SettingsKeybindsScreen from "@screenobjects/settings/SettingsKeybindsScreen";
 const settingsAccessibility = new SettingsAccessibilityScreen();
-const settingsExtensions = new SettingsExtensionsScreen();
+const settingsKeybinds = new SettingsKeybindsScreen();
 
 export default async function settingsAccessibilityTests() {
   it("Settings Accessibility - Assert screen texts", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await settingsExtensions.goToAccessibilitySettings();
+    await settingsKeybinds.goToAccessibilitySettings();
     await settingsAccessibility.waitForIsShown(true);
 
     // Validate texts for Open Dyslexic Settings Section
