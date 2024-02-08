@@ -15,6 +15,7 @@ const SELECTORS_WINDOWS = {
   DEVELOPER_BUTTON: '[name="developer-button"]',
   EXTENSIONS_BUTTON: '[name="extensions-button"]',
   GENERAL_BUTTON: '[name="general-button"]',
+  KEYBOARD_SHORTCUTS_BUTTON: '[name="keyboard shortcuts-button"]',
   LICENSES_BUTTON: '[name="licenses-button"]',
   MESSAGES_BUTTON: '[name="messages-button"]',
   NOTIFICATIONS_BUTTON: '[name="notifications-button"]',
@@ -29,6 +30,7 @@ const SELECTORS_MACOS = {
   DEVELOPER_BUTTON: "~developer-button",
   EXTENSIONS_BUTTON: "~extensions-button",
   GENERAL_BUTTON: "~general-button",
+  KEYBOARD_SHORTCUTS_BUTTON: "~keyboard shortcuts-button",
   LICENSES_BUTTON: "~licenses-button",
   MESSAGES_BUTTON: "~messages-button",
   NOTIFICATIONS_BUTTON: "~notifications-button",
@@ -78,6 +80,10 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
 
   get generalButton() {
     return $(SELECTORS.GENERAL_BUTTON);
+  }
+
+  get keyboardShortcutsButton() {
+    return $(SELECTORS.KEYBOARD_SHORTCUTS_BUTTON);
   }
 
   get licensesButton() {
@@ -132,6 +138,11 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
   async goToGeneralSettings() {
     const generalButton = await this.generalButton;
     await generalButton.click();
+  }
+
+  async goToKeyboardShortcutsSettings() {
+    const keyboardShortcutsButton = await this.keyboardShortcutsButton;
+    await keyboardShortcutsButton.click();
   }
 
   async goToLicensesSettings() {
