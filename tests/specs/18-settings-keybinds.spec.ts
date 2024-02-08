@@ -1,4 +1,5 @@
 require("module-alias/register");
+import { MACOS_DRIVER } from "@helpers/constants";
 import SettingsExtensionsScreen from "@screenobjects/settings/SettingsExtensionsScreen";
 import SettingsKeybindsScreen from "@screenobjects/settings/SettingsKeybindsScreen";
 const settingsExtensions = new SettingsExtensionsScreen();
@@ -72,6 +73,9 @@ export default async function settingsKeybindsTests() {
   });
 
   it("Settings Keyboard Shortcuts - Validate default keybinds are displayed", async () => {
+    // Get current driver for validation
+    const currentDriver = await settingsKeybinds.getCurrentDriver();
+
     // Validate default keybind for Increase Font Size is correct
     const increaseFontSizeKeybind =
       await settingsKeybinds.getKeybinds("increase-font-size");
@@ -82,14 +86,22 @@ export default async function settingsKeybindsTests() {
       await settingsKeybinds.getKeybinds("decrease-font-size");
     await expect(decreaseFontSizeKeybind).toEqual(["CONTROL", "SHIFT", "-"]);
 
-    // Validate default keybind for Toggle Mute is correct
+    // Validate default keybind for Toggle Mute is correct depending on the OS
     const toggleMuteKeybind = await settingsKeybinds.getKeybinds("toggle-mute");
-    await expect(toggleMuteKeybind).toEqual(["COMMAND", "SHIFT", "M"]);
+    if (currentDriver === MACOS_DRIVER) {
+      await expect(toggleMuteKeybind).toEqual(["COMMAND", "SHIFT", "M"]);
+    } else {
+      await expect(toggleMuteKeybind).toEqual(["ALT", "SHIFT", "M"]);
+    }
 
-    // Validate default keybind for Toggle Deafen is correct
+    // Validate default keybind for Toggle Deafen is correct depending on the OS
     const toggleDeafenKeybind =
       await settingsKeybinds.getKeybinds("toggle-deafen");
-    await expect(toggleDeafenKeybind).toEqual(["COMMAND", "SHIFT", "D"]);
+    if (currentDriver === MACOS_DRIVER) {
+      await expect(toggleDeafenKeybind).toEqual(["COMMAND", "SHIFT", "D"]);
+    } else {
+      await expect(toggleDeafenKeybind).toEqual(["ALT", "SHIFT", "D"]);
+    }
 
     // Validate default keybind for Open Close Web Inspector is correct
     const openCloseDevToolsKeybind = await settingsKeybinds.getKeybinds(
