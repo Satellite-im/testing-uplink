@@ -18,7 +18,7 @@ import {
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
-const { clipboard, mouse, Button } = require("@nut-tree/nut-js");
+const { clipboard, keyboard, Key, mouse, Button } = require("@nut-tree/nut-js");
 const createOrImport = new CreateOrImportScreen();
 let createPin = new CreatePinScreen();
 let createUser = new CreateUserScreen();
@@ -500,4 +500,20 @@ export async function getUplinkWindowHandle() {
       console.log("Error trying to get current Window Handle: ", error);
     }
   }
+}
+
+// Key Combinations Commands
+
+export async function keyboardShortcutPaste() {
+  await keyboard.type(Key.LeftControl, Key.V);
+}
+
+export async function keyboardShiftEnter() {
+  await keyboard.pressKey(Key.LeftShift);
+  await keyboard.type(Key.Enter);
+  await keyboard.releaseKey(Key.LeftShift);
+}
+
+export async function pressEscKey() {
+  await keyboard.type(Key.Escape);
 }

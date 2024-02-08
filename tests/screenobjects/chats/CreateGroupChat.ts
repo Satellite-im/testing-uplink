@@ -1,6 +1,5 @@
-const { keyboard, Key } = require("@nut-tree/nut-js");
 require("module-alias/register");
-import { getClipboardMacOS } from "@helpers/commands";
+import { getClipboardMacOS, keyboardShortcutPaste } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
@@ -238,9 +237,9 @@ export default class CreateGroupChat extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await driver.touchAction([{ action: "press", element: groupNameInput }]);
       // If driver is windows, then click on status input to place cursor there and simulate a control + v
-      await keyboard.type(Key.LeftControl, Key.V);
+      await keyboardShortcutPaste();
       await driver.touchAction([{ action: "press", element: locator }]);
-      await keyboard.type(Key.LeftControl, Key.V);
+      await keyboardShortcutPaste();
     }
   }
 

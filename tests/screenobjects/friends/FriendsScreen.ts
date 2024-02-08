@@ -4,11 +4,10 @@ import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
 import {
   getClipboardMacOS,
+  keyboardShortcutPaste,
   rightClickOnMacOS,
   rightClickOnWindows,
 } from "@helpers/commands";
-
-const { keyboard, Key } = require("@nut-tree/nut-js");
 
 let SELECTORS = {};
 
@@ -429,7 +428,7 @@ export default class FriendsScreen extends UplinkMainScreen {
       await copyIdButton.click();
       const addSomeoneInput = await this.addSomeoneInput;
       await addSomeoneInput.clearValue();
-      await keyboard.type(Key.LeftControl, Key.V);
+      await keyboardShortcutPaste();
     }
   }
 
@@ -731,7 +730,7 @@ export default class FriendsScreen extends UplinkMainScreen {
       const addSomeoneInput = await this.addSomeoneInput;
       await addSomeoneInput.click();
       await addSomeoneInput.clearValue();
-      await keyboard.type(Key.LeftControl, Key.V);
+      await keyboardShortcutPaste();
     }
   }
 

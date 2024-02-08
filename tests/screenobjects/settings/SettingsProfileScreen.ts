@@ -4,6 +4,7 @@ import {
   getUplinkWindowHandle,
   hoverOnMacOS,
   hoverOnWindows,
+  keyboardShortcutPaste,
   rightClickOnMacOS,
   rightClickOnWindows,
   selectFileOnMacos,
@@ -12,7 +13,6 @@ import {
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
-const { keyboard, Key } = require("@nut-tree/nut-js");
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -462,7 +462,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await browser.pause(1000);
       await statusInput.click();
       await statusInput.clearValue();
-      await keyboard.type(Key.LeftControl, Key.V);
+      await keyboardShortcutPaste();
     }
     await statusInput.waitUntil(
       async () => {
@@ -490,7 +490,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await browser.pause(1000);
       await statusInput.click();
       await statusInput.clearValue();
-      await keyboard.type(Key.LeftControl, Key.V);
+      await keyboardShortcutPaste();
     }
     await statusInput.waitUntil(
       async () => {
