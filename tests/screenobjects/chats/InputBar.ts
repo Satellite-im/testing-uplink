@@ -2,12 +2,13 @@ require("module-alias/register");
 import { faker } from "@faker-js/faker";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import {
+  keyboardShiftEnter,
+  keyboardShortcutPaste,
   getUplinkWindowHandle,
   selectFileOnMacos,
   selectFileOnWindows,
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-const { keyboard, Key } = require("@nut-tree/nut-js");
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {
@@ -184,7 +185,7 @@ export default class InputBar extends UplinkMainScreen {
     const inputText = await this.inputText;
     await inputText.click();
     await inputText.clearValue();
-    await keyboard.type(Key.LeftControl, Key.V);
+    await keyboardShortcutPaste();
   }
 
   async pressEnterKeyOnInputBar() {
@@ -215,9 +216,7 @@ export default class InputBar extends UplinkMainScreen {
     if (inputTextValueLanguage.includes("```" + language) === false) {
       await this.typeCodeOnInputBar(language, codeToType);
     } else {
-      await keyboard.pressKey(Key.LeftShift);
-      await keyboard.type(Key.Enter);
-      await keyboard.releaseKey(Key.LeftShift);
+      await keyboardShiftEnter();
       await inputText.addValue(codeToType);
       let inputTextValueCode = await inputText.getText();
       inputTextValueCode += " ";

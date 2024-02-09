@@ -1,7 +1,6 @@
 require("module-alias/register");
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-const { keyboard, Key } = require("@nut-tree/nut-js");
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -89,10 +88,6 @@ export default class EmojiSuggestions extends UplinkMainScreen {
       results.push(itemValueText);
     }
     return results;
-  }
-
-  async pressEscKey() {
-    await keyboard.type(Key.Escape);
   }
 
   async validateEmojiSuggestionsContainerIsShown() {
