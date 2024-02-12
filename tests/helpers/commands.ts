@@ -524,14 +524,11 @@ export async function sendCustomKeybinds(...keys: number[]) {
   // To find the number associated for each key to send on keybind, refer to node_modules/@nut-tree/nut-js/dist/lib/key.enum.d.ts
   for (let i = 0; i < keys.length - 1; i++) {
     await keyboard.pressKey(keys[i]);
-    console.log("Pressed key: " + keys[i]);
   }
 
   await keyboard.type(keys[keys.length - 1]);
-  console.log("Typed key: " + keys[keys.length - 1]);
 
   for (let i = keys.length - 2; i >= 0; i--) {
     await keyboard.releaseKey(keys[i]);
-    console.log("Released key: " + keys[i]);
   }
 }
