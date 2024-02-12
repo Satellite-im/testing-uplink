@@ -18,7 +18,7 @@ import {
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
-const { clipboard, keyboard, Key, mouse, Button } = require("@nut-tree/nut-js");
+const { clipboard, keyboard, mouse, Button } = require("@nut-tree/nut-js");
 const createOrImport = new CreateOrImportScreen();
 let createPin = new CreatePinScreen();
 let createUser = new CreateUserScreen();
