@@ -26,6 +26,8 @@ let friendsScreen = new FriendsScreen();
 const saveRecoverySeed = new SaveRecoverySeedScreen();
 let welcomeScreen = new WelcomeScreen();
 
+export type MyKey = keyof typeof CustomKey;
+
 // Users cache helper functions
 
 export async function deleteCache() {
@@ -505,15 +507,31 @@ export async function getUplinkWindowHandle() {
 // Key Combinations Commands
 
 export async function keyboardShortcutPaste() {
-  await keyboard.type(Key.LeftControl, Key.V);
+  await keyboard.type(4, 66);
 }
 
 export async function keyboardShiftEnter() {
-  await keyboard.pressKey(Key.LeftShift);
-  await keyboard.type(Key.Enter);
-  await keyboard.releaseKey(Key.LeftShift);
+  await keyboard.pressKey(7);
+  await keyboard.type(101);
+  await keyboard.releaseKey(7);
 }
 
 export async function pressEscKey() {
-  await keyboard.type(Key.Escape);
+  await keyboard.type(1);
+}
+
+export async function sendCustomKeybinds(...keys: number[]) {
+  // To find the number associated for each key to send on keybind, refer to node_modules/@nut-tree/nut-js/dist/lib/key.enum.d.ts
+  for (let i = 0; i < keys.length - 1; i++) {
+    await keyboard.pressKey(keys[i]);
+    console.log("Pressed key: " + keys[i]);
+  }
+
+  await keyboard.type(keys[keys.length - 1]);
+  console.log("Typed key: " + keys[keys.length - 1]);
+
+  for (let i = keys.length - 2; i >= 0; i--) {
+    await keyboard.releaseKey(keys[i]);
+    console.log("Released key: " + keys[i]);
+  }
 }
