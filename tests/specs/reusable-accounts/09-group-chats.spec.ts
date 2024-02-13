@@ -52,9 +52,7 @@ export default async function groupChatTests() {
     await createGroup.typeOnGroupName("@");
     await createGroup.validateCreateGroupChatInputErrorIsShown();
     const inputErrorText = await createGroup.createGroupInputErrorText;
-    await expect(inputErrorText).toHaveTextContaining(
-      "Not allowed character(s): @",
-    );
+    await expect(inputErrorText).toHaveText("Not allowed character(s): @");
     await createGroup.clearGroupNameInput();
   });
 
@@ -64,7 +62,7 @@ export default async function groupChatTests() {
     await createGroup.typeLongerTextInGroupName();
     await createGroup.validateCreateGroupChatInputErrorIsShown();
     const inputErrorText = await createGroup.createGroupInputErrorText;
-    await expect(inputErrorText).toHaveTextContaining(
+    await expect(inputErrorText).toHaveText(
       "Maximum of 64 characters exceeded.",
     );
     await createGroup.clearGroupNameInput();
@@ -91,19 +89,17 @@ export default async function groupChatTests() {
   it("Chat User A - Group Chat is displayed on local user sidebar", async () => {
     // Validate group chat is displayed on local user sidebar and then go to group chat
     const statusFromGroup = await chatsSidebar.getSidebarGroupStatus("Test");
-    await expect(statusFromGroup).toHaveTextContaining(
-      "No messages sent yet, send one!",
-    );
+    await expect(statusFromGroup).toHaveText("No messages sent yet, send one!");
     await chatsSidebar.goToSidebarGroupChat("Test");
     await chatsTopbar.validateTopbarExists();
 
     // Validate topbar contents has correct name
     const topbarUserName = chatsTopbar.topbarUserNameValue;
-    await expect(topbarUserName).toHaveTextContaining("Test");
+    await expect(topbarUserName).toHaveText("Test");
 
     // Validate topbar contents has correct number of participants
     const topbarUserStatus = chatsTopbar.topbarUserStatusValue;
-    await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
+    await expect(topbarUserStatus).toHaveText("Members (2)");
   });
 
   it("User B - Group Chat is displayed on remote participant users sidebar", async () => {
@@ -112,7 +108,7 @@ export default async function groupChatTests() {
     await chatsSidebar.waitForGroupToBeCreated("Test");
     const statusFromGroupOnUserB =
       await chatsSidebar.getSidebarGroupStatus("Test");
-    await expect(statusFromGroupOnUserB).toHaveTextContaining(
+    await expect(statusFromGroupOnUserB).toHaveText(
       "No messages sent yet, send one!",
     );
     await chatsSidebar.goToSidebarGroupChat("Test");
@@ -120,10 +116,10 @@ export default async function groupChatTests() {
     await chatsTopbar.validateTopbarExists();
 
     const topbarUserName = await chatsTopbar.topbarUserNameValue;
-    await expect(topbarUserName).toHaveTextContaining("Test");
+    await expect(topbarUserName).toHaveText("Test");
 
     const topbarUserStatus = await chatsTopbar.topbarUserStatusValue;
-    await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
+    await expect(topbarUserStatus).toHaveText("Members (2)");
     await chatsSidebar.goToSidebarChat("ChatUserA");
 
     await chatsTopbar.validateTopbarExists();
@@ -140,7 +136,7 @@ export default async function groupChatTests() {
 
     // Validate text from message sent to the group
     const textMessage = await messageLocal.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("Sup");
+    await expect(textMessage).toHaveText("Sup");
   });
 
   it("Group Chat - User B receives the message in group chat", async () => {
@@ -187,6 +183,6 @@ export default async function groupChatTests() {
     await chatsTopbar.validateTopbarExists();
 
     const topbarUserName = await chatsTopbar.topbarUserNameValue;
-    await expect(topbarUserName).toHaveTextContaining("Test");
+    await expect(topbarUserName).toHaveText("Test");
   });
 }
