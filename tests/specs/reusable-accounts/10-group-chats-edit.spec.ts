@@ -33,7 +33,7 @@ export default async function groupChatEditTests() {
 
   it("Group Chat Creator - Attempt to change Group Name for a name containing non-alphanumeric characters", async () => {
     // Type on group name input an invalid name and validate error message
-    await chatsTopbar.openManageMembers();
+    await chatsTopbar.openNameContextMenu();
     await chatsTopbar.selectRenameGroup();
     await chatsTopbar.typeOnGroupNameInput("@");
     await chatsTopbar.validateGroupNameInputErrorIsShown();
