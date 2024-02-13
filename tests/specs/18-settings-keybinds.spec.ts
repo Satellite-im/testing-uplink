@@ -1,4 +1,5 @@
 require("module-alias/register");
+import { sendCustomKeybinds } from "@helpers/commands";
 import { MACOS_DRIVER } from "@helpers/constants";
 import SettingsExtensionsScreen from "@screenobjects/settings/SettingsExtensionsScreen";
 import SettingsKeybindsScreen from "@screenobjects/settings/SettingsKeybindsScreen";
@@ -118,5 +119,76 @@ export default async function settingsKeybindsTests() {
     const hideFocusUplinkKeybind =
       await settingsKeybinds.getKeybinds("hide-focus-uplink");
     await expect(hideFocusUplinkKeybind).toEqual(["CONTROL", "SHIFT", "U"]);
+  });
+
+  it("Settings Keyboards Shortcuts - Change Increase Font Size Keybind", async () => {
+    // Type Ctrl + Shift + =
+    await sendCustomKeybinds(4, 7, 73);
+    await settingsKeybinds.editKeybind("increase-font-size");
+    // Type Ctrl + A
+    await sendCustomKeybinds(4, 45);
+
+    const increaseFontSizeKeybind =
+      await settingsKeybinds.getKeybinds("increase-font-size");
+    await expect(increaseFontSizeKeybind).toEqual(["CONTROL", "A"]);
+  });
+
+  it("Settings Keyboards Shortcuts - Reset Increase Font Size Keybind", async () => {
+    await settingsKeybinds.clickOnRevertIncreaseFontSize();
+    const increaseFontSizeKeybind =
+      await settingsKeybinds.getKeybinds("increase-font-size");
+    await expect(increaseFontSizeKeybind).toEqual(["CONTROL", "SHIFT", "="]);
+  });
+
+  it("Settings Keyboards Shortcuts - User can update more than one keybind", async () => {
+    // Change at least two different keybinds. First, change Decrease Font Size Keybind, by typing Ctrl + Shift + -
+    await sendCustomKeybinds(4, 7, 72);
+    // Edit Decrease Font Size Keybind to Ctrl + B
+    await settingsKeybinds.editKeybind("decrease-font-size");
+    await sendCustomKeybinds(4, 46);
+
+    // Validate change was applied correctly to Decrease Font Size Keybind
+    const decreaseFontSizeKeybind =
+      await settingsKeybinds.getKeybinds("decrease-font-size");
+    await expect(decreaseFontSizeKeybind).toEqual(["CONTROL", "B"]);
+
+    // Now, change Hide/Focus Uplink Keybind by typing Ctrl + Shift + U
+    await sendCustomKeybinds(4, 7, 65);
+    await settingsKeybinds.editKeybind("hide-focus-uplink");
+    // Type Alt + Ctrl + Shift + P
+    await sendCustomKeybinds(3, 4, 7, 60);
+
+    // Validate change was applied correctly to Hide/Focus Uplink Keybind
+    const hideFocusUplinkKeybind =
+      await settingsKeybinds.getKeybinds("hide-focus-uplink");
+    await expect(hideFocusUplinkKeybind).toEqual([
+      "ALT",
+      "CONTROL",
+      "SHIFT",
+      "P",
+    ]);
+  });
+
+  it("Settings Keyboards Shortcuts - User can revert all Keybinds to Default Values", async () => {
+    // Click on Revert all keybinds
+    await settingsKeybinds.clickOnRevertAllKeybinds();
+
+    // Validate default keys are assigned for Decrease Font Size Keybind (Ctrl + Shift + -)
+    const decreaseFontSizeKeybindDefault =
+      await settingsKeybinds.getKeybinds("decrease-font-size");
+    await expect(decreaseFontSizeKeybindDefault).toEqual([
+      "CONTROL",
+      "SHIFT",
+      "-",
+    ]);
+
+    // Validate default keys are assigned for Hide/Show Uplink Keybind (Ctrl + Shift + U)
+    const hideFocusUplinkKeybindDefault =
+      await settingsKeybinds.getKeybinds("hide-focus-uplink");
+    await expect(hideFocusUplinkKeybindDefault).toEqual([
+      "CONTROL",
+      "SHIFT",
+      "U",
+    ]);
   });
 }

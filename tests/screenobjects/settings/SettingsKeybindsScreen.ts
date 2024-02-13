@@ -478,4 +478,20 @@ export default class SettingsKeybindsScreen extends SettingsBaseScreen {
     const revertButton = await this.toggleMuteResetKeybindButton;
     await revertButton.click();
   }
+
+  // Edit Keybinds
+  async editKeybind(section: Keybinds) {
+    let sectionToEdit;
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      sectionToEdit = await $(`~${section}-section`).$(
+        SELECTORS.KEYBIND_SECTION_KEYS,
+      );
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      sectionToEdit = await $(`[name="${section}-section"]`).$(
+        SELECTORS.KEYBIND_SECTION_KEYS,
+      );
+    }
+    await sectionToEdit?.click();
+  }
 }
