@@ -225,7 +225,7 @@ export default class ManageMembers extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg:
-          "Add friend button from Edit Group was never displayed after 15 seconds",
+          "Add friend button from Manage Members was never displayed after 15 seconds",
       },
     );
     await firstAddButton?.click();
@@ -242,7 +242,7 @@ export default class ManageMembers extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg:
-          "Remove friend button from Edit Group was never displayed after 15 seconds",
+          "Remove friend button from Manage Members was never displayed after 15 seconds",
       },
     );
     await removeParticipantButton?.click();
@@ -316,7 +316,7 @@ export default class ManageMembers extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg:
-          "Expected indicator online was never displayed on Edit Group Users List after 15 seconds",
+          "Expected indicator online was never displayed on Manage Members Users List after 15 seconds",
       },
     );
 
@@ -403,6 +403,18 @@ export default class ManageMembers extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg: "Expected chat layout was never displayed after 15 seconds",
+      },
+    );
+  }
+
+  async validateManageMembersIsNotDisplayed() {
+    await driver.waitUntil(
+      async () => {
+        return await this.manageMembersModal.waitForExist({ reverse: true });
+      },
+      {
+        timeout: 15000,
+        timeoutMsg: "Manage Members Modal is still displayed after 15 seconds",
       },
     );
   }

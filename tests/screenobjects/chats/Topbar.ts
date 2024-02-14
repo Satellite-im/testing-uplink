@@ -113,7 +113,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get groupNameInputError() {
-    return this.groupNameInput.$(SELECTORS.GROUP_NAME_INPUT_ERROR);
+    return this.$(SELECTORS.GROUP_NAME_INPUT_ERROR);
   }
 
   get groupNameInputErrorText() {
@@ -281,7 +281,7 @@ export default class Topbar extends UplinkMainScreen {
     await topbarUserImage.click();
   }
 
-  async openOrCloseManageMembers() {
+  async openManageMembers() {
     await this.hoverOnManageMembersButton();
     const manageMembers = await this.topbarManageMembers;
     await manageMembers.click();

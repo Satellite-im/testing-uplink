@@ -16,7 +16,7 @@ const welcomeScreen = new WelcomeScreen();
 
 export default async function groupChatEditTests() {
   it("Group Chat Creator - Manage Members button tooltip", async () => {
-    // Hover on edit group chat button and validate tooltip is shown
+    // Hover on Manage Members button and validate tooltip is shown
     await chatsTopbar.hoverOnManageMembersButton();
 
     const tooltipText = await chatsTopbar.topbarManageMembersTooltipText;
@@ -24,11 +24,14 @@ export default async function groupChatEditTests() {
   });
 
   it("Group Chat Creator - Click on Manage Members, validate contents and close modal", async () => {
-    // Open modal to edit group chat
-    await chatsTopbar.openOrCloseManageMembers();
+    // Open modal for Manage Members
+    await chatsTopbar.openManageMembers();
     await manageMembers.validateManageMembersIsShown();
     await manageMembers.validateManageMembersUserInputIsShown();
-    await chatsTopbar.openOrCloseManageMembers();
+
+    // Close Manage Members modal
+    await chatsTopbar.clickOnPinnedMessages();
+    await manageMembers.validateManageMembersIsNotDisplayed();
   });
 
   it("Group Chat Creator - Attempt to change Group Name for a name containing non-alphanumeric characters", async () => {
@@ -81,10 +84,10 @@ export default async function groupChatEditTests() {
   });
 
   it("Group Chat Creator - Contents displayed in add list are correct", async () => {
-    // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
+    // Switch control to first user and then open Manage Members modal. Validate contents displayed in add list are correct
     await launchFirstApplication();
 
-    await chatsTopbar.openOrCloseManageMembers();
+    await chatsTopbar.openManageMembers();
     await manageMembers.validateManageMembersIsShown();
     await manageMembers.clickOnAddMembers();
     await manageMembers.validateNothingHereIsDisplayed();
@@ -110,7 +113,10 @@ export default async function groupChatEditTests() {
     await manageMembers.typeOnSearchUserInput("ChatUserB");
     await manageMembers.clickOnFirstRemoveButton();
     await manageMembers.validateNothingHereIsDisplayed();
-    await chatsTopbar.openOrCloseManageMembers();
+
+    // Close Manage Members modal
+    await chatsTopbar.clickOnPinnedMessages();
+    await manageMembers.validateManageMembersIsNotDisplayed();
     await chatsTopbar.validateTopbarExists();
 
     const topbarUserStatus = chatsTopbar.topbarUserStatusValue;
@@ -125,9 +131,9 @@ export default async function groupChatEditTests() {
   });
 
   it("Group Chat Creator - Add Users List - Chat User B appears now in list", async () => {
-    // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
+    // Switch control to first user and then open Manage Members modal. Validate contents displayed in add list are correct
     await launchFirstApplication();
-    await chatsTopbar.openOrCloseManageMembers();
+    await chatsTopbar.openManageMembers();
     await manageMembers.validateManageMembersIsShown();
     await manageMembers.clickOnAddMembers();
     const currentList = await manageMembers.getParticipantsList();
@@ -146,7 +152,10 @@ export default async function groupChatEditTests() {
     await manageMembers.typeOnSearchUserInput("ChatUserB");
     await manageMembers.clickOnFirstAddButton();
     await manageMembers.validateNothingHereIsDisplayed();
-    await chatsTopbar.openOrCloseManageMembers();
+
+    // Close Manage Members modal
+    await chatsTopbar.clickOnPinnedMessages();
+    await manageMembers.validateManageMembersIsNotDisplayed();
     await chatsTopbar.validateTopbarExists();
 
     // Validate topbar contents has correct number of participants

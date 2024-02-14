@@ -132,16 +132,17 @@ export default async function groupChatSidebarTests() {
   });
 
   it("Group Chat - Add Chat User B again to the group", async () => {
-    // Go to Edit Group and then add again Chat User B to the group
-    await chatsTopbar.openOrCloseManageMembers();
+    // Go to Manage Members and then add again Chat User B to the group
+    await chatsTopbar.openManageMembers();
     await manageMembers.validateManageMembersIsShown();
     await manageMembers.clickOnAddMembers();
     await manageMembers.typeOnSearchUserInput("ChatUserB");
     await manageMembers.clickOnFirstAddButton();
     await manageMembers.validateNothingHereIsDisplayed();
 
-    // Validate topbar contents has correct number of participants
-    await chatsTopbar.openOrCloseManageMembers();
+    // Close Manage Members and validate topbar contents has correct number of participants
+    await chatsTopbar.clickOnPinnedMessages();
+    await manageMembers.validateManageMembersIsNotDisplayed();
     await chatsTopbar.validateTopbarExists();
 
     // Validate topbar contents has correct number of participants
