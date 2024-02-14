@@ -248,11 +248,6 @@ export default class ManageMembers extends UplinkMainScreen {
     await removeParticipantButton?.click();
   }
 
-  async exitManageMembers() {
-    const topbar = await this.topbar;
-    await topbar.click();
-  }
-
   async getParticipantsList() {
     const participants = await $(SELECTORS.EDIT_GROUP_MODAL)
       .$(SELECTORS.EDIT_GROUP_SECTION)

@@ -141,7 +141,7 @@ export default async function groupChatSidebarTests() {
     await manageMembers.validateNothingHereIsDisplayed();
 
     // Validate topbar contents has correct number of participants
-    await manageMembers.exitManageMembers();
+    await chatsTopbar.openOrCloseManageMembers();
     await chatsTopbar.validateTopbarExists();
 
     // Validate topbar contents has correct number of participants
