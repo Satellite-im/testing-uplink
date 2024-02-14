@@ -3,6 +3,9 @@ import {
   launchFirstApplication,
   launchSecondApplication,
   getUserKey,
+  closeFirstApplication,
+  closeSecondApplication,
+  loginWithTestUser,
 } from "@helpers/commands";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -39,11 +42,14 @@ export default async function quickProfileTests() {
     await chatsQuickProfile.clickOnEditProfile();
     await settingsProfile.waitForIsShown(true);
     await settingsProfile.goToMainScreen();
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 
   it("Chat User B - Validate contents from remote quick profile", async () => {
     // With User B - Validate that message was received
     await launchSecondApplication();
+    await loginWithTestUser();
     await chatsInput.waitForIsShown(true);
     await chatsInput.clickOnInputBar();
 
@@ -71,6 +77,8 @@ export default async function quickProfileTests() {
   it("Chat User A - Remove Friend", async () => {
     // Open quick profile from remote user
     await launchFirstApplication();
+    await loginWithTestUser();
+    await welcomeScreen.goToMainScreen();
     await chatsInput.waitForIsShown(true);
     await messageGroupRemote.openRemoteQuickProfile();
     await chatsQuickProfile.quickProfile.waitForExist();
