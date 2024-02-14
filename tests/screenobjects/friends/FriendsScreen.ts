@@ -5,6 +5,8 @@ import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import {
   getClipboardMacOS,
   keyboardShortcutPaste,
+  leftClickOnMacOS,
+  leftClickOnWindows,
   rightClickOnMacOS,
   rightClickOnWindows,
 } from "@helpers/commands";
@@ -675,6 +677,16 @@ export default class FriendsScreen extends UplinkMainScreen {
     await browser.pause(1000);
     await this.blockedListButton.waitForExist();
     await this.blockedListButton.click();
+  }
+
+  async goToChatWithFriend() {
+    const chatWithFriendButton = await this.chatWithFriendButton;
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await leftClickOnMacOS(chatWithFriendButton);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await leftClickOnWindows(chatWithFriendButton);
+    }
   }
 
   async goToPendingFriendsList() {

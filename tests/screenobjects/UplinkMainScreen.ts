@@ -1,6 +1,11 @@
 require("module-alias/register");
 import AppScreen from "@screenobjects/AppScreen";
-import { hoverOnMacOS, hoverOnWindows } from "@helpers/commands";
+import {
+  hoverOnMacOS,
+  hoverOnWindows,
+  leftClickOnMacOS,
+  leftClickOnWindows,
+} from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 
 let SELECTORS = {};
@@ -260,8 +265,13 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   async goToMainScreen() {
-    const button = await this.chatsButton;
-    await button.click();
+    const chatsButton = await this.chatsButton;
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await leftClickOnMacOS(chatsButton);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await leftClickOnWindows(chatsButton);
+    }
   }
 
   async goToSettings() {
