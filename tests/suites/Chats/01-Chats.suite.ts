@@ -20,8 +20,8 @@ describe("Chat Topbar Tests", chatTopbarTests.bind(this));
 describe("Quick Profile Tests", quickProfileTests.bind(this));
 describe("Sidebar Chats Tests", sidebarChatsTests.bind(this));
 describe("Group Chats Tests", groupChatTests.bind(this));
-describe("Group Chats Edit Tests", groupChatEditTests.bind(this));
-describe(
+xdescribe("Group Chats Edit Tests", groupChatEditTests.bind(this));
+xdescribe(
   "Group Chats Favorites and Sidebar Tests",
   groupChatSidebarTests.bind(this),
 );

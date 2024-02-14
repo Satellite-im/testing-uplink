@@ -62,7 +62,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
-          ref: group-chat-ui-refactor
 
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v4
@@ -137,7 +136,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
-          ref: group-chat-ui-refactor
 
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v4
