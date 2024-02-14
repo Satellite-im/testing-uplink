@@ -426,12 +426,12 @@ export default class Topbar extends UplinkMainScreen {
   // Open Context Menu
 
   async openNameContextMenu() {
-    const topbarUserName = await this.topbarUserName;
+    const topbarUserStatus = await this.topbarUserStatus;
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
-      await rightClickOnMacOS(topbarUserName);
+      await rightClickOnMacOS(topbarUserStatus);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await rightClickOnWindows(topbarUserName);
+      await rightClickOnWindows(topbarUserStatus);
     }
   }
 
