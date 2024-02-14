@@ -281,7 +281,7 @@ export default class Topbar extends UplinkMainScreen {
     await topbarUserImage.click();
   }
 
-  async openManageMembers() {
+  async openOrCloseManageMembers() {
     await this.hoverOnManageMembersButton();
     const manageMembers = await this.topbarManageMembers;
     await manageMembers.click();

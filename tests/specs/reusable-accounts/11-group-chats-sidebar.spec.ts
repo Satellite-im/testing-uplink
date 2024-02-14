@@ -133,7 +133,7 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Add Chat User B again to the group", async () => {
     // Go to Edit Group and then add again Chat User B to the group
-    await chatsTopbar.openManageMembers();
+    await chatsTopbar.openOrCloseManageMembers();
     await manageMembers.validateManageMembersIsShown();
     await manageMembers.clickOnAddMembers();
     await manageMembers.typeOnSearchUserInput("ChatUserB");

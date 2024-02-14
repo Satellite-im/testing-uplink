@@ -25,7 +25,7 @@ export default async function groupChatEditTests() {
 
   it("Group Chat Creator - Click on Manage Members, validate contents and close modal", async () => {
     // Open modal to edit group chat
-    await chatsTopbar.openManageMembers();
+    await chatsTopbar.openOrCloseManageMembers();
     await manageMembers.validateManageMembersIsShown();
     await manageMembers.validateManageMembersUserInputIsShown();
     await manageMembers.exitManageMembers();
@@ -84,7 +84,7 @@ export default async function groupChatEditTests() {
     // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
     await launchFirstApplication();
 
-    await chatsTopbar.openManageMembers();
+    await chatsTopbar.openOrCloseManageMembers();
     await manageMembers.validateManageMembersIsShown();
     await manageMembers.clickOnAddMembers();
     await manageMembers.validateNothingHereIsDisplayed();
@@ -127,7 +127,7 @@ export default async function groupChatEditTests() {
   it("Group Chat Creator - Add Users List - Chat User B appears now in list", async () => {
     // Switch control to first user and then open edit group modal. Validate contents displayed in add list are correct
     await launchFirstApplication();
-    await chatsTopbar.openManageMembers();
+    await chatsTopbar.openOrCloseManageMembers();
     await manageMembers.validateManageMembersIsShown();
     await manageMembers.clickOnAddMembers();
     const currentList = await manageMembers.getParticipantsList();
