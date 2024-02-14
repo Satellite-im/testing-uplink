@@ -76,7 +76,7 @@ export default class ManageMembers extends UplinkMainScreen {
 
   get addParticipantButton() {
     return this.manageMembersSection
-      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.MANAGE_MEMBERS_SECTION)
       .$$(SELECTORS.ADD_PARTICIPANT_BUTTON);
   }
 
@@ -94,14 +94,14 @@ export default class ManageMembers extends UplinkMainScreen {
 
   get friendsGroup() {
     return this.manageMembersSection
-      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.MANAGE_MEMBERS_SECTION)
       .$(SELECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIENDS_GROUP);
   }
 
   get friendsList() {
     return this.manageMembersSection
-      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.MANAGE_MEMBERS_SECTION)
       .$(SELECTORS.FRIENDS_LIST);
   }
 
@@ -189,7 +189,7 @@ export default class ManageMembers extends UplinkMainScreen {
 
   get removeParticipantButton() {
     return this.manageMembersSection
-      .$(SELECTORS.EDIT_GROUP_SECTION)
+      .$(SELECTORS.MANAGE_MEMBERS_SECTION)
       .$$(SELECTORS.REMOVE_PARTICIPANT_BUTTON);
   }
 
@@ -249,8 +249,8 @@ export default class ManageMembers extends UplinkMainScreen {
   }
 
   async getParticipantsList() {
-    const participants = await $(SELECTORS.EDIT_GROUP_MODAL)
-      .$(SELECTORS.EDIT_GROUP_SECTION)
+    const participants = await $(SELECTORS.MANAGE_MEMBERS_MODAL)
+      .$(SELECTORS.MANAGE_MEMBERS_SECTION)
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER);
     let results = [];
@@ -268,16 +268,16 @@ export default class ManageMembers extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator;
     if (currentDriver === MACOS_DRIVER) {
-      locator = await $(SELECTORS.EDIT_GROUP_MODAL)
-        .$(SELECTORS.EDIT_GROUP_SECTION)
+      locator = await $(SELECTORS.MANAGE_MEMBERS_MODAL)
+        .$(SELECTORS.MANAGE_MEMBERS_SECTION)
         .$(
           '//XCUIElementTypeGroup[@label="Friend Container"]/XCUIElementTypeGroup/XCUIElementTypeStaticText[contains(@value, "' +
             participant +
             '")]/../..',
         );
     } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = await $(SELECTORS.EDIT_GROUP_MODAL)
-        .$(SELECTORS.EDIT_GROUP_SECTION)
+      locator = await $(SELECTORS.MANAGE_MEMBERS_MODAL)
+        .$(SELECTORS.MANAGE_MEMBERS_SECTION)
         .$(
           '//Group[@Name="Friend Container"]/Group/Text[contains(@Name, "' +
             participant +

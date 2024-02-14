@@ -90,7 +90,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get closeRenameGroupButton() {
-    return this.groupNameInput.$(SELECTORS.CLOSE_RENAME_GROUP_BUTTON);
+    return $(SELECTORS.CLOSE_RENAME_GROUP_BUTTON);
   }
 
   get contextMenu() {
