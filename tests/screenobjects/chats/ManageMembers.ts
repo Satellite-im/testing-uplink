@@ -10,13 +10,10 @@ const SELECTORS_WINDOWS = {
   ADD_MEMBERS: '[name="edit-group-add-members"]',
   ADD_PARTICIPANT_BUTTON: '[name="Add"]',
   CURRENT_MEMBERS: '[name="edit-group-remove-members"]',
-  EDIT_GROUP_MODAL: '[name="modal"]',
-  EDIT_GROUP_SECTION: '[name="edit-group"]',
   FRIENDS_GROUP: '[name="friend-group"]',
   FRIENDS_LIST: '[name="friends-list"]',
-  GROUP_NAME_INPUT: '[name="groupname-input"]',
-  GROUP_NAME_INPUT_ERROR: '[name="input-error"]',
-  GROUP_NAME_INPUT_ERROR_TEXT: "<Text>",
+  MANAGE_MEMBERS_MODAL: '[name="modal"]',
+  MANAGE_MEMBERS_SECTION: '[name="edit-members"]',
   NOTHING_HERE_TEXT: '//Text[starts-with(@Name, "Nothing")]',
   PARTICIPANT_USER_CONTAINER: '[name="Friend Container"]',
   PARTICIPANT_USER_CREATOR_BADGE_IMAGE: "<Image>",
@@ -40,13 +37,10 @@ const SELECTORS_MACOS = {
   ADD_PARTICIPANT_BUTTON: "~Add",
   CURRENT_MEMBERS: "~edit-group-remove-members",
   CURRENT_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  EDIT_GROUP_MODAL: "~modal",
-  EDIT_GROUP_SECTION: "~edit-group",
   FRIENDS_GROUP: "~friend-group",
   FRIENDS_LIST: "~friends-list",
-  GROUP_NAME_INPUT: "~groupname-input",
-  GROUP_NAME_INPUT_ERROR: "~input-error",
-  GROUP_NAME_INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  MANAGE_MEMBERS_MODAL: "~modal",
+  MANAGE_MEMBERS_SECTION: "~edit-members",
   NOTHING_HERE_TEXT: '//XCUIElementTypeStaticText[@value="Nothing Here..."]',
   PARTICIPANT_USER_CONTAINER: "~Friend Container",
   PARTICIPANT_USER_CREATOR_BADGE_IMAGE:
@@ -71,136 +65,122 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class EditGroup extends UplinkMainScreen {
+export default class ManageMembers extends UplinkMainScreen {
   constructor() {
-    super(SELECTORS.EDIT_GROUP_MODAL);
+    super(SELECTORS.MANAGE_MEMBERS_MODAL);
   }
 
   get addMembers() {
-    return this.editGroupSection.$(SELECTORS.ADD_MEMBERS);
+    return this.manageMembersSection.$(SELECTORS.ADD_MEMBERS);
   }
 
   get addParticipantButton() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$$(SELECTORS.ADD_PARTICIPANT_BUTTON);
   }
 
   get currentMembers() {
-    return this.editGroupSection.$(SELECTORS.CURRENT_MEMBERS);
+    return this.manageMembersSection.$(SELECTORS.CURRENT_MEMBERS);
   }
 
-  get editGroupModal() {
-    return $(SELECTORS.EDIT_GROUP_MODAL);
+  get manageMembersModal() {
+    return $(SELECTORS.MANAGE_MEMBERS_MODAL);
   }
 
-  get editGroupSection() {
-    return this.editGroupModal.$(SELECTORS.EDIT_GROUP_SECTION);
+  get manageMembersSection() {
+    return this.manageMembersModal.$(SELECTORS.MANAGE_MEMBERS_SECTION);
   }
 
   get friendsGroup() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$(SELECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIENDS_GROUP);
   }
 
   get friendsList() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$(SELECTORS.FRIENDS_LIST);
   }
 
-  get groupNameInput() {
-    return $(SELECTORS.GROUP_NAME_INPUT);
-  }
-
-  get groupNameInputError() {
-    return $(SELECTORS.GROUP_NAME_INPUT_ERROR);
-  }
-
-  get groupNameInputErrorText() {
-    return $(SELECTORS.GROUP_NAME_INPUT_ERROR).$(
-      SELECTORS.GROUP_NAME_INPUT_ERROR_TEXT,
-    );
-  }
-
   get nothingHereText() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$(SELECTORS.NOTHING_HERE_TEXT);
   }
 
   get participantUserContainer() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER);
   }
 
   get participantUserCreatorBadgeImage() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE);
   }
   get participantUserCreatorBadgeText() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT);
   }
 
   get participantUserImage() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE);
   }
 
   get participantUserImageProfile() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE_PROFILE);
   }
 
   get participantUserImageWrap() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE_WRAP);
   }
 
   get participantUserIndicator() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR);
   }
 
   get participantUserIndicatorOffline() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR_OFFLINE);
   }
 
   get participantUserIndicatorOnline() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE);
   }
 
   get participantUserName() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_NAME);
   }
 
   get participantUserNameText() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_NAME)
@@ -208,32 +188,22 @@ export default class EditGroup extends UplinkMainScreen {
   }
 
   get removeParticipantButton() {
-    return this.editGroupSection
+    return this.manageMembersSection
       .$(SELECTORS.EDIT_GROUP_SECTION)
       .$$(SELECTORS.REMOVE_PARTICIPANT_BUTTON);
   }
 
   get topbar() {
-    return this.editGroupSection.$(SELECTORS.TOPBAR);
+    return this.manageMembersSection.$(SELECTORS.TOPBAR);
   }
 
   get userInput() {
-    return this.editGroupSection.$(SELECTORS.USER_INPUT);
-  }
-
-  async clearGroupNameInput() {
-    const groupNameInput = await this.groupNameInput;
-    await groupNameInput.setValue("");
+    return this.manageMembersSection.$(SELECTORS.USER_INPUT);
   }
 
   async clearSearchUserInput() {
     const userInput = await this.userInput;
     await userInput.setValue("");
-  }
-
-  async clickOnAddButton() {
-    const addParticipantButton = await this.addParticipantButton;
-    await addParticipantButton.click();
   }
 
   async clickOnAddMembers() {
@@ -255,10 +225,10 @@ export default class EditGroup extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg:
-          "Add friend button from Edit Group was never displayed after 15 seconds",
+          "Add friend button from Manage Members was never displayed after 15 seconds",
       },
     );
-    await firstAddButton.click();
+    await firstAddButton?.click();
   }
 
   async clickOnFirstRemoveButton() {
@@ -272,20 +242,10 @@ export default class EditGroup extends UplinkMainScreen {
       {
         timeout: 15000,
         timeoutMsg:
-          "Remove friend button from Edit Group was never displayed after 15 seconds",
+          "Remove friend button from Manage Members was never displayed after 15 seconds",
       },
     );
-    await removeParticipantButton.click();
-  }
-
-  async clickOnGroupNameInput() {
-    const groupNameInput = await this.groupNameInput;
-    await groupNameInput.click();
-  }
-
-  async clickOnRemoveButton() {
-    const removeParticipantButton = await this.removeParticipantButton;
-    await removeParticipantButton.click();
+    await removeParticipantButton?.click();
   }
 
   async getParticipantsList() {
@@ -329,17 +289,19 @@ export default class EditGroup extends UplinkMainScreen {
 
   async getParticipantIndicator(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
-    const indicator = await userLocator.$(SELECTORS.PARTICIPANT_USER_INDICATOR);
-    await indicator.waitForExist();
+    const indicator = await userLocator?.$(
+      SELECTORS.PARTICIPANT_USER_INDICATOR,
+    );
+    await indicator?.waitForExist();
     return indicator;
   }
 
   async getParticipantIndicatorOffline(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
-    const indicatorOffline = await userLocator.$(
+    const indicatorOffline = await userLocator?.$(
       SELECTORS.PARTICIPANT_USER_INDICATOR_OFFLINE,
     );
-    await indicatorOffline.waitForExist();
+    await indicatorOffline?.waitForExist();
     return indicatorOffline;
   }
 
@@ -347,16 +309,18 @@ export default class EditGroup extends UplinkMainScreen {
     const userLocator = await this.getParticipantContainerLocator(participant);
     await driver.waitUntil(
       async () => {
-        return await userLocator.$(SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE);
+        return await userLocator?.$(
+          SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE,
+        );
       },
       {
         timeout: 15000,
         timeoutMsg:
-          "Expected indicator online was never displayed on Edit Group Users List after 15 seconds",
+          "Expected indicator online was never displayed on Manage Members Users List after 15 seconds",
       },
     );
 
-    const indicatorOnline = await userLocator.$(
+    const indicatorOnline = await userLocator?.$(
       SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE,
     );
     return indicatorOnline;
@@ -364,55 +328,45 @@ export default class EditGroup extends UplinkMainScreen {
 
   async getParticipantUserCreatorBadgeImage(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
-    const badgeImage = await userLocator.$(
+    const badgeImage = await userLocator?.$(
       SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE,
     );
-    await badgeImage.waitForExist();
+    await badgeImage?.waitForExist();
     return badgeImage;
   }
 
   async getParticipantUserCreatorBadgeText(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
-    const badgeText = await userLocator.$(
+    const badgeText = await userLocator?.$(
       SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT,
     );
-    await badgeText.waitForExist();
+    await badgeText?.waitForExist();
     return badgeText;
   }
 
   async getParticipantUserImage(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
-    const userImage = await userLocator.$(SELECTORS.PARTICIPANT_USER_IMAGE);
-    await userImage.waitForExist();
+    const userImage = await userLocator?.$(SELECTORS.PARTICIPANT_USER_IMAGE);
+    await userImage?.waitForExist();
     return userImage;
   }
 
   async getParticipantUserImageProfile(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
-    const userImageProfile = await userLocator.$(
+    const userImageProfile = await userLocator?.$(
       SELECTORS.PARTICIPANT_USER_IMAGE_PROFILE,
     );
-    await userImageProfile.waitForExist();
+    await userImageProfile?.waitForExist();
     return userImageProfile;
   }
 
   async getParticipantUserImageWrap(participant: string) {
     const userLocator = await this.getParticipantContainerLocator(participant);
-    const userImageWrap = await userLocator.$(
+    const userImageWrap = await userLocator?.$(
       SELECTORS.PARTICIPANT_USER_IMAGE_WRAP,
     );
-    await userImageWrap.waitForExist();
+    await userImageWrap?.waitForExist();
     return userImageWrap;
-  }
-
-  async typeOnGroupNameInput(name: string) {
-    const groupNameInput = await this.groupNameInput;
-    await groupNameInput.clearValue();
-    await groupNameInput.setValue(name);
-    const currentValue = await groupNameInput.getText();
-    if (currentValue !== name) {
-      await this.typeOnGroupNameInput(name);
-    }
   }
 
   async typeOnSearchUserInput(username: string) {
@@ -426,22 +380,12 @@ export default class EditGroup extends UplinkMainScreen {
     }
   }
 
-  async validateEditGroupIsShown() {
-    const editGroupSection = await this.editGroupSection;
-    await editGroupSection.waitForExist();
+  async validateManageMembersIsShown() {
+    const manageMembers = await this.manageMembersSection;
+    await manageMembers.waitForExist();
   }
 
-  async validateEditGroupInputErrorIsShown() {
-    const groupNameInputError = await this.groupNameInputError;
-    await groupNameInputError.waitForExist();
-  }
-
-  async validateEditGroupNameInputIsShown() {
-    const groupNameInput = await this.groupNameInput;
-    await groupNameInput.waitForExist();
-  }
-
-  async validateEditGroupUserInputIsShown() {
+  async validateManageMembersUserInputIsShown() {
     const userInput = await this.userInput;
     await userInput.waitForExist();
   }

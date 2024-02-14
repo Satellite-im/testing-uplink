@@ -413,6 +413,16 @@ export async function selectFileOnMacos(relativePath: string) {
   await openPanel.waitForExist({ reverse: true });
 }
 
+export async function leftClickOnMacOS(locator: WebdriverIO.Element) {
+  const elementId = await locator.elementId;
+  await driver.executeScript("macos: hover", [
+    {
+      elementId: elementId,
+    },
+  ]);
+  await mouse.click(Button.LEFT);
+}
+
 export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
   const elementId = await locator.elementId;
   await driver.executeScript("macos: rightClick", [
@@ -427,6 +437,11 @@ export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
 
 export async function hoverOnWindows(locator: WebdriverIO.Element) {
   await driver.moveToElement(locator.elementId);
+}
+
+export async function leftClickOnWindows(locator: WebdriverIO.Element) {
+  await driver.moveToElement(locator.elementId);
+  await mouse.click(Button.LEFT);
 }
 
 export async function rightClickOnWindows(locator: WebdriverIO.Element) {

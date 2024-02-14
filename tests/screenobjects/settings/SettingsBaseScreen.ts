@@ -164,15 +164,4 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
     const profileButton = await this.profileButton;
     await profileButton.click();
   }
-
-  async getToggleState(element: WebdriverIO.Element) {
-    const currentDriver = await this.getCurrentDriver();
-    let toggleState;
-    if (currentDriver === MACOS_DRIVER) {
-      toggleState = await element.getAttribute("value");
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      toggleState = await element.getAttribute("Toggle.ToggleState");
-    }
-    return toggleState;
-  }
 }

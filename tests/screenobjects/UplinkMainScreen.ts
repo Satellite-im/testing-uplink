@@ -21,6 +21,7 @@ const SELECTORS_WINDOWS = {
   FILES_BUTTON: '[name="files-button"]',
   FRIENDS_BUTTON: '[name="friends-button"]',
   HAMBURGER_BUTTON: '[name="hamburger-button"]',
+  MODAL: '[name="modal"]',
   PRE_RELEASE_INDICATOR_TEXT: "<Text>",
   SETTINGS_BUTTON: '[name="settings-button"]',
   SKELETAL_USER: '[name="skeletal-user"]',
@@ -49,6 +50,7 @@ const SELECTORS_MACOS = {
   FILES_BUTTON: "~files-button",
   FRIENDS_BUTTON: "~friends-button",
   HAMBURGER_BUTTON: "~hamburger-button",
+  MODAL: "~modal",
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
   SKELETAL_USER: "~skeletal-user",
@@ -134,6 +136,10 @@ export default class UplinkMainScreen extends AppScreen {
 
   get hamburgerButton() {
     return $(SELECTORS.HAMBURGER_BUTTON);
+  }
+
+  get modal() {
+    return $(SELECTORS.MODAL);
   }
 
   get prereleaseIndicator() {
@@ -304,5 +310,24 @@ export default class UplinkMainScreen extends AppScreen {
     const window = await this.window;
     await window.click();
     await window.waitForExist();
+  }
+
+  // Get Toggle Value
+
+  async getToggleState(element: WebdriverIO.Element) {
+    const currentDriver = await this.getCurrentDriver();
+    let toggleState;
+    if (currentDriver === MACOS_DRIVER) {
+      toggleState = await element.getAttribute("value");
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      toggleState = await element.getAttribute("Toggle.ToggleState");
+    }
+    return toggleState;
+  }
+
+  async validateNoModalIsOpen() {
+    await this.modal.waitForExist({
+      reverse: true,
+    });
   }
 }

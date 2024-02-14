@@ -1,20 +1,36 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
+import {
+  leftClickOnMacOS,
+  leftClickOnWindows,
+  rightClickOnMacOS,
+  rightClickOnWindows,
+} from "@helpers/commands";
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
+  CLOSE_RENAME_GROUP_BUTTON: '[name="close-rename-group"]',
+  CONTEXT_MENU: '[name="Context Menu"]',
+  CONTEXT_MENU_CLOSE_CHAT: '[name="close-chat-context-option"]',
+  CONTEXT_MENU_GROUP_SETTINGS: '[name="group-settings-context-option"]',
+  CONTEXT_MENU_MANAGE_MEMBERS: '[name="manage-members-context-option"]',
+  CONTEXT_MENU_RENAME_GROUP: '[name="rename-group-context-option"]',
+  GROUP_NAME_INPUT: '[name="groupname-input"]',
+  GROUP_NAME_INPUT_ERROR: '[name="input-error"]',
+  GROUP_NAME_INPUT_ERROR_TEXT: "<Text>",
   TOOLTIP: '[name="tooltip"]',
   TOOLTIP_TEXT: "//Group/Text",
   TOPBAR: '[name="Topbar"]',
   TOPBAR_ADD_TO_FAVORITES: '[name="Favorites"]',
   TOPBAR_CALL: '[name="Call"]',
-  TOPBAR_EDIT_GROUP: '[name="edit-group"]',
+  TOPBAR_GROUP_SETTINGS: '[name="group-settings"]',
   TOPBAR_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
   TOPBAR_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   TOPBAR_INDICATOR_ONLINE: '[name="indicator-online"]',
+  TOPBAR_MANAGE_MEMBERS: '[name="edit-group-members"]',
   TOPBAR_PINNED_MESSAGES: '[name="pin-label"]',
   TOPBAR_REMOVE_FROM_FAVORITES: '[name="Remove from Favorites"]',
   TOPBAR_USER_IMAGE: '[name="User Image"]',
@@ -29,18 +45,28 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  CLOSE_RENAME_GROUP_BUTTON: "~close-rename-group",
+  CONTEXT_MENU: "~Context Menu",
+  CONTEXT_MENU_CLOSE_CHAT: "~close-chat-context-option",
+  CONTEXT_MENU_GROUP_SETTINGS: "~group-settings-context-option",
+  CONTEXT_MENU_MANAGE_MEMBERS: "~manage-members-context-option",
+  CONTEXT_MENU_RENAME_GROUP: "~rename-group-context-option",
+  GROUP_NAME_INPUT: "~groupname-input",
+  GROUP_NAME_INPUT_ERROR: "~input-error",
+  GROUP_NAME_INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   TOOLTIP: "~tooltip",
   TOOLTIP_TEXT:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   TOPBAR: "~Topbar",
   TOPBAR_ADD_TO_FAVORITES: "~Favorites",
   TOPBAR_CALL: "~Call",
-  TOPBAR_EDIT_GROUP:
-    '-ios class chain:**/XCUIElementTypeButton[`label == "edit-group"`]',
+  TOPBAR_GROUP_SETTINGS: "~group-settings",
   TOPBAR_INDICATOR: "",
   TOPBAR_INDICATOR_OFFLINE:
     '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
   TOPBAR_INDICATOR_ONLINE: "~indicator-online",
+  TOPBAR_MANAGE_MEMBERS:
+    '-ios class chain:**/XCUIElementTypeButton[`label == "edit-group-members"`]',
   TOPBAR_PINNED_MESSAGES: "~pin-label",
   TOPBAR_REMOVE_FROM_FAVORITES: "~Remove from Favorites",
   TOPBAR_USER_IMAGE: "~User Image",
@@ -61,6 +87,42 @@ process.env.DRIVER === WINDOWS_DRIVER
 export default class Topbar extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.TOPBAR);
+  }
+
+  get closeRenameGroupButton() {
+    return this.groupNameInput.$(SELECTORS.CLOSE_RENAME_GROUP_BUTTON);
+  }
+
+  get contextMenu() {
+    return this.topbar.$(SELECTORS.CONTEXT_MENU);
+  }
+
+  get contextMenuCloseChat() {
+    return this.contextMenu.$(SELECTORS.CONTEXT_MENU_CLOSE_CHAT);
+  }
+
+  get contextMenuGroupSettings() {
+    return this.contextMenu.$(SELECTORS.CONTEXT_MENU_GROUP_SETTINGS);
+  }
+
+  get contextMenuManageMembers() {
+    return this.contextMenu.$(SELECTORS.CONTEXT_MENU_MANAGE_MEMBERS);
+  }
+
+  get contextMenuRenameGroup() {
+    return this.contextMenu.$(SELECTORS.CONTEXT_MENU_RENAME_GROUP);
+  }
+
+  get groupNameInput() {
+    return this.topbarUserInfo.$(SELECTORS.GROUP_NAME_INPUT);
+  }
+
+  get groupNameInputError() {
+    return $(SELECTORS.GROUP_NAME_INPUT_ERROR);
+  }
+
+  get groupNameInputErrorText() {
+    return this.groupNameInputError.$(SELECTORS.GROUP_NAME_INPUT_ERROR_TEXT);
   }
 
   get topbar() {
@@ -91,16 +153,8 @@ export default class Topbar extends UplinkMainScreen {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get topbarEditGroup() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_EDIT_GROUP);
-  }
-
-  get topbarEditGroupTooltip() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
-  }
-
-  get topbarEditGroupTooltipText() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+  get topbarGroupSettings() {
+    return this.topbar.$(SELECTORS.TOPBAR_GROUP_SETTINGS);
   }
 
   get topbarIndicator() {
@@ -113,6 +167,18 @@ export default class Topbar extends UplinkMainScreen {
 
   get topbarIndicatorOnline() {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_ONLINE);
+  }
+
+  get topbarManageMembers() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_MANAGE_MEMBERS);
+  }
+
+  get topbarManageMembersTooltip() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+  }
+
+  get topbarManageMembersTooltipText() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarPinnedMessages() {
@@ -220,22 +286,20 @@ export default class Topbar extends UplinkMainScreen {
     await topbarUserImage.click();
   }
 
-  async exitEditGroup() {
+  async exitManageMembers() {
+    const manageMembersButton = await this.topbarManageMembers;
     const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === WINDOWS_DRIVER) {
-      await this.hoverOnEditGroupButton();
-      const topbarEditGroup = await this.topbarEditGroup;
-      await topbarEditGroup.click();
-    } else if (currentDriver === MACOS_DRIVER) {
-      const editGroupModal = await $("~modal");
-      await editGroupModal.click();
+    if (currentDriver === MACOS_DRIVER) {
+      await leftClickOnMacOS(manageMembersButton);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await leftClickOnWindows(manageMembersButton);
     }
   }
 
-  async openEditGroup() {
-    await this.hoverOnEditGroupButton();
-    const topbarEditGroup = await this.topbarEditGroup;
-    await topbarEditGroup.click();
+  async openManageMembers() {
+    await this.hoverOnManageMembersButton();
+    const manageMembers = await this.topbarManageMembers;
+    await manageMembers.click();
   }
 
   async hoverOnCallButton() {
@@ -243,9 +307,9 @@ export default class Topbar extends UplinkMainScreen {
     await this.hoverOnElement(callButton);
   }
 
-  async hoverOnEditGroupButton() {
-    const editGroupButton = await this.topbarEditGroup;
-    await this.hoverOnElement(editGroupButton);
+  async hoverOnManageMembersButton() {
+    const manageMembers = await this.topbarManageMembers;
+    await this.hoverOnElement(manageMembers);
   }
 
   async hoverOnFavoritesButton() {
@@ -335,5 +399,74 @@ export default class Topbar extends UplinkMainScreen {
         timeoutMsg: "Remote user never shown as online after 15 seconds",
       },
     );
+  }
+
+  // Group Name methods
+
+  async clearGroupNameInput() {
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.setValue("");
+  }
+
+  async clickOnGroupNameInput() {
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.click();
+  }
+
+  async closeGroupNameInput() {
+    const closeRenameGroupButton = await this.closeRenameGroupButton;
+    await closeRenameGroupButton.click();
+  }
+
+  async typeOnGroupNameInput(name: string) {
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.clearValue();
+    await groupNameInput.setValue(name);
+    const currentValue = await groupNameInput.getText();
+    if (currentValue !== name) {
+      await this.typeOnGroupNameInput(name);
+    }
+  }
+
+  async validateGroupNameInputErrorIsShown() {
+    const groupNameInputError = await this.groupNameInputError;
+    await groupNameInputError.waitForExist();
+  }
+
+  async validateGroupNameInputIsShown() {
+    const groupNameInput = await this.groupNameInput;
+    await groupNameInput.waitForExist();
+  }
+
+  // Open Context Menu
+
+  async openNameContextMenu() {
+    const topbarUserStatus = await this.topbarUserStatus;
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await rightClickOnMacOS(topbarUserStatus);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await rightClickOnWindows(topbarUserStatus);
+    }
+  }
+
+  async selectCloseChat() {
+    const closeChat = await this.contextMenuCloseChat;
+    await closeChat.click();
+  }
+
+  async selectGroupSettings() {
+    const groupSettings = await this.contextMenuGroupSettings;
+    await groupSettings.click();
+  }
+
+  async selectManageMembers() {
+    const manageMembers = await this.contextMenuManageMembers;
+    await manageMembers.click();
+  }
+
+  async selectRenameGroup() {
+    const renameGroup = await this.contextMenuRenameGroup;
+    await renameGroup.click();
   }
 }

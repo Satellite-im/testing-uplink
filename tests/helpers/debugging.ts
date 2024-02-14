@@ -1,7 +1,6 @@
 require("module-alias/register");
 import {
-  activateFirstApplication,
-  activateSecondApplication,
+  launchFirstApplication,
   createNewUser,
   getUserKey,
   launchSecondApplication,
@@ -94,8 +93,8 @@ export async function setupBeforeCreateGroupTests() {
   // Wait for toast notification of Profile Updated to not exist
   await settingsGeneral.waitUntilNotificationIsClosed();
 
-  // Click on font scaling minus button
-  await settingsGeneral.settingsGeneral.waitForExist();
+  // Click on font scaling minus
+  await settingsGeneral.validateSettingsGeneralIsShown();
   await settingsGeneral.clickOnFontScalingMinus();
 
   // Go to Notifications Settings and disable all notifications
@@ -110,23 +109,14 @@ export async function setupBeforeCreateGroupTests() {
 
   // Obtain did key from Chat User B
   const friendDidKey = await getUserKey("ChatUserA");
-  await friendsScreen.enterFriendDidKey(friendDidKey);
-  await friendsScreen.clickOnAddSomeoneButton();
+  await friendsScreen.sendFriendRequest(friendDidKey, "ChatUserA");
 
-  // Wait for toast notification to be closed
-  await friendsScreen.waitUntilNotificationIsClosed();
-
-  // Validate friend request appears on pending list
-  await friendsScreen.hoverOnPendingListButton();
-  await friendsScreen.goToPendingFriendsList();
-  await friendsScreen.validateOutgoingListIsShown();
-  await friendsScreen.validateOutgoingListIsNotEmpty();
-
+  // Go to All Friends List
   await friendsScreen.goToAllFriendsList();
   await friendsScreen.validateAllFriendsListIsShown();
 
   // Switch control to User A
-  await activateFirstApplication();
+  await launchFirstApplication();
 
   // With User A - Go to pending requests list, wait for receiving the friend request and accept it
   await friendsScreen.hoverOnPendingListButton();
@@ -144,9 +134,9 @@ export async function setupBeforeCreateGroupTests() {
   await friendsScreen.chatWithFriendButton.click();
 
   // Switch control to User B
-  await activateSecondApplication();
+  await launchSecondApplication();
 
-  // With User A - Go to pending requests list, wait for receiving the friend request and accept it
+  // With User B - Go to pending requests list, wait for receiving the friend request and accept it
   await friendsScreen.waitUntilUserAcceptedFriendRequest();
 
   // Validate friend is now on all friends list
@@ -155,18 +145,6 @@ export async function setupBeforeCreateGroupTests() {
   await friendsScreen.validateAllFriendsListIsNotEmpty();
 
   // Switch control to User A
-  await activateFirstApplication();
+  await launchFirstApplication();
   await chatsTopbar.validateTopbarExists();
-
-  // Switch control to User B
-  await activateSecondApplication();
-
-  // Go to the current list of All friends and then open a Chat conversation with ChatUserA
-  await friendsScreen.chatWithFriendButton.waitForExist();
-  await friendsScreen.hoverOnChatWithFriendButton("ChatUserA");
-  await friendsScreen.chatWithFriendButton.click();
-  await chatsTopbar.validateTopbarExists();
-
-  // Switch control to User A
-  await activateFirstApplication();
 }

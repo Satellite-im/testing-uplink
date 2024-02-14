@@ -1,7 +1,7 @@
 require("module-alias/register");
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "@screenobjects/chats/ContextMenuSidebar";
-import EditGroup from "@screenobjects/chats/EditGroup";
+import ManageMembers from "@screenobjects/chats/ManageMembers";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
@@ -16,7 +16,7 @@ const chatsInput = new InputBar();
 const chatsSidebar = new ChatsSidebar();
 const chatsTopbar = new Topbar();
 const contextMenuSidebar = new ContextMenuSidebar();
-const editGroup = new EditGroup();
+const manageMembers = new ManageMembers();
 const favoritesSidebar = new FavoritesSidebar();
 const filesScreen = new FilesScreen();
 const friendsScreen = new FriendsScreen();
@@ -124,29 +124,30 @@ export default async function groupChatSidebarTests() {
 
     // Validate topbar contents has correct name
     const topbarUserName = await chatsTopbar.topbarUserNameValue;
-    await expect(topbarUserName).toHaveTextContaining("X");
+    await expect(topbarUserName).toHaveText("X");
 
     // Validate topbar contents has correct number of participants
     const topbarUserStatus = await chatsTopbar.topbarUserStatusValue;
-    await expect(topbarUserStatus).toHaveTextContaining("Members (1)");
+    await expect(topbarUserStatus).toHaveText("Members (1)");
   });
 
   it("Group Chat - Add Chat User B again to the group", async () => {
-    // Go to Edit Group and then add again Chat User B to the group
-    await chatsTopbar.openEditGroup();
-    await editGroup.validateEditGroupIsShown();
-    await editGroup.clickOnAddMembers();
-    await editGroup.typeOnSearchUserInput("ChatUserB");
-    await editGroup.clickOnFirstAddButton();
-    await editGroup.validateNothingHereIsDisplayed();
+    // Go to Manage Members and then add again Chat User B to the group
+    await chatsTopbar.openManageMembers();
+    await manageMembers.validateManageMembersIsShown();
+    await manageMembers.clickOnAddMembers();
+    await manageMembers.typeOnSearchUserInput("ChatUserB");
+    await manageMembers.clickOnFirstAddButton();
+    await manageMembers.validateNothingHereIsDisplayed();
 
-    // Validate topbar contents has correct number of participants
-    await chatsTopbar.exitEditGroup();
+    // Close Manage Members and validate topbar contents has correct number of participants
+    await chatsTopbar.exitManageMembers();
+    await chatsSidebar.validateNoModalIsOpen();
     await chatsTopbar.validateTopbarExists();
 
     // Validate topbar contents has correct number of participants
     const topbarUserStatus = await chatsTopbar.topbarUserStatusValue;
-    await expect(topbarUserStatus).toHaveTextContaining("Members (2)");
+    await expect(topbarUserStatus).toHaveText("Members (2)");
   });
 
   it("Group Chat - Ensure in remote side that user was added again to the group", async () => {
@@ -162,7 +163,7 @@ export default async function groupChatSidebarTests() {
 
     // Validate topbar contents has correct name
     const topbarUserName = await chatsTopbar.topbarUserNameValue;
-    await expect(topbarUserName).toHaveTextContaining("X");
+    await expect(topbarUserName).toHaveText("X");
   });
 
   it("Group Chat - Sidebar - Delete group", async () => {
