@@ -9,6 +9,8 @@ import InputBar from "@screenobjects/chats/InputBar";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
 import Topbar from "@screenobjects/chats/Topbar";
 import {
+  closeFirstApplication,
+  closeSecondApplication,
   launchFirstApplication,
   launchSecondApplication,
   loginWithTestUser,
@@ -24,9 +26,16 @@ const friendsScreen = new FriendsScreen();
 const messageLocal = new MessageLocal();
 
 export default async function groupChatSidebarTests() {
+  before(async () => {
+    await closeSecondApplication();
+    await closeFirstApplication();
+    await launchFirstApplication();
+    await loginWithTestUser();
+  });
+
   it("Group Chat - Add group to favorites", async () => {
     // Return control of execution to User A and leave Participants List screen
-    await launchFirstApplication();
+    await chatsSidebar.goToSidebarGroupChat("X");
     await chatsTopbar.clickOnTopbar();
 
     // Click on Favorites button for Group Chat
@@ -56,6 +65,8 @@ export default async function groupChatSidebarTests() {
   it("Group Chat - Send message to the group with User B", async () => {
     // Switch test execution control to User B and send message to the group
     await launchSecondApplication();
+    await loginWithTestUser();
+    await chatsSidebar.goToSidebarGroupChat("X");
     await chatsInput.typeMessageOnInput("HelloGroup");
     await chatsInput.clickOnSendMessage();
     await messageLocal.waitForMessageSentToExist("HelloGroup");
@@ -174,7 +185,6 @@ export default async function groupChatSidebarTests() {
   it("Group Chat - Sidebar - Delete group", async () => {
     // Switch execution to User A and delete the group
     await launchFirstApplication();
-    await loginWithTestUser();
     await chatsSidebar.openContextMenuOnGroupChat("X");
     await contextMenuSidebar.selectChatsDeleteGroup();
 
