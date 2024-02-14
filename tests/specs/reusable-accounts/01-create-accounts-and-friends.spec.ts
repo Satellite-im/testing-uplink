@@ -162,7 +162,7 @@ export default async function createChatAccountsTests() {
     await friendsScreen.validateAllFriendsListIsNotEmpty();
 
     // Go to Chat with User B
-    await friendsScreen.chatWithFriendButton.click();
+    await friendsScreen.goToChatWithFriend();
   });
 
   it("Chat User B - Validate friend request was accepted", async () => {

@@ -37,7 +37,7 @@ export default async function quickProfileTests() {
   it("Chat User A - Click on Edit Profile", async () => {
     // Click on Edit Profile from Quick Profile
     await chatsQuickProfile.clickOnEditProfile();
-    await settingsProfile.validateSettingsProfileIsShown();
+    await settingsProfile.waitForIsShown(true);
     await settingsProfile.goToMainScreen();
   });
 
