@@ -406,16 +406,4 @@ export default class ManageMembers extends UplinkMainScreen {
       },
     );
   }
-
-  async validateManageMembersIsNotDisplayed() {
-    await driver.waitUntil(
-      async () => {
-        return await this.manageMembersModal.waitForExist({ reverse: true });
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Manage Members Modal is still displayed after 15 seconds",
-      },
-    );
-  }
 }

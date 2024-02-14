@@ -1,7 +1,12 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
-import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
+import {
+  leftClickOnMacOS,
+  leftClickOnWindows,
+  rightClickOnMacOS,
+  rightClickOnWindows,
+} from "@helpers/commands";
 let SELECTORS = {};
 
 const SELECTORS_COMMON = {};
@@ -113,7 +118,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get groupNameInputError() {
-    return this.$(SELECTORS.GROUP_NAME_INPUT_ERROR);
+    return $(SELECTORS.GROUP_NAME_INPUT_ERROR);
   }
 
   get groupNameInputErrorText() {
@@ -279,6 +284,16 @@ export default class Topbar extends UplinkMainScreen {
   async clickOnTopbarUserImage() {
     const topbarUserImage = await this.topbarUserImage;
     await topbarUserImage.click();
+  }
+
+  async exitManageMembers() {
+    const manageMembersButton = await this.topbarManageMembers;
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await leftClickOnMacOS(manageMembersButton);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await leftClickOnWindows(manageMembersButton);
+    }
   }
 
   async openManageMembers() {

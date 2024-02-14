@@ -30,8 +30,8 @@ export default async function groupChatEditTests() {
     await manageMembers.validateManageMembersUserInputIsShown();
 
     // Close Manage Members modal
-    await chatsTopbar.clickOnPinnedMessages();
-    await manageMembers.validateManageMembersIsNotDisplayed();
+    await chatsTopbar.exitManageMembers();
+    await chatsSidebar.validateNoModalIsOpen();
   });
 
   it("Group Chat Creator - Attempt to change Group Name for a name containing non-alphanumeric characters", async () => {
@@ -115,8 +115,8 @@ export default async function groupChatEditTests() {
     await manageMembers.validateNothingHereIsDisplayed();
 
     // Close Manage Members modal
-    await chatsTopbar.clickOnPinnedMessages();
-    await manageMembers.validateManageMembersIsNotDisplayed();
+    await chatsTopbar.exitManageMembers();
+    await chatsSidebar.validateNoModalIsOpen();
     await chatsTopbar.validateTopbarExists();
 
     const topbarUserStatus = chatsTopbar.topbarUserStatusValue;
@@ -154,8 +154,8 @@ export default async function groupChatEditTests() {
     await manageMembers.validateNothingHereIsDisplayed();
 
     // Close Manage Members modal
-    await chatsTopbar.clickOnPinnedMessages();
-    await manageMembers.validateManageMembersIsNotDisplayed();
+    await chatsTopbar.exitManageMembers();
+    await chatsSidebar.validateNoModalIsOpen();
     await chatsTopbar.validateTopbarExists();
 
     // Validate topbar contents has correct number of participants

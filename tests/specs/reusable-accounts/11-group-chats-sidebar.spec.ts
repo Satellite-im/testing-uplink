@@ -141,8 +141,8 @@ export default async function groupChatSidebarTests() {
     await manageMembers.validateNothingHereIsDisplayed();
 
     // Close Manage Members and validate topbar contents has correct number of participants
-    await chatsTopbar.clickOnPinnedMessages();
-    await manageMembers.validateManageMembersIsNotDisplayed();
+    await chatsTopbar.exitManageMembers();
+    await chatsSidebar.validateNoModalIsOpen();
     await chatsTopbar.validateTopbarExists();
 
     // Validate topbar contents has correct number of participants
