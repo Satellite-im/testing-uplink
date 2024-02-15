@@ -2,8 +2,10 @@ require("module-alias/register");
 import { sendCustomKeybinds } from "@helpers/commands";
 import { MACOS_DRIVER } from "@helpers/constants";
 import SettingsExtensionsScreen from "@screenobjects/settings/SettingsExtensionsScreen";
+import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
 import SettingsKeybindsScreen from "@screenobjects/settings/SettingsKeybindsScreen";
 const settingsExtensions = new SettingsExtensionsScreen();
+const settingsGeneral = new SettingsGeneralScreen();
 const settingsKeybinds = new SettingsKeybindsScreen();
 
 export default async function settingsKeybindsTests() {
@@ -190,5 +192,52 @@ export default async function settingsKeybindsTests() {
       "SHIFT",
       "U",
     ]);
+  });
+
+  it("Keybind Shortcuts - Validate default keybinds for Increase/Decrease Font Size are working", async () => {
+    // Go to General Settings to validate Increase Font Size Keybind
+    await settingsKeybinds.goToGeneralSettings();
+    await settingsGeneral.waitForIsShown(true);
+
+    // Press Ctrl + Shift + = to increase font size from 0.75 to 1.0
+    await sendCustomKeybinds(4, 7, 73);
+    const valueAfterIncreasing = await settingsGeneral.fontScalingValue;
+    await expect(valueAfterIncreasing).toHaveText("1");
+
+    // Press Ctrl + Shift + Minus to decrease font size from 1.0 to 0.75
+    await sendCustomKeybinds(4, 7, 72);
+    const valueAfterDecreasing = await settingsGeneral.fontScalingValue;
+    await expect(valueAfterDecreasing).toHaveText("0.75");
+
+    // Go back to Keybinds Settings
+    await settingsGeneral.goToKeyboardShortcutsSettings();
+    await settingsKeybinds.waitForIsShown(true);
+  });
+
+  // Skipping because it is work in progress
+  xit("Keybind Shortcuts - Validate default keybind for Open/Close Web Inspector is working", async () => {
+    // Press Ctrl + Shift + I to Open Web Inspector
+    await sendCustomKeybinds(4, 7, 53);
+
+    // Press Ctrl + Shift + I to Close Web Inspector
+    await sendCustomKeybinds(4, 7, 53);
+  });
+
+  // Skipping because it is work in progress
+  xit("Keybind Shortcuts - Validate default keybind for Developer Mode is working", async () => {
+    // Press Ctrl + Shift + I to Open Developer Mode
+    await sendCustomKeybinds(4, 7, 48);
+
+    // Press Ctrl + Shift + I to Close Developer Mode
+    await sendCustomKeybinds(4, 7, 48);
+  });
+
+  // Skipping because it is work in progress
+  xit("Keybind Shortcuts - Validate default keybind for Hide/Focus Uplink is working", async () => {
+    // Press Ctrl + Shift + U to Hide Uplink
+    await sendCustomKeybinds(4, 7, 48);
+
+    // Press Ctrl + Shift + U to Focus Uplink
+    await sendCustomKeybinds(4, 7, 48);
   });
 }
