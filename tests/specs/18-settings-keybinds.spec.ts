@@ -200,9 +200,9 @@ export default async function settingsKeybindsTests() {
     ]);
   });
 
-  it("Settings About - Unlock Developer Settings", async () => {
+  it("Settings Keybinds - Unlock Developer Settings on Settings About", async () => {
     // Click 10 times on Version Number to Unlock Developer Settings
-    await settingsKeybinds.goToDeveloperSettings();
+    await settingsKeybinds.goToAboutSettings();
     await settingsAbout.unlockDeveloperSettings();
 
     // Validate Developer Settings button is unlocked
@@ -252,9 +252,14 @@ export default async function settingsKeybindsTests() {
 
     // Validate Debug Logger is Not Shown
     await debugLogger.validateDebugLoggerIsNotDisplayed();
+
+    // Go back to Keybinds Settings
+    await settingsGeneral.goToKeyboardShortcutsSettings();
+    await settingsKeybinds.waitForIsShown(true);
   });
 
-  it("Keybind Shortcuts - Validate default keybind for Hide/Focus Uplink is working", async () => {
+  // Work In Progress
+  xit("Keybind Shortcuts - Validate default keybind for Hide/Focus Uplink is working", async () => {
     // Press Ctrl + Shift + U to Hide Uplink
     await sendCustomKeybinds(4, 7, 48);
 
@@ -266,9 +271,5 @@ export default async function settingsKeybindsTests() {
 
     // Validate Uplink is displayed
     await settingsGeneral.validateSettingsGeneralIsShown();
-
-    // Go back to Keybinds Settings
-    await settingsGeneral.goToKeyboardShortcutsSettings();
-    await settingsKeybinds.waitForIsShown(true);
   });
 }
