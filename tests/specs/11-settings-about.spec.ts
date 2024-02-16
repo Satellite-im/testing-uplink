@@ -56,13 +56,4 @@ export default async function settingsAboutTests() {
   xit("Settings About - Click on Open Source Code", async () => {
     await settingsAbout.clickOnOpenSourceCode();
   });
-
-  it("Settings About - Unlock Developer Settings", async () => {
-    // Click 10 times on Version Number to Unlock Developer Settings
-    await settingsAbout.unlockDeveloperSettings();
-
-    // Validate Developer Settings button is unlocked
-    const developerSettingsButton = await settingsAbout.developerButton;
-    await developerSettingsButton.waitForDisplayed();
-  });
 }

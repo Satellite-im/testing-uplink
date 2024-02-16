@@ -116,4 +116,13 @@ export default class DebugLogger extends UplinkMainScreen {
   get webInspectorButton() {
     return this.debugLoggerNav.$(SELECTORS.WEB_INSPECTOR_BUTTON);
   }
+
+  async validateDebugLoggerIsDisplayed() {
+    const debugLogger = this.debugLogger;
+    await debugLogger.waitForExist();
+  }
+
+  async validateDebugLoggerIsNotDisplayed() {
+    await this.debugLogger.waitForExist({ reverse: true });
+  }
 }

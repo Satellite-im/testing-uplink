@@ -398,4 +398,8 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
     const settingsGeneral = await this.settingsGeneral;
     await settingsGeneral.waitForExist();
   }
+
+  async validateSettingsGeneralIsNotShown() {
+    await this.settingsGeneral.waitForDisplayed({ reverse: true });
+  }
 }
