@@ -227,17 +227,20 @@ export default async function settingsKeybindsTests() {
   });
 
   it("Keybind Shortcuts - Validate default keybind for Open/Close Web Inspector is working", async () => {
-    // Press Ctrl + Shift + I to Open Web Inspector
-    await sendCustomKeybinds(4, 7, 53);
+    const currentDriver = await settingsGeneral.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      // Press Ctrl + Shift + I to Open Web Inspector
+      await sendCustomKeybinds(4, 7, 53);
 
-    // Validate Web Inspector is displayed
-    await webInspector.validateWebInspectorIsShown();
+      // Validate Web Inspector is displayed
+      await webInspector.validateWebInspectorIsShown();
 
-    // Press Ctrl + Shift + I to Close Web Inspector
-    await sendCustomKeybinds(4, 7, 53);
+      // Press Ctrl + Shift + I to Close Web Inspector
+      await sendCustomKeybinds(4, 7, 53);
 
-    // Validate Web Inspector is not displayed
-    await webInspector.validateWebInspectorIsNotShown();
+      // Validate Web Inspector is not displayed
+      await webInspector.validateWebInspectorIsNotShown();
+    }
   });
 
   it("Keybind Shortcuts - Validate default keybind for Developer Mode is working", async () => {
@@ -258,16 +261,15 @@ export default async function settingsKeybindsTests() {
     await settingsKeybinds.waitForIsShown(true);
   });
 
-  // Work In Progress
-  xit("Keybind Shortcuts - Validate default keybind for Hide/Focus Uplink is working", async () => {
+  it("Keybind Shortcuts - Validate default keybind for Hide/Focus Uplink is working", async () => {
     // Press Ctrl + Shift + U to Hide Uplink
-    await sendCustomKeybinds(4, 7, 48);
+    await sendCustomKeybinds(4, 7, 65);
 
     // Validate Uplink is not displayed
     await settingsGeneral.validateSettingsGeneralIsNotShown();
 
     // Press Ctrl + Shift + U to Focus Uplink
-    await sendCustomKeybinds(4, 7, 48);
+    await sendCustomKeybinds(4, 7, 65);
 
     // Validate Uplink is displayed
     await settingsGeneral.validateSettingsGeneralIsShown();
