@@ -255,10 +255,6 @@ export default async function settingsKeybindsTests() {
 
     // Validate Debug Logger is Not Shown
     await debugLogger.validateDebugLoggerIsNotDisplayed();
-
-    // Go back to Keybinds Settings
-    await settingsGeneral.goToKeyboardShortcutsSettings();
-    await settingsKeybinds.waitForIsShown(true);
   });
 
   it("Keybind Shortcuts - Validate default keybind for Hide/Focus Uplink is working", async () => {
@@ -273,5 +269,9 @@ export default async function settingsKeybindsTests() {
 
     // Validate Uplink is displayed
     await settingsGeneral.validateSettingsGeneralIsShown();
+
+    // Go back to Keybinds Settings
+    await settingsGeneral.goToKeyboardShortcutsSettings();
+    await settingsKeybinds.waitForIsShown(true);
   });
 }
