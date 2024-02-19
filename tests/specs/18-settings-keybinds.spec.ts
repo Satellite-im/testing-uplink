@@ -292,5 +292,8 @@ export default async function settingsKeybindsTests() {
     // Go back to Keybinds Settings
     await settingsGeneral.goToKeyboardShortcutsSettings();
     await settingsKeybinds.waitForIsShown(true);
+
+    // Maximize Window again
+    await maximizeWindow();
   });
 }
