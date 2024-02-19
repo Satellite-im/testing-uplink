@@ -1,5 +1,5 @@
 require("module-alias/register");
-import { maximizeWindow, saveUserRecoverySeed } from "@helpers/commands";
+import { saveUserRecoverySeed } from "@helpers/commands";
 import CreateOrImportScreen from "@screenobjects/account-creation/CreateOrImportScreen";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
@@ -236,8 +236,5 @@ export default async function createAccountTests() {
     await expect(statusOfButton).toEqual("true");
     await createUser.clickOnCreateAccount();
     await welcomeScreen.waitForIsShown(true);
-
-    // Maximize Window on Execution
-    await maximizeWindow();
   });
 }

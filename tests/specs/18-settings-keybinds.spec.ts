@@ -1,5 +1,5 @@
 require("module-alias/register");
-import { maximizeWindow, sendCustomKeybinds } from "@helpers/commands";
+import { sendCustomKeybinds } from "@helpers/commands";
 import { MACOS_DRIVER } from "@helpers/constants";
 import DebugLogger from "@screenobjects/developer/DebugLogger";
 import SettingsAboutScreen from "@screenobjects/settings/SettingsAboutScreen";
@@ -274,9 +274,6 @@ export default async function settingsKeybindsTests() {
   });
 
   it("Keybind Shortcuts - Validate default keybind for Hide/Focus Uplink is working", async () => {
-    // Stop showing window at full screen
-    await maximizeWindow();
-
     // Press Ctrl + Shift + U to Hide Uplink
     await sendCustomKeybinds(4, 7, 65);
 
@@ -292,8 +289,5 @@ export default async function settingsKeybindsTests() {
     // Go back to Keybinds Settings
     await settingsGeneral.goToKeyboardShortcutsSettings();
     await settingsKeybinds.waitForIsShown(true);
-
-    // Maximize Window again
-    await maximizeWindow();
   });
 }

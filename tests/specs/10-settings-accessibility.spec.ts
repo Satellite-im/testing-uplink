@@ -1,4 +1,5 @@
 require("module-alias/register");
+import { maximizeWindow } from "@helpers/commands";
 import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
 import SettingsKeybindsScreen from "@screenobjects/settings/SettingsKeybindsScreen";
 const settingsAccessibility = new SettingsAccessibilityScreen();
@@ -9,6 +10,7 @@ export default async function settingsAccessibilityTests() {
     // Go to Settings Screen and finally select the Settings Screen to validate
     await settingsKeybinds.goToAccessibilitySettings();
     await settingsAccessibility.waitForIsShown(true);
+    await maximizeWindow();
 
     // Validate texts for Open Dyslexic Settings Section
     const openDyslexicHeader = await settingsAccessibility.openDyslexicHeader;
