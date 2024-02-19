@@ -32,8 +32,8 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_BLOCK: '[name="friends-block"]',
   CONTEXT_MENU_CHAT: '[name="friends-chat"]',
-  CONTEXT_MENU_COPY_DID_KEY: '//Button[@Name="copy-id-context"][2]',
-  CONTEXT_MENU_COPY_ID: '//Button[@Name="copy-id-context"][1]',
+  CONTEXT_MENU_COPY_DID_KEY: "//Button[2]",
+  CONTEXT_MENU_COPY_ID: "//Button[1]",
   CONTEXT_MENU_FAVORITES_ADD: '[name="favorites-add"]',
   CONTEXT_MENU_FAVORITES_REMOVE: '[name="favorites-remove"]',
   CONTEXT_MENU_INCOMING_ACCEPT: '[name="friends-accept"]',
@@ -91,10 +91,8 @@ const SELECTORS_MACOS = {
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_BLOCK: "~friends-block",
   CONTEXT_MENU_CHAT: "~friends-chat",
-  CONTEXT_MENU_COPY_DID_KEY:
-    '-ios class chain:**/XCUIElementTypeButton[`label == "copy-id-context"`][2]',
-  CONTEXT_MENU_COPY_ID:
-    '-ios class chain:**/XCUIElementTypeButton[`label == "copy-id-context"`][1]',
+  CONTEXT_MENU_COPY_DID_KEY: "-ios class chain:**/XCUIElementTypeButton[2]",
+  CONTEXT_MENU_COPY_ID: "-ios class chain:**/XCUIElementTypeButton[1]",
   CONTEXT_MENU_FAVORITES_ADD: "~favorites-add",
   CONTEXT_MENU_FAVORITES_REMOVE: "~favorites-remove",
   CONTEXT_MENU_INCOMING_ACCEPT: "~friends-accept",

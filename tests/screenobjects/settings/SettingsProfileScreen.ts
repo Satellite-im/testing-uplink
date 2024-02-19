@@ -24,8 +24,8 @@ const SELECTORS_WINDOWS = {
   CLEAR_AVATAR_BUTTON: "[name='clear-avatar']",
   CLEAR_BANNER_BUTTON: "[name='clear-banner']",
   CONTEXT_MENU: '[name="Context Menu"]',
-  CONTEXT_MENU_COPY_DID_KEY: '//Button[@Name="copy-id-context"][2]',
-  CONTEXT_MENU_COPY_ID: '//Button[@Name="copy-id-context"][1]',
+  CONTEXT_MENU_COPY_DID_KEY: "//Button[2]",
+  CONTEXT_MENU_COPY_ID: "//Button[1]",
   COPY_ID_BUTTON: '[name="copy-id-button"]',
   DISMISS_BUTTON: '[name="welcome-message-dismiss"]',
   INPUT_ERROR: '[name="input-error"]',
@@ -74,10 +74,8 @@ const SELECTORS_MACOS = {
   CLEAR_AVATAR_BUTTON: "clear-avatar",
   CLEAR_BANNER_BUTTON: "clear-banner",
   CONTEXT_MENU: "~Context Menu",
-  CONTEXT_MENU_COPY_DID_KEY:
-    '-ios class chain:**/XCUIElementTypeButton[`label == "copy-id-context"`][2]',
-  CONTEXT_MENU_COPY_ID:
-    '-ios class chain:**/XCUIElementTypeButton[`label == "copy-id-context"`][1]',
+  CONTEXT_MENU_COPY_DID_KEY: "-ios class chain:**/XCUIElementTypeButton[2]",
+  CONTEXT_MENU_COPY_ID: "-ios class chain:**/XCUIElementTypeButton[1]",
   COPY_ID_BUTTON: "~copy-id-button",
   DISMISS_BUTTON: "~welcome-message-dismiss",
   INPUT_ERROR: "~input-error",
