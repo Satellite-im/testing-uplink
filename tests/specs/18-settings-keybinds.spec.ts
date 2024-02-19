@@ -231,15 +231,15 @@ export default async function settingsKeybindsTests() {
     await settingsAbout.goToGeneralSettings();
     await settingsGeneral.waitForIsShown(true);
 
-    // Press Ctrl + Shift + = to increase font size from 0.75 to 1.0
+    // Press Ctrl + Shift + = to increase font size from 1.0 to 1.25
     await sendCustomKeybinds(4, 7, 73);
     const valueAfterIncreasing = await settingsGeneral.fontScalingValue;
-    await expect(valueAfterIncreasing).toHaveText("1");
+    await expect(valueAfterIncreasing).toHaveText("1.25");
 
-    // Press Ctrl + Shift + Minus to decrease font size from 1.0 to 0.75
+    // Press Ctrl + Shift + Minus to decrease font size from 1.25 to 1.0
     await sendCustomKeybinds(4, 7, 72);
     const valueAfterDecreasing = await settingsGeneral.fontScalingValue;
-    await expect(valueAfterDecreasing).toHaveText("0.75");
+    await expect(valueAfterDecreasing).toHaveText("1");
   });
 
   it("Keybind Shortcuts - Validate default keybind for Open/Close Web Inspector is working", async () => {
