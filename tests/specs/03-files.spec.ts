@@ -1,4 +1,6 @@
 require("module-alias/register");
+import { maximizeWindow } from "@helpers/commands";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
@@ -8,6 +10,12 @@ const friendsScreen = new FriendsScreen();
 
 export default async function filesTests() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
+    // If current driver is Windows, then maximize screen
+    const currentDriver = await friendsScreen.getCurrentDriver();
+    if (currentDriver === WINDOWS_DRIVER) {
+      await maximizeWindow();
+    }
+
     // Go to Files Screen
     await friendsScreen.goToFiles();
     await filesScreen.waitForIsShown(true);
@@ -168,9 +176,7 @@ export default async function filesTests() {
 
     await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
     await expect(filesInfoMaxSizeValue).toHaveTextContaining("GB");
-    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining(
-      "Used Space:",
-    );
+    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining("Used Space:");
     await expect(filesInfoCurrentSizeValue).toHaveTextContaining("0 bytes");
   });
 
@@ -196,9 +202,7 @@ export default async function filesTests() {
       await filesScreen.filesInfoCurrentSizeValue;
     await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
     await expect(filesInfoMaxSizeValue).toHaveTextContaining("GB");
-    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining(
-      "Used Space:",
-    );
+    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining("Used Space:");
     await expect(filesInfoCurrentSizeValue).toHaveTextContaining("13.2 MB");
   });
 
