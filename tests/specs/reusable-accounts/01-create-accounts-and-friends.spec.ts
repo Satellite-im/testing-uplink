@@ -119,7 +119,7 @@ export default async function createChatAccountsTests() {
     await settingsGeneral.waitUntilNotificationIsClosed();
 
     // Click on font scaling minus
-    await settingsGeneral.validateSettingsGeneralIsShown();
+    await settingsGeneral.waitForIsShown(true);
     await settingsGeneral.clickOnFontScalingMinus();
   });
 

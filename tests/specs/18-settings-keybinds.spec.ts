@@ -141,7 +141,23 @@ export default async function settingsKeybindsTests() {
     await expect(increaseFontSizeKeybind).toEqual(["CONTROL", "A"]);
   });
 
+  it("Keybind Shortcuts - Validate custom keybind can be used correctly", async () => {
+    // Go to General Settings to validate Increase Font Size Keybind
+    await settingsKeybinds.goToGeneralSettings();
+    await settingsGeneral.waitForIsShown(true);
+
+    // Press Ctrl + A to increase font size from 0.75 to 1.0
+    await sendCustomKeybinds(4, 45);
+    const valueAfterIncreasing = await settingsGeneral.fontScalingValue;
+    await expect(valueAfterIncreasing).toHaveText("1");
+  });
+
   it("Settings Keyboards Shortcuts - Reset Increase Font Size Keybind", async () => {
+    // Return to Settings Keybinds Screen
+    await settingsGeneral.goToKeyboardShortcutsSettings();
+    await settingsKeybinds.waitForIsShown(true);
+
+    // Reset Keyboard Shortcut for Increase Font Size
     await settingsKeybinds.clickOnRevertIncreaseFontSize();
     const increaseFontSizeKeybind =
       await settingsKeybinds.getKeybinds("increase-font-size");
@@ -262,13 +278,13 @@ export default async function settingsKeybindsTests() {
     await sendCustomKeybinds(4, 7, 65);
 
     // Validate Uplink is not displayed
-    await settingsGeneral.validateSettingsGeneralIsNotShown();
+    await settingsGeneral.validateSettingsGeneralIsNotShown;
 
     // Press Ctrl + Shift + U to Focus Uplink
     await sendCustomKeybinds(4, 7, 65);
 
     // Validate Uplink is displayed
-    await settingsGeneral.validateSettingsGeneralIsShown();
+    await settingsGeneral.waitForIsShown(true);
 
     // Go back to Keybinds Settings
     await settingsGeneral.goToKeyboardShortcutsSettings();
