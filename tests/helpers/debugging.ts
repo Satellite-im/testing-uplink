@@ -94,7 +94,7 @@ export async function setupBeforeCreateGroupTests() {
   await settingsGeneral.waitUntilNotificationIsClosed();
 
   // Click on font scaling minus
-  await settingsGeneral.validateSettingsGeneralIsShown();
+  await settingsGeneral.waitForIsShown(true);
   await settingsGeneral.clickOnFontScalingMinus();
 
   // Go to Notifications Settings and disable all notifications
@@ -147,4 +147,10 @@ export async function setupBeforeCreateGroupTests() {
   // Switch control to User A
   await launchFirstApplication();
   await chatsTopbar.validateTopbarExists();
+}
+
+export async function setupBeforeSettingsTests() {
+  await createNewUser("Test123");
+  await friendsScreen.goToSettings();
+  await settingsProfile.waitForIsShown(true);
 }

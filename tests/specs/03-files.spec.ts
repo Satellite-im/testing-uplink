@@ -168,9 +168,7 @@ export default async function filesTests() {
 
     await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
     await expect(filesInfoMaxSizeValue).toHaveTextContaining("GB");
-    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining(
-      "Used Space:",
-    );
+    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining("Used Space:");
     await expect(filesInfoCurrentSizeValue).toHaveTextContaining("0 bytes");
   });
 
@@ -196,9 +194,7 @@ export default async function filesTests() {
       await filesScreen.filesInfoCurrentSizeValue;
     await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
     await expect(filesInfoMaxSizeValue).toHaveTextContaining("GB");
-    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining(
-      "Used Space:",
-    );
+    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining("Used Space:");
     await expect(filesInfoCurrentSizeValue).toHaveTextContaining("13.2 MB");
   });
 

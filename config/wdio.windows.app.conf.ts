@@ -184,6 +184,13 @@ export const config: WebdriverIO.Config = {
         // Add to Screenshot to Allure Reporter
         const data = await readFileSync(`${imageFolder}/${imageTitle}`);
         allureReporter.addAttachment(imageTitle, data, "image/png");
+
+        // Close application if still open
+        await driver.executeScript("windows: closeApp", [
+          {
+            app: WINDOWS_APP_LOCATION,
+          },
+        ]);
       }
     },
   },

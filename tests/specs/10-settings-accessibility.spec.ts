@@ -1,4 +1,6 @@
 require("module-alias/register");
+import { maximizeWindow } from "@helpers/commands";
+import { MACOS_DRIVER } from "@helpers/constants";
 import SettingsAccessibilityScreen from "@screenobjects/settings/SettingsAccessibilityScreen";
 import SettingsKeybindsScreen from "@screenobjects/settings/SettingsKeybindsScreen";
 const settingsAccessibility = new SettingsAccessibilityScreen();
@@ -6,7 +8,13 @@ const settingsKeybinds = new SettingsKeybindsScreen();
 
 export default async function settingsAccessibilityTests() {
   it("Settings Accessibility - Assert screen texts", async () => {
-    // Go to Settings Screen and finally select the Settings Screen to validate
+    // If current driver is MacOS, then maximize screen
+    const currentDriver = await settingsKeybinds.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await maximizeWindow();
+    }
+
+    // Go to Accessibility Settings Screen
     await settingsKeybinds.goToAccessibilitySettings();
     await settingsAccessibility.waitForIsShown(true);
 
