@@ -151,6 +151,13 @@ export const config: WebdriverIO.Config = {
           imageFile,
           "base64",
         );
+
+        // Close application if still open
+        await driver.executeScript("windows: closeApp", [
+          {
+            app: WINDOWS_APP_LOCATION,
+          },
+        ]);
       }
     },
   },

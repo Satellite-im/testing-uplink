@@ -1,5 +1,6 @@
 require("module-alias/register");
-import { saveUserRecoverySeed } from "@helpers/commands";
+import { maximizeWindow, saveUserRecoverySeed } from "@helpers/commands";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 import CreateOrImportScreen from "@screenobjects/account-creation/CreateOrImportScreen";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
@@ -236,5 +237,11 @@ export default async function createAccountTests() {
     await expect(statusOfButton).toEqual("true");
     await createUser.clickOnCreateAccount();
     await welcomeScreen.waitForIsShown(true);
+
+    // If current driver is Windows, then maximize screen
+    const currentDriver = await welcomeScreen.getCurrentDriver();
+    if (currentDriver === WINDOWS_DRIVER) {
+      await maximizeWindow();
+    }
   });
 }

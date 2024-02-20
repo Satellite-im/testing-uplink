@@ -202,6 +202,13 @@ export const config: WebdriverIO.Config = {
         const dataVideo = await readFileSync(`${imageFolder}/${videoTitle}`);
         allureReporter.addAttachment(imageTitle, data, "image/png");
         allureReporter.addAttachment(videoTitle, dataVideo, "video/mp4");
+
+        // Close application if still open
+        await driver.executeScript("windows: closeApp", [
+          {
+            app: WINDOWS_APP_LOCATION,
+          },
+        ]);
       }
     },
   },

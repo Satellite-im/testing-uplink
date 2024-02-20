@@ -154,6 +154,13 @@ export const config: WebdriverIO.Config = {
         // Add to Screenshot to Allure Reporter
         const dataImage = await readFileSync(`${imageFolder}/${imageTitle}`);
         allureReporter.addAttachment(imageTitle, dataImage, "image/png");
+
+        // Close application if still open
+        await driver.executeScript("macos: terminateApp", [
+          {
+            bundleId: MACOS_BUNDLE_ID,
+          },
+        ]);
       }
     },
   },
