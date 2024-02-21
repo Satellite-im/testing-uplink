@@ -57,7 +57,7 @@ export default async function createAccountTests() {
 
   it("Enter Pin Screen - Enter an empty pin", async () => {
     await createPin.unlockWarningParagraph.waitForExist();
-    await createPin.enterPin("1");
+    await createPin.enterPinOnCreateAccount("1");
 
     await createPin.pinInput.clearValue();
 
@@ -71,7 +71,7 @@ export default async function createAccountTests() {
   });
 
   it("Enter Pin Screen - Enter a pin with less than 4 characters", async () => {
-    await createPin.enterPin("123");
+    await createPin.enterPinOnCreateAccount("123");
     await createPin.inputError.waitForExist();
     const inputErrorText = await createPin.inputErrorText;
     await expect(inputErrorText).toHaveText(
@@ -84,7 +84,7 @@ export default async function createAccountTests() {
 
   // Skipping test failing when appium stops typing
   xit("Enter Pin Screen - Enter a pin with more than 32 characters", async () => {
-    await createPin.enterPin("12345678901234567890123456789012");
+    await createPin.enterPinOnCreateAccount("12345678901234567890123456789012");
 
     await createPin.inputError.waitForExist();
     const inputErrorText = await createPin.inputErrorText;
@@ -100,7 +100,7 @@ export default async function createAccountTests() {
   xit("Enter Pin Screen - Enter a pin with spaces", async () => {
     // Enter pin value with spaces
     await createPin.pinInput.click();
-    await createPin.enterPin("1234" + "   ");
+    await createPin.enterPinOnCreateAccount("1234" + "   ");
     await createPin.inputError.waitForExist();
     const inputErrorText = await createPin.inputErrorText;
     await expect(inputErrorText).toHaveText("Spaces are not allowed.");
@@ -110,7 +110,7 @@ export default async function createAccountTests() {
   });
 
   it("Enter Pin Screen - Enter a valid pin and continue creating a username", async () => {
-    await createPin.enterPin("1234");
+    await createPin.enterPinOnCreateAccount("1234");
     await createPin.waitUntilCreateAccountButtonIsEnabled();
     const statusOfButton = await createPin.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("true");

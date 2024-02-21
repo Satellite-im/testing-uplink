@@ -16,7 +16,7 @@ export default async function importAccountTests() {
 
     // Validate Enter Pin Screen is displayed and enter a valid pin
     await createPin.waitForIsShown(true);
-    await createPin.enterPin("1234");
+    await createPin.enterPinOnCreateAccount("1234");
     await createPin.waitUntilCreateAccountButtonIsEnabled();
     await createPin.clickOnCreateAccount();
   });

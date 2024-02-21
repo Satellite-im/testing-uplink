@@ -96,9 +96,24 @@ export default class CreatePinScreen extends UplinkMainScreen {
     return $(SELECTORS.UNLOCK_LAYOUT).$(SELECTORS.UNLOCK_WARNING_PARAGRAPH);
   }
 
-  async enterPin(pin: string) {
-    (await this.pinInput).click();
-    await this.pinInput.setValue(pin);
+  async enterPinOnLogin(pin: string) {
+    const pinInput = await this.pinInput;
+    await pinInput.click();
+    await pinInput.setValue(pin);
+  }
+
+  async enterPinOnCreateAccount(pin: string) {
+    await this.pinInput.waitForExist();
+    const pinInput = await this.pinInput;
+    await pinInput.clearValue();
+    await pinInput.setValue(pin);
+
+    const pinToEnterLength = pin.length;
+    const expectedMaskedPin = "•".repeat(pinToEnterLength);
+    const maskedPin = await pinInput.getText();
+    if (maskedPin !== expectedMaskedPin) {
+      await this.enterPinOnCreateAccount(pin);
+    }
   }
 
   async clickOnCreateAccount() {
