@@ -40,6 +40,8 @@ export default async function sidebarChatsTests() {
 
   it("Chat User B - Send message with markdown to User A", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
+    await welcomeScreen.goToFriends();
+    await friendsScreen.waitForIsShown(true);
     await friendsScreen.validateChatWithFriendButtonIsShown();
     await friendsScreen.hoverOnChatWithFriendButton("ChatUserA");
     await friendsScreen.clickOnChatWithFriend();
@@ -59,6 +61,7 @@ export default async function sidebarChatsTests() {
   it("Chat User A - Wait until Chat User B accepts friend request and sends a message", async () => {
     // With User A - Wait until user B accepts the friend request
     await activateFirstApplication();
+    await welcomeScreen.goToFriends();
     await friendsScreen.waitForIsShown(true);
     await friendsScreen.goToAllFriendsList();
     await friendsScreen.validateAllFriendsListIsShown();

@@ -27,8 +27,8 @@ const sendFiles = new SendFiles();
 
 export default async function messageAttachmentsTests() {
   before(async () => {
-    await launchSecondApplication();
     await launchFirstApplication();
+    await launchSecondApplication();
   });
 
   it("Send files from Browse Files - No files are displayed on modal and user can close modal", async () => {
@@ -155,7 +155,7 @@ export default async function messageAttachmentsTests() {
     // With User A- Validate that message with attachment was received
     await activateFirstApplication();
     await chatsInput.clickOnInputBar();
-    await messageRemote.chatMessageImageFile.waitForExist();
+    await messageRemote.chatMessageFileEmbedRemote.waitForExist();
 
     // Validate text from message containing attachment
     const message = await messageRemote.getLastMessageReceivedText();
