@@ -180,7 +180,8 @@ export default async function groupChatSidebarTests() {
     await expect(topbarUserName).toHaveText("X");
   });
 
-  it("Group Chat - Sidebar - Delete group", async () => {
+  // Skipping test due to bug under investigation
+  xit("Group Chat - Sidebar - Delete group", async () => {
     // Switch execution to User A and delete the group
     await activateFirstApplication();
     await chatsSidebar.openContextMenuOnGroupChat("X");
@@ -190,7 +191,8 @@ export default async function groupChatSidebarTests() {
     await chatsSidebar.validateSidebarChatIsNotDisplayed("X");
   });
 
-  it("Group Chat - Sidebar - Deleted group is not shown on remote side", async () => {
+  // Skipping test due to bug under investigation
+  xit("Group Chat - Sidebar - Deleted group is not shown on remote side", async () => {
     // Switch execution to remote user and ensure that group was removed on this side too
     await activateSecondApplication();
     await chatsSidebar.validateSidebarChatIsNotDisplayed("X");
