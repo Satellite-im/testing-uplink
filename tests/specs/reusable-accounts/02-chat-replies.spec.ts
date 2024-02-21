@@ -8,6 +8,8 @@ import MessageRemote from "@screenobjects/chats/MessageRemote";
 import ReplyPrompt from "@screenobjects/chats/ReplyPrompt";
 import {
   activateFirstApplication,
+  closeFirstApplication,
+  closeSecondApplication,
   launchFirstApplication,
   launchSecondApplication,
 } from "@helpers/commands";
@@ -129,5 +131,10 @@ export default async function repliesTests() {
     // Validate reply message sent appears as last message
     const message = await messageLocal.getLastMessageSentText();
     await expect(message).toHaveTextContaining("SelfReply");
+  });
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 }

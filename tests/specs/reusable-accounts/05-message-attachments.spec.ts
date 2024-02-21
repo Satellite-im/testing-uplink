@@ -155,7 +155,7 @@ export default async function messageAttachmentsTests() {
     // With User A- Validate that message with attachment was received
     await activateFirstApplication();
     await chatsInput.clickOnInputBar();
-    await messageRemote.chatMessageFileEmbedRemote.waitForExist();
+    await messageRemote.chatMessageImageFile.waitForExist();
 
     // Validate text from message containing attachment
     const message = await messageRemote.getLastMessageReceivedText();
