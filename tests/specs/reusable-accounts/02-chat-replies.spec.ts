@@ -7,11 +7,9 @@ import MessageLocal from "@screenobjects/chats/MessageLocal";
 import MessageRemote from "@screenobjects/chats/MessageRemote";
 import ReplyPrompt from "@screenobjects/chats/ReplyPrompt";
 import {
-  closeFirstApplication,
-  closeSecondApplication,
+  activateFirstApplication,
   launchFirstApplication,
   launchSecondApplication,
-  loginWithTestUser,
 } from "@helpers/commands";
 const chatsContextMenu = new ContextMenu();
 const chatsInput = new InputBar();
@@ -23,17 +21,12 @@ const messageRemote = new MessageRemote();
 
 export default async function repliesTests() {
   before(async () => {
-    await closeSecondApplication();
-    await closeFirstApplication();
-    await launchSecondApplication();
-    await loginWithTestUser();
     await launchFirstApplication();
-    await loginWithTestUser();
+    await launchSecondApplication();
   });
 
   it("Chat User B - Reply popup - Validate contents and close it", async () => {
     // Open Context Menu on Last Message Received and select Reply
-    await launchSecondApplication();
     await messageRemote.openContextMenuOnLastReceived();
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.selectContextOptionReply();
@@ -84,7 +77,7 @@ export default async function repliesTests() {
 
   it("Chat User A - Validate reply message contents", async () => {
     // Switch control to User A
-    await launchFirstApplication();
+    await activateFirstApplication();
 
     // With User A - Validate that reply message is received
     await messageRemote.chatMessageReply.waitForExist();

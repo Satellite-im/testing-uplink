@@ -5,6 +5,10 @@ import FilesScreen from "@screenobjects/files/FilesScreen";
 import Topbar from "@screenobjects/chats/Topbar";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import {
+  activateFirstApplication,
+  activateSecondApplication,
+  closeFirstApplication,
+  closeSecondApplication,
   launchFirstApplication,
   launchSecondApplication,
 } from "@helpers/commands";
@@ -15,6 +19,11 @@ const filesScreen = new FilesScreen();
 const welcomeScreen = new WelcomeScreen();
 
 export default async function groupChatEditTests() {
+  before(async () => {
+    await launchSecondApplication();
+    await launchFirstApplication();
+  });
+
   it("Group Chat Creator - Manage Members button tooltip", async () => {
     // Hover on Manage Members button and validate tooltip is shown
     await chatsTopbar.hoverOnManageMembersButton();
@@ -75,7 +84,7 @@ export default async function groupChatEditTests() {
 
   it("Group Chat Invited User - Validate group name was changed correctly on remote side", async () => {
     // Switch control to second user
-    await launchSecondApplication();
+    await activateSecondApplication();
 
     // Validate group name was changed correctly on remote side
     await chatsSidebar.waitForGroupToBeCreated("X");
@@ -85,7 +94,7 @@ export default async function groupChatEditTests() {
 
   it("Group Chat Creator - Contents displayed in add list are correct", async () => {
     // Switch control to first user and then open Manage Members modal. Validate contents displayed in add list are correct
-    await launchFirstApplication();
+    await activateFirstApplication();
 
     await chatsTopbar.openManageMembers();
     await manageMembers.validateManageMembersIsShown();
@@ -129,14 +138,14 @@ export default async function groupChatEditTests() {
 
   it("Group Chat Invited User - Validate remote user was correctly removed from the group chat", async () => {
     // Validate that remote user was removed from the group correctly
-    await launchSecondApplication();
+    await activateSecondApplication();
     await chatsSidebar.waitForGroupToBeDeleted("X");
     await welcomeScreen.validateWelcomeScreenIsShown();
   });
 
   it("Group Chat Creator - Add Users List - Chat User B appears now in list", async () => {
     // Switch control to first user and then open Manage Members modal. Validate contents displayed in add list are correct
-    await launchFirstApplication();
+    await activateFirstApplication();
     await chatsTopbar.openManageMembers();
     await manageMembers.validateManageMembersIsShown();
     await manageMembers.clickOnAddMembers();
@@ -173,7 +182,7 @@ export default async function groupChatEditTests() {
 
   it("Group Chat Invited User - Ensure that Chat User B was added back to the group", async () => {
     // Validate that User B was added back to the group chat
-    await launchSecondApplication();
+    await activateSecondApplication();
     await chatsSidebar.goToFiles();
     await filesScreen.validateFilesScreenIsShown();
     await filesScreen.goToMainScreen();
@@ -185,5 +194,10 @@ export default async function groupChatEditTests() {
     // Validate topbar contents has correct name
     const topbarUserStatus = await chatsTopbar.topbarUserStatusValue;
     await expect(topbarUserStatus).toHaveText("Members (2)");
+  });
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 }

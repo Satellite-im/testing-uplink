@@ -1,8 +1,11 @@
 require("module-alias/register");
 import {
+  activateFirstApplication,
+  activateSecondApplication,
+  closeFirstApplication,
+  closeSecondApplication,
   launchFirstApplication,
   launchSecondApplication,
-  getUserKey,
 } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
@@ -30,9 +33,12 @@ const settingsProfile = new SettingsProfileScreen();
 const welcomeScreen = new WelcomeScreen();
 
 export default async function sidebarChatsTests() {
-  it("Chat User B - Send message with markdown to User A", async () => {
+  before(async () => {
+    await launchFirstApplication();
     await launchSecondApplication();
+  });
 
+  it("Chat User B - Send message with markdown to User A", async () => {
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await friendsScreen.validateChatWithFriendButtonIsShown();
     await friendsScreen.hoverOnChatWithFriendButton("ChatUserA");
@@ -52,7 +58,7 @@ export default async function sidebarChatsTests() {
 
   it("Chat User A - Wait until Chat User B accepts friend request and sends a message", async () => {
     // With User A - Wait until user B accepts the friend request
-    await launchFirstApplication();
+    await activateFirstApplication();
     await friendsScreen.waitForIsShown(true);
     await friendsScreen.goToAllFriendsList();
     await friendsScreen.validateAllFriendsListIsShown();
@@ -111,14 +117,14 @@ export default async function sidebarChatsTests() {
 
   it("Chat User B - Validate message was received", async () => {
     // With User B - Wait until message is received
-    await launchSecondApplication();
+    await activateSecondApplication();
     await chatsSidebar.waitForIsShown(true);
     await messageRemote.waitForReceivingMessage("Hi...");
   });
 
   it("Chat User A - Sidebar - Persists between different sections of the app - Files Screen", async () => {
     // Validate on Files Screen that sidebar is displayed
-    await launchFirstApplication();
+    await activateFirstApplication();
     await chatsLayout.waitForIsShown(true);
     await chatsLayout.goToFiles();
     await filesScreen.validateFilesScreenIsShown();
@@ -157,7 +163,7 @@ export default async function sidebarChatsTests() {
 
   it("Chat User B - Sidebar - Wait for receiving a a new message", async () => {
     // Switch to Chat User B window
-    await launchSecondApplication();
+    await activateSecondApplication();
     await chatsInput.waitForIsShown(true);
 
     // With User B - Wait until message is received
@@ -168,7 +174,7 @@ export default async function sidebarChatsTests() {
 
   it("Chat User A - Sidebar - Context Menu - Delete chat", async () => {
     // Switch to Chat User A window
-    await launchFirstApplication();
+    await activateFirstApplication();
     await chatsSidebar.waitForIsShown(true);
 
     // Open context menu and right click on Delete chat
@@ -179,14 +185,14 @@ export default async function sidebarChatsTests() {
 
   it("Chat User B - Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {
     // Switch to Chat User B window
-    await launchSecondApplication();
+    await activateSecondApplication();
     // After user deletes chat conversation on remote side, chat is deleted on local side and Welcome Image displayed again
     await welcomeScreen.waitForIsShown(true);
   });
 
   it("Chat User A - Sidebar without messages sent displays No messages yet, sent one", async () => {
     // Switch to Chat User A window
-    await launchFirstApplication();
+    await activateFirstApplication();
     await welcomeScreen.waitForIsShown(true);
 
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
@@ -230,5 +236,10 @@ export default async function sidebarChatsTests() {
     // Open context menu and right click on Remove user from Favorites
     await favoritesSidebar.openContextMenuOnFavoritesUser("ChatUserB");
     await favoritesSidebar.clickOnContextMenuFavoriteRemove();
+  });
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 }

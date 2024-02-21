@@ -1,8 +1,12 @@
 require("module-alias/register");
 import {
-  launchFirstApplication,
-  launchSecondApplication,
   getClipboardValue,
+  activateFirstApplication,
+  activateSecondApplication,
+  closeFirstApplication,
+  closeSecondApplication,
+  launchSecondApplication,
+  launchFirstApplication,
 } from "@helpers/commands";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -18,6 +22,11 @@ const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 
 export default async function messageContextMenuTests() {
+  before(async () => {
+    await launchSecondApplication();
+    await launchFirstApplication();
+  });
+
   it("Chat User A - Send two messages to Chat User B", async () => {
     // Send a message to Chat User B
     await chatsInput.typeMessageOnInput("Two...");
@@ -42,7 +51,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User B - Receive two messages from Chat User B", async () => {
     // Assert messages received from Chat User B
-    await launchSecondApplication();
+    await activateSecondApplication();
     await messageRemote.waitForReceivingMessage("Two...");
     await messageRemote.waitForReceivingMessage("Three...");
   });
@@ -59,7 +68,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User A - Context Menu - Delete Message", async () => {
     // Open context menu on last message sent and select option for deleting
-    await launchFirstApplication();
+    await activateFirstApplication();
     await messageLocal.openContextMenuOnLastSent();
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.selectContextOptionDelete();
@@ -70,7 +79,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User B - Validate Message was deleted and is no longer visible in remote chat", async () => {
     // Switch to Chat User B window
-    await launchSecondApplication();
+    await activateSecondApplication();
 
     // With User B - Validate that last message is "Two..."
     await messageRemote.waitForReceivingMessage("Two...");
@@ -81,7 +90,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User A - React to sent message and multiple reactions in a message", async () => {
     // React with 😂 emoji
-    await launchFirstApplication();
+    await activateFirstApplication();
     await messageLocal.openContextMenuOnLastSent();
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.clickOnFirstReaction();
@@ -117,7 +126,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User B - Receive reaction in sent message", async () => {
     // Return to Chat User B window
-    await launchSecondApplication();
+    await activateSecondApplication();
     await chatsInput.clickOnInputBar();
     await chatsInput.typeMessageOnInput("Hello");
     await chatsInput.clearInputBar();
@@ -161,5 +170,10 @@ export default async function messageContextMenuTests() {
     const reaction = await messageGroupLocal.getLastMessageSentSelfReactions();
     await expect(reaction.includes("👎 2")).toEqual(true);
     await expect(reaction.includes("👍 1")).toEqual(true);
+  });
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 }

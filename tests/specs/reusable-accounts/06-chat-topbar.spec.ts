@@ -5,7 +5,11 @@ import MessageLocal from "@screenobjects/chats/MessageLocal";
 import MessageGroupLocal from "@screenobjects/chats/MessageGroupLocal";
 import PinnedMessages from "@screenobjects/chats/PinnedMessages";
 import Topbar from "@screenobjects/chats/Topbar";
-import { launchFirstApplication } from "@helpers/commands";
+import {
+  activateFirstApplication,
+  closeFirstApplication,
+  launchFirstApplication,
+} from "@helpers/commands";
 const chatsContextMenu = new ContextMenu();
 const chatsInput = new InputBar();
 const chatsTopbar = new Topbar();
@@ -14,9 +18,13 @@ const messageGroupLocal = new MessageGroupLocal();
 const pinnedMessages = new PinnedMessages();
 
 export default async function chatTopbarTests() {
+  before(async () => {
+    await launchFirstApplication();
+  });
+
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {
     // Validate Favorites button tooltip
-    await launchFirstApplication();
+    await activateFirstApplication();
     await chatsTopbar.hoverOnFavoritesButton();
     const favoritesAddTooltipText =
       await chatsTopbar.topbarAddToFavoritesTooltipText;
@@ -116,5 +124,9 @@ export default async function chatTopbarTests() {
 
     // Close pinned messages
     await chatsTopbar.clickOnTopbar();
+  });
+
+  after(async () => {
+    await closeFirstApplication();
   });
 }

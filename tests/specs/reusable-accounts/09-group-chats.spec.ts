@@ -8,6 +8,10 @@ import MessageRemote from "@screenobjects/chats/MessageRemote";
 import SidebarSearch from "@screenobjects/chats/SidebarSearch";
 import Topbar from "@screenobjects/chats/Topbar";
 import {
+  activateFirstApplication,
+  activateSecondApplication,
+  closeFirstApplication,
+  closeSecondApplication,
   launchFirstApplication,
   launchSecondApplication,
 } from "@helpers/commands";
@@ -21,6 +25,11 @@ const messageRemote = new MessageRemote();
 const sidebarSearch = new SidebarSearch();
 
 export default async function groupChatTests() {
+  before(async () => {
+    await launchSecondApplication();
+    await launchFirstApplication();
+  });
+
   it("Chat User A - Create Group Chat button tooltip", async () => {
     // Hover on create group chat button and validate tooltip is shown
     await chatsSidebar.hoverOnCreateGroupButton();
@@ -104,7 +113,7 @@ export default async function groupChatTests() {
 
   it("User B - Group Chat is displayed on remote participant users sidebar", async () => {
     // Switch to user B and validate group chat is displayed on remote participant users sidebar and then go to group chat
-    await launchSecondApplication();
+    await activateSecondApplication();
     await chatsSidebar.waitForGroupToBeCreated("Test");
     const statusFromGroupOnUserB =
       await chatsSidebar.getSidebarGroupStatus("Test");
@@ -127,7 +136,7 @@ export default async function groupChatTests() {
 
   it("Group Chat - User A sends a message in group chat", async () => {
     // Switch to user A and send a message in group chat
-    await launchFirstApplication();
+    await activateFirstApplication();
     await chatsInput.typeMessageOnInput("Sup");
     await chatsInput.clickOnSendMessage();
     await messageLocal.waitForMessageSentToExist("Sup");
@@ -141,14 +150,14 @@ export default async function groupChatTests() {
 
   it("Group Chat - User B receives the message in group chat", async () => {
     // Switch to user B and validate message is received in group chat
-    await launchSecondApplication();
+    await activateSecondApplication();
     await chatsSidebar.goToSidebarGroupChat("Test");
     await messageRemote.waitForReceivingMessage("Sup");
   });
 
   it("Sidebar - Search string matching username and group and go to first result", async () => {
     // Switch to user A and validate search results for a string matching a single user and a single group
-    await launchFirstApplication();
+    await activateFirstApplication();
     await chatsTopbar.goToFiles();
     await filesScreen.validateFilesScreenIsShown();
     await chatsSidebar.typeOnSidebarSearchInput("Ch");
@@ -184,5 +193,10 @@ export default async function groupChatTests() {
 
     const topbarUserName = await chatsTopbar.topbarUserNameValue;
     await expect(topbarUserName).toHaveText("Test");
+  });
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 }

@@ -1,11 +1,12 @@
 require("module-alias/register");
 import {
-  launchFirstApplication,
-  launchSecondApplication,
   getUserKey,
   closeFirstApplication,
   closeSecondApplication,
-  loginWithTestUser,
+  activateFirstApplication,
+  activateSecondApplication,
+  launchSecondApplication,
+  launchFirstApplication,
 } from "@helpers/commands";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -23,6 +24,11 @@ const settingsProfile = new SettingsProfileScreen();
 const welcomeScreen = new WelcomeScreen();
 
 export default async function quickProfileTests() {
+  before(async () => {
+    await launchSecondApplication();
+    await launchFirstApplication();
+  });
+
   it("Chat User A - Validate contents from local quick profile", async () => {
     // Open quick profile from remote user
     await messageGroupLocal.openLocalQuickProfile();
@@ -48,8 +54,7 @@ export default async function quickProfileTests() {
 
   it("Chat User B - Validate contents from remote quick profile", async () => {
     // With User B - Validate that message was received
-    await launchSecondApplication();
-    await loginWithTestUser();
+    await activateSecondApplication();
     await chatsInput.waitForIsShown(true);
     await chatsInput.clickOnInputBar();
 
@@ -76,8 +81,7 @@ export default async function quickProfileTests() {
 
   it("Chat User A - Remove Friend", async () => {
     // Open quick profile from remote user
-    await launchFirstApplication();
-    await loginWithTestUser();
+    await activateFirstApplication();
     await welcomeScreen.goToMainScreen();
     await chatsInput.waitForIsShown(true);
     await messageGroupRemote.openRemoteQuickProfile();
@@ -100,7 +104,7 @@ export default async function quickProfileTests() {
 
   it("Chat User B - Validate friendship was removed", async () => {
     // Switch control to User B
-    await launchSecondApplication();
+    await activateSecondApplication();
     await welcomeScreen.waitForIsShown(true);
 
     // With User B - Go to Friends and wait for User A to remove friendship with User B
@@ -110,7 +114,7 @@ export default async function quickProfileTests() {
 
   it("Chat User A - Send friend request again to User B", async () => {
     // Obtain did key from Chat User B
-    await launchFirstApplication();
+    await activateFirstApplication();
     await friendsScreen.waitForIsShown(true);
     const friendDidKey = await getUserKey("ChatUserB");
 
@@ -124,7 +128,7 @@ export default async function quickProfileTests() {
 
   it("Chat User B - Validate button badge displays the number of incoming requests", async () => {
     // Switch to Chat User B window
-    await launchSecondApplication();
+    await activateSecondApplication();
     await friendsScreen.waitForIsShown(true);
 
     // Go to pending requests list, wait for receiving the friend request and accept it
@@ -156,10 +160,15 @@ export default async function quickProfileTests() {
 
   it("Chat User A - Wait until friend request is accepted again", async () => {
     // Validate friend is now on all friends list
-    await launchFirstApplication();
+    await activateFirstApplication();
     await friendsScreen.waitForIsShown(true);
 
     // Validate friend is now on all friends list
     await friendsScreen.waitUntilUserAcceptedFriendRequest();
+  });
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 }
