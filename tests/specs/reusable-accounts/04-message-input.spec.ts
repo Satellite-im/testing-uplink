@@ -5,6 +5,10 @@ import InputBar from "@screenobjects/chats/InputBar";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
 import MessageRemote from "@screenobjects/chats/MessageRemote";
 import {
+  activateFirstApplication,
+  activateSecondApplication,
+  closeFirstApplication,
+  closeSecondApplication,
   launchFirstApplication,
   launchSecondApplication,
 } from "@helpers/commands";
@@ -15,9 +19,14 @@ const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 
 export default async function messageInputTests() {
+  before(async () => {
+    await launchFirstApplication();
+    await launchSecondApplication();
+  });
+
   it("Chat User A - Message Input - User cannot send empty messages", async () => {
     // Ensure that input bar is empty and click on send message button
-    await launchFirstApplication();
+    await activateFirstApplication();
     await chatsInput.waitForIsShown(true);
     await chatsInput.clearInputBar();
     await chatsInput.clickOnInputBar();
@@ -150,7 +159,7 @@ export default async function messageInputTests() {
 
   it("Chat Input Text - Validate messages with bold markdowns were received in expected format", async () => {
     // With Chat User B, validate message with with ** markdown was received in bolds
-    await launchSecondApplication();
+    await activateSecondApplication();
     await chatsInput.waitForIsShown(true);
     await messageRemote.waitForReceivingMessage("Bolds1");
 
@@ -169,7 +178,7 @@ export default async function messageInputTests() {
 
   it("Chat Input Text - Validate text starting with https:// is sent as link", async () => {
     // With Chat User A
-    await launchFirstApplication();
+    await activateFirstApplication();
     await chatsInput.waitForIsShown(true);
     await chatsInput.typeMessageOnInput("https://www.google.com");
     await chatsInput.clickOnSendMessage();
@@ -201,7 +210,7 @@ export default async function messageInputTests() {
 
   it("Chat Input Text - Validate messages with links were received correctly", async () => {
     // With Chat User B, validate message with URL starting with https:// was received as link
-    await launchSecondApplication();
+    await activateSecondApplication();
     await chatsInput.waitForIsShown(true);
     await messageRemote.waitForReceivingLink("Google");
 
@@ -229,7 +238,7 @@ export default async function messageInputTests() {
   // Test failing on CI
   xit("Typing Indicator - Send a long message to trigger typing indicator on remote side", async () => {
     // With User A
-    await launchFirstApplication();
+    await activateFirstApplication();
     await chatsInput.waitForIsShown(true);
     // Generate a random text with 100 chars
     const shortText = await chatsInput.generateShortRandomText();
@@ -240,7 +249,7 @@ export default async function messageInputTests() {
   // Test failing on CI
   xit("Validate Typing Indicator is displayed if remote user is typing", async () => {
     // Switch to second user and validate that Typing Indicator is displayed
-    await launchSecondApplication();
+    await activateSecondApplication();
     await chatsInput.waitForIsShown(true);
     await chatsLayout.typingIndicator.waitForExist({
       timeout: 30000,
@@ -248,5 +257,10 @@ export default async function messageInputTests() {
     await expect(chatsLayout.typingIndicatorTextValue).toHaveTextContaining(
       "ChatUserA is typing",
     );
+  });
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 }

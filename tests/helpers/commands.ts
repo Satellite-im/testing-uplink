@@ -196,92 +196,58 @@ export async function launchApplication(
   appLocation: string = WINDOWS_APP,
 ) {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
-    await driver.executeScript("windows: launchApp", [
-      {
-        app: join(process.cwd(), appLocation),
-      },
-    ]);
+    await launchAppWindows(appLocation);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    await driver.executeScript("macos: launchApp", [
-      {
-        bundleId: bundle,
-        arguments: ["--discovery", "disable", "--path", homedir() + "/.uplink"],
-      },
-    ]);
+    await launchAppMacOS(bundle);
     await browser.pause(5000);
   }
 }
 
 export async function launchFirstApplication() {
-  await driver.executeScript("macos: launchApp", [
-    {
-      bundleId: MACOS_USER_A_BUNDLE_ID,
-      arguments: ["--discovery", "disable", "--path", homedir() + "/.uplink"],
-    },
-  ]);
+  await launchAppMacOS(MACOS_USER_A_BUNDLE_ID);
   await browser.pause(5000);
+  await loginWithTestUser();
 }
 
-export async function launchSecondApplication() {
-  await driver.executeScript("macos: launchApp", [
-    {
-      bundleId: MACOS_USER_B_BUNDLE_ID,
-      arguments: [
-        "--discovery",
-        "disable",
-        "--path",
-        homedir() + "/.uplinkUserB",
-      ],
-    },
-  ]);
+export async function launchSecondApplication(existingUser: boolean = true) {
+  await launchAppMacOS(MACOS_USER_B_BUNDLE_ID, "/.uplinkUserB");
   await browser.pause(5000);
+  if (existingUser === true) {
+    await loginWithTestUser();
+  }
 }
 
 export async function activateFirstApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
-    await driver.executeScript("windows: activateApp", [
-      {
-        app: WINDOWS_APP,
-      },
-    ]);
+    await activateAppWindows(WINDOWS_APP);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    await driver.executeScript("macos: activateApp", [
-      {
-        bundleId: MACOS_USER_A_BUNDLE_ID,
-      },
-    ]);
+    const appState = await queryAppStateMacOS(MACOS_USER_A_BUNDLE_ID);
+    if (appState === 1) {
+      await launchFirstApplication();
+    } else {
+      await activateAppMacOS(MACOS_USER_A_BUNDLE_ID);
+    }
   }
 }
 
 export async function activateSecondApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
-    await driver.executeScript("windows: activateApp", [
-      {
-        app: WINDOWS_APP,
-      },
-    ]);
+    await activateAppWindows(WINDOWS_APP);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    await driver.executeScript("macos: activateApp", [
-      {
-        bundleId: MACOS_USER_B_BUNDLE_ID,
-      },
-    ]);
+    const appState = await queryAppStateMacOS(MACOS_USER_B_BUNDLE_ID);
+    if (appState === 1) {
+      await launchSecondApplication();
+    } else {
+      await activateAppMacOS(MACOS_USER_B_BUNDLE_ID);
+    }
   }
 }
 
 export async function closeApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
-    await driver.executeScript("windows: closeApp", [
-      {
-        app: WINDOWS_APP,
-      },
-    ]);
+    await closeAppWindows(WINDOWS_APP);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    await driver.executeScript("macos: terminateApp", [
-      {
-        bundleId: MACOS_BUNDLE_ID,
-      },
-    ]);
+    await closeAppMacOS(MACOS_BUNDLE_ID);
   }
 }
 
@@ -307,6 +273,67 @@ export async function maximizeWindow() {
   } else if (process.env.DRIVER === MACOS_DRIVER) {
     (await $("~_XCUI:FullScreenWindow")).click();
   }
+}
+
+export async function activateAppMacOS(bundle: string) {
+  await driver.executeScript("macos: activateApp", [
+    {
+      bundleId: bundle,
+    },
+  ]);
+}
+
+export async function activateAppWindows(appPath: string) {
+  await driver.executeScript("windows: activateApp", [
+    {
+      app: appPath,
+    },
+  ]);
+}
+
+export async function closeAppWindows(appPath: string) {
+  await driver.executeScript("windows: closeApp", [
+    {
+      app: appPath,
+    },
+  ]);
+}
+
+export async function closeAppMacOS(bundle: string) {
+  await driver.executeScript("macos: terminateApp", [
+    {
+      bundleId: bundle,
+    },
+  ]);
+}
+
+export async function launchAppMacOS(
+  bundle: string,
+  relativePath: string = "/.uplink",
+) {
+  await driver.executeScript("macos: launchApp", [
+    {
+      bundleId: bundle,
+      arguments: ["--discovery", "disable", "--path", homedir() + relativePath],
+    },
+  ]);
+}
+
+export async function launchAppWindows(appLocation: string) {
+  await driver.executeScript("windows: launchApp", [
+    {
+      app: join(process.cwd(), appLocation),
+    },
+  ]);
+}
+
+export async function queryAppStateMacOS(bundle: string) {
+  const queryAppState = await driver.executeScript("macos: queryAppState", [
+    {
+      bundleId: bundle,
+    },
+  ]);
+  return queryAppState;
 }
 
 // MacOS driver helper functions
@@ -425,7 +452,7 @@ export async function leftClickOnMacOS(locator: WebdriverIO.Element) {
 
 export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
   const elementId = await locator.elementId;
-  await driver.executeScript("macos: rightClick", [
+  await driver.executeScript("macos: hover", [
     {
       elementId: elementId,
     },

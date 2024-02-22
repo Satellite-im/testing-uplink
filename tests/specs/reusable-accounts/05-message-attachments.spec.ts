@@ -8,6 +8,10 @@ import MessageRemote from "@screenobjects/chats/MessageRemote";
 import SendFiles from "@screenobjects/chats/SendFiles";
 import Topbar from "@screenobjects/chats/Topbar";
 import {
+  activateFirstApplication,
+  activateSecondApplication,
+  closeFirstApplication,
+  closeSecondApplication,
   launchFirstApplication,
   launchSecondApplication,
   scrollUp,
@@ -22,6 +26,11 @@ const messageRemote = new MessageRemote();
 const sendFiles = new SendFiles();
 
 export default async function messageAttachmentsTests() {
+  before(async () => {
+    await launchFirstApplication();
+    await launchSecondApplication();
+  });
+
   it("Send files from Browse Files - No files are displayed on modal and user can close modal", async () => {
     // Go to upload button and then select Browser Files (from Uplink storage)
     await chatsInput.clickOnUploadFile();
@@ -144,7 +153,7 @@ export default async function messageAttachmentsTests() {
   it("Send files from Browse Files - Message sent with attachments is shown on remote side", async () => {
     // Ensure that message sent with attached file is displayed on remote side
     // With User A- Validate that message with attachment was received
-    await launchFirstApplication();
+    await activateFirstApplication();
     await chatsInput.clickOnInputBar();
     await messageRemote.chatMessageFileEmbedRemote.waitForExist();
 
@@ -231,7 +240,7 @@ export default async function messageAttachmentsTests() {
 
   it("Receive Files on Chats - Received Message with Attachment - Text Message contents", async () => {
     // With User B - Validate that message with attachment was received
-    await launchSecondApplication();
+    await activateSecondApplication();
     await chatsInput.clickOnInputBar();
     await messageRemote.chatMessageFileEmbedRemote.waitForExist();
 
@@ -263,5 +272,10 @@ export default async function messageAttachmentsTests() {
   it("Chat Messages with Files - Remote user can download file received", async () => {
     // Download latest image file received
     await messageRemote.downloadLastReceivedFile(".txt");
+  });
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 }

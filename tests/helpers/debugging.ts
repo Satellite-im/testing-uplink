@@ -1,10 +1,11 @@
 require("module-alias/register");
 import {
-  launchFirstApplication,
   createNewUser,
   getUserKey,
   launchSecondApplication,
   saveTestKeys,
+  activateFirstApplication,
+  activateSecondApplication,
 } from "./commands";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
@@ -64,7 +65,7 @@ export async function setupBeforeCreateGroupTests() {
   await friendsScreen.validateFriendsScreenIsShown();
 
   // Launch second application
-  await launchSecondApplication();
+  await launchSecondApplication(false);
 
   // Create a new account and go to Settings Profile
   await createPin.waitForIsShown(true);
@@ -116,7 +117,7 @@ export async function setupBeforeCreateGroupTests() {
   await friendsScreen.validateAllFriendsListIsShown();
 
   // Switch control to User A
-  await launchFirstApplication();
+  await activateFirstApplication();
 
   // With User A - Go to pending requests list, wait for receiving the friend request and accept it
   await friendsScreen.hoverOnPendingListButton();
@@ -134,7 +135,7 @@ export async function setupBeforeCreateGroupTests() {
   await friendsScreen.chatWithFriendButton.click();
 
   // Switch control to User B
-  await launchSecondApplication();
+  await activateSecondApplication();
 
   // With User B - Go to pending requests list, wait for receiving the friend request and accept it
   await friendsScreen.waitUntilUserAcceptedFriendRequest();
@@ -145,7 +146,7 @@ export async function setupBeforeCreateGroupTests() {
   await friendsScreen.validateAllFriendsListIsNotEmpty();
 
   // Switch control to User A
-  await launchFirstApplication();
+  await activateFirstApplication();
   await chatsTopbar.validateTopbarExists();
 }
 

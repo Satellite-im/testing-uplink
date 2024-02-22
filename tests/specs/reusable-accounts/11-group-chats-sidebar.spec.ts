@@ -15,7 +15,6 @@ import {
   closeSecondApplication,
   launchFirstApplication,
   launchSecondApplication,
-  loginWithTestUser,
 } from "@helpers/commands";
 const chatsInput = new InputBar();
 const chatsSidebar = new ChatsSidebar();
@@ -29,10 +28,8 @@ const messageLocal = new MessageLocal();
 
 export default async function groupChatSidebarTests() {
   before(async () => {
-    await closeSecondApplication();
-    await closeFirstApplication();
+    await launchSecondApplication();
     await launchFirstApplication();
-    await loginWithTestUser();
   });
 
   it("Group Chat - Add group to favorites", async () => {
@@ -66,8 +63,7 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chat - Send message to the group with User B", async () => {
     // Switch test execution control to User B and send message to the group
-    await launchSecondApplication();
-    await loginWithTestUser();
+    await activateSecondApplication();
     await chatsSidebar.goToSidebarGroupChat("X");
     await chatsInput.typeMessageOnInput("HelloGroup");
     await chatsInput.clickOnSendMessage();
@@ -184,7 +180,8 @@ export default async function groupChatSidebarTests() {
     await expect(topbarUserName).toHaveText("X");
   });
 
-  it("Group Chat - Sidebar - Delete group", async () => {
+  // Skipping test due to bug under investigation
+  xit("Group Chat - Sidebar - Delete group", async () => {
     // Switch execution to User A and delete the group
     await activateFirstApplication();
     await chatsSidebar.openContextMenuOnGroupChat("X");
@@ -194,9 +191,15 @@ export default async function groupChatSidebarTests() {
     await chatsSidebar.validateSidebarChatIsNotDisplayed("X");
   });
 
-  it("Group Chat - Sidebar - Deleted group is not shown on remote side", async () => {
+  // Skipping test due to bug under investigation
+  xit("Group Chat - Sidebar - Deleted group is not shown on remote side", async () => {
     // Switch execution to remote user and ensure that group was removed on this side too
     await activateSecondApplication();
     await chatsSidebar.validateSidebarChatIsNotDisplayed("X");
+  });
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 }

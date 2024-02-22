@@ -1,8 +1,11 @@
 require("module-alias/register");
 import {
+  activateFirstApplication,
+  activateSecondApplication,
+  closeFirstApplication,
+  closeSecondApplication,
   createNewUser,
   getUserKey,
-  launchFirstApplication,
   launchSecondApplication,
   saveTestKeys,
 } from "@helpers/commands";
@@ -87,7 +90,7 @@ export default async function createChatAccountsTests() {
 
   it("Chat User B - Create Account", async () => {
     // Launch second application
-    await launchSecondApplication();
+    await launchSecondApplication(false);
 
     // Create a new account and go to Settings Profile
     await createPin.waitForIsShown(true);
@@ -147,7 +150,7 @@ export default async function createChatAccountsTests() {
 
   it("Chat User A - Accept friend request from User A and go to chat button", async () => {
     // Switch control to User A
-    await launchFirstApplication();
+    await activateFirstApplication();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreen.hoverOnPendingListButton();
@@ -167,7 +170,7 @@ export default async function createChatAccountsTests() {
 
   it("Chat User B - Validate friend request was accepted", async () => {
     // Switch control to User B
-    await launchSecondApplication();
+    await activateSecondApplication();
 
     // With User B - Go to pending requests list, wait for receiving the friend request and accept it
     await friendsScreen.waitUntilUserAcceptedFriendRequest();
@@ -180,7 +183,7 @@ export default async function createChatAccountsTests() {
 
   it("Chat User A - Chat screen displays Messages secured text displayed on top of conversation", async () => {
     // Switch control to User A
-    await launchFirstApplication();
+    await activateFirstApplication();
     await chatsTopbar.validateTopbarExists();
 
     // Validate E2E message is displayed on top of chat
@@ -280,7 +283,7 @@ export default async function createChatAccountsTests() {
 
   it("Chat User B - Wait until the other user is connected", async () => {
     // Switch control to User B
-    await launchSecondApplication();
+    await activateSecondApplication();
 
     // Go to the current list of All friends and then open a Chat conversation with ChatUserA
     await friendsScreen.chatWithFriendButton.waitForExist();
@@ -311,5 +314,10 @@ export default async function createChatAccountsTests() {
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
+  });
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 }
