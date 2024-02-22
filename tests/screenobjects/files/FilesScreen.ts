@@ -398,7 +398,7 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async clickOnFileOrFolder(locator: string) {
     const fileOrFolderLocator = await this.getLocatorOfFolderFile(locator);
-    const fileOrFolderElement = await $(fileOrFolderLocator);
+    const fileOrFolderElement = await $(fileOrFolderLocator?);
     await fileOrFolderElement.click();
   }
 
@@ -545,13 +545,13 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async getProgressUploadFilename() {
-    const filename = await this.uploadFileIndicatorFilename;
+    const filename = await this.uploadProgressFilesQueueText;
     const filenameText = await filename.getText();
     return filenameText;
   }
 
   async getProgressUploadPercentage() {
-    const progress = await this.uploadFileIndicatorProgress;
+    const progress = await this.uploadProgressBarHeaderPercentageText;
     const progressText = await progress.getText();
     return progressText;
   }
@@ -604,6 +604,13 @@ export default class FilesScreen extends UplinkMainScreen {
   async validateFilesScreenIsShown() {
     const filesBody = await this.filesBody;
     await filesBody.waitForExist();
+  }
+
+  async waitForFileUploadToComplete(timeout: number = 60000) {
+    await this.uploadProgressBar.waitForExist({
+      reverse: true,
+      timeout: timeout,
+    });
   }
 
   // Hovering methods
