@@ -1,8 +1,16 @@
 require("module-alias/register");
+import { MACOS_DRIVER } from "@helpers/constants";
+import { sendCustomKeybinds } from "@helpers/commands";
+import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import SettingsDeveloperScreen from "@screenobjects/settings/SettingsDeveloperScreen";
 import SettingsLicensesScreen from "@screenobjects/settings/SettingsLicenses";
+import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
+import WebInspector from "@screenobjects/developer/WebInspector";
+const friendsScreen = new FriendsScreen();
 const settingsDeveloper = new SettingsDeveloperScreen();
 const settingsLicenses = new SettingsLicensesScreen();
+const settingsProfile = new SettingsProfileScreen();
+const webInspector = new WebInspector();
 
 export default async function settingsDeveloperTests() {
   it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {
@@ -159,5 +167,31 @@ export default async function settingsDeveloperTests() {
   // Skipped for now because no action is performed when clicking on the button
   xit("Settings Developer - Clear Cache", async () => {
     await settingsDeveloper.clickOnClearCache();
+  });
+
+  it("User can open Web Inspector from Context Menu", async () => {
+    // Execute this test only on MacOS - Web Inspector cannot be closed with Keybind on Windows
+    const currentDriver = await settingsDeveloper.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      // Go to Friends Screen and open Web Inspector from Add User Input Context Menu
+      await settingsDeveloper.goToFriends();
+      await friendsScreen.waitForIsShown(true);
+      await friendsScreen.openAddSomeoneContextMenu();
+      await friendsScreen.clickOnOpenWebInspector();
+
+      // Validate Web Inspector is displayed
+      await webInspector.validateWebInspectorIsShown();
+
+      // Press Ctrl + Shift + I to Close Web Inspector
+      await sendCustomKeybinds(4, 7, 53);
+
+      // Validate Web Inspector is not displayed
+      await webInspector.validateWebInspectorIsNotShown();
+
+      // Return to Settings Developer Screen
+      await friendsScreen.goToSettings();
+      await settingsProfile.goToDeveloperSettings();
+      await settingsDeveloper.waitForIsShown(true);
+    }
   });
 }

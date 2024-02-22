@@ -48,16 +48,27 @@ const SELECTORS_WINDOWS = {
   TOOLTIP_TEXT: "//Group/Text",
   TOPBAR: '[name="Topbar"]',
   UPLOAD_FILE_BUTTON: '[name="upload-file"]',
-  UPLOAD_FILE_INDICATOR_FILENAME: "//Document/Group/Text[1]",
-  UPLOAD_FILE_INDICATOR_PROGRESS: "//Document/Group/Text[2]",
-  UPLOAD_PROGRESS_BAR: '[name="upload-progress-bar-container"]',
-  UPLOAD_PROGRESS_BAR_CONTENTS_FILENAME:
-    '[name="filename-and-file-queue-text"]',
-  UPLOAD_PROGRESS_BAR_CONTENTS_PERCENTAGE: '[name="progress-percentage"]',
-  UPLOAD_PROGRESS_BAR_CONTENTS_QUEUE: '[name="upload-progress-files-queue"]',
+  UPLOAD_FILENAME_AND_QUEUE_CONTAINER: '[name="filename-and-queue-container"]',
+  UPLOAD_FILENAME_AND_FILE_QUEUE_TEXT: '[name="filename-and-file-queue-text"]',
+  UPLOAD_FILENAME_AND_FILE_QUEUE_TEXT_VALUE: "<Text>",
+  UPLOAD_PROGRESS_BAR: '[name="progress-bar"]',
+  UPLOAD_PROGRESS_BAR_BUTTON_CONTAINER:
+    '[name="progress-bar-button-container"]',
+  UPLOAD_PROGRESS_BAR_CONTAINER: '[name="upload-progress-bar-container"]',
+  UPLOAD_PROGRESS_BAR_FILENAME_CONTAINER:
+    '[name="progress-bar-filename-container"]',
   UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION:
     '[name="upload-progress-description"]',
+  UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION_TEXT: "<Text>",
   UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE: '[name="upload-progress-percentage"]',
+  UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE_TEXT: "<Text>",
+  UPLOAD_PROGRESS_CANCEL_UPLOAD_BUTTON: '[name="cancel-upload"]',
+  UPLOAD_PROGRESS_DROP_FILES: '[name="upload-progress-drop-files"]',
+  UPLOAD_PROGRESS_FILES_QUEUE: '[name="upload-progress-files-queue"]',
+  UPLOAD_PROGRESS_FILES_QUEUE_TEXT: "<Text>",
+  UPLOAD_PROGRESS_PERCENTAGE: '[name="progress-percentage"]',
+  UPLOAD_PROGRESS_PERCENTAGE_DESCRIPTION_CONTAINER:
+    '[name="progress-percentage-description-container"]',
 };
 
 const SELECTORS_MACOS = {
@@ -100,16 +111,28 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   TOPBAR: "~Topbar",
   UPLOAD_FILE_BUTTON: "~upload-file",
-  UPLOAD_FILE_INDICATOR_FILENAME:
-    "-ios class chain:**/XCUIElementTypeWebView/XCUIElementTypeGroup[3]/XCUIElementTypeStaticText",
-  UPLOAD_FILE_INDICATOR_PROGRESS:
-    "-ios class chain:**/XCUIElementTypeWebView/XCUIElementTypeGroup[4]/XCUIElementTypeStaticText",
-  UPLOAD_PROGRESS_BAR: "~upload-progress-bar-container",
-  UPLOAD_PROGRESS_BAR_CONTENTS_FILENAME: "~filename-and-file-queue-text",
-  UPLOAD_PROGRESS_BAR_CONTENTS_PERCENTAGE: "~progress-percentage",
-  UPLOAD_PROGRESS_BAR_CONTENTS_QUEUE: "~upload-progress-files-queue",
+  UPLOAD_FILENAME_AND_QUEUE_CONTAINER: "~filename-and-queue-container",
+  UPLOAD_FILENAME_AND_FILE_QUEUE_TEXT: "~filename-and-file-queue-text",
+  UPLOAD_FILENAME_AND_FILE_QUEUE_TEXT_VALUE:
+    "-ios class chain:**/XCUIElementTypeStaticText",
+  UPLOAD_PROGRESS_BAR: "~progress-bar",
+  UPLOAD_PROGRESS_BAR_BUTTON_CONTAINER: "~progress-bar-button-container",
+  UPLOAD_PROGRESS_BAR_CONTAINER: "~upload-progress-bar-container",
+  UPLOAD_PROGRESS_BAR_FILENAME_CONTAINER: "~progress-bar-filename-container",
   UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION: "~upload-progress-description",
+  UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText",
   UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE: "~upload-progress-percentage",
+  UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText",
+  UPLOAD_PROGRESS_CANCEL_UPLOAD_BUTTON: "~cancel-upload",
+  UPLOAD_PROGRESS_DROP_FILES: "~upload-progress-drop-files",
+  UPLOAD_PROGRESS_FILES_QUEUE: "~upload-progress-files-queue",
+  UPLOAD_PROGRESS_FILES_QUEUE_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText",
+  UPLOAD_PROGRESS_PERCENTAGE: "~progress-percentage",
+  UPLOAD_PROGRESS_PERCENTAGE_DESCRIPTION_CONTAINER:
+    "~progress-percentage-description-container",
 };
 
 process.env.DRIVER === WINDOWS_DRIVER
@@ -265,44 +288,100 @@ export default class FilesScreen extends UplinkMainScreen {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get uploadFileIndicatorFilename() {
-    return $(SELECTORS.UPLOAD_FILE_INDICATOR_FILENAME);
+  get uploadFilenameAndFileQueueText() {
+    return this.uploadFilenameAndQueueContainer.$(
+      SELECTORS.UPLOAD_FILENAME_AND_FILE_QUEUE_TEXT,
+    );
   }
 
-  get uploadFileIndicatorProgress() {
-    return $(SELECTORS.UPLOAD_FILE_INDICATOR_PROGRESS);
+  get uploadFilenameAndFileQueueTextValue() {
+    return this.uploadFilenameAndFileQueueText.$(
+      SELECTORS.UPLOAD_FILENAME_AND_FILE_QUEUE_TEXT_VALUE,
+    );
+  }
+
+  get uploadFilenameAndQueueContainer() {
+    return this.uploadProgressBarFilenameContainer.$(
+      SELECTORS.UPLOAD_FILENAME_AND_QUEUE_CONTAINER,
+    );
   }
 
   get uploadProgressBar() {
-    return $(SELECTORS.UPLOAD_PROGRESS_BAR);
-  }
-
-  get uploadProgressBarContentsFilename() {
-    return $(SELECTORS.UPLOAD_PROGRESS_BAR).$(
-      SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_FILENAME,
+    return this.uploadProgressBarFilenameContainer.$(
+      SELECTORS.UPLOAD_PROGRESS_BAR,
     );
   }
 
-  get uploadProgressBarContentsPercentage() {
-    return $(SELECTORS.UPLOAD_PROGRESS_BAR).$(
-      SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_PERCENTAGE,
+  get uploadProgressBarButtonContainer() {
+    return this.uploadProgressBarContainer.$(
+      SELECTORS.UPLOAD_PROGRESS_BAR_BUTTON_CONTAINER,
     );
   }
 
-  get uploadProgressBarContentsQueue() {
-    return $(SELECTORS.UPLOAD_PROGRESS_BAR).$(
-      SELECTORS.UPLOAD_PROGRESS_BAR_CONTENTS_QUEUE,
+  get uploadProgressBarFilenameContainer() {
+    return this.uploadProgressBarButtonContainer.$(
+      SELECTORS.UPLOAD_PROGRESS_BAR_FILENAME_CONTAINER,
     );
+  }
+
+  get uploadProgressBarContainer() {
+    return this.filesBody.$(SELECTORS.UPLOAD_PROGRESS_BAR_CONTAINER);
   }
 
   get uploadProgressBarHeaderDescription() {
-    return $(SELECTORS.UPLOAD_PROGRESS_BAR).$(
+    return this.uploadProgressPercentageDescriptionContainer.$(
       SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION,
     );
   }
+  get uploadProgressBarHeaderDescriptionText() {
+    return this.uploadProgressBarHeaderDescription.$(
+      SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION_TEXT,
+    );
+  }
+
   get uploadProgressBarHeaderPercentage() {
-    return $(SELECTORS.UPLOAD_PROGRESS_BAR).$(
+    return this.uploadProgressPercentageDescriptionContainer.$(
       SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE,
+    );
+  }
+
+  get uploadProgressBarHeaderPercentageText() {
+    return this.uploadProgressBarHeaderPercentage.$(
+      SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE_TEXT,
+    );
+  }
+
+  get uploadProgressCancelUploadButton() {
+    return this.uploadProgressBarButtonContainer.$(
+      SELECTORS.UPLOAD_PROGRESS_CANCEL_UPLOAD_BUTTON,
+    );
+  }
+
+  get uploadProgressDropFiles() {
+    return this.uploadProgressPercentageDescriptionContainer.$(
+      SELECTORS.UPLOAD_PROGRESS_DROP_FILES,
+    );
+  }
+
+  get uploadProgressFilesQueue() {
+    return this.uploadFilenameAndQueueContainer.$(
+      SELECTORS.UPLOAD_PROGRESS_FILES_QUEUE,
+    );
+  }
+
+  get uploadProgressFilesQueueText() {
+    return this.uploadProgressFilesQueue.$(
+      SELECTORS.UPLOAD_PROGRESS_FILES_QUEUE_TEXT,
+    );
+  }
+
+  get uploadProgressPercentage() {
+    return this.uploadProgressBar.$(SELECTORS.UPLOAD_PROGRESS_PERCENTAGE);
+  }
+
+  get uploadProgressPercentageDescriptionContainer() {
+    return this.uploadProgressBarContainer.$(
+      SELECTORS.UPLOAD_PROGRESS_PERCENTAGE_DESCRIPTION_CONTAINER,
     );
   }
 
