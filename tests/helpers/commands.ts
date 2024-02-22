@@ -111,7 +111,7 @@ export async function createNewUser(
   await createPin.unlockLayout.waitForExist();
 
   // Enter pin for test user
-  await createPin.enterPin("1234");
+  await createPin.enterPinOnCreateAccount("1234");
   await createPin.createAccountButton.waitForEnabled();
   await createPin.clickOnCreateAccount();
 
@@ -142,7 +142,7 @@ export async function loginWithTestUser() {
   // Enter pin for test user
   const unlockScreen = await createPin.unlockLayout;
   await unlockScreen.waitForExist();
-  await createPin.enterPin("1234");
+  await createPin.enterPinOnLogin("1234");
   await createPin.unlockLayout.waitForExist({ reverse: true });
 }
 
