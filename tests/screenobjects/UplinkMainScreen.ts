@@ -326,13 +326,53 @@ export default class UplinkMainScreen extends AppScreen {
 
   async getToggleState(element: WebdriverIO.Element) {
     const currentDriver = await this.getCurrentDriver();
-    let toggleState;
+    let toggleState: string;
+    let attributeToValidate: string;
     if (currentDriver === MACOS_DRIVER) {
-      toggleState = await element.getAttribute("value");
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      toggleState = await element.getAttribute("Toggle.ToggleState");
+      attributeToValidate = "value";
+    } else {
+      attributeToValidate = "Toggle.ToggleState";
     }
+    toggleState = await element.getAttribute(attributeToValidate);
     return toggleState;
+  }
+
+  async validateToggleIsEnabled(element: WebdriverIO.Element) {
+    const currentDriver = await this.getCurrentDriver();
+    let attributeToValidate: string;
+    if (currentDriver === MACOS_DRIVER) {
+      attributeToValidate = "value";
+    } else {
+      attributeToValidate = "Toggle.ToggleState";
+    }
+    await driver.waitUntil(
+      async () => {
+        return (await element.getAttribute(attributeToValidate)) === "1";
+      },
+      {
+        timeout: 5000,
+        timeoutMsg: "Switch was never enabled after 5 seconds",
+      },
+    );
+  }
+
+  async validateToggleIsDisabled(element: WebdriverIO.Element) {
+    const currentDriver = await this.getCurrentDriver();
+    let attributeToValidate: string;
+    if (currentDriver === MACOS_DRIVER) {
+      attributeToValidate = "value";
+    } else {
+      attributeToValidate = "Toggle.ToggleState";
+    }
+    await driver.waitUntil(
+      async () => {
+        return (await element.getAttribute(attributeToValidate)) === "0";
+      },
+      {
+        timeout: 5000,
+        timeoutMsg: "Switch was never enabled after 5 seconds",
+      },
+    );
   }
 
   async validateNoModalIsOpen() {

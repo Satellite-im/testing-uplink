@@ -86,80 +86,80 @@ export default async function settingsAudioTests() {
   });
 
   it("Settings Audio - Click on slider switches to enable the options", async () => {
-    // Click on the five switch sliders from the Settings Sounds & Audio Screen
+    // Click on the switch slider from Settings Sounds & Audio Screen - Echo Cancellation
     await settingsAudio.clickOnEchoCancellation();
-    await settingsAudio.clickOnInterfaceSounds();
-    await settingsAudio.clickOnMediaSounds();
-    await settingsAudio.clickOnMessageSounds();
-    await settingsAudio.clickOnCallTimer();
 
-    // Validate that all toggles have now value = "1" (enabled)
+    // Validate status changed to Enabled for switch
     const toggleElementEcho = await settingsAudio.messageSoundsControllerValue;
-    const echoCancellationStatus =
-      await settingsAudio.getToggleState(toggleElementEcho);
+    await settingsAudio.validateToggleIsEnabled(toggleElementEcho);
 
+    // Click on the switch slider from Settings Sounds & Audio Screen - Interface Sounds
+    await settingsAudio.clickOnInterfaceSounds();
+
+    // Validate status changed to Enabled for switch
     const toggleElementInterface =
       await settingsAudio.interfaceSoundsControllerValue;
-    const interfaceSoundsStatus = await settingsAudio.getToggleState(
-      toggleElementInterface,
-    );
+    await settingsAudio.validateToggleIsEnabled(toggleElementInterface);
 
+    // Click on the switch slider from Settings Sounds & Audio Screen - Media Sounds
+    await settingsAudio.clickOnMediaSounds();
+
+    // Validate status changed to Enabled for switch
     const toggleElementMedia = await settingsAudio.mediaSoundsControllerValue;
-    const mediaSoundsStatus =
-      await settingsAudio.getToggleState(toggleElementMedia);
+    await settingsAudio.validateToggleIsEnabled(toggleElementMedia);
 
+    // Click on the switch slider from Settings Sounds & Audio Screen - Message Sounds
+    await settingsAudio.clickOnMessageSounds();
+
+    // Validate status changed to Enabled for switch
     const toggleElementMessage =
       await settingsAudio.messageSoundsControllerValue;
-    const messageSoundsStatus =
-      await settingsAudio.getToggleState(toggleElementMessage);
+    await settingsAudio.validateToggleIsEnabled(toggleElementMessage);
 
+    // Click on the switch slider from Settings Sounds & Audio Screen - Call Timer
+    await settingsAudio.clickOnCallTimer();
+
+    // Validate status changed to Enabled for switch
     const toggleElementTimer = await settingsAudio.messageSoundsControllerValue;
-    const callTimerStatus =
-      await settingsAudio.getToggleState(toggleElementTimer);
-
-    await expect(echoCancellationStatus).toEqual("1");
-    await expect(interfaceSoundsStatus).toEqual("1");
-    await expect(mediaSoundsStatus).toEqual("1");
-    await expect(messageSoundsStatus).toEqual("1");
-    await expect(callTimerStatus).toEqual("1");
+    await settingsAudio.validateToggleIsEnabled(toggleElementTimer);
   });
 
   it("Settings Audio - Click on slider switches to disable the options", async () => {
-    // Click again on the four switch sliders from the Settings Sounds & Audio Screen
+    // Click on the switch slider from Settings Sounds & Audio Screen - Echo Cancellation
     await settingsAudio.clickOnEchoCancellation();
-    await settingsAudio.clickOnInterfaceSounds();
-    await settingsAudio.clickOnMediaSounds();
-    await settingsAudio.clickOnMessageSounds();
-    await settingsAudio.clickOnCallTimer();
 
-    // Validate that all toggles have now value = "0" (disabled)
+    // Validate status changed to Disabled for switch
     const toggleElementEcho = await settingsAudio.messageSoundsControllerValue;
-    const echoCancellationStatus =
-      await settingsAudio.getToggleState(toggleElementEcho);
+    await settingsAudio.validateToggleIsDisabled(toggleElementEcho);
 
+    // Click on the switch slider from Settings Sounds & Audio Screen - Interface Sounds
+    await settingsAudio.clickOnInterfaceSounds();
+
+    // Validate status changed to Disabled for switch
     const toggleElementInterface =
       await settingsAudio.interfaceSoundsControllerValue;
-    const interfaceSoundsStatus = await settingsAudio.getToggleState(
-      toggleElementInterface,
-    );
+    await settingsAudio.validateToggleIsDisabled(toggleElementInterface);
 
+    // Click on the switch slider from Settings Sounds & Audio Screen - Media Sounds
+    await settingsAudio.clickOnMediaSounds();
+
+    // Validate status changed to Disabled for switch
     const toggleElementMedia = await settingsAudio.mediaSoundsControllerValue;
-    const mediaSoundsStatus =
-      await settingsAudio.getToggleState(toggleElementMedia);
+    await settingsAudio.validateToggleIsDisabled(toggleElementMedia);
 
+    // Click on the switch slider from Settings Sounds & Audio Screen - Message Sounds
+    await settingsAudio.clickOnMessageSounds();
+
+    // Validate status changed to Disabled for switch
     const toggleElementMessage =
       await settingsAudio.messageSoundsControllerValue;
-    const messageSoundsStatus =
-      await settingsAudio.getToggleState(toggleElementMessage);
+    await settingsAudio.validateToggleIsDisabled(toggleElementMessage);
 
+    // Click on the switch slider from Settings Sounds & Audio Screen - Call Timer
+    await settingsAudio.clickOnCallTimer();
+
+    // Validate status changed to Disabled for switch
     const toggleElementTimer = await settingsAudio.messageSoundsControllerValue;
-    const callTimerStatus =
-      await settingsAudio.getToggleState(toggleElementTimer);
-
-    await expect(echoCancellationStatus).toEqual("0");
-    await expect(interfaceSoundsStatus).toEqual("0");
-    await expect(mediaSoundsStatus).toEqual("0");
-    await expect(messageSoundsStatus).toEqual("0");
-    await expect(callTimerStatus).toEqual("0");
+    await settingsAudio.validateToggleIsDisabled(toggleElementTimer);
   });
 }
