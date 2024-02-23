@@ -44,7 +44,7 @@ export default async function settingsDeveloperTests() {
       await settingsDeveloper.testNotificationDescription;
     await expect(testNotificationHeader).toHaveText("TEST NOTIFICATION");
     await expect(testNotificationDescription).toHaveText(
-      "Sends a test notification",
+      "Sends a test notification.",
     );
 
     // Validate OPEN CACHE section
