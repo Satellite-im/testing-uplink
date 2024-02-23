@@ -398,7 +398,7 @@ export default class FilesScreen extends UplinkMainScreen {
 
   async clickOnFileOrFolder(locator: string) {
     const fileOrFolderLocator = await this.getLocatorOfFolderFile(locator);
-    const fileOrFolderElement = await $(fileOrFolderLocator?);
+    const fileOrFolderElement = await $(fileOrFolderLocator);
     await fileOrFolderElement.click();
   }
 
