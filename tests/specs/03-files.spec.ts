@@ -105,10 +105,7 @@ export default async function filesTests() {
 
   it("Upload file - Progress indicator is closed and file appears on files list", async () => {
     // Wait until progress indicator disappears
-
-    await filesScreen.uploadFileIndicatorProgress.waitForExist({
-      reverse: true,
-    });
+    await filesScreen.waitForFileUploadToComplete();
 
     // Once that progress indicator disappears, validate that file is loaded
     await filesScreen.validateFileOrFolderExist("logo.jpg");
@@ -177,10 +174,7 @@ export default async function filesTests() {
     await filesScreen.uploadFile("./tests/fixtures/app-macos.zip");
 
     // Wait until progress indicator disappears
-    await filesScreen.uploadFileIndicatorProgress.waitForExist({
-      reverse: true,
-      timeout: 60000,
-    });
+    await filesScreen.waitForFileUploadToComplete();
 
     // Once that progress indicator disappears, validate that file is loaded
     await filesScreen.validateFileOrFolderExist("app-macos.zip", 30000);
@@ -203,10 +197,7 @@ export default async function filesTests() {
     await filesScreen.uploadFile("./tests/fixtures/app-macos.zip");
 
     // Wait until progress indicator disappears
-    await filesScreen.uploadFileIndicatorProgress.waitForExist({
-      reverse: true,
-      timeout: 60000,
-    });
+    await filesScreen.waitForFileUploadToComplete();
 
     // Once that progress indicator disappears, validate that file is loaded and is automatically renamed to avoid name conflicts
     await filesScreen.validateFileOrFolderExist("app-macos (1).zip", 30000);
