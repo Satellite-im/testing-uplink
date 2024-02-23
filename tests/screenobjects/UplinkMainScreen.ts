@@ -345,18 +345,7 @@ export default class UplinkMainScreen extends AppScreen {
     } else {
       attributeToValidate = "Toggle.ToggleState";
     }
-    await browser.waitUntil(
-      async () => {
-        const updatedElement = await browser.$(element.selector);
-        const attributeValue =
-          await updatedElement.getAttribute(attributeToValidate);
-        return attributeValue === "1";
-      },
-      {
-        timeout: 5000,
-        timeoutMsg: "Switch was never enabled after 5 seconds",
-      },
-    );
+    await expect(element).toHaveAttribute(attributeToValidate, "1");
   }
 
   async validateToggleIsDisabled(element: WebdriverIO.Element) {
@@ -367,18 +356,7 @@ export default class UplinkMainScreen extends AppScreen {
     } else {
       attributeToValidate = "Toggle.ToggleState";
     }
-    await browser.waitUntil(
-      async () => {
-        const updatedElement = await browser.$(element.selector);
-        const attributeValue =
-          await updatedElement.getAttribute(attributeToValidate);
-        return attributeValue === "0";
-      },
-      {
-        timeout: 5000,
-        timeoutMsg: "Switch was never enabled after 5 seconds",
-      },
-    );
+    await expect(element).toHaveAttribute(attributeToValidate, "0");
   }
 
   async validateNoModalIsOpen() {

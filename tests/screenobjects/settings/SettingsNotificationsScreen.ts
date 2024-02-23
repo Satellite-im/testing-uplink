@@ -46,99 +46,115 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
   }
 
   get enabledNotificationsCheckbox() {
-    return $(SELECTORS.ENABLED_NOTIFICATIONS_SECTION).$(
-      SELECTORS.SWITCH_SLIDER,
-    );
+    return this.enabledNotificationsSection.$(SELECTORS.SWITCH_SLIDER);
   }
 
   get enabledNotificationsControllerValue() {
-    return $(SELECTORS.ENABLED_NOTIFICATIONS_SECTION).$(
+    return this.enabledNotificationsSection.$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get enabledNotificationsDescription() {
-    return $(SELECTORS.ENABLED_NOTIFICATIONS_SECTION)
+    return this.enabledNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get enabledNotificationsHeader() {
-    return $(SELECTORS.ENABLED_NOTIFICATIONS_SECTION)
+    return this.enabledNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get friendsNotificationsCheckbox() {
-    return $(SELECTORS.FRIENDS_NOTIFICATIONS_SECTION).$(
-      SELECTORS.SWITCH_SLIDER,
+  get enabledNotificationsSection() {
+    return this.settingsNotifications.$(
+      SELECTORS.ENABLED_NOTIFICATIONS_SECTION,
     );
   }
 
+  get friendsNotificationsCheckbox() {
+    return this.friendsNotificationsSection.$(SELECTORS.SWITCH_SLIDER);
+  }
+
   get friendsNotificationsControllerValue() {
-    return $(SELECTORS.FRIENDS_NOTIFICATIONS_SECTION).$(
+    return this.friendsNotificationsSection.$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get friendsNotificationsDescription() {
-    return $(SELECTORS.FRIENDS_NOTIFICATIONS_SECTION)
+    return this.friendsNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get friendsNotificationsHeader() {
-    return $(SELECTORS.FRIENDS_NOTIFICATIONS_SECTION)
+    return this.friendsNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get messagesNotificationsCheckbox() {
-    return $(SELECTORS.MESSAGES_NOTIFICATIONS_SECTION).$(
-      SELECTORS.SWITCH_SLIDER,
+  get friendsNotificationsSection() {
+    return this.settingsNotifications.$(
+      SELECTORS.FRIENDS_NOTIFICATIONS_SECTION,
     );
   }
 
+  get messagesNotificationsCheckbox() {
+    return this.messagesNotificationsSection.$(SELECTORS.SWITCH_SLIDER);
+  }
+
   get messagesNotificationsControllerValue() {
-    return $(SELECTORS.MESSAGES_NOTIFICATIONS_SECTION).$(
+    return this.messagesNotificationsSection.$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get messagesNotificationsDescription() {
-    return $(SELECTORS.MESSAGES_NOTIFICATIONS_SECTION)
+    return this.messagesNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get messagesNotificationsHeader() {
-    return $(SELECTORS.MESSAGES_NOTIFICATIONS_SECTION)
+    return this.messagesNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get settingsNotificationsCheckbox() {
-    return $(SELECTORS.SETTINGS_NOTIFICATIONS_SECTION).$(
-      SELECTORS.SWITCH_SLIDER,
+  get messagesNotificationsSection() {
+    return this.settingsNotifications.$(
+      SELECTORS.MESSAGES_NOTIFICATIONS_SECTION,
     );
   }
 
+  get settingsNotificationsCheckbox() {
+    return this.settingsNotificationsSection.$(SELECTORS.SWITCH_SLIDER);
+  }
+
   get settingsNotificationsControllerValue() {
-    return $(SELECTORS.SETTINGS_NOTIFICATIONS_SECTION).$(
+    return this.settingsNotificationsSection.$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
   get settingsNotificationsDescription() {
-    return $(SELECTORS.SETTINGS_NOTIFICATIONS_SECTION)
+    return this.settingsNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get settingsNotificationsHeader() {
-    return $(SELECTORS.SETTINGS_NOTIFICATIONS_SECTION)
+    return this.settingsNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get settingsNotificationsSection() {
+    return this.settingsNotifications.$(
+      SELECTORS.SETTINGS_NOTIFICATIONS_SECTION,
+    );
   }
 
   get settingsNotifications() {

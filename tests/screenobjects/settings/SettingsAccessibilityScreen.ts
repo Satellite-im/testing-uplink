@@ -5,9 +5,7 @@ import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
 let SELECTORS = {};
 
-const SELECTORS_COMMON = {
-  SETTINGS_ACCESSIBILITY: "~settings-general",
-};
+const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   OPEN_DYSLEXIC_SECTION: '[name="open-dyslexic-section"]',
@@ -36,7 +34,7 @@ process.env.DRIVER === WINDOWS_DRIVER
 
 export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
   constructor() {
-    super(SELECTORS.SETTINGS_ACCESSIBILITY);
+    super(SELECTORS.OPEN_DYSLEXIC_SECTION);
   }
 
   get openDyslexicCheckbox() {
@@ -53,24 +51,18 @@ export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
 
   get openDyslexicDescription() {
     return this.openDyslexicSection
-      .$(SELECTORS.OPEN_DYSLEXIC_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openDyslexicHeader() {
     return this.openDyslexicSection
-      .$(SELECTORS.OPEN_DYSLEXIC_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
   get openDyslexicSection() {
-    return this.settingsAccessibility.$(SELECTORS.OPEN_DYSLEXIC_SECTION);
-  }
-
-  get settingsAccessibility() {
-    return $(SELECTORS.SETTINGS_ACCESSIBILITY);
+    return $(SELECTORS.OPEN_DYSLEXIC_SECTION);
   }
 
   async clickOnOpenDyslexic() {

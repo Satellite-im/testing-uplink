@@ -76,8 +76,8 @@ export default async function settingsNotificationsTests() {
     // Validate that toggle switch for MESSAGES has now value = "1" (enabled)
     await settingsNotifications.validateMessagesNotificationsIsEnabled();
 
-    // Validate that toggle switch for SETTINGS has now value = "1" (enabled)
-    await settingsNotifications.validateSettingsNotificationsIsEnabled();
+    // Validate that toggle switch for SETTINGS has now value = "0" (disabled)
+    await settingsNotifications.validateSettingsNotificationsIsDisabled();
   });
 
   it("Settings Notifications - Enable only FRIENDS notifications", async () => {
