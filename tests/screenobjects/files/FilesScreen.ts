@@ -607,7 +607,7 @@ export default class FilesScreen extends UplinkMainScreen {
   }
 
   async waitForFileUploadToComplete(timeout: number = 60000) {
-    await this.uploadProgressBar.waitForExist({
+    await this.uploadProgressBarContainer.waitForExist({
       reverse: true,
       timeout: timeout,
     });
