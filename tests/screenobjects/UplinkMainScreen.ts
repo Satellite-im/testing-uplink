@@ -332,13 +332,37 @@ export default class UplinkMainScreen extends AppScreen {
 
   async getToggleState(element: WebdriverIO.Element) {
     const currentDriver = await this.getCurrentDriver();
-    let toggleState;
+    let toggleState: string;
+    let attributeToValidate: string;
     if (currentDriver === MACOS_DRIVER) {
-      toggleState = await element.getAttribute("value");
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      toggleState = await element.getAttribute("Toggle.ToggleState");
+      attributeToValidate = "value";
+    } else {
+      attributeToValidate = "Toggle.ToggleState";
     }
+    toggleState = await element.getAttribute(attributeToValidate);
     return toggleState;
+  }
+
+  async validateToggleIsEnabled(element: WebdriverIO.Element) {
+    const currentDriver = await this.getCurrentDriver();
+    let attributeToValidate: string;
+    if (currentDriver === MACOS_DRIVER) {
+      attributeToValidate = "value";
+    } else {
+      attributeToValidate = "Toggle.ToggleState";
+    }
+    await expect(element).toHaveAttribute(attributeToValidate, "1");
+  }
+
+  async validateToggleIsDisabled(element: WebdriverIO.Element) {
+    const currentDriver = await this.getCurrentDriver();
+    let attributeToValidate: string;
+    if (currentDriver === MACOS_DRIVER) {
+      attributeToValidate = "value";
+    } else {
+      attributeToValidate = "Toggle.ToggleState";
+    }
+    await expect(element).toHaveAttribute(attributeToValidate, "0");
   }
 
   async validateNoModalIsOpen() {

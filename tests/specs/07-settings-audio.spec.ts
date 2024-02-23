@@ -86,80 +86,46 @@ export default async function settingsAudioTests() {
   });
 
   it("Settings Audio - Click on slider switches to enable the options", async () => {
-    // Click on the five switch sliders from the Settings Sounds & Audio Screen
+    // Click on the switch slider from Settings Sounds & Audio Screen - Echo Cancellation
     await settingsAudio.clickOnEchoCancellation();
+    await settingsAudio.validateEchoCancellationIsEnabled();
+
+    // Click on the switch slider from Settings Sounds & Audio Screen - Interface Sounds
     await settingsAudio.clickOnInterfaceSounds();
+    await settingsAudio.validateInterfaceSoundsIsEnabled();
+
+    // Click on the switch slider from Settings Sounds & Audio Screen - Media Sounds
     await settingsAudio.clickOnMediaSounds();
+    await settingsAudio.validateMediaSoundsIsEnabled();
+
+    // Click on the switch slider from Settings Sounds & Audio Screen - Message Sounds
     await settingsAudio.clickOnMessageSounds();
+    await settingsAudio.validateMessageSoundsIsEnabled();
+
+    // Click on the switch slider from Settings Sounds & Audio Screen - Call Timer
     await settingsAudio.clickOnCallTimer();
-
-    // Validate that all toggles have now value = "1" (enabled)
-    const toggleElementEcho = await settingsAudio.messageSoundsControllerValue;
-    const echoCancellationStatus =
-      await settingsAudio.getToggleState(toggleElementEcho);
-
-    const toggleElementInterface =
-      await settingsAudio.interfaceSoundsControllerValue;
-    const interfaceSoundsStatus = await settingsAudio.getToggleState(
-      toggleElementInterface,
-    );
-
-    const toggleElementMedia = await settingsAudio.mediaSoundsControllerValue;
-    const mediaSoundsStatus =
-      await settingsAudio.getToggleState(toggleElementMedia);
-
-    const toggleElementMessage =
-      await settingsAudio.messageSoundsControllerValue;
-    const messageSoundsStatus =
-      await settingsAudio.getToggleState(toggleElementMessage);
-
-    const toggleElementTimer = await settingsAudio.messageSoundsControllerValue;
-    const callTimerStatus =
-      await settingsAudio.getToggleState(toggleElementTimer);
-
-    await expect(echoCancellationStatus).toEqual("1");
-    await expect(interfaceSoundsStatus).toEqual("1");
-    await expect(mediaSoundsStatus).toEqual("1");
-    await expect(messageSoundsStatus).toEqual("1");
-    await expect(callTimerStatus).toEqual("1");
+    await settingsAudio.validateCallTimerIsEnabled();
   });
 
   it("Settings Audio - Click on slider switches to disable the options", async () => {
-    // Click again on the four switch sliders from the Settings Sounds & Audio Screen
+    // Click on the switch slider from Settings Sounds & Audio Screen - Echo Cancellation
     await settingsAudio.clickOnEchoCancellation();
+    await settingsAudio.validateEchoCancellationIsDisabled();
+
+    // Click on the switch slider from Settings Sounds & Audio Screen - Interface Sounds
     await settingsAudio.clickOnInterfaceSounds();
+    await settingsAudio.validateInterfaceSoundsIsDisabled();
+
+    // Click on the switch slider from Settings Sounds & Audio Screen - Media Sounds
     await settingsAudio.clickOnMediaSounds();
+    await settingsAudio.validateMediaSoundsIsDisabled();
+
+    // Click on the switch slider from Settings Sounds & Audio Screen - Message Sounds
     await settingsAudio.clickOnMessageSounds();
+    await settingsAudio.validateMessageSoundsIsDisabled();
+
+    // Click on the switch slider from Settings Sounds & Audio Screen - Call Timer
     await settingsAudio.clickOnCallTimer();
-
-    // Validate that all toggles have now value = "0" (disabled)
-    const toggleElementEcho = await settingsAudio.messageSoundsControllerValue;
-    const echoCancellationStatus =
-      await settingsAudio.getToggleState(toggleElementEcho);
-
-    const toggleElementInterface =
-      await settingsAudio.interfaceSoundsControllerValue;
-    const interfaceSoundsStatus = await settingsAudio.getToggleState(
-      toggleElementInterface,
-    );
-
-    const toggleElementMedia = await settingsAudio.mediaSoundsControllerValue;
-    const mediaSoundsStatus =
-      await settingsAudio.getToggleState(toggleElementMedia);
-
-    const toggleElementMessage =
-      await settingsAudio.messageSoundsControllerValue;
-    const messageSoundsStatus =
-      await settingsAudio.getToggleState(toggleElementMessage);
-
-    const toggleElementTimer = await settingsAudio.messageSoundsControllerValue;
-    const callTimerStatus =
-      await settingsAudio.getToggleState(toggleElementTimer);
-
-    await expect(echoCancellationStatus).toEqual("0");
-    await expect(interfaceSoundsStatus).toEqual("0");
-    await expect(mediaSoundsStatus).toEqual("0");
-    await expect(messageSoundsStatus).toEqual("0");
-    await expect(callTimerStatus).toEqual("0");
+    await settingsAudio.validateCallTimerIsDisabled();
   });
 }

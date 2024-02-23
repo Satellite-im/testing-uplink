@@ -33,12 +33,7 @@ export default async function settingsAccessibilityTests() {
     await settingsAccessibility.clickOnOpenDyslexic();
 
     // Validate that toggle has now value = "1" (enabled)
-    const toggleElement =
-      await settingsAccessibility.openDyslexicControllerValue;
-    const openDyslexicStatus =
-      await settingsAccessibility.getToggleState(toggleElement);
-
-    await expect(openDyslexicStatus).toEqual("1");
+    await settingsAccessibility.validateOpenDyslexicIsEnabled();
   });
 
   it("Settings Audio - Click on slider switches to disable the options", async () => {
@@ -46,11 +41,6 @@ export default async function settingsAccessibilityTests() {
     await settingsAccessibility.clickOnOpenDyslexic();
 
     // Validate that toggle has now value = "0" (disabled)
-    const toggleElement =
-      await settingsAccessibility.openDyslexicControllerValue;
-    const openDyslexicStatus =
-      await settingsAccessibility.getToggleState(toggleElement);
-
-    await expect(openDyslexicStatus).toEqual("0");
+    await settingsAccessibility.validateOpenDyslexicIsDisabled();
   });
 }

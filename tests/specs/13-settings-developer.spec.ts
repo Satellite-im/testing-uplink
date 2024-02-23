@@ -23,10 +23,8 @@ export default async function settingsDeveloperTests() {
       await settingsDeveloper.experimentalFeaturesHeader;
     const experimentalDescription =
       await settingsDeveloper.experimentalFeaturesDescription;
-    await expect(experimentalHeader).toHaveTextContaining(
-      "EXPERIMENTAL FEATURES",
-    );
-    await expect(experimentalDescription).toHaveTextContaining(
+    await expect(experimentalHeader).toHaveText("EXPERIMENTAL FEATURES");
+    await expect(experimentalDescription).toHaveText(
       "Enables features which may be incomplete or non-functional.",
     );
 
@@ -34,8 +32,8 @@ export default async function settingsDeveloperTests() {
     const developerModeHeader = await settingsDeveloper.developerModeHeader;
     const developerModeDescription =
       await settingsDeveloper.developerModeDescription;
-    await expect(developerModeHeader).toHaveTextContaining("DEVELOPER MODE");
-    await expect(developerModeDescription).toHaveTextContaining(
+    await expect(developerModeHeader).toHaveText("DEVELOPER MODE");
+    await expect(developerModeDescription).toHaveText(
       "Enabling developer mode adds logging and displays helpful debug information on the UI.",
     );
 
@@ -44,18 +42,16 @@ export default async function settingsDeveloperTests() {
       await settingsDeveloper.testNotificationHeader;
     const testNotificationDescription =
       await settingsDeveloper.testNotificationDescription;
-    await expect(testNotificationHeader).toHaveTextContaining(
-      "TEST NOTIFICATION",
-    );
-    await expect(testNotificationDescription).toHaveTextContaining(
-      "Sends a test notification",
+    await expect(testNotificationHeader).toHaveText("TEST NOTIFICATION");
+    await expect(testNotificationDescription).toHaveText(
+      "Sends a test notification.",
     );
 
     // Validate OPEN CACHE section
     const openCacheHeader = await settingsDeveloper.openCacheHeader;
     const openCacheDescription = await settingsDeveloper.openCacheDescription;
-    await expect(openCacheHeader).toHaveTextContaining("OPEN CACHE");
-    await expect(openCacheDescription).toHaveTextContaining(
+    await expect(openCacheHeader).toHaveText("OPEN CACHE");
+    await expect(openCacheDescription).toHaveText(
       "Open the cache in your default file browser.",
     );
 
@@ -64,34 +60,34 @@ export default async function settingsDeveloperTests() {
       await settingsDeveloper.compressAndDownloadCacheHeader;
     const compressAndDownloadDescription =
       await settingsDeveloper.compressAndDownloadCacheDescription;
-    await expect(compressAndDownloadHeader).toHaveTextContaining(
+    await expect(compressAndDownloadHeader).toHaveText(
       "COMPRESS & DOWNLOAD CACHE",
     );
-    await expect(compressAndDownloadDescription).toHaveTextContaining(
+    await expect(compressAndDownloadDescription).toHaveText(
       "For debugging with other developers, you can compress your cache to zip and share it. Don't do this if this is a real account you use.",
     );
 
     // Validate PRINT STATE section
     const printStateHeader = await settingsDeveloper.printStateHeader;
     const printStateDescription = await settingsDeveloper.printStateDescription;
-    await expect(printStateHeader).toHaveTextContaining("PRINT STATE");
-    await expect(printStateDescription).toHaveTextContaining(
-      "Display State in the debug logger",
+    await expect(printStateHeader).toHaveText("PRINT STATE");
+    await expect(printStateDescription).toHaveText(
+      "Display State in the debug logger.",
     );
 
     // Validate CLEAR CACHE section
     const clearCacheHeader = await settingsDeveloper.clearCacheHeader;
     const clearCacheDescription = await settingsDeveloper.clearCacheDescription;
-    await expect(clearCacheHeader).toHaveTextContaining("CLEAR CACHE");
-    await expect(clearCacheDescription).toHaveTextContaining(
+    await expect(clearCacheHeader).toHaveText("CLEAR CACHE");
+    await expect(clearCacheDescription).toHaveText(
       "Reset your account, basically.",
     );
 
     // Validate SAVE LOGS IN A FILE section
     const saveLogsHeader = await settingsDeveloper.saveLogsHeader;
     const saveLogsDescription = await settingsDeveloper.saveLogsDescription;
-    await expect(saveLogsHeader).toHaveTextContaining("SAVE LOGS IN A FILE");
-    await expect(saveLogsDescription).toHaveTextContaining(
+    await expect(saveLogsHeader).toHaveText("SAVE LOGS IN A FILE");
+    await expect(saveLogsDescription).toHaveText(
       "Enabling this option, logs will be saved in a file and will be persistent.",
     );
   });
@@ -101,10 +97,7 @@ export default async function settingsDeveloperTests() {
     await settingsDeveloper.clickOnSaveLogs();
 
     // Validate that switch has now value = '1' (active)
-    const toggleElement = await settingsDeveloper.saveLogsControllerValue;
-    const saveLogsStatus =
-      await settingsDeveloper.getToggleState(toggleElement);
-    await expect(saveLogsStatus).toEqual("1");
+    await settingsDeveloper.validateSaveLogsIsEnabled();
   });
 
   // Skipped due to failure on app when disabling the switch the app crashes
@@ -113,15 +106,15 @@ export default async function settingsDeveloperTests() {
     await settingsDeveloper.clickOnSaveLogs();
 
     // Validate that switch has now value = '0' (disabled)
-    const toggleElement = await settingsDeveloper.saveLogsControllerValue;
-    const saveLogsStatus =
-      await settingsDeveloper.getToggleState(toggleElement);
-    await expect(saveLogsStatus).toEqual("0");
+    await settingsDeveloper.validateSaveLogsIsDisabled();
   });
 
   it("Settings Developer - Enable Developer Mode", async () => {
     // Click on DEVELOPER MODE switch to activate the option
     await settingsDeveloper.clickOnDeveloperMode();
+
+    // Validate that switch has now value = '1' (active)
+    await settingsDeveloper.validateDeveloperModeIsEnabled();
   });
 
   // Test skipped since it fails on Windows CI
@@ -130,10 +123,7 @@ export default async function settingsDeveloperTests() {
     await settingsDeveloper.clickOnDeveloperMode();
 
     // Validate that switch has now value = '0' (disabled)
-    const toggleElement = await settingsDeveloper.developerModeControllerValue;
-    const developerModeStatus =
-      await settingsDeveloper.getToggleState(toggleElement);
-    await expect(developerModeStatus).toEqual("0");
+    await settingsDeveloper.validateDeveloperModeIsDisabled();
   });
 
   // Skipped because it needs the aria label fixed for test notifications button

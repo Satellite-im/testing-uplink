@@ -36,38 +36,20 @@ export default async function settingsMessagesTests() {
   it("Settings Messages - Disable both convert emoji and markdown support toggles", async () => {
     // Click on switch slider for Convert Emoji to disable option and then validate that toggle has now value = "0" (disabled)
     await settingsMessages.clickOnConvertEmoji();
-    const convertEmojiToggle =
-      await settingsMessages.convertEmojiControllerValue;
-    const convertEmojiState =
-      await settingsMessages.getToggleState(convertEmojiToggle);
-    await expect(convertEmojiState).toEqual("0");
+    await settingsMessages.validateConvertEmojiIsDisabled();
 
     // Click on switch slider for Markdown Support to disable option and then validate that toggle has now value = "0" (disabled)
     await settingsMessages.clickOnMarkdownSupport();
-    const markdownSupportToggle =
-      await settingsMessages.markdownSupportControllerValue;
-    const markdownSupportState = await settingsMessages.getToggleState(
-      markdownSupportToggle,
-    );
-    await expect(markdownSupportState).toEqual("0");
+    await settingsMessages.validateMarkdownSupportIsDisabled();
   });
 
   it("Settings Messages - Enable again both convert emoji and markdown support toggles", async () => {
     // Click on switch slider for Convert Emoji to enable option and then validate that toggle has now value = "1" (enabled)
     await settingsMessages.clickOnConvertEmoji();
-    const convertEmojiToggle =
-      await settingsMessages.convertEmojiControllerValue;
-    const convertEmojiState =
-      await settingsMessages.getToggleState(convertEmojiToggle);
-    await expect(convertEmojiState).toEqual("1");
+    await settingsMessages.validateConvertEmojiIsEnabled();
 
     // Click on switch slider for Markdown Support to enable option and then validate that toggle has now value = "1" (enabled)
     await settingsMessages.clickOnMarkdownSupport();
-    const markdownSupportToggle =
-      await settingsMessages.markdownSupportControllerValue;
-    const markdownSupportState = await settingsMessages.getToggleState(
-      markdownSupportToggle,
-    );
-    await expect(markdownSupportState).toEqual("1");
+    await settingsMessages.validateMarkdownSupportIsEnabled();
   });
 }

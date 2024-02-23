@@ -5,9 +5,7 @@ import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 
 let SELECTORS = {};
 
-const SELECTORS_COMMON = {
-  SETTINGS_ACCESSIBILITY: "~settings-general",
-};
+const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   OPEN_DYSLEXIC_SECTION: '[name="open-dyslexic-section"]',
@@ -36,31 +34,35 @@ process.env.DRIVER === WINDOWS_DRIVER
 
 export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
   constructor() {
-    super(SELECTORS.SETTINGS_AUDIO);
+    super(SELECTORS.OPEN_DYSLEXIC_SECTION);
   }
 
   get openDyslexicCheckbox() {
-    return $(SELECTORS.SETTINGS_CONTROL).$(SELECTORS.SWITCH_SLIDER);
+    return this.openDyslexicSection
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get openDyslexicControllerValue() {
-    return $(SELECTORS.SETTINGS_CONTROL).$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return this.openDyslexicSection
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get openDyslexicDescription() {
-    return $(SELECTORS.OPEN_DYSLEXIC_SECTION)
+    return this.openDyslexicSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openDyslexicHeader() {
-    return $(SELECTORS.OPEN_DYSLEXIC_SECTION)
+    return this.openDyslexicSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get settingsAccessibility() {
-    return $(SELECTORS.SETTINGS_ACCESSIBILITY);
+  get openDyslexicSection() {
+    return $(SELECTORS.OPEN_DYSLEXIC_SECTION);
   }
 
   async clickOnOpenDyslexic() {
@@ -71,5 +73,15 @@ export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
     } else if (currentDriver === MACOS_DRIVER) {
       await clickOnSwitchMacOS(openDyslexicCheckbox);
     }
+  }
+
+  async validateOpenDyslexicIsEnabled() {
+    const openDyslexicControllerValue = await this.openDyslexicControllerValue;
+    await this.validateToggleIsEnabled(openDyslexicControllerValue);
+  }
+
+  async validateOpenDyslexicIsDisabled() {
+    const openDyslexicControllerValue = await this.openDyslexicControllerValue;
+    await this.validateToggleIsDisabled(openDyslexicControllerValue);
   }
 }

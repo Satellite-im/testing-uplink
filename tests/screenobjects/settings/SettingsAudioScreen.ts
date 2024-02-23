@@ -327,4 +327,62 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
       await outputDeviceDropdown.addValue(device + "\uE007");
     }
   }
+
+  // Validate toggle methods enabled
+  async validateEchoCancellationIsEnabled() {
+    const echoCancellationControllerValue =
+      await this.echoCancellationControllerValue;
+    await this.validateToggleIsEnabled(echoCancellationControllerValue);
+  }
+
+  async validateInterfaceSoundsIsEnabled() {
+    const interfaceSoundsControllerValue =
+      await this.interfaceSoundsControllerValue;
+    await this.validateToggleIsEnabled(interfaceSoundsControllerValue);
+  }
+
+  async validateMediaSoundsIsEnabled() {
+    const mediaSoundsControllerValue = await this.mediaSoundsControllerValue;
+    await this.validateToggleIsEnabled(mediaSoundsControllerValue);
+  }
+
+  async validateMessageSoundsIsEnabled() {
+    const messageSoundsControllerValue =
+      await this.messageSoundsControllerValue;
+    await this.validateToggleIsEnabled(messageSoundsControllerValue);
+  }
+
+  async validateCallTimerIsEnabled() {
+    const callTimerControllerValue = await this.callTimerControllerValue;
+    await this.validateToggleIsEnabled(callTimerControllerValue);
+  }
+
+  // Validate toggle methods disabled
+  async validateEchoCancellationIsDisabled() {
+    const echoCancellationControllerValue =
+      await this.echoCancellationControllerValue;
+    await this.validateToggleIsDisabled(echoCancellationControllerValue);
+  }
+
+  async validateInterfaceSoundsIsDisabled() {
+    const interfaceSoundsControllerValue =
+      await this.interfaceSoundsControllerValue;
+    await this.validateToggleIsDisabled(interfaceSoundsControllerValue);
+  }
+
+  async validateMediaSoundsIsDisabled() {
+    const mediaSoundsControllerValue = await this.mediaSoundsControllerValue;
+    await this.validateToggleIsDisabled(mediaSoundsControllerValue);
+  }
+
+  async validateMessageSoundsIsDisabled() {
+    const messageSoundsControllerValue =
+      await this.messageSoundsControllerValue;
+    await this.validateToggleIsDisabled(messageSoundsControllerValue);
+  }
+
+  async validateCallTimerIsDisabled() {
+    const callTimerControllerValue = await this.callTimerControllerValue;
+    await this.validateToggleIsDisabled(callTimerControllerValue);
+  }
 }
