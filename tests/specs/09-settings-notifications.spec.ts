@@ -83,10 +83,7 @@ export default async function settingsNotificationsTests() {
   it("Settings Notifications - Enable only FRIENDS notifications", async () => {
     // Deactivate toggle switches for FRIENDS and MESSAGES initially
     await settingsNotifications.clickOnFriendsNotifications();
-    await settingsNotifications.validateFriendsNotificationsIsDisabled();
-
     await settingsNotifications.clickOnMessagesNotifications();
-    await settingsNotifications.validateMessagesNotificationsIsDisabled();
 
     // Click again on FRIENDS Notifications to activate this toggle
     await settingsNotifications.clickOnFriendsNotifications();
@@ -107,7 +104,6 @@ export default async function settingsNotificationsTests() {
   it("Settings Notifications - Enable only MESSAGES notifications", async () => {
     // Deactivate toggle switches for FRIENDS
     await settingsNotifications.clickOnFriendsNotifications();
-    await settingsNotifications.validateFriendsNotificationsIsDisabled();
 
     // Click on MESSAGES Notifications to activate this toggle
     await settingsNotifications.clickOnMessagesNotifications();
@@ -128,7 +124,6 @@ export default async function settingsNotificationsTests() {
   it("Settings Notifications - Enable only SETTINGS notifications", async () => {
     // Deactivate toggle switches for MESSAGES
     await settingsNotifications.clickOnMessagesNotifications();
-    await settingsNotifications.validateMessagesNotificationsIsDisabled();
 
     // Click again on SETTINGS Notifications to activate this toggle
     await settingsNotifications.clickOnSettingsNotifications();

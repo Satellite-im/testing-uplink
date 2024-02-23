@@ -36,27 +36,37 @@ process.env.DRIVER === WINDOWS_DRIVER
 
 export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
   constructor() {
-    super(SELECTORS.SETTINGS_AUDIO);
+    super(SELECTORS.SETTINGS_ACCESSIBILITY);
   }
 
   get openDyslexicCheckbox() {
-    return $(SELECTORS.SETTINGS_CONTROL).$(SELECTORS.SWITCH_SLIDER);
+    return this.openDyslexicSection
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$(SELECTORS.SWITCH_SLIDER);
   }
 
   get openDyslexicControllerValue() {
-    return $(SELECTORS.SETTINGS_CONTROL).$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
+    return this.openDyslexicSection
+      .$(SELECTORS.SETTINGS_CONTROL)
+      .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
   get openDyslexicDescription() {
-    return $(SELECTORS.OPEN_DYSLEXIC_SECTION)
+    return this.openDyslexicSection
+      .$(SELECTORS.OPEN_DYSLEXIC_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
   get openDyslexicHeader() {
-    return $(SELECTORS.OPEN_DYSLEXIC_SECTION)
+    return this.openDyslexicSection
+      .$(SELECTORS.OPEN_DYSLEXIC_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
+  }
+
+  get openDyslexicSection() {
+    return this.settingsAccessibility.$(SELECTORS.OPEN_DYSLEXIC_SECTION);
   }
 
   get settingsAccessibility() {
