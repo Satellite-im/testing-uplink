@@ -38,7 +38,6 @@ const SELECTORS_WINDOWS = {
   CONTEXT_MENU_FAVORITES_REMOVE: '[name="favorites-remove"]',
   CONTEXT_MENU_FRIEND_ADD_INPUT_COPY: '[name="friend-add-input-copy"]',
   CONTEXT_MENU_FRIEND_ADD_INPUT_PASTE: '[name="friend-add-input-paste"]',
-  CONTEXT_MENU_FRIEND_OPEN_WEB_INSPECTOR: "//Button[3]",
   CONTEXT_MENU_INCOMING_ACCEPT: '[name="friends-accept"]',
   CONTEXT_MENU_INCOMING_DENY: '[name="friends-deny"]',
   CONTEXT_MENU_OUTGOING_CANCEL: '[name="friends-cancel"]',
@@ -102,8 +101,6 @@ const SELECTORS_MACOS = {
   CONTEXT_MENU_FAVORITES_REMOVE: "~favorites-remove",
   CONTEXT_MENU_FRIEND_ADD_INPUT_COPY: "~friend-add-input-copy",
   CONTEXT_MENU_FRIEND_ADD_INPUT_PASTE: "~friend-add-input-paste",
-  CONTEXT_MENU_FRIEND_OPEN_WEB_INSPECTOR:
-    "-ios class chain:**/XCUIElementTypeButton[3]",
   CONTEXT_MENU_INCOMING_ACCEPT: "~friends-accept",
   CONTEXT_MENU_INCOMING_DENY: "~friends-deny",
   CONTEXT_MENU_OUTGOING_CANCEL: "~friends-cancel",
@@ -249,10 +246,6 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   get contextMenuFriendAddInputPaste() {
     return this.contextMenu.$(SELECTORS.CONTEXT_MENU_FRIEND_ADD_INPUT_PASTE);
-  }
-
-  get contextMenuFriendOpenWebInspector() {
-    return this.contextMenu.$(SELECTORS.CONTEXT_MENU_FRIEND_OPEN_WEB_INSPECTOR);
   }
 
   get contextMenuIncomingAccept() {
@@ -997,12 +990,6 @@ export default class FriendsScreen extends UplinkMainScreen {
   async clickOnPaste() {
     const contextMenuPaste = await this.contextMenuFriendAddInputPaste;
     await contextMenuPaste.click();
-  }
-
-  async clickOnOpenWebInspector() {
-    const contextMenuFriendOpenWebInspector =
-      await this.contextMenuFriendOpenWebInspector;
-    await contextMenuFriendOpenWebInspector.click();
   }
 
   async clickOnContextMenuIncomingAccept() {

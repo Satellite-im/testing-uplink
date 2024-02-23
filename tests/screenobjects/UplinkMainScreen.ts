@@ -23,6 +23,7 @@ const SELECTORS_WINDOWS = {
   BUTTON_NAV_TOOLTIP_TEXT: "<Text>",
   CHATS_BUTTON: '[name="chats-button"]',
   CONTEXT_MENU: '[name="Context Menu"]',
+  CONTEXT_MENU_OPEN_WEB_INSPECTOR: '[name="open-devtools-context"]',
   FILES_BUTTON: '[name="files-button"]',
   FRIENDS_BUTTON: '[name="friends-button"]',
   HAMBURGER_BUTTON: '[name="hamburger-button"]',
@@ -52,6 +53,7 @@ const SELECTORS_MACOS = {
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   CHATS_BUTTON: "~chats-button",
   CONTEXT_MENU: "~Context Menu",
+  CONTEXT_MENU_OPEN_WEB_INSPECTOR: "~open-devtools-context",
   FILES_BUTTON: "~files-button",
   FRIENDS_BUTTON: "~friends-button",
   HAMBURGER_BUTTON: "~hamburger-button",
@@ -113,6 +115,10 @@ export default class UplinkMainScreen extends AppScreen {
 
   get contextMenu() {
     return $(SELECTORS.CONTEXT_MENU);
+  }
+
+  get contextMenuOpenWebInspector() {
+    return this.contextMenu.$(SELECTORS.CONTEXT_MENU_OPEN_WEB_INSPECTOR);
   }
 
   get filesButton() {
@@ -363,5 +369,10 @@ export default class UplinkMainScreen extends AppScreen {
     await this.modal.waitForExist({
       reverse: true,
     });
+  }
+
+  async clickOnOpenWebInspector() {
+    const webInspectorOption = await this.contextMenuOpenWebInspector;
+    await webInspectorOption.click();
   }
 }
