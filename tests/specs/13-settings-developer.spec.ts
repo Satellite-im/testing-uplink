@@ -72,7 +72,7 @@ export default async function settingsDeveloperTests() {
     const printStateDescription = await settingsDeveloper.printStateDescription;
     await expect(printStateHeader).toHaveText("PRINT STATE");
     await expect(printStateDescription).toHaveText(
-      "Display State in the debug logger",
+      "Display State in the debug logger.",
     );
 
     // Validate CLEAR CACHE section
