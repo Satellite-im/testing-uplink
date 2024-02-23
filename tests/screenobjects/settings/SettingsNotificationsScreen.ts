@@ -196,4 +196,56 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
     const settingsNotifications = await this.settingsNotifications;
     await settingsNotifications.waitForExist();
   }
+
+  // Toggle Enable Methods
+
+  async validateEnabledNotificationsIsEnabled() {
+    const enabledNotificationsControllerValue =
+      await this.enabledNotificationsControllerValue;
+    await this.validateToggleIsEnabled(enabledNotificationsControllerValue);
+  }
+
+  async validateFriendsNotificationsIsEnabled() {
+    const friendsNotificationsControllerValue =
+      await this.friendsNotificationsControllerValue;
+    await this.validateToggleIsEnabled(friendsNotificationsControllerValue);
+  }
+
+  async validateMessagesNotificationsIsEnabled() {
+    const messagesNotificationsControllerValue =
+      await this.messagesNotificationsControllerValue;
+    await this.validateToggleIsEnabled(messagesNotificationsControllerValue);
+  }
+
+  async validateSettingsNotificationsIsEnabled() {
+    const settingsNotificationsControllerValue =
+      await this.settingsNotificationsControllerValue;
+    await this.validateToggleIsEnabled(settingsNotificationsControllerValue);
+  }
+
+  // Toggle Disabled Methods
+
+  async validateEnabledNotificationsIsDisabled() {
+    const enabledNotificationsControllerValue =
+      await this.enabledNotificationsControllerValue;
+    await this.validateToggleIsDisabled(enabledNotificationsControllerValue);
+  }
+
+  async validateFriendsNotificationsIsDisabled() {
+    const friendsNotificationsControllerValue =
+      await this.friendsNotificationsControllerValue;
+    await this.validateToggleIsDisabled(friendsNotificationsControllerValue);
+  }
+
+  async validateMessagesNotificationsIsDisabled() {
+    const messagesNotificationsControllerValue =
+      await this.messagesNotificationsControllerValue;
+    await this.validateToggleIsDisabled(messagesNotificationsControllerValue);
+  }
+
+  async validateSettingsNotificationsIsDisabled() {
+    const settingsNotificationsControllerValue =
+      await this.settingsNotificationsControllerValue;
+    await this.validateToggleIsDisabled(settingsNotificationsControllerValue);
+  }
 }

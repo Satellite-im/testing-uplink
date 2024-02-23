@@ -93,10 +93,7 @@ export default async function settingsDeveloperTests() {
     await settingsDeveloper.clickOnSaveLogs();
 
     // Validate that switch has now value = '1' (active)
-    const toggleElement = await settingsDeveloper.saveLogsControllerValue;
-    const saveLogsStatus =
-      await settingsDeveloper.getToggleState(toggleElement);
-    await expect(saveLogsStatus).toEqual("1");
+    await settingsDeveloper.validateSaveLogsIsEnabled();
   });
 
   // Skipped due to failure on app when disabling the switch the app crashes
@@ -105,10 +102,7 @@ export default async function settingsDeveloperTests() {
     await settingsDeveloper.clickOnSaveLogs();
 
     // Validate that switch has now value = '0' (disabled)
-    const toggleElement = await settingsDeveloper.saveLogsControllerValue;
-    const saveLogsStatus =
-      await settingsDeveloper.getToggleState(toggleElement);
-    await expect(saveLogsStatus).toEqual("0");
+    await settingsDeveloper.validateSaveLogsIsDisabled();
   });
 
   // Test skipped since it fails on Windows CI
@@ -117,10 +111,7 @@ export default async function settingsDeveloperTests() {
     await settingsDeveloper.clickOnDeveloperMode();
 
     // Validate that switch has now value = '1' (active)
-    const toggleElement = await settingsDeveloper.developerModeControllerValue;
-    const developerModeStatus =
-      await settingsDeveloper.getToggleState(toggleElement);
-    await expect(developerModeStatus).toEqual("1");
+    await settingsDeveloper.validateDeveloperModeIsEnabled();
   });
 
   // Test skipped since it fails on Windows CI
@@ -129,10 +120,7 @@ export default async function settingsDeveloperTests() {
     await settingsDeveloper.clickOnDeveloperMode();
 
     // Validate that switch has now value = '0' (disabled)
-    const toggleElement = await settingsDeveloper.developerModeControllerValue;
-    const developerModeStatus =
-      await settingsDeveloper.getToggleState(toggleElement);
-    await expect(developerModeStatus).toEqual("0");
+    await settingsDeveloper.validateDeveloperModeIsDisabled();
   });
 
   // Skipped because it needs the aria label fixed for test notifications button

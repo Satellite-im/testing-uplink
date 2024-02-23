@@ -23,11 +23,11 @@ export default async function settingsExtensionsTests() {
     const emojiSelectorDescription =
       await settingsExtensions.emojiSelectorDescription;
 
-    await expect(emojiSelectorTitle).toHaveTextContaining("Emoji Selector");
-    await expect(emojiSelectorDeveloper).toHaveTextContaining(
+    await expect(emojiSelectorTitle).toHaveText("Emoji Selector");
+    await expect(emojiSelectorDeveloper).toHaveText(
       "SATELLITE <DEVS@SATELLITE.IM>",
     );
-    await expect(emojiSelectorDescription).toHaveTextContaining(
+    await expect(emojiSelectorDescription).toHaveText(
       "Browse the standard unicode library of emoji's and send them to friends.",
     );
   });
@@ -37,10 +37,7 @@ export default async function settingsExtensionsTests() {
     await settingsExtensions.clickOnEmojiSelectorCheckbox();
 
     // Validate that switch from Emoji Selector now has value = '0' (disabled)
-    const toggleElement = await settingsExtensions.emojiSelectorCheckboxValue;
-    const emojiSelectorState =
-      await settingsExtensions.getToggleState(toggleElement);
-    await expect(emojiSelectorState).toEqual("0");
+    await settingsExtensions.validateEmojiSelectorIsDisabled();
   });
 
   it("Settings Extensions - Enable Emoji Selector extension", async () => {
@@ -48,10 +45,7 @@ export default async function settingsExtensionsTests() {
     await settingsExtensions.clickOnEmojiSelectorCheckbox();
 
     // Validate that switch from Emoji Selector now has value = '1' (active)
-    const toggleElement = await settingsExtensions.emojiSelectorCheckboxValue;
-    const emojiSelectorState =
-      await settingsExtensions.getToggleState(toggleElement);
-    await expect(emojiSelectorState).toEqual("1");
+    await settingsExtensions.validateEmojiSelectorIsEnabled();
   });
 
   it("Settings Extensions - Go to Explore panel and assert contents", async () => {
@@ -60,15 +54,13 @@ export default async function settingsExtensionsTests() {
 
     // Validate warning message, search extensions header and input are displayed
     const installedAlertText = await settingsExtensions.installedAlertText;
-    await expect(installedAlertText).toHaveTextContaining(
+    await expect(installedAlertText).toHaveText(
       "Extensions are pre-compiled on external hardware. For added security you can compile extensions from source and place in the `extensions` folder.",
     );
 
     const extensionsSearchHeader =
       await settingsExtensions.extensionsSearchHeader;
-    await expect(extensionsSearchHeader).toHaveTextContaining(
-      "SEARCH EXTENSIONS",
-    );
+    await expect(extensionsSearchHeader).toHaveText("SEARCH EXTENSIONS");
 
     await settingsExtensions.extensionsSearchInput.waitForExist();
     const placeholder =
@@ -83,25 +75,21 @@ export default async function settingsExtensionsTests() {
     // Assert contents from screen
     const openExtensionsHeader =
       await settingsExtensions.openExtensionsHeaderText;
-    await expect(openExtensionsHeader).toHaveTextContaining(
-      "OPEN EXTENSIONS FOLDER",
-    );
+    await expect(openExtensionsHeader).toHaveText("OPEN EXTENSIONS FOLDER");
 
     const openExtensionsDescription =
       await settingsExtensions.openExtensionsDescriptionText;
-    await expect(openExtensionsDescription).toHaveTextContaining(
+    await expect(openExtensionsDescription).toHaveText(
       "Open the local directory containing your installed extensions.",
     );
 
     const enableAutomaticallyHeader =
       await settingsExtensions.enableAutomaticallyHeader;
-    await expect(enableAutomaticallyHeader).toHaveTextContaining(
-      "ENABLE AUTOMATICALLY",
-    );
+    await expect(enableAutomaticallyHeader).toHaveText("ENABLE AUTOMATICALLY");
 
     const enableAutomaticallyDescription =
       await settingsExtensions.enableAutomaticallyDescription;
-    await expect(enableAutomaticallyDescription).toHaveTextContaining(
+    await expect(enableAutomaticallyDescription).toHaveText(
       "When turned on, new extensions will automatically be enabled by default.",
     );
   });
@@ -111,12 +99,7 @@ export default async function settingsExtensionsTests() {
     await settingsExtensions.clickOnEnableAutomatically();
 
     // Validate that switch from Enable Automatically now has value = '1' (active)
-    const toggleElement =
-      await settingsExtensions.enableAutomaticallyControllerValue;
-    const enableAutomaticallyState =
-      await settingsExtensions.getToggleState(toggleElement);
-
-    await expect(enableAutomaticallyState).toEqual("1");
+    await settingsExtensions.validateEnableAutomaticallyIsEnabled();
   });
 
   it("Settings Extensions - Deactivate the switch slider for Enable Automatically", async () => {
@@ -124,12 +107,7 @@ export default async function settingsExtensionsTests() {
     await settingsExtensions.clickOnEnableAutomatically();
 
     // Validate that switch from Enable Automatically now has value = '0' (disabled)
-    const toggleElement =
-      await settingsExtensions.enableAutomaticallyControllerValue;
-    const enableAutomaticallyState =
-      await settingsExtensions.getToggleState(toggleElement);
-
-    await expect(enableAutomaticallyState).toEqual("0");
+    await settingsExtensions.validateEnableAutomaticallyIsDisabled();
   });
 
   // Skipped since it needs research on how to close external window from Explorer before proceeding with next tests

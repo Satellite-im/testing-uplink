@@ -345,9 +345,12 @@ export default class UplinkMainScreen extends AppScreen {
     } else {
       attributeToValidate = "Toggle.ToggleState";
     }
-    await driver.waitUntil(
+    await browser.waitUntil(
       async () => {
-        return (await element.getAttribute(attributeToValidate)) === "1";
+        const updatedElement = await browser.$(element.selector);
+        const attributeValue =
+          await updatedElement.getAttribute(attributeToValidate);
+        return attributeValue === "1";
       },
       {
         timeout: 5000,
@@ -364,9 +367,12 @@ export default class UplinkMainScreen extends AppScreen {
     } else {
       attributeToValidate = "Toggle.ToggleState";
     }
-    await driver.waitUntil(
+    await browser.waitUntil(
       async () => {
-        return (await element.getAttribute(attributeToValidate)) === "0";
+        const updatedElement = await browser.$(element.selector);
+        const attributeValue =
+          await updatedElement.getAttribute(attributeToValidate);
+        return attributeValue === "0";
       },
       {
         timeout: 5000,

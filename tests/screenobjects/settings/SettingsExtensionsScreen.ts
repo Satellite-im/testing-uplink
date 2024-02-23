@@ -243,4 +243,26 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
     }
     return result.toString();
   }
+
+  async validateEmojiSelectorIsEnabled() {
+    const emojiSelectorCheckboxValue = await this.emojiSelectorCheckboxValue;
+    await this.validateToggleIsEnabled(emojiSelectorCheckboxValue);
+  }
+
+  async validateEnableAutomaticallyIsEnabled() {
+    const enableAutomaticallyControllerValue =
+      await this.enableAutomaticallyControllerValue;
+    await this.validateToggleIsEnabled(enableAutomaticallyControllerValue);
+  }
+
+  async validateEmojiSelectorIsDisabled() {
+    const emojiSelectorCheckboxValue = await this.emojiSelectorCheckboxValue;
+    await this.validateToggleIsDisabled(emojiSelectorCheckboxValue);
+  }
+
+  async validateEnableAutomaticallyIsDisabled() {
+    const enableAutomaticallyControllerValue =
+      await this.enableAutomaticallyControllerValue;
+    await this.validateToggleIsDisabled(enableAutomaticallyControllerValue);
+  }
 }

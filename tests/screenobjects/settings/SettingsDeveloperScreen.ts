@@ -278,4 +278,40 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
       await driver.switchToWindow(uplinkWindow);
     }
   }
+
+  // Toggle Enabled Methods
+
+  async validateDeveloperModeIsEnabled() {
+    const developerModeToggle = await this.developerModeControllerValue;
+    await this.validateToggleIsEnabled(developerModeToggle);
+  }
+
+  async validateExperimentalFeaturesIsEnabled() {
+    const experimentalFeaturesToggle =
+      await this.experimentalFeaturesControllerValue;
+    await this.validateToggleIsEnabled(experimentalFeaturesToggle);
+  }
+
+  async validateSaveLogsIsEnabled() {
+    const saveLogsToggle = await this.saveLogsControllerValue;
+    await this.validateToggleIsEnabled(saveLogsToggle);
+  }
+
+  // Toggle Disabled Methods
+
+  async validateDeveloperModeIsDisabled() {
+    const developerModeToggle = await this.developerModeControllerValue;
+    await this.validateToggleIsDisabled(developerModeToggle);
+  }
+
+  async validateExperimentalFeaturesIsDisabled() {
+    const experimentalFeaturesToggle =
+      await this.experimentalFeaturesControllerValue;
+    await this.validateToggleIsDisabled(experimentalFeaturesToggle);
+  }
+
+  async validateSaveLogsIsDisabled() {
+    const saveLogsToggle = await this.saveLogsControllerValue;
+    await this.validateToggleIsDisabled(saveLogsToggle);
+  }
 }

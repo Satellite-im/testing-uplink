@@ -72,4 +72,14 @@ export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
       await clickOnSwitchMacOS(openDyslexicCheckbox);
     }
   }
+
+  async validateOpenDyslexicIsEnabled() {
+    const openDyslexicControllerValue = await this.openDyslexicControllerValue;
+    await this.validateToggleIsEnabled(openDyslexicControllerValue);
+  }
+
+  async validateOpenDyslexicIsDisabled() {
+    const openDyslexicControllerValue = await this.openDyslexicControllerValue;
+    await this.validateToggleIsDisabled(openDyslexicControllerValue);
+  }
 }

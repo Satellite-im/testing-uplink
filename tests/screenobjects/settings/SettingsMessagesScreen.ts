@@ -115,4 +115,26 @@ export default class SettingsMessagesScreen extends SettingsBaseScreen {
     const settingsMessages = await this.settingsMessages;
     await settingsMessages.waitForExist();
   }
+
+  // Validate toggle enabled methods
+  async validateConvertEmojiIsEnabled() {
+    const convertEmojiToggle = await this.convertEmojiControllerValue;
+    await this.validateToggleIsEnabled(convertEmojiToggle);
+  }
+
+  async validateMarkdownSupportIsEnabled() {
+    const markdownSupportToggle = await this.markdownSupportControllerValue;
+    await this.validateToggleIsEnabled(markdownSupportToggle);
+  }
+
+  // Validate toggle disabled methods
+  async validateConvertEmojiIsDisabled() {
+    const convertEmojiToggle = await this.convertEmojiControllerValue;
+    await this.validateToggleIsDisabled(convertEmojiToggle);
+  }
+
+  async validateMarkdownSupportIsDisabled() {
+    const markdownSupportToggle = await this.markdownSupportControllerValue;
+    await this.validateToggleIsDisabled(markdownSupportToggle);
+  }
 }
