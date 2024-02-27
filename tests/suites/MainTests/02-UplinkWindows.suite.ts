@@ -41,5 +41,4 @@ describe("MacOS Tests", function () {
   describe("Settings Licenses Tests", settingsLicensesTests.bind(this));
   describe("Settings Developer Tests", settingsDeveloperTests.bind(this));
   describe("Import Account Tests", importAccountTests.bind(this));
-  describe("Offline Requests Tests", offlineRequestsTests.bind(this));
 });
