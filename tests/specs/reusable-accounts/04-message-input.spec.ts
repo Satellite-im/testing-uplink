@@ -9,8 +9,11 @@ import {
   activateSecondApplication,
   closeFirstApplication,
   closeSecondApplication,
+  keyboardShiftEnter,
+  keyboardShortcutPaste,
   launchFirstApplication,
   launchSecondApplication,
+  setClipboardValue,
 } from "@helpers/commands";
 const chatsLayout = new ChatsLayout();
 const chatsInput = new InputBar();
@@ -42,24 +45,28 @@ export default async function messageInputTests() {
     await expect(textMessage).toHaveTextContaining("Two...");
   });
 
-  // Skipping Test Failing on CI
-  xit("Chat User A - Message Input - User can type up to 1024 chars on input bar", async () => {
-    // Generate a random text with 1024 chars
+  it("Chat User A - Message Input - User can type up to 1024 chars on input bar", async () => {
+    // Generate a random text with 1024 chars and set this to clipboard
     const longText = await chatsInput.generateRandomText();
-    // Type long text with 1024 chars on input bar and attempt to add 4 more chars (efgh)
-    await chatsInput.typeMessageOnInput(longText + "efgh");
+    await setClipboardValue(longText);
+
+    // Click on input bar and paste long text twice
+    await chatsInput.clickOnInputBar();
+    await keyboardShortcutPaste();
+    await keyboardShortcutPaste();
 
     // Ensure that latest chars were not added to input bar, since the max number of chars has been reached
     // Input bar text should be equal to long text with 1024 chars
-    const inputText = await chatsInput.getValueFromInputBar();
-    await expect(inputText).toHaveText(longText);
+    const chatbarInputErrorText = await chatsLayout.chatbarInputErrorText;
+    await expect(chatbarInputErrorText).toHaveText(
+      "Maximum of 1024 characters exceeded.",
+    );
 
     // Clear input bar to finish test
     await chatsInput.clearInputBar();
   });
 
-  // Skipping for Emoji Suggested List taking too long to display on CI runner
-  xit("Emoji Suggested List - Displays expected data", async () => {
+  it("Emoji Suggested List - Displays expected data", async () => {
     // Type :en to show emoji suggestions starting with "en"
     await chatsInput.typeMessageOnInput(":en");
     await emojiSuggestions.emojiSuggestionsContainer.waitForDisplayed({
@@ -82,8 +89,7 @@ export default async function messageInputTests() {
     await emojiSuggestions.validateEmojiSuggestionsHeader("SUGGESTED EMOJI");
   });
 
-  // Skipping for Emoji Suggested List taking too long to display on CI runner
-  xit("Emoji Suggested List - Can be closed without choosing suggestion", async () => {
+  it("Emoji Suggested List - Can be closed without choosing suggestion", async () => {
     // Close Emoji Suggested List using the Close Button
     await emojiSuggestions.clickOnCloseButton();
 
@@ -93,8 +99,7 @@ export default async function messageInputTests() {
     });
   });
 
-  // Skipping for Emoji Suggested List taking too long to display on CI runner
-  xit("Emoji Suggested List - Selected emoji is added to input bar", async () => {
+  it("Emoji Suggested List - Selected emoji is added to input bar", async () => {
     // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
     await chatsInput.typeMessageOnInput(":en");
     await emojiSuggestions.emojiSuggestionsContainer.waitForDisplayed({
@@ -129,8 +134,7 @@ export default async function messageInputTests() {
     await messageLocal.waitForMessageSentToExist("Bolds2");
   });
 
-  // Needs research to implement on MacOS
-  xit("Chat Input Text - Validate users can send messages using the code language markdown", async () => {
+  it("Chat Input Text - Validate users can send messages using the code language markdown", async () => {
     // With Chat User A, send a code snippet with JavaScript language
     await chatsInput.typeCodeOnInputBar("javascript", "let a = 1;");
     await chatsInput.clickOnSendMessage();
@@ -142,8 +146,7 @@ export default async function messageInputTests() {
     await expect(codeMessageTextSent).toEqual("let a = 1;");
   });
 
-  // Needs research to implement on MacOS
-  xit("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
+  it("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
     // With Chat User A, click on the copy button from code block of last chat message sent
     await messageLocal.clickOnCopyCodeOfLastMessageSent();
 
@@ -167,8 +170,7 @@ export default async function messageInputTests() {
     await messageRemote.waitForReceivingMessage("Bolds2");
   });
 
-  // Needs research to implement on MacOS
-  xit("Chat Input Text - Validate message with code markdown is received in expected format", async () => {
+  it("Chat Input Text - Validate message with code markdown is received in expected format", async () => {
     // With Chat User B, validate code message was received and is displayed correctly
     await messageRemote.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =
@@ -235,10 +237,7 @@ export default async function messageInputTests() {
     await linkEmbedReceivedIconTitle.waitForExist();
   });
 
-  // Test failing on CI
-  xit("Typing Indicator - Send a long message to trigger typing indicator on remote side", async () => {
-    // With User A
-    await activateFirstApplication();
+  it("Typing Indicator - Send a long message to trigger typing indicator on remote side", async () => {
     await chatsInput.waitForIsShown(true);
     // Generate a random text with 100 chars
     const shortText = await chatsInput.generateShortRandomText();
@@ -246,16 +245,15 @@ export default async function messageInputTests() {
     await chatsInput.typeMessageOnInput(shortText + "efgh");
   });
 
-  // Test failing on CI
-  xit("Validate Typing Indicator is displayed if remote user is typing", async () => {
+  it("Validate Typing Indicator is displayed if remote user is typing", async () => {
     // Switch to second user and validate that Typing Indicator is displayed
-    await activateSecondApplication();
+    await activateFirstApplication();
     await chatsInput.waitForIsShown(true);
     await chatsLayout.typingIndicator.waitForExist({
       timeout: 30000,
     });
-    await expect(chatsLayout.typingIndicatorTextValue).toHaveTextContaining(
-      "ChatUserA is typing",
+    await expect(chatsLayout.typingIndicatorTextValue).toHaveText(
+      "ChatUserB is typing",
     );
   });
 

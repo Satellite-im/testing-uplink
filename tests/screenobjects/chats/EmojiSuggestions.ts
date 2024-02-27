@@ -6,16 +6,16 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
-  EMOJI_SUGGESTIONS_CLOSE_BUTTON: '[name="emoji-suggestions-close-button"]',
-  EMOJI_SUGGESTIONS_CONTAINER: '[name="emoji-suggestions-container"]',
+  EMOJI_SUGGESTIONS_CLOSE_BUTTON: '[name="chatbar-suggestions-close-button"]',
+  EMOJI_SUGGESTIONS_CONTAINER: '[name="chatbar-suggestions-container"]',
   EMOJI_SUGGESTIONS_HEADER: "<Text>",
   EMOJI_SUGGESTED: '//Group[contains(@Name, "emoji-suggested-")]',
   EMOJI_SUGGESTED_VALUE: "<Text>",
 };
 
 const SELECTORS_MACOS = {
-  EMOJI_SUGGESTIONS_CLOSE_BUTTON: "~emoji-suggestion-close-button",
-  EMOJI_SUGGESTIONS_CONTAINER: "~emoji-suggestions-container",
+  EMOJI_SUGGESTIONS_CLOSE_BUTTON: "~chatbar-suggestion-close-button",
+  EMOJI_SUGGESTIONS_CONTAINER: "~chatbar-suggestions-container",
   EMOJI_SUGGESTIONS_HEADER:
     '-ios class chain:**/XCUIElementTypeStaticText[`value == "SUGGESTED EMOJI"`][2]',
   EMOJI_SUGGESTED:
@@ -55,7 +55,7 @@ export default class EmojiSuggestions extends UplinkMainScreen {
   }
 
   async clickOnEmojiSuggested(emojiToClick: string) {
-    await this.emojiSuggestionsContainer.waitForDisplayed();
+    await this.validateEmojiSuggestionsContainerIsShown();
     const currentDriver = await this.getCurrentDriver();
     let emojiLocator, emojiElement;
     if (currentDriver === MACOS_DRIVER) {
@@ -77,7 +77,7 @@ export default class EmojiSuggestions extends UplinkMainScreen {
   }
 
   async getEmojisSuggested() {
-    await this.emojiSuggestionsContainer.waitForDisplayed();
+    await this.validateEmojiSuggestionsContainerIsShown();
     const emojiSuggestedList = await this.emojiSuggestionsContainer.$$(
       SELECTORS.EMOJI_SUGGESTED,
     );
@@ -91,13 +91,21 @@ export default class EmojiSuggestions extends UplinkMainScreen {
   }
 
   async validateEmojiSuggestionsContainerIsShown() {
-    await this.emojiSuggestionsContainer.waitForDisplayed();
+    await driver.waitUntil(
+      async () => {
+        return await $(SELECTORS.EMOJI_SUGGESTIONS_CONTAINER).waitForExist();
+      },
+      {
+        timeout: 30000,
+        timeoutMsg: "Expected Emoji Container was not displayed after 30s",
+      },
+    );
   }
 
   async validateEmojiSuggestionsHeader(expectedHeader: string) {
     await this.emojiSuggestionsHeader.waitForDisplayed();
     const emojiSuggestionsHeader = await this.emojiSuggestionsHeader;
-    await expect(emojiSuggestionsHeader).toHaveTextContaining(expectedHeader);
+    await expect(emojiSuggestionsHeader).toHaveText(expectedHeader);
   }
 
   async validateEmojiSuggestionsReceived(expectedEmojiList: string[]) {

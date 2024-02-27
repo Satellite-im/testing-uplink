@@ -373,6 +373,10 @@ export async function hoverOnMacOS(locator: WebdriverIO.Element) {
   ]);
 }
 
+export async function setClipboardValue(value: string) {
+  await clipboard.setContent(value);
+}
+
 export async function scrollUp(deltaX: number) {
   await mouse.scrollUp(deltaX);
 }

@@ -9,6 +9,8 @@ const SELECTORS_COMMON = {
 };
 
 const SELECTORS_WINDOWS = {
+  CHATBAR_INPUT_ERROR: '[name="chatbar-input-error"]',
+  CHATBAR_INPUT_ERROR_TEXT: "<Text>",
   ENCRYPTED_MESSAGES: '[name="messages-secured-alert"]',
   ENCRYPTED_MESSAGES_TEXT: "//Group/Text",
   SCROLL_TO_BOTTOM: '//Text[@Name="Scroll to bottom"]',
@@ -18,6 +20,8 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  CHATBAR_INPUT_ERROR: "~chatbar-input-error",
+  CHATBAR_INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   ENCRYPTED_MESSAGES: "~messages-secured-alert",
   ENCRYPTED_MESSAGES_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SCROLL_TO_BOTTOM:
@@ -34,6 +38,14 @@ process.env.DRIVER === WINDOWS_DRIVER
 export default class ChatsLayout extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.CHAT_LAYOUT);
+  }
+
+  get chatbarInputError() {
+    return this.chatLayout.$(SELECTORS.CHATBAR_INPUT_ERROR);
+  }
+
+  get chatbarInputErrorText() {
+    return this.chatbarInputError.$(SELECTORS.CHATBAR_INPUT_ERROR_TEXT);
   }
 
   get chatLayout() {
