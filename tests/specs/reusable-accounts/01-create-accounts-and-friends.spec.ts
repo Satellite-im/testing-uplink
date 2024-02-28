@@ -8,6 +8,7 @@ import {
   getUserKey,
   launchSecondApplication,
   saveTestKeys,
+  scrollDown,
 } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
@@ -20,6 +21,8 @@ import MessageGroupRemote from "@screenobjects/chats/MessageGroupRemote";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
 import MessageRemote from "@screenobjects/chats/MessageRemote";
 import Topbar from "@screenobjects/chats/Topbar";
+import SettingsAboutScreen from "@screenobjects/settings/SettingsAboutScreen";
+import SettingsDeveloperScreen from "@screenobjects/settings/SettingsDeveloperScreen";
 import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
@@ -35,6 +38,8 @@ const messageGroupLocal = new MessageGroupLocal();
 const messageGroupRemote = new MessageGroupRemote();
 const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
+const settingsAbout = new SettingsAboutScreen();
+const settingsDeveloper = new SettingsDeveloperScreen();
 const settingsGeneral = new SettingsGeneralScreen();
 const settingsNotifications = new SettingsNotificationsScreen();
 const settingsProfile = new SettingsProfileScreen();
@@ -76,9 +81,31 @@ export default async function createChatAccountsTests() {
     await settingsGeneral.clickOnFontScalingMinus();
   });
 
+  it("Chat User A - Settings Developer - Enable Save Logs In A File", async () => {
+    // Go to Settings About and click 10 times on Version Number to Unlock Developer Settings
+    await settingsGeneral.goToAboutSettings();
+    await settingsAbout.waitForIsShown(true);
+    await settingsAbout.unlockDeveloperSettings();
+
+    // Validate Developer Settings button is unlocked
+    const developerSettingsButton = await settingsAbout.developerButton;
+    await developerSettingsButton.waitForDisplayed();
+
+    // Go to Menu from the left and Scroll Down
+    const settingsAboutButton = await settingsAbout.aboutButton;
+    await settingsAbout.hoverOnElement(settingsAboutButton);
+    await scrollDown(1000);
+
+    // Go to Settings Developer and Enable Save Logs in a File
+    await settingsAbout.goToDeveloperSettings();
+    await settingsDeveloper.waitForIsShown(true);
+    await settingsDeveloper.clickOnSaveLogs();
+    await settingsDeveloper.validateSaveLogsIsEnabled();
+  });
+
   it("Chat User A - Settings Notifications - Disable notifications", async () => {
     // Go to Notifications Settings and disable all notifications
-    await settingsGeneral.goToNotificationsSettings();
+    await settingsDeveloper.goToNotificationsSettings();
     await settingsNotifications.validateSettingsNotificationsIsShown();
     await settingsNotifications.clickOnFriendsNotifications();
     await settingsNotifications.clickOnMessagesNotifications();
@@ -126,9 +153,31 @@ export default async function createChatAccountsTests() {
     await settingsGeneral.clickOnFontScalingMinus();
   });
 
+  it("Chat User B - Settings Developer - Enable Save Logs In A File", async () => {
+    // Go to Settings About and click 10 times on Version Number to Unlock Developer Settings
+    await settingsGeneral.goToAboutSettings();
+    await settingsAbout.waitForIsShown(true);
+    await settingsAbout.unlockDeveloperSettings();
+
+    // Validate Developer Settings button is unlocked
+    const developerSettingsButton = await settingsAbout.developerButton;
+    await developerSettingsButton.waitForDisplayed();
+
+    // Go to Menu from the left and Scroll Down
+    const settingsAboutButton = await settingsAbout.aboutButton;
+    await settingsAbout.hoverOnElement(settingsAboutButton);
+    await scrollDown(1000);
+
+    // Go to Settings Developer and Enable Save Logs in a File
+    await settingsAbout.goToDeveloperSettings();
+    await settingsDeveloper.waitForIsShown(true);
+    await settingsDeveloper.clickOnSaveLogs();
+    await settingsDeveloper.validateSaveLogsIsEnabled();
+  });
+
   it("Chat User B - Settings Notifications - Disable notifications", async () => {
     // Go to Notifications Settings and disable all notifications
-    await settingsGeneral.goToNotificationsSettings();
+    await settingsDeveloper.goToNotificationsSettings();
     await settingsNotifications.validateSettingsNotificationsIsShown();
     await settingsNotifications.clickOnFriendsNotifications();
     await settingsNotifications.clickOnMessagesNotifications();
