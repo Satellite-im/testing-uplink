@@ -40,7 +40,7 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_REMOTE: '[name="message-remote"]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
   CHAT_MESSAGE_REPLY_TEXT: "<Text>",
-  CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
+  CHAT_MESSAGE_TEXT_GROUP: '//Group[starts-with(@Name, "message-text")]',
   CHAT_MESSAGE_TEXT_VALUE: "<Text>",
 };
 
@@ -72,7 +72,8 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_REMOTE: "~message-remote",
   CHAT_MESSAGE_REPLY: "~message-reply",
   CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  CHAT_MESSAGE_TEXT_GROUP: "~message-text",
+  CHAT_MESSAGE_TEXT_GROUP:
+    '//XCUIElementTypeGroup[starts-with(@label, "message-text")]',
   CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
@@ -327,7 +328,7 @@ export default class MessageRemote extends UplinkMainScreen {
           ).waitForExist({ reverse: true });
         } else if (currentDriver === WINDOWS_DRIVER) {
           return await $(
-            '//Group[@Name="message-text"]//Text[contains(@Name, "' +
+            '//Group[contains(@Name, "message-text")]//Text[contains(@Name, "' +
               expectedMessage +
               '")]',
           ).waitForExist({ reverse: true });
