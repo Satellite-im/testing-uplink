@@ -54,7 +54,6 @@ export const config: WebdriverIO.Config = {
         "appium:deviceName": "WindowsPC",
         "appium:automationName": "windows",
         "appium:app": WINDOWS_APP_LOCATION,
-        "appium:appArguments": "--discovery disable",
         "ms:waitForAppLaunch": 50,
         "appium:prerun": {
           command:
