@@ -8,6 +8,7 @@ import {
   getUserKey,
   launchSecondApplication,
   saveTestKeys,
+  scrollDown,
 } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
@@ -90,6 +91,11 @@ export default async function createChatAccountsTests() {
     const developerSettingsButton = await settingsAbout.developerButton;
     await developerSettingsButton.waitForDisplayed();
 
+    // Go to Menu from the left and Scroll Down
+    const settingsAboutButton = await settingsAbout.aboutButton;
+    await settingsAbout.hoverOnElement(settingsAboutButton);
+    await scrollDown(1000);
+
     // Go to Settings Developer and Enable Save Logs in a File
     await settingsAbout.goToDeveloperSettings();
     await settingsDeveloper.waitForIsShown(true);
@@ -156,6 +162,11 @@ export default async function createChatAccountsTests() {
     // Validate Developer Settings button is unlocked
     const developerSettingsButton = await settingsAbout.developerButton;
     await developerSettingsButton.waitForDisplayed();
+
+    // Go to Menu from the left and Scroll Down
+    const settingsAboutButton = await settingsAbout.aboutButton;
+    await settingsAbout.hoverOnElement(settingsAboutButton);
+    await scrollDown(1000);
 
     // Go to Settings Developer and Enable Save Logs in a File
     await settingsAbout.goToDeveloperSettings();
