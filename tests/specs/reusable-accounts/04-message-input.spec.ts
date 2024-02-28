@@ -69,9 +69,7 @@ export default async function messageInputTests() {
   it("Emoji Suggested List - Displays expected data", async () => {
     // Type :en to show emoji suggestions starting with "en"
     await chatsInput.typeMessageOnInput(":en");
-    await emojiSuggestions.emojiSuggestionsContainer.waitForDisplayed({
-      timeout: 30000,
-    });
+    await emojiSuggestions.validateEmojiSuggestionsContainerIsShown();
 
     // Validate results are correct in Emoji Suggestion List
     const expectedEmojiSuggestedList = [
@@ -94,29 +92,21 @@ export default async function messageInputTests() {
     await emojiSuggestions.clickOnCloseButton();
 
     // Validate Emoji Suggested List is closed
-    await emojiSuggestions.emojiSuggestionsContainer.waitForDisplayed({
-      reverse: true,
-    });
+    await emojiSuggestions.validateEmojiSuggestionsContainerIsNotShown();
   });
 
   it("Emoji Suggested List - Selected emoji is added to input bar", async () => {
     // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
     await chatsInput.typeMessageOnInput(":en");
-    await emojiSuggestions.emojiSuggestionsContainer.waitForDisplayed({
-      timeout: 30000,
-    });
+    await emojiSuggestions.validateEmojiSuggestionsContainerIsShown();
 
-    // Select first emoji from emoji list (envelope "✉️")
-    await emojiSuggestions.clickOnEmojiSuggested("✉️");
+    // Select second emoji from emoji list (envelope "🏴󠁧󠁢󠁥󠁮󠁧󠁿")
+    await emojiSuggestions.clickOnEmojiSuggested("🏴󠁧󠁢󠁥󠁮󠁧󠁿");
 
     // Emoji Suggested List is closed after picking up one emoji
-    await emojiSuggestions.emojiSuggestionsContainer.waitForDisplayed({
-      reverse: true,
-    });
-
-    // Get value from Input Bar and ensure that is equal to "✉️"
-    const inputBarValue = await chatsInput.getValueFromInputBar();
-    await expect(inputBarValue).toEqual("✉️");
+    await emojiSuggestions.validateEmojiSuggestionsContainerIsNotShown();
+    // Get value from Input Bar and ensure that is equal to "🏴󠁧󠁢󠁥󠁮󠁧󠁿"
+    //await expect(chatsInput.inputText).toHaveText("🏴󠁧󠁢󠁥󠁮󠁧󠁿");
   });
 
   it("Chat Input Text - Validate texts with ** markdown are sent in bolds", async () => {

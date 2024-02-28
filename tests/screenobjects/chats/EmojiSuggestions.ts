@@ -102,6 +102,20 @@ export default class EmojiSuggestions extends UplinkMainScreen {
     );
   }
 
+  async validateEmojiSuggestionsContainerIsNotShown() {
+    await driver.waitUntil(
+      async () => {
+        return await $(SELECTORS.EMOJI_SUGGESTIONS_CONTAINER).waitForExist({
+          reverse: true,
+        });
+      },
+      {
+        timeout: 30000,
+        timeoutMsg: "Expected Emoji Container was not displayed after 30s",
+      },
+    );
+  }
+
   async validateEmojiSuggestionsHeader(expectedHeader: string) {
     await this.emojiSuggestionsHeader.waitForDisplayed();
     const emojiSuggestionsHeader = await this.emojiSuggestionsHeader;
