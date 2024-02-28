@@ -183,10 +183,8 @@ jobs:
       - name: Get localPeerId and build app 🖥️
         id: get_local_peer_id
         run: |
-          $localPeerId = Select-String -Path .\warp\peerID.txt -Pattern 'Local PeerID: ([^\s]*)' | ForEach-Object { $_.Matches.Groups[1].Value }
-          echo "localPeerId=$localPeerId" >> $env:GITHUB_ENV
-          $env:SHUTTLE_ADDR_POINT="/ip4/127.0.0.1/tcp/4444/p2p/" + $localPeerId
-          cargo build --release
+          ./appium-tests/scripts/replace_node.ps1
+          cargo build --release -F production_mode
 
       - name: Create ZIP archive on Windows 🗳️
         run: Compress-Archive -Path target/release/uplink.exe -Destination uplinkWindows.zip
@@ -460,6 +458,15 @@ jobs:
         with:
           name: appium-log-macos-chats
           path: ./appium.log
+
+      - name: Upload Uplink Logs if test fails 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: uplink-logs
+          path: |
+            ~/.uplink/.user/debug.log
+            ~/.uplinkUserB/.user/debug.log
 
       - name: Add label if any of test jobs failed
         if: failure()
@@ -744,6 +751,7 @@ jobs:
             test-allure-mac-ci
             test-allure-mac-chats
             test-allure-windows-ci
+            uplink-logs
 
       - name: Remove label if all test jobs succeeded
         uses: buildsville/add-remove-label@v2.0.0

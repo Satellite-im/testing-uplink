@@ -312,7 +312,7 @@ export async function launchAppMacOS(
   await driver.executeScript("macos: launchApp", [
     {
       bundleId: bundle,
-      arguments: ["--discovery", "disable", "--path", homedir() + relativePath],
+      arguments: ["--path", homedir() + relativePath],
     },
   ]);
 }
