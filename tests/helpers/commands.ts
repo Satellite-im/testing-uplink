@@ -26,8 +26,6 @@ let friendsScreen = new FriendsScreen();
 const saveRecoverySeed = new SaveRecoverySeedScreen();
 let welcomeScreen = new WelcomeScreen();
 
-export type MyKey = keyof typeof CustomKey;
-
 // Users cache helper functions
 
 export async function deleteCache() {
@@ -553,7 +551,11 @@ export async function getUplinkWindowHandle() {
 // Key Combinations Commands
 
 export async function keyboardShortcutPaste() {
-  await keyboard.type(4, 66);
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
+    await keyboard.type(4, 66);
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
+    await keyboard.type(129, 66);
+  }
 }
 
 export async function keyboardShiftEnter() {
