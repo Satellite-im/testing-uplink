@@ -27,7 +27,7 @@ const SELECTORS_WINDOWS = {
   PINNED_MESSAGE_USER_IMAGE: '[name="User Image"]',
   PINNED_MESSAGE_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   PINNED_MESSAGE_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
-  PINNED_MESSAGE_VALUE: '[name="message-text"]',
+  PINNED_MESSAGE_VALUE: '//Group[starts-with(@Name, "message-text")]',
   PINNED_MESSAGE_VALUE_TEXT: "<Text>",
   PINNED_MESSAGE_WRAP: '[name="pinned-message-wrap"]',
   PIN_CONTAINER: '[name="pinned-messages-container"]',
@@ -62,7 +62,8 @@ const SELECTORS_MACOS = {
   PINNED_MESSAGE_USER_IMAGE: "~User Image",
   PINNED_MESSAGE_USER_IMAGE_PROFILE: "~user-image-profile",
   PINNED_MESSAGE_USER_IMAGE_WRAP: "~user-image-wrap",
-  PINNED_MESSAGE_VALUE: "~message-text",
+  PINNED_MESSAGE_VALUE:
+    '//XCUIElementTypeGroup[starts-with(@label, "message-text")]',
   PINNED_MESSAGE_VALUE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   PINNED_MESSAGE_WRAP: "~pinned-message-wrap",
   PIN_CONTAINER: "~pinned-messages-container",

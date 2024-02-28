@@ -39,7 +39,7 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_LOCAL: '[name="message-local"]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
   CHAT_MESSAGE_REPLY_TEXT: "<Text>",
-  CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
+  CHAT_MESSAGE_TEXT_GROUP: '//Group[starts-with(@Name, "indicator")]',
   CHAT_MESSAGE_TEXT_VALUE: "<Text>",
 };
 
@@ -70,7 +70,8 @@ const SELECTORS_MACOS = {
   CHAT_MESSAGE_LOCAL: "~message-local",
   CHAT_MESSAGE_REPLY: "~message-reply",
   CHAT_MESSAGE_REPLY_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  CHAT_MESSAGE_TEXT_GROUP: "~message-text",
+  CHAT_MESSAGE_TEXT_GROUP:
+    '//XCUIElementTypeGroup[starts-with(@label, "message-text")]',
   CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
@@ -249,7 +250,7 @@ export default class MessageLocal extends UplinkMainScreen {
           ).waitForExist({ reverse: true });
         } else if (currentDriver === WINDOWS_DRIVER) {
           return await $(
-            '//Group[@Name="message-text"]//Text[contains(@Name, "' +
+            '//Group[contains(@Name, "message-text")]//Text[contains(@Name, "' +
               expectedMessage +
               '")]',
           ).waitForExist({ reverse: true });
@@ -296,12 +297,16 @@ export default class MessageLocal extends UplinkMainScreen {
         expectedMessage +
         '")]';
     }
-    await driver.waitUntil(async () => {
-      return await $(messageSentLocator).waitForExist({
+    await driver.waitUntil(
+      async () => {
+        const updatedElement = await driver.$(messageSentLocator);
+        return await updatedElement.waitForExist();
+      },
+      {
         timeout: 45000,
         timeoutMsg: "Expected message sent was not found after 45 seconds",
-      });
-    });
+      },
+    );
   }
 
   // Messages Sent Methods
