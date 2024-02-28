@@ -8,7 +8,7 @@ const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_LOCAL: '[name="message-local"]',
-  CHAT_MESSAGE_TEXT_GROUP: '[name="message-text"]',
+  CHAT_MESSAGE_TEXT_GROUP: '//Group[starts-with(@Name, "message-text")]',
   CHAT_MESSAGE_TEXT_VALUE: "<Text>",
   EMOJI_REACTION_REMOTE: '[name="emoji-reaction-remote"]',
   EMOJI_REACTION_SELF: '[name="emoji-reaction-self"]',
@@ -30,7 +30,8 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   CHAT_MESSAGE_LOCAL: "~message-local",
-  CHAT_MESSAGE_TEXT_GROUP: "~message-text",
+  CHAT_MESSAGE_TEXT_GROUP:
+    '//XCUIElementTypeGroup[starts-with(@label, "message-text")]',
   CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   EMOJI_REACTION_REMOTE: "~emoji-reaction-remote",
   EMOJI_REACTION_SELF: "~emoji-reaction-self",
