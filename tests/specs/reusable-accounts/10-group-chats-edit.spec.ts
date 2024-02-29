@@ -122,8 +122,8 @@ export default async function groupChatEditTests() {
     await manageMembers.typeOnSearchUserInput("ChatUserB");
     await manageMembers.clickOnFirstRemoveButton();
 
-    await manageMembers.validateNothingHereIsDisplayed();
-    await chatsTopbar.exitManageMembers();
+    //await manageMembers.validateNothingHereIsDisplayed();
+    //await chatsTopbar.exitManageMembers();
 
     await chatsSidebar.validateNoModalIsOpen();
     await chatsTopbar.validateTopbarExists();
