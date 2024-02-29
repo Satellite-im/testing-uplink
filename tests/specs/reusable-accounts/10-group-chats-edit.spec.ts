@@ -122,13 +122,9 @@ export default async function groupChatEditTests() {
     await manageMembers.typeOnSearchUserInput("ChatUserB");
     await manageMembers.clickOnFirstRemoveButton();
 
-    /*
-    Skipping validation for bug opened
     await manageMembers.validateNothingHereIsDisplayed();
-
-    // Close Manage Members modal
     await chatsTopbar.exitManageMembers();
-    */
+
     await chatsSidebar.validateNoModalIsOpen();
     await chatsTopbar.validateTopbarExists();
 
@@ -165,13 +161,10 @@ export default async function groupChatEditTests() {
     await manageMembers.typeOnSearchUserInput("ChatUserB");
     await manageMembers.clickOnFirstAddButton();
 
-    /*
-    Skipping validation for bug opened
     await manageMembers.validateNothingHereIsDisplayed();
 
-    // Close Manage Members modal
     await chatsTopbar.exitManageMembers();
-    */
+
     await chatsSidebar.validateNoModalIsOpen();
     await chatsTopbar.validateTopbarExists();
 

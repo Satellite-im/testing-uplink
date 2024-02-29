@@ -149,13 +149,11 @@ export default async function groupChatSidebarTests() {
     await manageMembers.typeOnSearchUserInput("ChatUserB");
     await manageMembers.clickOnFirstAddButton();
 
-    /*
-    Skipping validation for bug opened
     await manageMembers.validateNothingHereIsDisplayed();
 
     // Close Manage Members and validate topbar contents has correct number of participants
     await chatsTopbar.exitManageMembers();
-    */
+
     await chatsSidebar.validateNoModalIsOpen();
     await chatsTopbar.validateTopbarExists();
 
