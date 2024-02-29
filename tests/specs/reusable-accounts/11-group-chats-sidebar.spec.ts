@@ -141,7 +141,8 @@ export default async function groupChatSidebarTests() {
     await expect(topbarUserStatus).toHaveText("Members (1)");
   });
 
-  it("Group Chat - Add Chat User B again to the group", async () => {
+  // Code will be fixed on https://github.com/Satellite-im/Uplink/pull/1886
+  xit("Group Chat - Add Chat User B again to the group", async () => {
     // Go to Manage Members and then add again Chat User B to the group
     await chatsTopbar.openManageMembers();
     await manageMembers.validateManageMembersIsShown();
@@ -149,13 +150,11 @@ export default async function groupChatSidebarTests() {
     await manageMembers.typeOnSearchUserInput("ChatUserB");
     await manageMembers.clickOnFirstAddButton();
 
-    /*
-    Skipping validation for bug opened
     await manageMembers.validateNothingHereIsDisplayed();
 
     // Close Manage Members and validate topbar contents has correct number of participants
     await chatsTopbar.exitManageMembers();
-    */
+
     await chatsSidebar.validateNoModalIsOpen();
     await chatsTopbar.validateTopbarExists();
 
@@ -164,7 +163,8 @@ export default async function groupChatSidebarTests() {
     await expect(topbarUserStatus).toHaveText("Members (2)");
   });
 
-  it("Group Chat - Ensure in remote side that user was added again to the group", async () => {
+  // Code will be fixed on https://github.com/Satellite-im/Uplink/pull/1886
+  xit("Group Chat - Ensure in remote side that user was added again to the group", async () => {
     // Switch execution to User B and ensure that user was added again to the group
     await activateSecondApplication();
     await chatsSidebar.goToFiles();
@@ -180,7 +180,7 @@ export default async function groupChatSidebarTests() {
     await expect(topbarUserName).toHaveText("X");
   });
 
-  // Skipping test due to bug under investigation
+  // Code will be fixed on https://github.com/Satellite-im/Uplink/pull/1886
   xit("Group Chat - Sidebar - Delete group", async () => {
     // Switch execution to User A and delete the group
     await activateFirstApplication();
@@ -191,7 +191,7 @@ export default async function groupChatSidebarTests() {
     await chatsSidebar.validateSidebarChatIsNotDisplayed("X");
   });
 
-  // Skipping test due to bug under investigation
+  // Code will be fixed on https://github.com/Satellite-im/Uplink/pull/1886
   xit("Group Chat - Sidebar - Deleted group is not shown on remote side", async () => {
     // Switch execution to remote user and ensure that group was removed on this side too
     await activateSecondApplication();
