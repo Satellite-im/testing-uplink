@@ -120,7 +120,7 @@ export default async function messageInputTests() {
     await chatsInput.typeMessageOnInput("**Bolds1**");
     await chatsInput.clickOnSendMessage();
     await messageLocal.waitForMessageSentToExist("**Bolds1**");
-    const messageContents = await messageLocal.getMessageLocator("**Bolds1**");
+    const messageContents = await messageLocal.getMessageContents("**Bolds1**");
     await expect(messageContents).toHaveText("Bolds1");
   });
 
@@ -129,7 +129,7 @@ export default async function messageInputTests() {
     await chatsInput.typeMessageOnInput("__Bolds2__");
     await chatsInput.clickOnSendMessage();
     await messageLocal.waitForMessageSentToExist("__Bolds2__");
-    const messageContents = await messageLocal.getMessageLocator("__Bolds2__");
+    const messageContents = await messageLocal.getMessageContents("__Bolds2__");
     await expect(messageContents).toHaveText("Bolds2");
   });
 
@@ -167,13 +167,13 @@ export default async function messageInputTests() {
     await chatsInput.waitForIsShown(true);
     await messageRemote.waitForReceivingMessage("**Bolds1**");
     const messageContentsBolds1 =
-      await messageRemote.getMessageLocator("**Bolds1**");
+      await messageRemote.getMessageContents("**Bolds1**");
     await expect(messageContentsBolds1).toHaveText("Bolds1");
 
     // With Chat User B, validate message with with __ markdown was received in bolds
     await messageRemote.waitForReceivingMessage("__Bolds2__");
     const messageContentsBolds2 =
-      await messageRemote.getMessageLocator("__Bolds2__");
+      await messageRemote.getMessageContents("__Bolds2__");
     await expect(messageContentsBolds2).toHaveText("Bolds2");
   });
 

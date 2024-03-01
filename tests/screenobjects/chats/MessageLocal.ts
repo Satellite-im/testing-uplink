@@ -309,7 +309,7 @@ export default class MessageLocal extends UplinkMainScreen {
 
   async getMessageContents(expectedMessage: string) {
     const message = await this.getMessageLocator(expectedMessage);
-    const messageText = await message.getText();
+    const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return messageText;
   }
 
