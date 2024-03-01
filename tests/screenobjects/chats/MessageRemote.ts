@@ -321,16 +321,12 @@ export default class MessageRemote extends UplinkMainScreen {
     await driver.waitUntil(
       async () => {
         if (currentDriver === MACOS_DRIVER) {
-          return await $(
-            '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-text"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-              expectedMessage +
-              '"`]',
-          ).waitForExist({ reverse: true });
+          return await $(`~message-text-${expectedMessage}`).waitForExist({
+            reverse: true,
+          });
         } else if (currentDriver === WINDOWS_DRIVER) {
           return await $(
-            '//Group[contains(@Name, "message-text")]//Text[contains(@Name, "' +
-              expectedMessage +
-              '")]',
+            `[name="message-text-${expectedMessage}"]`,
           ).waitForExist({ reverse: true });
         }
       },
