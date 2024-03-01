@@ -236,7 +236,7 @@ export default async function createAccountTests() {
     const statusOfButton = await createPin.getStatusOfCreateAccountButton();
     await expect(statusOfButton).toEqual("true");
     await createUser.clickOnCreateAccount();
-    await welcomeScreen.waitForIsShown(true);
+    await welcomeScreen.welcomeLayout.waitForExist({ timeout: 60000 });
 
     // If current driver is Windows, then maximize screen
     const currentDriver = await welcomeScreen.getCurrentDriver();
