@@ -52,7 +52,7 @@ export default async function sidebarChatsTests() {
     await chatsInput.clickOnSendMessage();
 
     // Message is formatted with markdown on chat conversation
-    await messageLocal.waitForMessageSentToExist("hello");
+    await messageLocal.waitForMessageSentToExist("__hello__");
 
     // Validate last message on Sidebar is not formatted with markdown
     await chatsSidebar.validateLastMessageDisplayed("__hello__");

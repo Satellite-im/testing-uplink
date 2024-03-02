@@ -39,7 +39,7 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_LOCAL: '[name="message-local"]',
   CHAT_MESSAGE_REPLY: '[name="message-reply"]',
   CHAT_MESSAGE_REPLY_TEXT: "<Text>",
-  CHAT_MESSAGE_TEXT_GROUP: '//Group[starts-with(@Name, "indicator")]',
+  CHAT_MESSAGE_TEXT_GROUP: '//Group[starts-with(@Name, "message-text")]',
   CHAT_MESSAGE_TEXT_VALUE: "<Text>",
 };
 
@@ -225,12 +225,12 @@ export default class MessageLocal extends UplinkMainScreen {
     let codeMessageLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       codeMessageLocator =
-        '//XCUIElementTypeGroup[contains(@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
+        '//XCUIElementTypeGroup[(@label, "message-local")]//XCUIElementTypeStaticText[(@value, "' +
         expectedLanguage +
         '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       codeMessageLocator =
-        '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
+        '//Group[(@Name, "message-local")]//Text[contains(@Name, "' +
         expectedLanguage +
         '")]';
     }
@@ -243,16 +243,12 @@ export default class MessageLocal extends UplinkMainScreen {
     await driver.waitUntil(
       async () => {
         if (currentDriver === MACOS_DRIVER) {
-          return await $(
-            '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-text"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-              expectedMessage +
-              '"`]',
-          ).waitForExist({ reverse: true });
+          return await $(`~message-text-${expectedMessage}`).waitForExist({
+            reverse: true,
+          });
         } else if (currentDriver === WINDOWS_DRIVER) {
           return await $(
-            '//Group[contains(@Name, "message-text")]//Text[contains(@Name, "' +
-              expectedMessage +
-              '")]',
+            `[name="message-text-${expectedMessage}"]`,
           ).waitForExist({ reverse: true });
         }
       },
@@ -267,13 +263,9 @@ export default class MessageLocal extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let linkSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      linkSentLocator =
-        '-ios class chain:**/XCUIElementTypeLink/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-        expectedMessage +
-        '"`]';
+      linkSentLocator = `~message-text-${expectedMessage}`;
     } else if (currentDriver === WINDOWS_DRIVER) {
-      linkSentLocator =
-        '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
+      linkSentLocator = `[name="message-text-${expectedMessage}"]`;
     }
     await driver.waitUntil(async () => {
       return await $(linkSentLocator).waitForExist({
@@ -287,19 +279,13 @@ export default class MessageLocal extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let messageSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      messageSentLocator =
-        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-local"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-        expectedMessage +
-        '"`]';
+      messageSentLocator = `~message-text-${expectedMessage}`;
     } else if (currentDriver === WINDOWS_DRIVER) {
-      messageSentLocator =
-        '//Group[contains(@Name, "local")]//Text[contains(@Name, "' +
-        expectedMessage +
-        '")]';
+      messageSentLocator = `[name="message-text-${expectedMessage}"]`;
     }
     await driver.waitUntil(
       async () => {
-        const updatedElement = await driver.$(messageSentLocator);
+        const updatedElement = await $(messageSentLocator);
         return await updatedElement.waitForExist();
       },
       {
@@ -307,6 +293,24 @@ export default class MessageLocal extends UplinkMainScreen {
         timeoutMsg: "Expected message sent was not found after 45 seconds",
       },
     );
+  }
+
+  async getMessageLocator(expectedMessage: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let messageSentLocator: string = "";
+    if (currentDriver === MACOS_DRIVER) {
+      messageSentLocator = `~message-text-${expectedMessage}`;
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      messageSentLocator = `[name="message-text-${expectedMessage}"]`;
+    }
+    const messageSent = await $(messageSentLocator);
+    return messageSent;
+  }
+
+  async getMessageContents(expectedMessage: string) {
+    const message = await this.getMessageLocator(expectedMessage);
+    const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    return messageText;
   }
 
   // Messages Sent Methods
@@ -362,17 +366,11 @@ export default class MessageLocal extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let messageSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      messageSentLocator =
-        '//XCUIElementTypeGroup[contains, (@label, "local")]//XCUIElementTypeStaticText[contains(@value, "' +
-        expectedMessage +
-        '")]/../..';
+      messageSentLocator = `~message-text-${expectedMessage}`;
     } else if (currentDriver === WINDOWS_DRIVER) {
-      messageSentLocator =
-        '//Group[contains, (@Name, "local")]//Text[contains(@Name, "' +
-        expectedMessage +
-        '")]/../..';
+      messageSentLocator = `[name="message-text-${expectedMessage}"]`;
     }
-    const messageSent = await $(messageSentLocator);
+    const messageSent = await $(messageSentLocator).$("/../..");
     await messageSent.waitForExist();
     return messageSent;
   }

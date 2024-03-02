@@ -113,14 +113,18 @@ export default async function messageInputTests() {
     // With Chat User A, send a message with ** markdown
     await chatsInput.typeMessageOnInput("**Bolds1**");
     await chatsInput.clickOnSendMessage();
-    await messageLocal.waitForMessageSentToExist("Bolds1");
+    await messageLocal.waitForMessageSentToExist("**Bolds1**");
+    const messageContents = await messageLocal.getMessageContents("**Bolds1**");
+    await expect(messageContents).toHaveText("Bolds1");
   });
 
   it("Chat Input Text - Validate texts with __ markdown are sent in bolds", async () => {
     // With Chat User A, send a message with __ markdown
     await chatsInput.typeMessageOnInput("__Bolds2__");
     await chatsInput.clickOnSendMessage();
-    await messageLocal.waitForMessageSentToExist("Bolds2");
+    await messageLocal.waitForMessageSentToExist("__Bolds2__");
+    const messageContents = await messageLocal.getMessageContents("__Bolds2__");
+    await expect(messageContents).toHaveText("Bolds2");
   });
 
   // Needs research to implement on MacOS
@@ -155,10 +159,16 @@ export default async function messageInputTests() {
     // With Chat User B, validate message with with ** markdown was received in bolds
     await activateSecondApplication();
     await chatsInput.waitForIsShown(true);
-    await messageRemote.waitForReceivingMessage("Bolds1");
+    await messageRemote.waitForReceivingMessage("**Bolds1**");
+    const messageContentsBolds1 =
+      await messageRemote.getMessageContents("**Bolds1**");
+    await expect(messageContentsBolds1).toHaveText("Bolds1");
 
     // With Chat User B, validate message with with __ markdown was received in bolds
-    await messageRemote.waitForReceivingMessage("Bolds2");
+    await messageRemote.waitForReceivingMessage("__Bolds2__");
+    const messageContentsBolds2 =
+      await messageRemote.getMessageContents("__Bolds2__");
+    await expect(messageContentsBolds2).toHaveText("Bolds2");
   });
 
   // Needs research to implement on MacOS
@@ -185,7 +195,7 @@ export default async function messageInputTests() {
   });
 
   it("Chat User - Chat Messages containing links contents on local side", async () => {
-    await messageLocal.waitForLinkSentToExist("Apple");
+    await messageLocal.waitForLinkSentToExist("www.apple.com");
 
     // Validate link embed contents on chat message
     const linkEmbedSent = await messageLocal.getLastMessageSentLinkEmbed();
@@ -206,10 +216,10 @@ export default async function messageInputTests() {
     // With Chat User B, validate message with URL starting with https:// was received as link
     await activateSecondApplication();
     await chatsInput.waitForIsShown(true);
-    await messageRemote.waitForReceivingLink("Google");
+    await messageRemote.waitForReceivingLink("https://www.google.com");
 
     // With Chat User B, validate message with URL starting with www. was received as link
-    await messageRemote.waitForReceivingLink("Apple");
+    await messageRemote.waitForReceivingLink("www.apple.com");
   });
 
   it("Chat User - Chat Messages containing links contents on remote side", async () => {
