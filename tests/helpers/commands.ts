@@ -131,7 +131,7 @@ export async function createNewUser(
   await createUser.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  await welcomeScreen.welcomeLayout.waitForExist();
+  await welcomeScreen.welcomeLayout.waitForExist({ timeout: 60000 });
 
   // Workaround to ensure that user clicks on Add Someone
   await welcomeScreen.clickAddSomeone();

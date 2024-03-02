@@ -270,15 +270,9 @@ export default class MessageRemote extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let locator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      locator =
-        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-        expectedMessage +
-        '"`]';
+      locator = `~message-text-${expectedMessage}`;
     } else if (currentDriver === WINDOWS_DRIVER) {
-      locator =
-        '//Group[contains(@Name, "remote"]//Text[contains(@Name, "' +
-        expectedMessage +
-        '")]/../..';
+      locator = `[name="message-text-${expectedMessage}"]`;
     }
     const messageReceived = await $(locator);
     await messageReceived.waitForExist();
@@ -321,16 +315,12 @@ export default class MessageRemote extends UplinkMainScreen {
     await driver.waitUntil(
       async () => {
         if (currentDriver === MACOS_DRIVER) {
-          return await $(
-            '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-text"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-              expectedMessage +
-              '"`]',
-          ).waitForExist({ reverse: true });
+          return await $(`~message-text-${expectedMessage}`).waitForExist({
+            reverse: true,
+          });
         } else if (currentDriver === WINDOWS_DRIVER) {
           return await $(
-            '//Group[contains(@Name, "message-text")]//Text[contains(@Name, "' +
-              expectedMessage +
-              '")]',
+            `[name="message-text-${expectedMessage}"]`,
           ).waitForExist({ reverse: true });
         }
       },
@@ -368,13 +358,9 @@ export default class MessageRemote extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let linkReceivedLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      linkReceivedLocator =
-        '-ios class chain:**/XCUIElementTypeLink/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-        expectedMessage +
-        '"`]';
+      linkReceivedLocator = `~message-text-${expectedMessage}`;
     } else if (currentDriver === WINDOWS_DRIVER) {
-      linkReceivedLocator =
-        '//HyperLink[contains(@Name, "' + expectedMessage + '")]';
+      linkReceivedLocator = `[name="message-text-${expectedMessage}"]`;
     }
     await driver.waitUntil(async () => {
       return await $(linkReceivedLocator).waitForExist({
@@ -388,15 +374,9 @@ export default class MessageRemote extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     let receivedMessageLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      receivedMessageLocator =
-        '-ios class chain:**/XCUIElementTypeGroup[`label BEGINSWITH "message-remote"`]/**/XCUIElementTypeStaticText[`value BEGINSWITH "' +
-        expectedMessage +
-        '"`]';
+      receivedMessageLocator = `~message-text-${expectedMessage}`;
     } else if (currentDriver === WINDOWS_DRIVER) {
-      receivedMessageLocator =
-        '//Group[contains(@Name, "remote")]//Text[contains(@Name, "' +
-        expectedMessage +
-        '")]';
+      receivedMessageLocator = `[name="message-text-${expectedMessage}"]`;
     }
     await driver.waitUntil(async () => {
       return await $(receivedMessageLocator).waitForExist({
@@ -404,6 +384,24 @@ export default class MessageRemote extends UplinkMainScreen {
         timeoutMsg: "Expected message was not found after 45 seconds",
       });
     });
+  }
+
+  async getMessageLocator(expectedMessage: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let messageSentLocator: string = "";
+    if (currentDriver === MACOS_DRIVER) {
+      messageSentLocator = `~message-text-${expectedMessage}`;
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      messageSentLocator = `[name="message-text-${expectedMessage}"]`;
+    }
+    const messageSent = await $(messageSentLocator);
+    return messageSent;
+  }
+
+  async getMessageContents(expectedMessage: string) {
+    const message = await this.getMessageLocator(expectedMessage);
+    const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    return messageText;
   }
 
   // Replies Methods

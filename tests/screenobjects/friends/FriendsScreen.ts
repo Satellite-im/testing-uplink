@@ -693,12 +693,7 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async goToChatWithFriend() {
     const chatWithFriendButton = await this.chatWithFriendButton;
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await leftClickOnMacOS(chatWithFriendButton);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await leftClickOnWindows(chatWithFriendButton);
-    }
+    await chatWithFriendButton.click();
   }
 
   async goToPendingFriendsList() {
