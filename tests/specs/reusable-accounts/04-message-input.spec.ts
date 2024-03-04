@@ -1,6 +1,7 @@
 require("module-alias/register");
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import EmojiSuggestions from "@screenobjects/chats/EmojiSuggestions";
+import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
 import MessageRemote from "@screenobjects/chats/MessageRemote";
@@ -18,6 +19,7 @@ import {
 const chatsLayout = new ChatsLayout();
 const chatsInput = new InputBar();
 const emojiSuggestions = new EmojiSuggestions();
+const filesScreen = new FilesScreen();
 const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 
@@ -66,7 +68,7 @@ export default async function messageInputTests() {
     await chatsInput.clearInputBar();
   });
 
-  xit("Emoji Suggested List - Displays expected data", async () => {
+  it("Emoji Suggested List - Displays expected data", async () => {
     // Type :en to show emoji suggestions starting with "en"
     await chatsInput.typeMessageOnInput(":en");
     await emojiSuggestions.validateEmojiSuggestionsContainerIsShown();
@@ -87,7 +89,7 @@ export default async function messageInputTests() {
     await emojiSuggestions.validateEmojiSuggestionsHeader("SUGGESTED EMOJI");
   });
 
-  xit("Emoji Suggested List - Can be closed without choosing suggestion", async () => {
+  it("Emoji Suggested List - Can be closed without choosing suggestion", async () => {
     // Close Emoji Suggested List using the Close Button
     await emojiSuggestions.clickOnCloseButton();
 
@@ -95,7 +97,7 @@ export default async function messageInputTests() {
     await emojiSuggestions.validateEmojiSuggestionsContainerIsNotShown();
   });
 
-  xit("Emoji Suggested List - Selected emoji is added to input bar", async () => {
+  it("Emoji Suggested List - Selected emoji is added to input bar", async () => {
     // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
     await chatsInput.typeMessageOnInput(":en");
     await emojiSuggestions.validateEmojiSuggestionsContainerIsShown();
@@ -105,14 +107,19 @@ export default async function messageInputTests() {
 
     // Emoji Suggested List is closed after picking up one emoji
     await emojiSuggestions.validateEmojiSuggestionsContainerIsNotShown();
-    await chatsInput.clickOnSendMessage();
-    await messageLocal.waitForMessageSentToExist("🏴󠁧󠁢󠁥󠁮󠁧󠁿");
+    const inputBarText = await chatsInput.getValueFromInputBar();
+    await expect(inputBarText).toEqual("🏴󠁧󠁢󠁥󠁮󠁧󠁿");
+    await chatsInput.clearInputBar();
   });
 
   it("Chat Input Text - Validate texts with ** markdown are sent in bolds", async () => {
     // With Chat User A, send a message with ** markdown
     await chatsInput.typeMessageOnInput("**Bolds1**");
     await chatsInput.clickOnSendMessage();
+    await chatsInput.goToFiles();
+    await filesScreen.waitForIsShown(true);
+    await filesScreen.goToMainScreen();
+    await chatsInput.waitForIsShown(true);
     await messageLocal.waitForMessageSentToExist("**Bolds1**");
     const messageContents = await messageLocal.getMessageContents("**Bolds1**");
     await expect(messageContents).toHaveText("Bolds1");
@@ -122,6 +129,10 @@ export default async function messageInputTests() {
     // With Chat User A, send a message with __ markdown
     await chatsInput.typeMessageOnInput("__Bolds2__");
     await chatsInput.clickOnSendMessage();
+    await chatsInput.goToFiles();
+    await filesScreen.waitForIsShown(true);
+    await filesScreen.goToMainScreen();
+    await chatsInput.waitForIsShown(true);
     await messageLocal.waitForMessageSentToExist("__Bolds2__");
     const messageContents = await messageLocal.getMessageContents("__Bolds2__");
     await expect(messageContents).toHaveText("Bolds2");

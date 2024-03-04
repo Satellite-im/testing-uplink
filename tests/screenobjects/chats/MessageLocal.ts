@@ -295,7 +295,11 @@ export default class MessageLocal extends UplinkMainScreen {
     );
   }
 
-  async getMessageLocator(expectedMessage: string) {
+  // Message Methods Using Message Custom Locator
+
+  ///
+
+  async getCustomMessageLocator(expectedMessage: string) {
     const currentDriver = await this.getCurrentDriver();
     let messageSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
@@ -307,11 +311,136 @@ export default class MessageLocal extends UplinkMainScreen {
     return messageSent;
   }
 
-  async getMessageContents(expectedMessage: string) {
+  async getCustomMessageContents(expectedMessage: string) {
     const message = await this.getMessageLocator(expectedMessage);
     const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
     return messageText;
   }
+
+  async getCustomMessageSentCodeCopyButton() {
+    const message = await this.getLastMessageSentLocator();
+    const messageCodeCopyButton = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON);
+    await messageCodeCopyButton.waitForExist();
+    return messageCodeCopyButton;
+  }
+
+  async getCustomMessageSentCodeLanguage() {
+    const message = await this.getLastMessageSentLocator();
+    const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
+    const messageCodeLanguage = await messageText.$(
+      SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE,
+    );
+    await messageCodeLanguage.waitForExist();
+    return messageCodeLanguage;
+  }
+
+  async getCustomMessageSentCodePane() {
+    const message = await this.getLastMessageSentLocator();
+    const messageCodePane = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
+    await messageCodePane.waitForExist();
+    return messageCodePane;
+  }
+
+  async getCustomMessageSentCodeMessage() {
+    const messageCodePane = await this.getLastMessageSentCodePane();
+    let messageResult = "";
+    const messageResultElements = await messageCodePane.$$(
+      SELECTORS.CHAT_MESSAGE_CODE_MESSAGES,
+    );
+    for (let element of messageResultElements) {
+      const codeMessageText = await element.getText();
+      messageResult += codeMessageText;
+    }
+    return messageResult;
+  }
+
+  async getCustomMessageSentText() {
+    const message = await this.getLastMessageSentLocator();
+    const messageText = await message
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_TEXT_VALUE);
+    await messageText.waitForExist();
+    return messageText;
+  }
+
+  async getCustomMessageSentDownloadButton() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const getLastMessageSentDownloadButton = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
+    );
+    await getLastMessageSentDownloadButton.waitForExist();
+    return getLastMessageSentDownloadButton;
+  }
+
+  async getCustomMessageSentFileEmbed() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const lastMessageFileEmbed = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_EMBED,
+    );
+    await lastMessageFileEmbed.waitForExist();
+    return lastMessageFileEmbed;
+  }
+
+  async getCustomMessageSentFileIcon() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const lastMessageFileIcon = await lastMessage.$(
+      SELECTORS.CHAT_MESSAGE_FILE_ICON,
+    );
+    await lastMessageFileIcon.waitForExist();
+    return lastMessageFileIcon;
+  }
+
+  async getCustomMessageSentFileMeta() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const lastMessageFileMeta = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
+    await lastMessageFileMeta.waitForExist();
+    return lastMessageFileMeta;
+  }
+
+  async getCustomMessageSentFileName() {
+    const lastMessage = await this.getLastMessageSentLocator();
+    const lastMessageFileName = await lastMessage
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
+    await lastMessageFileName.waitForExist();
+    return lastMessageFileName;
+  }
+
+  async getCustomMessageSentLinkEmbedDetailsText() {
+    const linkEmbedLastMessage = await this.getLastMessageSentLinkEmbed();
+    const linkEmbedDetailsText = await linkEmbedLastMessage
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS)
+      .$(SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS_TEXT);
+    await linkEmbedDetailsText.waitForExist();
+    return linkEmbedDetailsText;
+  }
+
+  async getCustomMessageSentLinkEmbedIcon() {
+    const linkEmbedLastMessage = await this.getLastMessageSentLinkEmbed();
+    const linkEmbedIcon = await linkEmbedLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON,
+    );
+    await linkEmbedIcon.waitForExist();
+    return linkEmbedIcon;
+  }
+
+  async getCustomMessageSentLinkEmbedIconTitle() {
+    const linkEmbedIconLastMessage =
+      await this.getLastMessageSentLinkEmbedIcon();
+    const iconTitle = await linkEmbedIconLastMessage.$(
+      SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE,
+    );
+    await iconTitle.waitForExist();
+    return iconTitle;
+  }
+
+  /////////
 
   // Messages Sent Methods
 

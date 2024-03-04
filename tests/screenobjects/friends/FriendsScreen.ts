@@ -5,8 +5,6 @@ import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import {
   getClipboardMacOS,
   keyboardShortcutPaste,
-  leftClickOnMacOS,
-  leftClickOnWindows,
   rightClickOnMacOS,
   rightClickOnWindows,
 } from "@helpers/commands";
