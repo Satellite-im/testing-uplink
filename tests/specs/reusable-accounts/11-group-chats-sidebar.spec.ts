@@ -150,10 +150,10 @@ export default async function groupChatSidebarTests() {
     await manageMembers.typeOnSearchUserInput("ChatUserB");
     await manageMembers.clickOnFirstAddButton();
 
-    //await manageMembers.validateNothingHereIsDisplayed();
+    await manageMembers.validateNothingHereIsDisplayed();
 
     // Close Manage Members and validate topbar contents has correct number of participants
-    // await chatsTopbar.exitManageMembers();
+    await chatsTopbar.exitManageMembers();
 
     await chatsSidebar.validateNoModalIsOpen();
     await chatsTopbar.validateTopbarExists();
