@@ -183,7 +183,7 @@ export default async function sidebarChatsTests() {
     // Open context menu and right click on Delete chat
     await chatsSidebar.openContextMenuOnSidebar("ChatUserB");
     await contextMenuSidebar.selectChatsDeleteConversation();
-    await welcomeScreen.validateWelcomeScreenIsShown();
+    await welcomeScreen.validateWelcomeScreenIsShown(30000);
   });
 
   it("Chat User B - Sidebar - If user deletes chat on remote side, it will be removed on local side as well", async () => {

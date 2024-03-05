@@ -13,6 +13,7 @@ import {
   keyboardShortcutPaste,
   launchFirstApplication,
   launchSecondApplication,
+  pressEnterKey,
   setClipboardValue,
 } from "@helpers/commands";
 const chatsLayout = new ChatsLayout();
@@ -102,7 +103,7 @@ export default async function messageInputTests() {
     await emojiSuggestions.validateEmojiSuggestionsContainerIsShown();
 
     // Select second emoji from emoji list (envelope "🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-    await chatsInput.pressEnterKeyOnInputBar();
+    await pressEnterKey();
 
     // Emoji Suggested List is closed after picking up one emoji
     await emojiSuggestions.validateEmojiSuggestionsContainerIsNotShown();

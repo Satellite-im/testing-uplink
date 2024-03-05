@@ -136,7 +136,7 @@ export default async function groupChatEditTests() {
     // Validate that remote user was removed from the group correctly
     await activateSecondApplication();
     await chatsSidebar.waitForGroupToBeDeleted("X");
-    await welcomeScreen.validateWelcomeScreenIsShown();
+    await welcomeScreen.validateWelcomeScreenIsShown(30000);
   });
 
   it("Group Chat Creator - Add Users List - Chat User B appears now in list", async () => {

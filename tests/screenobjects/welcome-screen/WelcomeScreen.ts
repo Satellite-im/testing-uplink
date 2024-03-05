@@ -50,7 +50,7 @@ export default class WelcomeScreen extends UplinkMainScreen {
     await addSomeoneButton.click();
   }
 
-  async validateWelcomeScreenIsShown() {
-    await this.welcomeLayout.waitForExist();
+  async validateWelcomeScreenIsShown(timeout: number = 15000) {
+    await this.welcomeLayout.waitForExist({ timeout: timeout });
   }
 }

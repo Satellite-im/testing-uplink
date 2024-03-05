@@ -564,6 +564,10 @@ export async function keyboardShiftEnter() {
   await keyboard.releaseKey(7);
 }
 
+export async function pressEnterKey() {
+  await keyboard.type(101);
+}
+
 export async function pressEscKey() {
   await keyboard.type(1);
 }
