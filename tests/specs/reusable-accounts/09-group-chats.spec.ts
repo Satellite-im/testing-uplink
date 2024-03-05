@@ -65,6 +65,7 @@ export default async function groupChatTests() {
     await createGroup.clearGroupNameInput();
   });
 
+  // Needs rework
   it("Chat User A - Attempt to create group chat with more than 64 chars in name", async () => {
     // Open modal to create group chat and type more than 64 chars in name
     await createGroup.typeLongerTextInGroupName();

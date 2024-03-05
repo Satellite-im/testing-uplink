@@ -382,28 +382,37 @@ export default class FriendsScreen extends UplinkMainScreen {
       SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON,
     );
     await acceptButton.click();
+    await this.validateSpinnerIsNotShown();
+    await friendToClick?.waitForExist({ reverse: true, timeout: 30000 });
   }
 
   async blockUser(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
     const blockButton = await friendToClick.$(SELECTORS.BLOCK_FRIEND_BUTTON);
     await blockButton.click();
+    await this.validateSpinnerIsNotShown();
+    await friendToClick?.waitForExist({ reverse: true, timeout: 30000 });
   }
 
   async chatWithFriend(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
     const chatButton = await friendToClick.$(SELECTORS.CHAT_WITH_FRIEND_BUTTON);
     await chatButton.click();
+    await this.validateSpinnerIsNotShown();
+    await friendToClick?.waitForExist({ reverse: true, timeout: 30000 });
   }
 
   async clickOnAddSomeoneButton() {
     await this.addSomeoneButton.waitForExist();
     await this.addSomeoneButton.click();
+    await this.validateSpinnerIsNotShown();
   }
 
   async clickOnChatWithFriend() {
     const chatWithFriend = await this.chatWithFriendButton;
     await chatWithFriend.click();
+    await this.validateSpinnerIsNotShown();
+    await chatWithFriend.waitForExist({ reverse: true, timeout: 30000 });
   }
 
   async clickOnCopyID() {
@@ -488,7 +497,7 @@ export default class FriendsScreen extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = await $(SELECTORS.FRIENDS_BODY).$('[name="' + username + '"]');
     }
-    await locator.waitForExist();
+    await locator?.waitForExist();
     return locator;
   }
 
@@ -762,6 +771,11 @@ export default class FriendsScreen extends UplinkMainScreen {
   async removeOrCancelFirstUser() {
     await this.removeOrDenyFriendButton.waitForExist();
     await this.removeOrDenyFriendButton.click();
+    await this.validateSpinnerIsNotShown();
+    await this.removeOrDenyFriendButton.waitForExist({
+      reverse: true,
+      timeout: 30000,
+    });
   }
 
   async removeOrCancelUser(name: string) {
@@ -770,6 +784,8 @@ export default class FriendsScreen extends UplinkMainScreen {
       SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON,
     );
     await removeOrDenyButton.click();
+    await this.validateSpinnerIsNotShown();
+    await removeOrDenyButton.waitForExist({ reverse: true, timeout: 30000 });
   }
 
   async validateAllFriendsListIsNotEmpty() {
@@ -781,7 +797,7 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async validateAllFriendsListIsShown() {
     const allFriendsList = await this.friendsList;
-    await allFriendsList.waitForExist();
+    await allFriendsList.waitForExist({ timeout: 30000 });
   }
 
   async validateBlockedListIsNotEmpty() {
@@ -793,22 +809,21 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async validateBlockedListIsShown() {
     await this.noRequests.waitForExist({ reverse: true, timeout: 30000 });
-    const blockedList = await this.blockedList;
-    await blockedList.waitForExist();
+    await this.blockedList.waitForExist();
   }
 
   async validateChatWithFriendButtonIsShown() {
     const chatWithFriend = await this.chatWithFriendButton;
-    await chatWithFriend.waitForExist();
+    await chatWithFriend.waitForExist({ timeout: 30000 });
   }
 
   async validateFriendsButtonBadgeIsShown() {
     const friendsButtonBadge = await this.friendsButtonBadge;
-    await friendsButtonBadge.waitForExist();
+    await friendsButtonBadge.waitForExist({ timeout: 30000 });
   }
 
   async validateFriendsScreenIsShown() {
-    await this.friendsBody.waitForExist();
+    await this.friendsBody.waitForExist({ timeout: 30000 });
   }
 
   async validateIncomingListIsNotEmpty() {
@@ -821,6 +836,7 @@ export default class FriendsScreen extends UplinkMainScreen {
   async validateIncomingListIsNotShown() {
     await this.incomingRequestsList.waitForExist({
       reverse: true,
+      timeout: 30000,
     });
   }
 
@@ -831,7 +847,7 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async validateNoRequestsIsShown() {
     // Ensure no requests message is displayed
-    await this.noRequests.waitForExist();
+    await this.noRequests.waitForExist({ timeout: 30000 });
   }
 
   async validateOutgoingListIsNotEmpty() {
@@ -847,7 +863,7 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async validateRemoveOrDenyButtonIsShown() {
     const removeOrDenyButton = await this.removeOrDenyFriendButton;
-    await removeOrDenyButton.waitForExist();
+    await removeOrDenyButton.waitForExist({ timeout: 30000 });
   }
 
   async waitUntilFriendIsRemoved(

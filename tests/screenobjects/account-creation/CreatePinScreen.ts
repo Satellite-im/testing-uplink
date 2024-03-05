@@ -119,6 +119,7 @@ export default class CreatePinScreen extends UplinkMainScreen {
   async clickOnCreateAccount() {
     const createAccountButton = await this.createAccountButton;
     await createAccountButton.click();
+    await this.validateSpinnerIsNotShown();
   }
 
   async clickOnResetAccount() {

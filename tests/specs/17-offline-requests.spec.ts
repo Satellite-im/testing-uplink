@@ -107,6 +107,7 @@ export default async function offlineRequestsTests() {
 
     // Go to Chat with User #2
     await friendsScreen.chatWithFriendButton.click();
+    await friendsScreen.validateSpinnerIsNotShown();
   });
 
   it("Offline Friend Requests - Validate offline friend request was accepted", async () => {

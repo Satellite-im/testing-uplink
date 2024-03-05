@@ -63,18 +63,19 @@ export default async function createChatAccountsTests() {
 
     // Paste copied DID Key into Status Input
     await settingsProfile.pasteUserKeyInStatus();
-    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
+
+    // Wait for toast notification of Profile Updated to not exist
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Grab cache folder and restart
+    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
     await saveTestKeys(username, didkey);
   });
 
   it("Chat User A - Settings General - Reduce font size", async () => {
     // Go to General Settings and reduce Font Size by 0.5
     await settingsProfile.goToGeneralSettings();
-
-    // Wait for toast notification of Profile Updated to not exist
-    await settingsGeneral.waitUntilNotificationIsClosed();
+    await settingsGeneral.waitForIsShown(true);
 
     // Click on font scaling minus button
     await settingsGeneral.settingsGeneral.waitForExist();
@@ -135,18 +136,18 @@ export default async function createChatAccountsTests() {
 
     // Paste copied DID Key into Status Input
     await settingsProfile.pasteUserKeyInStatus();
-    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
+
+    // Wait for toast notification of Profile Updated to not exist
+    await settingsGeneral.waitUntilNotificationIsClosed();
 
     // Grab cache folder and restart
+    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
     await saveTestKeys(username, didkey);
   });
 
   it("Chat User B - Settings General - Reduce font size", async () => {
     // Go to General Settings and reduce Font Size by 0.5
     await settingsProfile.goToGeneralSettings();
-
-    // Wait for toast notification of Profile Updated to not exist
-    await settingsGeneral.waitUntilNotificationIsClosed();
 
     // Click on font scaling minus
     await settingsGeneral.waitForIsShown(true);
@@ -340,6 +341,7 @@ export default async function createChatAccountsTests() {
     await friendsScreen.chatWithFriendButton.waitForExist();
     await friendsScreen.hoverOnChatWithFriendButton("ChatUserA");
     await friendsScreen.chatWithFriendButton.click();
+    await friendsScreen.validateSpinnerIsNotShown();
     await chatsTopbar.validateTopbarExists();
   });
 
