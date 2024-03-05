@@ -167,7 +167,6 @@ export default class InputBar extends UplinkMainScreen {
   async getValueFromInputBar() {
     const inputText = await this.inputText;
     let inputTextValue = (await inputText.getText()).slice(0, -1);
-    console.log("Input text value:", inputTextValue, "END");
     return inputTextValue;
   }
 

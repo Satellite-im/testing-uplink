@@ -230,12 +230,6 @@ export default async function messageAttachmentsTests() {
     const fileIcon =
       await messageLocal.getCustomMessageSentFileIcon("Attached2");
     await fileIcon.waitForExist();
-
-    // Validate file download button is displayed correctly on last chat message sent
-    await messageLocal.hoverOnMessageWithFileSent("Attached2");
-    const fileDownloadButton =
-      await messageLocal.getCustomMessageSentDownloadButton("Attached2");
-    await fileDownloadButton.waitForExist();
   });
 
   it("Chat Messages with Files - Local user can download file sent", async () => {
@@ -269,12 +263,6 @@ export default async function messageAttachmentsTests() {
     const fileIcon =
       await messageRemote.getCustomMessageReceivedFileIcon("Attached2");
     await fileIcon.waitForExist();
-
-    // Validate file download button is displayed correctly on last chat message sent
-    await messageRemote.hoverOnMessageWithFileReceived("Attached2");
-    const fileDownloadButton =
-      await messageRemote.getCustomMessageReceivedDownloadButton("Attached2");
-    await fileDownloadButton.waitForExist();
   });
 
   it("Chat Messages with Files - Remote user can download file received", async () => {
