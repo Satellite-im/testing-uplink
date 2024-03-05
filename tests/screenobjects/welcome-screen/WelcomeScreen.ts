@@ -51,7 +51,6 @@ export default class WelcomeScreen extends UplinkMainScreen {
   }
 
   async validateWelcomeScreenIsShown() {
-    const welcomeLayout = await this.welcomeLayout;
-    await welcomeLayout.waitForExist();
+    await this.welcomeLayout.waitForExist();
   }
 }

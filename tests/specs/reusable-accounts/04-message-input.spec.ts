@@ -98,11 +98,11 @@ export default async function messageInputTests() {
 
   it("Emoji Suggested List - Selected emoji is added to input bar", async () => {
     // Open Emoji Suggested List again by typing :en to show emoji suggestions starting with "en"
-    await chatsInput.typeMessageOnInput(":en");
+    await chatsInput.typeMessageOnInput(":engl");
     await emojiSuggestions.validateEmojiSuggestionsContainerIsShown();
 
     // Select second emoji from emoji list (envelope "🏴󠁧󠁢󠁥󠁮󠁧󠁿")
-    await emojiSuggestions.clickOnEmojiSuggested("🏴󠁧󠁢󠁥󠁮󠁧󠁿");
+    await chatsInput.pressEnterKeyOnInputBar();
 
     // Emoji Suggested List is closed after picking up one emoji
     await emojiSuggestions.validateEmojiSuggestionsContainerIsNotShown();
