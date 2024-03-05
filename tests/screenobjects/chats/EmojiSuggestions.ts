@@ -91,29 +91,13 @@ export default class EmojiSuggestions extends UplinkMainScreen {
   }
 
   async validateEmojiSuggestionsContainerIsShown() {
-    await driver.waitUntil(
-      async () => {
-        return await $(SELECTORS.EMOJI_SUGGESTIONS_CONTAINER).waitForExist();
-      },
-      {
-        timeout: 30000,
-        timeoutMsg: "Expected Emoji Container was not displayed after 30s",
-      },
-    );
+    await this.emojiSuggestionsContainer.waitForExist();
   }
 
   async validateEmojiSuggestionsContainerIsNotShown() {
-    await driver.waitUntil(
-      async () => {
-        return await $(SELECTORS.EMOJI_SUGGESTIONS_CONTAINER).waitForExist({
-          reverse: true,
-        });
-      },
-      {
-        timeout: 30000,
-        timeoutMsg: "Expected Emoji Container was not displayed after 30s",
-      },
-    );
+    await this.emojiSuggestionsContainer.waitForExist({
+      reverse: true,
+    });
   }
 
   async validateEmojiSuggestionsHeader(expectedHeader: string) {

@@ -387,7 +387,7 @@ export default class MessageRemote extends UplinkMainScreen {
   }
 
   async getCustomMessageReceivedDownloadButton(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
+    const message = await this.getCustomMessageLocatorLink(expectedMessage);
     const MessageReceivedDownloadButton = await message.$(
       SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
     );
@@ -396,21 +396,21 @@ export default class MessageRemote extends UplinkMainScreen {
   }
 
   async getCustomMessageReceivedFileEmbed(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
+    const message = await this.getCustomMessageLocatorLink(expectedMessage);
     const messageFileEmbed = await message.$(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
     await messageFileEmbed.waitForExist();
     return messageFileEmbed;
   }
 
   async getCustomMessageReceivedFileIcon(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
+    const message = await this.getCustomMessageLocatorLink(expectedMessage);
     const messageFileIcon = await message.$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
     await messageFileIcon.waitForExist();
     return messageFileIcon;
   }
 
   async getCustomMessageReceivedFileMeta(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
+    const message = await this.getCustomMessageLocatorLink(expectedMessage);
     const messageFileMeta = await message
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
@@ -419,7 +419,7 @@ export default class MessageRemote extends UplinkMainScreen {
   }
 
   async getCustomMessageReceivedFileName(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
+    const message = await this.getCustomMessageLocatorLink(expectedMessage);
     const messageFileName = await message
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);

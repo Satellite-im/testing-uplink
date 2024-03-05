@@ -384,7 +384,7 @@ export default class MessageLocal extends UplinkMainScreen {
   }
 
   async getCustomMessageSentDownloadButton(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
+    const message = await this.getCustomMessageLocatorLink(expectedMessage);
     const messageSentDownloadButton = await message.$(
       SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
     );
@@ -393,21 +393,21 @@ export default class MessageLocal extends UplinkMainScreen {
   }
 
   async getCustomMessageSentFileEmbed(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
+    const message = await this.getCustomMessageLocatorLink(expectedMessage);
     const messageFileEmbed = await message.$(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
     await messageFileEmbed.waitForExist();
     return messageFileEmbed;
   }
 
   async getCustomMessageSentFileIcon(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
+    const message = await this.getCustomMessageLocatorLink(expectedMessage);
     const messageFileIcon = await message.$(SELECTORS.CHAT_MESSAGE_FILE_ICON);
     await messageFileIcon.waitForExist();
     return messageFileIcon;
   }
 
   async getCustomMessageSentFileMeta(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
+    const message = await this.getCustomMessageLocatorLink(expectedMessage);
     const messageFileMeta = await message
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
@@ -416,7 +416,7 @@ export default class MessageLocal extends UplinkMainScreen {
   }
 
   async getCustomMessageSentFileName(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
+    const message = await this.getCustomMessageLocatorLink(expectedMessage);
     const messageFileName = await message
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
