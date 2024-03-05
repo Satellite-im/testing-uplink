@@ -173,13 +173,13 @@ export default async function messageInputTests() {
     await chatsInput.waitForIsShown(true);
     await messageRemote.waitForReceivingMessage("**Bolds1**");
     const messageContentsBolds1 =
-      await messageRemote.getMessageContents("**Bolds1**");
+      await messageRemote.getCustomMessageContents("**Bolds1**");
     await expect(messageContentsBolds1).toHaveText("Bolds1");
 
     // With Chat User B, validate message with with __ markdown was received in bolds
     await messageRemote.waitForReceivingMessage("__Bolds2__");
     const messageContentsBolds2 =
-      await messageRemote.getMessageContents("__Bolds2__");
+      await messageRemote.getCustomMessageContents("__Bolds2__");
     await expect(messageContentsBolds2).toHaveText("Bolds2");
   });
 
@@ -188,7 +188,7 @@ export default async function messageInputTests() {
     // With Chat User B, validate code message was received and is displayed correctly
     await messageRemote.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =
-      await messageRemote.getLastMessageReceivedCodeMessage();
+      await messageRemote.getCustomMessageReceivedCodeMessage("let a = 1;");
     await expect(codeMessageTextReceived).toEqual("let a = 1;");
   });
 
@@ -242,13 +242,19 @@ export default async function messageInputTests() {
   it("Chat User - Chat Messages containing links contents on remote side", async () => {
     // Validate link embed contents on chat message
     const linkEmbedReceived =
-      await messageRemote.getLastMessageReceivedLinkEmbed();
+      await messageRemote.getCustomMessageReceivedLinkEmbed("www.apple.com");
     const linkEmbedReceivedDetailsText =
-      await messageRemote.getLastMessageReceivedLinkEmbedDetailsText();
+      await messageRemote.getCustomMessageReceivedLinkEmbedDetailsText(
+        "www.apple.com",
+      );
     const linkEmbedReceivedIcon =
-      await messageRemote.getLastMessageReceivedLinkEmbedIcon();
+      await messageRemote.getCustomMessageReceivedLinkEmbedIcon(
+        "www.apple.com",
+      );
     const linkEmbedReceivedIconTitle =
-      await messageRemote.getLastMessageReceivedLinkEmbedIconTitle();
+      await messageRemote.getCustomMessageReceivedLinkEmbedIconTitle(
+        "www.apple.com",
+      );
 
     await linkEmbedReceived.waitForExist();
     await expect(linkEmbedReceivedDetailsText).toHaveTextContaining("Apple");

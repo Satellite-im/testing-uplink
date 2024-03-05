@@ -57,7 +57,7 @@ export default async function messageContextMenuTests() {
   });
 
   it("Chat User B - Context Menu - Copy Text from Message Received", async () => {
-    await messageRemote.openContextMenuOnLastReceived();
+    await messageRemote.openContextMenuOnReceivedMessage("Three...");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.selectContextOptionCopy();
 
@@ -113,7 +113,7 @@ export default async function messageContextMenuTests() {
     await messageRemote.waitForReceivingMessage("Reply");
 
     // React with 👎 emoji
-    await messageRemote.openContextMenuOnLastReceived();
+    await messageRemote.openContextMenuOnReceivedMessage("Reply");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.clickOnThirdReaction();
     await messageGroupRemote.waitUntilEmojiReactionSelfExists("👎");

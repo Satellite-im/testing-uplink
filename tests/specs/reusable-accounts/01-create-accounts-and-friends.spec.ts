@@ -348,8 +348,9 @@ export default async function createChatAccountsTests() {
     await messageRemote.waitForReceivingMessage("Testing...😀");
 
     //Any message you sent yourself should appear within a colored message bubble
-    const textFromMessage = await messageRemote.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("Testing...😀");
+    const textFromMessage =
+      await messageRemote.getCustomMessageContents("Testing...😀");
+    await expect(textFromMessage).toHaveText("Testing...😀");
   });
 
   it("Chat User B - Validate Chat Message Group from remote user displays username picture", async () => {

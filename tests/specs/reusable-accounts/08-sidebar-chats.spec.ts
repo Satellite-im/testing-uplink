@@ -171,7 +171,7 @@ export default async function sidebarChatsTests() {
 
     // With User B - Wait until message is received
     await messageRemote.waitForReceivingMessage("Hi...");
-    const latestMessage = await messageRemote.getLastMessageReceivedText();
+    const latestMessage = await messageRemote.getCustomMessageContents("Hi...");
     await expect(latestMessage).toHaveText("Hi...");
   });
 

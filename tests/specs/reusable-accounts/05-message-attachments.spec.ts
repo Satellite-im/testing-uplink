@@ -158,7 +158,7 @@ export default async function messageAttachmentsTests() {
     await messageRemote.chatMessageFileEmbedRemote.waitForExist();
 
     // Validate text from message containing attachment
-    const message = await messageRemote.getLastMessageReceivedText();
+    const message = await messageRemote.getCustomMessageContents("Attached");
     await expect(message).toHaveText("Attached");
   });
 
@@ -250,33 +250,36 @@ export default async function messageAttachmentsTests() {
     await messageRemote.chatMessageFileEmbedRemote.waitForExist();
 
     // Validate text from message containing attachment
-    const message = await messageRemote.getLastMessageReceivedText();
+    const message = await messageRemote.getCustomMessageContents("Attached2");
     await expect(message).toHaveText("Attached2");
   });
 
   it("Receive Files on Chats - Attachment File Contents", async () => {
     // Validate file metadata is displayed correctly on last chat message sent
-    const fileMeta = await messageRemote.getLastMessageReceivedFileMeta();
+    const fileMeta =
+      await messageRemote.getCustomMessageReceivedFileMeta("Attached2");
     await expect(fileMeta).toHaveText("47 B");
 
     // Validate filename is displayed correctly on last chat message sent
-    const fileName = await messageRemote.getLastMessageReceivedFileName();
+    const fileName =
+      await messageRemote.getCustomMessageReceivedFileName("Attached2");
     await expect(fileName).toHaveText("testfile.txt");
 
     // Validate file icon is displayed correctly on last chat message sent
-    const fileIcon = await messageRemote.getLastMessageReceivedFileIcon();
+    const fileIcon =
+      await messageRemote.getCustomMessageReceivedFileIcon("Attached2");
     await fileIcon.waitForExist();
 
     // Validate file download button is displayed correctly on last chat message sent
-    await messageRemote.hoverOnLastFileReceived();
+    await messageRemote.hoverOnMessageWithFileReceived("Attached2");
     const fileDownloadButton =
-      await messageRemote.getLastMessageReceivedDownloadButton();
+      await messageRemote.getCustomMessageReceivedDownloadButton("Attached2");
     await fileDownloadButton.waitForExist();
   });
 
   it("Chat Messages with Files - Remote user can download file received", async () => {
     // Download latest image file received
-    await messageRemote.downloadLastReceivedFile(".txt");
+    await messageRemote.downloadReceivedFile(".txt", "Attached2");
   });
 
   after(async () => {
