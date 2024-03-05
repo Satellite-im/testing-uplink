@@ -502,6 +502,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
         timeoutMsg: "Expected status input to contain did key after 5 seconds",
       },
     );
+    await this.validateSpinnerIsNotShown();
   }
 
   async selectBannerPicture(relativePath: string) {
