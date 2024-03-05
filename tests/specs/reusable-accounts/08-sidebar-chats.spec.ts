@@ -172,7 +172,7 @@ export default async function sidebarChatsTests() {
     // With User B - Wait until message is received
     await messageRemote.waitForReceivingMessage("Hi...");
     const latestMessage = await messageRemote.getLastMessageReceivedText();
-    await expect(latestMessage).toHaveTextContaining("Hi...");
+    await expect(latestMessage).toHaveText("Hi...");
   });
 
   it("Chat User A - Sidebar - Context Menu - Delete chat", async () => {
@@ -207,10 +207,10 @@ export default async function sidebarChatsTests() {
 
     // Validate that sidebar record is displayed with correct username and status
     const sidebarChatUsername = await chatsSidebar.sidebarChatsUserNameValue;
-    await expect(sidebarChatUsername).toHaveTextContaining("ChatUserB");
+    await expect(sidebarChatUsername).toHaveText("ChatUserB");
 
     const sidebarChatStatus = await chatsSidebar.sidebarChatsUserStatusValue;
-    await expect(sidebarChatStatus).toHaveTextContaining(
+    await expect(sidebarChatStatus).toHaveText(
       "No messages sent yet, send one!",
     );
   });

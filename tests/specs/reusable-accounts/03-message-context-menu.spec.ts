@@ -40,7 +40,7 @@ export default async function messageContextMenuTests() {
   });
 
   it("Chat User A - Context Menu - Copy Text from Message Sent", async () => {
-    await messageLocal.openContextMenuOnLastSent();
+    await messageLocal.openContextMenuOnSentMessage("Three...");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.selectContextOptionCopy();
 
@@ -69,7 +69,7 @@ export default async function messageContextMenuTests() {
   it("Chat User A - Context Menu - Delete Message", async () => {
     // Open context menu on last message sent and select option for deleting
     await activateFirstApplication();
-    await messageLocal.openContextMenuOnLastSent();
+    await messageLocal.openContextMenuOnSentMessage("Three...");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.selectContextOptionDelete();
 
@@ -91,13 +91,13 @@ export default async function messageContextMenuTests() {
   it("Chat User A - React to sent message and multiple reactions in a message", async () => {
     // React with 😂 emoji
     await activateFirstApplication();
-    await messageLocal.openContextMenuOnLastSent();
+    await messageLocal.openContextMenuOnSentMessage("Two...");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.clickOnFirstReaction();
     await messageGroupLocal.waitUntilEmojiReactionSelfExists("😂");
 
     // React with 🖖 emoji
-    await messageLocal.openContextMenuOnLastSent();
+    await messageLocal.openContextMenuOnSentMessage("Two...");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.clickOnSecondReaction();
     await messageGroupLocal.waitUntilEmojiReactionSelfExists("🖖");
@@ -149,7 +149,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User B - Both users can react with the same emoji to a message", async () => {
     // React with 👎 emoji
-    await messageLocal.openContextMenuOnLastSent();
+    await messageLocal.openContextMenuOnSentMessage("Reply");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.clickOnThirdReaction();
 
@@ -161,7 +161,7 @@ export default async function messageContextMenuTests() {
 
   it("Chat User B - Users can add a new reaction to a message already containing reactions", async () => {
     // React with 👍 emoji
-    await messageLocal.openContextMenuOnLastSent();
+    await messageLocal.openContextMenuOnSentMessage("Reply");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.clickOnFourthReaction();
 

@@ -143,7 +143,7 @@ export default async function groupChatTests() {
     await chatsInput.clearInputBar();
 
     // Validate text from message sent to the group
-    const textMessage = await messageLocal.getLastMessageSentText();
+    const textMessage = await messageLocal.getCustomMessageContents("Sup");
     await expect(textMessage).toHaveText("Sup");
   });
 

@@ -28,39 +28,35 @@ export default async function chatTopbarTests() {
     await chatsTopbar.hoverOnFavoritesButton();
     const favoritesAddTooltipText =
       await chatsTopbar.topbarAddToFavoritesTooltipText;
-    await expect(favoritesAddTooltipText).toHaveTextContaining(
-      "Add to Favorites",
-    );
+    await expect(favoritesAddTooltipText).toHaveText("Add to Favorites");
 
     // Validate Pinned Messages button tooltip
     await chatsTopbar.hoverOnPinnedMessagesButton();
     const pinnedMessagesTooltipText =
       await chatsTopbar.topbarPinnedMessagesTooltipText;
-    await expect(pinnedMessagesTooltipText).toHaveTextContaining(
-      "Pinned Messages",
-    );
+    await expect(pinnedMessagesTooltipText).toHaveText("Pinned Messages");
 
     // Validate Upload button tooltip
     await chatsInput.hoverOnUploadButton();
     const uploadTooltipText = await chatsInput.uploadTooltipText;
-    await expect(uploadTooltipText).toHaveTextContaining("Upload");
+    await expect(uploadTooltipText).toHaveText("Upload");
 
     // Validate Send button tooltip
     await chatsInput.hoverOnSendButton();
     const sendMessageTooltipText = await chatsInput.sendMessageTooltipText;
-    await expect(sendMessageTooltipText).toHaveTextContaining("Send");
+    await expect(sendMessageTooltipText).toHaveText("Send");
   });
 
   it("Chat User A - Validate Chat Screen tooltips for Call and Videocall display Coming soon", async () => {
     // Validate Call button tooltip contains "Coming soon"
     await chatsTopbar.hoverOnCallButton();
     const callTooltipText = await chatsTopbar.topbarCallTooltipText;
-    await expect(callTooltipText).toHaveTextContaining("Coming soon");
+    await expect(callTooltipText).toHaveText("Coming soon");
 
     // Validate Videocall button tooltip contains "Coming soon"
     await chatsTopbar.hoverOnVideocallButton();
     const videoCallTooltipText = await chatsTopbar.topbarVideocallTooltipText;
-    await expect(videoCallTooltipText).toHaveTextContaining("Coming soon");
+    await expect(videoCallTooltipText).toHaveText("Coming soon");
   });
 
   it("Pinned Messages - Container is empty when no pinned messages have been added", async () => {
@@ -75,7 +71,7 @@ export default async function chatTopbarTests() {
 
   it("Pinned Messages - Pin a message with attachments", async () => {
     // Look for the latest message received by User A, open context menu and pin message
-    await messageLocal.openContextMenuOnLastSent();
+    await messageLocal.openContextMenuOnSentMessage("Attached2");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.selectContextOptionPin();
 

@@ -277,8 +277,9 @@ export default async function createChatAccountsTests() {
     await chatsInput.clickOnSendMessage();
     await messageLocal.waitForMessageSentToExist("Testing...😀");
 
-    const textFromMessage = await messageLocal.getFirstMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining("Testing...😀");
+    const textFromMessage =
+      await messageLocal.getCustomMessageContents("Testing...😀");
+    await expect(textFromMessage).toHaveText("Testing...😀");
   });
 
   it("Input Bar - Chars Counter on Input Bar displays 0/1024 after sending a message", async () => {
@@ -300,8 +301,9 @@ export default async function createChatAccountsTests() {
 
   it("Chat User A - Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const messageText = await messageLocal.getFirstMessageSentText();
-    await expect(messageText).toHaveTextContaining("Testing...😀");
+    const messageText =
+      await messageLocal.getCustomMessageContents("Testing...😀");
+    await expect(messageText).toHaveText("Testing...😀");
   });
 
   it("Chat User A - Validate Chat Message Group displays username picture", async () => {

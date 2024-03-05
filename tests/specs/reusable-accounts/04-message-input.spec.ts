@@ -10,7 +10,6 @@ import {
   activateSecondApplication,
   closeFirstApplication,
   closeSecondApplication,
-  keyboardShiftEnter,
   keyboardShortcutPaste,
   launchFirstApplication,
   launchSecondApplication,
@@ -43,8 +42,8 @@ export default async function messageInputTests() {
     await chatsInput.pressEnterKeyOnInputBar();
 
     // Validate latest message sent displayed on Chat Conversation is still "Two..."
-    const textMessage = await messageLocal.getLastMessageSentText();
-    await expect(textMessage).toHaveTextContaining("Two...");
+    const textMessage = await messageLocal.getCustomMessageContents("Two...");
+    await expect(textMessage).toHaveText("Two...");
   });
 
   it("Chat User A - Message Input - User can type up to 1024 chars on input bar", async () => {
@@ -121,7 +120,8 @@ export default async function messageInputTests() {
     await filesScreen.goToMainScreen();
     await chatsInput.waitForIsShown(true);
     await messageLocal.waitForMessageSentToExist("**Bolds1**");
-    const messageContents = await messageLocal.getMessageContents("**Bolds1**");
+    const messageContents =
+      await messageLocal.getCustomMessageContents("**Bolds1**");
     await expect(messageContents).toHaveText("Bolds1");
   });
 
@@ -134,7 +134,8 @@ export default async function messageInputTests() {
     await filesScreen.goToMainScreen();
     await chatsInput.waitForIsShown(true);
     await messageLocal.waitForMessageSentToExist("__Bolds2__");
-    const messageContents = await messageLocal.getMessageContents("__Bolds2__");
+    const messageContents =
+      await messageLocal.getCustomMessageContents("__Bolds2__");
     await expect(messageContents).toHaveText("Bolds2");
   });
 
@@ -147,14 +148,14 @@ export default async function messageInputTests() {
     // With Chat User A, validate code message was sent and is displayed correctly
     await messageLocal.waitForCodeMessageSentToExist("JavaScript");
     const codeMessageTextSent =
-      await messageLocal.getLastMessageSentCodeMessage();
+      await messageLocal.getCustomMessageSentCodeMessage("let a = 1;");
     await expect(codeMessageTextSent).toEqual("let a = 1;");
   });
 
   // Needs research to implement on MacOS
   xit("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
     // With Chat User A, click on the copy button from code block of last chat message sent
-    await messageLocal.clickOnCopyCodeOfLastMessageSent();
+    await messageLocal.clickOnCopyCodeOfCustomMessageSent("let a = 1;");
 
     // Then, paste it into the input bar and assert the text contents on input bar
     await chatsInput.pasteClipboardOnInputBar();
@@ -209,13 +210,18 @@ export default async function messageInputTests() {
     await messageLocal.waitForLinkSentToExist("www.apple.com");
 
     // Validate link embed contents on chat message
-    const linkEmbedSent = await messageLocal.getLastMessageSentLinkEmbed();
+    const linkEmbedSent =
+      await messageLocal.getCustomMessageSentLinkEmbed("www.apple.com");
     const linkEmbedSentDetailsText =
-      await messageLocal.getLastMessageSentLinkEmbedDetailsText();
+      await messageLocal.getCustomMessageSentLinkEmbedDetailsText(
+        "www.apple.com",
+      );
     const linkEmbedSentIcon =
-      await messageLocal.getLastMessageSentLinkEmbedIcon();
+      await messageLocal.getCustomMessageSentLinkEmbedIcon("www.apple.com");
     const linkEmbedSentIconTitle =
-      await messageLocal.getLastMessageSentLinkEmbedIconTitle();
+      await messageLocal.getCustomMessageSentLinkEmbedIconTitle(
+        "www.apple.com",
+      );
 
     await linkEmbedSent.waitForExist();
     await expect(linkEmbedSentDetailsText).toHaveTextContaining("Apple");
