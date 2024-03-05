@@ -385,9 +385,10 @@ export default class MessageLocal extends UplinkMainScreen {
 
   async getCustomMessageSentDownloadButton(expectedMessage: string) {
     const message = await this.getCustomMessageLocatorLink(expectedMessage);
-    const messageSentDownloadButton = await message.$(
-      SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
-    );
+    const messageSentDownloadButton = await message
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
     await messageSentDownloadButton.waitForExist();
     return messageSentDownloadButton;
   }

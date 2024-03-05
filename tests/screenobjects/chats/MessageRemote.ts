@@ -388,9 +388,10 @@ export default class MessageRemote extends UplinkMainScreen {
 
   async getCustomMessageReceivedDownloadButton(expectedMessage: string) {
     const message = await this.getCustomMessageLocatorLink(expectedMessage);
-    const MessageReceivedDownloadButton = await message.$(
-      SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
-    );
+    const MessageReceivedDownloadButton = await message
+      .$(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_ICON)
+      .$(SELECTORS.CHAT_MESSAGE_FILE_BUTTON);
     await MessageReceivedDownloadButton.waitForExist();
     return MessageReceivedDownloadButton;
   }
