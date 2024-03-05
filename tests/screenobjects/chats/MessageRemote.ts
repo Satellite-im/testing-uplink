@@ -398,7 +398,9 @@ export default class MessageRemote extends UplinkMainScreen {
 
   async getCustomMessageReceivedFileEmbed(expectedMessage: string) {
     const message = await this.getCustomMessageLocatorLink(expectedMessage);
-    const messageFileEmbed = await message.$(SELECTORS.CHAT_MESSAGE_FILE_EMBED);
+    const messageFileEmbed = await message.$(
+      SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE,
+    );
     await messageFileEmbed.waitForExist();
     return messageFileEmbed;
   }
