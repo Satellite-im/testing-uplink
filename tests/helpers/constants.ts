@@ -4,7 +4,7 @@ export const CHAT_USER_C_ID =
   "did:key:z6Mkto6MQeSzAfpUZzihzRsk8r9pdzAFurALsQJUdEas2PDz";
 export const CHAT_USER_J_ID =
   "did:key:z6Mkvfe4S45gfSkcu2CRwZkgQVBqhRu5D9VELQxMKa8x5yPT";
-export const MACOS_BUNDLE_ID = "im.satellite.uplinkChatUserA";
+export const MACOS_BUNDLE_ID = "im.satellite.uplink";
 export const MACOS_USER_A_BUNDLE_ID = "im.satellite.uplinkChatUserA";
 export const MACOS_USER_B_BUNDLE_ID = "im.satellite.uplinkChatUserB";
 export const MACOS_DRIVER = "mac2";
