@@ -111,6 +111,7 @@ export default class CropImageProfileModal extends UplinkMainScreen {
   async clickOnConfirmButton() {
     const confirmButton = await this.cropImageTopbarButtonConfirm;
     await confirmButton.click();
+    await this.validateSpinnerIsNotShown();
   }
 
   async clickOnDecreaseRangeButton() {

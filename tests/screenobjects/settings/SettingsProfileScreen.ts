@@ -385,6 +385,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     const input = await this.statusInput;
     await input.click();
     await input.clearValue();
+    await this.validateSpinnerIsNotShown();
   }
 
   async enterStatus(status: string) {
@@ -395,6 +396,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     if (statusInputText !== status) {
       await this.enterStatus(status);
     }
+    await this.validateSpinnerIsNotShown();
   }
 
   async enterUsername(username: string) {
@@ -405,6 +407,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     if (usernameInputText !== username) {
       await this.enterUsername(username);
     }
+    await this.validateSpinnerIsNotShown();
   }
 
   async getCopiedDidFromStatusInput() {
@@ -464,6 +467,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await statusInput.clearValue();
       await keyboardShortcutPaste();
     }
+    await this.validateSpinnerIsNotShown();
     await statusInput.waitUntil(
       async () => {
         const statusInputText = await statusInput.getText();
@@ -492,6 +496,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
       await statusInput.clearValue();
       await keyboardShortcutPaste();
     }
+    await this.validateSpinnerIsNotShown();
     await statusInput.waitUntil(
       async () => {
         const statusInputText = await statusInput.getText();
@@ -502,7 +507,6 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
         timeoutMsg: "Expected status input to contain did key after 5 seconds",
       },
     );
-    await this.validateSpinnerIsNotShown();
   }
 
   async selectBannerPicture(relativePath: string) {
@@ -595,6 +599,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await doNotDisturbStatusOption.click();
 
     // Wait until toast notification is closed
+    await this.validateSpinnerIsNotShown();
     await this.waitUntilNotificationIsClosed();
   }
 
@@ -607,6 +612,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await idleStatusOption.click();
 
     // Wait until toast notification is closed
+    await this.validateSpinnerIsNotShown();
     await this.waitUntilNotificationIsClosed();
   }
 
@@ -619,6 +625,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await offlineStatusOption.click();
 
     // Wait until toast notification is closed
+    await this.validateSpinnerIsNotShown();
     await this.waitUntilNotificationIsClosed();
   }
 
@@ -631,6 +638,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await onlineStatusOption.click();
 
     // Wait until toast notification is closed
+    await this.validateSpinnerIsNotShown();
     await this.waitUntilNotificationIsClosed();
   }
 
