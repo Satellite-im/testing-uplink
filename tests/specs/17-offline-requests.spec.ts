@@ -118,14 +118,10 @@ export default async function offlineRequestsTests() {
     await welcomeScreen.goToFriends();
     await friendsScreen.waitForIsShown(true);
 
-    // With UserB - Go to pending requests list, wait for receiving the friend request and accept it
-    await friendsScreen.hoverOnPendingListButton();
-    await friendsScreen.goToPendingFriendsList();
-    await friendsScreen.waitUntilUserAcceptedFriendRequest();
-
     // Validate friend is now on all friends list
     await friendsScreen.goToAllFriendsList();
     await friendsScreen.validateAllFriendsListIsShown();
     await friendsScreen.validateAllFriendsListIsNotEmpty();
+    await friendsScreen.waitUntilUserAcceptedFriendRequest();
   });
 }
