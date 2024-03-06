@@ -63,18 +63,19 @@ export default async function createChatAccountsTests() {
 
     // Paste copied DID Key into Status Input
     await settingsProfile.pasteUserKeyInStatus();
-    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
+
+    // Wait for toast notification of Profile Updated to not exist
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Grab cache folder and restart
+    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
     await saveTestKeys(username, didkey);
   });
 
   it("Chat User A - Settings General - Reduce font size", async () => {
     // Go to General Settings and reduce Font Size by 0.5
     await settingsProfile.goToGeneralSettings();
-
-    // Wait for toast notification of Profile Updated to not exist
-    await settingsGeneral.waitUntilNotificationIsClosed();
+    await settingsGeneral.waitForIsShown(true);
 
     // Click on font scaling minus button
     await settingsGeneral.settingsGeneral.waitForExist();
@@ -135,18 +136,18 @@ export default async function createChatAccountsTests() {
 
     // Paste copied DID Key into Status Input
     await settingsProfile.pasteUserKeyInStatus();
-    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
+
+    // Wait for toast notification of Profile Updated to not exist
+    await settingsGeneral.waitUntilNotificationIsClosed();
 
     // Grab cache folder and restart
+    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
     await saveTestKeys(username, didkey);
   });
 
   it("Chat User B - Settings General - Reduce font size", async () => {
     // Go to General Settings and reduce Font Size by 0.5
     await settingsProfile.goToGeneralSettings();
-
-    // Wait for toast notification of Profile Updated to not exist
-    await settingsGeneral.waitUntilNotificationIsClosed();
 
     // Click on font scaling minus
     await settingsGeneral.waitForIsShown(true);
@@ -277,8 +278,9 @@ export default async function createChatAccountsTests() {
     await chatsInput.clickOnSendMessage();
     await messageLocal.waitForMessageSentToExist("Testing...😀");
 
-    const textFromMessage = await messageLocal.getFirstMessageSentText();
-    await expect(textFromMessage).toHaveTextContaining("Testing...😀");
+    const textFromMessage =
+      await messageLocal.getCustomMessageContents("Testing...😀");
+    await expect(textFromMessage).toHaveText("Testing...😀");
   });
 
   it("Input Bar - Chars Counter on Input Bar displays 0/1024 after sending a message", async () => {
@@ -300,8 +302,9 @@ export default async function createChatAccountsTests() {
 
   it("Chat User A - Validate Chat Message sent contents", async () => {
     //Any message you sent yourself should appear within a colored message bubble
-    const messageText = await messageLocal.getFirstMessageSentText();
-    await expect(messageText).toHaveTextContaining("Testing...😀");
+    const messageText =
+      await messageLocal.getCustomMessageContents("Testing...😀");
+    await expect(messageText).toHaveText("Testing...😀");
   });
 
   it("Chat User A - Validate Chat Message Group displays username picture", async () => {
@@ -338,6 +341,7 @@ export default async function createChatAccountsTests() {
     await friendsScreen.chatWithFriendButton.waitForExist();
     await friendsScreen.hoverOnChatWithFriendButton("ChatUserA");
     await friendsScreen.chatWithFriendButton.click();
+    await friendsScreen.validateSpinnerIsNotShown();
     await chatsTopbar.validateTopbarExists();
   });
 
@@ -346,8 +350,9 @@ export default async function createChatAccountsTests() {
     await messageRemote.waitForReceivingMessage("Testing...😀");
 
     //Any message you sent yourself should appear within a colored message bubble
-    const textFromMessage = await messageRemote.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("Testing...😀");
+    const textFromMessage =
+      await messageRemote.getCustomMessageContents("Testing...😀");
+    await expect(textFromMessage).toHaveText("Testing...😀");
   });
 
   it("Chat User B - Validate Chat Message Group from remote user displays username picture", async () => {

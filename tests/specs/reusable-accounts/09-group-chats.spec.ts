@@ -65,7 +65,7 @@ export default async function groupChatTests() {
     await createGroup.clearGroupNameInput();
   });
 
-  // Needs rework to use new Copy DID method
+  // Needs rework
   xit("Chat User A - Attempt to create group chat with more than 64 chars in name", async () => {
     // Open modal to create group chat and type more than 64 chars in name
     await createGroup.typeLongerTextInGroupName();
@@ -144,7 +144,7 @@ export default async function groupChatTests() {
     await chatsInput.clearInputBar();
 
     // Validate text from message sent to the group
-    const textMessage = await messageLocal.getLastMessageSentText();
+    const textMessage = await messageLocal.getCustomMessageContents("Sup");
     await expect(textMessage).toHaveText("Sup");
   });
 

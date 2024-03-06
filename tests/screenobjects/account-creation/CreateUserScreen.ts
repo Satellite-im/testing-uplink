@@ -84,6 +84,7 @@ export default class CreateUserScreen extends UplinkMainScreen {
   async clickOnCreateAccount() {
     const createAccountButton = await this.createAccountButton;
     await createAccountButton.click();
+    await this.validateSpinnerIsNotShown();
   }
 
   async getStatusOfCreateAccountButton() {

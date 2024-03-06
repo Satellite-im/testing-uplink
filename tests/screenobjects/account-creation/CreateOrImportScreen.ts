@@ -66,6 +66,7 @@ export default class CreateOrImportScreen extends UplinkMainScreen {
   async clickOnCreateAccount() {
     const createAccountButton = await this.createNewAccountButton;
     await createAccountButton.click();
+    await this.validateSpinnerIsNotShown();
   }
 
   async clickOnImportAccount() {

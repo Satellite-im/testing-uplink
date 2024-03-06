@@ -26,8 +26,6 @@ let friendsScreen = new FriendsScreen();
 const saveRecoverySeed = new SaveRecoverySeedScreen();
 let welcomeScreen = new WelcomeScreen();
 
-export type MyKey = keyof typeof CustomKey;
-
 // Users cache helper functions
 
 export async function deleteCache() {
@@ -143,6 +141,7 @@ export async function loginWithTestUser() {
   const unlockScreen = await createPin.unlockLayout;
   await unlockScreen.waitForExist();
   await createPin.enterPinOnLogin("1234");
+  await createPin.validateSpinnerIsNotShown();
   await createPin.unlockLayout.waitForExist({ reverse: true });
 }
 
@@ -373,6 +372,10 @@ export async function hoverOnMacOS(locator: WebdriverIO.Element) {
   ]);
 }
 
+export async function setClipboardValue(value: string) {
+  await clipboard.setContent(value);
+}
+
 export async function scrollUp(deltaX: number) {
   await mouse.scrollUp(deltaX);
 }
@@ -549,13 +552,21 @@ export async function getUplinkWindowHandle() {
 // Key Combinations Commands
 
 export async function keyboardShortcutPaste() {
-  await keyboard.type(4, 66);
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
+    await keyboard.type(4, 66);
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
+    await keyboard.type(129, 66);
+  }
 }
 
 export async function keyboardShiftEnter() {
   await keyboard.pressKey(7);
   await keyboard.type(101);
   await keyboard.releaseKey(7);
+}
+
+export async function pressEnterKey() {
+  await keyboard.type(101);
 }
 
 export async function pressEscKey() {

@@ -27,6 +27,7 @@ const SELECTORS_WINDOWS = {
   FILES_BUTTON: '[name="files-button"]',
   FRIENDS_BUTTON: '[name="friends-button"]',
   HAMBURGER_BUTTON: '[name="hamburger-button"]',
+  LOADING_SPINNER: '[name="loader"]',
   MODAL: '[name="modal"]',
   PRE_RELEASE_INDICATOR_TEXT: "<Text>",
   SETTINGS_BUTTON: '[name="settings-button"]',
@@ -57,6 +58,7 @@ const SELECTORS_MACOS = {
   FILES_BUTTON: "~files-button",
   FRIENDS_BUTTON: "~friends-button",
   HAMBURGER_BUTTON: "~hamburger-button",
+  LOADING_SPINNER: "~loader",
   MODAL: "~modal",
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
@@ -147,6 +149,10 @@ export default class UplinkMainScreen extends AppScreen {
 
   get hamburgerButton() {
     return $(SELECTORS.HAMBURGER_BUTTON);
+  }
+
+  get loaderSpinner() {
+    return $(SELECTORS.LOADING_SPINNER);
   }
 
   get modal() {
@@ -374,5 +380,12 @@ export default class UplinkMainScreen extends AppScreen {
   async clickOnOpenWebInspector() {
     const webInspectorOption = await this.contextMenuOpenWebInspector;
     await webInspectorOption.click();
+  }
+
+  async validateSpinnerIsNotShown(timeout: number = 60000) {
+    await this.loaderSpinner.waitForExist({
+      reverse: true,
+      timeout: timeout,
+    });
   }
 }

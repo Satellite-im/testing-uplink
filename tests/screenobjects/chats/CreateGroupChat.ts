@@ -1,5 +1,10 @@
 require("module-alias/register");
-import { getClipboardMacOS, keyboardShortcutPaste } from "@helpers/commands";
+import {
+  getClipboardMacOS,
+  keyboardShortcutPaste,
+  setClipboardValue,
+} from "@helpers/commands";
+import { faker } from "@faker-js/faker";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
@@ -227,20 +232,16 @@ export default class CreateGroupChat extends UplinkMainScreen {
 
   async typeLongerTextInGroupName() {
     // Assuming that user already clicked on Copy ID button
-    // If driver is macos, then get clipboard and pass it to enterStatus function
     const groupNameInput = await this.groupNameInput;
-    const currentDriver = await this.getCurrentDriver();
-    if (currentDriver === MACOS_DRIVER) {
-      await groupNameInput.click();
-      const userKey = await getClipboardMacOS();
-      await groupNameInput.setValue(userKey + userKey);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      await driver.touchAction([{ action: "press", element: groupNameInput }]);
-      // If driver is windows, then click on status input to place cursor there and simulate a control + v
-      await keyboardShortcutPaste();
-      await driver.touchAction([{ action: "press", element: locator }]);
-      await keyboardShortcutPaste();
-    }
+    // Get a random word of 8 chars
+    const wordToRepeat = faker.lorem.word(8);
+    // Then repeat the same word for 8 times (64 chars)
+    let longText = wordToRepeat.repeat(8);
+    await setClipboardValue(longText);
+    // Now, add 4 more chars, to have 1024 chars
+    await groupNameInput.click();
+    await keyboardShortcutPaste();
+    await groupNameInput.addValue("a");
   }
 
   async typeOnGroupName(name: string) {

@@ -29,7 +29,7 @@ export default async function repliesTests() {
 
   it("Chat User B - Reply popup - Validate contents and close it", async () => {
     // Open Context Menu on Last Message Received and select Reply
-    await messageRemote.openContextMenuOnLastReceived();
+    await messageRemote.openContextMenuOnReceivedMessage("Testing...😀");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.selectContextOptionReply();
 
@@ -41,7 +41,7 @@ export default async function repliesTests() {
 
   it("Chat User B - Reply to a message", async () => {
     // Open Context Menu on Last Message Received and select Reply
-    await messageRemote.openContextMenuOnLastReceived();
+    await messageRemote.openContextMenuOnReceivedMessage("Testing...😀");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.selectContextOptionReply();
 
@@ -57,11 +57,11 @@ export default async function repliesTests() {
     const replySent = await messageRemote.getLastReply();
     const replySentText = await messageRemote.getLastReplyText();
     await replySent.waitForExist();
-    await expect(replySentText).toHaveTextContaining("Testing...😀");
+    await expect(replySentText).toHaveText("Testing...😀");
 
     // Validate reply message sent appears as last message
-    const message = await messageLocal.getLastMessageSentText();
-    await expect(message).toHaveTextContaining("Reply");
+    const message = await messageLocal.getCustomMessageContents("Reply");
+    await expect(message).toHaveText("Reply");
   });
 
   it("Chat User B - Validate reply message group contains timestamp and user image", async () => {
@@ -88,11 +88,12 @@ export default async function repliesTests() {
     const replyReceived = await messageRemote.getLastReply();
     const replyReceivedText = await messageRemote.getLastReplyText();
     await replyReceived.waitForExist();
-    await expect(replyReceivedText).toHaveTextContaining("Testing...😀");
+    await expect(replyReceivedText).toHaveText("Testing...😀");
 
     // Validate reply message sent appears as last message
-    const textFromMessage = await messageRemote.getLastMessageReceivedText();
-    await expect(textFromMessage).toHaveTextContaining("Reply");
+    const textFromMessage =
+      await messageRemote.getCustomMessageContents("Reply");
+    await expect(textFromMessage).toHaveText("Reply");
   });
 
   it("Chat User A - Validate reply message group contains timestamp", async () => {
@@ -112,7 +113,7 @@ export default async function repliesTests() {
 
   it("Chat User A - Reply to yourself", async () => {
     // Open Context Menu on Last Message Sent
-    await messageLocal.openContextMenuOnLastSent();
+    await messageLocal.openContextMenuOnSentMessage("Testing...😀");
     await chatsContextMenu.validateContextMenuIsOpen();
     await chatsContextMenu.selectContextOptionReply();
 
@@ -126,11 +127,11 @@ export default async function repliesTests() {
     const repliedMessage = await messageLocal.getLastReply();
     const repliedMessageText = await messageLocal.getLastReplyText();
     await repliedMessage.waitForExist();
-    await expect(repliedMessageText).toHaveTextContaining("Testing...😀");
+    await expect(repliedMessageText).toHaveText("Testing...😀");
 
     // Validate reply message sent appears as last message
-    const message = await messageLocal.getLastMessageSentText();
-    await expect(message).toHaveTextContaining("SelfReply");
+    const message = await messageLocal.getCustomMessageContents("SelfReply");
+    await expect(message).toHaveText("SelfReply");
   });
 
   after(async () => {
