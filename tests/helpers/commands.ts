@@ -141,6 +141,7 @@ export async function loginWithTestUser() {
   const unlockScreen = await createPin.unlockLayout;
   await unlockScreen.waitForExist();
   await createPin.enterPinOnLogin("1234");
+  await createPin.validateSpinnerIsNotShown();
   await createPin.unlockLayout.waitForExist({ reverse: true });
 }
 

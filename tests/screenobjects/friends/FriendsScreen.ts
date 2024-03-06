@@ -383,7 +383,6 @@ export default class FriendsScreen extends UplinkMainScreen {
     );
     await acceptButton.click();
     await this.validateSpinnerIsNotShown();
-    await friendToClick?.waitForExist({ reverse: true, timeout: 30000 });
   }
 
   async blockUser(name: string) {
@@ -391,7 +390,6 @@ export default class FriendsScreen extends UplinkMainScreen {
     const blockButton = await friendToClick.$(SELECTORS.BLOCK_FRIEND_BUTTON);
     await blockButton.click();
     await this.validateSpinnerIsNotShown();
-    await friendToClick?.waitForExist({ reverse: true, timeout: 30000 });
   }
 
   async chatWithFriend(name: string) {
@@ -399,7 +397,6 @@ export default class FriendsScreen extends UplinkMainScreen {
     const chatButton = await friendToClick.$(SELECTORS.CHAT_WITH_FRIEND_BUTTON);
     await chatButton.click();
     await this.validateSpinnerIsNotShown();
-    await friendToClick?.waitForExist({ reverse: true, timeout: 30000 });
   }
 
   async clickOnAddSomeoneButton() {
@@ -412,7 +409,6 @@ export default class FriendsScreen extends UplinkMainScreen {
     const chatWithFriend = await this.chatWithFriendButton;
     await chatWithFriend.click();
     await this.validateSpinnerIsNotShown();
-    await chatWithFriend.waitForExist({ reverse: true, timeout: 30000 });
   }
 
   async clickOnCopyID() {
@@ -772,10 +768,6 @@ export default class FriendsScreen extends UplinkMainScreen {
     await this.removeOrDenyFriendButton.waitForExist();
     await this.removeOrDenyFriendButton.click();
     await this.validateSpinnerIsNotShown();
-    await this.removeOrDenyFriendButton.waitForExist({
-      reverse: true,
-      timeout: 30000,
-    });
   }
 
   async removeOrCancelUser(name: string) {
@@ -785,7 +777,6 @@ export default class FriendsScreen extends UplinkMainScreen {
     );
     await removeOrDenyButton.click();
     await this.validateSpinnerIsNotShown();
-    await removeOrDenyButton.waitForExist({ reverse: true, timeout: 30000 });
   }
 
   async validateAllFriendsListIsNotEmpty() {
