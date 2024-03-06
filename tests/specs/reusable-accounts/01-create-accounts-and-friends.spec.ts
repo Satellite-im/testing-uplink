@@ -70,6 +70,7 @@ export default async function createChatAccountsTests() {
     // Grab cache folder and restart
     const didkey = await settingsProfile.getCopiedDidFromStatusInput();
     await saveTestKeys(username, didkey);
+    await settingsProfile.deleteStatus();
   });
 
   it("Chat User A - Settings General - Reduce font size", async () => {
@@ -78,7 +79,6 @@ export default async function createChatAccountsTests() {
     await settingsGeneral.waitForIsShown(true);
 
     // Click on font scaling minus button
-    await settingsGeneral.settingsGeneral.waitForExist();
     await settingsGeneral.clickOnFontScalingMinus();
   });
 
@@ -143,14 +143,15 @@ export default async function createChatAccountsTests() {
     // Grab cache folder and restart
     const didkey = await settingsProfile.getCopiedDidFromStatusInput();
     await saveTestKeys(username, didkey);
+    await settingsProfile.deleteStatus();
   });
 
   it("Chat User B - Settings General - Reduce font size", async () => {
     // Go to General Settings and reduce Font Size by 0.5
     await settingsProfile.goToGeneralSettings();
+    await settingsGeneral.waitForIsShown(true);
 
     // Click on font scaling minus
-    await settingsGeneral.waitForIsShown(true);
     await settingsGeneral.clickOnFontScalingMinus();
   });
 
