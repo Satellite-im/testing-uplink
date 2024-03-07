@@ -217,9 +217,8 @@ export default class InputBar extends UplinkMainScreen {
     } else {
       await keyboardShiftEnter();
       await inputText.addValue(codeToType);
-      let inputTextValueCode = await inputText.getText();
-      inputTextValueCode += " ";
-      if (inputTextValueCode.includes(codeToType) === false) {
+      let inputTextValue = (await inputText.getText()).slice(0, -1);
+      if (inputTextValue.includes(codeToType) === false) {
         await this.typeCodeOnInputBar(language, codeToType);
       }
     }
