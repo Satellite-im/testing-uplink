@@ -1,5 +1,6 @@
 require("module-alias/register");
 import { faker } from "@faker-js/faker";
+import { keyboard } from "@nut-tree/nut-js";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import {
   keyboardShiftEnter,
@@ -7,6 +8,7 @@ import {
   getUplinkWindowHandle,
   selectFileOnMacos,
   selectFileOnWindows,
+  setClipboardValue,
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 let SELECTORS = {};
@@ -216,9 +218,10 @@ export default class InputBar extends UplinkMainScreen {
       await this.typeCodeOnInputBar(language, codeToType);
     } else {
       await keyboardShiftEnter();
-      await inputText.addValue(codeToType);
-      let inputTextValue = (await inputText.getText()).slice(0, -1);
-      if (inputTextValue.includes(codeToType) === false) {
+      await keyboard.type(codeToType);
+      let inputTextValueCode = await inputText.getText();
+      inputTextValueCode += " ";
+      if (inputTextValueCode.includes(codeToType) === false) {
         await this.typeCodeOnInputBar(language, codeToType);
       }
     }

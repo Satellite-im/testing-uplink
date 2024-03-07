@@ -16,9 +16,10 @@ const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_CODE_COPY_BUTTON: '[name="Copy"]',
+  CHAT_MESSAGE_CODE_LANGUAGE_GROUP: "//Group[2]/Group",
   CHAT_MESSAGE_CODE_LANGUAGE: "<Text>",
   CHAT_MESSAGE_CODE_MESSAGES: "<Text>",
-  CHAT_MESSAGE_CODE_PANE: "<Pane>",
+  CHAT_MESSAGE_CODE_PANE: "//Group[1]/Group",
   CHAT_MESSAGE_FILE_BUTTON: '[name="attachment-button"]',
   CHAT_MESSAGE_FILE_EMBED: '[name="file-embed"]',
   CHAT_MESSAGE_FILE_ICON: '[name="file-icon"]',
@@ -45,10 +46,12 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   CHAT_MESSAGE_CODE_COPY_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
-  CHAT_MESSAGE_CODE_LANGUAGE:
-    "//XCUIElementTypeGroup/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_CODE_LANGUAGE: "-ios class chain:**/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_CODE_LANGUAGE_GROUP:
+    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeGroup",
   CHAT_MESSAGE_CODE_MESSAGES: "-ios class chain:**/XCUIElementTypeStaticText",
-  CHAT_MESSAGE_CODE_PANE: "-ios class chain:**/XCUIElementTypeGroup",
+  CHAT_MESSAGE_CODE_PANE:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeGroup",
   CHAT_MESSAGE_FILE_BUTTON: "~attachment-button",
   CHAT_MESSAGE_FILE_EMBED: "~file-embed",
   CHAT_MESSAGE_FILE_ICON: "~file-icon",
@@ -220,24 +223,20 @@ export default class MessageLocal extends UplinkMainScreen {
 
   // Message Local Methods
 
-  async waitForCodeMessageSentToExist(
-    expectedLanguage: string,
-    expectedMessage: string,
-  ) {
+  async waitForCodeMessageSentToExist(expectedLanguage: string) {
     const currentDriver = await this.getCurrentDriver();
-    let codeSentLocator: string = "";
+    let codeMessageLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      codeSentLocator = `~message-text-\`\`\`${expectedLanguage} ${expectedMessage}`;
+      codeMessageLocator =
+        '//XCUIElementTypeGroup[contains(@label, "message-text-```' +
+        expectedLanguage +
+        '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      codeSentLocator = `[name="message-text-\`\`\`${expectedLanguage} ${expectedMessage}"]`;
+      codeMessageLocator =
+        '//Group[contains(@Name, "message-text-```' + expectedLanguage + '")]';
     }
-    await driver.waitUntil(async () => {
-      return await $(codeSentLocator).waitForExist({
-        timeout: 45000,
-        timeoutMsg:
-          "Expected sent message with code was not found after 45 seconds",
-      });
-    });
+    const codeMessage = await $(codeMessageLocator);
+    await codeMessage.waitForExist();
   }
 
   async waitForMessageToBeDeleted(expectedMessage: string) {
@@ -299,14 +298,8 @@ export default class MessageLocal extends UplinkMainScreen {
 
   // Message Methods Using Message Custom Locator
 
-  async clickOnCopyCodeOfCustomMessageSent(
-    expectedLanguage: string,
-    expectedMessage: string,
-  ) {
-    const copyButton = await this.getCustomMessageLocatorCode(
-      expectedLanguage,
-      expectedMessage,
-    );
+  async clickOnCopyCodeOfCustomMessageSent(expectedLanguage: string) {
+    const copyButton = await this.getCustomMessageLocatorCode(expectedLanguage);
     await this.hoverOnElement(copyButton);
     await copyButton.click();
   }
@@ -323,19 +316,20 @@ export default class MessageLocal extends UplinkMainScreen {
     return messageSent;
   }
 
-  async getCustomMessageLocatorCode(
-    expectedLanguage: string,
-    expectedMessage: string,
-  ) {
+  async getCustomMessageLocatorCode(expectedLanguage: string) {
     const currentDriver = await this.getCurrentDriver();
     let codeSentLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
-      codeSentLocator = `~message-text-\`\`\`${expectedLanguage} ${expectedMessage}`;
+      codeSentLocator =
+        '//XCUIElementTypeGroup[contains(@label, "message-text-```' +
+        expectedLanguage +
+        '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
-      codeSentLocator = `[name="message-text-\`\`\`${expectedLanguage} ${expectedMessage}"]`;
+      codeSentLocator =
+        '//Group[contains(@Name, "message-text-```' + expectedLanguage + '")]';
     }
-    const codeReceived = await $(codeSentLocator);
-    return codeReceived;
+    const codeSent = await $(codeSentLocator);
+    return codeSent;
   }
 
   async getCustomMessageLocatorLink(expectedMessage: string) {
@@ -356,61 +350,35 @@ export default class MessageLocal extends UplinkMainScreen {
     return messageText;
   }
 
-  async getCustomMessageSentCodeCopyButton(
-    expectedLanguage: string,
-    expectedMessage: string,
-  ) {
-    const message = await this.getCustomMessageLocatorCode(
-      expectedLanguage,
-      expectedMessage,
+  async getCustomMessageSentCodeCopyButton(expectedLanguage: string) {
+    const message = await this.getCustomMessageLocatorCode(expectedLanguage);
+    const messageCodeCopyButton = await message.$(
+      SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON,
     );
-    const messageCodeCopyButton = await message
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON);
     await messageCodeCopyButton.waitForExist();
     return messageCodeCopyButton;
   }
 
-  async getCustomMessageSentCodeLanguage(
-    expectedLanguage: string,
-    expectedMessage: string,
-  ) {
-    const message = await this.getCustomMessageLocatorCode(
-      expectedLanguage,
-      expectedMessage,
-    );
-    const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
-    const messageCodeLanguage = await messageText.$(
-      SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE,
-    );
+  async getCustomMessageSentCodeLanguage(expectedLanguage: string) {
+    const message = await this.getCustomMessageLocatorCode(expectedLanguage);
+    const messageCodeLanguage = await message
+      .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE);
     await messageCodeLanguage.waitForExist();
     return messageCodeLanguage;
   }
 
-  async getCustomMessageSentCodePane(
-    expectedLanguage: string,
-    expectedMessage: string,
-  ) {
-    const message = await this.getCustomMessageLocatorCode(
-      expectedLanguage,
-      expectedMessage,
-    );
-    const messageCodePane = await message
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
+  async getCustomMessageSentCodePane(expectedLanguage: string) {
+    const message = await this.getCustomMessageLocatorCode(expectedLanguage);
+    const messageCodePane = await message.$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
     await messageCodePane.waitForExist();
     return messageCodePane;
   }
 
-  async getCustomMessageSentCodeMessage(
-    expectedLanguage: string,
-    expectedMessage: string,
-  ) {
-    const messageCodePane = await this.getCustomMessageLocatorCode(
-      expectedLanguage,
-      expectedMessage,
-    );
-    let messageResult = "";
+  async getCustomMessageSentCodeMessage(expectedLanguage: string) {
+    const messageCodePane =
+      await this.getCustomMessageSentCodePane(expectedLanguage);
+    let messageResult: string = "";
     const messageResultElements = await messageCodePane.$$(
       SELECTORS.CHAT_MESSAGE_CODE_MESSAGES,
     );
