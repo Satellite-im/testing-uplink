@@ -299,7 +299,8 @@ export default class MessageLocal extends UplinkMainScreen {
   // Message Methods Using Message Custom Locator
 
   async clickOnCopyCodeOfCustomMessageSent(expectedLanguage: string) {
-    const copyButton = await this.getCustomMessageLocatorCode(expectedLanguage);
+    const copyButton =
+      await this.getCustomMessageSentCodeCopyButton(expectedLanguage);
     await this.hoverOnElement(copyButton);
     await copyButton.click();
   }

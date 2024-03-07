@@ -296,7 +296,8 @@ export default class MessageRemote extends UplinkMainScreen {
   // Message Methods Using Message Custom Locator
 
   async clickOnCopyCodeOfCustomMessageReceived(expectedLanguage: string) {
-    const copyButton = await this.getCustomMessageLocatorCode(expectedLanguage);
+    const copyButton =
+      await this.getCustomMessageReceivedCodeCopyButton(expectedLanguage);
     await this.hoverOnElement(copyButton);
     await copyButton.click();
   }
