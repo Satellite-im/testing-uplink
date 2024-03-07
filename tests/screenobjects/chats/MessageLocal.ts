@@ -384,7 +384,11 @@ export default class MessageLocal extends UplinkMainScreen {
     );
     for (let element of messageResultElements) {
       const codeMessageText = await element.getText();
-      messageResult += codeMessageText;
+      if (codeMessageText === "=") {
+        messageResult += "= ";
+      } else {
+        messageResult += codeMessageText;
+      }
     }
     return messageResult;
   }
