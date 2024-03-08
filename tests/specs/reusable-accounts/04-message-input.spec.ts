@@ -247,7 +247,7 @@ export default async function messageInputTests() {
     // With Chat User B, validate code message was received and is displayed correctly
     await messageRemote.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =
-      await messageRemote.getCustomMessageReceivedCodeMessage("JavaSript");
+      await messageRemote.getCustomMessageReceivedCodeMessage("JavaScript");
     await expect(codeMessageTextReceived).toEqual("let a = 1;");
   });
 
