@@ -192,7 +192,7 @@ export default async function messageInputTests() {
     await chatsInput.pasteClipboardOnInputBar();
 
     const inputText = await chatsInput.getValueFromInputBar();
-    await expect(inputText).toHaveText("let a = 1;");
+    await expect(inputText).toEqual("let a = 1;");
 
     // Finally, clear the input bar for next tests
     await chatsInput.clearInputBar();
