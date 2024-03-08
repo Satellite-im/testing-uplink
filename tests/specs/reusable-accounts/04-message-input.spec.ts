@@ -130,39 +130,69 @@ export default async function messageInputTests() {
     // With Chat User A, send a message with __ markdown
     await chatsInput.typeMessageOnInput("__Bolds2__");
     await chatsInput.clickOnSendMessage();
-    await chatsInput.goToFiles();
-    await filesScreen.waitForIsShown(true);
-    await filesScreen.goToMainScreen();
-    await chatsInput.waitForIsShown(true);
     await messageLocal.waitForMessageSentToExist("__Bolds2__");
     const messageContents =
       await messageLocal.getCustomMessageContents("__Bolds2__");
     await expect(messageContents).toHaveText("Bolds2");
   });
 
-  // Needs research to implement on MacOS
-  xit("Chat Input Text - Validate users can send messages using the code language markdown", async () => {
+  it("Chat Input Text - Validate texts with * and _ markdown are sent in italic", async () => {
+    // With Chat User A, send a message with _ markdown
+    await chatsInput.typeMessageOnInput("_Italic1_");
+    await chatsInput.clickOnSendMessage();
+    await messageLocal.waitForMessageSentToExist("_Italic1_");
+    const messageContentsItalicsOne =
+      await messageLocal.getCustomMessageContents("_Italic1_");
+    await expect(messageContentsItalicsOne).toHaveText("Italic1");
+
+    // With Chat User A, send a message with * markdown
+    await chatsInput.typeMessageOnInput("*Italic2*");
+    await chatsInput.clickOnSendMessage();
+    await messageLocal.waitForMessageSentToExist("*Italic2*");
+    const messageContentsItalicsTwo =
+      await messageLocal.getCustomMessageContents("*Italic2*");
+    await expect(messageContentsItalicsTwo).toHaveText("Italic2");
+  });
+
+  it("Chat Input Text - Validate texts with ~ and ~~ markdown are sent in strikethrough", async () => {
+    // With Chat User A, send a message with ~ markdown
+    await chatsInput.typeMessageOnInput("~Strikethrough1~");
+    await chatsInput.clickOnSendMessage();
+    await messageLocal.waitForMessageSentToExist("~Strikethrough1~");
+    const messageContentsStrikethroughOne =
+      await messageLocal.getCustomMessageContents("~Strikethrough1~");
+    await expect(messageContentsStrikethroughOne).toHaveText("Strikethrough1");
+
+    // With Chat User A, send a message with ~~ markdown
+    await chatsInput.typeMessageOnInput("~~Strikethrough2~~");
+    await chatsInput.clickOnSendMessage();
+    await messageLocal.waitForMessageSentToExist("~~Strikethrough2~~");
+    const messageContentsStrikethroughTwo =
+      await messageLocal.getCustomMessageContents("~~Strikethrough2~~");
+    await expect(messageContentsStrikethroughTwo).toHaveText("Strikethrough2");
+  });
+
+  it("Chat Input Text - Validate users can send messages using the code language markdown", async () => {
     // With Chat User A, send a code snippet with JavaScript language
-    await chatsInput.typeCodeOnInputBar("javascript", "let a = 1;");
+    await chatsInput.typeCodeOnInputBar("JavaScript", "let a = 1;");
     await chatsInput.clickOnSendMessage();
 
     // With Chat User A, validate code message was sent and is displayed correctly
     await messageLocal.waitForCodeMessageSentToExist("JavaScript");
     const codeMessageTextSent =
-      await messageLocal.getCustomMessageSentCodeMessage("let a = 1;");
+      await messageLocal.getCustomMessageSentCodeMessage("JavaScript");
     await expect(codeMessageTextSent).toEqual("let a = 1;");
   });
 
-  // Needs research to implement on MacOS
-  xit("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
+  it("Chat Input Text - Code Markdown - User can copy the message from the code block", async () => {
     // With Chat User A, click on the copy button from code block of last chat message sent
-    await messageLocal.clickOnCopyCodeOfCustomMessageSent("let a = 1;");
+    await messageLocal.clickOnCopyCodeOfCustomMessageSent("JavaScript");
 
     // Then, paste it into the input bar and assert the text contents on input bar
     await chatsInput.pasteClipboardOnInputBar();
 
     const inputText = await chatsInput.getValueFromInputBar();
-    await expect(inputText).toHaveText("let a = 1;");
+    await expect(inputText).toEqual("let a = 1;");
 
     // Finally, clear the input bar for next tests
     await chatsInput.clearInputBar();
@@ -173,23 +203,51 @@ export default async function messageInputTests() {
     await activateSecondApplication();
     await chatsInput.waitForIsShown(true);
     await messageRemote.waitForReceivingMessage("**Bolds1**");
-    const messageContentsBolds1 =
+    const messageContentsBoldsOne =
       await messageRemote.getCustomMessageContents("**Bolds1**");
-    await expect(messageContentsBolds1).toHaveText("Bolds1");
+    await expect(messageContentsBoldsOne).toHaveText("Bolds1");
 
     // With Chat User B, validate message with with __ markdown was received in bolds
     await messageRemote.waitForReceivingMessage("__Bolds2__");
-    const messageContentsBolds2 =
+    const messageContentsBoldsTwo =
       await messageRemote.getCustomMessageContents("__Bolds2__");
-    await expect(messageContentsBolds2).toHaveText("Bolds2");
+    await expect(messageContentsBoldsTwo).toHaveText("Bolds2");
   });
 
-  // Needs research to implement on MacOS
-  xit("Chat Input Text - Validate message with code markdown is received in expected format", async () => {
+  it("Chat Input Text - Validate messages with italic markdowns were received in expected format", async () => {
+    // With Chat User B, validate message with with _ markdown was received in italic
+    await messageRemote.waitForReceivingMessage("_Italic1_");
+    const messageContentsItalicOne =
+      await messageRemote.getCustomMessageContents("_Italic1_");
+    await expect(messageContentsItalicOne).toHaveText("Italic1");
+
+    // With Chat User B, validate message with with * markdown was received in italic
+    await messageRemote.waitForReceivingMessage("*Italic2*");
+    const messageContentsItalicTwo =
+      await messageRemote.getCustomMessageContents("*Italic2*");
+    await expect(messageContentsItalicTwo).toHaveText("Italic2");
+  });
+
+  it("Chat Input Text - Validate messages with strikethrough markdowns were received in expected format", async () => {
+    // With Chat User B, validate message with with ~ markdown was received in Strikethrough
+    await chatsInput.waitForIsShown(true);
+    await messageRemote.waitForReceivingMessage("~Strikethrough1~");
+    const messageContentsStrikethroughOne =
+      await messageRemote.getCustomMessageContents("~Strikethrough1~");
+    await expect(messageContentsStrikethroughOne).toHaveText("Strikethrough1");
+
+    // With Chat User B, validate message with with ~~ markdown was received in Strikethrough
+    await messageRemote.waitForReceivingMessage("~~Strikethrough2~~");
+    const messageContentsStrikethroughTwo =
+      await messageRemote.getCustomMessageContents("~~Strikethrough2~~");
+    await expect(messageContentsStrikethroughTwo).toHaveText("Strikethrough2");
+  });
+
+  it("Chat Input Text - Validate message with code markdown is received in expected format", async () => {
     // With Chat User B, validate code message was received and is displayed correctly
     await messageRemote.waitForReceivingCodeMessage("JavaScript");
     const codeMessageTextReceived =
-      await messageRemote.getCustomMessageReceivedCodeMessage("let a = 1;");
+      await messageRemote.getCustomMessageReceivedCodeMessage("JavaScript");
     await expect(codeMessageTextReceived).toEqual("let a = 1;");
   });
 
@@ -263,7 +321,7 @@ export default async function messageInputTests() {
     await linkEmbedReceivedIconTitle.waitForExist();
   });
 
-  // Test failing on CI
+  // Skipping this test since the time spent between switching windows to validate, the typing indicator is already gone
   xit("Typing Indicator - Send a long message to trigger typing indicator on remote side", async () => {
     await chatsInput.waitForIsShown(true);
     // Generate a random text with 100 chars
@@ -272,7 +330,7 @@ export default async function messageInputTests() {
     await chatsInput.typeMessageOnInput(shortText + "efgh");
   });
 
-  // Test failing on CI
+  // Skipping this test since the time spent between switching windows to validate, the typing indicator is already gone
   xit("Validate Typing Indicator is displayed if remote user is typing", async () => {
     // Switch to second user and validate that Typing Indicator is displayed
     await activateFirstApplication();

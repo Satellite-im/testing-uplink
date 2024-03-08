@@ -16,9 +16,10 @@ const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_CODE_COPY_BUTTON: '[name="Copy"]',
+  CHAT_MESSAGE_CODE_LANGUAGE_GROUP: "//Group[2]/Group",
   CHAT_MESSAGE_CODE_LANGUAGE: "<Text>",
   CHAT_MESSAGE_CODE_MESSAGES: "<Text>",
-  CHAT_MESSAGE_CODE_PANE: "<Pane>",
+  CHAT_MESSAGE_CODE_PANE: "//Group[1]/Group",
   CHAT_MESSAGE_FILE_BUTTON: '[name="attachment-button"]',
   CHAT_MESSAGE_FILE_EMBED: '[name="file-embed"]',
   CHAT_MESSAGE_FILE_ICON: '[name="file-icon"]',
@@ -45,10 +46,12 @@ const SELECTORS_WINDOWS = {
 
 const SELECTORS_MACOS = {
   CHAT_MESSAGE_CODE_COPY_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
-  CHAT_MESSAGE_CODE_LANGUAGE:
-    "//XCUIElementTypeGroup/XCUIElementTypeGroup/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_CODE_LANGUAGE: "-ios class chain:**/XCUIElementTypeStaticText",
+  CHAT_MESSAGE_CODE_LANGUAGE_GROUP:
+    "-ios class chain:**/XCUIElementTypeGroup[2]/XCUIElementTypeGroup",
   CHAT_MESSAGE_CODE_MESSAGES: "-ios class chain:**/XCUIElementTypeStaticText",
-  CHAT_MESSAGE_CODE_PANE: "-ios class chain:**/XCUIElementTypeGroup",
+  CHAT_MESSAGE_CODE_PANE:
+    "-ios class chain:**/XCUIElementTypeGroup[1]/XCUIElementTypeGroup",
   CHAT_MESSAGE_FILE_BUTTON: "~attachment-button",
   CHAT_MESSAGE_FILE_EMBED: "~file-embed",
   CHAT_MESSAGE_FILE_ICON: "~file-icon",
@@ -225,14 +228,12 @@ export default class MessageLocal extends UplinkMainScreen {
     let codeMessageLocator: string = "";
     if (currentDriver === MACOS_DRIVER) {
       codeMessageLocator =
-        '//XCUIElementTypeGroup[(@label, "message-local")]//XCUIElementTypeStaticText[(@value, "' +
+        '//XCUIElementTypeGroup[contains(@label, "message-text-```' +
         expectedLanguage +
         '")]';
     } else if (currentDriver === WINDOWS_DRIVER) {
       codeMessageLocator =
-        '//Group[(@Name, "message-local")]//Text[contains(@Name, "' +
-        expectedLanguage +
-        '")]';
+        '//Group[contains(@Name, "message-text-```' + expectedLanguage + '")]';
     }
     const codeMessage = await $(codeMessageLocator);
     await codeMessage.waitForExist();
@@ -297,8 +298,9 @@ export default class MessageLocal extends UplinkMainScreen {
 
   // Message Methods Using Message Custom Locator
 
-  async clickOnCopyCodeOfCustomMessageSent(expectedMessage: string) {
-    const copyButton = await this.getCustomMessageLocator(expectedMessage);
+  async clickOnCopyCodeOfCustomMessageSent(expectedLanguage: string) {
+    const copyButton =
+      await this.getCustomMessageSentCodeCopyButton(expectedLanguage);
     await this.hoverOnElement(copyButton);
     await copyButton.click();
   }
@@ -313,6 +315,22 @@ export default class MessageLocal extends UplinkMainScreen {
     }
     const messageSent = await $(messageSentLocator);
     return messageSent;
+  }
+
+  async getCustomMessageLocatorCode(expectedLanguage: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let codeSentLocator: string = "";
+    if (currentDriver === MACOS_DRIVER) {
+      codeSentLocator =
+        '//XCUIElementTypeGroup[contains(@label, "message-text-```' +
+        expectedLanguage +
+        '")]';
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      codeSentLocator =
+        '//Group[contains(@Name, "message-text-```' + expectedLanguage + '")]';
+    }
+    const codeSent = await $(codeSentLocator);
+    return codeSent;
   }
 
   async getCustomMessageLocatorLink(expectedMessage: string) {
@@ -333,43 +351,45 @@ export default class MessageLocal extends UplinkMainScreen {
     return messageText;
   }
 
-  async getCustomMessageSentCodeCopyButton(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
-    const messageCodeCopyButton = await message
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON);
+  async getCustomMessageSentCodeCopyButton(expectedLanguage: string) {
+    const message = await this.getCustomMessageLocatorCode(expectedLanguage);
+    const messageCodeCopyButton = await message.$(
+      SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON,
+    );
     await messageCodeCopyButton.waitForExist();
     return messageCodeCopyButton;
   }
 
-  async getCustomMessageSentCodeLanguage(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
-    const messageText = await message.$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
-    const messageCodeLanguage = await messageText.$(
-      SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE,
-    );
+  async getCustomMessageSentCodeLanguage(expectedLanguage: string) {
+    const message = await this.getCustomMessageLocatorCode(expectedLanguage);
+    const messageCodeLanguage = await message
+      .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE_GROUP)
+      .$(SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE);
     await messageCodeLanguage.waitForExist();
     return messageCodeLanguage;
   }
 
-  async getCustomMessageSentCodePane(expectedMessage: string) {
-    const message = await this.getCustomMessageLocator(expectedMessage);
-    const messageCodePane = await message
-      .$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
-      .$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
+  async getCustomMessageSentCodePane(expectedLanguage: string) {
+    const message = await this.getCustomMessageLocatorCode(expectedLanguage);
+    const messageCodePane = await message.$(SELECTORS.CHAT_MESSAGE_CODE_PANE);
     await messageCodePane.waitForExist();
     return messageCodePane;
   }
 
-  async getCustomMessageSentCodeMessage(expectedMessage: string) {
-    const messageCodePane = await this.getCustomMessageLocator(expectedMessage);
-    let messageResult = "";
+  async getCustomMessageSentCodeMessage(expectedLanguage: string) {
+    const messageCodePane =
+      await this.getCustomMessageSentCodePane(expectedLanguage);
+    let messageResult: string = "";
     const messageResultElements = await messageCodePane.$$(
       SELECTORS.CHAT_MESSAGE_CODE_MESSAGES,
     );
     for (let element of messageResultElements) {
       const codeMessageText = await element.getText();
-      messageResult += codeMessageText;
+      if (codeMessageText === "=") {
+        messageResult += "= ";
+      } else {
+        messageResult += codeMessageText;
+      }
     }
     return messageResult;
   }
