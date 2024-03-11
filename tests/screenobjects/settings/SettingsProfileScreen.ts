@@ -602,6 +602,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     const doNotDisturbStatusOption =
       await this.selectorOptionIndicatorDoNotDisturb;
     await doNotDisturbStatusOption.click();
+    await browser.pause(1000);
 
     // Wait until toast notification is closed
     await this.validateSpinnerIsNotShown();
@@ -615,6 +616,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // Select the correct option
     const idleStatusOption = await this.selectorOptionIndicatorIdle;
     await idleStatusOption.click();
+    await browser.pause(1000);
 
     // Wait until toast notification is closed
     await this.validateSpinnerIsNotShown();
@@ -628,6 +630,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // Select the correct option
     const offlineStatusOption = await this.selectorOptionIndicatorOffline;
     await offlineStatusOption.click();
+    await browser.pause(1000);
 
     // Wait until toast notification is closed
     await this.validateSpinnerIsNotShown();
@@ -641,6 +644,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     // Select the correct option
     const onlineStatusOption = await this.selectorOptionIndicatorOnline;
     await onlineStatusOption.click();
+    await browser.pause(1000);
 
     // Wait until toast notification is closed
     await this.validateSpinnerIsNotShown();

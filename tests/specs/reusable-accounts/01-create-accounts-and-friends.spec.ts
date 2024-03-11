@@ -372,19 +372,21 @@ export default async function createChatAccountsTests() {
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
   });
 
-  it("Chat User B - Change user status to Idle", async () => {
-    // Change User B to Idle
+  it("Chat User A - Change user status to Idle", async () => {
+    // Switch control to User A
+    await activateFirstApplication();
+
+    // Change User A to Idle
     await chatsTopbar.goToSettings();
     await settingsNotifications.goToProfileSettings();
     await settingsProfile.waitForIsShown(true);
 
     // Maximize Window
-    await maximizeWindow();
+    await settingsProfile.clickOnStatusInput();
+    await scrollDown(1000);
 
     // Change Status to Idle
     await settingsProfile.selectIdleStatus();
-    await settingsProfile.validateSpinnerIsNotShown();
-    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Validate status is Idle now
     const currentOnlineStatus = await settingsProfile.selectorCurrentValue;
@@ -393,14 +395,11 @@ export default async function createChatAccountsTests() {
     // Return to chat and validate Local User Status is Idle
     await settingsProfile.goToMainScreen();
     await chatsTopbar.waitForIsShown(true);
-
-    // Remove full screen size
-    await maximizeWindow();
   });
 
-  it("Chat User A - Validate User Status changes are seen in remote side", async () => {
-    // Switch control to User A
-    await activateFirstApplication();
+  it("Chat User B - Validate User Status changes are seen in remote side", async () => {
+    // Switch control to User B
+    await activateSecondApplication();
 
     // Validate Chat User B is now Idle
     await chatsTopbar.waitForIsShown(true);
