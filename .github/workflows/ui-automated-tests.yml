@@ -71,6 +71,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
+          ref: fix-keybinds-order
 
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v4
@@ -145,6 +146,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
+          ref: fix-keybinds-order
 
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v4
