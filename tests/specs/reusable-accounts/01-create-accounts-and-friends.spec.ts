@@ -7,6 +7,7 @@ import {
   createNewUser,
   getUserKey,
   launchSecondApplication,
+  maximizeWindow,
   saveTestKeys,
   scrollDown,
 } from "@helpers/commands";
@@ -377,10 +378,9 @@ export default async function createChatAccountsTests() {
     await settingsNotifications.waitForIsShown(true);
     await settingsNotifications.goToProfileSettings();
     await settingsProfile.waitForIsShown(true);
-    await settingsProfile.clickOnStatusInput();
 
-    // Scroll to bottom of the screen
-    await scrollDown(1000);
+    // Maximize Window
+    await maximizeWindow();
 
     // Change Status to Idle
     await settingsProfile.selectIdleStatus();
@@ -394,6 +394,9 @@ export default async function createChatAccountsTests() {
     // Return to chat and validate Local User Status is Idle
     await settingsProfile.goToMainScreen();
     await chatsTopbar.waitForIsShown(true);
+
+    // Remove full screen size
+    await maximizeWindow();
   });
 
   it("Chat User A - Validate User Status changes are seen in remote side", async () => {
