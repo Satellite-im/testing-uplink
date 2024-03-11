@@ -384,6 +384,8 @@ export default async function createChatAccountsTests() {
 
     // Change Status to Idle
     await settingsProfile.selectIdleStatus();
+    await settingsProfile.validateSpinnerIsNotShown();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Validate status is Idle now
     const currentOnlineStatus = await settingsProfile.selectorCurrentValue;

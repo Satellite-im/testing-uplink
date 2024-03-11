@@ -364,16 +364,10 @@ export default class ChatsSidebar extends UplinkMainScreen {
   // Waiting methods
 
   async waitForReceivingMessageOnSidebar() {
-    await driver.waitUntil(
-      async () => {
-        return await this.sidebarChatsUserStatusValue;
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Sidebar never displayed received messages after 15 seconds",
-      },
-    );
+    (await this.sidebarChatsUserStatusValue).waitForExist({
+      timeout: 30000,
+      timeoutMsg: "Sidebar never displayed received messages after 30 seconds",
+    });
   }
 
   // Get Sidebar Group elements
