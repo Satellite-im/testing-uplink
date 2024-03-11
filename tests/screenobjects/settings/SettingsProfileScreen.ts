@@ -381,6 +381,11 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     await button.click();
   }
 
+  async clickOnStatusInput() {
+    const input = await this.statusInput;
+    await input.click();
+  }
+
   async deleteStatus() {
     const input = await this.statusInput;
     await input.click();
