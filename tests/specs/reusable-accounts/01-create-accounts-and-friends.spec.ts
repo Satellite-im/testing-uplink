@@ -375,7 +375,6 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Change user status to Idle", async () => {
     // Change User B to Idle
     await chatsTopbar.goToSettings();
-    await settingsNotifications.waitForIsShown(true);
     await settingsNotifications.goToProfileSettings();
     await settingsProfile.waitForIsShown(true);
 
