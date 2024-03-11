@@ -371,6 +371,36 @@ export default async function createChatAccountsTests() {
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
   });
 
+  it("Chat User B - Change user status to Idle", async () => {
+    // Change User B to Idle
+    await chatsTopbar.goToSettings();
+    await settingsProfile.waitForIsShown(true);
+
+    // Scroll to bottom of the screen
+    await scrollDown(1000);
+
+    // Change Status to Idle
+    await settingsProfile.selectIdleStatus();
+
+    // Validate status is Idle now
+    const currentOnlineStatus = await settingsProfile.selectorCurrentValue;
+    await expect(currentOnlineStatus).toHaveText("Idle");
+
+    // Return to chat and validate Local User Status is Idle
+    await settingsProfile.goToMainScreen();
+    await chatsTopbar.waitForIsShown(true);
+  });
+
+  it("Chat User A - Validate User Status changes are seen in remote side", async () => {
+    // Switch control to User A
+    await activateFirstApplication();
+
+    // Validate Chat User B is now Idle
+    await chatsTopbar.waitForIsShown(true);
+    const firstRemoteStatus = await chatsTopbar.getCurrentStatus();
+    await expect(firstRemoteStatus).toEqual("indicator-idle");
+  });
+
   after(async () => {
     await closeFirstApplication();
     await closeSecondApplication();

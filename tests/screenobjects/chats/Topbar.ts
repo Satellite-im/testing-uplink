@@ -28,6 +28,8 @@ const SELECTORS_WINDOWS = {
   TOPBAR_CALL: '[name="Call"]',
   TOPBAR_GROUP_SETTINGS: '[name="group-settings"]',
   TOPBAR_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
+  TOPBAR_INDICATOR_DO_NOT_DISTURB: "[name='indicator-do-not-disturb']",
+  TOPBAR_INDICATOR_IDLE: "[name='indicator-idle']",
   TOPBAR_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   TOPBAR_INDICATOR_ONLINE: '[name="indicator-online"]',
   TOPBAR_MANAGE_MEMBERS: '[name="edit-group-members"]',
@@ -61,9 +63,10 @@ const SELECTORS_MACOS = {
   TOPBAR_ADD_TO_FAVORITES: "~Favorites",
   TOPBAR_CALL: "~Call",
   TOPBAR_GROUP_SETTINGS: "~group-settings",
-  TOPBAR_INDICATOR: "",
-  TOPBAR_INDICATOR_OFFLINE:
-    '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
+  TOPBAR_INDICATOR: '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
+  TOPBAR_INDICATOR_DO_NOT_DISTURB: "~indicator-do-not-disturb",
+  TOPBAR_INDICATOR_IDLE: "~indicator-idle",
+  TOPBAR_INDICATOR_OFFLINE: "~indicator-offline",
   TOPBAR_INDICATOR_ONLINE: "~indicator-online",
   TOPBAR_MANAGE_MEMBERS:
     '-ios class chain:**/XCUIElementTypeButton[`label == "edit-group-members"`]',
@@ -130,27 +133,27 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarAddToFavorites() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_ADD_TO_FAVORITES);
+    return this.topbar.$(SELECTORS.TOPBAR_ADD_TO_FAVORITES);
   }
 
   get topbarAddToFavoritesTooltip() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
   get topbarAddToFavoritesTooltipText() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return this.topbarAddToFavoritesTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarCall() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_CALL);
+    return this.topbar.$(SELECTORS.TOPBAR_CALL);
   }
 
   get topbarCallTooltip() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
   get topbarCallTooltipText() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return this.topbarCallTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarGroupSettings() {
@@ -161,56 +164,64 @@ export default class Topbar extends UplinkMainScreen {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR);
   }
 
+  get topbarIndicatorDoNotDisturb() {
+    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_DO_NOT_DISTURB);
+  }
+
+  get topbarIndicatorIdle() {
+    return this.topbar.$(SELECTORS.TOPBAR_INDICATOR_IDLE);
+  }
+
   get topbarIndicatorOffline() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_OFFLINE);
+    return this.topbar.$(SELECTORS.TOPBAR_INDICATOR_OFFLINE);
   }
 
   get topbarIndicatorOnline() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_ONLINE);
+    return this.topbar.$(SELECTORS.TOPBAR_INDICATOR_ONLINE);
   }
 
   get topbarManageMembers() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_MANAGE_MEMBERS);
+    return this.topbar.$(SELECTORS.TOPBAR_MANAGE_MEMBERS);
   }
 
   get topbarManageMembersTooltip() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
   get topbarManageMembersTooltipText() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return this.topbarManageMembersTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarPinnedMessages() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_PINNED_MESSAGES);
+    return this.topbar.$(SELECTORS.TOPBAR_PINNED_MESSAGES);
   }
 
   get topbarPinnedMessagesTooltip() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
   get topbarPinnedMessagesTooltipText() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return this.topbarPinnedMessagesTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get topbarRemoveFromFavorites() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_REMOVE_FROM_FAVORITES);
+    return this.topbar.$(SELECTORS.TOPBAR_REMOVE_FROM_FAVORITES);
   }
 
   get topbarUserImage() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE);
+    return this.topbar.$(SELECTORS.TOPBAR_USER_IMAGE);
   }
 
   get topbarUserImageProfile() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE_PROFILE);
+    return this.topbar.$(SELECTORS.TOPBAR_USER_IMAGE_PROFILE);
   }
 
   get topbarUserImageWrap() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_IMAGE_WRAP);
+    return this.topbar.$(SELECTORS.TOPBAR_USER_IMAGE_WRAP);
   }
 
   get topbarUserInfo() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_USER_INFO);
+    return this.topbar.$(SELECTORS.TOPBAR_USER_INFO);
   }
 
   get topbarUserName() {
@@ -218,7 +229,7 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarUserNameValue() {
-    return $(SELECTORS.TOPBAR_USER_NAME).$(SELECTORS.TOPBAR_USER_NAME_VALUE);
+    return this.topbarUserName.$(SELECTORS.TOPBAR_USER_NAME_VALUE);
   }
 
   get topbarUserStatus() {
@@ -226,29 +237,27 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   get topbarUserStatusValue() {
-    return $(SELECTORS.TOPBAR_USER_STATUS).$(
-      SELECTORS.TOPBAR_USER_STATUS_VALUE,
-    );
+    return this.topbarUserStatus.$(SELECTORS.TOPBAR_USER_STATUS_VALUE);
   }
 
   get topbarVideocall() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_VIDEOCALL);
+    return this.topbar.$(SELECTORS.TOPBAR_VIDEOCALL);
   }
 
   get topbarVideocallTooltip() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
   get topbarVideocallTooltipText() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return this.topbarVideocallTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
   get viewGroupTooltip() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
+    return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
   get viewGroupTooltipText() {
-    return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+    return this.viewGroupTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
   // Top Bar Methods
@@ -339,16 +348,11 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   async validateTopbarIndicatorOnline() {
-    await driver.waitUntil(
-      async () => {
-        return await this.topbarIndicatorOnline;
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected indicator online was never displayed on Chat Screen topbar after 15 seconds",
-      },
-    );
+    await this.topbarIndicatorOnline.waitForExist({
+      timeout: 15000,
+      timeoutMsg:
+        "Expected indicator online was never displayed on Chat Screen topbar after 15 seconds",
+    });
   }
 
   async validateTopbarUserName(username: string) {
@@ -365,40 +369,25 @@ export default class Topbar extends UplinkMainScreen {
   }
 
   async validateTopbarUserImage() {
-    await driver.waitUntil(
-      async () => {
-        return await this.topbarUserImage;
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected user image was never displayed on Chat Screen topbar after 15 seconds",
-      },
-    );
+    await this.topbarUserImage.waitForExist({
+      timeout: 15000,
+      timeoutMsg:
+        "Expected user image was never displayed on Chat Screen topbar after 15 seconds",
+    });
   }
 
   async validateTopbarExists() {
-    await driver.waitUntil(
-      async () => {
-        return await this.topbar;
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Chats Topbar was never shown after 15 seconds",
-      },
-    );
+    await this.topbar.waitForExist({
+      timeout: 15000,
+      timeoutMsg: "Chats Topbar was never shown after 15 seconds",
+    });
   }
 
   async waitUntilRemoteUserIsOnline() {
-    await driver.waitUntil(
-      async () => {
-        return await this.topbarIndicatorOnline;
-      },
-      {
-        timeout: 15000,
-        timeoutMsg: "Remote user never shown as online after 15 seconds",
-      },
-    );
+    await this.topbarIndicatorOnline.waitForExist({
+      timeout: 15000,
+      timeoutMsg: "Remote user never shown as online after 15 seconds",
+    });
   }
 
   // Group Name methods
@@ -468,5 +457,16 @@ export default class Topbar extends UplinkMainScreen {
   async selectRenameGroup() {
     const renameGroup = await this.contextMenuRenameGroup;
     await renameGroup.click();
+  }
+
+  // Get current status
+  async getCurrentStatus() {
+    const topbarIndicator = await this.topbarIndicator;
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      return await topbarIndicator.getAttribute("label");
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      return await topbarIndicator.getAttribute("name");
+    }
   }
 }
