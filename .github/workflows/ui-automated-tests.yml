@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Warp
-          ref: d15be5735c5e654bbb7b424d0ea2c414df8b5e4c
+          ref: 7381a8f759df2973604848d68f4d01353d4f925e
 
       - name: Set up cargo cache 🛠️
         uses: Swatinem/rust-cache@v2
@@ -221,7 +221,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Warp
-          ref: d15be5735c5e654bbb7b424d0ea2c414df8b5e4c
+          ref: 7381a8f759df2973604848d68f4d01353d4f925e
           path: "./warp"
 
       - name: Download Key file 🗳️
@@ -352,7 +352,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Warp
-          ref: d15be5735c5e654bbb7b424d0ea2c414df8b5e4c
+          ref: 7381a8f759df2973604848d68f4d01353d4f925e
           path: "./warp"
 
       - name: Download Key file 🗳️
@@ -491,7 +491,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Warp
-          ref: d15be5735c5e654bbb7b424d0ea2c414df8b5e4c
+          ref: 7381a8f759df2973604848d68f4d01353d4f925e
           path: "./warp"
 
       - name: Download Key file 🗳️
