@@ -453,6 +453,26 @@ export default class ChatsSidebar extends UplinkMainScreen {
     return indicatorLocator;
   }
 
+  async getSidebarUserIndicatorDoNotDisturb(username: string) {
+    const userLocator = await this.getExistingElementByAriaLabel(username);
+    const doNotDisturbLocator = await userLocator
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_DO_NOT_DISTURB_INDICATOR);
+    await doNotDisturbLocator.waitForExist();
+    return doNotDisturbLocator;
+  }
+
+  async getSidebarUserIndicatorIdle(username: string) {
+    const userLocator = await this.getExistingElementByAriaLabel(username);
+    const idleLocator = await userLocator
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IDLE_INDICATOR);
+    await idleLocator.waitForExist();
+    return idleLocator;
+  }
+
   async getSidebarUserIndicatorOffline(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const offlineLocator = await userLocator
@@ -465,25 +485,26 @@ export default class ChatsSidebar extends UplinkMainScreen {
 
   async getSidebarUserIndicatorOnline(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
-    await driver.waitUntil(
-      async () => {
-        return await userLocator
-          .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
-          .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
-          .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
-      },
-      {
-        timeout: 15000,
-        timeoutMsg:
-          "Expected indicator online was never displayed on Chats Sidebar after 15 seconds",
-      },
-    );
-
-    const onlineLocator = await userLocator
+    const onlineIndicator = await userLocator
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
-    return onlineLocator;
+    await onlineIndicator.waitForExist();
+    return onlineIndicator;
+  }
+
+  async getSidebarUserIndicatorCurrentStatus(username: string) {
+    const currentDriver = await this.getCurrentDriver();
+    const userLocator = await this.getExistingElementByAriaLabel(username);
+    const userIndicator = await userLocator
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_INDICATOR);
+    if (currentDriver === MACOS_DRIVER) {
+      return await userIndicator.getAttribute("label");
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      return await userIndicator.getAttribute("name");
+    }
   }
 
   async getSidebarUserProfileTyping(username: string) {

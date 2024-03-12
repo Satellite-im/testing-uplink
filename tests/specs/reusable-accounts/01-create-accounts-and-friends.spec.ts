@@ -394,7 +394,7 @@ export default async function createChatAccountsTests() {
 
     // Return to chat and validate Local User Status is Idle
     await settingsProfile.goToMainScreen();
-    await chatsTopbar.waitForIsShown(true);
+    await chatsInput.waitForIsShown(true);
   });
 
   it("Chat User B - Validate User Status changes are seen in remote side", async () => {
@@ -402,8 +402,9 @@ export default async function createChatAccountsTests() {
     await activateSecondApplication();
 
     // Validate Chat User B is now Idle
-    await chatsTopbar.waitForIsShown(true);
-    const firstRemoteStatus = await chatsTopbar.getCurrentStatus();
+    await chatsInput.waitForIsShown(true);
+    const firstRemoteStatus =
+      await messageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
     await expect(firstRemoteStatus).toEqual("indicator-idle");
   });
 
