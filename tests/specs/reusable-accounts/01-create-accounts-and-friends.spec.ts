@@ -402,7 +402,6 @@ export default async function createChatAccountsTests() {
     await activateSecondApplication();
 
     // Validate Chat User B is now Idle
-    await chatsInput.waitForIsShown(true);
     const firstRemoteStatus =
       await messageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
     await expect(firstRemoteStatus).toEqual("indicator-idle");
