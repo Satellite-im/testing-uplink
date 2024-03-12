@@ -179,16 +179,16 @@ export default async function settingsKeybindsTests() {
     // Now, change Hide/Focus Uplink Keybind by typing Ctrl + Shift + U
     await sendCustomKeybinds(4, 7, 65);
     await settingsKeybinds.editKeybind("hide-focus-uplink");
-    // Type Alt + Ctrl + Shift + P
-    await sendCustomKeybinds(3, 4, 7, 60);
+    // Type Ctrl + Shift + Alt + P
+    await sendCustomKeybinds(4, 7, 3, 60);
 
     // Validate change was applied correctly to Hide/Focus Uplink Keybind
     const hideFocusUplinkKeybind =
       await settingsKeybinds.getKeybinds("hide-focus-uplink");
     await expect(hideFocusUplinkKeybind).toEqual([
-      "ALT",
       "CONTROL",
       "SHIFT",
+      "ALT",
       "P",
     ]);
   });
