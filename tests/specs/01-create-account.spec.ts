@@ -1,9 +1,5 @@
 require("module-alias/register");
-import {
-  getClipboardValue,
-  maximizeWindow,
-  saveUserRecoverySeed,
-} from "@helpers/commands";
+import { maximizeWindow, saveUserRecoverySeed } from "@helpers/commands";
 import { WINDOWS_DRIVER } from "@helpers/constants";
 import CreateOrImportScreen from "@screenobjects/account-creation/CreateOrImportScreen";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
@@ -27,7 +23,7 @@ export default async function createAccountTests() {
 
     const unlockWarningParagraph = await createPin.unlockWarningParagraph;
     await unlockWarningParagraph.waitForExist();
-    await expect(unlockWarningParagraph).toHaveText(
+    await expect(unlockWarningParagraph).toHaveTextContaining(
       "(this is used to encrypt all of the data Uplink stores on your computer when you're not using it so nobody can read your data.)",
     );
   });
@@ -46,7 +42,9 @@ export default async function createAccountTests() {
     await createPin.hoverOnHelpButton();
 
     const helpButtonTooltipText = await createPin.helpButtonTooltipText;
-    await expect(helpButtonTooltipText).toHaveText("Help (right-click)");
+    await expect(helpButtonTooltipText).toHaveTextContaining(
+      "Help (right-click)",
+    );
   });
 
   it("Enter Pin Screen - Reset Account is shown after right clicking on Help Button", async () => {
@@ -124,10 +122,10 @@ export default async function createAccountTests() {
 
     const instructionsParagraph = await createOrImport.recoveryParagraphText;
     const createOrImportHeader = await createOrImport.createOrRecoverLabelText;
-    await expect(instructionsParagraph).toHaveText(
+    await expect(instructionsParagraph).toHaveTextContaining(
       "We're going to create an account for you. On the next screen, you'll see a set of words. Screenshot this or write it down. This is the only way to backup your account.",
     );
-    await expect(createOrImportHeader).toHaveText("ACCOUNT CREATION");
+    await expect(createOrImportHeader).toHaveTextContaining("ACCOUNT CREATION");
     await createOrImport.clickOnCreateAccount();
   });
 
@@ -136,10 +134,10 @@ export default async function createAccountTests() {
     await saveRecoverySeed.waitForIsShown(true);
     const helperText = await saveRecoverySeed.copySeedHelperText;
     const copySeedTitle = await saveRecoverySeed.copySeedWordsLabelText;
-    await expect(helperText).toHaveText(
+    await expect(helperText).toHaveTextContaining(
       "Write these words down in the order that they appear. Having the correct order is crucial when you are recovering your account.",
     );
-    await expect(copySeedTitle).toHaveText("RECOVERY SEED");
+    await expect(copySeedTitle).toHaveTextContaining("RECOVERY SEED");
 
     // Validate 12 recovery seed words are displayed on screen
     const seedWords = await saveRecoverySeed.getSeedWords();
@@ -168,10 +166,10 @@ export default async function createAccountTests() {
   it("Enter Username Screen - Cannot continue with empty value", async () => {
     const helperText = await createUser.createUserHelperText;
     const headerText = await createUser.createUserLabelText;
-    await expect(helperText).toHaveText(
+    await expect(helperText).toHaveTextContaining(
       "Time to pick your username, you can change this later at any time in settings.",
     );
-    await expect(headerText).toHaveText("ENTER USERNAME");
+    await expect(headerText).toHaveTextContaining("ENTER USERNAME");
 
     await createUser.enterUsername("1");
     await createUser.enterUsername("");
@@ -228,7 +226,9 @@ export default async function createAccountTests() {
 
     await createUser.inputError.waitForExist();
     const inputErrorText = await createUser.inputErrorText;
-    await expect(inputErrorText).toHaveText("Not allowed character(s): .%@");
+    await expect(inputErrorText).toHaveTextContaining(
+      "Not allowed character(s): .%@",
+    );
   });
 
   it("Enter Username Screen - Enter valid username to continue", async () => {

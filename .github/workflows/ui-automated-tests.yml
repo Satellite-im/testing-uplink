@@ -71,7 +71,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
-          ref: rework_recovery_seed_page
 
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v4
@@ -146,7 +145,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: Satellite-im/Uplink
-          ref: rework_recovery_seed_page
 
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v4
