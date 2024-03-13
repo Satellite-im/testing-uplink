@@ -32,14 +32,14 @@ export default async function importAccountTests() {
     await enterRecoverySeed.waitForIsShown(true);
     const helperText = await enterRecoverySeed.recoverySeedHelperText;
     const screenTitle = await enterRecoverySeed.recoverySeedTitleText;
-    await expect(helperText).toHaveTextContaining(
-      "Type your recovery seed here. You may either enter one word at a time or all at once separated by spaces.",
+    await expect(helperText).toHaveText(
+      "Type your recovery seed here. Each phrase should go into their respective box. Alternatively you can simply copy past your recovery seed in here.",
     );
-    await expect(screenTitle).toHaveTextContaining("RECOVERY SEED");
+    await expect(screenTitle).toHaveText("RECOVERY SEED");
   });
 
   it("Save Recovery Seed Screen - Attempt to enter invalid recovery seed", async () => {
-    await enterRecoverySeed.typeOnRecoverySeedInput("invalid");
+    await enterRecoverySeed.enterSingleSeedWord("invalid", 1);
     await enterRecoverySeed.clickOnRecoverAccountButton();
     await enterRecoverySeed.inputError.waitForExist();
     const inputErrorText = await enterRecoverySeed.inputErrorText;
@@ -48,7 +48,7 @@ export default async function importAccountTests() {
 
   it("Save Recovery Seed Screen - Enter valid recovery seed and continue", async () => {
     const recoverySeed = await getUserRecoverySeed("Test123");
-    await enterRecoverySeed.typeOnRecoverySeedInput(recoverySeed);
+    await enterRecoverySeed.enterSeedWords(recoverySeed);
     await enterRecoverySeed.clickOnRecoverAccountButton();
     await welcomeScreen.waitForIsShown(true);
   });

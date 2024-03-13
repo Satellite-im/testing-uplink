@@ -15,7 +15,6 @@ const SELECTORS_WINDOWS = {
   RECOVERY_SEED_HELPER: '[name="instructions"]',
   RECOVERY_SEED_HELPER_TEXT:
     '//Text[contains(@Name, "Type your recovery seed")]',
-  RECOVERY_SEED_INPUT: '[name="recovery-seed-input"]',
   RECOVERY_SEED_TITLE: '[name="enter-seed-words"]',
   RECOVERY_SEED_TITLE_TEXT: '//Text[@Name="RECOVERY SEED"]',
 };
@@ -28,7 +27,6 @@ const SELECTORS_MACOS = {
   RECOVER_ACCOUNT_BUTTON: "~recover-account-button",
   RECOVERY_SEED_HELPER: "~instructions",
   RECOVERY_SEED_HELPER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
-  RECOVERY_SEED_INPUT: "~recovery-seed-input",
   RECOVERY_SEED_TITLE: "~enter-seed-words",
   RECOVERY_SEED_TITLE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
 };
@@ -72,10 +70,6 @@ export default class EnterRecoverySeedScreen extends UplinkMainScreen {
     return this.recoverySeedHelper.$(SELECTORS.RECOVERY_SEED_HELPER_TEXT);
   }
 
-  get recoverySeedInput() {
-    return this.enterSeedsWordLayout.$(SELECTORS.RECOVERY_SEED_INPUT);
-  }
-
   get recoverySeedTitle() {
     return this.enterSeedsWordLayout.$(SELECTORS.RECOVERY_SEED_TITLE);
   }
@@ -94,8 +88,50 @@ export default class EnterRecoverySeedScreen extends UplinkMainScreen {
     await recoverAccountButton.click();
   }
 
-  async typeOnRecoverySeedInput(seed: string) {
-    const recoverySeedInput = await this.recoverySeedInput;
-    await recoverySeedInput.setValue(seed);
+  async getSeedWord(numberOfWord: string) {
+    const currentDriver = await this.getCurrentDriver();
+    let locatorOfWord: string = "";
+    let word: string = "";
+    if (currentDriver === WINDOWS_DRIVER) {
+      locatorOfWord = '[name="recovery-seed-input-' + numberOfWord + '"]';
+    } else {
+      locatorOfWord = "~recovery-seed-input-" + numberOfWord;
+    }
+    word = await $(locatorOfWord).$(SELECTORS.SEED_WORD_VALUE_TEXT).getText();
+    return word;
+  }
+
+  async getSeedWords() {
+    let seedWords: string[] = [];
+    for (let i = 1; i <= 12; i++) {
+      seedWords.push(await this.getSeedWord(i.toString()));
+    }
+    return seedWords;
+  }
+
+  async enterSeedWords(seedWords: string[]) {
+    const currentDriver = await this.getCurrentDriver();
+    for (let i = 1; i <= 12; i++) {
+      let locatorOfWord: string = "";
+      if (currentDriver === WINDOWS_DRIVER) {
+        locatorOfWord = '[name="recovery-seed-input-' + i + '"]';
+      } else {
+        locatorOfWord = "~recovery-seed-input-" + i;
+      }
+      const seedWord = await $(locatorOfWord);
+      await seedWord.setValue(seedWords[i - 1]);
+    }
+  }
+
+  async enterSingleSeedWord(seedWord: string, seedNumber: number) {
+    const currentDriver = await this.getCurrentDriver();
+    let locatorOfWord: string = "";
+    if (currentDriver === WINDOWS_DRIVER) {
+      locatorOfWord = '[name="recovery-seed-input-' + seedNumber + '"]';
+    } else {
+      locatorOfWord = "~recovery-seed-input-" + seedNumber;
+    }
+    const seed = await $(locatorOfWord);
+    await seed.setValue(seedWord);
   }
 }
