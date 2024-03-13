@@ -20,8 +20,10 @@ const SELECTORS_WINDOWS = {
   MESSAGE_GROUP_USER_IMAGE: '[name="User Image"]',
   MESSAGE_GROUP_USER_IMAGE_PROFILE: '[name="user-image-profile"]',
   MESSAGE_GROUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
-  //
   MESSAGE_GROUP_USER_INDICATOR: '//Group[starts-with(@Name, "indicator")]',
+  MESSAGE_GROUP_USER_INDICATOR_DO_NOT_DISTURB:
+    '[name="indicator-do-not-disturb"]',
+  MESSAGE_GROUP_USER_INDICATOR_IDLE: '[name="indicator-idle"]',
   MESSAGE_GROUP_USER_INDICATOR_OFFLINE: '[name="indicator-offline"]',
   MESSAGE_GROUP_USER_INDICATOR_ONLINE: '[name="indicator-online"]',
   MESSAGE_REACTION_CONTAINER: '[name="message-reaction-container"]',
@@ -45,6 +47,8 @@ const SELECTORS_MACOS = {
   MESSAGE_GROUP_USER_IMAGE_WRAP: "~user-image-wrap",
   MESSAGE_GROUP_USER_INDICATOR:
     '//XCUIElementTypeGroup[starts-with(@label, "indicator")]',
+  MESSAGE_GROUP_USER_INDICATOR_DO_NOT_DISTURB: "~indicator-do-not-disturb",
+  MESSAGE_GROUP_USER_INDICATOR_IDLE: "~indicator-idle",
   MESSAGE_GROUP_USER_INDICATOR_OFFLINE: "~indicator-offline",
   MESSAGE_GROUP_USER_INDICATOR_ONLINE: "~indicator-online",
   MESSAGE_REACTION_CONTAINER: "~message-reaction-container",
@@ -146,6 +150,18 @@ export default class MessageGroupRemote extends UplinkMainScreen {
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR);
   }
 
+  get messageGroupUserIndicatorDoNotDisturb() {
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
+      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
+      .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_DO_NOT_DISTURB);
+  }
+
+  get messageGroupUserIndicatorIdle() {
+    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
+      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
+      .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_IDLE);
+  }
+
   get messageGroupUserIndicatorOffline() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
@@ -191,6 +207,33 @@ export default class MessageGroupRemote extends UplinkMainScreen {
     return indicator;
   }
 
+  async getLastGroupWrapReceivedDoNotDisturb() {
+    const groupWrap = await this.getLastGroupWrapReceived();
+    const doNotDisturbStatus = await groupWrap.$(
+      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_DO_NOT_DISTURB,
+    );
+    await doNotDisturbStatus.waitForExist();
+    return doNotDisturbStatus;
+  }
+
+  async getLastGroupWrapReceivedIdle() {
+    const groupWrap = await this.getLastGroupWrapReceived();
+    const idleStatus = await groupWrap.$(
+      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_IDLE,
+    );
+    await idleStatus.waitForExist();
+    return idleStatus;
+  }
+
+  async getLastGroupWrapReceivedOffline() {
+    const groupWrap = await this.getLastGroupWrapReceived();
+    const offlineStatus = await groupWrap.$(
+      SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE,
+    );
+    await offlineStatus.waitForExist();
+    return offlineStatus;
+  }
+
   async getLastGroupWrapReceivedOnline() {
     const groupWrap = await this.getLastGroupWrapReceived();
     const onlineStatus = await groupWrap.$(
@@ -198,6 +241,20 @@ export default class MessageGroupRemote extends UplinkMainScreen {
     );
     await onlineStatus.waitForExist();
     return onlineStatus;
+  }
+
+  // Get current status from last message received
+  async getLastGroupWrapReceivedCurrentStatus() {
+    const groupWrap = await this.getLastGroupWrapReceived();
+    const groupWrapIndicator = await groupWrap.$(
+      SELECTORS.MESSAGE_GROUP_USER_INDICATOR,
+    );
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      return await groupWrapIndicator.getAttribute("label");
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      return await groupWrapIndicator.getAttribute("name");
+    }
   }
 
   // Group Messages Received Methods

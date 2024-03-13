@@ -7,6 +7,7 @@ import {
   createNewUser,
   getUserKey,
   launchSecondApplication,
+  maximizeWindow,
   saveTestKeys,
   scrollDown,
 } from "@helpers/commands";
@@ -369,6 +370,31 @@ export default async function createChatAccountsTests() {
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserA");
+  });
+
+  it("Chat User A - Change user status to Idle", async () => {
+    // Switch control to User A
+    await activateFirstApplication();
+
+    // Change User A to Idle
+    await chatsTopbar.goToSettings();
+    await settingsNotifications.goToProfileSettings();
+    await settingsProfile.waitForIsShown(true);
+
+    // Maximize Window
+    await settingsProfile.clickOnStatusInput();
+    await scrollDown(1000);
+
+    // Change Status to Idle
+    await settingsProfile.selectIdleStatus();
+
+    // Validate status is Idle now
+    const currentOnlineStatus = await settingsProfile.selectorCurrentValue;
+    await expect(currentOnlineStatus).toHaveText("Idle");
+
+    // Return to chat and validate Local User Status is Idle
+    await settingsProfile.goToMainScreen();
+    await chatsInput.waitForIsShown(true);
   });
 
   after(async () => {
