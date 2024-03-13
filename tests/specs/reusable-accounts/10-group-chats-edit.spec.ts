@@ -1,4 +1,5 @@
 require("module-alias/register");
+import GroupSettings from "@screenobjects/chats/GroupSettings";
 import ManageMembers from "@screenobjects/chats/ManageMembers";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
@@ -14,6 +15,7 @@ import {
 } from "@helpers/commands";
 const chatsSidebar = new ChatsSidebar();
 const chatsTopbar = new Topbar();
+const groupSettings = new GroupSettings();
 const manageMembers = new ManageMembers();
 const filesScreen = new FilesScreen();
 const welcomeScreen = new WelcomeScreen();
@@ -186,6 +188,15 @@ export default async function groupChatEditTests() {
     // Validate topbar contents has correct name
     const topbarUserStatus = await chatsTopbar.topbarUserStatusValue;
     await expect(topbarUserStatus).toHaveText("Members (2)");
+  });
+
+  it("Group Chat Creator - Can add permissions to invited users to change name and add/remove users", async () => {
+    // Open Manage Members modal and validate that invited user has permissions to change name and add/remove users
+    await activateFirstApplication();
+    await chatsTopbar.openGroupSettings();
+    await groupSettings.validateGroupSettingsIsShown();
+    await groupSettings.clickOnAllowMembersToAddOthersSwitch();
+    await groupSettings.clickOnAllowMembersToAddEditNameSwitch();
   });
 
   after(async () => {
