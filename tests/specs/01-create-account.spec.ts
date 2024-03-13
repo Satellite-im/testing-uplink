@@ -153,9 +153,10 @@ export default async function createAccountTests() {
     await createOrImport.clickOnCreateAccount();
   });
 
-  it("Save Recovery Seed Screen - User can click on I Saved It to continue", async () => {
+  it("Save Recovery Seed Screen - User can click Copy to Clipboard and then on I Saved It to continue", async () => {
     // Click on I Saved It Button to continue to Enter Username Screen
     await saveRecoverySeed.waitForIsShown(true);
+    await saveRecoverySeed.clickOnCopySeedButton();
     const recoverySeed = await saveRecoverySeed.getSeedWords();
     await saveUserRecoverySeed("Test123", recoverySeed);
     await saveRecoverySeed.clickOnISavedItButton();

@@ -7,6 +7,7 @@ let SELECTORS = {};
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
+  COPY_SEED_BUTTON: '[name="copy-seed-button"]',
   COPY_SEED_HELPER_TEXT:
     '//Group/Text[contains(@Name, "Write these words down")]',
   COPY_SEED_WORDS_LABEL: '[name="copy-seed-words"]',
@@ -18,6 +19,7 @@ const SELECTORS_WINDOWS = {
 };
 
 const SELECTORS_MACOS = {
+  COPY_SEED_BUTTON: "~copy-seed-button",
   COPY_SEED_HELPER_TEXT:
     '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[`value CONTAINS[cd] "Write these words down"`]',
   COPY_SEED_WORDS_LABEL: "~copy-seed-words",
@@ -35,6 +37,10 @@ process.env.DRIVER === WINDOWS_DRIVER
 export default class SaveRecoverySeedScreen extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.COPY_SEED_WORDS_LAYOUT);
+  }
+
+  get copySeedButton() {
+    return this.copySeedsWordsLayout.$(SELECTORS.COPY_SEED_BUTTON);
   }
 
   get copySeedHelperText() {
@@ -59,6 +65,11 @@ export default class SaveRecoverySeedScreen extends UplinkMainScreen {
 
   get iSavedItButton() {
     return this.copySeedsWordsLayout.$(SELECTORS.I_SAVED_IT_BUTTON);
+  }
+
+  async clickOnCopySeedButton() {
+    const copySeedButton = await this.copySeedButton;
+    await copySeedButton.click();
   }
 
   async clickOnGoBackButton() {
