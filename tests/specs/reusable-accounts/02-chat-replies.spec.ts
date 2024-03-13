@@ -27,6 +27,13 @@ export default async function repliesTests() {
     await launchSecondApplication();
   });
 
+  it("Chat User B - Validate User Status changes are seen in remote side", async () => {
+    // Validate Chat User B is now Idle
+    const firstRemoteStatus =
+      await messageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
+    await expect(firstRemoteStatus).toEqual("indicator-idle");
+  });
+
   it("Chat User B - Reply popup - Validate contents and close it", async () => {
     // Open Context Menu on Last Message Received and select Reply
     await messageRemote.openContextMenuOnReceivedMessage("Testing...😀");

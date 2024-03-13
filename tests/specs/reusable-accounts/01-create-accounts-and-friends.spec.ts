@@ -397,16 +397,6 @@ export default async function createChatAccountsTests() {
     await chatsInput.waitForIsShown(true);
   });
 
-  it("Chat User B - Validate User Status changes are seen in remote side", async () => {
-    // Switch control to User B
-    await activateSecondApplication();
-
-    // Validate Chat User B is now Idle
-    const firstRemoteStatus =
-      await messageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
-    await expect(firstRemoteStatus).toEqual("indicator-idle");
-  });
-
   after(async () => {
     await closeFirstApplication();
     await closeSecondApplication();
