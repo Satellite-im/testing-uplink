@@ -448,6 +448,10 @@ export default class Topbar extends UplinkMainScreen {
     await groupNameInput.waitForExist();
   }
 
+  async validateManageMembersButtonIsNotShown() {
+    await this.topbarManageMembers.waitForExist({ reverse: true });
+  }
+
   // Open Context Menu
 
   async openNameContextMenu() {
