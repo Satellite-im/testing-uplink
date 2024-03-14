@@ -10,6 +10,7 @@ import messageInputTests from "@specs/reusable-accounts/04-message-input.spec";
 import repliesTests from "@specs/reusable-accounts/02-chat-replies.spec";
 import quickProfileTests from "@specs/reusable-accounts/07-quick-profile.spec";
 import sidebarChatsTests from "@specs/reusable-accounts/08-sidebar-chats.spec";
+import groupChatMultipleUsersTests from "@specs/reusable-accounts/12-group-chats-multiple-users.spec";
 
 describe("Create Accounts and Chat Tests", createChatAccountsTests.bind(this));
 describe("Chat Replies Tests", repliesTests.bind(this));
@@ -24,4 +25,8 @@ describe("Group Chats Edit Tests", groupChatEditTests.bind(this));
 describe(
   "Group Chats Favorites and Sidebar Tests",
   groupChatSidebarTests.bind(this),
+);
+describe(
+  "Group Chats Multiple Users Tests",
+  groupChatMultipleUsersTests.bind(this),
 );

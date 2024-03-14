@@ -12,6 +12,7 @@ import {
   MACOS_DRIVER,
   MACOS_USER_A_BUNDLE_ID,
   MACOS_USER_B_BUNDLE_ID,
+  MACOS_USER_C_BUNDLE_ID,
   WINDOWS_APP,
   WINDOWS_DRIVER,
 } from "./constants";
@@ -216,6 +217,14 @@ export async function launchSecondApplication(existingUser: boolean = true) {
   }
 }
 
+export async function launchThirdApplication(existingUser: boolean = true) {
+  await launchAppMacOS(MACOS_USER_C_BUNDLE_ID, "/.uplinkUserC");
+  await browser.pause(5000);
+  if (existingUser === true) {
+    await loginWithTestUser();
+  }
+}
+
 export async function activateFirstApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
     await activateAppWindows(WINDOWS_APP);
@@ -242,6 +251,19 @@ export async function activateSecondApplication() {
   }
 }
 
+export async function activateThirdApplication() {
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
+    await activateAppWindows(WINDOWS_APP);
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
+    const appState = await queryAppStateMacOS(MACOS_USER_C_BUNDLE_ID);
+    if (appState === 1) {
+      await launchThirdApplication();
+    } else {
+      await activateAppMacOS(MACOS_USER_C_BUNDLE_ID);
+    }
+  }
+}
+
 export async function closeApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
     await closeAppWindows(WINDOWS_APP);
@@ -262,6 +284,14 @@ export async function closeSecondApplication() {
   await driver.executeScript("macos: terminateApp", [
     {
       bundleId: MACOS_USER_B_BUNDLE_ID,
+    },
+  ]);
+}
+
+export async function closeThirdApplication() {
+  await driver.executeScript("macos: terminateApp", [
+    {
+      bundleId: MACOS_USER_C_BUNDLE_ID,
     },
   ]);
 }

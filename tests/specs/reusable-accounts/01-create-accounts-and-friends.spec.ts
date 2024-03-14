@@ -7,7 +7,6 @@ import {
   createNewUser,
   getUserKey,
   launchSecondApplication,
-  maximizeWindow,
   saveTestKeys,
   scrollDown,
 } from "@helpers/commands";
