@@ -210,7 +210,11 @@ export async function launchFirstApplication() {
 }
 
 export async function launchSecondApplication(existingUser: boolean = true) {
-  await launchAppMacOS(MACOS_USER_B_BUNDLE_ID, "/.uplinkUserB");
+  await launchAppMacOS(
+    MACOS_USER_B_BUNDLE_ID,
+    "/.uplinkUserB",
+    "/Applications/Uplink2.app",
+  );
   await browser.pause(5000);
   if (existingUser === true) {
     await loginWithTestUser();
@@ -218,7 +222,11 @@ export async function launchSecondApplication(existingUser: boolean = true) {
 }
 
 export async function launchThirdApplication(existingUser: boolean = true) {
-  await launchAppMacOS(MACOS_USER_C_BUNDLE_ID, "/.uplinkUserC");
+  await launchAppMacOS(
+    MACOS_USER_C_BUNDLE_ID,
+    "/.uplinkUserC",
+    "/Applications/Uplink3.app",
+  );
   await browser.pause(5000);
   if (existingUser === true) {
     await loginWithTestUser();
@@ -338,12 +346,14 @@ export async function closeAppMacOS(bundle: string) {
 
 export async function launchAppMacOS(
   bundle: string,
-  relativePath: string = "/.uplink",
+  relativePathUserData: string = "/.uplink",
+  appPath: string = "/Applications/Uplink.app",
 ) {
   await driver.executeScript("macos: launchApp", [
     {
       bundleId: bundle,
-      arguments: ["--path", homedir() + relativePath],
+      path: appPath,
+      arguments: ["--path", homedir() + relativePathUserData],
     },
   ]);
 }
