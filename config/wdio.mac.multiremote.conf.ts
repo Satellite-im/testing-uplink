@@ -59,7 +59,7 @@ export const config: WebdriverIO.Config = {
         "appium:systemPort": 4725,
         "appium:prerun": {
           command:
-            'do shell script "rm -rf ~/.uplink && rm -rf ~/.uplinkUserB" && rm -rf ~/.uplinkUserC"',
+            'do shell script "rm -rf ~/.uplink && rm -rf ~/.uplinkUserB && rm -rf ~/.uplinkUserC"',
         },
       },
     ],
