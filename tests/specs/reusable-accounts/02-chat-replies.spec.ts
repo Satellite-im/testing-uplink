@@ -8,10 +8,8 @@ import MessageRemote from "@screenobjects/chats/MessageRemote";
 import ReplyPrompt from "@screenobjects/chats/ReplyPrompt";
 import {
   activateFirstApplication,
-  closeFirstApplication,
-  closeSecondApplication,
-  launchFirstApplication,
-  launchSecondApplication,
+  grabCacheFolder,
+  resetAndLoginWithCache,
 } from "@helpers/commands";
 const chatsContextMenu = new ContextMenu();
 const chatsInput = new InputBar();
@@ -21,10 +19,10 @@ const messageGroupRemote = new MessageGroupRemote();
 const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 
-export default async function repliesTests() {
+describe("Chat Replies Tests", async () => {
   before(async () => {
-    await launchFirstApplication();
-    await launchSecondApplication();
+    await resetAndLoginWithCache("ChatUserA");
+    await resetAndLoginWithCache("ChatUserB");
   });
 
   it("Chat User B - Validate User Status changes are seen in remote side", async () => {
@@ -142,7 +140,7 @@ export default async function repliesTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB");
   });
-}
+});

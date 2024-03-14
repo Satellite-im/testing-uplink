@@ -4,8 +4,10 @@ import {
   activateSecondApplication,
   closeFirstApplication,
   closeSecondApplication,
+  grabCacheFolder,
   launchFirstApplication,
   launchSecondApplication,
+  resetAndLoginWithCache,
 } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
@@ -32,10 +34,10 @@ const messageRemote = new MessageRemote();
 const settingsProfile = new SettingsProfileScreen();
 const welcomeScreen = new WelcomeScreen();
 
-export default async function sidebarChatsTests() {
+describe("Chats Sidebar - Tests", async () => {
   before(async () => {
-    await launchFirstApplication();
-    await launchSecondApplication();
+    await resetAndLoginWithCache("ChatUserA");
+    await resetAndLoginWithCache("ChatUserB");
   });
 
   it("Chat User B - Send message with markdown to User A", async () => {
@@ -242,7 +244,7 @@ export default async function sidebarChatsTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB");
   });
-}
+});

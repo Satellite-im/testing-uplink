@@ -6,6 +6,7 @@ import {
   closeSecondApplication,
   createNewUser,
   getUserKey,
+  grabCacheFolder,
   launchSecondApplication,
   maximizeWindow,
   saveTestKeys,
@@ -398,7 +399,7 @@ export default async function createChatAccountsTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB");
   });
 }

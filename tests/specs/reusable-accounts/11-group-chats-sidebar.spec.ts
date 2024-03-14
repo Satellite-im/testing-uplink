@@ -11,10 +11,8 @@ import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
-  launchFirstApplication,
-  launchSecondApplication,
+  grabCacheFolder,
+  resetAndLoginWithCache,
 } from "@helpers/commands";
 const chatsInput = new InputBar();
 const chatsSidebar = new ChatsSidebar();
@@ -26,10 +24,10 @@ const filesScreen = new FilesScreen();
 const friendsScreen = new FriendsScreen();
 const messageLocal = new MessageLocal();
 
-export default async function groupChatSidebarTests() {
+describe("Group Chats Sidebar - Tests", async () => {
   before(async () => {
-    await launchSecondApplication();
-    await launchFirstApplication();
+    await resetAndLoginWithCache("ChatUserB");
+    await resetAndLoginWithCache("ChatUserA");
   });
 
   it("Group Chat - Add group to favorites", async () => {
@@ -195,7 +193,7 @@ export default async function groupChatSidebarTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB");
   });
-}
+});

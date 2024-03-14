@@ -3,10 +3,8 @@ import {
   getClipboardValue,
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
-  launchSecondApplication,
-  launchFirstApplication,
+  resetAndLoginWithCache,
+  grabCacheFolder,
 } from "@helpers/commands";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -21,10 +19,10 @@ const messageGroupRemote = new MessageGroupRemote();
 const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 
-export default async function messageContextMenuTests() {
+describe("Chats Tests - Context Menu", async () => {
   before(async () => {
-    await launchSecondApplication();
-    await launchFirstApplication();
+    await resetAndLoginWithCache("ChatUserB");
+    await resetAndLoginWithCache("ChatUserA");
   });
 
   it("Chat User A - Send two messages to Chat User B", async () => {
@@ -173,7 +171,7 @@ export default async function messageContextMenuTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB");
   });
-}
+});

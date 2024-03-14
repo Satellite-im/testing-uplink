@@ -5,8 +5,8 @@ import {
   closeSecondApplication,
   activateFirstApplication,
   activateSecondApplication,
-  launchSecondApplication,
-  launchFirstApplication,
+  resetAndLoginWithCache,
+  grabCacheFolder,
 } from "@helpers/commands";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -23,10 +23,10 @@ const messageGroupRemote = new MessageGroupRemote();
 const settingsProfile = new SettingsProfileScreen();
 const welcomeScreen = new WelcomeScreen();
 
-export default async function quickProfileTests() {
+describe("Chats Quick Profile - Tests", async () => {
   before(async () => {
-    await launchSecondApplication();
-    await launchFirstApplication();
+    await resetAndLoginWithCache("ChatUserB");
+    await resetAndLoginWithCache("ChatUserA");
   });
 
   it("Chat User A - Validate contents from local quick profile", async () => {
@@ -168,7 +168,7 @@ export default async function quickProfileTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB");
   });
-}
+});

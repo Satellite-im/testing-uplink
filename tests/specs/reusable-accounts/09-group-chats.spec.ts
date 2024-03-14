@@ -12,8 +12,10 @@ import {
   activateSecondApplication,
   closeFirstApplication,
   closeSecondApplication,
+  grabCacheFolder,
   launchFirstApplication,
   launchSecondApplication,
+  resetAndLoginWithCache,
 } from "@helpers/commands";
 const chatsInput = new InputBar();
 const chatsSidebar = new ChatsSidebar();
@@ -24,10 +26,10 @@ const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 const sidebarSearch = new SidebarSearch();
 
-export default async function groupChatTests() {
+describe("Group Chats - Main Tests", async () => {
   before(async () => {
-    await launchSecondApplication();
-    await launchFirstApplication();
+    await resetAndLoginWithCache("ChatUserB");
+    await resetAndLoginWithCache("ChatUserA");
   });
 
   it("Chat User A - Create Group Chat button tooltip", async () => {
@@ -196,7 +198,7 @@ export default async function groupChatTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB");
   });
-}
+});

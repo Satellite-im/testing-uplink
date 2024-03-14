@@ -8,10 +8,8 @@ import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
-  launchFirstApplication,
-  launchSecondApplication,
+  grabCacheFolder,
+  resetAndLoginWithCache,
 } from "@helpers/commands";
 const chatsSidebar = new ChatsSidebar();
 const chatsTopbar = new Topbar();
@@ -20,10 +18,10 @@ const manageMembers = new ManageMembers();
 const filesScreen = new FilesScreen();
 const welcomeScreen = new WelcomeScreen();
 
-export default async function groupChatEditTests() {
+describe("Group Chats - Edit Group Tests", async () => {
   before(async () => {
-    await launchSecondApplication();
-    await launchFirstApplication();
+    await resetAndLoginWithCache("ChatUserB");
+    await resetAndLoginWithCache("ChatUserA");
   });
 
   it("Group Chat Creator - Manage Members button tooltip", async () => {
@@ -246,7 +244,7 @@ export default async function groupChatEditTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB");
   });
-}
+});

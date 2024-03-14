@@ -8,12 +8,10 @@ import MessageRemote from "@screenobjects/chats/MessageRemote";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
+  grabCacheFolder,
   keyboardShortcutPaste,
-  launchFirstApplication,
-  launchSecondApplication,
   pressEnterKey,
+  resetAndLoginWithCache,
   setClipboardValue,
 } from "@helpers/commands";
 const chatsLayout = new ChatsLayout();
@@ -23,10 +21,10 @@ const filesScreen = new FilesScreen();
 const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 
-export default async function messageInputTests() {
+describe("Chats Message Input Tests", async () => {
   before(async () => {
-    await launchFirstApplication();
-    await launchSecondApplication();
+    await resetAndLoginWithCache("ChatUserA");
+    await resetAndLoginWithCache("ChatUserB");
   });
 
   it("Chat User A - Message Input - User cannot send empty messages", async () => {
@@ -344,7 +342,7 @@ export default async function messageInputTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB");
   });
-}
+});

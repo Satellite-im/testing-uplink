@@ -10,10 +10,8 @@ import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
-  launchFirstApplication,
-  launchSecondApplication,
+  grabCacheFolder,
+  resetAndLoginWithCache,
   scrollUp,
 } from "@helpers/commands";
 const chatsAttachment = new ComposeAttachment();
@@ -25,10 +23,10 @@ const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 const sendFiles = new SendFiles();
 
-export default async function messageAttachmentsTests() {
+describe("Chats Messages With Attachments Tests", () => {
   before(async () => {
-    await launchFirstApplication();
-    await launchSecondApplication();
+    await resetAndLoginWithCache("ChatUserA");
+    await resetAndLoginWithCache("ChatUserB");
   });
 
   it("Send files from Browse Files - No files are displayed on modal and user can close modal", async () => {
@@ -271,7 +269,7 @@ export default async function messageAttachmentsTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB");
   });
-}
+});

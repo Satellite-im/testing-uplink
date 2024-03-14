@@ -31,7 +31,6 @@ const SELECTORS_WINDOWS = {
   MODAL: '[name="modal"]',
   PRE_RELEASE_INDICATOR_TEXT: "<Text>",
   SETTINGS_BUTTON: '[name="settings-button"]',
-  SKELETAL_USER: '[name="skeletal-user"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
   TOAST_NOTIFICATION_CLOSE: '[name="close-toast"]',
   TOAST_NOTIFICATION_TEXT: '[name="toast-content"]',
@@ -62,7 +61,6 @@ const SELECTORS_MACOS = {
   MODAL: "~modal",
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
-  SKELETAL_USER: "~skeletal-user",
   TOAST_NOTIFICATION: "~Toast Notification",
   TOAST_NOTIFICATION_CLOSE: "~close-toast",
   TOAST_NOTIFICATION_TEXT: "~toast-content",
@@ -94,17 +92,15 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get buttonNavBarButtonBadge() {
-    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.BUTTON_BADGE);
+    return this.buttonNav.$(SELECTORS.BUTTON_BADGE);
   }
 
   get buttonNavBarButtonBadgeText() {
-    return $(SELECTORS.BUTTON_NAV)
-      .$(SELECTORS.BUTTON_BADGE)
-      .$(SELECTORS.BUTTON_BADGE_TEXT);
+    return this.buttonNavBarButtonBadge.$(SELECTORS.BUTTON_BADGE_TEXT);
   }
 
   get chatsButton() {
-    return $(SELECTORS.CHATS_BUTTON);
+    return this.buttonNav.$(SELECTORS.CHATS_BUTTON);
   }
 
   get chatsButtonTooltip() {
@@ -124,7 +120,7 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get filesButton() {
-    return $(SELECTORS.FILES_BUTTON);
+    return this.buttonNav.$(SELECTORS.FILES_BUTTON);
   }
 
   get filesButtonTooltip() {
@@ -136,7 +132,7 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get friendsButton() {
-    return $(SELECTORS.FRIENDS_BUTTON);
+    return this.buttonNav.$(SELECTORS.FRIENDS_BUTTON);
   }
 
   get friendsButtonTooltip() {
@@ -164,13 +160,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get prereleaseIndicatorText() {
-    return $(SELECTORS.PRE_RELEASE_INDICATOR).$(
-      SELECTORS.PRE_RELEASE_INDICATOR_TEXT,
-    );
+    return this.prereleaseIndicator.$(SELECTORS.PRE_RELEASE_INDICATOR_TEXT);
   }
 
   get settingsButton() {
-    return $(SELECTORS.SETTINGS_BUTTON);
+    return this.buttonNav.$(SELECTORS.SETTINGS_BUTTON);
   }
 
   get settingsButtonTooltip() {
@@ -179,10 +173,6 @@ export default class UplinkMainScreen extends AppScreen {
 
   get settingsButtonTooltipText() {
     return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
-  }
-
-  get skeletalUser() {
-    return $$(SELECTORS.SKELETAL_USER)[0];
   }
 
   get toastNotifications() {
@@ -194,13 +184,11 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get toastNotificationClose() {
-    return $(SELECTORS.TOAST_NOTIFICATION).$(
-      SELECTORS.TOAST_NOTIFICATION_CLOSE,
-    );
+    return this.toastNotification.$(SELECTORS.TOAST_NOTIFICATION_CLOSE);
   }
 
   get toastNotificationText() {
-    return $(SELECTORS.TOAST_NOTIFICATION).$(SELECTORS.TOAST_NOTIFICATION_TEXT);
+    return this.toastNotification.$(SELECTORS.TOAST_NOTIFICATION_TEXT);
   }
 
   get updateAvailable() {
@@ -208,7 +196,7 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   get updateAvailableText() {
-    return $(SELECTORS.UPDATE_AVAILABLE).$(SELECTORS.UPDATE_AVAILABLE_TEXT);
+    return this.updateAvailable.$(SELECTORS.UPDATE_AVAILABLE_TEXT);
   }
 
   get updateMenuDismiss() {
@@ -287,8 +275,14 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   async goToSettings() {
+    const currentDriver = await this.getCurrentDriver();
     const button = await this.settingsButton;
-    await button.click();
+    await this.hoverOnElement(button);
+    if (currentDriver === MACOS_DRIVER) {
+      await leftClickOnMacOS(button);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await leftClickOnWindows(button);
+    }
   }
 
   // Hovering methods

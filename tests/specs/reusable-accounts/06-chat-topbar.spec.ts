@@ -7,8 +7,8 @@ import PinnedMessages from "@screenobjects/chats/PinnedMessages";
 import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
-  closeFirstApplication,
-  launchFirstApplication,
+  grabCacheFolder,
+  resetAndLoginWithCache,
 } from "@helpers/commands";
 const chatsContextMenu = new ContextMenu();
 const chatsInput = new InputBar();
@@ -17,9 +17,9 @@ const messageLocal = new MessageLocal();
 const messageGroupLocal = new MessageGroupLocal();
 const pinnedMessages = new PinnedMessages();
 
-export default async function chatTopbarTests() {
+describe("Chats Topbar - Tests", async () => {
   before(async () => {
-    await launchFirstApplication();
+    await resetAndLoginWithCache("ChatUserA");
   });
 
   it("Chat User A - Validate Chat Screen tooltips are displayed", async () => {
@@ -123,6 +123,6 @@ export default async function chatTopbarTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
+    await grabCacheFolder("ChatUserA");
   });
-}
+});
