@@ -1,4 +1,5 @@
 require("module-alias/register");
+import GroupSettings from "@screenobjects/chats/GroupSettings";
 import ManageMembers from "@screenobjects/chats/ManageMembers";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
@@ -14,6 +15,7 @@ import {
 } from "@helpers/commands";
 const chatsSidebar = new ChatsSidebar();
 const chatsTopbar = new Topbar();
+const groupSettings = new GroupSettings();
 const manageMembers = new ManageMembers();
 const filesScreen = new FilesScreen();
 const welcomeScreen = new WelcomeScreen();
@@ -186,6 +188,61 @@ export default async function groupChatEditTests() {
     // Validate topbar contents has correct name
     const topbarUserStatus = await chatsTopbar.topbarUserStatusValue;
     await expect(topbarUserStatus).toHaveText("Members (2)");
+  });
+
+  it("Group Chat Invited User - Manage Members is not displayed by default", async () => {
+    // Validate Manage Members is not shown by default on invited user
+    await chatsTopbar.validateManageMembersButtonIsNotShown();
+  });
+
+  it("Group Chat Creator - Can add permissions to invited users to change name and add/remove users", async () => {
+    // Open Manage Members modal and validate that invited user has permissions to change name and add/remove users
+    await activateFirstApplication();
+    await chatsTopbar.openGroupSettings();
+    await groupSettings.validateGroupSettingsIsShown();
+    await groupSettings.clickOnAllowMembersToAddOthersSwitch();
+    await groupSettings.clickOnAllowMembersToAddEditNameSwitch();
+    await chatsTopbar.exitGroupSettings();
+  });
+
+  it("Group Chat Invited User - Manage Members is displayed after enabling allow to add users", async () => {
+    // Validate that User B was added back to the group chat
+    await activateSecondApplication();
+
+    // Validate Manage Members is visible on invited user now
+    await chatsTopbar.openManageMembers();
+    await manageMembers.validateManageMembersIsShown();
+    await manageMembers.validateManageMembersUserInputIsShown();
+
+    // Close Manage Members modal
+    await chatsTopbar.exitManageMembers();
+    await chatsSidebar.validateNoModalIsOpen();
+  });
+
+  it("Group Chat Invited User - Can rename group after enabling allow to rename group", async () => {
+    // Open Context Menu to Rename Group
+    await chatsTopbar.openNameContextMenu();
+    await chatsTopbar.selectRenameGroup();
+
+    // Type on group name input a valid name and validate group name is changed correctly
+    await chatsTopbar.typeOnGroupNameInput("renamed");
+    await chatsTopbar.closeGroupNameInput();
+    await chatsSidebar.waitForGroupToBeCreated("renamed");
+
+    // Validate group name was changed correctly on local side
+    const topbarFirstUserName = await chatsTopbar.topbarUserNameValue;
+    await expect(topbarFirstUserName).toHaveText("renamed");
+    await chatsSidebar.waitForGroupToBeCreated("renamed");
+  });
+
+  it("Group Chat Creator - Validate group name was changed correctly on remote side", async () => {
+    // Switch control to first user
+    await activateFirstApplication();
+
+    // Validate group name was changed correctly on group creator side
+    await chatsSidebar.waitForGroupToBeCreated("renamed");
+    const topbarFirstUserName = await chatsTopbar.topbarUserNameValue;
+    await expect(topbarFirstUserName).toHaveText("renamed");
   });
 
   after(async () => {

@@ -295,6 +295,16 @@ export default class Topbar extends UplinkMainScreen {
     await topbarUserImage.click();
   }
 
+  async exitGroupSettings() {
+    const groupSettingsButton = await this.topbarGroupSettings;
+    const currentDriver = await this.getCurrentDriver();
+    if (currentDriver === MACOS_DRIVER) {
+      await leftClickOnMacOS(groupSettingsButton);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await leftClickOnWindows(groupSettingsButton);
+    }
+  }
+
   async exitManageMembers() {
     const manageMembersButton = await this.topbarManageMembers;
     const currentDriver = await this.getCurrentDriver();
@@ -303,6 +313,12 @@ export default class Topbar extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       await leftClickOnWindows(manageMembersButton);
     }
+  }
+
+  async openGroupSettings() {
+    await this.hoverOnGroupSettingsButton();
+    const groupSettings = await this.topbarGroupSettings;
+    await groupSettings.click();
   }
 
   async openManageMembers() {
@@ -329,6 +345,11 @@ export default class Topbar extends UplinkMainScreen {
   async hoverOnFavoritesRemoveButton() {
     const favoritesRemoveButton = await this.topbarRemoveFromFavorites;
     await this.hoverOnElement(favoritesRemoveButton);
+  }
+
+  async hoverOnGroupSettingsButton() {
+    const groupSettingsButton = await this.topbarGroupSettings;
+    await this.hoverOnElement(groupSettingsButton);
   }
 
   async hoverOnPinnedMessagesButton() {
@@ -425,6 +446,10 @@ export default class Topbar extends UplinkMainScreen {
   async validateGroupNameInputIsShown() {
     const groupNameInput = await this.groupNameInput;
     await groupNameInput.waitForExist();
+  }
+
+  async validateManageMembersButtonIsNotShown() {
+    await this.topbarManageMembers.waitForExist({ reverse: true });
   }
 
   // Open Context Menu

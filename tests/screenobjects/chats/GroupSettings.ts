@@ -121,4 +121,9 @@ export default class GroupSettings extends UplinkMainScreen {
       await clickOnSwitchMacOS(allowMembersToAddOthersSwitch);
     }
   }
+
+  async validateGroupSettingsIsShown() {
+    const groupSettingsModal = await this.groupSettingsModal;
+    await groupSettingsModal.waitForExist();
+  }
 }
