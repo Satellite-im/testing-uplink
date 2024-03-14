@@ -202,6 +202,7 @@ export default async function groupChatEditTests() {
     await groupSettings.validateGroupSettingsIsShown();
     await groupSettings.clickOnAllowMembersToAddOthersSwitch();
     await groupSettings.clickOnAllowMembersToAddEditNameSwitch();
+    await chatsTopbar.exitGroupSettings();
   });
 
   it("Group Chat Invited User - Manage Members is displayed after enabling allow to add users", async () => {
