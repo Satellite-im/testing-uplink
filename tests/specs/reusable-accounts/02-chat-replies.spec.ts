@@ -10,8 +10,10 @@ import {
   activateFirstApplication,
   closeFirstApplication,
   closeSecondApplication,
+  closeThirdApplication,
   launchFirstApplication,
   launchSecondApplication,
+  launchThirdApplication,
 } from "@helpers/commands";
 const chatsContextMenu = new ContextMenu();
 const chatsInput = new InputBar();
@@ -23,6 +25,7 @@ const messageRemote = new MessageRemote();
 
 export default async function repliesTests() {
   before(async () => {
+    await launchThirdApplication();
     await launchFirstApplication();
     await launchSecondApplication();
   });
@@ -144,5 +147,6 @@ export default async function repliesTests() {
   after(async () => {
     await closeFirstApplication();
     await closeSecondApplication();
+    await closeThirdApplication();
   });
 }

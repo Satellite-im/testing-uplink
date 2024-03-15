@@ -10,9 +10,11 @@ import {
   activateSecondApplication,
   closeFirstApplication,
   closeSecondApplication,
+  closeThirdApplication,
   keyboardShortcutPaste,
   launchFirstApplication,
   launchSecondApplication,
+  launchThirdApplication,
   pressEnterKey,
   setClipboardValue,
 } from "@helpers/commands";
@@ -26,6 +28,7 @@ const messageRemote = new MessageRemote();
 export default async function messageInputTests() {
   before(async () => {
     await launchFirstApplication();
+    await launchThirdApplication();
     await launchSecondApplication();
   });
 
@@ -346,5 +349,6 @@ export default async function messageInputTests() {
   after(async () => {
     await closeFirstApplication();
     await closeSecondApplication();
+    await closeThirdApplication();
   });
 }

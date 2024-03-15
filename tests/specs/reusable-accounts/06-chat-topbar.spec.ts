@@ -8,7 +8,11 @@ import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   closeFirstApplication,
+  closeSecondApplication,
+  closeThirdApplication,
   launchFirstApplication,
+  launchSecondApplication,
+  launchThirdApplication,
 } from "@helpers/commands";
 const chatsContextMenu = new ContextMenu();
 const chatsInput = new InputBar();
@@ -19,6 +23,8 @@ const pinnedMessages = new PinnedMessages();
 
 export default async function chatTopbarTests() {
   before(async () => {
+    await launchSecondApplication();
+    await launchThirdApplication();
     await launchFirstApplication();
   });
 
@@ -124,5 +130,7 @@ export default async function chatTopbarTests() {
 
   after(async () => {
     await closeFirstApplication();
+    await closeSecondApplication();
+    await closeThirdApplication();
   });
 }
