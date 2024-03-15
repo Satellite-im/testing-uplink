@@ -396,6 +396,8 @@ export default async function createChatAccountsTests() {
     // Return to chat and validate Local User Status is Idle
     await settingsProfile.goToMainScreen();
     await chatsInput.waitForIsShown(true);
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 
   it("Chat User C - Create Account", async () => {
@@ -472,8 +474,6 @@ export default async function createChatAccountsTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
     await closeThirdApplication();
   });
 }
