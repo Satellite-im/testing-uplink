@@ -19,10 +19,10 @@ const messageGroupRemote = new MessageGroupRemote();
 const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 
-describe("Chat Replies Tests", async () => {
-  before(async () => {
-    await resetAndLoginWithCache("ChatUserA");
-    await resetAndLoginWithCache("ChatUserB");
+describe("Chat Replies Tests", function () {
+  before(function () {
+    resetAndLoginWithCache("ChatUserA");
+    resetAndLoginWithCache("ChatUserB");
   });
 
   it("Chat User B - Validate User Status changes are seen in remote side", async () => {

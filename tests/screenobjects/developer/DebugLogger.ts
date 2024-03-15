@@ -48,72 +48,72 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class DebugLogger extends UplinkMainScreen {
+class DebugLogger extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.DEBUG_LOGGER);
   }
 
-  get debugLevelButton() {
+  public get debugLevelButton() {
     return this.filterSection.$(SELECTORS.DEBUG_LEVEL_BUTTON);
   }
 
-  get debugLogger() {
+  public get debugLogger() {
     return $(SELECTORS.DEBUG_LOGGER);
   }
 
-  get debugLoggerHeader() {
+  public get debugLoggerHeader() {
     return this.debugLogger.$("XCUIElementTypeOther");
   }
 
-  get debugLoggerNav() {
+  public get debugLoggerNav() {
     return this.debugLoggerHeader.$(SELECTORS.DEBUG_LOGGER_NAV);
   }
 
-  get debugLoggerNavRight() {
+  public get debugLoggerNavRight() {
     return this.debugLoggerHeader.$(SELECTORS.DEBUG_LOGGER_NAV_RIGHT);
   }
 
-  get debugLoggerNavRightThemeSwitch() {
+  public get debugLoggerNavRightThemeSwitch() {
     return this.debugLoggerNavRight.$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get debugLoggerNavRightThemeSwitchValue() {
+  public get debugLoggerNavRightThemeSwitchValue() {
     return this.debugLoggerNavRightThemeSwitch.$(SELECTORS.SWITCH_SLIDER_VALUE);
   }
 
-  get errorLevelButton() {
+  public get errorLevelButton() {
     return this.filterSection.$(SELECTORS.ERROR_LEVEL_BUTTON);
   }
 
-  get filterSection() {
+  public get filterSection() {
     return this.debugLoggerNav.$(SELECTORS.FILTER_SECTION);
   }
 
-  get filterSectionLabel() {
+  public get filterSectionLabel() {
     return this.filterSection.$(SELECTORS.FILTER_SECTION_LABEL);
   }
 
-  get filterSectionLabelText() {
+  public get filterSectionLabelText() {
     return this.filterSectionLabel.$(SELECTORS.INNER_TEXT);
   }
 
-  get infoLevelButton() {
+  public get infoLevelButton() {
     return this.filterSection.$(SELECTORS.INFO_LEVEL_BUTTON);
   }
 
-  get logsButton() {
+  public get logsButton() {
     return this.debugLoggerNav.$(SELECTORS.LOGS_BUTTON);
   }
 
-  get stateButton() {
+  public get stateButton() {
     return this.debugLoggerNav.$(SELECTORS.STATE_BUTTON);
   }
 
-  get traceLevelButton() {
+  public get traceLevelButton() {
     return this.filterSection.$(SELECTORS.TRACE_LEVEL_BUTTON);
   }
 
-  get webInspectorButton() {
+  public get webInspectorButton() {
     return this.debugLoggerNav.$(SELECTORS.WEB_INSPECTOR_BUTTON);
   }
 
@@ -126,3 +126,5 @@ export default class DebugLogger extends UplinkMainScreen {
     await this.debugLogger.waitForExist({ reverse: true });
   }
 }
+
+export default new DebugLogger();

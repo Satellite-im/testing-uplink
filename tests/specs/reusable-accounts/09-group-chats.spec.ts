@@ -10,11 +10,7 @@ import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
   grabCacheFolder,
-  launchFirstApplication,
-  launchSecondApplication,
   resetAndLoginWithCache,
 } from "@helpers/commands";
 const chatsInput = new InputBar();
@@ -26,7 +22,7 @@ const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 const sidebarSearch = new SidebarSearch();
 
-describe("Group Chats - Main Tests", async () => {
+describe("Group Chats - Main Tests", function () {
   before(async () => {
     await resetAndLoginWithCache("ChatUserB");
     await resetAndLoginWithCache("ChatUserA");

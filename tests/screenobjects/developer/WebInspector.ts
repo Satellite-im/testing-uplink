@@ -29,32 +29,32 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class WebInspector extends UplinkMainScreen {
+class WebInspector extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.WEB_INSPECTOR);
   }
 
-  get closeButton() {
+  public get closeButton() {
     return $(SELECTORS.CLOSE_BUTTON);
   }
 
-  get dockToLeftButton() {
+  public get dockToLeftButton() {
     return $(SELECTORS.DOCK_TO_LEFT_BUTTON);
   }
 
-  get dockToRightButton() {
+  public get dockToRightButton() {
     return $(SELECTORS.DOCK_TO_RIGHT_BUTTON);
   }
 
-  get detachButton() {
+  public get detachButton() {
     return $(SELECTORS.DETACH_BUTTON);
   }
 
-  get deviceSettingsButton() {
+  public get deviceSettingsButton() {
     return $(SELECTORS.DEVICE_SETTINGS_BUTTON);
   }
 
-  get webInspector() {
+  public get webInspector() {
     return $(SELECTORS.WEB_INSPECTOR);
   }
 
@@ -72,3 +72,5 @@ export default class WebInspector extends UplinkMainScreen {
     await this.webInspector.waitForExist({ reverse: true });
   }
 }
+
+export default new WebInspector();

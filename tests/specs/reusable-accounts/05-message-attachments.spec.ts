@@ -23,7 +23,7 @@ const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 const sendFiles = new SendFiles();
 
-describe("Chats Messages With Attachments Tests", () => {
+describe("Chats Messages With Attachments Tests", function () {
   before(async () => {
     await resetAndLoginWithCache("ChatUserA");
     await resetAndLoginWithCache("ChatUserB");

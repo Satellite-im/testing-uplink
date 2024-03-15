@@ -62,175 +62,174 @@ const SELECTORS_MACOS = {
 process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
-
-export default class SettingsAudioScreen extends SettingsBaseScreen {
+class SettingsAudioScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.SETTINGS_AUDIO);
   }
 
-  get callTimerCheckbox() {
+  public get callTimerCheckbox() {
     return $(SELECTORS.CALL_TIMER_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get callTimerControllerValue() {
+  public get callTimerControllerValue() {
     return $(SELECTORS.CALL_TIMER_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get callTimerDescription() {
+  public get callTimerDescription() {
     return $(SELECTORS.CALL_TIMER_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get callTimerHeader() {
+  public get callTimerHeader() {
     return $(SELECTORS.CALL_TIMER_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get echoCancellationCheckbox() {
+  public get echoCancellationCheckbox() {
     return $(SELECTORS.ECHO_CANCELLATION_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get echoCancellationControllerValue() {
+  public get echoCancellationControllerValue() {
     return $(SELECTORS.ECHO_CANCELLATION_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get echoCancellationDescription() {
+  public get echoCancellationDescription() {
     return $(SELECTORS.ECHO_CANCELLATION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get echoCancellationHeader() {
+  public get echoCancellationHeader() {
     return $(SELECTORS.ECHO_CANCELLATION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get inputDeviceDescription() {
+  public get inputDeviceDescription() {
     return $(SELECTORS.INPUT_DEVICE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get inputDeviceDropdown() {
+  public get inputDeviceDropdown() {
     return $(SELECTORS.INPUT_DEVICE_SECTION).$(SELECTORS.DROPDOWN_MENU);
   }
 
-  get inputDeviceDropdownOption() {
+  public get inputDeviceDropdownOption() {
     return $(SELECTORS.INPUT_DEVICE_SECTION)
       .$(SELECTORS.DROPDOWN_MENU)
       .$$(SELECTORS.DROPDOWN_OPTION);
   }
 
-  get inputDeviceHeader() {
+  public get inputDeviceHeader() {
     return $(SELECTORS.INPUT_DEVICE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get inputDeviceTestButton() {
+  public get inputDeviceTestButton() {
     return $(SELECTORS.TEST_DEVICE_INPUT_SECTION).$(SELECTORS.BUTTON);
   }
 
-  get interfaceSoundsCheckbox() {
+  public get interfaceSoundsCheckbox() {
     return $(SELECTORS.INTERFACE_SOUNDS_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get interfaceSoundsControllerValue() {
+  public get interfaceSoundsControllerValue() {
     return $(SELECTORS.INTERFACE_SOUNDS_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get interfaceSoundsDescription() {
+  public get interfaceSoundsDescription() {
     return $(SELECTORS.INTERFACE_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get interfaceSoundsHeader() {
+  public get interfaceSoundsHeader() {
     return $(SELECTORS.INTERFACE_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get mediaSoundsCheckbox() {
+  public get mediaSoundsCheckbox() {
     return $(SELECTORS.MEDIA_SOUNDS_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get mediaSoundsControllerValue() {
+  public get mediaSoundsControllerValue() {
     return $(SELECTORS.MEDIA_SOUNDS_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get mediaSoundsDescription() {
+  public get mediaSoundsDescription() {
     return $(SELECTORS.MEDIA_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get mediaSoundsHeader() {
+  public get mediaSoundsHeader() {
     return $(SELECTORS.MEDIA_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get messageSoundsCheckbox() {
+  public get messageSoundsCheckbox() {
     return $(SELECTORS.MESSAGE_SOUNDS_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get messageSoundsControllerValue() {
+  public get messageSoundsControllerValue() {
     return $(SELECTORS.MESSAGE_SOUNDS_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get messageSoundsDescription() {
+  public get messageSoundsDescription() {
     return $(SELECTORS.MESSAGE_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get messageSoundsHeader() {
+  public get messageSoundsHeader() {
     return $(SELECTORS.MESSAGE_SOUNDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get outputDeviceDescription() {
+  public get outputDeviceDescription() {
     return $(SELECTORS.OUTPUT_DEVICE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get outputDeviceDropdown() {
+  public get outputDeviceDropdown() {
     return $(SELECTORS.OUTPUT_DEVICE_SECTION).$(SELECTORS.DROPDOWN_MENU);
   }
 
-  get outputDeviceDropdownOption() {
+  public get outputDeviceDropdownOption() {
     return $(SELECTORS.OUTPUT_DEVICE_SECTION)
       .$(SELECTORS.DROPDOWN_MENU)
       .$$(SELECTORS.DROPDOWN_OPTION);
   }
 
-  get outputDeviceHeader() {
+  public get outputDeviceHeader() {
     return $(SELECTORS.OUTPUT_DEVICE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get outputDeviceTestButton() {
+  public get outputDeviceTestButton() {
     return $(SELECTORS.TEST_DEVICE_OUTPUT_SECTION).$(SELECTORS.BUTTON);
   }
 
-  get settingsAudio() {
+  public get settingsAudio() {
     return $(SELECTORS.SETTINGS_AUDIO);
   }
 
@@ -386,3 +385,5 @@ export default class SettingsAudioScreen extends SettingsBaseScreen {
     await this.validateToggleIsDisabled(callTimerControllerValue);
   }
 }
+
+export default new SettingsAudioScreen();

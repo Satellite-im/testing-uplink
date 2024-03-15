@@ -35,46 +35,44 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class EnterRecoverySeedScreen extends UplinkMainScreen {
+class EnterRecoverySeedScreen extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.ENTER_SEEDS_WORD_LAYOUT);
   }
 
-  get enterSeedsWordLayout() {
+  public get enterSeedsWordLayout() {
     return $(SELECTORS.ENTER_SEEDS_WORD_LAYOUT);
   }
 
-  get goBackButton() {
+  public get goBackButton() {
     return this.enterSeedsWordLayout.$(SELECTORS.GO_BACK_BUTTON);
   }
 
-  get inputError() {
+  public get inputError() {
     return this.enterSeedsWordLayout.$(SELECTORS.INPUT_ERROR);
   }
 
-  get inputErrorText() {
-    return this.enterSeedsWordLayout
-      .$(SELECTORS.INPUT_ERROR)
-      .$(SELECTORS.INPUT_ERROR_TEXT);
+  public get inputErrorText() {
+    return this.inputError.$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
-  get recoverAccountButton() {
+  public get recoverAccountButton() {
     return this.enterSeedsWordLayout.$(SELECTORS.RECOVER_ACCOUNT_BUTTON);
   }
 
-  get recoverySeedHelper() {
+  public get recoverySeedHelper() {
     return this.enterSeedsWordLayout.$(SELECTORS.RECOVERY_SEED_HELPER);
   }
 
-  get recoverySeedHelperText() {
+  public get recoverySeedHelperText() {
     return this.recoverySeedHelper.$(SELECTORS.RECOVERY_SEED_HELPER_TEXT);
   }
 
-  get recoverySeedTitle() {
+  public get recoverySeedTitle() {
     return this.enterSeedsWordLayout.$(SELECTORS.RECOVERY_SEED_TITLE);
   }
 
-  get recoverySeedTitleText() {
+  public get recoverySeedTitleText() {
     return this.recoverySeedTitle.$(SELECTORS.RECOVERY_SEED_TITLE_TEXT);
   }
 
@@ -135,3 +133,5 @@ export default class EnterRecoverySeedScreen extends UplinkMainScreen {
     await seed.setValue(seedWord);
   }
 }
+
+export default new EnterRecoverySeedScreen();

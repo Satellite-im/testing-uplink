@@ -132,235 +132,235 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SettingsProfileScreen extends SettingsBaseScreen {
+class SettingsProfileScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.SETTINGS_PROFILE);
   }
 
-  get addPictureButton() {
+  public get addPictureButton() {
     return $(SELECTORS.ADD_PICTURE_BUTTON);
   }
 
-  get clearAvatarButton() {
+  public get clearAvatarButton() {
     return $(SELECTORS.CLEAR_AVATAR_BUTTON);
   }
-  get clearBannerButton() {
+  public get clearBannerButton() {
     return $(SELECTORS.CLEAR_BANNER_BUTTON);
   }
 
-  get contextMenuProfile() {
+  public get contextMenuProfile() {
     return this.profileHeader.$(SELECTORS.CONTEXT_MENU);
   }
 
-  get contextMenuCopyDidKey() {
+  public get contextMenuCopyDidKey() {
     return $(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
   }
 
-  get contextMenuCopyId() {
+  public get contextMenuCopyId() {
     return $(SELECTORS.CONTEXT_MENU_COPY_ID);
   }
 
-  get copyIDButton() {
+  public get copyIDButton() {
     return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.COPY_ID_BUTTON);
   }
 
-  get copyIDTooltip() {
+  public get copyIDTooltip() {
     return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.TOOLTIP);
   }
 
-  get copyIDTooltipText() {
+  public get copyIDTooltipText() {
     return $(SELECTORS.PROFILE_CONTENT)
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get dismissButton() {
+  public get dismissButton() {
     return $(SELECTORS.DISMISS_BUTTON);
   }
 
-  get inputError() {
+  public get inputError() {
     return $(SELECTORS.INPUT_ERROR);
   }
 
-  get inputErrorMessage() {
+  public get inputErrorMessage() {
     return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_MESSAGE);
   }
 
-  get onlineStatusSection() {
+  public get onlineStatusSection() {
     return $(SELECTORS.ONLINE_STATUS_SECTION);
   }
 
-  get onlineStatusDescription() {
+  public get onlineStatusDescription() {
     return $(SELECTORS.ONLINE_STATUS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get onlineStatusHeader() {
+  public get onlineStatusHeader() {
     return $(SELECTORS.ONLINE_STATUS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get profileBanner() {
+  public get profileBanner() {
     return $(SELECTORS.PROFILE_BANNER);
   }
 
-  get profileBannerClear() {
+  public get profileBannerClear() {
     return $(SELECTORS.PROFILE_BANNER_CLEAR);
   }
 
-  get profileBannerTooltip() {
+  public get profileBannerTooltip() {
     return $(SELECTORS.PROFILE_BANNER).$(SELECTORS.PROFILE_BANNER_TOOLTIP);
   }
 
-  get profileContent() {
+  public get profileContent() {
     return $(SELECTORS.PROFILE_CONTENT);
   }
 
-  get profileHeader() {
+  public get profileHeader() {
     return $(SELECTORS.PROFILE_HEADER);
   }
 
-  get profilePicture() {
+  public get profilePicture() {
     return $(SELECTORS.PROFILE_PICTURE);
   }
 
-  get profilePictureClear() {
+  public get profilePictureClear() {
     return $(SELECTORS.PROFILE_PICTURE_CLEAR);
   }
 
-  get recoverySeedDescription() {
+  public get recoverySeedDescription() {
     return $(SELECTORS.RECOVERY_SEED_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get recoverySeedHeader() {
+  public get recoverySeedHeader() {
     return $(SELECTORS.RECOVERY_SEED_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get recoverySeedSection() {
+  public get recoverySeedSection() {
     return $(SELECTORS.RECOVERY_SEED_SECTION);
   }
 
-  get revealRecoverySeedButton() {
+  public get revealRecoverySeedButton() {
     return $(SELECTORS.REVEAL_RECOVERY_SEED_BUTTON);
   }
 
-  get seedWordsDescription() {
+  public get seedWordsDescription() {
     return $(SELECTORS.SEED_WORDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get seedWordsHeader() {
+  public get seedWordsHeader() {
     return $(SELECTORS.SEED_WORDS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get seedWordsSection() {
+  public get seedWordsSection() {
     return $(SELECTORS.SEED_WORDS_SECTION);
   }
 
-  get seedWordsWarningPhraseHidden() {
+  public get seedWordsWarningPhraseHidden() {
     return $$(SELECTORS.SETTINGS_CONTROL)[2].$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get seedWordsWarningPhraseNotHidden() {
+  public get seedWordsWarningPhraseNotHidden() {
     return $$(SELECTORS.SETTINGS_CONTROL)[3].$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get selector() {
+  public get selector() {
     return this.settingsProfile.$(SELECTORS.SELECTOR);
   }
 
-  get selectorCurrentValue() {
+  public get selectorCurrentValue() {
     return this.selector.$(SELECTORS.SELECTOR_CURRENT_VALUE);
   }
 
-  get selectorOption() {
+  public get selectorOption() {
     return this.selector.$(SELECTORS.SELECTOR_OPTION);
   }
 
-  get selectorOptionIndicatorDoNotDisturb() {
+  public get selectorOptionIndicatorDoNotDisturb() {
     return this.selectorOptionsList.$(
       SELECTORS.SELECTOR_OPTION_INDICATOR_DO_NOT_DISTURB,
     );
   }
 
-  get selectorOptionIndicatorIdle() {
+  public get selectorOptionIndicatorIdle() {
     return this.selectorOptionsList.$(SELECTORS.SELECTOR_OPTION_INDICATOR_IDLE);
   }
 
-  get selectorOptionIndicatorOffline() {
+  public get selectorOptionIndicatorOffline() {
     return this.selectorOptionsList.$(
       SELECTORS.SELECTOR_OPTION_INDICATOR_OFFLINE,
     );
   }
 
-  get selectorOptionIndicatorOnline() {
+  public get selectorOptionIndicatorOnline() {
     return this.selectorOptionsList.$(
       SELECTORS.SELECTOR_OPTION_INDICATOR_ONLINE,
     );
   }
 
-  get selectorOptionsList() {
+  public get selectorOptionsList() {
     return this.selector.$(SELECTORS.SELECTOR_OPTIONS_LIST);
   }
 
-  get settingsProfile() {
+  public get settingsProfile() {
     return $(SELECTORS.SETTINGS_PROFILE);
   }
 
-  get statusInput() {
+  public get statusInput() {
     return $(SELECTORS.STATUS_INPUT);
   }
 
-  get statusLabel() {
+  public get statusLabel() {
     return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.STATUS_LABEL);
   }
 
-  get usernameInput() {
+  public get usernameInput() {
     return $(SELECTORS.USERNAME_INPUT);
   }
 
-  get usernameLabel() {
+  public get usernameLabel() {
     return $(SELECTORS.PROFILE_CONTENT).$(SELECTORS.USERNAME_LABEL);
   }
 
-  get yourNewProfile() {
+  public get yourNewProfile() {
     return $(SELECTORS.YOUR_NEW_PROFILE);
   }
 
-  get yourNewProfileDescriptionTextOne() {
+  public get yourNewProfileDescriptionTextOne() {
     return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE);
   }
 
-  get yourNewProfileDescriptionTextOneValue() {
+  public get yourNewProfileDescriptionTextOneValue() {
     return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE).$(
       SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_ONE_VALUE,
     );
   }
 
-  get yourNewProfileDescriptionTextTwo() {
+  public get yourNewProfileDescriptionTextTwo() {
     return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO);
   }
 
-  get yourNewProfileDescriptionTextTwoValue() {
+  public get yourNewProfileDescriptionTextTwoValue() {
     return $(SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO).$(
       SELECTORS.YOUR_NEW_PROFILE_DESCRIPTION_TEXT_TWO_VALUE,
     );
   }
 
-  get yourNewProfileHeaderText() {
+  public get yourNewProfileHeaderText() {
     return $(SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT);
   }
 
-  get yourNewProfileHeaderTextValue() {
+  public get yourNewProfileHeaderTextValue() {
     return $(SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT).$(
       SELECTORS.YOUR_NEW_PROFILE_HEADER_TEXT_VALUE,
     );
@@ -459,7 +459,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   async pasteUserNameInStatus(username: string) {
     // Assuming that user already clicked on Copy ID button
-    // If driver is macos, then get clipboard and pass it to enterStatus function
+    // If driver is macos, then public get clipboard and pass it to enterStatus function
     const currentDriver = await this.getCurrentDriver();
     const statusInput = await this.statusInput;
     if (currentDriver === MACOS_DRIVER) {
@@ -488,7 +488,7 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
 
   async pasteUserKeyInStatus() {
     // Assuming that user already clicked on Copy ID button
-    // If driver is macos, then get clipboard and pass it to enterStatus function
+    // If driver is macos, then public get clipboard and pass it to enterStatus function
     const currentDriver = await this.getCurrentDriver();
     const statusInput = await this.statusInput;
     if (currentDriver === MACOS_DRIVER) {
@@ -679,3 +679,5 @@ export default class SettingsProfileScreen extends SettingsBaseScreen {
     return seedWords;
   }
 }
+
+export default new SettingsProfileScreen();

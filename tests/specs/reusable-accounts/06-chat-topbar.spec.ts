@@ -17,7 +17,7 @@ const messageLocal = new MessageLocal();
 const messageGroupLocal = new MessageGroupLocal();
 const pinnedMessages = new PinnedMessages();
 
-describe("Chats Topbar - Tests", async () => {
+describe("Chats Topbar - Tests", function () {
   before(async () => {
     await resetAndLoginWithCache("ChatUserA");
   });

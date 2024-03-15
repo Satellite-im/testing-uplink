@@ -32,36 +32,36 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
+class SettingsAccessibilityScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.OPEN_DYSLEXIC_SECTION);
   }
 
-  get openDyslexicCheckbox() {
+  public get openDyslexicCheckbox() {
     return this.openDyslexicSection
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get openDyslexicControllerValue() {
+  public get openDyslexicControllerValue() {
     return this.openDyslexicSection
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.SETTINGS_CONTROL_CHECKBOX);
   }
 
-  get openDyslexicDescription() {
+  public get openDyslexicDescription() {
     return this.openDyslexicSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get openDyslexicHeader() {
+  public get openDyslexicHeader() {
     return this.openDyslexicSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get openDyslexicSection() {
+  public get openDyslexicSection() {
     return $(SELECTORS.OPEN_DYSLEXIC_SECTION);
   }
 
@@ -85,3 +85,5 @@ export default class SettingsAccessibilityScreen extends SettingsBaseScreen {
     await this.validateToggleIsDisabled(openDyslexicControllerValue);
   }
 }
+
+export default SettingsAccessibilityScreen;

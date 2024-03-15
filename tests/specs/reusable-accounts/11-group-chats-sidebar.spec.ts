@@ -24,7 +24,7 @@ const filesScreen = new FilesScreen();
 const friendsScreen = new FriendsScreen();
 const messageLocal = new MessageLocal();
 
-describe("Group Chats Sidebar - Tests", async () => {
+describe("Group Chats Sidebar - Tests", function () {
   before(async () => {
     await resetAndLoginWithCache("ChatUserB");
     await resetAndLoginWithCache("ChatUserA");

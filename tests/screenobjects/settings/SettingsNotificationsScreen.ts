@@ -40,124 +40,124 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SettingsNotificationsScreen extends SettingsBaseScreen {
+class SettingsNotificationsScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.SETTINGS_NOTIFICATIONS);
   }
 
-  get enabledNotificationsCheckbox() {
+  public get enabledNotificationsCheckbox() {
     return this.enabledNotificationsSection.$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get enabledNotificationsControllerValue() {
+  public get enabledNotificationsControllerValue() {
     return this.enabledNotificationsSection.$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get enabledNotificationsDescription() {
+  public get enabledNotificationsDescription() {
     return this.enabledNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get enabledNotificationsHeader() {
+  public get enabledNotificationsHeader() {
     return this.enabledNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get enabledNotificationsSection() {
+  public get enabledNotificationsSection() {
     return this.settingsNotifications.$(
       SELECTORS.ENABLED_NOTIFICATIONS_SECTION,
     );
   }
 
-  get friendsNotificationsCheckbox() {
+  public get friendsNotificationsCheckbox() {
     return this.friendsNotificationsSection.$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get friendsNotificationsControllerValue() {
+  public get friendsNotificationsControllerValue() {
     return this.friendsNotificationsSection.$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get friendsNotificationsDescription() {
+  public get friendsNotificationsDescription() {
     return this.friendsNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get friendsNotificationsHeader() {
+  public get friendsNotificationsHeader() {
     return this.friendsNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get friendsNotificationsSection() {
+  public get friendsNotificationsSection() {
     return this.settingsNotifications.$(
       SELECTORS.FRIENDS_NOTIFICATIONS_SECTION,
     );
   }
 
-  get messagesNotificationsCheckbox() {
+  public get messagesNotificationsCheckbox() {
     return this.messagesNotificationsSection.$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get messagesNotificationsControllerValue() {
+  public get messagesNotificationsControllerValue() {
     return this.messagesNotificationsSection.$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get messagesNotificationsDescription() {
+  public get messagesNotificationsDescription() {
     return this.messagesNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get messagesNotificationsHeader() {
+  public get messagesNotificationsHeader() {
     return this.messagesNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get messagesNotificationsSection() {
+  public get messagesNotificationsSection() {
     return this.settingsNotifications.$(
       SELECTORS.MESSAGES_NOTIFICATIONS_SECTION,
     );
   }
 
-  get settingsNotificationsCheckbox() {
+  public get settingsNotificationsCheckbox() {
     return this.settingsNotificationsSection.$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get settingsNotificationsControllerValue() {
+  public get settingsNotificationsControllerValue() {
     return this.settingsNotificationsSection.$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get settingsNotificationsDescription() {
+  public get settingsNotificationsDescription() {
     return this.settingsNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get settingsNotificationsHeader() {
+  public get settingsNotificationsHeader() {
     return this.settingsNotificationsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get settingsNotificationsSection() {
+  public get settingsNotificationsSection() {
     return this.settingsNotifications.$(
       SELECTORS.SETTINGS_NOTIFICATIONS_SECTION,
     );
   }
 
-  get settingsNotifications() {
+  public get settingsNotifications() {
     return $(SELECTORS.SETTINGS_NOTIFICATIONS);
   }
 
@@ -265,3 +265,5 @@ export default class SettingsNotificationsScreen extends SettingsBaseScreen {
     await this.validateToggleIsDisabled(settingsNotificationsControllerValue);
   }
 }
+
+export default new SettingsNotificationsScreen();

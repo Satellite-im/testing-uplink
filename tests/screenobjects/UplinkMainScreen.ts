@@ -83,131 +83,131 @@ export default class UplinkMainScreen extends AppScreen {
     super(SELECTORS.WINDOW);
   }
 
-  get backButton() {
+  public get backButton() {
     return $(SELECTORS.BACK_BUTTON);
   }
 
-  get buttonNav() {
+  public get buttonNav() {
     return $(SELECTORS.BUTTON_NAV);
   }
 
-  get buttonNavBarButtonBadge() {
+  public get buttonNavBarButtonBadge() {
     return this.buttonNav.$(SELECTORS.BUTTON_BADGE);
   }
 
-  get buttonNavBarButtonBadgeText() {
+  public get buttonNavBarButtonBadgeText() {
     return this.buttonNavBarButtonBadge.$(SELECTORS.BUTTON_BADGE_TEXT);
   }
 
-  get chatsButton() {
+  public get chatsButton() {
     return this.buttonNav.$(SELECTORS.CHATS_BUTTON);
   }
 
-  get chatsButtonTooltip() {
+  public get chatsButtonTooltip() {
     return $(SELECTORS.TOOLTIP);
   }
 
-  get chatsButtonTooltipText() {
+  public get chatsButtonTooltipText() {
     return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
-  get contextMenu() {
+  public get contextMenu() {
     return $(SELECTORS.CONTEXT_MENU);
   }
 
-  get contextMenuOpenWebInspector() {
+  public get contextMenuOpenWebInspector() {
     return this.contextMenu.$(SELECTORS.CONTEXT_MENU_OPEN_WEB_INSPECTOR);
   }
 
-  get filesButton() {
+  public get filesButton() {
     return this.buttonNav.$(SELECTORS.FILES_BUTTON);
   }
 
-  get filesButtonTooltip() {
+  public get filesButtonTooltip() {
     return $(SELECTORS.TOOLTIP);
   }
 
-  get filesButtonTooltipText() {
+  public get filesButtonTooltipText() {
     return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
-  get friendsButton() {
+  public get friendsButton() {
     return this.buttonNav.$(SELECTORS.FRIENDS_BUTTON);
   }
 
-  get friendsButtonTooltip() {
+  public get friendsButtonTooltip() {
     return $(SELECTORS.TOOLTIP);
   }
 
-  get friendsButtonTooltipText() {
+  public get friendsButtonTooltipText() {
     return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
-  get hamburgerButton() {
+  public get hamburgerButton() {
     return $(SELECTORS.HAMBURGER_BUTTON);
   }
 
-  get loaderSpinner() {
+  public get loaderSpinner() {
     return $(SELECTORS.LOADING_SPINNER);
   }
 
-  get modal() {
+  public get modal() {
     return $(SELECTORS.MODAL);
   }
 
-  get prereleaseIndicator() {
+  public get prereleaseIndicator() {
     return $(SELECTORS.PRE_RELEASE_INDICATOR);
   }
 
-  get prereleaseIndicatorText() {
+  public get prereleaseIndicatorText() {
     return this.prereleaseIndicator.$(SELECTORS.PRE_RELEASE_INDICATOR_TEXT);
   }
 
-  get settingsButton() {
+  public get settingsButton() {
     return this.buttonNav.$(SELECTORS.SETTINGS_BUTTON);
   }
 
-  get settingsButtonTooltip() {
+  public get settingsButtonTooltip() {
     return $(SELECTORS.TOOLTIP);
   }
 
-  get settingsButtonTooltipText() {
+  public get settingsButtonTooltipText() {
     return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
-  get toastNotifications() {
+  public get toastNotifications() {
     return $$(SELECTORS.TOAST_NOTIFICATION);
   }
 
-  get toastNotification() {
+  public get toastNotification() {
     return $(SELECTORS.TOAST_NOTIFICATION);
   }
 
-  get toastNotificationClose() {
+  public get toastNotificationClose() {
     return this.toastNotification.$(SELECTORS.TOAST_NOTIFICATION_CLOSE);
   }
 
-  get toastNotificationText() {
+  public get toastNotificationText() {
     return this.toastNotification.$(SELECTORS.TOAST_NOTIFICATION_TEXT);
   }
 
-  get updateAvailable() {
+  public get updateAvailable() {
     return $(SELECTORS.UPDATE_AVAILABLE);
   }
 
-  get updateAvailableText() {
+  public get updateAvailableText() {
     return this.updateAvailable.$(SELECTORS.UPDATE_AVAILABLE_TEXT);
   }
 
-  get updateMenuDismiss() {
+  public get updateMenuDismiss() {
     return $(SELECTORS.UPDATE_MENU_DISMISS);
   }
 
-  get updateMenuDownload() {
+  public get updateMenuDownload() {
     return $(SELECTORS.UPDATE_MENU_DOWNLOAD);
   }
 
-  get window() {
+  public get window() {
     return $(SELECTORS.WINDOW);
   }
 

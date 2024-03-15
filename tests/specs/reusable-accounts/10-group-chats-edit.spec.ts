@@ -18,7 +18,7 @@ const manageMembers = new ManageMembers();
 const filesScreen = new FilesScreen();
 const welcomeScreen = new WelcomeScreen();
 
-describe("Group Chats - Edit Group Tests", async () => {
+describe("Group Chats - Edit Group Tests", function () {
   before(async () => {
     await resetAndLoginWithCache("ChatUserB");
     await resetAndLoginWithCache("ChatUserA");

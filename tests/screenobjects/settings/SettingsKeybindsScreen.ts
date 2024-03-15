@@ -79,214 +79,214 @@ export type Keybinds =
   | "toggle-devmode"
   | "toggle-mute";
 
-export default class SettingsKeybindsScreen extends SettingsBaseScreen {
+class SettingsKeybindsScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.SETTINGS_KEYBINDS);
   }
 
   // Decrease Font Size UI Locators
 
-  get decreaseFontSizeKeybindKeys() {
+  public get decreaseFontSizeKeybindKeys() {
     return this.decreaseFontSizeSectionKeys.$(SELECTORS.KEYBIND_KEY);
   }
 
-  get decreaseFontSizeKeybindKeyInner() {
+  public get decreaseFontSizeKeybindKeyInner() {
     return this.decreaseFontSizeKeybindKeys.$(SELECTORS.KEYBIND_KEY_INNER);
   }
 
-  get decreaseFontSizeKeybindKeyInnerValue() {
+  public get decreaseFontSizeKeybindKeyInnerValue() {
     return this.decreaseFontSizeKeybindKeyInner.$$(
       SELECTORS.KEYBIND_KEY_INNER_TEXT,
     );
   }
 
-  get decreaseFontSizeKeybindSeparators() {
+  public get decreaseFontSizeKeybindSeparators() {
     return this.decreaseFontSizeSectionKeys.$$(SELECTORS.KEYBIND_SEPARATOR);
   }
 
-  get decreaseFontSizeLabel() {
+  public get decreaseFontSizeLabel() {
     return this.decreaseFontSizeSection.$(SELECTORS.KEYBIND_SECTION_LABEL);
   }
 
-  get decreaseFontSizeLabelText() {
+  public get decreaseFontSizeLabelText() {
     return this.decreaseFontSizeLabel.$(SELECTORS.KEYBIND_SECTION_LABEL_TEXT);
   }
 
-  get decreaseFontSizeResetKeybindButton() {
+  public get decreaseFontSizeResetKeybindButton() {
     return this.decreaseFontSizeSection.$(
       SELECTORS.RESET_SINGLE_KEYBIND_BUTTON,
     );
   }
 
-  get decreaseFontSizeSection() {
+  public get decreaseFontSizeSection() {
     return this.settingsKeybinds.$(SELECTORS.DECREASE_FONT_SIZE_SECTION);
   }
 
-  get decreaseFontSizeSectionKeys() {
+  public get decreaseFontSizeSectionKeys() {
     return this.decreaseFontSizeSection.$(SELECTORS.KEYBIND_SECTION_KEYS);
   }
 
   // Hide Focus Uplink UI Locators
 
-  get hideFocusUplinkKeybindKeys() {
+  public get hideFocusUplinkKeybindKeys() {
     return this.hideFocusUplinkSectionKeys.$(SELECTORS.KEYBIND_KEY);
   }
 
-  get hideFocusUplinkKeybindKeyInner() {
+  public get hideFocusUplinkKeybindKeyInner() {
     return this.hideFocusUplinkKeybindKeys.$(SELECTORS.KEYBIND_KEY_INNER);
   }
 
-  get hideFocusUplinkKeybindKeyInnerValue() {
+  public get hideFocusUplinkKeybindKeyInnerValue() {
     return this.hideFocusUplinkKeybindKeyInner.$$(
       SELECTORS.KEYBIND_KEY_INNER_TEXT,
     );
   }
 
-  get hideFocusUplinkKeybindSeparators() {
+  public get hideFocusUplinkKeybindSeparators() {
     return this.hideFocusUplinkSectionKeys.$$(SELECTORS.KEYBIND_SEPARATOR);
   }
 
-  get hideFocusUplinkLabel() {
+  public get hideFocusUplinkLabel() {
     return this.hideFocusUplinkSection.$(SELECTORS.KEYBIND_SECTION_LABEL);
   }
 
-  get hideFocusUplinkLabelText() {
+  public get hideFocusUplinkLabelText() {
     return this.hideFocusUplinkLabel.$(SELECTORS.KEYBIND_SECTION_LABEL_TEXT);
   }
 
-  get hideFocusUplinkResetKeybindButton() {
+  public get hideFocusUplinkResetKeybindButton() {
     return this.hideFocusUplinkSection.$(SELECTORS.RESET_SINGLE_KEYBIND_BUTTON);
   }
 
-  get hideFocusUplinkSection() {
+  public get hideFocusUplinkSection() {
     return this.settingsKeybinds.$(SELECTORS.HIDE_FOCUS_UPLINK_SECTION);
   }
 
-  get hideFocusUplinkSectionKeys() {
+  public get hideFocusUplinkSectionKeys() {
     return this.hideFocusUplinkSection.$(SELECTORS.KEYBIND_SECTION_KEYS);
   }
 
   // Increase Font Size UI Locators
 
-  get increaseFontSizeKeybindKeys() {
+  public get increaseFontSizeKeybindKeys() {
     return this.increaseFontSizeSectionKeys.$(SELECTORS.KEYBIND_KEY);
   }
 
-  get increaseFontSizeKeybindKeyInner() {
+  public get increaseFontSizeKeybindKeyInner() {
     return this.increaseFontSizeKeybindKeys.$(SELECTORS.KEYBIND_KEY_INNER);
   }
 
-  get increaseFontSizeKeybindKeyInnerValue() {
+  public get increaseFontSizeKeybindKeyInnerValue() {
     return this.increaseFontSizeKeybindKeyInner.$$(
       SELECTORS.KEYBIND_KEY_INNER_TEXT,
     );
   }
 
-  get increaseFontSizeKeybindSeparators() {
+  public get increaseFontSizeKeybindSeparators() {
     return this.increaseFontSizeSectionKeys.$$(SELECTORS.KEYBIND_SEPARATOR);
   }
 
-  get increaseFontSizeLabel() {
+  public get increaseFontSizeLabel() {
     return this.increaseFontSizeSection.$(SELECTORS.KEYBIND_SECTION_LABEL);
   }
 
-  get increaseFontSizeLabelText() {
+  public get increaseFontSizeLabelText() {
     return this.increaseFontSizeLabel.$(SELECTORS.KEYBIND_SECTION_LABEL_TEXT);
   }
 
-  get increaseFontSizeResetKeybindButton() {
+  public get increaseFontSizeResetKeybindButton() {
     return this.increaseFontSizeSection.$(
       SELECTORS.RESET_SINGLE_KEYBIND_BUTTON,
     );
   }
 
-  get increaseFontSizeSection() {
+  public get increaseFontSizeSection() {
     return this.settingsKeybinds.$(SELECTORS.INCREASE_FONT_SIZE_SECTION);
   }
 
-  get increaseFontSizeSectionKeys() {
+  public get increaseFontSizeSectionKeys() {
     return this.increaseFontSizeSection.$(SELECTORS.KEYBIND_SECTION_KEYS);
   }
 
   // Open Close DevTools Section
 
-  get openCloseDevToolsKeybindKeys() {
+  public get openCloseDevToolsKeybindKeys() {
     return this.openCloseDevToolsSectionKeys.$(SELECTORS.KEYBIND_KEY);
   }
 
-  get openCloseDevToolsKeybindKeyInner() {
+  public get openCloseDevToolsKeybindKeyInner() {
     return this.openCloseDevToolsKeybindKeys.$(SELECTORS.KEYBIND_KEY_INNER);
   }
 
-  get openCloseDevToolsKeybindKeyInnerValue() {
+  public get openCloseDevToolsKeybindKeyInnerValue() {
     return this.openCloseDevToolsKeybindKeyInner.$$(
       SELECTORS.KEYBIND_KEY_INNER_TEXT,
     );
   }
 
-  get openCloseDevToolsKeybindSeparators() {
+  public get openCloseDevToolsKeybindSeparators() {
     return this.openCloseDevToolsSectionKeys.$$(SELECTORS.KEYBIND_SEPARATOR);
   }
 
-  get openCloseDevToolsLabel() {
+  public get openCloseDevToolsLabel() {
     return this.openCloseDevToolsSection.$(SELECTORS.KEYBIND_SECTION_LABEL);
   }
 
-  get openCloseDevToolsLabelText() {
+  public get openCloseDevToolsLabelText() {
     return this.openCloseDevToolsLabel.$(SELECTORS.KEYBIND_SECTION_LABEL_TEXT);
   }
 
-  get openCloseDevToolsResetKeybindButton() {
+  public get openCloseDevToolsResetKeybindButton() {
     return this.openCloseDevToolsSection.$(
       SELECTORS.RESET_SINGLE_KEYBIND_BUTTON,
     );
   }
 
-  get openCloseDevToolsSection() {
+  public get openCloseDevToolsSection() {
     return this.settingsKeybinds.$(SELECTORS.OPEN_CLOSE_DEV_TOOLS_SECTION);
   }
 
-  get openCloseDevToolsSectionKeys() {
+  public get openCloseDevToolsSectionKeys() {
     return this.openCloseDevToolsSection.$(SELECTORS.KEYBIND_SECTION_KEYS);
   }
 
   // Reset Keybinds Section
 
-  get resetKeybindsSection() {
+  public get resetKeybindsSection() {
     return this.settingsKeybinds.$(SELECTORS.RESET_KEYBINDS_SECTION);
   }
 
-  get resetKeybindsDescription() {
+  public get resetKeybindsDescription() {
     return this.resetKeybindsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get resetKeybindsHeader() {
+  public get resetKeybindsHeader() {
     return this.resetKeybindsSection
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get revertKeybindsButton() {
+  public get revertKeybindsButton() {
     return this.resetKeybindsSection.$(SELECTORS.REVERT_KEYBINDS_BUTTON);
   }
 
   // Settings Keybinds Main UI Locators
 
-  get settingsKeybinds() {
+  public get settingsKeybinds() {
     return $(SELECTORS.SETTINGS_KEYBINDS);
   }
 
-  get settingsKeybindsInfo() {
+  public get settingsKeybindsInfo() {
     return this.settingsKeybinds.$(SELECTORS.SETTINGS_KEYBINDS_INFO);
   }
 
-  get settingsKeybindsInfoText() {
+  public get settingsKeybindsInfoText() {
     return this.settingsKeybindsInfo.$(SELECTORS.SETTINGS_KEYBINDS_INFO_TEXT);
   }
 
-  get settingsKeybindsInfoTextValue() {
+  public get settingsKeybindsInfoTextValue() {
     return this.settingsKeybindsInfoText.$(
       SELECTORS.SETTINGS_KEYBINDS_INFO_TEXT_VALUE,
     );
@@ -294,119 +294,119 @@ export default class SettingsKeybindsScreen extends SettingsBaseScreen {
 
   // Toggle Deafen Section
 
-  get toggleDeafenKeybindKeys() {
+  public get toggleDeafenKeybindKeys() {
     return this.toggleDeafenSectionKeys.$(SELECTORS.KEYBIND_KEY);
   }
 
-  get toggleDeafenKeybindKeyInner() {
+  public get toggleDeafenKeybindKeyInner() {
     return this.toggleDeafenKeybindKeys.$(SELECTORS.KEYBIND_KEY_INNER);
   }
 
-  get toggleDeafenKeybindKeyInnerValue() {
+  public get toggleDeafenKeybindKeyInnerValue() {
     return this.toggleDeafenKeybindKeyInner.$$(
       SELECTORS.KEYBIND_KEY_INNER_TEXT,
     );
   }
 
-  get toggleDeafenKeybindSeparators() {
+  public get toggleDeafenKeybindSeparators() {
     return this.toggleDeafenSectionKeys.$$(SELECTORS.KEYBIND_SEPARATOR);
   }
 
-  get toggleDeafenLabel() {
+  public get toggleDeafenLabel() {
     return this.toggleDeafenSection.$(SELECTORS.KEYBIND_SECTION_LABEL);
   }
 
-  get toggleDeafenLabelText() {
+  public get toggleDeafenLabelText() {
     return this.toggleDeafenLabel.$(SELECTORS.KEYBIND_SECTION_LABEL_TEXT);
   }
 
-  get toggleDeafenResetKeybindButton() {
+  public get toggleDeafenResetKeybindButton() {
     return this.toggleDeafenSection.$(SELECTORS.RESET_SINGLE_KEYBIND_BUTTON);
   }
 
-  get toggleDeafenSection() {
+  public get toggleDeafenSection() {
     return this.settingsKeybinds.$(SELECTORS.TOGGLE_DEAFEN_SECTION);
   }
 
-  get toggleDeafenSectionKeys() {
+  public get toggleDeafenSectionKeys() {
     return this.toggleDeafenSection.$(SELECTORS.KEYBIND_SECTION_KEYS);
   }
 
   // Toggle DevMode Section
 
-  get toggleDevModeKeybindKeys() {
+  public get toggleDevModeKeybindKeys() {
     return this.toggleDevModeSectionKeys.$(SELECTORS.KEYBIND_KEY);
   }
 
-  get toggleDevModeKeybindKeyInner() {
+  public get toggleDevModeKeybindKeyInner() {
     return this.toggleDevModeKeybindKeys.$(SELECTORS.KEYBIND_KEY_INNER);
   }
 
-  get toggleDevModeKeybindKeyInnerValue() {
+  public get toggleDevModeKeybindKeyInnerValue() {
     return this.toggleDevModeKeybindKeyInner.$$(
       SELECTORS.KEYBIND_KEY_INNER_TEXT,
     );
   }
 
-  get toggleDevModeKeybindSeparators() {
+  public get toggleDevModeKeybindSeparators() {
     return this.toggleDevModeSectionKeys.$$(SELECTORS.KEYBIND_SEPARATOR);
   }
 
-  get toggleDevModeLabel() {
+  public get toggleDevModeLabel() {
     return this.toggleDevModeSection.$(SELECTORS.KEYBIND_SECTION_LABEL);
   }
 
-  get toggleDevModeLabelText() {
+  public get toggleDevModeLabelText() {
     return this.toggleDevModeLabel.$(SELECTORS.KEYBIND_SECTION_LABEL_TEXT);
   }
 
-  get toggleDevModeResetKeybindButton() {
+  public get toggleDevModeResetKeybindButton() {
     return this.toggleDevModeSection.$(SELECTORS.RESET_SINGLE_KEYBIND_BUTTON);
   }
 
-  get toggleDevModeSection() {
+  public get toggleDevModeSection() {
     return this.settingsKeybinds.$(SELECTORS.TOGGLE_DEVMODE_SECTION);
   }
 
-  get toggleDevModeSectionKeys() {
+  public get toggleDevModeSectionKeys() {
     return this.toggleDevModeSection.$(SELECTORS.KEYBIND_SECTION_KEYS);
   }
 
   // Toggle Mute Section
 
-  get toggleMuteKeybindKeys() {
+  public get toggleMuteKeybindKeys() {
     return this.toggleMuteSectionKeys.$(SELECTORS.KEYBIND_KEY);
   }
 
-  get toggleMuteKeybindKeyInner() {
+  public get toggleMuteKeybindKeyInner() {
     return this.toggleMuteKeybindKeys.$(SELECTORS.KEYBIND_KEY_INNER);
   }
 
-  get toggleMuteKeybindKeyInnerValue() {
+  public get toggleMuteKeybindKeyInnerValue() {
     return this.toggleMuteKeybindKeyInner.$$(SELECTORS.KEYBIND_KEY_INNER_TEXT);
   }
 
-  get toggleMuteKeybindSeparators() {
+  public get toggleMuteKeybindSeparators() {
     return this.toggleMuteSectionKeys.$$(SELECTORS.KEYBIND_SEPARATOR);
   }
 
-  get toggleMuteLabel() {
+  public get toggleMuteLabel() {
     return this.toggleMuteSection.$(SELECTORS.KEYBIND_SECTION_LABEL);
   }
 
-  get toggleMuteLabelText() {
+  public get toggleMuteLabelText() {
     return this.toggleMuteLabel.$(SELECTORS.KEYBIND_SECTION_LABEL_TEXT);
   }
 
-  get toggleMuteResetKeybindButton() {
+  public get toggleMuteResetKeybindButton() {
     return this.toggleMuteSection.$(SELECTORS.RESET_SINGLE_KEYBIND_BUTTON);
   }
 
-  get toggleMuteSection() {
+  public get toggleMuteSection() {
     return this.settingsKeybinds.$(SELECTORS.TOGGLE_MUTE_SECTION);
   }
 
-  get toggleMuteSectionKeys() {
+  public get toggleMuteSectionKeys() {
     return this.toggleMuteSection.$(SELECTORS.KEYBIND_SECTION_KEYS);
   }
 
@@ -495,3 +495,5 @@ export default class SettingsKeybindsScreen extends SettingsBaseScreen {
     await sectionToEdit?.click();
   }
 }
+
+export default new SettingsKeybindsScreen();

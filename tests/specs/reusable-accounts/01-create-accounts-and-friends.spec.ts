@@ -2,13 +2,10 @@ require("module-alias/register");
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
   createNewUser,
   getUserKey,
   grabCacheFolder,
   launchSecondApplication,
-  maximizeWindow,
   saveTestKeys,
   scrollDown,
 } from "@helpers/commands";
@@ -47,7 +44,7 @@ const settingsNotifications = new SettingsNotificationsScreen();
 const settingsProfile = new SettingsProfileScreen();
 const welcomeScreen = new WelcomeScreen();
 
-export default async function createChatAccountsTests() {
+describe("Create Accounts for Chats Tests", function () {
   it("Chat User A - Create Account", async () => {
     // Create a new account and go to Settings Profile
     await createPin.waitForIsShown(true);
@@ -402,4 +399,4 @@ export default async function createChatAccountsTests() {
     await grabCacheFolder("ChatUserA");
     await grabCacheFolder("ChatUserB");
   });
-}
+});

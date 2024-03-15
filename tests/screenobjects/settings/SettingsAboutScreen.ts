@@ -45,84 +45,84 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SettingsAboutScreen extends SettingsBaseScreen {
+class SettingsAboutScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.OPEN_WEBSITE_BUTTON);
   }
 
-  get aboutDescription() {
+  public get aboutDescription() {
     return $(SELECTORS.ABOUT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get aboutHeader() {
+  public get aboutHeader() {
     return $(SELECTORS.ABOUT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get madeInDescription() {
+  public get madeInDescription() {
     return $(SELECTORS.MADE_IN_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get madeInHeader() {
+  public get madeInHeader() {
     return $(SELECTORS.MADE_IN_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get madeInText() {
+  public get madeInText() {
     return $(SELECTORS.MADE_IN_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.SETTINGS_CONTROL_TEXT);
   }
 
-  get checkForUpdatesButton() {
+  public get checkForUpdatesButton() {
     return $(SELECTORS.CHECK_FOR_UPDATES_BUTTON);
   }
 
-  get openSourceCodeButton() {
+  public get openSourceCodeButton() {
     return $(SELECTORS.OPEN_SOURCE_CODE_BUTTON);
   }
 
-  get openSourceDescription() {
+  public get openSourceDescription() {
     return $(SELECTORS.OPEN_SOURCE_CODE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get openSourceHeader() {
+  public get openSourceHeader() {
     return $(SELECTORS.OPEN_SOURCE_CODE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get openWebsiteButton() {
+  public get openWebsiteButton() {
     return $(SELECTORS.OPEN_WEBSITE_BUTTON);
   }
 
-  get openWebsiteDescription() {
+  public get openWebsiteDescription() {
     return $(SELECTORS.OPEN_WEBSITE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get openWebsiteHeader() {
+  public get openWebsiteHeader() {
     return $(SELECTORS.OPEN_WEBSITE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get versionDescription() {
+  public get versionDescription() {
     return $(SELECTORS.VERSION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get versionHeader() {
+  public get versionHeader() {
     return $(SELECTORS.VERSION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
@@ -151,3 +151,5 @@ export default class SettingsAboutScreen extends SettingsBaseScreen {
     }
   }
 }
+
+export default new SettingsAboutScreen();

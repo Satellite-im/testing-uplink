@@ -19,7 +19,7 @@ const messageGroupRemote = new MessageGroupRemote();
 const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 
-describe("Chats Tests - Context Menu", async () => {
+describe("Chats Tests - Context Menu", function () {
   before(async () => {
     await resetAndLoginWithCache("ChatUserB");
     await resetAndLoginWithCache("ChatUserA");

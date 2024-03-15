@@ -145,234 +145,234 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class FriendsScreen extends UplinkMainScreen {
+class FriendsScreen extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.FRIENDS_LAYOUT);
   }
 
-  get acceptFriendRequestButton() {
+  public get acceptFriendRequestButton() {
     return $(SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON);
   }
 
-  get addSomeoneButton() {
+  public get addSomeoneButton() {
     return $(SELECTORS.ADD_SOMEONE_BUTTON);
   }
 
-  get addSomeoneInput() {
+  public get addSomeoneInput() {
     return $(SELECTORS.ADD_SOMEONE_INPUT);
   }
 
-  get addSomeoneLabel() {
+  public get addSomeoneLabel() {
     return $(SELECTORS.ADD_SOMEONE_LABEL);
   }
 
-  get allFriendsButton() {
+  public get allFriendsButton() {
     return $(SELECTORS.ALL_FRIENDS_BUTTON);
   }
 
-  get allFriendsFriends() {
+  public get allFriendsFriends() {
     return $(SELECTORS.FRIENDS_LIST).$$(SELECTORS.FRIEND);
   }
 
-  get allFriendsFriendsImages() {
+  public get allFriendsFriendsImages() {
     return $(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.FRIEND)
       .$$(SELECTORS.FRIEND_USER_IMAGE);
   }
 
-  get allFriendsFriendsInfo() {
+  public get allFriendsFriendsInfo() {
     return $(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.FRIEND)
       .$$(SELECTORS.FRIEND_INFO);
   }
 
-  get allFriendsListImage() {
+  public get allFriendsListImage() {
     return $(SELECTORS.FRIENDS_LIST).$(SELECTORS.ALL_FRIENDS_LIST_IMAGE);
   }
 
-  get blockFriendButton() {
+  public get blockFriendButton() {
     return $(SELECTORS.BLOCK_FRIEND_BUTTON);
   }
 
-  get blockedListButton() {
+  public get blockedListButton() {
     return $(SELECTORS.BLOCKED_LIST_BUTTON);
   }
 
-  get blockedList() {
+  public get blockedList() {
     return $(SELECTORS.BLOCKED_LIST);
   }
 
-  get blockedListLabel() {
+  public get blockedListLabel() {
     return $(SELECTORS.BLOCKED_LIST_LABEL);
   }
 
-  get chatWithFriendButton() {
+  public get chatWithFriendButton() {
     return $(SELECTORS.CHAT_WITH_FRIEND_BUTTON);
   }
 
-  get contextMenu() {
+  public get contextMenu() {
     return $(SELECTORS.CONTEXT_MENU);
   }
 
-  get contextMenuBlock() {
+  public get contextMenuBlock() {
     return $(SELECTORS.CONTEXT_MENU_BLOCK);
   }
 
-  get contextMenuChat() {
+  public get contextMenuChat() {
     return $(SELECTORS.CONTEXT_MENU_CHAT);
   }
 
-  get contextMenuCopyDidKey() {
+  public get contextMenuCopyDidKey() {
     return this.contextMenu.$(SELECTORS.CONTEXT_MENU_COPY_DID_KEY);
   }
 
-  get contextMenuCopyId() {
+  public get contextMenuCopyId() {
     return $(SELECTORS.CONTEXT_MENU_COPY_ID);
   }
 
-  get contextMenuFavoritesAdd() {
+  public get contextMenuFavoritesAdd() {
     return $(SELECTORS.CONTEXT_MENU_FAVORITES_ADD);
   }
 
-  get contextMenuFavoritesRemove() {
+  public get contextMenuFavoritesRemove() {
     return $(SELECTORS.CONTEXT_MENU_FAVORITES_REMOVE);
   }
 
-  get contextMenuFriendAddInputCopy() {
+  public get contextMenuFriendAddInputCopy() {
     return this.contextMenu.$(SELECTORS.CONTEXT_MENU_FRIEND_ADD_INPUT_COPY);
   }
 
-  get contextMenuFriendAddInputPaste() {
+  public get contextMenuFriendAddInputPaste() {
     return this.contextMenu.$(SELECTORS.CONTEXT_MENU_FRIEND_ADD_INPUT_PASTE);
   }
 
-  get contextMenuIncomingAccept() {
+  public get contextMenuIncomingAccept() {
     return $(SELECTORS.CONTEXT_MENU_INCOMING_ACCEPT);
   }
 
-  get contextMenuIncomingDeny() {
+  public get contextMenuIncomingDeny() {
     return $(SELECTORS.CONTEXT_MENU_INCOMING_DENY);
   }
 
-  get contextMenuOutgoingCancel() {
+  public get contextMenuOutgoingCancel() {
     return $(SELECTORS.CONTEXT_MENU_OUTGOING_CANCEL);
   }
 
-  get contextMenuRemove() {
+  public get contextMenuRemove() {
     return $(SELECTORS.CONTEXT_MENU_REMOVE);
   }
 
-  get contextMenuUnblock() {
+  public get contextMenuUnblock() {
     return $(SELECTORS.CONTEXT_MENU_UNBLOCK);
   }
 
-  get copyIdButton() {
+  public get copyIdButton() {
     return $(SELECTORS.FRIENDS_BODY).$(SELECTORS.COPY_ID_BUTTON);
   }
 
-  get friendInfo() {
+  public get friendInfo() {
     return $(SELECTORS.FRIEND_INFO);
   }
 
-  get friendInfoCurrentStatus() {
+  public get friendInfoCurrentStatus() {
     return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_CURRENT_STATUS);
   }
 
-  get friendInfoStatusMessage() {
+  public get friendInfoStatusMessage() {
     return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_STATUS_MESSAGE);
   }
 
-  get friendInfoUsername() {
+  public get friendInfoUsername() {
     return $$(SELECTORS.FRIEND_INFO_USERNAME);
   }
 
-  get friendInfoUsernameCode() {
+  public get friendInfoUsernameCode() {
     return $$(SELECTORS.FRIEND_INFO_USERNAME).$(
       SELECTORS.FRIEND_INFO_USERNAME_CODE,
     );
   }
 
-  get friendInfoUsernameName() {
+  public get friendInfoUsernameName() {
     return $$(SELECTORS.FRIEND_INFO_USERNAME).$(
       SELECTORS.FRIEND_INFO_USERNAME_NAME,
     );
   }
 
-  get friendRecords() {
+  public get friendRecords() {
     return $$(SELECTORS.FRIEND_RECORD);
   }
 
-  get friendsBody() {
+  public get friendsBody() {
     return $(SELECTORS.FRIENDS_BODY);
   }
 
-  get friendsButtonBadge() {
+  public get friendsButtonBadge() {
     return $(SELECTORS.TOPBAR).$(SELECTORS.FRIENDS_BUTTON_BADGE);
   }
 
-  get friendsButtonBadgeText() {
+  public get friendsButtonBadgeText() {
     return $(SELECTORS.TOPBAR)
       .$(SELECTORS.FRIENDS_BUTTON_BADGE)
       .$(SELECTORS.FRIENDS_BUTTON_BADGE_TEXT);
   }
 
-  get friendsControls() {
+  public get friendsControls() {
     return $(SELECTORS.FRIENDS_CONTROLS);
   }
 
-  get friendsLayout() {
+  public get friendsLayout() {
     return $(SELECTORS.FRIENDS_LAYOUT);
   }
 
-  get friendsList() {
+  public get friendsList() {
     return $(SELECTORS.FRIENDS_LIST);
   }
 
-  get friendsListLabel() {
+  public get friendsListLabel() {
     return $(SELECTORS.FRIENDS_LIST_LABEL);
   }
 
-  get incomingRequestsList() {
+  public get incomingRequestsList() {
     return $(SELECTORS.INCOMING_REQUESTS_LIST);
   }
 
-  get incomingRequestsListLabel() {
+  public get incomingRequestsListLabel() {
     return $(SELECTORS.INCOMING_REQUESTS_LIST_LABEL);
   }
 
-  get inputError() {
+  public get inputError() {
     return $(SELECTORS.INPUT_ERROR);
   }
 
-  get inputErrorText() {
+  public get inputErrorText() {
     return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
-  get noRequests() {
+  public get noRequests() {
     return this.friendsBody.$(SELECTORS.NO_REQUESTS);
   }
 
-  get noRequestsText() {
+  public get noRequestsText() {
     return this.noRequests.$(SELECTORS.NO_REQUESTS_TEXT);
   }
 
-  get outgoingRequestsList() {
+  public get outgoingRequestsList() {
     return $(SELECTORS.OUTGOING_REQUESTS_LIST);
   }
 
-  get outgoingRequestsListLabel() {
+  public get outgoingRequestsListLabel() {
     return $(SELECTORS.OUTGOING_REQUESTS_LIST_LABEL);
   }
 
-  get pendingFriendsButton() {
+  public get pendingFriendsButton() {
     return $(SELECTORS.PENDING_FRIENDS_BUTTON);
   }
 
-  get removeOrDenyFriendButton() {
+  public get removeOrDenyFriendButton() {
     return $(SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON);
   }
 
-  get topbar() {
+  public get topbar() {
     return $(SELECTORS.TOPBAR);
   }
 
@@ -434,7 +434,7 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async enterCopiedID() {
     // Assuming that user already clicked on Copy ID button
-    // If driver is macos, then get clipboard and pass it to enterStatus function
+    // If driver is macos, then public get clipboard and pass it to enterStatus function
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       const userKey = await getClipboardMacOS();
@@ -735,7 +735,7 @@ export default class FriendsScreen extends UplinkMainScreen {
 
   async pasteUserKeyInAddSomeone() {
     // Assuming that user already clicked on Copy ID button
-    // If driver is macos, then get clipboard and pass it to enterStatus function
+    // If driver is macos, then public get clipboard and pass it to enterStatus function
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       const userKey = await getClipboardMacOS();
@@ -989,3 +989,5 @@ export default class FriendsScreen extends UplinkMainScreen {
     await contextMenu.waitForExist();
   }
 }
+
+export default new FriendsScreen();

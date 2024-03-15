@@ -23,7 +23,7 @@ const messageGroupRemote = new MessageGroupRemote();
 const settingsProfile = new SettingsProfileScreen();
 const welcomeScreen = new WelcomeScreen();
 
-describe("Chats Quick Profile - Tests", async () => {
+describe("Chats Quick Profile - Tests", function () {
   before(async () => {
     await resetAndLoginWithCache("ChatUserB");
     await resetAndLoginWithCache("ChatUserA");

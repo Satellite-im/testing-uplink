@@ -31,24 +31,24 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SettingsLicensesScreen extends SettingsBaseScreen {
+class SettingsLicensesScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.SETTINGS_LICENSES);
   }
 
-  get licenseDescription() {
+  public get licenseDescription() {
     return $(SELECTORS.LICENSES_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get licenseHeader() {
+  public get licenseHeader() {
     return $(SELECTORS.LICENSES_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get licenseButton() {
+  public get licenseButton() {
     return $(SELECTORS.LICENSES_BUTTON);
   }
 
@@ -57,3 +57,5 @@ export default class SettingsLicensesScreen extends SettingsBaseScreen {
     await licenseButton.click();
   }
 }
+
+export default new SettingsLicensesScreen();

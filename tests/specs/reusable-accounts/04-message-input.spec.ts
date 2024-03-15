@@ -21,7 +21,7 @@ const filesScreen = new FilesScreen();
 const messageLocal = new MessageLocal();
 const messageRemote = new MessageRemote();
 
-describe("Chats Message Input Tests", async () => {
+describe("Chats Message Input Tests", function () {
   before(async () => {
     await resetAndLoginWithCache("ChatUserA");
     await resetAndLoginWithCache("ChatUserB");

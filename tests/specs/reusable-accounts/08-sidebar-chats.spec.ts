@@ -34,7 +34,7 @@ const messageRemote = new MessageRemote();
 const settingsProfile = new SettingsProfileScreen();
 const welcomeScreen = new WelcomeScreen();
 
-describe("Chats Sidebar - Tests", async () => {
+describe("Chats Sidebar - Tests", function () {
   before(async () => {
     await resetAndLoginWithCache("ChatUserA");
     await resetAndLoginWithCache("ChatUserB");

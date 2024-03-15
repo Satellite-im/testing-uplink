@@ -58,55 +58,55 @@ export default class SettingsBaseScreen extends UplinkMainScreen {
     });
   }
 
-  get aboutButton() {
+  public get aboutButton() {
     return $(SELECTORS.ABOUT_BUTTON);
   }
 
-  get accessibilityButton() {
+  public get accessibilityButton() {
     return $(SELECTORS.ACCESSIBILITY_BUTTON);
   }
 
-  get audioButton() {
+  public get audioButton() {
     return $(SELECTORS.AUDIO_BUTTON);
   }
 
-  get developerButton() {
+  public get developerButton() {
     return $(SELECTORS.DEVELOPER_BUTTON);
   }
 
-  get extensionsButton() {
+  public get extensionsButton() {
     return $(SELECTORS.EXTENSIONS_BUTTON);
   }
 
-  get generalButton() {
+  public get generalButton() {
     return $(SELECTORS.GENERAL_BUTTON);
   }
 
-  get keyboardShortcutsButton() {
+  public get keyboardShortcutsButton() {
     return $(SELECTORS.KEYBOARD_SHORTCUTS_BUTTON);
   }
 
-  get licensesButton() {
+  public get licensesButton() {
     return $(SELECTORS.LICENSES_BUTTON);
   }
 
-  get messagesButton() {
+  public get messagesButton() {
     return $(SELECTORS.MESSAGES_BUTTON);
   }
 
-  get notificationsButton() {
+  public get notificationsButton() {
     return $(SELECTORS.NOTIFICATIONS_BUTTON);
   }
 
-  get profileButton() {
+  public get profileButton() {
     return $(SELECTORS.PROFILE_BUTTON);
   }
 
-  get settingsLayout() {
+  public get settingsLayout() {
     return $(SELECTORS.SETTINGS_LAYOUT);
   }
 
-  get settingsSearchInput() {
+  public get settingsSearchInput() {
     return $(SELECTORS.SETTINGS_SEARCH_INPUT);
   }
 

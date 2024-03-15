@@ -32,40 +32,41 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class CreateUserScreen extends UplinkMainScreen {
+class CreateUserScreen extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.UNLOCK_LAYOUT);
   }
 
-  get createAccountButton() {
-    return $(SELECTORS.CREATE_ACCOUNT_BUTTON);
+  public get createAccountButton() {
+    return this.unlockLayout.$(SELECTORS.CREATE_ACCOUNT_BUTTON);
   }
 
-  get createUserHelper() {
-    return $(SELECTORS.CREATE_USER_HELPER);
+  public get createUserHelper() {
+    return this.unlockLayout.$(SELECTORS.CREATE_USER_HELPER);
   }
-  get createUserHelperText() {
+
+  public get createUserHelperText() {
     return this.createUserHelper.$(SELECTORS.CREATE_USER_HELPER_TEXT);
   }
 
-  get createUserLabelText() {
+  public get createUserLabelText() {
     return this.unlockLayout.$(SELECTORS.CREATE_USER_LABEL_TEXT);
   }
 
-  get inputError() {
-    return $(SELECTORS.INPUT_ERROR);
+  public get inputError() {
+    return this.unlockLayout.$(SELECTORS.INPUT_ERROR);
   }
 
-  get inputErrorText() {
-    return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
+  public get inputErrorText() {
+    return this.inputError.$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
-  get unlockLayout() {
+  public get unlockLayout() {
     return $(SELECTORS.UNLOCK_LAYOUT);
   }
 
-  get usernameInput() {
-    return $(SELECTORS.USERNAME_INPUT);
+  public get usernameInput() {
+    return this.unlockLayout.$(SELECTORS.USERNAME_INPUT);
   }
 
   async enterUsername(username: string) {
@@ -111,3 +112,5 @@ export default class CreateUserScreen extends UplinkMainScreen {
     );
   }
 }
+
+export default new CreateUserScreen();

@@ -62,158 +62,158 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SettingsDeveloperScreen extends SettingsBaseScreen {
+class SettingsDeveloperScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.SETTINGS_DEVELOPER);
   }
 
-  get clearCacheButton() {
+  public get clearCacheButton() {
     return $(SELECTORS.CLEAR_CACHE_BUTTON);
   }
 
-  get clearCacheDescription() {
+  public get clearCacheDescription() {
     return $(SELECTORS.CLEAR_CACHE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get clearCacheHeader() {
+  public get clearCacheHeader() {
     return $(SELECTORS.CLEAR_CACHE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get compressAndDownloadCacheButton() {
+  public get compressAndDownloadCacheButton() {
     return $(SELECTORS.COMPRESS_BUTTON);
   }
 
-  get compressAndDownloadCacheDescription() {
+  public get compressAndDownloadCacheDescription() {
     return $(SELECTORS.COMPRESS_DOWNLOAD_CACHE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get compressAndDownloadCacheHeader() {
+  public get compressAndDownloadCacheHeader() {
     return $(SELECTORS.COMPRESS_DOWNLOAD_CACHE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get developerModeCheckbox() {
+  public get developerModeCheckbox() {
     return $(SELECTORS.DEVELOPER_MODE_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get developerModeControllerValue() {
+  public get developerModeControllerValue() {
     return $(SELECTORS.DEVELOPER_MODE_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get developerModeDescription() {
+  public get developerModeDescription() {
     return $(SELECTORS.DEVELOPER_MODE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get developerModeHeader() {
+  public get developerModeHeader() {
     return $(SELECTORS.DEVELOPER_MODE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get experimentalFeaturesCheckbox() {
+  public get experimentalFeaturesCheckbox() {
     return $(SELECTORS.EXPERIMENTAL_FEATURES_SECTION).$(
       SELECTORS.SWITCH_SLIDER,
     );
   }
 
-  get experimentalFeaturesControllerValue() {
+  public get experimentalFeaturesControllerValue() {
     return $(SELECTORS.EXPERIMENTAL_FEATURES_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get experimentalFeaturesDescription() {
+  public get experimentalFeaturesDescription() {
     return $(SELECTORS.EXPERIMENTAL_FEATURES_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get experimentalFeaturesHeader() {
+  public get experimentalFeaturesHeader() {
     return $(SELECTORS.EXPERIMENTAL_FEATURES_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get openCacheButton() {
+  public get openCacheButton() {
     return $(SELECTORS.OPEN_CACHE_FOLDER_BUTTON);
   }
 
-  get openCacheDescription() {
+  public get openCacheDescription() {
     return $(SELECTORS.OPEN_CACHE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get openCacheHeader() {
+  public get openCacheHeader() {
     return $(SELECTORS.OPEN_CACHE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get printStateButton() {
+  public get printStateButton() {
     return $(SELECTORS.PRINT_STATE_BUTTON);
   }
 
-  get printStateDescription() {
+  public get printStateDescription() {
     return $(SELECTORS.PRINT_STATE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get printStateHeader() {
+  public get printStateHeader() {
     return $(SELECTORS.PRINT_STATE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get saveLogsCheckbox() {
+  public get saveLogsCheckbox() {
     return $(SELECTORS.SAVE_LOGS_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get saveLogsControllerValue() {
+  public get saveLogsControllerValue() {
     return $(SELECTORS.SAVE_LOGS_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get saveLogsDescription() {
+  public get saveLogsDescription() {
     return $(SELECTORS.SAVE_LOGS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get saveLogsHeader() {
+  public get saveLogsHeader() {
     return $(SELECTORS.SAVE_LOGS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get settingsDeveloper() {
+  public get settingsDeveloper() {
     return $(SELECTORS.SETTINGS_DEVELOPER);
   }
 
-  get testNotificationButton() {
+  public get testNotificationButton() {
     return $(SELECTORS.TEST_NOTIFICATIONS_BUTTON);
   }
 
-  get testNotificationDescription() {
+  public get testNotificationDescription() {
     return $(SELECTORS.TEST_NOTIFICATION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get testNotificationHeader() {
+  public get testNotificationHeader() {
     return $(SELECTORS.TEST_NOTIFICATION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
@@ -315,3 +315,5 @@ export default class SettingsDeveloperScreen extends SettingsBaseScreen {
     await this.validateToggleIsDisabled(saveLogsToggle);
   }
 }
+
+export default new SettingsDeveloperScreen();
