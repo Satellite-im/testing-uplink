@@ -13,10 +13,8 @@ import {
   activateSecondApplication,
   closeFirstApplication,
   closeSecondApplication,
-  closeThirdApplication,
   launchFirstApplication,
   launchSecondApplication,
-  launchThirdApplication,
 } from "@helpers/commands";
 const chatsInput = new InputBar();
 const chatsSidebar = new ChatsSidebar();
@@ -31,7 +29,6 @@ const messageLocal = new MessageLocal();
 export default async function groupChatSidebarTests() {
   before(async () => {
     await launchSecondApplication();
-    await launchThirdApplication();
     await launchFirstApplication();
   });
 
@@ -200,6 +197,5 @@ export default async function groupChatSidebarTests() {
   after(async () => {
     await closeFirstApplication();
     await closeSecondApplication();
-    await closeThirdApplication();
   });
 }

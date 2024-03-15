@@ -4,10 +4,8 @@ import {
   activateSecondApplication,
   closeFirstApplication,
   closeSecondApplication,
-  closeThirdApplication,
   launchFirstApplication,
   launchSecondApplication,
-  launchThirdApplication,
 } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
@@ -37,7 +35,6 @@ const welcomeScreen = new WelcomeScreen();
 export default async function sidebarChatsTests() {
   before(async () => {
     await launchFirstApplication();
-    await launchThirdApplication();
     await launchSecondApplication();
   });
 
@@ -247,6 +244,5 @@ export default async function sidebarChatsTests() {
   after(async () => {
     await closeFirstApplication();
     await closeSecondApplication();
-    await closeThirdApplication();
   });
 }

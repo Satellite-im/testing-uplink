@@ -25,7 +25,6 @@ const messageRemote = new MessageRemote();
 
 export default async function repliesTests() {
   before(async () => {
-    await launchThirdApplication();
     await launchFirstApplication();
     await launchSecondApplication();
   });
@@ -147,6 +146,5 @@ export default async function repliesTests() {
   after(async () => {
     await closeFirstApplication();
     await closeSecondApplication();
-    await closeThirdApplication();
   });
 }

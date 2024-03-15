@@ -6,11 +6,9 @@ import {
   activateFirstApplication,
   activateThirdApplication,
   closeFirstApplication,
-  closeSecondApplication,
   closeThirdApplication,
   getUserKey,
   launchFirstApplication,
-  launchSecondApplication,
   launchThirdApplication,
 } from "@helpers/commands";
 const chatsSidebar = new ChatsSidebar();
@@ -20,7 +18,6 @@ const welcomeScreen = new WelcomeScreen();
 export default async function groupChatMultipleUsersTests() {
   before(async () => {
     await launchFirstApplication();
-    await launchSecondApplication();
     await launchThirdApplication();
   });
 
@@ -76,7 +73,6 @@ export default async function groupChatMultipleUsersTests() {
 
   after(async () => {
     await closeFirstApplication();
-    await closeSecondApplication();
     await closeThirdApplication();
   });
 }

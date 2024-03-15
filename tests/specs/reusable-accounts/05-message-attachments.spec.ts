@@ -12,10 +12,8 @@ import {
   activateSecondApplication,
   closeFirstApplication,
   closeSecondApplication,
-  closeThirdApplication,
   launchFirstApplication,
   launchSecondApplication,
-  launchThirdApplication,
   scrollUp,
 } from "@helpers/commands";
 const chatsAttachment = new ComposeAttachment();
@@ -30,7 +28,6 @@ const sendFiles = new SendFiles();
 export default async function messageAttachmentsTests() {
   before(async () => {
     await launchFirstApplication();
-    await launchThirdApplication();
     await launchSecondApplication();
   });
 
@@ -276,6 +273,5 @@ export default async function messageAttachmentsTests() {
   after(async () => {
     await closeFirstApplication();
     await closeSecondApplication();
-    await closeThirdApplication();
   });
 }

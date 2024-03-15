@@ -7,8 +7,6 @@ import {
   closeSecondApplication,
   launchSecondApplication,
   launchFirstApplication,
-  launchThirdApplication,
-  closeThirdApplication,
 } from "@helpers/commands";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -26,7 +24,6 @@ const messageRemote = new MessageRemote();
 export default async function messageContextMenuTests() {
   before(async () => {
     await launchSecondApplication();
-    await launchThirdApplication();
     await launchFirstApplication();
   });
 
@@ -178,6 +175,5 @@ export default async function messageContextMenuTests() {
   after(async () => {
     await closeFirstApplication();
     await closeSecondApplication();
-    await closeThirdApplication();
   });
 }

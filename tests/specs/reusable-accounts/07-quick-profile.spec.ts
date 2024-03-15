@@ -7,8 +7,6 @@ import {
   activateSecondApplication,
   launchSecondApplication,
   launchFirstApplication,
-  launchThirdApplication,
-  closeThirdApplication,
 } from "@helpers/commands";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -28,7 +26,6 @@ const welcomeScreen = new WelcomeScreen();
 export default async function quickProfileTests() {
   before(async () => {
     await launchSecondApplication();
-    await launchThirdApplication();
     await launchFirstApplication();
   });
 
@@ -173,6 +170,5 @@ export default async function quickProfileTests() {
   after(async () => {
     await closeFirstApplication();
     await closeSecondApplication();
-    await closeThirdApplication();
   });
 }
