@@ -78,142 +78,142 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class PinnedMessages extends UplinkMainScreen {
+class PinnedMessages extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.PIN_MODAL_MAIN);
   }
 
-  get pinnedMessageAttachments() {
+  public get pinnedMessageAttachments() {
     return $$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS);
   }
 
-  get pinnedMessageAttachmentsFileEmbed() {
+  public get pinnedMessageAttachmentsFileEmbed() {
     return this.pinnedMessageAttachments.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_EMBED,
     );
   }
 
-  get pinnedMessageAttachmentsFileIcon() {
+  public get pinnedMessageAttachmentsFileIcon() {
     return this.pinnedMessageAttachmentsFileEmbed.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON,
     );
   }
 
-  get pinnedMessageAttachmentsFileIconExtension() {
+  public get pinnedMessageAttachmentsFileIconExtension() {
     return this.pinnedMessageAttachmentsFileIcon.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON_EXTENSION,
     );
   }
 
-  get pinnedMessageAttachmentsFileInfo() {
+  public get pinnedMessageAttachmentsFileInfo() {
     return this.pinnedMessageAttachmentsFileEmbed.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_INFO,
     );
   }
 
-  get pinnedMessageAttachmentsFileMeta() {
+  public get pinnedMessageAttachmentsFileMeta() {
     return this.pinnedMessageAttachmentsFileInfo.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META,
     );
   }
 
-  get pinnedMessageAttachmentsFileMetaText() {
+  public get pinnedMessageAttachmentsFileMetaText() {
     return this.pinnedMessageAttachmentsFileMeta.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META_TEXT,
     );
   }
 
-  get pinnedMessageAttachmentsFileName() {
+  public get pinnedMessageAttachmentsFileName() {
     return this.pinnedMessageAttachmentsFileInfo.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME,
     );
   }
 
-  get pinnedMessageAttachmentsFileNameText() {
+  public get pinnedMessageAttachmentsFileNameText() {
     return this.pinnedMessageAttachmentsFileName.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME_TEXT,
     );
   }
 
-  get pinnedMessageButtonContainer() {
+  public get pinnedMessageButtonContainer() {
     return $(SELECTORS.PINNED_MESSAGE_BUTTON_CONTAINER);
   }
 
-  get pinnedMessageButtonGoTo() {
+  public get pinnedMessageButtonGoTo() {
     return $(SELECTORS.PINNED_MESSAGE_BUTTON_GO_TO);
   }
 
-  get pinnedMessageButtonUnpin() {
+  public get pinnedMessageButtonUnpin() {
     return $(SELECTORS.PINNED_MESSAGE_BUTTON_UNPIN);
   }
 
-  get pinnedMessageSender() {
+  public get pinnedMessageSender() {
     return $(SELECTORS.PINNED_MESSAGE_SENDER);
   }
 
-  get pinnedMessageSenderText() {
+  public get pinnedMessageSenderText() {
     return this.pinnedMessageSender.$(SELECTORS.PINNED_MESSAGE_SENDER_TEXT);
   }
 
-  get pinnedMessageSingleContainer() {
+  public get pinnedMessageSingleContainer() {
     return $$(SELECTORS.PINNED_MESSAGE_SINGLE_CONTAINER);
   }
 
-  get pinnedMessageTimestamp() {
+  public get pinnedMessageTimestamp() {
     return $(SELECTORS.PINNED_MESSAGE_TIMESTAMP);
   }
 
-  get pinnedMessageTimestampText() {
+  public get pinnedMessageTimestampText() {
     return this.pinnedMessageTimestamp.$(
       SELECTORS.PINNED_MESSAGE_TIMESTAMP_TEXT,
     );
   }
 
-  get pinnedMessageUserImage() {
+  public get pinnedMessageUserImage() {
     return this.pinnedMessageUserImageWrap.$(
       SELECTORS.PINNED_MESSAGE_USER_IMAGE,
     );
   }
 
-  get pinnedMessageUserImageProfile() {
+  public get pinnedMessageUserImageProfile() {
     return this.pinnedMessageUserImage.$(
       SELECTORS.PINNED_MESSAGE_USER_IMAGE_PROFILE,
     );
   }
 
-  get pinnedMessageUserImageWrap() {
+  public get pinnedMessageUserImageWrap() {
     return $(SELECTORS.PINNED_MESSAGE_USER_IMAGE_WRAP);
   }
 
-  get pinnedMessageValue() {
+  public get pinnedMessageValue() {
     return $(SELECTORS.PINNED_MESSAGE_VALUE);
   }
 
-  get pinnedMessageValueText() {
+  public get pinnedMessageValueText() {
     return this.pinnedMessageValue.$(SELECTORS.PINNED_MESSAGE_VALUE_TEXT);
   }
 
-  get pinnedMessageWrap() {
+  public get pinnedMessageWrap() {
     return $$(SELECTORS.PINNED_MESSAGE_WRAP);
   }
 
-  get pinContainer() {
+  public get pinContainer() {
     return $(SELECTORS.PIN_CONTAINER);
   }
 
-  get pinContainerLabel() {
+  public get pinContainerLabel() {
     return $(SELECTORS.PIN_CONTAINER_LABEL);
   }
 
-  get pinEmpty() {
+  public get pinEmpty() {
     return $(SELECTORS.PIN_EMPTY);
   }
 
-  get pinModalLabel() {
+  public get pinModalLabel() {
     return this.pinModalMain.$(SELECTORS.PIN_MODAL_LABEL);
   }
 
-  get pinModalMain() {
+  public get pinModalMain() {
     return $(SELECTORS.PIN_MODAL_MAIN);
   }
 
@@ -457,3 +457,5 @@ export default class PinnedMessages extends UplinkMainScreen {
     );
   }
 }
+
+export default new PinnedMessages();

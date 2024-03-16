@@ -2,8 +2,6 @@ require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
 
-let SELECTORS = {};
-
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
@@ -24,6 +22,16 @@ const SELECTORS_MACOS = {
   RECOVERY_LAYOUT: "~create-or-recover-layout",
   RECOVERY_PARAGRAPH: "~create-or-recover-instructions",
   RECOVERY_PARAGRAPH_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+};
+
+let SELECTORS = {
+  CREATE_NEW_ACCOUNT_BUTTON: "",
+  CREATE_OR_RECOVER_LABEL: "",
+  CREATE_OR_RECOVER_LABEL_TEXT: "",
+  IMPORT_ACCOUNT_BUTTON: "",
+  RECOVERY_LAYOUT: "",
+  RECOVERY_PARAGRAPH: "",
+  RECOVERY_PARAGRAPH_TEXT: "",
 };
 
 process.env.DRIVER === WINDOWS_DRIVER

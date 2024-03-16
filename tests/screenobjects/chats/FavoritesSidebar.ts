@@ -57,92 +57,92 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class FavoritesSidebar extends UplinkMainScreen {
+class FavoritesSidebar extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.SLIMBAR);
   }
 
-  get favorites() {
+  public get favorites() {
     return $(SELECTORS.SLIMBAR).$(SELECTORS.FAVORITES);
   }
 
-  get favoritesChat() {
+  public get favoritesChat() {
     return $(SELECTORS.SLIMBAR).$(SELECTORS.FAVORITES_CONTEXT_CHAT);
   }
 
-  get favoritesRemove() {
+  public get favoritesRemove() {
     return $(SELECTORS.SLIMBAR).$(SELECTORS.FAVORITES_CONTEXT_REMOVE);
   }
 
-  get favoriteUsers() {
+  public get favoriteUsers() {
     return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER);
   }
 
-  get favoritesUserImage() {
+  public get favoritesUserImage() {
     return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE);
   }
 
-  get favoritesUserImageGroupWrap() {
+  public get favoritesUserImageGroupWrap() {
     return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_GROUP_WRAP);
   }
 
-  get favoritesUserImageProfile() {
+  public get favoritesUserImageProfile() {
     return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_PROFILE);
   }
 
-  get favoritesUserImageWrap() {
+  public get favoritesUserImageWrap() {
     return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_IMAGE_WRAP);
   }
 
-  get favoritesUserIndicator() {
+  public get favoritesUserIndicator() {
     return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_INDICATOR);
   }
 
-  get favoritesUserIndicatorOffline() {
+  public get favoritesUserIndicatorOffline() {
     return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_INDICATOR_OFFLINE);
   }
 
-  get favoritesUserIndicatorOnline() {
+  public get favoritesUserIndicatorOnline() {
     return $(SELECTORS.SLIMBAR)
       .$(SELECTORS.FAVORITES)
       .$$(SELECTORS.FAVORITES_USER_INDICATOR_ONLINE);
   }
 
-  get slimbar() {
+  public get slimbar() {
     return $(SELECTORS.SLIMBAR);
   }
 
-  get slimbarButtonNav() {
+  public get slimbarButtonNav() {
     return this.slimbar.$(SELECTORS.SLIMBAR_BUTTON_NAV);
   }
 
-  get slimbarChatsButton() {
+  public get slimbarChatsButton() {
     return this.slimbarButtonNav.$(SELECTORS.SLIMBAR_CHATS_BUTTON);
   }
 
-  get slimbarFilesButton() {
+  public get slimbarFilesButton() {
     return this.slimbarButtonNav.$(SELECTORS.SLIMBAR_FILES_BUTTON);
   }
 
-  get slimbarFriendsButton() {
+  public get slimbarFriendsButton() {
     return this.slimbarButtonNav.$(SELECTORS.SLIMBAR_FRIENDS_BUTTON);
   }
 
-  get slimbarSettingsButton() {
+  public get slimbarSettingsButton() {
     return this.slimbarButtonNav.$(SELECTORS.SLIMBAR_SETTINGS_BUTTON);
   }
 
@@ -366,3 +366,5 @@ export default class FavoritesSidebar extends UplinkMainScreen {
     await indicatorOnline.waitForDisplayed();
   }
 }
+
+export default new FavoritesSidebar();

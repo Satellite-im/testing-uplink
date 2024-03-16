@@ -65,121 +65,121 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class ManageMembers extends UplinkMainScreen {
+class ManageMembers extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.MANAGE_MEMBERS_MODAL);
   }
 
-  get addMembers() {
+  public get addMembers() {
     return this.manageMembersSection.$(SELECTORS.ADD_MEMBERS);
   }
 
-  get addParticipantButton() {
+  public get addParticipantButton() {
     return this.manageMembersSection
       .$(SELECTORS.MANAGE_MEMBERS_SECTION)
       .$$(SELECTORS.ADD_PARTICIPANT_BUTTON);
   }
 
-  get currentMembers() {
+  public get currentMembers() {
     return this.manageMembersSection.$(SELECTORS.CURRENT_MEMBERS);
   }
 
-  get manageMembersModal() {
+  public get manageMembersModal() {
     return $(SELECTORS.MANAGE_MEMBERS_MODAL);
   }
 
-  get manageMembersSection() {
+  public get manageMembersSection() {
     return this.manageMembersModal.$(SELECTORS.MANAGE_MEMBERS_SECTION);
   }
 
-  get friendsGroup() {
+  public get friendsGroup() {
     return this.manageMembersSection
       .$(SELECTORS.MANAGE_MEMBERS_SECTION)
       .$(SELECTORS.FRIENDS_LIST)
       .$(SELECTORS.FRIENDS_GROUP);
   }
 
-  get friendsList() {
+  public get friendsList() {
     return this.manageMembersSection
       .$(SELECTORS.MANAGE_MEMBERS_SECTION)
       .$(SELECTORS.FRIENDS_LIST);
   }
 
-  get nothingHereText() {
+  public get nothingHereText() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$(SELECTORS.NOTHING_HERE_TEXT);
   }
 
-  get participantUserContainer() {
+  public get participantUserContainer() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER);
   }
 
-  get participantUserCreatorBadgeImage() {
+  public get participantUserCreatorBadgeImage() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE);
   }
-  get participantUserCreatorBadgeText() {
+  public get participantUserCreatorBadgeText() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT);
   }
 
-  get participantUserImage() {
+  public get participantUserImage() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE);
   }
 
-  get participantUserImageProfile() {
+  public get participantUserImageProfile() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE_PROFILE);
   }
 
-  get participantUserImageWrap() {
+  public get participantUserImageWrap() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE_WRAP);
   }
 
-  get participantUserIndicator() {
+  public get participantUserIndicator() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR);
   }
 
-  get participantUserIndicatorOffline() {
+  public get participantUserIndicatorOffline() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR_OFFLINE);
   }
 
-  get participantUserIndicatorOnline() {
+  public get participantUserIndicatorOnline() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE);
   }
 
-  get participantUserName() {
+  public get participantUserName() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_NAME);
   }
 
-  get participantUserNameText() {
+  public get participantUserNameText() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
       .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
@@ -187,17 +187,17 @@ export default class ManageMembers extends UplinkMainScreen {
       .$(SELECTORS.PARTICIPANT_USER_NAME_TEXT);
   }
 
-  get removeParticipantButton() {
+  public get removeParticipantButton() {
     return this.manageMembersSection
       .$(SELECTORS.MANAGE_MEMBERS_SECTION)
       .$$(SELECTORS.REMOVE_PARTICIPANT_BUTTON);
   }
 
-  get topbar() {
+  public get topbar() {
     return this.manageMembersSection.$(SELECTORS.TOPBAR);
   }
 
-  get userInput() {
+  public get userInput() {
     return this.manageMembersSection.$(SELECTORS.USER_INPUT);
   }
 
@@ -407,3 +407,5 @@ export default class ManageMembers extends UplinkMainScreen {
     );
   }
 }
+
+export default new ManageMembers();

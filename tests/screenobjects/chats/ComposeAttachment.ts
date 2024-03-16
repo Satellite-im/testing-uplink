@@ -48,89 +48,89 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class ComposeAttachments extends UplinkMainScreen {
+class ComposeAttachments extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.COMPOSE_ATTACHMENTS);
   }
 
-  get composeAttachments() {
+  public get composeAttachments() {
     return $(SELECTORS.COMPOSE_ATTACHMENTS);
   }
 
-  get composeAttachmentsButton() {
+  public get composeAttachmentsButton() {
     return this.composeAttachments.$(SELECTORS.COMPOSE_ATTACHMENTS_BUTTON);
   }
 
-  get composeAttachmentsFileEmbed() {
+  public get composeAttachmentsFileEmbed() {
     return this.composeAttachments.$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED);
   }
 
-  get composeAttachmentsFileIcon() {
+  public get composeAttachmentsFileIcon() {
     return this.composeAttachmentsFileEmbed.$(
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_ICON,
     );
   }
 
-  get composeAttachmentsFileIconValue() {
+  public get composeAttachmentsFileIconValue() {
     return this.composeAttachmentsFileIcon.$(
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_ICON_VALUE,
     );
   }
 
-  get composeAttachmentsFileInfo() {
+  public get composeAttachmentsFileInfo() {
     return this.composeAttachmentsFileEmbed.$(
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_INFO,
     );
   }
 
-  get composeAttachmentsFileMeta() {
+  public get composeAttachmentsFileMeta() {
     return this.composeAttachmentsFileEmbed.$(
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_META,
     );
   }
 
-  get composeAttachmentsFileName() {
+  public get composeAttachmentsFileName() {
     return this.composeAttachmentsFileEmbed.$(
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME,
     );
   }
 
-  get composeAttachmentsFileNameText() {
+  public get composeAttachmentsFileNameText() {
     return this.composeAttachmentsFileEmbed
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME)
       .$(SELECTORS.COMPOSE_ATTACHMENTS_FILE_NAME_TEXT);
   }
 
-  get composeAttachmentsImagePreviewModal() {
+  public get composeAttachmentsImagePreviewModal() {
     return this.composeAttachmentsFileEmbed.$(
       SELECTORS.COMPOSE_ATTACHMENTS_IMAGE_PREVIEW_MODAL,
     );
   }
 
-  get composeAttachmentsInputError() {
+  public get composeAttachmentsInputError() {
     return this.composeAttachments.$(SELECTORS.COMPOSE_ATTACHMENTS_INPUT_ERROR);
   }
 
-  get composeAttachmentsInputErrorText() {
+  public get composeAttachmentsInputErrorText() {
     return this.composeAttachmentsInputError.$(
       SELECTORS.COMPOSE_ATTACHMENTS_INPUT_ERROR_TEXT,
     );
   }
 
-  get composeAttachmentsMessageImage() {
+  public get composeAttachmentsMessageImage() {
     return this.composeAttachmentsMessageImageContainer.$(
       SELECTORS.COMPOSE_ATTACHMENTS_MESSAGE_IMAGE,
     );
   }
 
-  get composeAttachmentsMessageImageContainer() {
+  public get composeAttachmentsMessageImageContainer() {
     return this.composeAttachmentsFileEmbed.$(
       SELECTORS.COMPOSE_ATTACHMENTS_MESSAGE_IMAGE_CONTAINER,
     );
   }
 
   async clickOnDeleteAttachment(attachment: number) {
-    // Get the locator of attachment to delete by passing the index
+    // public get the locator of attachment to delete by passing the index
     const attachmentToDelete = await $$(
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
     )[attachment];
@@ -189,3 +189,5 @@ export default class ComposeAttachments extends UplinkMainScreen {
     await composeAttachments.waitForExist();
   }
 }
+
+export default new ComposeAttachments();

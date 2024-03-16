@@ -19,12 +19,6 @@ const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
 const { clipboard, keyboard, mouse, Button } = require("@nut-tree/nut-js");
-const createOrImport = new CreateOrImportScreen();
-let createPin = new CreatePinScreen();
-let createUser = new CreateUserScreen();
-let friendsScreen = new FriendsScreen();
-const saveRecoverySeed = new SaveRecoverySeedScreen();
-let welcomeScreen = new WelcomeScreen();
 
 // Users cache helper functions
 
@@ -106,43 +100,43 @@ export async function createNewUser(
   username: string,
   saveSeedWords: boolean = false,
 ) {
-  await createPin.unlockLayout.waitForExist();
+  await CreatePinScreen.unlockLayout.waitForExist();
 
   // Enter pin for test user
-  await createPin.enterPinOnCreateAccount("1234");
-  await createPin.createAccountButton.waitForEnabled();
-  await createPin.clickOnCreateAccount();
+  await CreatePinScreen.enterPinOnCreateAccount("1234");
+  await CreatePinScreen.createAccountButton.waitForEnabled();
+  await CreatePinScreen.clickOnCreateAccount();
 
   // Bypass new Recovery Seed Screens
-  await createOrImport.waitForIsShown(true);
-  await createOrImport.clickOnCreateAccount();
-  await saveRecoverySeed.waitForIsShown(true);
+  await CreateOrImportScreen.waitForIsShown(true);
+  await CreateOrImportScreen.clickOnCreateAccount();
+  await SaveRecoverySeedScreen.waitForIsShown(true);
   if (saveSeedWords === true) {
-    const recoverySeed = await saveRecoverySeed.getSeedWords();
+    const recoverySeed = await SaveRecoverySeedScreen.getSeedWords();
     await saveUserRecoverySeed(username, recoverySeed);
   }
-  await saveRecoverySeed.clickOnISavedItButton();
+  await SaveRecoverySeedScreen.clickOnISavedItButton();
 
   // Enter Username and click on Create Account
-  await createUser.enterUsername(username);
-  await createUser.createAccountButton.waitForEnabled();
-  await createUser.clickOnCreateAccount();
+  await CreateUserScreen.enterUsername(username);
+  await CreateUserScreen.createAccountButton.waitForEnabled();
+  await CreateUserScreen.clickOnCreateAccount();
 
   // Ensure Main Screen is displayed
-  await welcomeScreen.welcomeLayout.waitForExist({ timeout: 60000 });
+  await WelcomeScreen.welcomeLayout.waitForExist({ timeout: 60000 });
 
   // Workaround to ensure that user clicks on Add Someone
-  await welcomeScreen.clickAddSomeone();
-  await friendsScreen.friendsBody.waitForExist();
+  await WelcomeScreen.clickAddSomeone();
+  await FriendsScreen.friendsBody.waitForExist();
 }
 
 export async function loginWithTestUser() {
   // Enter pin for test user
-  const unlockScreen = await createPin.unlockLayout;
+  const unlockScreen = await CreatePinScreen.unlockLayout;
   await unlockScreen.waitForExist();
-  await createPin.enterPinOnLogin("1234");
-  await createPin.validateSpinnerIsNotShown();
-  await createPin.unlockLayout.waitForExist({ reverse: true });
+  await CreatePinScreen.enterPinOnLogin("1234");
+  await CreatePinScreen.validateSpinnerIsNotShown();
+  await CreatePinScreen.unlockLayout.waitForExist({ reverse: true });
 }
 
 export async function resetApp() {

@@ -84,142 +84,142 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class MessageRemote extends UplinkMainScreen {
+class MessageRemote extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.CHAT_MESSAGE_REMOTE);
   }
 
-  get chatMessageCodeCopyButton() {
+  public get chatMessageCodeCopyButton() {
     return $(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
       SELECTORS.CHAT_MESSAGE_CODE_COPY_BUTTON,
     );
   }
 
-  get chatMessageCodeLanguage() {
+  public get chatMessageCodeLanguage() {
     return $(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
       SELECTORS.CHAT_MESSAGE_CODE_LANGUAGE,
     );
   }
 
-  get chatMessageCodePane() {
+  public get chatMessageCodePane() {
     return $(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
       SELECTORS.CHAT_MESSAGE_CODE_PANE,
     );
   }
 
-  get chatMessageCodePaneMessages() {
+  public get chatMessageCodePaneMessages() {
     return $(SELECTORS.CHAT_MESSAGE_TEXT_GROUP)
       .$(SELECTORS.CHAT_MESSAGE_CODE_PANE)
       .$$(SELECTORS.CHAT_MESSAGE_CODE_MESSAGES);
   }
 
-  get chatMessageFileButtonRemote() {
+  public get chatMessageFileButtonRemote() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
       SELECTORS.CHAT_MESSAGE_FILE_BUTTON,
     );
   }
 
-  get chatMessageFileEmbedRemote() {
+  public get chatMessageFileEmbedRemote() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE);
   }
 
-  get chatMessageFileIconRemote() {
+  public get chatMessageFileIconRemote() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
       SELECTORS.CHAT_MESSAGE_FILE_ICON,
     );
   }
 
-  get chatMessageFileInfoRemote() {
+  public get chatMessageFileInfoRemote() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
       SELECTORS.CHAT_MESSAGE_FILE_INFO,
     );
   }
 
-  get chatMessageFileMetaRemote() {
+  public get chatMessageFileMetaRemote() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
       SELECTORS.CHAT_MESSAGE_FILE_META,
     );
   }
 
-  get chatMessageFileMetaTextRemote() {
+  public get chatMessageFileMetaTextRemote() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META)
       .$(SELECTORS.CHAT_MESSAGE_FILE_META_TEXT);
   }
 
-  get chatMessageFileNameRemote() {
+  public get chatMessageFileNameRemote() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE).$(
       SELECTORS.CHAT_MESSAGE_FILE_NAME,
     );
   }
 
-  get chatMessageFileNameTextRemote() {
+  public get chatMessageFileNameTextRemote() {
     return $(SELECTORS.CHAT_MESSAGE_FILE_EMBED_REMOTE)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME)
       .$(SELECTORS.CHAT_MESSAGE_FILE_NAME_TEXT);
   }
 
-  get chatMessageImageContainer() {
+  public get chatMessageImageContainer() {
     return $(SELECTORS.CHAT_MESSAGE_IMAGE_CONTAINER);
   }
 
-  get chatMessageImageFile() {
+  public get chatMessageImageFile() {
     return $(SELECTORS.CHAT_MESSAGE_IMAGE_CONTAINER).$(
       SELECTORS.CHAT_MESSAGE_IMAGE_FILE,
     );
   }
 
-  get chatMessageImageModal() {
+  public get chatMessageImageModal() {
     return $(SELECTORS.CHAT_MESSAGE_IMAGE_MODAL);
   }
 
-  get chatMessageImageModalFile() {
+  public get chatMessageImageModalFile() {
     return $(SELECTORS.CHAT_MESSAGE_IMAGE_MODAL).$(
       SELECTORS.CHAT_MESSAGE_IMAGE_MODAL_FILE,
     );
   }
 
-  get chatMessageLinkEmbed() {
+  public get chatMessageLinkEmbed() {
     return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED);
   }
 
-  get chatMessageLinkEmbedDetails() {
+  public get chatMessageLinkEmbedDetails() {
     return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
       SELECTORS.CHAT_MESSAGE_LINK_EMBED_DETAILS,
     );
   }
 
-  get chatMessageLinkEmbedIcon() {
+  public get chatMessageLinkEmbedIcon() {
     return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
       SELECTORS.CHAT_MESSAGE_LINK_EMBED_ICON,
     );
   }
 
-  get chatMessageLinkEmbedTitle() {
+  public get chatMessageLinkEmbedTitle() {
     return $(SELECTORS.CHAT_MESSAGE_LINK_EMBED).$(
       SELECTORS.CHAT_MESSAGE_LINK_EMBED_TITLE,
     );
   }
 
-  get chatMessageRemote() {
+  public get chatMessageRemote() {
     return $$(SELECTORS.CHAT_MESSAGE_REMOTE);
   }
 
-  get chatMessageReply() {
+  public get chatMessageReply() {
     return $(SELECTORS.CHAT_MESSAGE_REPLY);
   }
 
-  get chatMessageReplyText() {
+  public get chatMessageReplyText() {
     return $(SELECTORS.CHAT_MESSAGE_REPLY).$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
   }
 
-  get chatMessageTextValue() {
+  public get chatMessageTextValue() {
     return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
       SELECTORS.CHAT_MESSAGE_TEXT_VALUE,
     );
   }
 
-  get chatMessageTextGroup() {
+  public get chatMessageTextGroup() {
     return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
@@ -550,3 +550,5 @@ export default class MessageRemote extends UplinkMainScreen {
     await messageToClick.click();
   }
 }
+
+export default new MessageRemote();

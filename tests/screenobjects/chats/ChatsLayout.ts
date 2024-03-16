@@ -35,45 +35,45 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class ChatsLayout extends UplinkMainScreen {
+class ChatsLayout extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.CHAT_LAYOUT);
   }
 
-  get chatbarInputError() {
+  public get chatbarInputError() {
     return this.chatLayout.$(SELECTORS.CHATBAR_INPUT_ERROR);
   }
 
-  get chatbarInputErrorText() {
+  public get chatbarInputErrorText() {
     return this.chatbarInputError.$(SELECTORS.CHATBAR_INPUT_ERROR_TEXT);
   }
 
-  get chatLayout() {
+  public get chatLayout() {
     return $(SELECTORS.CHAT_LAYOUT);
   }
 
-  get encryptedMessages() {
+  public get encryptedMessages() {
     return $(SELECTORS.ENCRYPTED_MESSAGES);
   }
 
-  get encryptedMessagesText() {
+  public get encryptedMessagesText() {
     return $(SELECTORS.ENCRYPTED_MESSAGES).$(SELECTORS.ENCRYPTED_MESSAGES_TEXT);
   }
 
-  get scrollToBottomButton() {
+  public get scrollToBottomButton() {
     return this.chatLayout.$(SELECTORS.SCROLL_TO_BOTTOM);
   }
 
-  get typingIndicator() {
+  public get typingIndicator() {
     return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.TYPING_INDICATOR);
   }
 
-  get typingIndicatorText() {
+  public get typingIndicatorText() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.TYPING_INDICATOR)
       .$(SELECTORS.TYPING_INDICATOR_TEXT);
   }
-  get typingIndicatorTextValue() {
+  public get typingIndicatorTextValue() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.TYPING_INDICATOR)
       .$(SELECTORS.TYPING_INDICATOR_TEXT)
@@ -89,3 +89,5 @@ export default class ChatsLayout extends UplinkMainScreen {
     await this.chatLayout.waitForExist();
   }
 }
+
+export default new ChatsLayout();

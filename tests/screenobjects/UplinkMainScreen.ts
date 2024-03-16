@@ -1,5 +1,4 @@
 require("module-alias/register");
-import AppScreen from "@screenobjects/AppScreen";
 import {
   hoverOnMacOS,
   hoverOnWindows,
@@ -7,8 +6,6 @@ import {
   leftClickOnWindows,
 } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
-
-let SELECTORS = {};
 
 const SELECTORS_COMMON = {
   PRE_RELEASE_INDICATOR: "~pre-release",
@@ -74,13 +71,57 @@ const SELECTORS_MACOS = {
   WINDOW: "-ios class chain:**/XCUIElementTypeWindow",
 };
 
+let SELECTORS = {
+  BACK_BUTTON: "",
+  BUTTON_BADGE: "",
+  BUTTON_BADGE_TEXT: "",
+  BUTTON_NAV: "",
+  BUTTON_NAV_TOOLTIP: "",
+  BUTTON_NAV_TOOLTIP_TEXT: "",
+  CHATS_BUTTON: "",
+  CONTEXT_MENU: "",
+  CONTEXT_MENU_OPEN_WEB_INSPECTOR: "",
+  FILES_BUTTON: "",
+  FRIENDS_BUTTON: "",
+  HAMBURGER_BUTTON: "",
+  LOADING_SPINNER: "",
+  MODAL: "",
+  PRE_RELEASE_INDICATOR: "",
+  PRE_RELEASE_INDICATOR_TEXT: "",
+  SETTINGS_BUTTON: "",
+  TOAST_NOTIFICATION: "",
+  TOAST_NOTIFICATION_CLOSE: "",
+  TOAST_NOTIFICATION_TEXT: "",
+  TOOLTIP: "",
+  TOOLTIP_TEXT: "",
+  UPDATE_AVAILABLE: "",
+  UPDATE_AVAILABLE_TEXT: "",
+  UPDATE_MENU_DISMISS: "",
+  UPDATE_MENU_DOWNLOAD: "",
+  WINDOW: "",
+};
+
 process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class UplinkMainScreen extends AppScreen {
-  constructor() {
-    super(SELECTORS.WINDOW);
+export default class UplinkMainScreen {
+  private locator;
+
+  constructor(locator: string) {
+    this.locator = locator;
+  }
+
+  async getCurrentDriver() {
+    const currentDriver = process.env.DRIVER;
+    return currentDriver;
+  }
+
+  async waitForIsShown(isShown = true): Promise<boolean | void> {
+    const locator = await $(this.locator);
+    return locator.waitForDisplayed({
+      reverse: !isShown,
+    });
   }
 
   public get backButton() {

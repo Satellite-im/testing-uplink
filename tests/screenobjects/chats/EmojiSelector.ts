@@ -25,26 +25,26 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class EmojiSelector extends UplinkMainScreen {
+class EmojiSelector extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.EMOJI_SELECTOR);
   }
 
-  get emoji() {
+  public get emoji() {
     return $(SELECTORS.EMOJI_SELECTOR).$$(SELECTORS.EMOJI);
   }
 
-  get emojiValue() {
+  public get emojiValue() {
     return $(SELECTORS.EMOJI_SELECTOR)
       .$$(SELECTORS.EMOJI)
       .$$(SELECTORS.EMOJI_VALUE);
   }
 
-  get emojiSelector() {
+  public get emojiSelector() {
     return $(SELECTORS.EMOJI_SELECTOR);
   }
 
-  get emojisContainer() {
+  public get emojisContainer() {
     return $(SELECTORS.EMOJI_SELECTOR).$$(SELECTORS.EMOJIS_CONTAINER);
   }
 
@@ -68,3 +68,5 @@ export default class EmojiSelector extends UplinkMainScreen {
     }
   }
 }
+
+export default new EmojiSelector();

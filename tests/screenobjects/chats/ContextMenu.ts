@@ -36,64 +36,64 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class ContextMenu extends UplinkMainScreen {
+class ContextMenu extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.CONTEXT_MENU);
   }
 
-  get contextMenu() {
+  public get contextMenu() {
     return $(SELECTORS.CONTEXT_MENU);
   }
 
-  get contextMessagesCancelEdit() {
+  public get contextMessagesCancelEdit() {
     return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_CANCEL_EDIT);
   }
 
-  get contextMessagesCopy() {
+  public get contextMessagesCopy() {
     return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_COPY);
   }
 
-  get contextMessagesDelete() {
+  public get contextMessagesDelete() {
     return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_DELETE);
   }
 
-  get contextMessagesEdit() {
+  public get contextMessagesEdit() {
     return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_EDIT);
   }
 
-  get contextMessagesPin() {
+  public get contextMessagesPin() {
     return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_PIN);
   }
 
-  get contextMessagesReact() {
+  public get contextMessagesReact() {
     return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_REACT);
   }
 
-  get contextMessagesReply() {
+  public get contextMessagesReply() {
     return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.CONTEXT_MESSAGES_REPLY);
   }
 
-  get emojiRecentFirst() {
+  public get emojiRecentFirst() {
     return $(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON)[0];
   }
 
-  get emojiRecentSecond() {
+  public get emojiRecentSecond() {
     return $(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON)[1];
   }
 
-  get emojiRecentThird() {
+  public get emojiRecentThird() {
     return $(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON)[2];
   }
 
-  get emojiRecentFourth() {
+  public get emojiRecentFourth() {
     return $(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON)[3];
   }
 
-  get emojiRecentFifth() {
+  public get emojiRecentFifth() {
     return $(SELECTORS.CONTEXT_MENU).$$(SELECTORS.EMOJI_BUTTON)[4];
   }
 
-  get openEmojiSelector() {
+  public get openEmojiSelector() {
     return $(SELECTORS.CONTEXT_MENU).$(SELECTORS.OPEN_EMOJI_PICKER);
   }
 
@@ -190,3 +190,5 @@ export default class ContextMenu extends UplinkMainScreen {
     await contextMenu.waitForExist();
   }
 }
+
+export default new ContextMenu();

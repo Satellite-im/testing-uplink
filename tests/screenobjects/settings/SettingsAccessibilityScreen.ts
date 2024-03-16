@@ -86,4 +86,4 @@ class SettingsAccessibilityScreen extends SettingsBaseScreen {
   }
 }
 
-export default SettingsAccessibilityScreen;
+export default new SettingsAccessibilityScreen();

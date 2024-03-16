@@ -59,122 +59,122 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class MessageGroupLocal extends UplinkMainScreen {
+class MessageGroupLocal extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL);
   }
 
-  get chatMessageLocal() {
+  public get chatMessageLocal() {
     return $(SELECTORS.CHAT_MESSAGE_LOCAL);
   }
 
-  get chatMessageTextValue() {
+  public get chatMessageTextValue() {
     return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
       SELECTORS.CHAT_MESSAGE_TEXT_VALUE,
     );
   }
 
-  get chatMessageTextGroup() {
+  public get chatMessageTextGroup() {
     return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
-  get emojiReactionRemote() {
+  public get emojiReactionRemote() {
     return $$(SELECTORS.MESSAGE_REACTION_CONTAINER).$$(
       SELECTORS.EMOJI_REACTION_REMOTE,
     );
   }
 
-  get emojiReactionRemoteValue() {
+  public get emojiReactionRemoteValue() {
     return $$(SELECTORS.MESSAGE_REACTION_CONTAINER)
       .$$(SELECTORS.EMOJI_REACTION_REMOTE)
       .$(SELECTORS.EMOJI_REACTION_VALUE);
   }
 
-  get emojiReactionSelf() {
+  public get emojiReactionSelf() {
     return $$(SELECTORS.MESSAGE_REACTION_CONTAINER).$$(
       SELECTORS.EMOJI_REACTION_SELF,
     );
   }
 
-  get emojiReactionSelfValue() {
+  public get emojiReactionSelfValue() {
     return $$(SELECTORS.MESSAGE_REACTION_CONTAINER)
       .$$(SELECTORS.EMOJI_REACTION_SELF)
       .$(SELECTORS.EMOJI_REACTION_VALUE);
   }
 
-  get messageGroupSent() {
+  public get messageGroupSent() {
     return $$(SELECTORS.MESSAGE_GROUP_SENT);
   }
 
-  get messageGroupWrapLocal() {
+  public get messageGroupWrapLocal() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL);
   }
 
-  get messageGroupTimeAgo() {
+  public get messageGroupTimeAgo() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL).$(
       SELECTORS.MESSAGE_GROUP_TIME_AGO,
     );
   }
 
-  get messageGroupTimeAgoValue() {
+  public get messageGroupTimeAgoValue() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
   }
 
-  get messageGroupUserImage() {
+  public get messageGroupUserImage() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
   }
 
-  get messageGroupUserImageProfile() {
+  public get messageGroupUserImageProfile() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL).$(
       SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE,
     );
   }
 
-  get messageGroupUserImageWrap() {
+  public get messageGroupUserImageWrap() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL).$(
       SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP,
     );
   }
 
-  get messageGroupUserIndicator() {
+  public get messageGroupUserIndicator() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR);
   }
 
-  get messageGroupUserIndicatorDoNotDisturb() {
+  public get messageGroupUserIndicatorDoNotDisturb() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_DO_NOT_DISTURB);
   }
 
-  get messageGroupUserIndicatorIdle() {
+  public get messageGroupUserIndicatorIdle() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_IDLE);
   }
 
-  get messageGroupUserIndicatorOffline() {
+  public get messageGroupUserIndicatorOffline() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE);
   }
 
-  get messageGroupUserIndicatorOnline() {
+  public get messageGroupUserIndicatorOnline() {
     return $$(SELECTORS.MESSAGE_GROUP_WRAP_LOCAL)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
   }
 
-  get messageReactionContainer() {
+  public get messageReactionContainer() {
     return $$(SELECTORS.MESSAGE_REACTION_CONTAINER);
   }
 
-  get pinIndicator() {
+  public get pinIndicator() {
     return $$(SELECTORS.PIN_INDICATOR);
   }
 
@@ -239,7 +239,7 @@ export default class MessageGroupLocal extends UplinkMainScreen {
     return onlineStatus;
   }
 
-  // Get current status from last message sent
+  // get current status from last message sent
   async getLastGroupWrapSentCurrentStatus() {
     const groupWrap = await this.getLastGroupWrapSent();
     const groupWrapIndicator = await groupWrap.$(
@@ -396,3 +396,5 @@ export default class MessageGroupLocal extends UplinkMainScreen {
     await pinIndicator.waitForExist();
   }
 }
+
+export default new MessageGroupLocal();

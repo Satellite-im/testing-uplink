@@ -66,100 +66,100 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SendFiles extends UplinkMainScreen {
+class SendFiles extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.SEND_FILES_LAYOUT);
   }
 
-  get closeButton() {
+  public get closeButton() {
     return this.closeButtonModal.$(SELECTORS.CLOSE_BUTTON);
   }
 
-  get closeButtonModal() {
+  public get closeButtonModal() {
     return $(SELECTORS.CLOSE_BUTTON_MODAL);
   }
 
-  get contextMenu() {
+  public get contextMenu() {
     return $(SELECTORS.CONTEXT_MENU);
   }
 
-  get contextMenuFilesRename() {
+  public get contextMenuFilesRename() {
     return $(SELECTORS.CONTEXT_MENU_FILES_RENAME);
   }
 
-  get contextMenuFolderDelete() {
+  public get contextMenuFolderDelete() {
     return $(SELECTORS.CONTEXT_MENU_FOLDER_DELETE);
   }
 
-  get contextMenuFolderRename() {
+  public get contextMenuFolderRename() {
     return $(SELECTORS.CONTEXT_MENU_FOLDER_RENAME);
   }
 
-  get fileFolderNameText() {
+  public get fileFolderNameText() {
     return this.sendFilesBody.$(SELECTORS.FILE_FOLDER_NAME_TEXT);
   }
 
-  get fileThumbnail() {
+  public get fileThumbnail() {
     return this.sendFilesBody.$(SELECTORS.FILE_THUMBNAIL);
   }
 
-  get filesBreadcrumbs() {
+  public get filesBreadcrumbs() {
     return this.sendFilesBody.$(SELECTORS.FILES_BREADCRUMBS);
   }
 
-  get filesCrumb() {
+  public get filesCrumb() {
     return this.filesBreadcrumbs.$$(SELECTORS.FILES_CRUMB);
   }
 
-  get filesCrumbText() {
+  public get filesCrumbText() {
     return this.filesCrumb.$(SELECTORS.FILES_CRUMB_TEXT);
   }
 
-  get filesList() {
+  public get filesList() {
     return this.sendFilesBody.$(SELECTORS.FILES_LIST);
   }
 
-  get goToFilesButton() {
+  public get goToFilesButton() {
     return this.sendFilesBody.$(SELECTORS.GO_TO_FILES_BUTTON);
   }
 
-  get homeDir() {
+  public get homeDir() {
     return this.sendFilesBody.$(SELECTORS.HOME_DIR);
   }
 
-  get homeDirText() {
+  public get homeDirText() {
     return this.homeDir.$(SELECTORS.HOME_DIR_TEXT);
   }
 
-  get inputError() {
+  public get inputError() {
     return this.sendFilesBody.$(SELECTORS.INPUT_ERROR);
   }
 
-  get inputErrorText() {
+  public get inputErrorText() {
     return this.inputError.$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
-  get inputFileName() {
+  public get inputFileName() {
     return $(SELECTORS.INPUT_FILE_NAME);
   }
 
-  get inputFolderName() {
+  public get inputFolderName() {
     return $(SELECTORS.INPUT_FOLDER_NAME);
   }
 
-  get noFilesAvailable() {
+  public get noFilesAvailable() {
     return this.sendFilesBody.$(SELECTORS.NO_FILES_AVAILABLE);
   }
 
-  get sendFilesBody() {
+  public get sendFilesBody() {
     return this.sendFilesLayout.$(SELECTORS.SEND_FILES_BODY);
   }
 
-  get sendFilesLayout() {
+  public get sendFilesLayout() {
     return $(SELECTORS.SEND_FILES_LAYOUT);
   }
 
-  get sendFilesModalSendButton() {
+  public get sendFilesModalSendButton() {
     return this.sendFilesBody.$(SELECTORS.SEND_FILES_MODAL_SEND_BUTTON);
   }
 
@@ -377,3 +377,5 @@ export default class SendFiles extends UplinkMainScreen {
     await folderRenameOption.click();
   }
 }
+
+export default new SendFiles();

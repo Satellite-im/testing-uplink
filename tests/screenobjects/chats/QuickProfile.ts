@@ -61,109 +61,109 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class QuickProfile extends UplinkMainScreen {
+class QuickProfile extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.QUICK_PROFILE);
   }
 
-  get quickProfile() {
+  public get quickProfile() {
     return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.QUICK_PROFILE);
   }
 
-  get quickProfileBannerImage() {
+  public get quickProfileBannerImage() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_BANNER_IMAGE);
   }
 
-  get quickProfileBlockUser() {
+  public get quickProfileBlockUser() {
     return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_BLOCK);
   }
 
-  get quickProfileEditProfile() {
+  public get quickProfileEditProfile() {
     return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_SELF_EDIT);
   }
 
-  get quickProfileIdentityHeader() {
+  public get quickProfileIdentityHeader() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_IDENTITY_HEADER);
   }
 
-  get quickProfileIndicator() {
+  public get quickProfileIndicator() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_INDICATOR);
   }
 
-  get quickProfileIndicatorOffline() {
+  public get quickProfileIndicatorOffline() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_INDICATOR_OFFLINE);
   }
 
-  get quickProfileIndicatorOnline() {
+  public get quickProfileIndicatorOnline() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_INDICATOR_ONLINE);
   }
 
-  get quickProfileMessage() {
+  public get quickProfileMessage() {
     return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_MESSAGE);
   }
 
-  get quickProfileRemoveFriend() {
+  public get quickProfileRemoveFriend() {
     return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_FRIEND_REMOVE);
   }
 
-  get quickProfileShareDid() {
+  public get quickProfileShareDid() {
     return this.quickProfile.$(SELECTORS.QUICK_PROFILE_SHARE_DID);
   }
 
-  get quickProfileUnblockUser() {
+  public get quickProfileUnblockUser() {
     return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_UNBLOCK);
   }
 
-  get quickProfileUserImage() {
+  public get quickProfileUserImage() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_IMAGE);
   }
 
-  get quickProfileUserName() {
+  public get quickProfileUserName() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME);
   }
 
-  get quickProfileUserNameValue() {
+  public get quickProfileUserNameValue() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE);
   }
 
-  get quickProfileUserNameValueText() {
+  public get quickProfileUserNameValueText() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.QUICK_PROFILE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE)
       .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE_TEXT);
   }
 
-  get quickProfileUserVolumeLabel() {
+  public get quickProfileUserVolumeLabel() {
     return $(SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL);
   }
 
-  get quickProfileUserVolumeLabelText() {
+  public get quickProfileUserVolumeLabelText() {
     return this.quickProfileUserVolumeLabel.$(
       SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL_TEXT,
     );
   }
 
-  get quickProfileUserVolumeRange() {
+  public get quickProfileUserVolumeRange() {
     return $(SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE);
   }
 
-  get quickProfileUserVolumeRangeInput() {
+  public get quickProfileUserVolumeRangeInput() {
     return this.quickProfileUserVolumeRange.$(
       SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE_INPUT,
     );
@@ -199,3 +199,5 @@ export default class QuickProfile extends UplinkMainScreen {
     await unblockUser.click();
   }
 }
+
+export default new QuickProfile();

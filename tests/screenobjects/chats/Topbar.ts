@@ -87,176 +87,176 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class Topbar extends UplinkMainScreen {
+class Topbar extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.TOPBAR);
   }
 
-  get closeRenameGroupButton() {
+  public get closeRenameGroupButton() {
     return $(SELECTORS.CLOSE_RENAME_GROUP_BUTTON);
   }
 
-  get contextMenu() {
+  public get contextMenu() {
     return this.topbar.$(SELECTORS.CONTEXT_MENU);
   }
 
-  get contextMenuCloseChat() {
+  public get contextMenuCloseChat() {
     return this.contextMenu.$(SELECTORS.CONTEXT_MENU_CLOSE_CHAT);
   }
 
-  get contextMenuGroupSettings() {
+  public get contextMenuGroupSettings() {
     return this.contextMenu.$(SELECTORS.CONTEXT_MENU_GROUP_SETTINGS);
   }
 
-  get contextMenuManageMembers() {
+  public get contextMenuManageMembers() {
     return this.contextMenu.$(SELECTORS.CONTEXT_MENU_MANAGE_MEMBERS);
   }
 
-  get contextMenuRenameGroup() {
+  public get contextMenuRenameGroup() {
     return this.contextMenu.$(SELECTORS.CONTEXT_MENU_RENAME_GROUP);
   }
 
-  get groupNameInput() {
+  public get groupNameInput() {
     return this.topbarUserInfo.$(SELECTORS.GROUP_NAME_INPUT);
   }
 
-  get groupNameInputError() {
+  public get groupNameInputError() {
     return $(SELECTORS.GROUP_NAME_INPUT_ERROR);
   }
 
-  get groupNameInputErrorText() {
+  public get groupNameInputErrorText() {
     return this.groupNameInputError.$(SELECTORS.GROUP_NAME_INPUT_ERROR_TEXT);
   }
 
-  get topbar() {
+  public get topbar() {
     return $(SELECTORS.TOPBAR);
   }
 
-  get topbarAddToFavorites() {
+  public get topbarAddToFavorites() {
     return this.topbar.$(SELECTORS.TOPBAR_ADD_TO_FAVORITES);
   }
 
-  get topbarAddToFavoritesTooltip() {
+  public get topbarAddToFavoritesTooltip() {
     return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
-  get topbarAddToFavoritesTooltipText() {
+  public get topbarAddToFavoritesTooltipText() {
     return this.topbarAddToFavoritesTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get topbarCall() {
+  public get topbarCall() {
     return this.topbar.$(SELECTORS.TOPBAR_CALL);
   }
 
-  get topbarCallTooltip() {
+  public get topbarCallTooltip() {
     return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
-  get topbarCallTooltipText() {
+  public get topbarCallTooltipText() {
     return this.topbarCallTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get topbarGroupSettings() {
+  public get topbarGroupSettings() {
     return this.topbar.$(SELECTORS.TOPBAR_GROUP_SETTINGS);
   }
 
-  get topbarIndicator() {
+  public get topbarIndicator() {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR);
   }
 
-  get topbarIndicatorDoNotDisturb() {
+  public get topbarIndicatorDoNotDisturb() {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOPBAR_INDICATOR_DO_NOT_DISTURB);
   }
 
-  get topbarIndicatorIdle() {
+  public get topbarIndicatorIdle() {
     return this.topbar.$(SELECTORS.TOPBAR_INDICATOR_IDLE);
   }
 
-  get topbarIndicatorOffline() {
+  public get topbarIndicatorOffline() {
     return this.topbar.$(SELECTORS.TOPBAR_INDICATOR_OFFLINE);
   }
 
-  get topbarIndicatorOnline() {
+  public get topbarIndicatorOnline() {
     return this.topbar.$(SELECTORS.TOPBAR_INDICATOR_ONLINE);
   }
 
-  get topbarManageMembers() {
+  public get topbarManageMembers() {
     return this.topbar.$(SELECTORS.TOPBAR_MANAGE_MEMBERS);
   }
 
-  get topbarManageMembersTooltip() {
+  public get topbarManageMembersTooltip() {
     return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
-  get topbarManageMembersTooltipText() {
+  public get topbarManageMembersTooltipText() {
     return this.topbarManageMembersTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get topbarPinnedMessages() {
+  public get topbarPinnedMessages() {
     return this.topbar.$(SELECTORS.TOPBAR_PINNED_MESSAGES);
   }
 
-  get topbarPinnedMessagesTooltip() {
+  public get topbarPinnedMessagesTooltip() {
     return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
-  get topbarPinnedMessagesTooltipText() {
+  public get topbarPinnedMessagesTooltipText() {
     return this.topbarPinnedMessagesTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get topbarRemoveFromFavorites() {
+  public get topbarRemoveFromFavorites() {
     return this.topbar.$(SELECTORS.TOPBAR_REMOVE_FROM_FAVORITES);
   }
 
-  get topbarUserImage() {
+  public get topbarUserImage() {
     return this.topbar.$(SELECTORS.TOPBAR_USER_IMAGE);
   }
 
-  get topbarUserImageProfile() {
+  public get topbarUserImageProfile() {
     return this.topbar.$(SELECTORS.TOPBAR_USER_IMAGE_PROFILE);
   }
 
-  get topbarUserImageWrap() {
+  public get topbarUserImageWrap() {
     return this.topbar.$(SELECTORS.TOPBAR_USER_IMAGE_WRAP);
   }
 
-  get topbarUserInfo() {
+  public get topbarUserInfo() {
     return this.topbar.$(SELECTORS.TOPBAR_USER_INFO);
   }
 
-  get topbarUserName() {
+  public get topbarUserName() {
     return $(SELECTORS.TOPBAR_USER_NAME);
   }
 
-  get topbarUserNameValue() {
+  public get topbarUserNameValue() {
     return this.topbarUserName.$(SELECTORS.TOPBAR_USER_NAME_VALUE);
   }
 
-  get topbarUserStatus() {
+  public get topbarUserStatus() {
     return $(SELECTORS.TOPBAR_USER_STATUS);
   }
 
-  get topbarUserStatusValue() {
+  public get topbarUserStatusValue() {
     return this.topbarUserStatus.$(SELECTORS.TOPBAR_USER_STATUS_VALUE);
   }
 
-  get topbarVideocall() {
+  public get topbarVideocall() {
     return this.topbar.$(SELECTORS.TOPBAR_VIDEOCALL);
   }
 
-  get topbarVideocallTooltip() {
+  public get topbarVideocallTooltip() {
     return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
-  get topbarVideocallTooltipText() {
+  public get topbarVideocallTooltipText() {
     return this.topbarVideocallTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get viewGroupTooltip() {
+  public get viewGroupTooltip() {
     return this.topbar.$(SELECTORS.TOOLTIP);
   }
 
-  get viewGroupTooltipText() {
+  public get viewGroupTooltipText() {
     return this.viewGroupTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
@@ -484,7 +484,7 @@ export default class Topbar extends UplinkMainScreen {
     await renameGroup.click();
   }
 
-  // Get current status
+  // get current status
   async getCurrentStatus() {
     const topbarIndicator = await this.topbarIndicator;
     const currentDriver = await this.getCurrentDriver();
@@ -495,3 +495,5 @@ export default class Topbar extends UplinkMainScreen {
     }
   }
 }
+
+export default new Topbar();
