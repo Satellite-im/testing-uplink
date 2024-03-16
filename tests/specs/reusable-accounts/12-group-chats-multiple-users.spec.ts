@@ -47,7 +47,7 @@ export default async function groupChatMultipleUsersTests() {
     await friendsScreen.goToPendingFriendsList();
     await friendsScreen.validateIncomingListIsShown();
     await friendsScreen.waitUntilFriendRequestIsReceived();
-    await friendsScreen.acceptIncomingRequest("ChatUserB");
+    await friendsScreen.acceptIncomingRequest("ChatUserC");
 
     // Validate friend is now on all friends list
     await friendsScreen.goToAllFriendsList();
