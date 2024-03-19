@@ -1,6 +1,7 @@
 require("module-alias/register");
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "@screenobjects/chats/ContextMenuSidebar";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import ManageMembers from "@screenobjects/chats/ManageMembers";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
@@ -12,60 +13,55 @@ import {
   activateFirstApplication,
   activateSecondApplication,
   grabCacheFolder,
-  resetAndLoginWithCache,
+  grabCacheFolderSecondInstance,
+  resetAndLoginWithCacheFirstInstance,
+  resetAndLoginWithCacheSecondInstance,
 } from "@helpers/commands";
-const chatsInput = new InputBar();
-const chatsSidebar = new ChatsSidebar();
-const chatsTopbar = new Topbar();
-const contextMenuSidebar = new ContextMenuSidebar();
-const manageMembers = new ManageMembers();
-const favoritesSidebar = new FavoritesSidebar();
-const filesScreen = new FilesScreen();
-const friendsScreen = new FriendsScreen();
-const messageLocal = new MessageLocal();
 
 describe("Group Chats Sidebar - Tests", function () {
   before(async () => {
-    await resetAndLoginWithCache("ChatUserB");
-    await resetAndLoginWithCache("ChatUserA");
+    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await CreatePinScreen.loginWithTestUser();
+    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await CreatePinScreen.loginWithTestUser();
   });
 
   it("Group Chat - Add group to favorites", async () => {
     // Return control of execution to User A and leave Participants List screen
-    await chatsSidebar.goToSidebarGroupChat("renamed");
-    await chatsTopbar.clickOnTopbar();
+    await ChatsSidebar.goToSidebarGroupChat("renamed");
+    await Topbar.clickOnTopbar();
 
     // Click on Favorites button for Group Chat
-    await chatsTopbar.addToFavorites();
-    await favoritesSidebar.validateFavoritesAreShown();
+    await Topbar.addToFavorites();
+    await FavoritesSidebar.validateFavoritesAreShown();
 
     // Favorites Sidebar should be displayed and showing the name of the group added to Favorites
     // Favorites Sidebar User bubble should be displayed
-    await favoritesSidebar.validateFavoritesUserImage("renamed");
+    await FavoritesSidebar.validateFavoritesUserImage("renamed");
   });
 
   it("Group Chat - Remove group from favorites", async () => {
     // Remove user from favorites and ensure that Favorites bar is hidden now
-    await chatsTopbar.removeFromFavorites();
+    await Topbar.removeFromFavorites();
   });
 
   it("Group Chats Testing - Go to another chat conversation", async () => {
     // Go to another chat conversation
-    await chatsTopbar.goToFriends();
-    await friendsScreen.validateFriendsScreenIsShown();
-    await friendsScreen.validateChatWithFriendButtonIsShown();
-    await friendsScreen.hoverOnChatWithFriendButton("ChatUserB");
-    await friendsScreen.clickOnChatWithFriend();
-    await chatsTopbar.validateTopbarExists();
+    await Topbar.goToFriends();
+    await FriendsScreen.validateFriendsScreenIsShown();
+    await FriendsScreen.validateChatWithFriendButtonIsShown();
+    await FriendsScreen.hoverOnChatWithFriendButton("ChatUserB");
+    await FriendsScreen.clickOnChatWithFriend();
+    await Topbar.validateTopbarExists();
   });
 
   it("Group Chat - Send message to the group with User B", async () => {
     // Switch test execution control to User B and send message to the group
     await activateSecondApplication();
-    await chatsSidebar.goToSidebarGroupChat("renamed");
-    await chatsInput.typeMessageOnInput("HelloGroup");
-    await chatsInput.clickOnSendMessage();
-    await messageLocal.waitForMessageSentToExist("HelloGroup");
+    await ChatsSidebar.goToSidebarGroupChat("renamed");
+    await InputBar.typeMessageOnInput("HelloGroup");
+    await InputBar.clickOnSendMessage();
+    await MessageLocal.waitForMessageSentToExist("HelloGroup");
   });
 
   it("Group Chat - Sidebar - Any new messages received in group should appear in Sidebar", async () => {
@@ -73,54 +69,54 @@ describe("Group Chats Sidebar - Tests", function () {
     await activateFirstApplication();
 
     // Validate Sidebar shows Group Name
-    await chatsSidebar.validateUsernameDisplayed("renamed");
+    await ChatsSidebar.validateUsernameDisplayed("renamed");
 
     // Validate last message content from group is displayed on sidebar
-    await chatsSidebar.validateLastMessageDisplayed("HelloGroup");
+    await ChatsSidebar.validateLastMessageDisplayed("HelloGroup");
 
     // Validate number of unread messages from the group is displayed on sidebar
-    await chatsSidebar.validateNumberOfUnreadMessages("1");
+    await ChatsSidebar.validateNumberOfUnreadMessages("1");
 
     // Validate time ago is displayed on sidebar for group chat
-    await chatsSidebar.validateLastMessageTimeAgo();
+    await ChatsSidebar.validateLastMessageTimeAgo();
   });
 
   it("Group Chat - Sidebar - Context Menu - Clear Unreads", async () => {
     // Open context menu on group chat and select Clear Unreads
-    await chatsSidebar.openContextMenuOnGroupChat("renamed");
-    await contextMenuSidebar.selectChatsClearUnreads();
-    await chatsSidebar.validateNoUnreadMessages();
+    await ChatsSidebar.openContextMenuOnGroupChat("renamed");
+    await ContextMenuSidebar.selectChatsClearUnreads();
+    await ChatsSidebar.validateNoUnreadMessages();
   });
 
   it("Group Chat - Sidebar - Context Menu - Hide chat", async () => {
     // Open context menu on group chat and select Hide Chat
-    await chatsSidebar.openContextMenuOnGroupChat("renamed");
-    await contextMenuSidebar.selectChatsHideChat();
-    await chatsSidebar.validateSidebarChatIsNotDisplayed("renamed");
+    await ChatsSidebar.openContextMenuOnGroupChat("renamed");
+    await ContextMenuSidebar.selectChatsHideChat();
+    await ChatsSidebar.validateSidebarChatIsNotDisplayed("renamed");
   });
 
   it("Group Chat - Send another message to show again the group chat", async () => {
     // Switch test execution control to User B and send message to the group
     await activateSecondApplication();
-    await chatsInput.typeMessageOnInput("Hey!");
-    await chatsInput.clickOnSendMessage();
-    await messageLocal.waitForMessageSentToExist("Hey!");
+    await InputBar.typeMessageOnInput("Hey!");
+    await InputBar.clickOnSendMessage();
+    await MessageLocal.waitForMessageSentToExist("Hey!");
   });
 
   it("Group Chat - Validate remote user received the message", async () => {
     // Switch control to User A and validate that message was received
     await activateFirstApplication();
-    await chatsSidebar.waitForGroupToBeCreated("renamed");
-    await chatsSidebar.goToSidebarGroupChat("renamed");
-    await chatsTopbar.validateTopbarExists();
+    await ChatsSidebar.waitForGroupToBeCreated("renamed");
+    await ChatsSidebar.goToSidebarGroupChat("renamed");
+    await Topbar.validateTopbarExists();
   });
 
   it("Group Chat - Sidebar - Leave group", async () => {
     // Switch control to User B and leave group chat
     await activateSecondApplication();
-    await chatsSidebar.openContextMenuOnGroupChat("renamed");
-    await contextMenuSidebar.selectChatsLeaveGroup();
-    await chatsSidebar.validateSidebarChatIsNotDisplayed("renamed");
+    await ChatsSidebar.openContextMenuOnGroupChat("renamed");
+    await ContextMenuSidebar.selectChatsLeaveGroup();
+    await ChatsSidebar.validateSidebarChatIsNotDisplayed("renamed");
   });
 
   it("Group Chat - Sidebar - If a user leaves a group, remote user will see the number of group members decreased", async () => {
@@ -128,72 +124,71 @@ describe("Group Chats Sidebar - Tests", function () {
     await activateFirstApplication();
 
     // Now, go to the Group Chat and validate that User B is not part of it anymore
-    await chatsTopbar.validateTopbarExists();
+    await Topbar.validateTopbarExists();
 
     // Validate topbar contents has correct name
-    const topbarUserName = await chatsTopbar.topbarUserNameValue;
+    const topbarUserName = await Topbar.topbarUserNameValue;
     await expect(topbarUserName).toHaveText("renamed");
 
     // Validate topbar contents has correct number of participants
-    const topbarUserStatus = await chatsTopbar.topbarUserStatusValue;
+    const topbarUserStatus = await Topbar.topbarUserStatusValue;
     await expect(topbarUserStatus).toHaveText("Members (1)");
   });
 
   it("Group Chat - Add Chat User B again to the group", async () => {
     // Go to Manage Members and then add again Chat User B to the group
-    await chatsTopbar.openManageMembers();
-    await manageMembers.validateManageMembersIsShown();
-    await manageMembers.clickOnAddMembers();
-    await manageMembers.typeOnSearchUserInput("ChatUserB");
-    await manageMembers.clickOnFirstAddButton();
+    await Topbar.openManageMembers();
+    await ManageMembers.validateManageMembersIsShown();
+    await ManageMembers.clickOnAddMembers();
+    await ManageMembers.typeOnSearchUserInput("ChatUserB");
+    await ManageMembers.clickOnFirstAddButton();
 
-    await manageMembers.validateNothingHereIsDisplayed();
+    await ManageMembers.validateNothingHereIsDisplayed();
 
     // Close Manage Members and validate topbar contents has correct number of participants
-    await chatsTopbar.exitManageMembers();
+    await Topbar.exitManageMembers();
 
-    await chatsSidebar.validateNoModalIsOpen();
-    await chatsTopbar.validateTopbarExists();
+    await ChatsSidebar.validateNoModalIsOpen();
+    await Topbar.validateTopbarExists();
 
     // Validate topbar contents has correct number of participants
-    const topbarUserStatus = await chatsTopbar.topbarUserStatusValue;
+    const topbarUserStatus = await Topbar.topbarUserStatusValue;
     await expect(topbarUserStatus).toHaveText("Members (2)");
   });
 
   it("Group Chat - Ensure in remote side that user was added again to the group", async () => {
     // Switch execution to User B and ensure that user was added again to the group
     await activateSecondApplication();
-    await chatsSidebar.goToFiles();
-    await filesScreen.validateFilesScreenIsShown();
-    await filesScreen.goToMainScreen();
-    await chatsSidebar.validateSidebarChatsIsShown();
-    await chatsSidebar.waitForGroupToBeCreated("renamed");
-    await chatsSidebar.goToSidebarGroupChat("renamed");
-    await chatsTopbar.validateTopbarExists();
+    await ChatsSidebar.goToFiles();
+    await FilesScreen.validateFilesScreenIsShown();
+    await FilesScreen.goToMainScreen();
+    await ChatsSidebar.validateSidebarChatsIsShown();
+    await ChatsSidebar.waitForGroupToBeCreated("renamed");
+    await ChatsSidebar.goToSidebarGroupChat("renamed");
+    await Topbar.validateTopbarExists();
 
     // Validate topbar contents has correct name
-    const topbarUserName = await chatsTopbar.topbarUserNameValue;
+    const topbarUserName = await Topbar.topbarUserNameValue;
     await expect(topbarUserName).toHaveText("renamed");
   });
 
   it("Group Chat - Sidebar - Delete group", async () => {
     // Switch execution to User A and delete the group
     await activateFirstApplication();
-    await chatsSidebar.openContextMenuOnGroupChat("renamed");
-    await contextMenuSidebar.selectChatsDeleteGroup();
+    await ChatsSidebar.openContextMenuOnGroupChat("renamed");
+    await ContextMenuSidebar.selectChatsDeleteGroup();
 
     // Ensure that group was removed on local side
-    await chatsSidebar.validateSidebarChatIsNotDisplayed("renamed");
+    await ChatsSidebar.validateSidebarChatIsNotDisplayed("renamed");
   });
 
   it("Group Chat - Sidebar - Deleted group is not shown on remote side", async () => {
     // Switch execution to remote user and ensure that group was removed on this side too
     await activateSecondApplication();
-    await chatsSidebar.validateSidebarChatIsNotDisplayed("renamed");
-  });
+    await ChatsSidebar.validateSidebarChatIsNotDisplayed("renamed");
 
-  after(async () => {
+    // Grab cache folders at the end of last test
     await grabCacheFolder("ChatUserA");
-    await grabCacheFolder("ChatUserB");
+    await grabCacheFolderSecondInstance("ChatUserB");
   });
 });

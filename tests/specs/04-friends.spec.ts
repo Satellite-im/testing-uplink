@@ -11,11 +11,13 @@ import {
   CHAT_USER_C_ID,
   CHAT_USER_J_ID,
 } from "@helpers/constants";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 const users = ["ChatUserB", "ChatUserC", "ChatUserD"];
 
 export default async function friendsTests() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     await resetAndLoginWithCache("FriendsTestUser");
+    await CreatePinScreen.loginWithTestUser();
 
     // Go to Friends Screen
     await WelcomeScreen.goToFriends();

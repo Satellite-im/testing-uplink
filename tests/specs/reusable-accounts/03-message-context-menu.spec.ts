@@ -3,44 +3,43 @@ import {
   getClipboardValue,
   activateFirstApplication,
   activateSecondApplication,
-  resetAndLoginWithCache,
+  resetAndLoginWithCacheFirstInstance,
+  resetAndLoginWithCacheSecondInstance,
   grabCacheFolder,
+  grabCacheFolderSecondInstance,
 } from "@helpers/commands";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageGroupLocal from "@screenobjects/chats/MessageGroupLocal";
 import MessageGroupRemote from "@screenobjects/chats/MessageGroupRemote";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
 import MessageRemote from "@screenobjects/chats/MessageRemote";
-const chatsContextMenu = new ContextMenu();
-const chatsInput = new InputBar();
-const messageGroupLocal = new MessageGroupLocal();
-const messageGroupRemote = new MessageGroupRemote();
-const messageLocal = new MessageLocal();
-const messageRemote = new MessageRemote();
 
 describe("Chats Tests - Context Menu", function () {
   before(async () => {
-    await resetAndLoginWithCache("ChatUserB");
-    await resetAndLoginWithCache("ChatUserA");
+    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await CreatePinScreen.loginWithTestUser();
+    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await CreatePinScreen.loginWithTestUser();
   });
 
   it("Chat User A - Send two messages to Chat User B", async () => {
     // Send a message to Chat User B
-    await chatsInput.typeMessageOnInput("Two...");
-    await chatsInput.clickOnSendMessage();
-    await messageLocal.waitForMessageSentToExist("Two...");
+    await InputBar.typeMessageOnInput("Two...");
+    await InputBar.clickOnSendMessage();
+    await MessageLocal.waitForMessageSentToExist("Two...");
 
     // Send a message to Chat User B
-    await chatsInput.typeMessageOnInput("Three...");
-    await chatsInput.clickOnSendMessage();
-    await messageLocal.waitForMessageSentToExist("Three...");
+    await InputBar.typeMessageOnInput("Three...");
+    await InputBar.clickOnSendMessage();
+    await MessageLocal.waitForMessageSentToExist("Three...");
   });
 
   it("Chat User A - Context Menu - Copy Text from Message Sent", async () => {
-    await messageLocal.openContextMenuOnSentMessage("Three...");
-    await chatsContextMenu.validateContextMenuIsOpen();
-    await chatsContextMenu.selectContextOptionCopy();
+    await MessageLocal.openContextMenuOnSentMessage("Three...");
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.selectContextOptionCopy();
 
     // Validate clipboard text contains Username#
     const clipboardText = await getClipboardValue();
@@ -50,14 +49,14 @@ describe("Chats Tests - Context Menu", function () {
   it("Chat User B - Receive two messages from Chat User B", async () => {
     // Assert messages received from Chat User B
     await activateSecondApplication();
-    await messageRemote.waitForReceivingMessage("Two...");
-    await messageRemote.waitForReceivingMessage("Three...");
+    await MessageRemote.waitForReceivingMessage("Two...");
+    await MessageRemote.waitForReceivingMessage("Three...");
   });
 
   it("Chat User B - Context Menu - Copy Text from Message Received", async () => {
-    await messageRemote.openContextMenuOnReceivedMessage("Three...");
-    await chatsContextMenu.validateContextMenuIsOpen();
-    await chatsContextMenu.selectContextOptionCopy();
+    await MessageRemote.openContextMenuOnReceivedMessage("Three...");
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.selectContextOptionCopy();
 
     // Validate clipboard text contains Username#
     const clipboardText = await getClipboardValue();
@@ -67,12 +66,12 @@ describe("Chats Tests - Context Menu", function () {
   it("Chat User A - Context Menu - Delete Message", async () => {
     // Open context menu on last message sent and select option for deleting
     await activateFirstApplication();
-    await messageLocal.openContextMenuOnSentMessage("Three...");
-    await chatsContextMenu.validateContextMenuIsOpen();
-    await chatsContextMenu.selectContextOptionDelete();
+    await MessageLocal.openContextMenuOnSentMessage("Three...");
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.selectContextOptionDelete();
 
     // Validate that last message was deleted and therefore the last message displayed is "two..."
-    await messageLocal.waitForMessageToBeDeleted("Three...");
+    await MessageLocal.waitForMessageToBeDeleted("Three...");
   });
 
   it("Chat User B - Validate Message was deleted and is no longer visible in remote chat", async () => {
@@ -80,98 +79,97 @@ describe("Chats Tests - Context Menu", function () {
     await activateSecondApplication();
 
     // With User B - Validate that last message is "Two..."
-    await messageRemote.waitForReceivingMessage("Two...");
+    await MessageRemote.waitForReceivingMessage("Two...");
 
     // With User B - Ensure that message "three.." was deleted
-    await messageRemote.waitForMessageToBeDeleted("Three...");
+    await MessageRemote.waitForMessageToBeDeleted("Three...");
   });
 
   it("Chat User A - React to sent message and multiple reactions in a message", async () => {
     // React with 😂 emoji
     await activateFirstApplication();
-    await messageLocal.openContextMenuOnSentMessage("Two...");
-    await chatsContextMenu.validateContextMenuIsOpen();
-    await chatsContextMenu.clickOnFirstReaction();
-    await messageGroupLocal.waitUntilEmojiReactionSelfExists("😂");
+    await MessageLocal.openContextMenuOnSentMessage("Two...");
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.clickOnFirstReaction();
+    await MessageGroupLocal.waitUntilEmojiReactionSelfExists("😂");
 
     // React with 🖖 emoji
-    await messageLocal.openContextMenuOnSentMessage("Two...");
-    await chatsContextMenu.validateContextMenuIsOpen();
-    await chatsContextMenu.clickOnSecondReaction();
-    await messageGroupLocal.waitUntilEmojiReactionSelfExists("🖖");
+    await MessageLocal.openContextMenuOnSentMessage("Two...");
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.clickOnSecondReaction();
+    await MessageGroupLocal.waitUntilEmojiReactionSelfExists("🖖");
 
     // Validate reactions are displayed correctly
-    const reactions = await messageGroupLocal.getLastMessageSentSelfReactions();
+    const reactions = await MessageGroupLocal.getLastMessageSentSelfReactions();
     await expect(reactions.includes("🖖 1")).toEqual(true);
     await expect(reactions.includes("😂 1")).toEqual(true);
   });
 
   it("Chat User A - React to received message", async () => {
     // Validate message received from Chat User A
-    await messageRemote.waitForReceivingMessage("Reply");
+    await MessageRemote.waitForReceivingMessage("Reply");
 
     // React with 👎 emoji
-    await messageRemote.openContextMenuOnReceivedMessage("Reply");
-    await chatsContextMenu.validateContextMenuIsOpen();
-    await chatsContextMenu.clickOnThirdReaction();
-    await messageGroupRemote.waitUntilEmojiReactionSelfExists("👎");
+    await MessageRemote.openContextMenuOnReceivedMessage("Reply");
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.clickOnThirdReaction();
+    await MessageGroupRemote.waitUntilEmojiReactionSelfExists("👎");
 
     // Validate reaction is displayed correctly
     const reaction =
-      await messageGroupRemote.getLastMessageReceivedSelfReactions();
+      await MessageGroupRemote.getLastMessageReceivedSelfReactions();
     await expect(reaction.includes("👎 1")).toEqual(true);
   });
 
   it("Chat User B - Receive reaction in sent message", async () => {
     // Return to Chat User B window
     await activateSecondApplication();
-    await chatsInput.clickOnInputBar();
-    await chatsInput.typeMessageOnInput("Hello");
-    await chatsInput.clearInputBar();
+    await InputBar.clickOnInputBar();
+    await InputBar.typeMessageOnInput("Hello");
+    await InputBar.clearInputBar();
 
     // Validate reactions received on sent message
-    await messageGroupLocal.waitUntilEmojiReactionRemoteExists("👎");
+    await MessageGroupLocal.waitUntilEmojiReactionRemoteExists("👎");
     const reaction =
-      await messageGroupLocal.getLastMessageSentRemoteReactions();
+      await MessageGroupLocal.getLastMessageSentRemoteReactions();
     await expect(reaction.includes("👎 1")).toEqual(true);
   });
 
   it("Chat User B - Receive reaction in received message", async () => {
     // Validate reactions received on sent message
-    await messageGroupRemote.waitUntilEmojiReactionRemoteExists("🖖");
+    await MessageGroupRemote.waitUntilEmojiReactionRemoteExists("🖖");
     const reactions =
-      await messageGroupRemote.getLastMessageReceivedRemoteReactions();
+      await MessageGroupRemote.getLastMessageReceivedRemoteReactions();
     await expect(reactions.includes("🖖 1")).toEqual(true);
     await expect(reactions.includes("😂 1")).toEqual(true);
   });
 
   it("Chat User B - Both users can react with the same emoji to a message", async () => {
     // React with 👎 emoji
-    await messageLocal.openContextMenuOnSentMessage("Reply");
-    await chatsContextMenu.validateContextMenuIsOpen();
-    await chatsContextMenu.clickOnThirdReaction();
+    await MessageLocal.openContextMenuOnSentMessage("Reply");
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.clickOnThirdReaction();
 
     // Validate reaction is displayed correctly
-    await messageGroupLocal.waitUntilEmojiReactionSelfExists("👎");
-    const reaction = await messageGroupLocal.getLastMessageSentSelfReactions();
+    await MessageGroupLocal.waitUntilEmojiReactionSelfExists("👎");
+    const reaction = await MessageGroupLocal.getLastMessageSentSelfReactions();
     await expect(reaction.includes("👎 2")).toEqual(true);
   });
 
   it("Chat User B - Users can add a new reaction to a message already containing reactions", async () => {
     // React with 👍 emoji
-    await messageLocal.openContextMenuOnSentMessage("Reply");
-    await chatsContextMenu.validateContextMenuIsOpen();
-    await chatsContextMenu.clickOnFourthReaction();
+    await MessageLocal.openContextMenuOnSentMessage("Reply");
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.clickOnFourthReaction();
 
     // Validate reaction is displayed correctly
-    await messageGroupLocal.waitUntilEmojiReactionSelfExists("👍");
-    const reaction = await messageGroupLocal.getLastMessageSentSelfReactions();
+    await MessageGroupLocal.waitUntilEmojiReactionSelfExists("👍");
+    const reaction = await MessageGroupLocal.getLastMessageSentSelfReactions();
     await expect(reaction.includes("👎 2")).toEqual(true);
     await expect(reaction.includes("👍 1")).toEqual(true);
-  });
 
-  after(async () => {
+    // Grab cache folders at the end of last test
     await grabCacheFolder("ChatUserA");
-    await grabCacheFolder("ChatUserB");
+    await grabCacheFolderSecondInstance("ChatUserB");
   });
 });

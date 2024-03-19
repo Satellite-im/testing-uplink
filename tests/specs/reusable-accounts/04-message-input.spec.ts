@@ -1,5 +1,6 @@
 require("module-alias/register");
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import EmojiSuggestions from "@screenobjects/chats/EmojiSuggestions";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -9,16 +10,20 @@ import {
   activateFirstApplication,
   activateSecondApplication,
   grabCacheFolder,
+  grabCacheFolderSecondInstance,
   keyboardShortcutPaste,
   pressEnterKey,
-  resetAndLoginWithCache,
+  resetAndLoginWithCacheFirstInstance,
+  resetAndLoginWithCacheSecondInstance,
   setClipboardValue,
 } from "@helpers/commands";
 
 describe("Chats Message Input Tests", function () {
   before(async () => {
-    await resetAndLoginWithCache("ChatUserA");
-    await resetAndLoginWithCache("ChatUserB");
+    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await CreatePinScreen.loginWithTestUser();
+    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await CreatePinScreen.loginWithTestUser();
   });
 
   it("Chat User A - Message Input - User cannot send empty messages", async () => {
@@ -311,6 +316,10 @@ describe("Chats Message Input Tests", function () {
     await expect(linkEmbedReceivedDetailsText).toHaveTextContaining("Apple");
     await linkEmbedReceivedIcon.waitForExist();
     await linkEmbedReceivedIconTitle.waitForExist();
+
+    // Grab cache folders at the end of last test
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolderSecondInstance("ChatUserB");
   });
 
   // Skipping this test since the time spent between switching windows to validate, the typing indicator is already gone
@@ -333,10 +342,5 @@ describe("Chats Message Input Tests", function () {
     await expect(ChatsLayout.typingIndicatorTextValue).toHaveText(
       "ChatUserB is typing",
     );
-  });
-
-  after(async () => {
-    await grabCacheFolder("ChatUserA");
-    await grabCacheFolder("ChatUserB");
   });
 });

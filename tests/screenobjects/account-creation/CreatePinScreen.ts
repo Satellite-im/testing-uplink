@@ -165,6 +165,15 @@ class CreatePinScreen extends UplinkMainScreen {
       },
     );
   }
+
+  async loginWithTestUser() {
+    // Enter pin for test user
+    const unlockScreen = await this.unlockLayout;
+    await unlockScreen.waitForExist();
+    await this.enterPinOnLogin("1234");
+    await this.validateSpinnerIsNotShown();
+    await this.unlockLayout.waitForExist({ reverse: true });
+  }
 }
 
 export default new CreatePinScreen();

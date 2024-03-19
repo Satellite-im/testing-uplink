@@ -165,7 +165,7 @@ export default async function createAccountTests() {
     const recoverySeed = await SaveRecoverySeedScreen.getSeedWords();
     await saveUserRecoverySeed("Test123", recoverySeed);
     await SaveRecoverySeedScreen.clickOnISavedItButton();
-    await SaveRecoverySeedScreen.waitForIsShown(true);
+    await CreateUserScreen.waitForIsShown(true);
   });
 
   it("Enter Username Screen - Cannot continue with empty value", async () => {

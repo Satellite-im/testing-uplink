@@ -1,10 +1,4 @@
 require("module-alias/register");
-import CreateOrImportScreen from "@screenobjects/account-creation/CreateOrImportScreen";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
-import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
-import FriendsScreen from "@screenobjects/friends/FriendsScreen";
-import SaveRecoverySeedScreen from "@screenobjects/account-creation/SaveRecoverySeedScreen";
-import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import { homedir } from "os";
 import { join } from "path";
 import {
@@ -26,7 +20,17 @@ export async function deleteCache() {
   const target = homedir() + "/.uplink/.user";
   try {
     await rmSync(target, { recursive: true, force: true });
-    console.log("Deleted user cache successfully");
+  } catch (error) {
+    console.error(
+      `Got an error trying to delete the user cache files: ${error.message}`,
+    );
+  }
+}
+
+export async function deleteCacheSecondInstance() {
+  const target = homedir() + "/.uplinkUserB/.user";
+  try {
+    await rmSync(target, { recursive: true, force: true });
   } catch (error) {
     console.error(
       `Got an error trying to delete the user cache files: ${error.message}`,
@@ -41,7 +45,20 @@ export async function grabCacheFolder(username: string) {
   await fsp.mkdir(target, { recursive: true });
   try {
     await fsp.cp(source, target, { recursive: true });
-    console.log("Copied user cache successfully");
+  } catch (error) {
+    console.error(
+      `Got an error trying to copy the user cache files: ${error.message}`,
+    );
+  }
+}
+
+export async function grabCacheFolderSecondInstance(username: string) {
+  const source = homedir() + "/.uplinkUserB";
+  const currentDriver = process.env.DRIVER;
+  const target = "./tests/fixtures/users/" + currentDriver + "/" + username;
+  await fsp.mkdir(target, { recursive: true });
+  try {
+    await fsp.cp(source, target, { recursive: true });
   } catch (error) {
     console.error(
       `Got an error trying to copy the user cache files: ${error.message}`,
@@ -58,7 +75,22 @@ export async function loadTestUserData(user: string) {
   await deleteCache();
   try {
     await fsp.cp(source, target, { recursive: true }, { force: true });
-    console.log("Copied user cache successfully");
+  } catch (error) {
+    console.error(
+      `Got an error trying to copy the user cache files: ${error.message}`,
+    );
+  }
+}
+
+export async function loadTestUserDataSecondInstance(user: string) {
+  // Move files
+  const currentDriver = process.env.DRIVER;
+  let source, target;
+  source = "./tests/fixtures/users/" + currentDriver + "/" + user;
+  target = homedir() + "/.uplinkUserB";
+  await deleteCache();
+  try {
+    await fsp.cp(source, target, { recursive: true }, { force: true });
   } catch (error) {
     console.error(
       `Got an error trying to copy the user cache files: ${error.message}`,
@@ -94,64 +126,33 @@ export async function saveTestKeys(username: string, didkey: string) {
   }
 }
 
-// Login or Create Users Functions
-
-export async function createNewUser(
-  username: string,
-  saveSeedWords: boolean = false,
+export async function resetApp(
+  bundleId: string = MACOS_BUNDLE_ID,
+  windowsApp: string = WINDOWS_APP,
 ) {
-  await CreatePinScreen.unlockLayout.waitForExist();
-
-  // Enter pin for test user
-  await CreatePinScreen.enterPinOnCreateAccount("1234");
-  await CreatePinScreen.createAccountButton.waitForEnabled();
-  await CreatePinScreen.clickOnCreateAccount();
-
-  // Bypass new Recovery Seed Screens
-  await CreateOrImportScreen.waitForIsShown(true);
-  await CreateOrImportScreen.clickOnCreateAccount();
-  await SaveRecoverySeedScreen.waitForIsShown(true);
-  if (saveSeedWords === true) {
-    const recoverySeed = await SaveRecoverySeedScreen.getSeedWords();
-    await saveUserRecoverySeed(username, recoverySeed);
-  }
-  await SaveRecoverySeedScreen.clickOnISavedItButton();
-
-  // Enter Username and click on Create Account
-  await CreateUserScreen.enterUsername(username);
-  await CreateUserScreen.createAccountButton.waitForEnabled();
-  await CreateUserScreen.clickOnCreateAccount();
-
-  // Ensure Main Screen is displayed
-  await WelcomeScreen.welcomeLayout.waitForExist({ timeout: 60000 });
-
-  // Workaround to ensure that user clicks on Add Someone
-  await WelcomeScreen.clickAddSomeone();
-  await FriendsScreen.friendsBody.waitForExist();
-}
-
-export async function loginWithTestUser() {
-  // Enter pin for test user
-  const unlockScreen = await CreatePinScreen.unlockLayout;
-  await unlockScreen.waitForExist();
-  await CreatePinScreen.enterPinOnLogin("1234");
-  await CreatePinScreen.validateSpinnerIsNotShown();
-  await CreatePinScreen.unlockLayout.waitForExist({ reverse: true });
-}
-
-export async function resetApp() {
-  await closeApplication();
+  await closeApplication(bundleId);
   await deleteCache();
-  await launchApplication(MACOS_BUNDLE_ID, WINDOWS_APP);
+  await launchApplication(bundleId, windowsApp);
 }
 
 export async function resetAndLoginWithCache(user: string) {
-  await closeApplication();
+  await closeApplication(MACOS_BUNDLE_ID);
   await deleteCache();
   await loadTestUserData(user);
   await launchApplication(MACOS_BUNDLE_ID, WINDOWS_APP);
-  await loginWithTestUser();
-  await maximizeWindow();
+}
+
+export async function resetAndLoginWithCacheFirstInstance(user: string) {
+  await closeFirstApplication();
+  await deleteCache();
+  await loadTestUserData(user);
+  await launchFirstApplication();
+}
+
+export async function resetAndLoginWithCacheSecondInstance(user: string) {
+  await deleteCacheSecondInstance();
+  await loadTestUserDataSecondInstance(user);
+  await launchSecondApplication();
 }
 
 export async function saveUserRecoverySeed(username: string, data: string[]) {
@@ -199,15 +200,11 @@ export async function launchApplication(
 export async function launchFirstApplication() {
   await launchAppMacOS(MACOS_USER_A_BUNDLE_ID);
   await browser.pause(5000);
-  await loginWithTestUser();
 }
 
-export async function launchSecondApplication(existingUser: boolean = true) {
+export async function launchSecondApplication() {
   await launchAppMacOS(MACOS_USER_B_BUNDLE_ID, "/.uplinkUserB");
   await browser.pause(5000);
-  if (existingUser === true) {
-    await loginWithTestUser();
-  }
 }
 
 export async function activateFirstApplication() {
@@ -236,11 +233,15 @@ export async function activateSecondApplication() {
   }
 }
 
-export async function closeApplication() {
+export async function closeApplication(
+  bundleId: string = MACOS_BUNDLE_ID,
+  windowsApp: string = WINDOWS_APP,
+) {
+  await browser.pause(5000);
   if (process.env.DRIVER === WINDOWS_DRIVER) {
-    await closeAppWindows(WINDOWS_APP);
+    await closeAppWindows(windowsApp);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    await closeAppMacOS(MACOS_BUNDLE_ID);
+    await closeAppMacOS(bundleId);
   }
 }
 

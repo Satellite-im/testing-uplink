@@ -1,6 +1,7 @@
 require("module-alias/register");
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ComposeAttachment from "@screenobjects/chats/ComposeAttachment";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
@@ -11,14 +12,18 @@ import {
   activateFirstApplication,
   activateSecondApplication,
   grabCacheFolder,
-  resetAndLoginWithCache,
+  grabCacheFolderSecondInstance,
+  resetAndLoginWithCacheFirstInstance,
+  resetAndLoginWithCacheSecondInstance,
   scrollUp,
 } from "@helpers/commands";
 
 describe("Chats Messages With Attachments Tests", function () {
   before(async () => {
-    await resetAndLoginWithCache("ChatUserA");
-    await resetAndLoginWithCache("ChatUserB");
+    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await CreatePinScreen.loginWithTestUser();
+    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await CreatePinScreen.loginWithTestUser();
   });
 
   it("Send files from Browse Files - No files are displayed on modal and user can close modal", async () => {
@@ -258,10 +263,9 @@ describe("Chats Messages With Attachments Tests", function () {
   it("Chat Messages with Files - Remote user can download file received", async () => {
     // Download latest image file received
     await MessageRemote.downloadReceivedFile(".txt", "Attached2");
-  });
 
-  after(async () => {
+    // Grab cache folders at the end of last test
     await grabCacheFolder("ChatUserA");
-    await grabCacheFolder("ChatUserB");
+    await grabCacheFolderSecondInstance("ChatUserB");
   });
 });

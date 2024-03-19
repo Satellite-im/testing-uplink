@@ -1,4 +1,5 @@
 require("module-alias/register");
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageGroupLocal from "@screenobjects/chats/MessageGroupLocal";
@@ -9,76 +10,73 @@ import ReplyPrompt from "@screenobjects/chats/ReplyPrompt";
 import {
   activateFirstApplication,
   grabCacheFolder,
-  resetAndLoginWithCache,
+  grabCacheFolderSecondInstance,
+  resetAndLoginWithCacheFirstInstance,
+  resetAndLoginWithCacheSecondInstance,
 } from "@helpers/commands";
-const chatsContextMenu = new ContextMenu();
-const chatsInput = new InputBar();
-const chatsReplyPrompt = new ReplyPrompt();
-const messageGroupLocal = new MessageGroupLocal();
-const messageGroupRemote = new MessageGroupRemote();
-const messageLocal = new MessageLocal();
-const messageRemote = new MessageRemote();
 
 describe("Chat Replies Tests", function () {
-  before(function () {
-    resetAndLoginWithCache("ChatUserA");
-    resetAndLoginWithCache("ChatUserB");
+  before(async () => {
+    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await CreatePinScreen.loginWithTestUser();
+    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await CreatePinScreen.loginWithTestUser();
   });
 
   it("Chat User B - Validate User Status changes are seen in remote side", async () => {
     // Validate Chat User B is now Idle
     const firstRemoteStatus =
-      await messageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
+      await MessageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
     await expect(firstRemoteStatus).toEqual("indicator-idle");
   });
 
   it("Chat User B - Reply popup - Validate contents and close it", async () => {
     // Open Context Menu on Last Message Received and select Reply
-    await messageRemote.openContextMenuOnReceivedMessage("Testing...😀");
-    await chatsContextMenu.validateContextMenuIsOpen();
-    await chatsContextMenu.selectContextOptionReply();
+    await MessageRemote.openContextMenuOnReceivedMessage("Testing...😀");
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.selectContextOptionReply();
 
     // Validate contents of Reply Pop Up and close it
-    await chatsReplyPrompt.validateReplyPromptElementsShown("Testing...😀");
-    await chatsReplyPrompt.closeReplyModal();
-    await chatsReplyPrompt.waitForReplyModalToNotExist();
+    await ReplyPrompt.validateReplyPromptElementsShown("Testing...😀");
+    await ReplyPrompt.closeReplyModal();
+    await ReplyPrompt.waitForReplyModalToNotExist();
   });
 
   it("Chat User B - Reply to a message", async () => {
     // Open Context Menu on Last Message Received and select Reply
-    await messageRemote.openContextMenuOnReceivedMessage("Testing...😀");
-    await chatsContextMenu.validateContextMenuIsOpen();
-    await chatsContextMenu.selectContextOptionReply();
+    await MessageRemote.openContextMenuOnReceivedMessage("Testing...😀");
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.selectContextOptionReply();
 
     // Type a reply and sent it
-    await chatsReplyPrompt.replyPopUp.waitForExist();
-    await chatsInput.typeMessageOnInput("Reply");
-    await chatsInput.clickOnSendMessage();
-    await chatsReplyPrompt.waitForReplyModalToNotExist();
+    await ReplyPrompt.replyPopUp.waitForExist();
+    await InputBar.typeMessageOnInput("Reply");
+    await InputBar.clickOnSendMessage();
+    await ReplyPrompt.waitForReplyModalToNotExist();
   });
 
   it("Chat User B - Validate reply message group reply and message replied", async () => {
     // Validate message replied appears smaller above your reply
-    const replySent = await messageRemote.getLastReply();
-    const replySentText = await messageRemote.getLastReplyText();
+    const replySent = await MessageRemote.getLastReply();
+    const replySentText = await MessageRemote.getLastReplyText();
     await replySent.waitForExist();
     await expect(replySentText).toHaveText("Testing...😀");
 
     // Validate reply message sent appears as last message
-    const message = await messageLocal.getCustomMessageContents("Reply");
+    const message = await MessageLocal.getCustomMessageContents("Reply");
     await expect(message).toHaveText("Reply");
   });
 
   it("Chat User B - Validate reply message group contains timestamp and user image", async () => {
     //Timestamp from last message sent should be displayed
-    const timeAgo = await messageGroupLocal.getLastMessageSentTimeAgo();
+    const timeAgo = await MessageGroupLocal.getLastMessageSentTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
     );
     await expect(timeAgo).toHaveTextContaining("ChatUserB");
 
     //Your user image should be displayed next to the message
-    const userImage = await messageGroupLocal.getLastGroupWrapSentImage();
+    const userImage = await MessageGroupLocal.getLastGroupWrapSentImage();
     await userImage.waitForExist();
   });
 
@@ -87,23 +85,23 @@ describe("Chat Replies Tests", function () {
     await activateFirstApplication();
 
     // With User A - Validate that reply message is received
-    await messageRemote.chatMessageReply.waitForExist();
+    await MessageRemote.chatMessageReply.waitForExist();
 
     // Validate message replied appears smaller above your reply
-    const replyReceived = await messageRemote.getLastReply();
-    const replyReceivedText = await messageRemote.getLastReplyText();
+    const replyReceived = await MessageRemote.getLastReply();
+    const replyReceivedText = await MessageRemote.getLastReplyText();
     await replyReceived.waitForExist();
     await expect(replyReceivedText).toHaveText("Testing...😀");
 
     // Validate reply message sent appears as last message
     const textFromMessage =
-      await messageRemote.getCustomMessageContents("Reply");
+      await MessageRemote.getCustomMessageContents("Reply");
     await expect(textFromMessage).toHaveText("Reply");
   });
 
   it("Chat User A - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
-    const timeAgo = await messageGroupRemote.getLastMessageReceivedTimeAgo();
+    const timeAgo = await MessageGroupRemote.getLastMessageReceivedTimeAgo();
     await expect(timeAgo).toHaveTextContaining(
       /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
     );
@@ -112,35 +110,34 @@ describe("Chat Replies Tests", function () {
 
   it("Chat User A - Validate reply message group contains user image", async () => {
     //Your user image should be displayed next to the message
-    const userImage = await messageGroupRemote.getLastGroupWrapReceivedImage();
+    const userImage = await MessageGroupRemote.getLastGroupWrapReceivedImage();
     await userImage.waitForExist();
   });
 
   it("Chat User A - Reply to yourself", async () => {
     // Open Context Menu on Last Message Sent
-    await messageLocal.openContextMenuOnSentMessage("Testing...😀");
-    await chatsContextMenu.validateContextMenuIsOpen();
-    await chatsContextMenu.selectContextOptionReply();
+    await MessageLocal.openContextMenuOnSentMessage("Testing...😀");
+    await ContextMenu.validateContextMenuIsOpen();
+    await ContextMenu.selectContextOptionReply();
 
     // Type a reply and sent it
-    await chatsReplyPrompt.replyPopUp.waitForExist();
-    await chatsInput.typeMessageOnInput("SelfReply");
-    await chatsInput.clickOnSendMessage();
-    await chatsReplyPrompt.waitForReplyModalToNotExist();
+    await ReplyPrompt.replyPopUp.waitForExist();
+    await InputBar.typeMessageOnInput("SelfReply");
+    await InputBar.clickOnSendMessage();
+    await ReplyPrompt.waitForReplyModalToNotExist();
 
     // Validate reply to self message is displayed on Chat Conversation
-    const repliedMessage = await messageLocal.getLastReply();
-    const repliedMessageText = await messageLocal.getLastReplyText();
+    const repliedMessage = await MessageLocal.getLastReply();
+    const repliedMessageText = await MessageLocal.getLastReplyText();
     await repliedMessage.waitForExist();
     await expect(repliedMessageText).toHaveText("Testing...😀");
 
     // Validate reply message sent appears as last message
-    const message = await messageLocal.getCustomMessageContents("SelfReply");
+    const message = await MessageLocal.getCustomMessageContents("SelfReply");
     await expect(message).toHaveText("SelfReply");
-  });
 
-  after(async () => {
+    // Grab cache folders at the end of last test
     await grabCacheFolder("ChatUserA");
-    await grabCacheFolder("ChatUserB");
+    await grabCacheFolderSecondInstance("ChatUserB");
   });
 });

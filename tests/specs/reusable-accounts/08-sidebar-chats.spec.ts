@@ -3,11 +3,14 @@ import {
   activateFirstApplication,
   activateSecondApplication,
   grabCacheFolder,
-  resetAndLoginWithCache,
+  grabCacheFolderSecondInstance,
+  resetAndLoginWithCacheFirstInstance,
+  resetAndLoginWithCacheSecondInstance,
 } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "@screenobjects/chats/ContextMenuSidebar";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
@@ -20,8 +23,10 @@ import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 
 describe("Chats Sidebar - Tests", function () {
   before(async () => {
-    await resetAndLoginWithCache("ChatUserA");
-    await resetAndLoginWithCache("ChatUserB");
+    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await CreatePinScreen.loginWithTestUser();
+    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await CreatePinScreen.loginWithTestUser();
   });
 
   it("Chat User B - Send message with markdown to User A", async () => {
@@ -225,10 +230,9 @@ describe("Chats Sidebar - Tests", function () {
     // Open context menu and right click on Remove user from Favorites
     await FavoritesSidebar.openContextMenuOnFavoritesUser("ChatUserB");
     await FavoritesSidebar.clickOnContextMenuFavoriteRemove();
-  });
 
-  after(async () => {
+    // Grab cache folders at the end of last test
     await grabCacheFolder("ChatUserA");
-    await grabCacheFolder("ChatUserB");
+    await grabCacheFolderSecondInstance("ChatUserB");
   });
 });
