@@ -10,8 +10,10 @@ import {
   activateFirstApplication,
   closeFirstApplication,
   closeSecondApplication,
+  closeThirdApplication,
   launchFirstApplication,
   launchSecondApplication,
+  launchThirdApplication,
 } from "@helpers/commands";
 const chatsContextMenu = new ContextMenu();
 const chatsInput = new InputBar();
@@ -25,13 +27,6 @@ export default async function repliesTests() {
   before(async () => {
     await launchFirstApplication();
     await launchSecondApplication();
-  });
-
-  it("Chat User B - Validate User Status changes are seen in remote side", async () => {
-    // Validate Chat User B is now Idle
-    const firstRemoteStatus =
-      await messageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
-    await expect(firstRemoteStatus).toEqual("indicator-idle");
   });
 
   it("Chat User B - Reply popup - Validate contents and close it", async () => {
@@ -82,6 +77,13 @@ export default async function repliesTests() {
     //Your user image should be displayed next to the message
     const userImage = await messageGroupLocal.getLastGroupWrapSentImage();
     await userImage.waitForExist();
+  });
+
+  it("Chat User B - Validate User Status changes are seen in remote side", async () => {
+    // Validate Chat User B is now Idle
+    const firstRemoteStatus =
+      await messageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
+    await expect(firstRemoteStatus).toEqual("indicator-idle");
   });
 
   it("Chat User A - Validate reply message contents", async () => {

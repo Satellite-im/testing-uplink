@@ -39,19 +39,20 @@ export async function setupBeforeCreateGroupTests() {
 
   // Paste copied DID Key into Status Input
   await settingsProfile.pasteUserKeyInStatus();
-  const didkeyA = await settingsProfile.getCopiedDidFromStatusInput();
+
+  // Wait for toast notification of Profile Updated to not exist
+  await settingsProfile.waitUntilNotificationIsClosed();
 
   // Grab cache folder and restart
+  const didkeyA = await settingsProfile.getCopiedDidFromStatusInput();
   await saveTestKeys(usernameA, didkeyA);
+  await settingsProfile.deleteStatus();
 
   // Go to General Settings and reduce Font Size by 0.5
   await settingsProfile.goToGeneralSettings();
-
-  // Wait for toast notification of Profile Updated to not exist
-  await settingsGeneral.waitUntilNotificationIsClosed();
+  await settingsGeneral.waitForIsShown(true);
 
   // Click on font scaling minus button
-  await settingsGeneral.settingsGeneral.waitForExist();
   await settingsGeneral.clickOnFontScalingMinus();
 
   // Go to Notifications Settings and disable all notifications
@@ -83,19 +84,20 @@ export async function setupBeforeCreateGroupTests() {
 
   // Paste copied DID Key into Status Input
   await settingsProfile.pasteUserKeyInStatus();
-  const didkeyB = await settingsProfile.getCopiedDidFromStatusInput();
-
-  // Grab cache folder and restart
-  await saveTestKeys(usernameB, didkeyB);
-
-  // Go to General Settings and reduce Font Size by 0.5
-  await settingsProfile.goToGeneralSettings();
 
   // Wait for toast notification of Profile Updated to not exist
   await settingsGeneral.waitUntilNotificationIsClosed();
 
-  // Click on font scaling minus
+  // Grab cache folder and restart
+  const didkeyB = await settingsProfile.getCopiedDidFromStatusInput();
+  await saveTestKeys(usernameB, didkeyB);
+  await settingsProfile.deleteStatus();
+
+  // Go to General Settings and reduce Font Size by 0.5
+  await settingsProfile.goToGeneralSettings();
   await settingsGeneral.waitForIsShown(true);
+
+  // Click on font scaling minus
   await settingsGeneral.clickOnFontScalingMinus();
 
   // Go to Notifications Settings and disable all notifications
@@ -132,7 +134,7 @@ export async function setupBeforeCreateGroupTests() {
   await friendsScreen.validateAllFriendsListIsNotEmpty();
 
   // Go to Chat with User B
-  await friendsScreen.chatWithFriendButton.click();
+  await friendsScreen.goToChatWithFriend();
 
   // Switch control to User B
   await activateSecondApplication();
