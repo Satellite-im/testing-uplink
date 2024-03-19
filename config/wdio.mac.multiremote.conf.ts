@@ -151,36 +151,36 @@ export const config: WebdriverIO.Config = {
         allureReporter.addAttachment(imageTitle, data, "image/png");
 
         // Close applications if open
-        await driver.executeScript("macos: terminateApp", [
-          {
-            bundleId: MACOS_USER_A_BUNDLE_ID,
-          },
-        ]);
-        await driver.executeScript("macos: terminateApp", [
-          {
-            bundleId: MACOS_USER_B_BUNDLE_ID,
-          },
-        ]);
-        await driver.executeScript("macos: terminateApp", [
-          {
-            bundleId: MACOS_USER_C_BUNDLE_ID,
-          },
-        ]);
+        await terminateApplication(MACOS_USER_A_BUNDLE_ID);
+        await terminateApplication(MACOS_USER_B_BUNDLE_ID);
+        await terminateApplication(MACOS_USER_C_BUNDLE_ID);
       }
     },
   },
 
   afterSuite: async function (suite) {
     // Close second and third applications if open
-    await driver.executeScript("macos: terminateApp", [
-      {
-        bundleId: MACOS_USER_B_BUNDLE_ID,
-      },
-    ]);
-    await driver.executeScript("macos: terminateApp", [
-      {
-        bundleId: MACOS_USER_C_BUNDLE_ID,
-      },
-    ]);
+    await terminateApplication(MACOS_USER_B_BUNDLE_ID);
+    await terminateApplication(MACOS_USER_C_BUNDLE_ID);
   },
 };
+
+export async function terminateApplication(bundle: string) {
+  const appState = await queryAppStateMacOS(bundle);
+  if (appState !== 1) {
+    await driver.executeScript("macos: terminateApp", [
+      {
+        bundleId: bundle,
+      },
+    ]);
+  }
+}
+
+export async function queryAppStateMacOS(bundle: string) {
+  const queryAppState = await driver.executeScript("macos: queryAppState", [
+    {
+      bundleId: bundle,
+    },
+  ]);
+  return queryAppState;
+}
