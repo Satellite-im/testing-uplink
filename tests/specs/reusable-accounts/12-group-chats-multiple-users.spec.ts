@@ -33,7 +33,6 @@ const welcomeScreen = new WelcomeScreen();
 export default async function groupChatMultipleUsersTests() {
   before(async () => {
     await launchFirstApplication();
-    await launchThirdApplication();
   });
 
   it("Chat User C - Create Account", async () => {
