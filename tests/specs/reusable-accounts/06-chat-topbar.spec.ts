@@ -8,12 +8,15 @@ import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   closeFirstApplication,
+  closeSecondApplication,
   launchFirstApplication,
+  launchSecondApplication,
 } from "@helpers/commands";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
 export default async function chatTopbarTests() {
   before(async () => {
+    await launchSecondApplication();
     await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
   });
@@ -120,5 +123,6 @@ export default async function chatTopbarTests() {
 
   after(async () => {
     await closeFirstApplication();
+    await closeSecondApplication();
   });
 }

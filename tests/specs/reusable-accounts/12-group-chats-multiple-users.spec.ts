@@ -11,27 +11,27 @@ import {
   launchFirstApplication,
   launchThirdApplication,
 } from "@helpers/commands";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
+const chatsSidebar = new ChatsSidebar();
+const friendsScreen = new FriendsScreen();
+const welcomeScreen = new WelcomeScreen();
 
 export default async function groupChatMultipleUsersTests() {
   before(async () => {
     await launchFirstApplication();
-    await CreatePinScreen.loginWithTestUser();
     await launchThirdApplication();
-    await CreatePinScreen.loginWithTestUser();
   });
 
   it("Chat User C - Send friend request to User A", async () => {
-    await WelcomeScreen.goToFriends();
-    await FriendsScreen.waitForIsShown(true);
+    await welcomeScreen.goToFriends();
+    await friendsScreen.waitForIsShown(true);
 
     // Obtain did key from Chat User A
     const friendDidKey = await getUserKey("ChatUserA");
-    await FriendsScreen.sendFriendRequest(friendDidKey, "ChatUserA");
+    await friendsScreen.sendFriendRequest(friendDidKey, "ChatUserA");
 
     // Go to All Friends List
-    await FriendsScreen.goToAllFriendsList();
-    await FriendsScreen.validateAllFriendsListIsShown();
+    await friendsScreen.goToAllFriendsList();
+    await friendsScreen.validateAllFriendsListIsShown();
   });
 
   it("Chat User A - Accept friend request from User C and go to chat button", async () => {
@@ -39,23 +39,23 @@ export default async function groupChatMultipleUsersTests() {
     await activateFirstApplication();
 
     // Go to Friends List
-    await ChatsSidebar.goToFriends();
-    await FriendsScreen.validateFriendsScreenIsShown();
+    await chatsSidebar.goToFriends();
+    await friendsScreen.validateFriendsScreenIsShown();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
-    await FriendsScreen.hoverOnPendingListButton();
-    await FriendsScreen.goToPendingFriendsList();
-    await FriendsScreen.validateIncomingListIsShown();
-    await FriendsScreen.waitUntilFriendRequestIsReceived();
-    await FriendsScreen.acceptIncomingRequest("ChatUserC");
+    await friendsScreen.hoverOnPendingListButton();
+    await friendsScreen.goToPendingFriendsList();
+    await friendsScreen.validateIncomingListIsShown();
+    await friendsScreen.waitUntilFriendRequestIsReceived();
+    await friendsScreen.acceptIncomingRequest("ChatUserC");
 
     // Validate friend is now on all friends list
-    await FriendsScreen.goToAllFriendsList();
-    await FriendsScreen.validateAllFriendsListIsShown();
-    await FriendsScreen.validateAllFriendsListIsNotEmpty();
+    await friendsScreen.goToAllFriendsList();
+    await friendsScreen.validateAllFriendsListIsShown();
+    await friendsScreen.validateAllFriendsListIsNotEmpty();
 
     // Go to Chat with User C
-    await FriendsScreen.goToChatWithFriend();
+    await friendsScreen.goToChatWithFriend();
   });
 
   it("Chat User C - Validate friend request was accepted", async () => {
@@ -63,12 +63,12 @@ export default async function groupChatMultipleUsersTests() {
     await activateThirdApplication();
 
     // With User C - Go to pending requests list, wait for receiving the friend request and accept it
-    await FriendsScreen.waitUntilUserAcceptedFriendRequest();
+    await friendsScreen.waitUntilUserAcceptedFriendRequest();
 
     // Validate friend is now on all friends list
-    await FriendsScreen.goToAllFriendsList();
-    await FriendsScreen.validateAllFriendsListIsShown();
-    await FriendsScreen.validateAllFriendsListIsNotEmpty();
+    await friendsScreen.goToAllFriendsList();
+    await friendsScreen.validateAllFriendsListIsShown();
+    await friendsScreen.validateAllFriendsListIsNotEmpty();
   });
 
   after(async () => {

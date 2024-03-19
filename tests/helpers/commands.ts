@@ -151,16 +151,19 @@ export async function launchFirstApplication() {
   await browser.pause(5000);
 }
 
-export async function launchSecondApplication() {
+export async function launchSecondApplication(existingUser: boolean = true) {
   await launchAppMacOS(
     MACOS_USER_B_BUNDLE_ID,
     "/.uplinkUserB",
     "/Applications/Uplink2.app",
   );
   await browser.pause(5000);
+  if (existingUser === true) {
+    await loginWithTestUser();
+  }
 }
 
-export async function launchThirdApplication() {
+export async function launchThirdApplication(existingUser: boolean = true) {
   await launchAppMacOS(
     MACOS_USER_C_BUNDLE_ID,
     "/.uplinkUserC",

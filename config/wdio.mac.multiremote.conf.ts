@@ -172,7 +172,7 @@ export const config: WebdriverIO.Config = {
   },
 
   afterSuite: async function (suite) {
-    // Close second application if open
+    // Close second and third applications if open
     await driver.executeScript("macos: terminateApp", [
       {
         bundleId: MACOS_USER_B_BUNDLE_ID,

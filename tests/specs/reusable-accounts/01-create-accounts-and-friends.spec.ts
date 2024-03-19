@@ -6,6 +6,7 @@ import {
   closeFirstApplication,
   closeSecondApplication,
   closeThirdApplication,
+  createNewUser,
   getUserKey,
   launchSecondApplication,
   launchThirdApplication,
@@ -378,83 +379,83 @@ export default async function createChatAccountsTests() {
     await expect(currentOnlineStatus).toHaveText("Idle");
 
     // Return to chat and validate Local User Status is Idle
-    await SettingsProfileScreen.goToMainScreen();
-    await InputBar.waitForIsShown(true);
+    await settingsProfile.goToMainScreen();
+    await chatsInput.waitForIsShown(true);
     await closeFirstApplication();
     await closeSecondApplication();
   });
 
   it("Chat User C - Create Account", async () => {
     // Launch third application
-    await launchThirdApplication();
+    await launchThirdApplication(false);
 
     // Create a new account and go to Settings Profile
-    await CreatePinScreen.waitForIsShown(true);
+    await createPin.waitForIsShown(true);
     const username = "ChatUserC";
     await createNewUser(username);
-    await WelcomeScreen.goToSettings();
-    await SettingsProfileScreen.validateSettingsProfileIsShown();
+    await welcomeScreen.goToSettings();
+    await settingsProfile.validateSettingsProfileIsShown();
 
     // Click on Copy ID button and assert Toast Notification is displayed
-    await SettingsProfileScreen.openCopyIDContextMenu();
-    await SettingsProfileScreen.clickOnContextMenuCopyDidKey();
+    await settingsProfile.openCopyIDContextMenu();
+    await settingsProfile.clickOnContextMenuCopyDidKey();
 
     // Wait for toast notification of Copied To Clipboard to not exist
-    await SettingsProfileScreen.waitUntilNotificationIsClosed();
+    await settingsProfile.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await SettingsProfileScreen.pasteUserKeyInStatus();
+    await settingsProfile.pasteUserKeyInStatus();
 
     // Wait for toast notification of Profile Updated to not exist
-    await SettingsGeneralScreen.waitUntilNotificationIsClosed();
+    await settingsGeneral.waitUntilNotificationIsClosed();
 
     // Grab cache folder and restart
-    const didkey = await SettingsProfileScreen.getCopiedDidFromStatusInput();
+    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
     await saveTestKeys(username, didkey);
-    await SettingsProfileScreen.deleteStatus();
+    await settingsProfile.deleteStatus();
   });
 
   it("Chat User C - Settings General - Reduce font size", async () => {
     // Go to General Settings and reduce Font Size by 0.5
-    await SettingsProfileScreen.goToGeneralSettings();
-    await SettingsGeneralScreen.waitForIsShown(true);
+    await settingsProfile.goToGeneralSettings();
+    await settingsGeneral.waitForIsShown(true);
 
     // Click on font scaling minus
-    await SettingsGeneralScreen.clickOnFontScalingMinus();
+    await settingsGeneral.clickOnFontScalingMinus();
   });
 
   it("Chat User C - Settings Developer - Enable Save Logs In A File", async () => {
     // Go to Settings About and click 10 times on Version Number to Unlock Developer Settings
-    await SettingsGeneralScreen.goToAboutSettings();
-    await SettingsAboutScreen.waitForIsShown(true);
-    await SettingsAboutScreen.unlockDeveloperSettings();
+    await settingsGeneral.goToAboutSettings();
+    await settingsAbout.waitForIsShown(true);
+    await settingsAbout.unlockDeveloperSettings();
 
     // Validate Developer Settings button is unlocked
-    const developerSettingsButton = await SettingsAboutScreen.developerButton;
+    const developerSettingsButton = await settingsAbout.developerButton;
     await developerSettingsButton.waitForDisplayed();
 
     // Go to Menu from the left and Scroll Down
-    const settingsAboutButton = await SettingsAboutScreen.aboutButton;
-    await SettingsAboutScreen.hoverOnElement(settingsAboutButton);
+    const settingsAboutButton = await settingsAbout.aboutButton;
+    await settingsAbout.hoverOnElement(settingsAboutButton);
     await scrollDown(1000);
 
     // Go to Settings Developer and Enable Save Logs in a File
-    await SettingsAboutScreen.goToDeveloperSettings();
-    await SettingsDeveloperScreen.waitForIsShown(true);
-    await SettingsDeveloperScreen.clickOnSaveLogs();
-    await SettingsDeveloperScreen.validateSaveLogsIsEnabled();
+    await settingsAbout.goToDeveloperSettings();
+    await settingsDeveloper.waitForIsShown(true);
+    await settingsDeveloper.clickOnSaveLogs();
+    await settingsDeveloper.validateSaveLogsIsEnabled();
   });
 
   it("Chat User C - Settings Notifications - Disable notifications", async () => {
     // Go to Notifications Settings and disable all notifications
-    await SettingsDeveloperScreen.goToNotificationsSettings();
-    await SettingsNotificationsScreen.validateSettingsNotificationsIsShown();
-    await SettingsNotificationsScreen.clickOnFriendsNotifications();
-    await SettingsNotificationsScreen.clickOnMessagesNotifications();
+    await settingsDeveloper.goToNotificationsSettings();
+    await settingsNotifications.validateSettingsNotificationsIsShown();
+    await settingsNotifications.clickOnFriendsNotifications();
+    await settingsNotifications.clickOnMessagesNotifications();
 
     // Go to Friends Screen
-    await SettingsNotificationsScreen.goToFriends();
-    await FriendsScreen.validateFriendsScreenIsShown();
+    await settingsNotifications.goToFriends();
+    await friendsScreen.validateFriendsScreenIsShown();
   });
 
   after(async () => {

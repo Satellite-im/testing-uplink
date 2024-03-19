@@ -10,8 +10,10 @@ import {
   activateFirstApplication,
   closeFirstApplication,
   closeSecondApplication,
+  closeThirdApplication,
   launchFirstApplication,
   launchSecondApplication,
+  launchThirdApplication,
 } from "@helpers/commands";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
@@ -20,7 +22,6 @@ export default async function repliesTests() {
     await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
     await launchSecondApplication();
-    await CreatePinScreen.loginWithTestUser();
   });
 
   it("Chat User B - Reply popup - Validate contents and close it", async () => {
@@ -76,7 +77,7 @@ export default async function repliesTests() {
   it("Chat User B - Validate User Status changes are seen in remote side", async () => {
     // Validate Chat User B is now Idle
     const firstRemoteStatus =
-      await MessageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
+      await messageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
     await expect(firstRemoteStatus).toEqual("indicator-idle");
   });
 
