@@ -1,7 +1,6 @@
 require("module-alias/register");
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "@screenobjects/chats/ContextMenuSidebar";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import ManageMembers from "@screenobjects/chats/ManageMembers";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
@@ -12,17 +11,18 @@ import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  grabCacheFolder,
-  grabCacheFolderSecondInstance,
-  resetAndLoginWithCacheFirstInstance,
-  resetAndLoginWithCacheSecondInstance,
+  closeFirstApplication,
+  closeSecondApplication,
+  launchFirstApplication,
+  launchSecondApplication,
 } from "@helpers/commands";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-describe("Group Chats Sidebar - Tests", function () {
+export default async function groupChatSidebarTests() {
   before(async () => {
-    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await launchSecondApplication();
     await CreatePinScreen.loginWithTestUser();
-    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -186,9 +186,10 @@ describe("Group Chats Sidebar - Tests", function () {
     // Switch execution to remote user and ensure that group was removed on this side too
     await activateSecondApplication();
     await ChatsSidebar.validateSidebarChatIsNotDisplayed("renamed");
-
-    // Grab cache folders at the end of last test
-    await grabCacheFolder("ChatUserA");
-    await grabCacheFolderSecondInstance("ChatUserB");
   });
-});
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
+  });
+}

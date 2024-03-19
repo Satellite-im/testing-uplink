@@ -1,6 +1,5 @@
 require("module-alias/register");
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import GroupSettings from "@screenobjects/chats/GroupSettings";
 import ManageMembers from "@screenobjects/chats/ManageMembers";
@@ -9,17 +8,18 @@ import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  grabCacheFolder,
-  grabCacheFolderSecondInstance,
-  resetAndLoginWithCacheFirstInstance,
-  resetAndLoginWithCacheSecondInstance,
+  closeFirstApplication,
+  closeSecondApplication,
+  launchFirstApplication,
+  launchSecondApplication,
 } from "@helpers/commands";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-describe("Group Chats - Edit Group Tests", function () {
+export default async function groupChatEditTests() {
   before(async () => {
-    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await launchSecondApplication();
     await CreatePinScreen.loginWithTestUser();
-    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -240,9 +240,10 @@ describe("Group Chats - Edit Group Tests", function () {
     await ChatsSidebar.waitForGroupToBeCreated("renamed");
     const topbarFirstUserName = await Topbar.topbarUserNameValue;
     await expect(topbarFirstUserName).toHaveText("renamed");
-
-    // Grab cache folders at the end of last test
-    await grabCacheFolder("ChatUserA");
-    await grabCacheFolderSecondInstance("ChatUserB");
   });
-});
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
+  });
+}

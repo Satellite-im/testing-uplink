@@ -1,7 +1,6 @@
 require("module-alias/register");
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ComposeAttachment from "@screenobjects/chats/ComposeAttachment";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
@@ -11,18 +10,19 @@ import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  grabCacheFolder,
-  grabCacheFolderSecondInstance,
-  resetAndLoginWithCacheFirstInstance,
-  resetAndLoginWithCacheSecondInstance,
+  closeFirstApplication,
+  closeSecondApplication,
+  launchFirstApplication,
+  launchSecondApplication,
   scrollUp,
 } from "@helpers/commands";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-describe("Chats Messages With Attachments Tests", function () {
+export default async function messageAttachmentsTests() {
   before(async () => {
-    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
-    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await launchSecondApplication();
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -263,9 +263,10 @@ describe("Chats Messages With Attachments Tests", function () {
   it("Chat Messages with Files - Remote user can download file received", async () => {
     // Download latest image file received
     await MessageRemote.downloadReceivedFile(".txt", "Attached2");
-
-    // Grab cache folders at the end of last test
-    await grabCacheFolder("ChatUserA");
-    await grabCacheFolderSecondInstance("ChatUserB");
   });
-});
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
+  });
+}

@@ -6,6 +6,7 @@ import {
   MACOS_DRIVER,
   MACOS_USER_A_BUNDLE_ID,
   MACOS_USER_B_BUNDLE_ID,
+  MACOS_USER_C_BUNDLE_ID,
   WINDOWS_APP,
   WINDOWS_DRIVER,
 } from "./constants";
@@ -20,17 +21,7 @@ export async function deleteCache() {
   const target = homedir() + "/.uplink/.user";
   try {
     await rmSync(target, { recursive: true, force: true });
-  } catch (error) {
-    console.error(
-      `Got an error trying to delete the user cache files: ${error.message}`,
-    );
-  }
-}
-
-export async function deleteCacheSecondInstance() {
-  const target = homedir() + "/.uplinkUserB/.user";
-  try {
-    await rmSync(target, { recursive: true, force: true });
+    console.log("Deleted user cache successfully");
   } catch (error) {
     console.error(
       `Got an error trying to delete the user cache files: ${error.message}`,
@@ -45,20 +36,7 @@ export async function grabCacheFolder(username: string) {
   await fsp.mkdir(target, { recursive: true });
   try {
     await fsp.cp(source, target, { recursive: true });
-  } catch (error) {
-    console.error(
-      `Got an error trying to copy the user cache files: ${error.message}`,
-    );
-  }
-}
-
-export async function grabCacheFolderSecondInstance(username: string) {
-  const source = homedir() + "/.uplinkUserB";
-  const currentDriver = process.env.DRIVER;
-  const target = "./tests/fixtures/users/" + currentDriver + "/" + username;
-  await fsp.mkdir(target, { recursive: true });
-  try {
-    await fsp.cp(source, target, { recursive: true });
+    console.log("Copied user cache successfully");
   } catch (error) {
     console.error(
       `Got an error trying to copy the user cache files: ${error.message}`,
@@ -75,22 +53,7 @@ export async function loadTestUserData(user: string) {
   await deleteCache();
   try {
     await fsp.cp(source, target, { recursive: true }, { force: true });
-  } catch (error) {
-    console.error(
-      `Got an error trying to copy the user cache files: ${error.message}`,
-    );
-  }
-}
-
-export async function loadTestUserDataSecondInstance(user: string) {
-  // Move files
-  const currentDriver = process.env.DRIVER;
-  let source, target;
-  source = "./tests/fixtures/users/" + currentDriver + "/" + user;
-  target = homedir() + "/.uplinkUserB";
-  await deleteCache();
-  try {
-    await fsp.cp(source, target, { recursive: true }, { force: true });
+    console.log("Copied user cache successfully");
   } catch (error) {
     console.error(
       `Got an error trying to copy the user cache files: ${error.message}`,
@@ -126,33 +89,19 @@ export async function saveTestKeys(username: string, didkey: string) {
   }
 }
 
-export async function resetApp(
-  bundleId: string = MACOS_BUNDLE_ID,
-  windowsApp: string = WINDOWS_APP,
-) {
-  await closeApplication(bundleId);
-  await deleteCache();
-  await launchApplication(bundleId, windowsApp);
-}
+// Login or Create Users Functions
 
-export async function resetAndLoginWithCache(user: string) {
-  await closeApplication(MACOS_BUNDLE_ID);
+export async function resetApp() {
+  await closeApplication();
   await deleteCache();
-  await loadTestUserData(user);
   await launchApplication(MACOS_BUNDLE_ID, WINDOWS_APP);
 }
 
-export async function resetAndLoginWithCacheFirstInstance(user: string) {
-  await closeFirstApplication();
+export async function resetAndLoginWithCache(user: string) {
+  await closeApplication();
   await deleteCache();
   await loadTestUserData(user);
-  await launchFirstApplication();
-}
-
-export async function resetAndLoginWithCacheSecondInstance(user: string) {
-  await deleteCacheSecondInstance();
-  await loadTestUserDataSecondInstance(user);
-  await launchSecondApplication();
+  await launchApplication(MACOS_BUNDLE_ID, WINDOWS_APP);
 }
 
 export async function saveUserRecoverySeed(username: string, data: string[]) {
@@ -203,7 +152,20 @@ export async function launchFirstApplication() {
 }
 
 export async function launchSecondApplication() {
-  await launchAppMacOS(MACOS_USER_B_BUNDLE_ID, "/.uplinkUserB");
+  await launchAppMacOS(
+    MACOS_USER_B_BUNDLE_ID,
+    "/.uplinkUserB",
+    "/Applications/Uplink2.app",
+  );
+  await browser.pause(5000);
+}
+
+export async function launchThirdApplication() {
+  await launchAppMacOS(
+    MACOS_USER_C_BUNDLE_ID,
+    "/.uplinkUserC",
+    "/Applications/Uplink3.app",
+  );
   await browser.pause(5000);
 }
 
@@ -233,15 +195,24 @@ export async function activateSecondApplication() {
   }
 }
 
-export async function closeApplication(
-  bundleId: string = MACOS_BUNDLE_ID,
-  windowsApp: string = WINDOWS_APP,
-) {
-  await browser.pause(5000);
+export async function activateThirdApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
-    await closeAppWindows(windowsApp);
+    await activateAppWindows(WINDOWS_APP);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    await closeAppMacOS(bundleId);
+    const appState = await queryAppStateMacOS(MACOS_USER_C_BUNDLE_ID);
+    if (appState === 1) {
+      await launchThirdApplication();
+    } else {
+      await activateAppMacOS(MACOS_USER_C_BUNDLE_ID);
+    }
+  }
+}
+
+export async function closeApplication() {
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
+    await closeAppWindows(WINDOWS_APP);
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
+    await closeAppMacOS(MACOS_BUNDLE_ID);
   }
 }
 
@@ -257,6 +228,14 @@ export async function closeSecondApplication() {
   await driver.executeScript("macos: terminateApp", [
     {
       bundleId: MACOS_USER_B_BUNDLE_ID,
+    },
+  ]);
+}
+
+export async function closeThirdApplication() {
+  await driver.executeScript("macos: terminateApp", [
+    {
+      bundleId: MACOS_USER_C_BUNDLE_ID,
     },
   ]);
 }
@@ -303,12 +282,14 @@ export async function closeAppMacOS(bundle: string) {
 
 export async function launchAppMacOS(
   bundle: string,
-  relativePath: string = "/.uplink",
+  relativePathUserData: string = "/.uplink",
+  appPath: string = "/Applications/Uplink.app",
 ) {
   await driver.executeScript("macos: launchApp", [
     {
       bundleId: bundle,
-      arguments: ["--path", homedir() + relativePath],
+      path: appPath,
+      arguments: ["--path", homedir() + relativePathUserData],
     },
   ]);
 }

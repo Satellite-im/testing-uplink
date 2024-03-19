@@ -2,15 +2,14 @@ require("module-alias/register");
 import {
   activateFirstApplication,
   activateSecondApplication,
-  grabCacheFolder,
-  grabCacheFolderSecondInstance,
-  resetAndLoginWithCacheFirstInstance,
-  resetAndLoginWithCacheSecondInstance,
+  closeFirstApplication,
+  closeSecondApplication,
+  launchFirstApplication,
+  launchSecondApplication,
 } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "@screenobjects/chats/ContextMenuSidebar";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
@@ -20,12 +19,13 @@ import MessageRemote from "@screenobjects/chats/MessageRemote";
 import Topbar from "@screenobjects/chats/Topbar";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-describe("Chats Sidebar - Tests", function () {
+export default async function sidebarChatsTests() {
   before(async () => {
-    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
-    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await launchSecondApplication();
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -230,9 +230,10 @@ describe("Chats Sidebar - Tests", function () {
     // Open context menu and right click on Remove user from Favorites
     await FavoritesSidebar.openContextMenuOnFavoritesUser("ChatUserB");
     await FavoritesSidebar.clickOnContextMenuFavoriteRemove();
-
-    // Grab cache folders at the end of last test
-    await grabCacheFolder("ChatUserA");
-    await grabCacheFolderSecondInstance("ChatUserB");
   });
-});
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
+  });
+}

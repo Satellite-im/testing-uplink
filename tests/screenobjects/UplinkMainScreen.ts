@@ -1,4 +1,5 @@
 require("module-alias/register");
+import AppScreen from "@screenobjects/AppScreen";
 import {
   hoverOnMacOS,
   hoverOnWindows,
@@ -105,23 +106,9 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class UplinkMainScreen {
-  private locator;
-
-  constructor(locator: string) {
-    this.locator = locator;
-  }
-
-  async getCurrentDriver() {
-    const currentDriver = process.env.DRIVER;
-    return currentDriver;
-  }
-
-  async waitForIsShown(isShown = true): Promise<boolean | void> {
-    const locator = await $(this.locator);
-    return locator.waitForDisplayed({
-      reverse: !isShown,
-    });
+export default class UplinkMainScreen extends AppScreen {
+  constructor() {
+    super(SELECTORS.WINDOW);
   }
 
   public get backButton() {

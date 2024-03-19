@@ -7,6 +7,7 @@ export const CHAT_USER_J_ID =
 export const MACOS_BUNDLE_ID = "im.satellite.uplink";
 export const MACOS_USER_A_BUNDLE_ID = "im.satellite.uplinkChatUserA";
 export const MACOS_USER_B_BUNDLE_ID = "im.satellite.uplinkChatUserB";
+export const MACOS_USER_C_BUNDLE_ID = "im.satellite.uplinkChatUserC";
 export const MACOS_DRIVER = "mac2";
 export const WINDOWS_APP = "C:\\Program Files\\uplink\\uplink.exe";
 export const WINDOWS_DRIVER = "windows";

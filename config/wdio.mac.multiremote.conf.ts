@@ -7,6 +7,8 @@ const MACOS_USER_A_BUNDLE_ID =
   require("@helpers/constants").MACOS_USER_A_BUNDLE_ID;
 const MACOS_USER_B_BUNDLE_ID =
   require("@helpers/constants").MACOS_USER_B_BUNDLE_ID;
+const MACOS_USER_C_BUNDLE_ID =
+  require("@helpers/constants").MACOS_USER_C_BUNDLE_ID;
 const MACOS_DRIVER = require("@helpers/constants").MACOS_DRIVER;
 const fsp = require("fs").promises;
 const { readFileSync, rmSync } = require("fs");
@@ -30,7 +32,7 @@ export const config: WebdriverIO.Config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [join(process.cwd(), "./tests/specs/reusable-accounts/*.ts")],
+    specs: [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")],
     // Patterns to exclude.
     exclude: [
       // 'path/to/excluded/files'
@@ -57,7 +59,7 @@ export const config: WebdriverIO.Config = {
         "appium:systemPort": 4725,
         "appium:prerun": {
           command:
-            'do shell script "rm -rf ~/.uplink && rm -rf ~/.uplinkUserB"',
+            'do shell script "rm -rf ~/.uplink && rm -rf ~/.uplinkUserB && rm -rf ~/.uplinkUserC"',
         },
       },
     ],
@@ -101,6 +103,7 @@ export const config: WebdriverIO.Config = {
     onPrepare: async function () {
       const cacheFolderUserA = homedir() + "/.uplink/.user";
       const cacheFolderUserB = homedir() + "/.uplinkUserB/.user";
+      const cacheFolderUserC = homedir() + "/.uplinkUserC/.user";
       const allureResultsFolder = join(process.cwd(), "./allure-results");
       const testReportFolder = join(process.cwd(), "./test-report");
       const testResultsFolder = join(process.cwd(), "./test-results");
@@ -117,6 +120,7 @@ export const config: WebdriverIO.Config = {
       try {
         await rmSync(cacheFolderUserA, { recursive: true, force: true });
         await rmSync(cacheFolderUserB, { recursive: true, force: true });
+        await rmSync(cacheFolderUserC, { recursive: true, force: true });
         console.log("Deleted Cache Folder Successfully!");
       } catch (error) {
         console.error(
@@ -158,6 +162,11 @@ export const config: WebdriverIO.Config = {
             bundleId: MACOS_USER_B_BUNDLE_ID,
           },
         ]);
+        await driver.executeScript("macos: terminateApp", [
+          {
+            bundleId: MACOS_USER_C_BUNDLE_ID,
+          },
+        ]);
       }
     },
   },
@@ -167,6 +176,11 @@ export const config: WebdriverIO.Config = {
     await driver.executeScript("macos: terminateApp", [
       {
         bundleId: MACOS_USER_B_BUNDLE_ID,
+      },
+    ]);
+    await driver.executeScript("macos: terminateApp", [
+      {
+        bundleId: MACOS_USER_C_BUNDLE_ID,
       },
     ]);
   },

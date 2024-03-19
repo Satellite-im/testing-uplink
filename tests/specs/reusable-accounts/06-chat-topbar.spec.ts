@@ -1,6 +1,5 @@
 require("module-alias/register");
 import ContextMenu from "@screenobjects/chats/ContextMenu";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
 import MessageGroupLocal from "@screenobjects/chats/MessageGroupLocal";
@@ -8,13 +7,14 @@ import PinnedMessages from "@screenobjects/chats/PinnedMessages";
 import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
-  grabCacheFolder,
-  resetAndLoginWithCacheFirstInstance,
+  closeFirstApplication,
+  launchFirstApplication,
 } from "@helpers/commands";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-describe("Chats Topbar - Tests", function () {
+export default async function chatTopbarTests() {
   before(async () => {
-    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -116,8 +116,9 @@ describe("Chats Topbar - Tests", function () {
 
     // Close pinned messages
     await Topbar.clickOnTopbar();
-
-    // Grab cache folders at the end of last test
-    await grabCacheFolder("ChatUserA");
   });
-});
+
+  after(async () => {
+    await closeFirstApplication();
+  });
+}

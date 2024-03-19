@@ -1,5 +1,4 @@
 require("module-alias/register");
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageGroupLocal from "@screenobjects/chats/MessageGroupLocal";
@@ -9,25 +8,19 @@ import MessageRemote from "@screenobjects/chats/MessageRemote";
 import ReplyPrompt from "@screenobjects/chats/ReplyPrompt";
 import {
   activateFirstApplication,
-  grabCacheFolder,
-  grabCacheFolderSecondInstance,
-  resetAndLoginWithCacheFirstInstance,
-  resetAndLoginWithCacheSecondInstance,
+  closeFirstApplication,
+  closeSecondApplication,
+  launchFirstApplication,
+  launchSecondApplication,
 } from "@helpers/commands";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-describe("Chat Replies Tests", function () {
+export default async function repliesTests() {
   before(async () => {
-    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
-    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await launchSecondApplication();
     await CreatePinScreen.loginWithTestUser();
-  });
-
-  it("Chat User B - Validate User Status changes are seen in remote side", async () => {
-    // Validate Chat User B is now Idle
-    const firstRemoteStatus =
-      await MessageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
-    await expect(firstRemoteStatus).toEqual("indicator-idle");
   });
 
   it("Chat User B - Reply popup - Validate contents and close it", async () => {
@@ -78,6 +71,13 @@ describe("Chat Replies Tests", function () {
     //Your user image should be displayed next to the message
     const userImage = await MessageGroupLocal.getLastGroupWrapSentImage();
     await userImage.waitForExist();
+  });
+
+  it("Chat User B - Validate User Status changes are seen in remote side", async () => {
+    // Validate Chat User B is now Idle
+    const firstRemoteStatus =
+      await MessageGroupRemote.getLastGroupWrapReceivedCurrentStatus();
+    await expect(firstRemoteStatus).toEqual("indicator-idle");
   });
 
   it("Chat User A - Validate reply message contents", async () => {
@@ -135,9 +135,10 @@ describe("Chat Replies Tests", function () {
     // Validate reply message sent appears as last message
     const message = await MessageLocal.getCustomMessageContents("SelfReply");
     await expect(message).toHaveText("SelfReply");
-
-    // Grab cache folders at the end of last test
-    await grabCacheFolder("ChatUserA");
-    await grabCacheFolderSecondInstance("ChatUserB");
   });
-});
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
+  });
+}

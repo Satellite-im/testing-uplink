@@ -3,24 +3,24 @@ import {
   getClipboardValue,
   activateFirstApplication,
   activateSecondApplication,
-  resetAndLoginWithCacheFirstInstance,
-  resetAndLoginWithCacheSecondInstance,
-  grabCacheFolder,
-  grabCacheFolderSecondInstance,
+  launchSecondApplication,
+  launchFirstApplication,
+  closeFirstApplication,
+  closeSecondApplication,
 } from "@helpers/commands";
-import ContextMenu from "@screenobjects/chats/ContextMenu";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
+import ContextMenu from "@screenobjects/chats/ContextMenu";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageGroupLocal from "@screenobjects/chats/MessageGroupLocal";
 import MessageGroupRemote from "@screenobjects/chats/MessageGroupRemote";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
 import MessageRemote from "@screenobjects/chats/MessageRemote";
 
-describe("Chats Tests - Context Menu", function () {
+export default async function messageContextMenuTests() {
   before(async () => {
-    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await launchSecondApplication();
     await CreatePinScreen.loginWithTestUser();
-    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -167,9 +167,10 @@ describe("Chats Tests - Context Menu", function () {
     const reaction = await MessageGroupLocal.getLastMessageSentSelfReactions();
     await expect(reaction.includes("👎 2")).toEqual(true);
     await expect(reaction.includes("👍 1")).toEqual(true);
-
-    // Grab cache folders at the end of last test
-    await grabCacheFolder("ChatUserA");
-    await grabCacheFolderSecondInstance("ChatUserB");
   });
-});
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
+  });
+}

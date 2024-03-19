@@ -1,6 +1,5 @@
 require("module-alias/register");
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import EmojiSuggestions from "@screenobjects/chats/EmojiSuggestions";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -9,20 +8,21 @@ import MessageRemote from "@screenobjects/chats/MessageRemote";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  grabCacheFolder,
-  grabCacheFolderSecondInstance,
+  closeFirstApplication,
+  closeSecondApplication,
   keyboardShortcutPaste,
+  launchFirstApplication,
+  launchSecondApplication,
   pressEnterKey,
-  resetAndLoginWithCacheFirstInstance,
-  resetAndLoginWithCacheSecondInstance,
   setClipboardValue,
 } from "@helpers/commands";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-describe("Chats Message Input Tests", function () {
+export default async function messageInputTests() {
   before(async () => {
-    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
-    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await launchSecondApplication();
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -316,10 +316,6 @@ describe("Chats Message Input Tests", function () {
     await expect(linkEmbedReceivedDetailsText).toHaveTextContaining("Apple");
     await linkEmbedReceivedIcon.waitForExist();
     await linkEmbedReceivedIconTitle.waitForExist();
-
-    // Grab cache folders at the end of last test
-    await grabCacheFolder("ChatUserA");
-    await grabCacheFolderSecondInstance("ChatUserB");
   });
 
   // Skipping this test since the time spent between switching windows to validate, the typing indicator is already gone
@@ -343,4 +339,9 @@ describe("Chats Message Input Tests", function () {
       "ChatUserB is typing",
     );
   });
-});
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
+  });
+}

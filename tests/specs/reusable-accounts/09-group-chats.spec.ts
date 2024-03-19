@@ -1,7 +1,6 @@
 require("module-alias/register");
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import CreateGroupChat from "@screenobjects/chats/CreateGroupChat";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FilesScreen from "@screenobjects/files/FilesScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
@@ -11,17 +10,18 @@ import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  grabCacheFolder,
-  grabCacheFolderSecondInstance,
-  resetAndLoginWithCacheFirstInstance,
-  resetAndLoginWithCacheSecondInstance,
+  closeFirstApplication,
+  closeSecondApplication,
+  launchFirstApplication,
+  launchSecondApplication,
 } from "@helpers/commands";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-describe("Group Chats - Main Tests", function () {
+export default async function groupChatTests() {
   before(async () => {
-    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await launchSecondApplication();
     await CreatePinScreen.loginWithTestUser();
-    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -188,9 +188,10 @@ describe("Group Chats - Main Tests", function () {
 
     const topbarUserName = await Topbar.topbarUserNameValue;
     await expect(topbarUserName).toHaveText("Test");
-
-    // Grab cache folders at the end of last test
-    await grabCacheFolder("ChatUserA");
-    await grabCacheFolderSecondInstance("ChatUserB");
   });
-});
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
+  });
+}

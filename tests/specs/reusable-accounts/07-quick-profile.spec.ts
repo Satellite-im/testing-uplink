@@ -5,12 +5,9 @@ import {
   closeSecondApplication,
   activateFirstApplication,
   activateSecondApplication,
-  grabCacheFolder,
-  resetAndLoginWithCacheSecondInstance,
-  resetAndLoginWithCacheFirstInstance,
-  grabCacheFolderSecondInstance,
+  launchSecondApplication,
+  launchFirstApplication,
 } from "@helpers/commands";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageGroupLocal from "@screenobjects/chats/MessageGroupLocal";
@@ -18,12 +15,13 @@ import MessageGroupRemote from "@screenobjects/chats/MessageGroupRemote";
 import QuickProfile from "@screenobjects/chats/QuickProfile";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-describe("Chats Quick Profile - Tests", function () {
+export default async function quickProfileTests() {
   before(async () => {
-    await resetAndLoginWithCacheSecondInstance("ChatUserB");
+    await launchSecondApplication();
     await CreatePinScreen.loginWithTestUser();
-    await resetAndLoginWithCacheFirstInstance("ChatUserA");
+    await launchFirstApplication();
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -163,9 +161,10 @@ describe("Chats Quick Profile - Tests", function () {
 
     // Validate friend is now on all friends list
     await FriendsScreen.waitUntilUserAcceptedFriendRequest();
-
-    // Grab cache folders at the end of last test
-    await grabCacheFolder("ChatUserA");
-    await grabCacheFolderSecondInstance("ChatUserB");
   });
-});
+
+  after(async () => {
+    await closeFirstApplication();
+    await closeSecondApplication();
+  });
+}
