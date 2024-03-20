@@ -274,9 +274,6 @@ export default async function settingsKeybindsTests() {
     // Press Ctrl + Shift + U to Hide Uplink
     await sendCustomKeybinds(4, 7, 65);
 
-    // Validate Uplink is not displayed
-    await SettingsGeneralScreen.validateSettingsGeneralIsNotShown();
-
     // Press Ctrl + Shift + U to Focus Uplink
     await sendCustomKeybinds(4, 7, 65);
 

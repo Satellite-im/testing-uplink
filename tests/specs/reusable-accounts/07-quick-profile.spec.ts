@@ -44,8 +44,6 @@ export default async function quickProfileTests() {
     await QuickProfile.clickOnEditProfile();
     await SettingsProfileScreen.waitForIsShown(true);
     await SettingsProfileScreen.goToMainScreen();
-    await closeFirstApplication();
-    await closeSecondApplication();
   });
 
   it("Chat User B - Validate contents from remote quick profile", async () => {
