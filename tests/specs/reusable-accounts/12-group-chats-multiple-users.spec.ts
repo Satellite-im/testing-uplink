@@ -24,6 +24,7 @@ import {
 export default async function groupChatMultipleUsersTests() {
   before(async () => {
     await launchFirstApplication();
+    await CreatePinScreen.loginWithTestUser();
   });
 
   it("Chat User C - Create Account", async () => {
