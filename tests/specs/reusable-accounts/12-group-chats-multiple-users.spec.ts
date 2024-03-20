@@ -29,7 +29,6 @@ export default async function groupChatMultipleUsersTests() {
   it("Chat User C - Create Account", async () => {
     // Launch third application
     await launchThirdApplication();
-    await CreatePinScreen.loginWithTestUser();
 
     // Create a new account and go to Settings Profile
     await CreatePinScreen.waitForIsShown(true);
