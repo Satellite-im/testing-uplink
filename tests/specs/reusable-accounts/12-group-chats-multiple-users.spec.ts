@@ -1,14 +1,23 @@
 require("module-alias/register");
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
+import SettingsAboutScreen from "@screenobjects/settings/SettingsAboutScreen";
+import SettingsDeveloperScreen from "@screenobjects/settings/SettingsDeveloperScreen";
+import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen";
+import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
+import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import {
   activateFirstApplication,
   activateThirdApplication,
   closeFirstApplication,
   closeThirdApplication,
+  createNewUser,
   getUserKey,
+  saveTestKeys,
+  scrollDown,
   launchFirstApplication,
   launchThirdApplication,
 } from "@helpers/commands";

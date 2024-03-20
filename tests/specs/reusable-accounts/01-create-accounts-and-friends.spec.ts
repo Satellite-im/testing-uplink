@@ -8,7 +8,6 @@ import {
   closeThirdApplication,
   getUserKey,
   launchSecondApplication,
-  launchThirdApplication,
   saveTestKeys,
   scrollDown,
 } from "@helpers/commands";
@@ -458,6 +457,7 @@ export default async function createChatAccountsTests() {
   });
 
   after(async () => {
-    await closeThirdApplication();
+    await closeFirstApplication();
+    await closeSecondApplication();
   });
 }
