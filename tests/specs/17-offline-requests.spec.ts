@@ -7,10 +7,17 @@ import {
   resetAndLoginWithCache,
   saveTestKeys,
 } from "@helpers/commands";
-import FriendsScreen from "@screenobjects/friends/FriendsScreen";
-import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
-import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
+import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
+import FriendsScreen from "@screenobjects/friends/FriendsScreen";
+import InputBar from "@screenobjects/chats/InputBar";
+import MessageGroupLocal from "@screenobjects/chats/MessageGroupLocal";
+import MessageGroupRemote from "@screenobjects/chats/MessageGroupRemote";
+import MessageLocal from "@screenobjects/chats/MessageLocal";
+import MessageRemote from "@screenobjects/chats/MessageRemote";
+import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
+import Topbar from "@screenobjects/chats/Topbar";
+import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 const userA: string = "UserA";
 const userB: string = "UserB";
 
@@ -123,5 +130,100 @@ export default async function offlineRequestsTests() {
     await FriendsScreen.validateAllFriendsListIsShown();
     await FriendsScreen.validateAllFriendsListIsNotEmpty();
     await FriendsScreen.waitUntilUserAcceptedFriendRequest();
+  });
+
+  it("Offline Messages - Chat screen displays Messages secured text displayed on top of conversation", async () => {
+    // Go to Chat with User A
+    await FriendsScreen.goToChatWithFriend();
+    await Topbar.validateTopbarExists();
+
+    // Validate E2E message is displayed on top of chat
+    const encryptedMessagesText = await ChatsLayout.encryptedMessagesText;
+    await encryptedMessagesText.waitForExist();
+    await expect(encryptedMessagesText).toHaveTextContaining(
+      "Messages are secured by end-to-end encryption and sent over a peer-to-peer network.",
+    );
+  });
+
+  it("Offline Messages - Send a message to offline user", async () => {
+    // Send message to the other user
+    await InputBar.typeMessageOnInput("Testing...");
+    await InputBar.clickOnSendMessage();
+    await MessageLocal.waitForMessageSentToExist("Testing...");
+
+    const textFromMessage =
+      await MessageLocal.getCustomMessageContents("Testing...");
+    await expect(textFromMessage).toHaveText("Testing...");
+  });
+
+  it("Offline Messages - Validate Chat Message displays timestamp and user who sent it", async () => {
+    //Timestamp from last message sent should be displayed
+    const timeAgo = await MessageGroupLocal.getLastMessageSentTimeAgo();
+    await expect(timeAgo).toHaveTextContaining(
+      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    );
+    await expect(timeAgo).toHaveTextContaining("UserB");
+  });
+
+  it("Offline Messages - Validate Chat Message sent contents", async () => {
+    //Any message you sent yourself should appear within a colored message bubble
+    const messageText =
+      await MessageLocal.getCustomMessageContents("Testing...");
+    await expect(messageText).toHaveText("Testing...");
+  });
+
+  it("Offline Messages - Validate Chat Message displays username picture", async () => {
+    //Your user image should be displayed next to the message
+    const userImage = await MessageGroupLocal.getLastGroupWrapSentImage();
+    await userImage.waitForExist();
+  });
+
+  it("Offline Messages - Topbar information", async () => {
+    // Validate user image, username is displayed on Chat Topbar
+    await Topbar.validateTopbarUserImage();
+    await Topbar.validateTopbarUserName("UserA");
+
+    // Grab Cache Folder UserB
+    await grabCacheFolder(userB);
+  });
+
+  it("Offline Messages - Assert user can receive messages while being offline", async () => {
+    // Switch control to User A
+    await resetAndLoginWithCache(userA);
+
+    // Go to the current list of All friends and then open a Chat conversation with UserB
+    await FriendsScreen.chatWithFriendButton.waitForExist();
+    await FriendsScreen.hoverOnChatWithFriendButton("UserB");
+    await FriendsScreen.chatWithFriendButton.click();
+    await FriendsScreen.validateSpinnerIsNotShown();
+    await Topbar.validateTopbarExists();
+  });
+
+  it("Offline Messages - Assert message received from UserB", async () => {
+    // Validate message received from Chat User A
+    await MessageRemote.waitForReceivingMessage("Testing...");
+
+    //Any message you sent yourself should appear within a colored message bubble
+    const textFromMessage =
+      await MessageRemote.getCustomMessageContents("Testing...");
+    await expect(textFromMessage).toHaveText("Testing...");
+  });
+
+  it("Offline Messages - Validate Chat Message Group from remote user displays username picture", async () => {
+    //Your user image should be displayed next to the message
+    const userImage = await MessageGroupRemote.getLastGroupWrapReceivedImage();
+    await userImage.waitForExist();
+  });
+
+  it("Offline Messages - Validate Chat Message received displays timestamp and user who sent it", async () => {
+    //Timestamp should be displayed when you send a message
+    const timeAgo = await MessageGroupRemote.getLastMessageReceivedTimeAgo();
+    await expect(timeAgo).toHaveTextContaining(
+      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    );
+    await expect(timeAgo).toHaveTextContaining("UserB");
+
+    // Grab cache folder
+    await grabCacheFolder(userA);
   });
 }
