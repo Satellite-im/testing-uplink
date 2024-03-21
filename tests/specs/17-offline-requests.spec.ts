@@ -85,7 +85,7 @@ export default async function offlineRequestsTests() {
 
     // Grab cache folder and restart
     await saveTestKeys(userB, didkey);
-    await closeApplication();
+    await closeSecondApplication();
   });
 
   it("Offline Friend Requests - User #1 accepts offline friend request received", async () => {
@@ -94,7 +94,6 @@ export default async function offlineRequestsTests() {
     await CreatePinScreen.loginWithTestUser();
 
     // Go to Friends Screen
-    await CreatePinScreen.loginWithTestUser();
     await WelcomeScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
 
@@ -189,6 +188,7 @@ export default async function offlineRequestsTests() {
     await CreatePinScreen.loginWithTestUser();
 
     // Go to the current list of All friends and then open a Chat conversation with UserB
+    await WelcomeScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
     await FriendsScreen.chatWithFriendButton.waitForExist();
     await FriendsScreen.hoverOnChatWithFriendButton("UserB");
