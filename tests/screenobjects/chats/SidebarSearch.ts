@@ -68,48 +68,48 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SidebarSearch extends UplinkMainScreen {
+class SidebarSearch extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.SIDEBAR_SEARCH_CONTAINER_RESULTS);
   }
 
-  get sidebarResultDropdownName() {
+  public get sidebarResultDropdownName() {
     return $$(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME);
   }
 
-  get sidebarResultHighlightedTypedChars() {
+  public get sidebarResultHighlightedTypedChars() {
     return $(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME).$(
       SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS,
     );
   }
 
-  get sidebarResultHighlightedTypedCharsText() {
+  public get sidebarResultHighlightedTypedCharsText() {
     return $(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
       .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS)
       .$(SELECTORS.SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT);
   }
 
-  get sidebarResultRemainingChars() {
+  public get sidebarResultRemainingChars() {
     return $(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME).$(
       SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS,
     );
   }
 
-  get sidebarResultRemainingCharsText() {
+  public get sidebarResultRemainingCharsText() {
     return $(SELECTORS.SIDEBAR_RESULT_DROPDOWN_NAME)
       .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS)
       .$(SELECTORS.SIDEBAR_RESULT_REMAINING_CHARS_TEXT);
   }
 
-  get sidebarSearchContainerResults() {
+  public get sidebarSearchContainerResults() {
     return $(SELECTORS.SIDEBAR_SEARCH_CONTAINER_RESULTS);
   }
 
-  get sidebarSearchGroupResult() {
+  public get sidebarSearchGroupResult() {
     return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT);
   }
 
-  get sidebarSearchGroupIndicator() {
+  public get sidebarSearchGroupIndicator() {
     return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
@@ -118,7 +118,7 @@ export default class SidebarSearch extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR);
   }
 
-  get sidebarSearchGroupIndicatorOffline() {
+  public get sidebarSearchGroupIndicatorOffline() {
     return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
@@ -127,7 +127,7 @@ export default class SidebarSearch extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR_OFFLINE);
   }
 
-  get sidebarSearchGroupIndicatorOnline() {
+  public get sidebarSearchGroupIndicatorOnline() {
     return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
@@ -136,14 +136,14 @@ export default class SidebarSearch extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR_ONLINE);
   }
 
-  get sidebarSearchGroupPlusSome() {
+  public get sidebarSearchGroupPlusSome() {
     return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_GROUP_CHAT_PLUS_SOME);
   }
 
-  get sidebarSearchGroupUserImage() {
+  public get sidebarSearchGroupUserImage() {
     return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
@@ -151,13 +151,13 @@ export default class SidebarSearch extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE);
   }
 
-  get sidebarSearchGroupUserImageGroupWrap() {
+  public get sidebarSearchGroupUserImageGroupWrap() {
     return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP);
   }
 
-  get sidebarSearchGroupUserImageProfile() {
+  public get sidebarSearchGroupUserImageProfile() {
     return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
@@ -166,115 +166,115 @@ export default class SidebarSearch extends UplinkMainScreen {
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_PROFILE);
   }
 
-  get sidebarSearchGroupUserImageWrap() {
+  public get sidebarSearchGroupUserImageWrap() {
     return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP);
   }
 
-  get sidebarSearchHeader() {
+  public get sidebarSearchHeader() {
     return $$(SELECTORS.SIDEBAR_SEARCH_HEADER);
   }
 
-  get sidebarSearchHeaderText() {
+  public get sidebarSearchHeaderText() {
     return $$(SELECTORS.SIDEBAR_SEARCH_HEADER).$(
       SELECTORS.SIDEBAR_SEARCH_HEADER_TEXT,
     );
   }
 
-  get sidebarSearchMembersLabel() {
+  public get sidebarSearchMembersLabel() {
     return $$(SELECTORS.SIDEBAR_SEARCH_MEMBERS_LABEL);
   }
-  get sidebarSearchMembersLabelText() {
+  public get sidebarSearchMembersLabelText() {
     return $$(SELECTORS.SIDEBAR_SEARCH_MEMBERS_LABEL).$(
       SELECTORS.SIDEBAR_SEARCH_MEMBERS_LABEL_TEXT,
     );
   }
 
-  get sidebarSearchParticipantInGroupResult() {
+  public get sidebarSearchParticipantInGroupResult() {
     return $$(SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT);
   }
 
-  get sidebarSearchParticipantInGroupIndicator() {
+  public get sidebarSearchParticipantInGroupIndicator() {
     return $(SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR);
   }
 
-  get sidebarSearchParticipantInGroupIndicatorOffline() {
+  public get sidebarSearchParticipantInGroupIndicatorOffline() {
     return $(SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR_OFFLINE);
   }
 
-  get sidebarSearchParticipantInGroupIndicatorOnline() {
+  public get sidebarSearchParticipantInGroupIndicatorOnline() {
     return $(SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR_ONLINE);
   }
 
-  get sidebarSearchParticipantInGroupUserImage() {
+  public get sidebarSearchParticipantInGroupUserImage() {
     return $(SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE);
   }
 
-  get sidebarSearchParticipantInGroupUserImageProfile() {
+  public get sidebarSearchParticipantInGroupUserImageProfile() {
     return $(SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_PROFILE);
   }
 
-  get sidebarSearchParticipantInGroupUserImageWrap() {
+  public get sidebarSearchParticipantInGroupUserImageWrap() {
     return $(SELECTORS.SIDEBAR_SEARCH_PARTICIPANT_IN_GROUP_RESULT).$(
       SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP,
     );
   }
 
-  get sidebarSearchUserResult() {
+  public get sidebarSearchUserResult() {
     return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT);
   }
 
-  get sidebarSearchUserResultIndicator() {
+  public get sidebarSearchUserResultIndicator() {
     return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR);
   }
 
-  get sidebarSearchUserResultIndicatorOffline() {
+  public get sidebarSearchUserResultIndicatorOffline() {
     return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR_OFFLINE);
   }
 
-  get sidebarSearchUserResultIndicatorOnline() {
+  public get sidebarSearchUserResultIndicatorOnline() {
     return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR_ONLINE);
   }
 
-  get sidebarSearchUserResultUserImage() {
+  public get sidebarSearchUserResultUserImage() {
     return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE);
   }
 
-  get sidebarSearchUserResultUserImageProfile() {
+  public get sidebarSearchUserResultUserImageProfile() {
     return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_PROFILE);
   }
 
-  get sidebarSearchUserResultUserImageWrap() {
+  public get sidebarSearchUserResultUserImageWrap() {
     return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT).$(
       SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP,
     );
@@ -386,3 +386,5 @@ export default class SidebarSearch extends UplinkMainScreen {
     return element;
   }
 }
+
+export default new SidebarSearch();

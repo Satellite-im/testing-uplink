@@ -2,7 +2,14 @@ require("module-alias/register");
 import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-let SELECTORS = {};
+let SELECTORS = {
+  REMOVE_SEED_PHRASE_CANCEL_BUTTON: "",
+  REMOVE_SEED_PHRASE_HELPER_TEXT: "",
+  REMOVE_SEED_PHRASE_LABEL: "",
+  REMOVE_SEED_PHRASE_LABEL_TEXT: "",
+  REMOVE_SEED_PHRASE_MODAL: "",
+  REMOVE_SEED_PHRASE_OK_BUTTON: "",
+};
 
 const SELECTORS_COMMON = {};
 
@@ -31,40 +38,40 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class RemoveSeedPhraseModal extends UplinkMainScreen {
+class RemoveSeedPhraseModal extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.REMOVE_SEED_PHRASE_MODAL);
   }
 
   // Getters from UI Locators
 
-  get removeSeedPhraseCancelButton() {
+  public get removeSeedPhraseCancelButton() {
     return this.removeSeedPhraseModal.$(
       SELECTORS.REMOVE_SEED_PHRASE_CANCEL_BUTTON,
     );
   }
 
-  get removeSeedPhraseHelperText() {
+  public get removeSeedPhraseHelperText() {
     return this.removeSeedPhraseModal.$(
       SELECTORS.REMOVE_SEED_PHRASE_HELPER_TEXT,
     );
   }
 
-  get removeSeedPhraseOKButton() {
+  public get removeSeedPhraseOKButton() {
     return this.removeSeedPhraseModal.$(SELECTORS.REMOVE_SEED_PHRASE_OK_BUTTON);
   }
 
-  get removeSeedPhraseLabel() {
+  public get removeSeedPhraseLabel() {
     return this.removeSeedPhraseModal.$(SELECTORS.REMOVE_SEED_PHRASE_LABEL);
   }
 
-  get removeSeedPhraseLabelText() {
+  public get removeSeedPhraseLabelText() {
     return this.removeSeedPhraseLabel.$(
       SELECTORS.REMOVE_SEED_PHRASE_LABEL_TEXT,
     );
   }
 
-  get removeSeedPhraseModal() {
+  public get removeSeedPhraseModal() {
     return $(SELECTORS.REMOVE_SEED_PHRASE_MODAL);
   }
 
@@ -80,3 +87,5 @@ export default class RemoveSeedPhraseModal extends UplinkMainScreen {
     await confirmButton.click();
   }
 }
+
+export default new RemoveSeedPhraseModal();

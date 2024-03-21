@@ -91,6 +91,7 @@ export const config: WebdriverIO.Config = {
         },
       ],
     ],
+    maxInstances: 1,
     //
     // =====
     // Hooks

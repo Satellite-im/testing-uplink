@@ -1,10 +1,4 @@
 require("module-alias/register");
-import CreateOrImportScreen from "@screenobjects/account-creation/CreateOrImportScreen";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
-import CreateUserScreen from "@screenobjects/account-creation/CreateUserScreen";
-import FriendsScreen from "@screenobjects/friends/FriendsScreen";
-import SaveRecoverySeedScreen from "@screenobjects/account-creation/SaveRecoverySeedScreen";
-import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import { homedir } from "os";
 import { join } from "path";
 import {
@@ -20,12 +14,6 @@ const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
 const { clipboard, keyboard, mouse, Button } = require("@nut-tree/nut-js");
-const createOrImport = new CreateOrImportScreen();
-let createPin = new CreatePinScreen();
-let createUser = new CreateUserScreen();
-let friendsScreen = new FriendsScreen();
-const saveRecoverySeed = new SaveRecoverySeedScreen();
-let welcomeScreen = new WelcomeScreen();
 
 // Users cache helper functions
 
@@ -103,49 +91,6 @@ export async function saveTestKeys(username: string, didkey: string) {
 
 // Login or Create Users Functions
 
-export async function createNewUser(
-  username: string,
-  saveSeedWords: boolean = false,
-) {
-  await createPin.unlockLayout.waitForExist();
-
-  // Enter pin for test user
-  await createPin.enterPinOnCreateAccount("1234");
-  await createPin.createAccountButton.waitForEnabled();
-  await createPin.clickOnCreateAccount();
-
-  // Bypass new Recovery Seed Screens
-  await createOrImport.waitForIsShown(true);
-  await createOrImport.clickOnCreateAccount();
-  await saveRecoverySeed.waitForIsShown(true);
-  if (saveSeedWords === true) {
-    const recoverySeed = await saveRecoverySeed.getSeedWords();
-    await saveUserRecoverySeed(username, recoverySeed);
-  }
-  await saveRecoverySeed.clickOnISavedItButton();
-
-  // Enter Username and click on Create Account
-  await createUser.enterUsername(username);
-  await createUser.createAccountButton.waitForEnabled();
-  await createUser.clickOnCreateAccount();
-
-  // Ensure Main Screen is displayed
-  await welcomeScreen.welcomeLayout.waitForExist({ timeout: 60000 });
-
-  // Workaround to ensure that user clicks on Add Someone
-  await welcomeScreen.clickAddSomeone();
-  await friendsScreen.friendsBody.waitForExist();
-}
-
-export async function loginWithTestUser() {
-  // Enter pin for test user
-  const unlockScreen = await createPin.unlockLayout;
-  await unlockScreen.waitForExist();
-  await createPin.enterPinOnLogin("1234");
-  await createPin.validateSpinnerIsNotShown();
-  await createPin.unlockLayout.waitForExist({ reverse: true });
-}
-
 export async function resetApp() {
   await closeApplication();
   await deleteCache();
@@ -157,8 +102,6 @@ export async function resetAndLoginWithCache(user: string) {
   await deleteCache();
   await loadTestUserData(user);
   await launchApplication(MACOS_BUNDLE_ID, WINDOWS_APP);
-  await loginWithTestUser();
-  await maximizeWindow();
 }
 
 export async function saveUserRecoverySeed(username: string, data: string[]) {
@@ -206,31 +149,24 @@ export async function launchApplication(
 export async function launchFirstApplication() {
   await launchAppMacOS(MACOS_USER_A_BUNDLE_ID);
   await browser.pause(5000);
-  await loginWithTestUser();
 }
 
-export async function launchSecondApplication(existingUser: boolean = true) {
+export async function launchSecondApplication() {
   await launchAppMacOS(
     MACOS_USER_B_BUNDLE_ID,
     "/.uplinkUserB",
     "/Applications/Uplink2.app",
   );
   await browser.pause(5000);
-  if (existingUser === true) {
-    await loginWithTestUser();
-  }
 }
 
-export async function launchThirdApplication(existingUser: boolean = true) {
+export async function launchThirdApplication() {
   await launchAppMacOS(
     MACOS_USER_C_BUNDLE_ID,
     "/.uplinkUserC",
     "/Applications/Uplink3.app",
   );
   await browser.pause(5000);
-  if (existingUser === true) {
-    await loginWithTestUser();
-  }
 }
 
 export async function activateFirstApplication() {

@@ -1,6 +1,6 @@
 require("module-alias/register");
+import { createNewUser } from "@helpers/commandsNewUser";
 import {
-  createNewUser,
   getUserKey,
   grabCacheFolder,
   resetApp,
@@ -10,9 +10,7 @@ import {
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-const friendsScreen = new FriendsScreen();
-const settingsProfile = new SettingsProfileScreen();
-const welcomeScreen = new WelcomeScreen();
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 const userA: string = "UserA";
 const userB: string = "UserB";
 
@@ -21,23 +19,23 @@ export default async function offlineRequestsTests() {
     // Create New User and go to Settings Profile Screen
     await resetApp();
     await createNewUser(userA, true);
-    await welcomeScreen.goToSettings();
-    await settingsProfile.waitForIsShown(true);
+    await WelcomeScreen.goToSettings();
+    await SettingsProfileScreen.waitForIsShown(true);
   });
 
   it("Offline Friend Requests - Save test account #1 data", async () => {
     // Click on Copy ID button and assert Toast Notification is displayed
-    await welcomeScreen.goToSettings();
-    await settingsProfile.waitForIsShown(true);
-    await settingsProfile.openCopyIDContextMenu();
-    await settingsProfile.clickOnContextMenuCopyDidKey();
+    await WelcomeScreen.goToSettings();
+    await SettingsProfileScreen.waitForIsShown(true);
+    await SettingsProfileScreen.openCopyIDContextMenu();
+    await SettingsProfileScreen.clickOnContextMenuCopyDidKey();
 
     // Wait for toast notification to be closed
-    await settingsProfile.waitUntilNotificationIsClosed();
+    await SettingsProfileScreen.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfile.pasteUserKeyInStatus();
-    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
+    await SettingsProfileScreen.pasteUserKeyInStatus();
+    const didkey = await SettingsProfileScreen.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
     await saveTestKeys(userA, didkey);
@@ -53,32 +51,32 @@ export default async function offlineRequestsTests() {
     // Create New User and go to Settings Profile Screen
     await resetApp();
     await createNewUser(userB, true);
-    await welcomeScreen.goToFriends();
+    await WelcomeScreen.goToFriends();
   });
 
   it("Offline Friend Requests - Send Friend Request to user #1", async () => {
     // Obtain did key from User #1
     const friendDidKey = await getUserKey(userA);
-    await friendsScreen.sendFriendRequest(friendDidKey, userA);
+    await FriendsScreen.sendFriendRequest(friendDidKey, userA);
 
     // Go to All Friends List
-    await friendsScreen.goToAllFriendsList();
-    await friendsScreen.validateAllFriendsListIsShown();
+    await FriendsScreen.goToAllFriendsList();
+    await FriendsScreen.validateAllFriendsListIsShown();
   });
 
   it("Offline Friend Requests - Save test account #2 data", async () => {
     // Click on Copy ID button and assert Toast Notification is displayed
-    await friendsScreen.goToSettings();
-    await settingsProfile.waitForIsShown(true);
-    await settingsProfile.openCopyIDContextMenu();
-    await settingsProfile.clickOnContextMenuCopyDidKey();
+    await FriendsScreen.goToSettings();
+    await SettingsProfileScreen.waitForIsShown(true);
+    await SettingsProfileScreen.openCopyIDContextMenu();
+    await SettingsProfileScreen.clickOnContextMenuCopyDidKey();
 
     // Wait for toast notification to be closed
-    await settingsProfile.waitUntilNotificationIsClosed();
+    await SettingsProfileScreen.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfile.pasteUserKeyInStatus();
-    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
+    await SettingsProfileScreen.pasteUserKeyInStatus();
+    const didkey = await SettingsProfileScreen.getCopiedDidFromStatusInput();
 
     // Grab cache folder and restart
     await saveTestKeys(userB, didkey);
@@ -90,24 +88,25 @@ export default async function offlineRequestsTests() {
     await resetAndLoginWithCache("UserA");
 
     // Go to Friends Screen
-    await welcomeScreen.goToFriends();
-    await friendsScreen.waitForIsShown(true);
+    await CreatePinScreen.loginWithTestUser();
+    await WelcomeScreen.goToFriends();
+    await FriendsScreen.waitForIsShown(true);
 
     // With UserB - Go to pending requests list, wait for receiving the friend request and accept it
-    await friendsScreen.hoverOnPendingListButton();
-    await friendsScreen.goToPendingFriendsList();
-    await friendsScreen.validateIncomingListIsShown();
-    await friendsScreen.waitUntilFriendRequestIsReceived();
-    await friendsScreen.acceptIncomingRequest("UserB");
+    await FriendsScreen.hoverOnPendingListButton();
+    await FriendsScreen.goToPendingFriendsList();
+    await FriendsScreen.validateIncomingListIsShown();
+    await FriendsScreen.waitUntilFriendRequestIsReceived();
+    await FriendsScreen.acceptIncomingRequest("UserB");
 
     // Validate friend is now on all friends list
-    await friendsScreen.goToAllFriendsList();
-    await friendsScreen.validateAllFriendsListIsShown();
-    await friendsScreen.validateAllFriendsListIsNotEmpty();
+    await FriendsScreen.goToAllFriendsList();
+    await FriendsScreen.validateAllFriendsListIsShown();
+    await FriendsScreen.validateAllFriendsListIsNotEmpty();
 
     // Go to Chat with User #2
-    await friendsScreen.chatWithFriendButton.click();
-    await friendsScreen.validateSpinnerIsNotShown();
+    await FriendsScreen.chatWithFriendButton.click();
+    await FriendsScreen.validateSpinnerIsNotShown();
   });
 
   it("Offline Friend Requests - Validate offline friend request was accepted", async () => {
@@ -115,13 +114,14 @@ export default async function offlineRequestsTests() {
     await resetAndLoginWithCache(userB);
 
     // Go to Friends Screen
-    await welcomeScreen.goToFriends();
-    await friendsScreen.waitForIsShown(true);
+    await CreatePinScreen.loginWithTestUser();
+    await WelcomeScreen.goToFriends();
+    await FriendsScreen.waitForIsShown(true);
 
     // Validate friend is now on all friends list
-    await friendsScreen.goToAllFriendsList();
-    await friendsScreen.validateAllFriendsListIsShown();
-    await friendsScreen.validateAllFriendsListIsNotEmpty();
-    await friendsScreen.waitUntilUserAcceptedFriendRequest();
+    await FriendsScreen.goToAllFriendsList();
+    await FriendsScreen.validateAllFriendsListIsShown();
+    await FriendsScreen.validateAllFriendsListIsNotEmpty();
+    await FriendsScreen.waitUntilUserAcceptedFriendRequest();
   });
 }

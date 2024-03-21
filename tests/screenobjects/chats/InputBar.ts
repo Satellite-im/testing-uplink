@@ -8,7 +8,6 @@ import {
   getUplinkWindowHandle,
   selectFileOnMacos,
   selectFileOnWindows,
-  setClipboardValue,
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 let SELECTORS = {};
@@ -55,70 +54,70 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class InputBar extends UplinkMainScreen {
+class InputBar extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.INPUT_GROUP);
   }
 
-  get editMessageInput() {
+  public get editMessageInput() {
     return $(SELECTORS.EDIT_MESSAGE_INPUT);
   }
 
-  get emojiButton() {
+  public get emojiButton() {
     return $(SELECTORS.EMOJI_BUTTON);
   }
 
-  get inputCharCounter() {
+  public get inputCharCounter() {
     return $(SELECTORS.INPUT_CHAR_COUNTER);
   }
 
-  get inputCharCounterText() {
+  public get inputCharCounterText() {
     return $(SELECTORS.INPUT_CHAR_COUNTER).$(SELECTORS.INPUT_CHAR_COUNTER_TEXT);
   }
 
-  get inputCharMaxText() {
+  public get inputCharMaxText() {
     return $(SELECTORS.INPUT_CHAR_MAX_TEXT);
   }
 
-  get inputGroup() {
+  public get inputGroup() {
     return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.INPUT_GROUP);
   }
 
-  get inputText() {
+  public get inputText() {
     return $(SELECTORS.CHAT_LAYOUT)
       .$(SELECTORS.INPUT_GROUP)
       .$(SELECTORS.INPUT_TEXT);
   }
 
-  get sendMessageButton() {
+  public get sendMessageButton() {
     return $(SELECTORS.SEND_MESSAGE_BUTTON);
   }
 
-  get sendMessageTooltip() {
+  public get sendMessageTooltip() {
     return $(SELECTORS.TOOLTIP);
   }
 
-  get sendMessageTooltipText() {
+  public get sendMessageTooltipText() {
     return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get uploadButton() {
+  public get uploadButton() {
     return $(SELECTORS.UPLOAD_BUTTON);
   }
 
-  get uploadTooltip() {
+  public get uploadTooltip() {
     return $(SELECTORS.TOOLTIP);
   }
 
-  get uploadTooltipText() {
+  public get uploadTooltipText() {
     return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get uploadButtonStorage() {
+  public get uploadButtonStorage() {
     return $(SELECTORS.UPLOAD_BUTTON_STORAGE);
   }
 
-  get uploadButtonLocalDisk() {
+  public get uploadButtonLocalDisk() {
     return $(SELECTORS.UPLOAD_BUTTON_LOCAL_DISK);
   }
 
@@ -149,7 +148,7 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   async generateRandomText() {
-    // Get a random word of 9 chars and add it a space
+    // public get a random word of 9 chars and add it a space
     const wordToRepeat = faker.lorem.word(9) + " ";
     // Then repeat the same word for 102 times (1020 chars)
     let longParagraph = wordToRepeat.repeat(102);
@@ -159,7 +158,7 @@ export default class InputBar extends UplinkMainScreen {
   }
 
   async generateShortRandomText() {
-    // Get a random word of 9 chars and add it a space
+    // public get a random word of 9 chars and add it a space
     const wordToRepeat = faker.lorem.word(9) + " ";
     // Then repeat the same word for 10 times
     const longText = wordToRepeat.repeat(10);
@@ -252,3 +251,5 @@ export default class InputBar extends UplinkMainScreen {
     }
   }
 }
+
+export default new InputBar();

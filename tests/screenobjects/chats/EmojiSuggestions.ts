@@ -27,30 +27,30 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class EmojiSuggestions extends UplinkMainScreen {
+class EmojiSuggestions extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.EMOJI_SUGGESTIONS_CONTAINER);
   }
 
-  get emojiSuggestionsCloseButton() {
+  public get emojiSuggestionsCloseButton() {
     return this.emojiSuggestionsContainer.$(
       SELECTORS.EMOJI_SUGGESTIONS_CLOSE_BUTTON,
     );
   }
 
-  get emojiSuggestionsContainer() {
+  public get emojiSuggestionsContainer() {
     return $(SELECTORS.EMOJI_SUGGESTIONS_CONTAINER);
   }
 
-  get emojiSuggestionsHeader() {
+  public get emojiSuggestionsHeader() {
     return this.emojiSuggestionsContainer.$(SELECTORS.EMOJI_SUGGESTIONS_HEADER);
   }
 
-  get emojiSuggested() {
+  public get emojiSuggested() {
     return this.emojiSuggestionsContainer.$$(SELECTORS.EMOJI_SUGGESTED);
   }
 
-  get emojiSuggestedValue() {
+  public get emojiSuggestedValue() {
     return this.emojiSuggestionsContainer.$(SELECTORS.EMOJI_SUGGESTED_VALUE);
   }
 
@@ -111,3 +111,5 @@ export default class EmojiSuggestions extends UplinkMainScreen {
     await expect(emojiSuggestedList).toEqual(expectedEmojiList);
   }
 }
+
+export default new EmojiSuggestions();

@@ -8,8 +8,6 @@ import {
 } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 
-let SELECTORS = {};
-
 const SELECTORS_COMMON = {
   PRE_RELEASE_INDICATOR: "~pre-release",
 };
@@ -31,7 +29,6 @@ const SELECTORS_WINDOWS = {
   MODAL: '[name="modal"]',
   PRE_RELEASE_INDICATOR_TEXT: "<Text>",
   SETTINGS_BUTTON: '[name="settings-button"]',
-  SKELETAL_USER: '[name="skeletal-user"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
   TOAST_NOTIFICATION_CLOSE: '[name="close-toast"]',
   TOAST_NOTIFICATION_TEXT: '[name="toast-content"]',
@@ -62,7 +59,6 @@ const SELECTORS_MACOS = {
   MODAL: "~modal",
   PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
-  SKELETAL_USER: "~skeletal-user",
   TOAST_NOTIFICATION: "~Toast Notification",
   TOAST_NOTIFICATION_CLOSE: "~close-toast",
   TOAST_NOTIFICATION_TEXT: "~toast-content",
@@ -76,6 +72,36 @@ const SELECTORS_MACOS = {
   WINDOW: "-ios class chain:**/XCUIElementTypeWindow",
 };
 
+let SELECTORS = {
+  BACK_BUTTON: "",
+  BUTTON_BADGE: "",
+  BUTTON_BADGE_TEXT: "",
+  BUTTON_NAV: "",
+  BUTTON_NAV_TOOLTIP: "",
+  BUTTON_NAV_TOOLTIP_TEXT: "",
+  CHATS_BUTTON: "",
+  CONTEXT_MENU: "",
+  CONTEXT_MENU_OPEN_WEB_INSPECTOR: "",
+  FILES_BUTTON: "",
+  FRIENDS_BUTTON: "",
+  HAMBURGER_BUTTON: "",
+  LOADING_SPINNER: "",
+  MODAL: "",
+  PRE_RELEASE_INDICATOR: "",
+  PRE_RELEASE_INDICATOR_TEXT: "",
+  SETTINGS_BUTTON: "",
+  TOAST_NOTIFICATION: "",
+  TOAST_NOTIFICATION_CLOSE: "",
+  TOAST_NOTIFICATION_TEXT: "",
+  TOOLTIP: "",
+  TOOLTIP_TEXT: "",
+  UPDATE_AVAILABLE: "",
+  UPDATE_AVAILABLE_TEXT: "",
+  UPDATE_MENU_DISMISS: "",
+  UPDATE_MENU_DOWNLOAD: "",
+  WINDOW: "",
+};
+
 process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
@@ -85,141 +111,131 @@ export default class UplinkMainScreen extends AppScreen {
     super(SELECTORS.WINDOW);
   }
 
-  get backButton() {
+  public get backButton() {
     return $(SELECTORS.BACK_BUTTON);
   }
 
-  get buttonNav() {
+  public get buttonNav() {
     return $(SELECTORS.BUTTON_NAV);
   }
 
-  get buttonNavBarButtonBadge() {
-    return $(SELECTORS.BUTTON_NAV).$(SELECTORS.BUTTON_BADGE);
+  public get buttonNavBarButtonBadge() {
+    return this.buttonNav.$(SELECTORS.BUTTON_BADGE);
   }
 
-  get buttonNavBarButtonBadgeText() {
-    return $(SELECTORS.BUTTON_NAV)
-      .$(SELECTORS.BUTTON_BADGE)
-      .$(SELECTORS.BUTTON_BADGE_TEXT);
+  public get buttonNavBarButtonBadgeText() {
+    return this.buttonNavBarButtonBadge.$(SELECTORS.BUTTON_BADGE_TEXT);
   }
 
-  get chatsButton() {
-    return $(SELECTORS.CHATS_BUTTON);
+  public get chatsButton() {
+    return this.buttonNav.$(SELECTORS.CHATS_BUTTON);
   }
 
-  get chatsButtonTooltip() {
+  public get chatsButtonTooltip() {
     return $(SELECTORS.TOOLTIP);
   }
 
-  get chatsButtonTooltipText() {
+  public get chatsButtonTooltipText() {
     return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
-  get contextMenu() {
+  public get contextMenu() {
     return $(SELECTORS.CONTEXT_MENU);
   }
 
-  get contextMenuOpenWebInspector() {
+  public get contextMenuOpenWebInspector() {
     return this.contextMenu.$(SELECTORS.CONTEXT_MENU_OPEN_WEB_INSPECTOR);
   }
 
-  get filesButton() {
-    return $(SELECTORS.FILES_BUTTON);
+  public get filesButton() {
+    return this.buttonNav.$(SELECTORS.FILES_BUTTON);
   }
 
-  get filesButtonTooltip() {
+  public get filesButtonTooltip() {
     return $(SELECTORS.TOOLTIP);
   }
 
-  get filesButtonTooltipText() {
+  public get filesButtonTooltipText() {
     return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
-  get friendsButton() {
-    return $(SELECTORS.FRIENDS_BUTTON);
+  public get friendsButton() {
+    return this.buttonNav.$(SELECTORS.FRIENDS_BUTTON);
   }
 
-  get friendsButtonTooltip() {
+  public get friendsButtonTooltip() {
     return $(SELECTORS.TOOLTIP);
   }
 
-  get friendsButtonTooltipText() {
+  public get friendsButtonTooltipText() {
     return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
-  get hamburgerButton() {
+  public get hamburgerButton() {
     return $(SELECTORS.HAMBURGER_BUTTON);
   }
 
-  get loaderSpinner() {
+  public get loaderSpinner() {
     return $(SELECTORS.LOADING_SPINNER);
   }
 
-  get modal() {
+  public get modal() {
     return $(SELECTORS.MODAL);
   }
 
-  get prereleaseIndicator() {
+  public get prereleaseIndicator() {
     return $(SELECTORS.PRE_RELEASE_INDICATOR);
   }
 
-  get prereleaseIndicatorText() {
-    return $(SELECTORS.PRE_RELEASE_INDICATOR).$(
-      SELECTORS.PRE_RELEASE_INDICATOR_TEXT,
-    );
+  public get prereleaseIndicatorText() {
+    return this.prereleaseIndicator.$(SELECTORS.PRE_RELEASE_INDICATOR_TEXT);
   }
 
-  get settingsButton() {
-    return $(SELECTORS.SETTINGS_BUTTON);
+  public get settingsButton() {
+    return this.buttonNav.$(SELECTORS.SETTINGS_BUTTON);
   }
 
-  get settingsButtonTooltip() {
+  public get settingsButtonTooltip() {
     return $(SELECTORS.TOOLTIP);
   }
 
-  get settingsButtonTooltipText() {
+  public get settingsButtonTooltipText() {
     return $(SELECTORS.TOOLTIP).$(SELECTORS.BUTTON_NAV_TOOLTIP_TEXT);
   }
 
-  get skeletalUser() {
-    return $$(SELECTORS.SKELETAL_USER)[0];
-  }
-
-  get toastNotifications() {
+  public get toastNotifications() {
     return $$(SELECTORS.TOAST_NOTIFICATION);
   }
 
-  get toastNotification() {
+  public get toastNotification() {
     return $(SELECTORS.TOAST_NOTIFICATION);
   }
 
-  get toastNotificationClose() {
-    return $(SELECTORS.TOAST_NOTIFICATION).$(
-      SELECTORS.TOAST_NOTIFICATION_CLOSE,
-    );
+  public get toastNotificationClose() {
+    return this.toastNotification.$(SELECTORS.TOAST_NOTIFICATION_CLOSE);
   }
 
-  get toastNotificationText() {
-    return $(SELECTORS.TOAST_NOTIFICATION).$(SELECTORS.TOAST_NOTIFICATION_TEXT);
+  public get toastNotificationText() {
+    return this.toastNotification.$(SELECTORS.TOAST_NOTIFICATION_TEXT);
   }
 
-  get updateAvailable() {
+  public get updateAvailable() {
     return $(SELECTORS.UPDATE_AVAILABLE);
   }
 
-  get updateAvailableText() {
-    return $(SELECTORS.UPDATE_AVAILABLE).$(SELECTORS.UPDATE_AVAILABLE_TEXT);
+  public get updateAvailableText() {
+    return this.updateAvailable.$(SELECTORS.UPDATE_AVAILABLE_TEXT);
   }
 
-  get updateMenuDismiss() {
+  public get updateMenuDismiss() {
     return $(SELECTORS.UPDATE_MENU_DISMISS);
   }
 
-  get updateMenuDownload() {
+  public get updateMenuDownload() {
     return $(SELECTORS.UPDATE_MENU_DOWNLOAD);
   }
 
-  get window() {
+  public get window() {
     return $(SELECTORS.WINDOW);
   }
 
@@ -287,8 +303,14 @@ export default class UplinkMainScreen extends AppScreen {
   }
 
   async goToSettings() {
+    const currentDriver = await this.getCurrentDriver();
     const button = await this.settingsButton;
-    await button.click();
+    await this.hoverOnElement(button);
+    if (currentDriver === MACOS_DRIVER) {
+      await leftClickOnMacOS(button);
+    } else if (currentDriver === WINDOWS_DRIVER) {
+      await leftClickOnWindows(button);
+    }
   }
 
   // Hovering methods

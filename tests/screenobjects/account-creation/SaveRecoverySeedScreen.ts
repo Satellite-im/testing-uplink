@@ -34,36 +34,36 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SaveRecoverySeedScreen extends UplinkMainScreen {
+class SaveRecoverySeedScreen extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.COPY_SEED_WORDS_LAYOUT);
   }
 
-  get copySeedButton() {
+  public get copySeedButton() {
     return this.copySeedsWordsLayout.$(SELECTORS.COPY_SEED_BUTTON);
   }
 
-  get copySeedHelperText() {
+  public get copySeedHelperText() {
     return this.copySeedsWordsLayout.$(SELECTORS.COPY_SEED_HELPER_TEXT);
   }
 
-  get copySeedWordsLabel() {
+  public get copySeedWordsLabel() {
     return this.copySeedsWordsLayout.$(SELECTORS.COPY_SEED_WORDS_LABEL);
   }
 
-  get copySeedWordsLabelText() {
+  public get copySeedWordsLabelText() {
     return this.copySeedWordsLabel.$(SELECTORS.COPY_SEED_WORDS_LABEL_TEXT);
   }
 
-  get copySeedsWordsLayout() {
+  public get copySeedsWordsLayout() {
     return $(SELECTORS.COPY_SEED_WORDS_LAYOUT);
   }
 
-  get goBackButton() {
+  public get goBackButton() {
     return this.copySeedsWordsLayout.$(SELECTORS.GO_BACK_BUTTON);
   }
 
-  get iSavedItButton() {
+  public get iSavedItButton() {
     return this.copySeedsWordsLayout.$(SELECTORS.I_SAVED_IT_BUTTON);
   }
 
@@ -103,3 +103,5 @@ export default class SaveRecoverySeedScreen extends UplinkMainScreen {
     return seedWords;
   }
 }
+
+export default new SaveRecoverySeedScreen();

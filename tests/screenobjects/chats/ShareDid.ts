@@ -46,64 +46,66 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class ShareDidModal extends UplinkMainScreen {
+class ShareDidModal extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.SHARE_DID_MODAL);
   }
 
-  get shareDidModal() {
+  public get shareDidModal() {
     return $(SELECTORS.SHARE_DID_MODAL);
   }
 
-  get shareDidModalButton() {
+  public get shareDidModalButton() {
     return this.shareDidModal.$(SELECTORS.SHARE_DID_MODAL_BUTTON);
   }
 
-  get shareDidModalHeader() {
+  public get shareDidModalHeader() {
     return this.shareDidModal.$(SELECTORS.SHARE_DID_MODAL_HEADER);
   }
 
-  get shareDidUserIndicatorOffline() {
+  public get shareDidUserIndicatorOffline() {
     return this.shareDidModal.$$(SELECTORS.SHARE_DID_USER_INDICATOR_OFFLINE);
   }
 
-  get shareDidUserIndicatorOnline() {
+  public get shareDidUserIndicatorOnline() {
     return this.shareDidModal.$$(SELECTORS.SHARE_DID_USER_INDICATOR_ONLINE);
   }
 
-  get shareDidUserImage() {
+  public get shareDidUserImage() {
     return this.shareDidModal.$$(SELECTORS.SHARE_DID_USER_IMAGE);
   }
 
-  get shareDidUserImageProfile() {
+  public get shareDidUserImageProfile() {
     return this.shareDidModal.$$(SELECTORS.SHARE_DID_USER_IMAGE_PROFILE);
   }
 
-  get shareDidUserImageWrap() {
+  public get shareDidUserImageWrap() {
     return this.shareDidModal.$$(SELECTORS.SHARE_DID_USER_IMAGE_WRAP);
   }
 
-  get shareDidUserInfo() {
+  public get shareDidUserInfo() {
     return this.shareDidModal.$$(SELECTORS.SHARE_DID_USER_INFO);
   }
 
-  get shareDidUserName() {
+  public get shareDidUserName() {
     return this.shareDidModal.$$(SELECTORS.SHARE_DID_USER_NAME);
   }
 
-  get shareDidUserNameText() {
+  public get shareDidUserNameText() {
     return this.shareDidModal
       .$$(SELECTORS.SHARE_DID_USER_NAME)
       .$(SELECTORS.SHARE_DID_USER_NAME_TEXT);
   }
 
-  get shareDidUserStatus() {
+  public get shareDidUserStatus() {
     return this.shareDidModal.$$(SELECTORS.SHARE_DID_USER_STATUS);
   }
 
-  get shareDidUserStatusText() {
+  public get shareDidUserStatusText() {
     return this.shareDidModal
       .$$(SELECTORS.SHARE_DID_USER_STATUS)
       .$(SELECTORS.SHARE_DID_USER_STATUS_TEXT);
   }
 }
+
+export default new ShareDidModal();

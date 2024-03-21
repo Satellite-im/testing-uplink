@@ -8,117 +8,109 @@ import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
+import { createNewUser } from "@helpers/commandsNewUser";
 import {
   activateFirstApplication,
   activateThirdApplication,
   closeFirstApplication,
   closeThirdApplication,
-  createNewUser,
   getUserKey,
   saveTestKeys,
   scrollDown,
   launchFirstApplication,
   launchThirdApplication,
 } from "@helpers/commands";
-const chatsSidebar = new ChatsSidebar();
-const createPin = new CreatePinScreen();
-const friendsScreen = new FriendsScreen();
-const settingsAbout = new SettingsAboutScreen();
-const settingsDeveloper = new SettingsDeveloperScreen();
-const settingsGeneral = new SettingsGeneralScreen();
-const settingsNotifications = new SettingsNotificationsScreen();
-const settingsProfile = new SettingsProfileScreen();
-const welcomeScreen = new WelcomeScreen();
 
 export default async function groupChatMultipleUsersTests() {
   before(async () => {
     await launchFirstApplication();
+    await CreatePinScreen.loginWithTestUser();
   });
 
   it("Chat User C - Create Account", async () => {
     // Launch third application
-    await launchThirdApplication(false);
+    await launchThirdApplication();
 
     // Create a new account and go to Settings Profile
-    await createPin.waitForIsShown(true);
+    await CreatePinScreen.waitForIsShown(true);
     const username = "ChatUserC";
     await createNewUser(username);
-    await welcomeScreen.goToSettings();
-    await settingsProfile.validateSettingsProfileIsShown();
+    await WelcomeScreen.goToSettings();
+    await SettingsProfileScreen.validateSettingsProfileIsShown();
 
     // Click on Copy ID button and assert Toast Notification is displayed
-    await settingsProfile.openCopyIDContextMenu();
-    await settingsProfile.clickOnContextMenuCopyDidKey();
+    await SettingsProfileScreen.openCopyIDContextMenu();
+    await SettingsProfileScreen.clickOnContextMenuCopyDidKey();
 
     // Wait for toast notification of Copied To Clipboard to not exist
-    await settingsProfile.waitUntilNotificationIsClosed();
+    await SettingsProfileScreen.waitUntilNotificationIsClosed();
 
     // Paste copied DID Key into Status Input
-    await settingsProfile.pasteUserKeyInStatus();
+    await SettingsProfileScreen.pasteUserKeyInStatus();
 
     // Wait for toast notification of Profile Updated to not exist
-    await settingsGeneral.waitUntilNotificationIsClosed();
+    await SettingsGeneralScreen.waitUntilNotificationIsClosed();
 
     // Grab cache folder and restart
-    const didkey = await settingsProfile.getCopiedDidFromStatusInput();
+    const didkey = await SettingsProfileScreen.getCopiedDidFromStatusInput();
     await saveTestKeys(username, didkey);
-    await settingsProfile.deleteStatus();
+    await SettingsProfileScreen.deleteStatus();
   });
 
   it("Chat User C - Settings General - Reduce font size", async () => {
     // Go to General Settings and reduce Font Size by 0.5
-    await settingsProfile.goToGeneralSettings();
-    await settingsGeneral.waitForIsShown(true);
+    await SettingsProfileScreen.goToGeneralSettings();
+    await SettingsGeneralScreen.waitForIsShown(true);
 
     // Click on font scaling minus
-    await settingsGeneral.clickOnFontScalingMinus();
+    await SettingsGeneralScreen.clickOnFontScalingMinus();
   });
 
   it("Chat User C - Settings Developer - Enable Save Logs In A File", async () => {
     // Go to Settings About and click 10 times on Version Number to Unlock Developer Settings
-    await settingsGeneral.goToAboutSettings();
-    await settingsAbout.waitForIsShown(true);
-    await settingsAbout.unlockDeveloperSettings();
+    await SettingsGeneralScreen.goToAboutSettings();
+    await SettingsAboutScreen.waitForIsShown(true);
+    await SettingsAboutScreen.unlockDeveloperSettings();
 
     // Validate Developer Settings button is unlocked
-    const developerSettingsButton = await settingsAbout.developerButton;
+    const developerSettingsButton = await SettingsAboutScreen.developerButton;
     await developerSettingsButton.waitForDisplayed();
 
     // Go to Menu from the left and Scroll Down
-    const settingsAboutButton = await settingsAbout.aboutButton;
-    await settingsAbout.hoverOnElement(settingsAboutButton);
+    const settingsAboutButton = await SettingsAboutScreen.aboutButton;
+    await SettingsAboutScreen.hoverOnElement(settingsAboutButton);
     await scrollDown(1000);
 
     // Go to Settings Developer and Enable Save Logs in a File
-    await settingsAbout.goToDeveloperSettings();
-    await settingsDeveloper.waitForIsShown(true);
-    await settingsDeveloper.clickOnSaveLogs();
-    await settingsDeveloper.validateSaveLogsIsEnabled();
+    await SettingsAboutScreen.goToDeveloperSettings();
+    await SettingsDeveloperScreen.waitForIsShown(true);
+    await SettingsDeveloperScreen.clickOnSaveLogs();
+    await SettingsDeveloperScreen.validateSaveLogsIsEnabled();
   });
 
   it("Chat User C - Settings Notifications - Disable notifications", async () => {
     // Go to Notifications Settings and disable all notifications
-    await settingsDeveloper.goToNotificationsSettings();
-    await settingsNotifications.validateSettingsNotificationsIsShown();
-    await settingsNotifications.clickOnFriendsNotifications();
-    await settingsNotifications.clickOnMessagesNotifications();
+    await SettingsDeveloperScreen.goToNotificationsSettings();
+    await SettingsNotificationsScreen.validateSettingsNotificationsIsShown();
+    await SettingsNotificationsScreen.clickOnFriendsNotifications();
+    await SettingsNotificationsScreen.clickOnMessagesNotifications();
 
     // Go to Friends Screen
-    await settingsNotifications.goToFriends();
-    await friendsScreen.validateFriendsScreenIsShown();
+    await SettingsNotificationsScreen.goToFriends();
+    await FriendsScreen.validateFriendsScreenIsShown();
   });
 
   it("Chat User C - Send friend request to User A", async () => {
-    await welcomeScreen.goToFriends();
-    await friendsScreen.waitForIsShown(true);
+    await WelcomeScreen.goToFriends();
+    await FriendsScreen.waitForIsShown(true);
 
     // Obtain did key from Chat User A
     const friendDidKey = await getUserKey("ChatUserA");
-    await friendsScreen.sendFriendRequest(friendDidKey, "ChatUserA");
+    await FriendsScreen.sendFriendRequest(friendDidKey, "ChatUserA");
 
     // Go to All Friends List
-    await friendsScreen.goToAllFriendsList();
-    await friendsScreen.validateAllFriendsListIsShown();
+    await FriendsScreen.goToAllFriendsList();
+    await FriendsScreen.validateAllFriendsListIsShown();
   });
 
   it("Chat User A - Accept friend request from User C and go to chat button", async () => {
@@ -126,23 +118,23 @@ export default async function groupChatMultipleUsersTests() {
     await activateFirstApplication();
 
     // Go to Friends List
-    await chatsSidebar.goToFriends();
-    await friendsScreen.validateFriendsScreenIsShown();
+    await ChatsSidebar.goToFriends();
+    await FriendsScreen.validateFriendsScreenIsShown();
 
     // With User A - Go to pending requests list, wait for receiving the friend request and accept it
-    await friendsScreen.hoverOnPendingListButton();
-    await friendsScreen.goToPendingFriendsList();
-    await friendsScreen.validateIncomingListIsShown();
-    await friendsScreen.waitUntilFriendRequestIsReceived();
-    await friendsScreen.acceptIncomingRequest("ChatUserC");
+    await FriendsScreen.hoverOnPendingListButton();
+    await FriendsScreen.goToPendingFriendsList();
+    await FriendsScreen.validateIncomingListIsShown();
+    await FriendsScreen.waitUntilFriendRequestIsReceived();
+    await FriendsScreen.acceptIncomingRequest("ChatUserC");
 
     // Validate friend is now on all friends list
-    await friendsScreen.goToAllFriendsList();
-    await friendsScreen.validateAllFriendsListIsShown();
-    await friendsScreen.validateAllFriendsListIsNotEmpty();
+    await FriendsScreen.goToAllFriendsList();
+    await FriendsScreen.validateAllFriendsListIsShown();
+    await FriendsScreen.validateAllFriendsListIsNotEmpty();
 
     // Go to Chat with User C
-    await friendsScreen.goToChatWithFriend();
+    await FriendsScreen.goToChatWithFriend();
   });
 
   it("Chat User C - Validate friend request was accepted", async () => {
@@ -150,12 +142,12 @@ export default async function groupChatMultipleUsersTests() {
     await activateThirdApplication();
 
     // With User C - Go to pending requests list, wait for receiving the friend request and accept it
-    await friendsScreen.waitUntilUserAcceptedFriendRequest();
+    await FriendsScreen.waitUntilUserAcceptedFriendRequest();
 
     // Validate friend is now on all friends list
-    await friendsScreen.goToAllFriendsList();
-    await friendsScreen.validateAllFriendsListIsShown();
-    await friendsScreen.validateAllFriendsListIsNotEmpty();
+    await FriendsScreen.goToAllFriendsList();
+    await FriendsScreen.validateAllFriendsListIsShown();
+    await FriendsScreen.validateAllFriendsListIsNotEmpty();
   });
 
   after(async () => {

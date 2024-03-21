@@ -24,24 +24,24 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class ImagePreview extends UplinkMainScreen {
+class ImagePreview extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.PREVIEW_MODAL);
   }
 
-  get previewModal() {
+  public get previewModal() {
     return $(SELECTORS.PREVIEW_MODAL);
   }
 
-  get previewModalCloseButton() {
+  public get previewModalCloseButton() {
     return this.previewModal.$(SELECTORS.PREVIEW_MODAL_CLOSE_BUTTON);
   }
 
-  get previewModalImageChats() {
+  public get previewModalImageChats() {
     return this.previewModal.$(SELECTORS.PREVIEW_MODAL_IMAGE_CHATS);
   }
 
-  get previewModalImageFiles() {
+  public get previewModalImageFiles() {
     return this.previewModal.$(SELECTORS.PREVIEW_MODAL_IMAGE_FILES);
   }
 
@@ -50,3 +50,5 @@ export default class ImagePreview extends UplinkMainScreen {
     await closeButton.click();
   }
 }
+
+export default new ImagePreview();

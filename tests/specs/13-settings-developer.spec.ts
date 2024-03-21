@@ -6,32 +6,28 @@ import SettingsDeveloperScreen from "@screenobjects/settings/SettingsDeveloperSc
 import SettingsLicensesScreen from "@screenobjects/settings/SettingsLicenses";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WebInspector from "@screenobjects/developer/WebInspector";
-const friendsScreen = new FriendsScreen();
-const settingsDeveloper = new SettingsDeveloperScreen();
-const settingsLicenses = new SettingsLicensesScreen();
-const settingsProfile = new SettingsProfileScreen();
-const webInspector = new WebInspector();
 
 export default async function settingsDeveloperTests() {
   it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {
     // Go to Settings Screen and finally select the Settings Screen to validate
-    await settingsLicenses.goToDeveloperSettings();
-    await settingsDeveloper.waitForIsShown(true);
+    await SettingsLicensesScreen.goToDeveloperSettings();
+    await SettingsDeveloperScreen.waitForIsShown(true);
 
     // Validate EXPERIMENTAL FEATURES section
     const experimentalHeader =
-      await settingsDeveloper.experimentalFeaturesHeader;
+      await SettingsDeveloperScreen.experimentalFeaturesHeader;
     const experimentalDescription =
-      await settingsDeveloper.experimentalFeaturesDescription;
+      await SettingsDeveloperScreen.experimentalFeaturesDescription;
     await expect(experimentalHeader).toHaveText("EXPERIMENTAL FEATURES");
     await expect(experimentalDescription).toHaveText(
       "Enables features which may be incomplete or non-functional.",
     );
 
     // Validate DEVELOPER MODE section
-    const developerModeHeader = await settingsDeveloper.developerModeHeader;
+    const developerModeHeader =
+      await SettingsDeveloperScreen.developerModeHeader;
     const developerModeDescription =
-      await settingsDeveloper.developerModeDescription;
+      await SettingsDeveloperScreen.developerModeDescription;
     await expect(developerModeHeader).toHaveText("DEVELOPER MODE");
     await expect(developerModeDescription).toHaveText(
       "Enabling developer mode adds logging and displays helpful debug information on the UI.",
@@ -39,17 +35,18 @@ export default async function settingsDeveloperTests() {
 
     // Validate TEST NOTIFICATION section
     const testNotificationHeader =
-      await settingsDeveloper.testNotificationHeader;
+      await SettingsDeveloperScreen.testNotificationHeader;
     const testNotificationDescription =
-      await settingsDeveloper.testNotificationDescription;
+      await SettingsDeveloperScreen.testNotificationDescription;
     await expect(testNotificationHeader).toHaveText("TEST NOTIFICATION");
     await expect(testNotificationDescription).toHaveText(
       "Sends a test notification.",
     );
 
     // Validate OPEN CACHE section
-    const openCacheHeader = await settingsDeveloper.openCacheHeader;
-    const openCacheDescription = await settingsDeveloper.openCacheDescription;
+    const openCacheHeader = await SettingsDeveloperScreen.openCacheHeader;
+    const openCacheDescription =
+      await SettingsDeveloperScreen.openCacheDescription;
     await expect(openCacheHeader).toHaveText("OPEN CACHE");
     await expect(openCacheDescription).toHaveText(
       "Open the cache in your default file browser.",
@@ -57,9 +54,9 @@ export default async function settingsDeveloperTests() {
 
     // Validate COMPRESS & DOWNLOAD CACHE section
     const compressAndDownloadHeader =
-      await settingsDeveloper.compressAndDownloadCacheHeader;
+      await SettingsDeveloperScreen.compressAndDownloadCacheHeader;
     const compressAndDownloadDescription =
-      await settingsDeveloper.compressAndDownloadCacheDescription;
+      await SettingsDeveloperScreen.compressAndDownloadCacheDescription;
     await expect(compressAndDownloadHeader).toHaveText(
       "COMPRESS & DOWNLOAD CACHE",
     );
@@ -68,24 +65,27 @@ export default async function settingsDeveloperTests() {
     );
 
     // Validate PRINT STATE section
-    const printStateHeader = await settingsDeveloper.printStateHeader;
-    const printStateDescription = await settingsDeveloper.printStateDescription;
+    const printStateHeader = await SettingsDeveloperScreen.printStateHeader;
+    const printStateDescription =
+      await SettingsDeveloperScreen.printStateDescription;
     await expect(printStateHeader).toHaveText("PRINT STATE");
     await expect(printStateDescription).toHaveText(
       "Display State in the debug logger.",
     );
 
     // Validate CLEAR CACHE section
-    const clearCacheHeader = await settingsDeveloper.clearCacheHeader;
-    const clearCacheDescription = await settingsDeveloper.clearCacheDescription;
+    const clearCacheHeader = await SettingsDeveloperScreen.clearCacheHeader;
+    const clearCacheDescription =
+      await SettingsDeveloperScreen.clearCacheDescription;
     await expect(clearCacheHeader).toHaveText("CLEAR CACHE");
     await expect(clearCacheDescription).toHaveText(
       "Reset your account, basically.",
     );
 
     // Validate SAVE LOGS IN A FILE section
-    const saveLogsHeader = await settingsDeveloper.saveLogsHeader;
-    const saveLogsDescription = await settingsDeveloper.saveLogsDescription;
+    const saveLogsHeader = await SettingsDeveloperScreen.saveLogsHeader;
+    const saveLogsDescription =
+      await SettingsDeveloperScreen.saveLogsDescription;
     await expect(saveLogsHeader).toHaveText("SAVE LOGS IN A FILE");
     await expect(saveLogsDescription).toHaveText(
       "Enabling this option, logs will be saved in a file and will be persistent.",
@@ -94,87 +94,87 @@ export default async function settingsDeveloperTests() {
 
   it("Settings Developer - Save Logs switch", async () => {
     // Click on SAVE LOGS IN FILE switch to activate the option
-    await settingsDeveloper.clickOnSaveLogs();
+    await SettingsDeveloperScreen.clickOnSaveLogs();
 
     // Validate that switch has now value = '1' (active)
-    await settingsDeveloper.validateSaveLogsIsEnabled();
+    await SettingsDeveloperScreen.validateSaveLogsIsEnabled();
   });
 
   // Skipped due to failure on app when disabling the switch the app crashes
   xit("Settings Developer - Disable Save Logs switch", async () => {
     // Click on SAVE LOGS IN FILE switch to disable the option
-    await settingsDeveloper.clickOnSaveLogs();
+    await SettingsDeveloperScreen.clickOnSaveLogs();
 
     // Validate that switch has now value = '0' (disabled)
-    await settingsDeveloper.validateSaveLogsIsDisabled();
+    await SettingsDeveloperScreen.validateSaveLogsIsDisabled();
   });
 
   it("Settings Developer - Enable Developer Mode", async () => {
     // Click on DEVELOPER MODE switch to activate the option
-    await settingsDeveloper.clickOnDeveloperMode();
+    await SettingsDeveloperScreen.clickOnDeveloperMode();
 
     // Validate that switch has now value = '1' (active)
-    await settingsDeveloper.validateDeveloperModeIsEnabled();
+    await SettingsDeveloperScreen.validateDeveloperModeIsEnabled();
   });
 
   // Test skipped since it fails on Windows CI
   xit("Settings Developer - Disable Developer Mode switch", async () => {
     // Click on DEVELOPER MODE switch to disable the option
-    await settingsDeveloper.clickOnDeveloperMode();
+    await SettingsDeveloperScreen.clickOnDeveloperMode();
 
     // Validate that switch has now value = '0' (disabled)
-    await settingsDeveloper.validateDeveloperModeIsDisabled();
+    await SettingsDeveloperScreen.validateDeveloperModeIsDisabled();
   });
 
   // Skipped because it needs the aria label fixed for test notifications button
   xit("Settings Developer - Click on Test Notification button", async () => {
-    await settingsDeveloper.clickOnTestNotifications();
+    await SettingsDeveloperScreen.clickOnTestNotifications();
   });
 
   // Skipped for now because it is failing on CI - Needs research
   xit("Settings Developer - Open folder button", async () => {
-    await settingsDeveloper.clickOnOpenCache();
-    await settingsDeveloper.returnToApp();
+    await SettingsDeveloperScreen.clickOnOpenCache();
+    await SettingsDeveloperScreen.returnToApp();
   });
 
   // Skipped for now because no action is performed when clicking on the button
   xit("Settings Developer - Compress and Download Cache", async () => {
-    await settingsDeveloper.clickOnCompressAndDownloadCache();
+    await SettingsDeveloperScreen.clickOnCompressAndDownloadCache();
   });
 
   // Skipped for now because no action is performed when clicking on the button
   xit("Settings Developer - Print State button", async () => {
-    await settingsDeveloper.clickOnPrintState();
+    await SettingsDeveloperScreen.clickOnPrintState();
   });
 
   // Skipped for now because no action is performed when clicking on the button
   xit("Settings Developer - Clear Cache", async () => {
-    await settingsDeveloper.clickOnClearCache();
+    await SettingsDeveloperScreen.clickOnClearCache();
   });
 
   it("User can open Web Inspector from Context Menu", async () => {
     // Execute this test only on MacOS - Web Inspector cannot be closed with Keybind on Windows
-    const currentDriver = await settingsDeveloper.getCurrentDriver();
+    const currentDriver = await SettingsDeveloperScreen.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       // Go to Friends Screen and open Web Inspector from Add User Input Context Menu
-      await settingsDeveloper.goToFriends();
-      await friendsScreen.waitForIsShown(true);
-      await friendsScreen.openAddSomeoneContextMenu();
-      await friendsScreen.clickOnOpenWebInspector();
+      await SettingsDeveloperScreen.goToFriends();
+      await FriendsScreen.waitForIsShown(true);
+      await FriendsScreen.openAddSomeoneContextMenu();
+      await FriendsScreen.clickOnOpenWebInspector();
 
       // Validate Web Inspector is displayed
-      await webInspector.validateWebInspectorIsShown();
+      await WebInspector.validateWebInspectorIsShown();
 
       // Press Ctrl + Shift + I to Close Web Inspector
       await sendCustomKeybinds(4, 7, 53);
 
       // Validate Web Inspector is not displayed
-      await webInspector.validateWebInspectorIsNotShown();
+      await WebInspector.validateWebInspectorIsNotShown();
 
       // Return to Settings Developer Screen
-      await friendsScreen.goToSettings();
-      await settingsProfile.goToDeveloperSettings();
-      await settingsDeveloper.waitForIsShown(true);
+      await FriendsScreen.goToSettings();
+      await SettingsProfileScreen.goToDeveloperSettings();
+      await SettingsDeveloperScreen.waitForIsShown(true);
     }
   });
 }

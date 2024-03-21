@@ -43,57 +43,57 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class CreatePinScreen extends UplinkMainScreen {
+class CreatePinScreen extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.UNLOCK_LAYOUT);
   }
 
-  get accountResetButton() {
-    return $(SELECTORS.ACCOUNT_RESET_BUTTON);
+  public get accountResetButton() {
+    return this.unlockLayout.$(SELECTORS.ACCOUNT_RESET_BUTTON);
   }
 
-  get createAccountButton() {
-    return $(SELECTORS.CREATE_ACCOUNT_BUTTON);
+  public get createAccountButton() {
+    return this.unlockLayout.$(SELECTORS.CREATE_ACCOUNT_BUTTON);
   }
 
-  get helpButton() {
-    return $(SELECTORS.HELP_BUTTON);
+  public get helpButton() {
+    return this.unlockLayout.$(SELECTORS.HELP_BUTTON);
   }
 
-  get helpButtonTooltip() {
-    return $(SELECTORS.TOOLTIP);
+  public get helpButtonTooltip() {
+    return this.unlockLayout.$(SELECTORS.TOOLTIP);
   }
 
-  get helpButtonTooltipText() {
-    return $(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
+  public get helpButtonTooltipText() {
+    return this.helpButtonTooltip.$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get inputError() {
-    return $(SELECTORS.INPUT_ERROR);
+  public get inputError() {
+    return this.unlockLayout.$(SELECTORS.INPUT_ERROR);
   }
 
-  get inputErrorText() {
-    return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
+  public get inputErrorText() {
+    return this.inputError.$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
-  get pinInput() {
-    return $(SELECTORS.PIN_INPUT);
+  public get pinInput() {
+    return this.unlockLayout.$(SELECTORS.PIN_INPUT);
   }
 
-  get unlockLayout() {
+  public get unlockLayout() {
     return $(SELECTORS.UNLOCK_LAYOUT);
   }
 
-  get unlockImage() {
-    return $(SELECTORS.UNLOCK_LAYOUT).$(SELECTORS.UNLOCK_IMAGE);
+  public get unlockImage() {
+    return this.unlockLayout.$(SELECTORS.UNLOCK_IMAGE);
   }
 
-  get unlockWarningHeader() {
-    return $(SELECTORS.UNLOCK_LAYOUT).$(SELECTORS.UNLOCK_WARNING_HEADER);
+  public get unlockWarningHeader() {
+    return this.unlockLayout.$(SELECTORS.UNLOCK_WARNING_HEADER);
   }
 
-  get unlockWarningParagraph() {
-    return $(SELECTORS.UNLOCK_LAYOUT).$(SELECTORS.UNLOCK_WARNING_PARAGRAPH);
+  public get unlockWarningParagraph() {
+    return this.unlockLayout.$(SELECTORS.UNLOCK_WARNING_PARAGRAPH);
   }
 
   async enterPinOnLogin(pin: string) {
@@ -165,4 +165,15 @@ export default class CreatePinScreen extends UplinkMainScreen {
       },
     );
   }
+
+  async loginWithTestUser() {
+    // Enter pin for test user
+    const unlockScreen = await this.unlockLayout;
+    await unlockScreen.waitForExist();
+    await this.enterPinOnLogin("1234");
+    await this.validateSpinnerIsNotShown();
+    await this.unlockLayout.waitForExist({ reverse: true });
+  }
 }
+
+export default new CreatePinScreen();

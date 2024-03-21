@@ -139,247 +139,247 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class FilesScreen extends UplinkMainScreen {
+class FilesScreen extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.FILES_LAYOUT);
   }
 
-  get addFolderButton() {
+  public get addFolderButton() {
     return $(SELECTORS.ADD_FOLDER_BUTTON);
   }
 
-  get addFolderTooltip() {
+  public get addFolderTooltip() {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
-  get addFolderTooltipText() {
+  public get addFolderTooltipText() {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get contextMenu() {
+  public get contextMenu() {
     return $(SELECTORS.CONTEXT_MENU);
   }
 
-  get contextMenuFilesDelete() {
+  public get contextMenuFilesDelete() {
     return $(SELECTORS.CONTEXT_MENU_FILES_DELETE);
   }
 
-  get contextMenuFilesDownload() {
+  public get contextMenuFilesDownload() {
     return $(SELECTORS.CONTEXT_MENU_FILES_DOWNLOAD);
   }
 
-  get contextMenuFilesRename() {
+  public get contextMenuFilesRename() {
     return $(SELECTORS.CONTEXT_MENU_FILES_RENAME);
   }
 
-  get contextMenuFilesShare() {
+  public get contextMenuFilesShare() {
     return $(SELECTORS.CONTEXT_MENU_FILES_SHARE);
   }
 
-  get contextMenuFolderDelete() {
+  public get contextMenuFolderDelete() {
     return $(SELECTORS.CONTEXT_MENU_FOLDER_DELETE);
   }
 
-  get contextMenuFolderRename() {
+  public get contextMenuFolderRename() {
     return $(SELECTORS.CONTEXT_MENU_FOLDER_RENAME);
   }
 
-  get crumb() {
+  public get crumb() {
     return $$(SELECTORS.CRUMB);
   }
 
-  get crumbHomeDir() {
+  public get crumbHomeDir() {
     return $(SELECTORS.CRUMB_HOME_FOLDER);
   }
 
-  get crumbText() {
+  public get crumbText() {
     return $$(SELECTORS.CRUMB).$(SELECTORS.CRUMB_TEXT);
   }
 
-  get fileFolderNameText() {
+  public get fileFolderNameText() {
     return $(SELECTORS.FILE_FOLDER_NAME_TEXT);
   }
 
-  get filesBody() {
+  public get filesBody() {
     return $(SELECTORS.FILES_BODY);
   }
 
-  get filesBreadcrumbs() {
+  public get filesBreadcrumbs() {
     return $(SELECTORS.FILES_BREADCRUMBS);
   }
 
-  get filesInfo() {
+  public get filesInfo() {
     return $(SELECTORS.FILES_INFO);
   }
 
-  get filesInfoCurrentSize() {
+  public get filesInfoCurrentSize() {
     return $(SELECTORS.FILES_INFO_CURRENT_SIZE);
   }
 
-  get filesInfoCurrentSizeLabel() {
+  public get filesInfoCurrentSizeLabel() {
     return $(SELECTORS.FILES_INFO_CURRENT_SIZE).$(
       SELECTORS.FILES_INFO_CURRENT_SIZE_HEADER,
     );
   }
 
-  get filesInfoCurrentSizeValue() {
+  public get filesInfoCurrentSizeValue() {
     return $(SELECTORS.FILES_INFO_CURRENT_SIZE).$(
       SELECTORS.FILES_INFO_CURRENT_SIZE_VALUE,
     );
   }
 
-  get filesInfoMaxSize() {
+  public get filesInfoMaxSize() {
     return $(SELECTORS.FILES_INFO_MAX_SIZE);
   }
 
-  get filesInfoMaxSizeLabel() {
+  public get filesInfoMaxSizeLabel() {
     return $(SELECTORS.FILES_INFO_MAX_SIZE).$(
       SELECTORS.FILES_INFO_MAX_SIZE_HEADER,
     );
   }
 
-  get filesInfoMaxSizeValue() {
+  public get filesInfoMaxSizeValue() {
     return $(SELECTORS.FILES_INFO_MAX_SIZE).$(
       SELECTORS.FILES_INFO_MAX_SIZE_VALUE,
     );
   }
 
-  get filesLayout() {
+  public get filesLayout() {
     return $(SELECTORS.FILES_LAYOUT);
   }
 
-  get filesList() {
+  public get filesList() {
     return $(SELECTORS.FILES_LIST);
   }
 
-  get inputError() {
+  public get inputError() {
     return $(SELECTORS.INPUT_ERROR);
   }
 
-  get inputErrorText() {
+  public get inputErrorText() {
     return $(SELECTORS.INPUT_ERROR).$(SELECTORS.INPUT_ERROR_TEXT);
   }
 
-  get inputFileName() {
+  public get inputFileName() {
     return $(SELECTORS.INPUT_FILE_NAME);
   }
 
-  get inputFolderName() {
+  public get inputFolderName() {
     return $(SELECTORS.INPUT_FOLDER_NAME);
   }
 
-  get showSidebar() {
+  public get showSidebar() {
     return $(SELECTORS.TOPBAR).$(SELECTORS.SHOW_SIDEBAR);
   }
 
-  get topbar() {
+  public get topbar() {
     return $(SELECTORS.TOPBAR);
   }
 
-  get uploadFileButton() {
+  public get uploadFileButton() {
     return $(SELECTORS.UPLOAD_FILE_BUTTON);
   }
 
-  get uploadFileTooltip() {
+  public get uploadFileTooltip() {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP);
   }
 
-  get uploadFileTooltipText() {
+  public get uploadFileTooltipText() {
     return $(SELECTORS.TOPBAR).$(SELECTORS.TOOLTIP).$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get uploadFilenameAndFileQueueText() {
+  public get uploadFilenameAndFileQueueText() {
     return this.uploadFilenameAndQueueContainer.$(
       SELECTORS.UPLOAD_FILENAME_AND_FILE_QUEUE_TEXT,
     );
   }
 
-  get uploadFilenameAndFileQueueTextValue() {
+  public get uploadFilenameAndFileQueueTextValue() {
     return this.uploadFilenameAndFileQueueText.$(
       SELECTORS.UPLOAD_FILENAME_AND_FILE_QUEUE_TEXT_VALUE,
     );
   }
 
-  get uploadFilenameAndQueueContainer() {
+  public get uploadFilenameAndQueueContainer() {
     return this.uploadProgressBarFilenameContainer.$(
       SELECTORS.UPLOAD_FILENAME_AND_QUEUE_CONTAINER,
     );
   }
 
-  get uploadProgressBar() {
+  public get uploadProgressBar() {
     return this.uploadProgressBarFilenameContainer.$(
       SELECTORS.UPLOAD_PROGRESS_BAR,
     );
   }
 
-  get uploadProgressBarButtonContainer() {
+  public get uploadProgressBarButtonContainer() {
     return this.uploadProgressBarContainer.$(
       SELECTORS.UPLOAD_PROGRESS_BAR_BUTTON_CONTAINER,
     );
   }
 
-  get uploadProgressBarFilenameContainer() {
+  public get uploadProgressBarFilenameContainer() {
     return this.uploadProgressBarButtonContainer.$(
       SELECTORS.UPLOAD_PROGRESS_BAR_FILENAME_CONTAINER,
     );
   }
 
-  get uploadProgressBarContainer() {
+  public get uploadProgressBarContainer() {
     return this.filesBody.$(SELECTORS.UPLOAD_PROGRESS_BAR_CONTAINER);
   }
 
-  get uploadProgressBarHeaderDescription() {
+  public get uploadProgressBarHeaderDescription() {
     return this.uploadProgressPercentageDescriptionContainer.$(
       SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION,
     );
   }
-  get uploadProgressBarHeaderDescriptionText() {
+  public get uploadProgressBarHeaderDescriptionText() {
     return this.uploadProgressBarHeaderDescription.$(
       SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_DESCRIPTION_TEXT,
     );
   }
 
-  get uploadProgressBarHeaderPercentage() {
+  public get uploadProgressBarHeaderPercentage() {
     return this.uploadProgressPercentageDescriptionContainer.$(
       SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE,
     );
   }
 
-  get uploadProgressBarHeaderPercentageText() {
+  public get uploadProgressBarHeaderPercentageText() {
     return this.uploadProgressBarHeaderPercentage.$(
       SELECTORS.UPLOAD_PROGRESS_BAR_HEADER_PERCENTAGE_TEXT,
     );
   }
 
-  get uploadProgressCancelUploadButton() {
+  public get uploadProgressCancelUploadButton() {
     return this.uploadProgressBarButtonContainer.$(
       SELECTORS.UPLOAD_PROGRESS_CANCEL_UPLOAD_BUTTON,
     );
   }
 
-  get uploadProgressDropFiles() {
+  public get uploadProgressDropFiles() {
     return this.uploadProgressPercentageDescriptionContainer.$(
       SELECTORS.UPLOAD_PROGRESS_DROP_FILES,
     );
   }
 
-  get uploadProgressFilesQueue() {
+  public get uploadProgressFilesQueue() {
     return this.uploadFilenameAndQueueContainer.$(
       SELECTORS.UPLOAD_PROGRESS_FILES_QUEUE,
     );
   }
 
-  get uploadProgressFilesQueueText() {
+  public get uploadProgressFilesQueueText() {
     return this.uploadProgressFilesQueue.$(
       SELECTORS.UPLOAD_PROGRESS_FILES_QUEUE_TEXT,
     );
   }
 
-  get uploadProgressPercentage() {
+  public get uploadProgressPercentage() {
     return this.uploadProgressBar.$(SELECTORS.UPLOAD_PROGRESS_PERCENTAGE);
   }
 
-  get uploadProgressPercentageDescriptionContainer() {
+  public get uploadProgressPercentageDescriptionContainer() {
     return this.uploadProgressBarContainer.$(
       SELECTORS.UPLOAD_PROGRESS_PERCENTAGE_DESCRIPTION_CONTAINER,
     );
@@ -678,3 +678,5 @@ export default class FilesScreen extends UplinkMainScreen {
     }
   }
 }
+
+export default new FilesScreen();

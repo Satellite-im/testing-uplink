@@ -47,72 +47,72 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class ReplyPrompt extends UplinkMainScreen {
+class ReplyPrompt extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.REPLY_POPUP);
   }
 
-  get replyPopUp() {
+  public get replyPopUp() {
     return $(SELECTORS.REPLY_POPUP);
   }
 
-  get replyPopUpCloseButton() {
+  public get replyPopUpCloseButton() {
     return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_CLOSE_BUTTON);
   }
 
-  get replyPopUpContent() {
+  public get replyPopUpContent() {
     return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_CONTENT);
   }
 
-  get replyPopUpHeader() {
+  public get replyPopUpHeader() {
     return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_HEADER);
   }
 
-  get replyPopUpIndicator() {
+  public get replyPopUpIndicator() {
     return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_INDICATOR);
   }
 
-  get replyPopUpIndicatorOffline() {
+  public get replyPopUpIndicatorOffline() {
     return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_INDICATOR_OFFLINE);
   }
 
-  get replyPopUpIndicatorOnline() {
+  public get replyPopUpIndicatorOnline() {
     return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_INDICATOR_ONLINE);
   }
 
-  get replyPopUpLocalTextToReply() {
+  public get replyPopUpLocalTextToReply() {
     return $(SELECTORS.REPLY_POPUP).$(
       SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY,
     );
   }
 
-  get replyPopUpLocalTextToReplyValue() {
+  public get replyPopUpLocalTextToReplyValue() {
     return $(SELECTORS.REPLY_POPUP)
       .$(SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY)
       .$(SELECTORS.REPLY_POPUP_LOCAL_TEXT_TO_REPLY_VALUE);
   }
 
-  get replyPopUpRemoteTextToReply() {
+  public get replyPopUpRemoteTextToReply() {
     return $(SELECTORS.REPLY_POPUP).$(
       SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY,
     );
   }
 
-  get replyPopUpRemoteTextToReplyValue() {
+  public get replyPopUpRemoteTextToReplyValue() {
     return $(SELECTORS.REPLY_POPUP)
       .$(SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY)
       .$(SELECTORS.REPLY_POPUP_REMOTE_TEXT_TO_REPLY_VALUE);
   }
 
-  get replyPopUpUserImage() {
+  public get replyPopUpUserImage() {
     return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_USER_IMAGE);
   }
 
-  get replyPopUpUserImageProfile() {
+  public get replyPopUpUserImageProfile() {
     return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_USER_IMAGE_PROFILE);
   }
 
-  get replyPopUpUserImageWrap() {
+  public get replyPopUpUserImageWrap() {
     return $(SELECTORS.REPLY_POPUP).$(SELECTORS.REPLY_POPUP_USER_IMAGE_WRAP);
   }
 
@@ -149,3 +149,5 @@ export default class ReplyPrompt extends UplinkMainScreen {
     );
   }
 }
+
+export default new ReplyPrompt();

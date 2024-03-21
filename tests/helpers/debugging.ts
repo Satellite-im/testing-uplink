@@ -1,6 +1,6 @@
 require("module-alias/register");
+import { createNewUser } from "./commandsNewUser";
 import {
-  createNewUser,
   getUserKey,
   launchSecondApplication,
   saveTestKeys,
@@ -14,146 +14,139 @@ import SettingsGeneralScreen from "@screenobjects/settings/SettingsGeneralScreen
 import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotificationsScreen";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-let chatsTopbar = new Topbar();
-let createPin = new CreatePinScreen();
-let friendsScreen = new FriendsScreen();
-let settingsGeneral = new SettingsGeneralScreen();
-let settingsNotifications = new SettingsNotificationsScreen();
-let settingsProfile = new SettingsProfileScreen();
-let welcomeScreen = new WelcomeScreen();
 
 export async function setupBeforeCreateGroupTests() {
   // Create a new account and go to Settings Profile
-  await createPin.waitForIsShown(true);
+  await CreatePinScreen.waitForIsShown(true);
   const usernameA = "ChatUserA";
   await createNewUser(usernameA);
-  await welcomeScreen.goToSettings();
-  await settingsProfile.validateSettingsProfileIsShown();
+  await WelcomeScreen.goToSettings();
+  await SettingsProfileScreen.validateSettingsProfileIsShown();
 
   // Click on Copy ID button and assert Toast Notification is displayed
-  await settingsProfile.openCopyIDContextMenu();
-  await settingsProfile.clickOnContextMenuCopyDidKey();
+  await SettingsProfileScreen.openCopyIDContextMenu();
+  await SettingsProfileScreen.clickOnContextMenuCopyDidKey();
 
   // Wait for toast notification to be closed
-  await settingsProfile.waitUntilNotificationIsClosed();
+  await SettingsProfileScreen.waitUntilNotificationIsClosed();
 
   // Paste copied DID Key into Status Input
-  await settingsProfile.pasteUserKeyInStatus();
+  await SettingsProfileScreen.pasteUserKeyInStatus();
 
   // Wait for toast notification of Profile Updated to not exist
-  await settingsProfile.waitUntilNotificationIsClosed();
+  await SettingsProfileScreen.waitUntilNotificationIsClosed();
 
   // Grab cache folder and restart
-  const didkeyA = await settingsProfile.getCopiedDidFromStatusInput();
+  const didkeyA = await SettingsProfileScreen.getCopiedDidFromStatusInput();
   await saveTestKeys(usernameA, didkeyA);
-  await settingsProfile.deleteStatus();
+  await SettingsProfileScreen.deleteStatus();
 
   // Go to General Settings and reduce Font Size by 0.5
-  await settingsProfile.goToGeneralSettings();
-  await settingsGeneral.waitForIsShown(true);
+  await SettingsProfileScreen.goToGeneralSettings();
+  await SettingsGeneralScreen.waitForIsShown(true);
 
   // Click on font scaling minus button
-  await settingsGeneral.clickOnFontScalingMinus();
+  await SettingsGeneralScreen.clickOnFontScalingMinus();
 
   // Go to Notifications Settings and disable all notifications
-  await settingsGeneral.goToNotificationsSettings();
-  await settingsNotifications.validateSettingsNotificationsIsShown();
-  await settingsNotifications.clickOnFriendsNotifications();
-  await settingsNotifications.clickOnMessagesNotifications();
+  await SettingsGeneralScreen.goToNotificationsSettings();
+  await SettingsNotificationsScreen.validateSettingsNotificationsIsShown();
+  await SettingsNotificationsScreen.clickOnFriendsNotifications();
+  await SettingsNotificationsScreen.clickOnMessagesNotifications();
 
   // Go to Friends Screen
-  await settingsNotifications.goToFriends();
-  await friendsScreen.validateFriendsScreenIsShown();
+  await SettingsNotificationsScreen.goToFriends();
+  await FriendsScreen.validateFriendsScreenIsShown();
 
   // Launch second application
   await launchSecondApplication(false);
 
   // Create a new account and go to Settings Profile
-  await createPin.waitForIsShown(true);
+  await CreatePinScreen.waitForIsShown(true);
   const usernameB = "ChatUserB";
   await createNewUser(usernameB);
-  await welcomeScreen.goToSettings();
-  await settingsProfile.validateSettingsProfileIsShown();
+  await WelcomeScreen.goToSettings();
+  await SettingsProfileScreen.validateSettingsProfileIsShown();
 
   // Click on Copy ID button and assert Toast Notification is displayed
-  await settingsProfile.openCopyIDContextMenu();
-  await settingsProfile.clickOnContextMenuCopyDidKey();
+  await SettingsProfileScreen.openCopyIDContextMenu();
+  await SettingsProfileScreen.clickOnContextMenuCopyDidKey();
 
   // Wait for toast notification of Copied To Clipboard to not exist
-  await settingsProfile.waitUntilNotificationIsClosed();
+  await SettingsProfileScreen.waitUntilNotificationIsClosed();
 
   // Paste copied DID Key into Status Input
-  await settingsProfile.pasteUserKeyInStatus();
+  await SettingsProfileScreen.pasteUserKeyInStatus();
 
   // Wait for toast notification of Profile Updated to not exist
-  await settingsGeneral.waitUntilNotificationIsClosed();
+  await SettingsProfileScreen.waitUntilNotificationIsClosed();
 
   // Grab cache folder and restart
-  const didkeyB = await settingsProfile.getCopiedDidFromStatusInput();
+  const didkeyB = await SettingsProfileScreen.getCopiedDidFromStatusInput();
   await saveTestKeys(usernameB, didkeyB);
-  await settingsProfile.deleteStatus();
+  await SettingsProfileScreen.deleteStatus();
 
   // Go to General Settings and reduce Font Size by 0.5
-  await settingsProfile.goToGeneralSettings();
-  await settingsGeneral.waitForIsShown(true);
+  await SettingsProfileScreen.goToGeneralSettings();
+  await SettingsGeneralScreen.waitForIsShown(true);
 
   // Click on font scaling minus
-  await settingsGeneral.clickOnFontScalingMinus();
+  await SettingsGeneralScreen.clickOnFontScalingMinus();
 
   // Go to Notifications Settings and disable all notifications
-  await settingsGeneral.goToNotificationsSettings();
-  await settingsNotifications.validateSettingsNotificationsIsShown();
-  await settingsNotifications.clickOnFriendsNotifications();
-  await settingsNotifications.clickOnMessagesNotifications();
+  await SettingsGeneralScreen.goToNotificationsSettings();
+  await SettingsNotificationsScreen.validateSettingsNotificationsIsShown();
+  await SettingsNotificationsScreen.clickOnFriendsNotifications();
+  await SettingsNotificationsScreen.clickOnMessagesNotifications();
 
   // Go to Friends Screen
-  await settingsNotifications.goToFriends();
-  await friendsScreen.validateFriendsScreenIsShown();
+  await SettingsNotificationsScreen.goToFriends();
+  await FriendsScreen.validateFriendsScreenIsShown();
 
   // Obtain did key from Chat User B
   const friendDidKey = await getUserKey("ChatUserA");
-  await friendsScreen.sendFriendRequest(friendDidKey, "ChatUserA");
+  await FriendsScreen.sendFriendRequest(friendDidKey, "ChatUserA");
 
   // Go to All Friends List
-  await friendsScreen.goToAllFriendsList();
-  await friendsScreen.validateAllFriendsListIsShown();
+  await FriendsScreen.goToAllFriendsList();
+  await FriendsScreen.validateAllFriendsListIsShown();
 
   // Switch control to User A
   await activateFirstApplication();
 
   // With User A - Go to pending requests list, wait for receiving the friend request and accept it
-  await friendsScreen.hoverOnPendingListButton();
-  await friendsScreen.goToPendingFriendsList();
-  await friendsScreen.validateIncomingListIsShown();
-  await friendsScreen.waitUntilFriendRequestIsReceived();
-  await friendsScreen.acceptIncomingRequest("ChatUserB");
+  await FriendsScreen.hoverOnPendingListButton();
+  await FriendsScreen.goToPendingFriendsList();
+  await FriendsScreen.validateIncomingListIsShown();
+  await FriendsScreen.waitUntilFriendRequestIsReceived();
+  await FriendsScreen.acceptIncomingRequest("ChatUserB");
 
   // Validate friend is now on all friends list
-  await friendsScreen.goToAllFriendsList();
-  await friendsScreen.validateAllFriendsListIsShown();
-  await friendsScreen.validateAllFriendsListIsNotEmpty();
+  await FriendsScreen.goToAllFriendsList();
+  await FriendsScreen.validateAllFriendsListIsShown();
+  await FriendsScreen.validateAllFriendsListIsNotEmpty();
 
   // Go to Chat with User B
-  await friendsScreen.goToChatWithFriend();
+  await FriendsScreen.goToChatWithFriend();
 
   // Switch control to User B
   await activateSecondApplication();
 
   // With User B - Go to pending requests list, wait for receiving the friend request and accept it
-  await friendsScreen.waitUntilUserAcceptedFriendRequest();
+  await FriendsScreen.waitUntilUserAcceptedFriendRequest();
 
   // Validate friend is now on all friends list
-  await friendsScreen.goToAllFriendsList();
-  await friendsScreen.validateAllFriendsListIsShown();
-  await friendsScreen.validateAllFriendsListIsNotEmpty();
+  await FriendsScreen.goToAllFriendsList();
+  await FriendsScreen.validateAllFriendsListIsShown();
+  await FriendsScreen.validateAllFriendsListIsNotEmpty();
 
   // Switch control to User A
   await activateFirstApplication();
-  await chatsTopbar.validateTopbarExists();
+  await Topbar.validateTopbarExists();
 }
 
 export async function setupBeforeSettingsTests() {
   await createNewUser("Test123");
-  await friendsScreen.goToSettings();
-  await settingsProfile.waitForIsShown(true);
+  await FriendsScreen.goToSettings();
+  await SettingsProfileScreen.waitForIsShown(true);
 }

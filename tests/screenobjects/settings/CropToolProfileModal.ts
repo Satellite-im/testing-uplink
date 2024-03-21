@@ -2,7 +2,21 @@ require("module-alias/register");
 import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 
-let SELECTORS = {};
+let SELECTORS = {
+  CROP_IMAGE_MODAL: "",
+  CROP_IMAGE_PREVIEW: "",
+  CROP_IMAGE_RANGE: "",
+  CROP_IMAGE_RANGE_DECREASE_BUTTON: "",
+  CROP_IMAGE_RANGE_INCREASE_BUTTON: "",
+  CROP_IMAGE_RANGE_INPUT_SLIDER: "",
+  CROP_IMAGE_RANGE_VALUE: "",
+  CROP_IMAGE_RANGE_VALUE_TEXT: "",
+  CROP_IMAGE_TOPBAR: "",
+  CROP_IMAGE_TOPBAR_BUTTON_CANCEL: "",
+  CROP_IMAGE_TOPBAR_BUTTON_CONFIRM: "",
+  CROP_IMAGE_TOPBAR_LABEL: "",
+  CROP_IMAGE_TOPBAR_LABEL_TEXT: "",
+};
 
 const SELECTORS_COMMON = {};
 
@@ -42,62 +56,62 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class CropImageProfileModal extends UplinkMainScreen {
+class CropImageProfileModal extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.CROP_IMAGE_MODAL);
   }
 
   // Getters from UI Locators
 
-  get cropImageModal() {
+  public get cropImageModal() {
     return $(SELECTORS.CROP_IMAGE_MODAL);
   }
 
-  get cropImagePreview() {
+  public get cropImagePreview() {
     return this.cropImageModal.$(SELECTORS.CROP_IMAGE_PREVIEW);
   }
 
-  get cropImageRange() {
+  public get cropImageRange() {
     return this.cropImageModal.$(SELECTORS.CROP_IMAGE_RANGE);
   }
 
-  get cropImageRangeDecreaseButton() {
+  public get cropImageRangeDecreaseButton() {
     return this.cropImageRange.$(SELECTORS.CROP_IMAGE_RANGE_DECREASE_BUTTON);
   }
 
-  get cropImageRangeIncreaseButton() {
+  public get cropImageRangeIncreaseButton() {
     return this.cropImageRange.$(SELECTORS.CROP_IMAGE_RANGE_INCREASE_BUTTON);
   }
 
-  get cropImageRangeInputSlider() {
+  public get cropImageRangeInputSlider() {
     return this.cropImageRange.$(SELECTORS.CROP_IMAGE_RANGE_INPUT_SLIDER);
   }
 
-  get cropImageRangeValue() {
+  public get cropImageRangeValue() {
     return this.cropImageRange.$(SELECTORS.CROP_IMAGE_RANGE_VALUE);
   }
 
-  get cropImageRangeValueText() {
+  public get cropImageRangeValueText() {
     return this.cropImageRangeValue.$(SELECTORS.CROP_IMAGE_RANGE_VALUE_TEXT);
   }
 
-  get cropImageTopbar() {
+  public get cropImageTopbar() {
     return this.cropImageModal.$(SELECTORS.CROP_IMAGE_TOPBAR);
   }
 
-  get cropImageTopbarButtonCancel() {
+  public get cropImageTopbarButtonCancel() {
     return this.cropImageTopbar.$(SELECTORS.CROP_IMAGE_TOPBAR_BUTTON_CANCEL);
   }
 
-  get cropImageTopbarButtonConfirm() {
+  public get cropImageTopbarButtonConfirm() {
     return this.cropImageTopbar.$(SELECTORS.CROP_IMAGE_TOPBAR_BUTTON_CONFIRM);
   }
 
-  get cropImageTopbarLabel() {
+  public get cropImageTopbarLabel() {
     return this.cropImageTopbar.$(SELECTORS.CROP_IMAGE_TOPBAR_LABEL);
   }
 
-  get cropImageTopbarLabelText() {
+  public get cropImageTopbarLabelText() {
     return this.cropImageTopbarLabel.$(SELECTORS.CROP_IMAGE_TOPBAR_LABEL_TEXT);
   }
 
@@ -147,3 +161,5 @@ export default class CropImageProfileModal extends UplinkMainScreen {
     await cropImageModal.waitForDisplayed();
   }
 }
+
+export default new CropImageProfileModal();

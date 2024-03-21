@@ -50,76 +50,76 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class OutgoingCallModal extends UplinkMainScreen {
+class OutgoingCallModal extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.REMOTE_CONTROLS);
   }
 
-  get callControls() {
+  public get callControls() {
     return this.remoteControls.$(SELECTORS.CALL_CONTROLS);
   }
 
-  get callHangUpButton() {
+  public get callHangUpButton() {
     return this.callControls.$(SELECTORS.CALL_HANGUP_BUTTON);
   }
 
-  get callInfo() {
+  public get callInfo() {
     return this.remoteControls.$(SELECTORS.CALL_INFO);
   }
 
-  get callMicButton() {
+  public get callMicButton() {
     return this.callControls.$(SELECTORS.CALL_MIC_BUTTON);
   }
 
-  get callName() {
+  public get callName() {
     return this.callInfo.$(SELECTORS.CALL_NAME);
   }
 
-  get callNameText() {
+  public get callNameText() {
     return this.callName.$(SELECTORS.CALL_NAME_TEXT);
   }
 
-  get callSpeakerButton() {
+  public get callSpeakerButton() {
     return this.callControls.$(SELECTORS.CALL_SPEAKER_BUTTON);
   }
 
-  get callTime() {
+  public get callTime() {
     return this.callInfo.$(SELECTORS.CALL_TIME);
   }
 
-  get callTimeText() {
+  public get callTimeText() {
     return this.callTime.$(SELECTORS.CALL_TIME_TEXT);
   }
 
-  get outgoingCallLabel() {
+  public get outgoingCallLabel() {
     return $(SELECTORS.OUTGOING_CALL_LABEL);
   }
 
-  get outgoingCallLabelText() {
+  public get outgoingCallLabelText() {
     return this.outgoingCallLabel.$(SELECTORS.OUTGOING_CALL_LABEL_TEXT);
   }
 
-  get plusSome() {
+  public get plusSome() {
     return this.userImageWrap.$(SELECTORS.PLUS_SOME);
   }
 
-  get remoteControls() {
+  public get remoteControls() {
     return $(SELECTORS.REMOTE_CONTROLS);
   }
 
-  get userImageGroupWrap() {
+  public get userImageGroupWrap() {
     return this.callInfo.$(SELECTORS.USER_IMAGE_GROUP_WRAP);
   }
 
-  get userImageWrap() {
+  public get userImageWrap() {
     return this.userImageGroupWrap.$(SELECTORS.USER_IMAGE_WRAP);
   }
 
-  get userImage() {
+  public get userImage() {
     return this.userImageWrap.$(SELECTORS.USER_IMAGE);
   }
 
-  get userImageProfile() {
+  public get userImageProfile() {
     return this.userImage.$(SELECTORS.USER_IMAGE_PROFILE);
   }
 
@@ -138,3 +138,5 @@ export default class OutgoingCallModal extends UplinkMainScreen {
     await speakerButton.click();
   }
 }
+
+export default new OutgoingCallModal();

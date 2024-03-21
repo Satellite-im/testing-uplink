@@ -75,116 +75,116 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SettingsExtensionsScreen extends SettingsBaseScreen {
+class SettingsExtensionsScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.SETTINGS_EXTENSIONS);
   }
 
-  get emojiSelectorCheckbox() {
+  public get emojiSelectorCheckbox() {
     return $(SELECTORS.EXTENSIONS_BROWSER).$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get emojiSelectorCheckboxValue() {
+  public get emojiSelectorCheckboxValue() {
     return $(SELECTORS.EXTENSIONS_BROWSER)
       .$(SELECTORS.SWITCH_SLIDER)
       .$(SELECTORS.SWITCH_SLIDER_VALUE);
   }
 
-  get emojiSelectorDescription() {
+  public get emojiSelectorDescription() {
     return $(SELECTORS.EXTENSIONS_BROWSER).$(
       SELECTORS.EMOJI_SELECTOR_DESCRIPTION,
     );
   }
 
-  get emojiSelectorDeveloper() {
+  public get emojiSelectorDeveloper() {
     return $(SELECTORS.EXTENSIONS_BROWSER).$(
       SELECTORS.EMOJI_SELECTOR_DEVELOPER,
     );
   }
 
-  get emojiSelectorTitle() {
+  public get emojiSelectorTitle() {
     return $(SELECTORS.EXTENSIONS_BROWSER).$(SELECTORS.EMOJI_SELECTOR_TITLE);
   }
 
-  get enableAutomaticallyCheckbox() {
+  public get enableAutomaticallyCheckbox() {
     return $(SELECTORS.AUTO_ENABLE_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get enableAutomaticallyControllerValue() {
+  public get enableAutomaticallyControllerValue() {
     return $(SELECTORS.AUTO_ENABLE_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get enableAutomaticallyDescription() {
+  public get enableAutomaticallyDescription() {
     return $(SELECTORS.AUTO_ENABLE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get enableAutomaticallyHeader() {
+  public get enableAutomaticallyHeader() {
     return $(SELECTORS.AUTO_ENABLE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get exploreButton() {
+  public get exploreButton() {
     return $(SELECTORS.EXPLORE_BUTTON);
   }
 
-  get extensionsBrowser() {
+  public get extensionsBrowser() {
     return $(SELECTORS.EXTENSIONS_BROWSER);
   }
 
-  get extensionsExplore() {
+  public get extensionsExplore() {
     return $(SELECTORS.EXTENSIONS_EXPLORE_SECTION);
   }
 
-  get extensionsExploreBanner() {
+  public get extensionsExploreBanner() {
     return $(SELECTORS.EXTENSIONS_EXPLORE_BANNER);
   }
 
-  get extensionsSearchHeader() {
+  public get extensionsSearchHeader() {
     return $(SELECTORS.EXTENSIONS_SEARCH_HEADER);
   }
 
-  get extensionsSearchInput() {
+  public get extensionsSearchInput() {
     return $(SELECTORS.EXTENSIONS_SEARCH_INPUT);
   }
 
-  get extensionsSettingsButton() {
+  public get extensionsSettingsButton() {
     return $(SELECTORS.SETTINGS_EXTENSIONS).$(
       SELECTORS.EXTENSIONS_SETTINGS_BUTTON,
     );
   }
 
-  get installedAlertText() {
+  public get installedAlertText() {
     return $(SELECTORS.EXTENSIONS_EXPLORE_BANNER).$(
       SELECTORS.INSTALLED_ALERT_TEXT,
     );
   }
 
-  get installedButton() {
+  public get installedButton() {
     return $(SELECTORS.INSTALLED_BUTTON);
   }
 
-  get openExtensionsDescriptionText() {
+  public get openExtensionsDescriptionText() {
     return $(SELECTORS.OPEN_EXTENSIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.OPEN_EXTENSIONS_DESCRIPTION_TEXT);
   }
 
-  get openExtensionsHeaderText() {
+  public get openExtensionsHeaderText() {
     return $(SELECTORS.OPEN_EXTENSIONS_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.OPEN_EXTENSIONS_HEADER_TEXT);
   }
 
-  get openExtensionsFolderButton() {
+  public get openExtensionsFolderButton() {
     return $(SELECTORS.OPEN_EXTENSIONS_FOLDER_BUTTON);
   }
 
-  get settingsExtensions() {
+  public get settingsExtensions() {
     return $(SELECTORS.SETTINGS_EXTENSIONS);
   }
 
@@ -266,3 +266,5 @@ export default class SettingsExtensionsScreen extends SettingsBaseScreen {
     await this.validateToggleIsDisabled(enableAutomaticallyControllerValue);
   }
 }
+
+export default new SettingsExtensionsScreen();

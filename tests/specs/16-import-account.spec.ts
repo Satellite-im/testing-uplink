@@ -4,10 +4,6 @@ import CreateOrImportScreen from "@screenobjects/account-creation/CreateOrImport
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import EnterRecoverySeedScreen from "@screenobjects/account-creation/EnterRecoverySeedScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
-const createOrImport = new CreateOrImportScreen();
-const createPin = new CreatePinScreen();
-const enterRecoverySeed = new EnterRecoverySeedScreen();
-const welcomeScreen = new WelcomeScreen();
 
 export default async function importAccountTests() {
   it("Enter Pin Screen - Clear cache, reset app and enter a valid pin", async () => {
@@ -15,23 +11,23 @@ export default async function importAccountTests() {
     await resetApp();
 
     // Validate Enter Pin Screen is displayed and enter a valid pin
-    await createPin.waitForIsShown(true);
-    await createPin.enterPinOnCreateAccount("1234");
-    await createPin.waitUntilCreateAccountButtonIsEnabled();
-    await createPin.clickOnCreateAccount();
+    await CreatePinScreen.waitForIsShown(true);
+    await CreatePinScreen.enterPinOnCreateAccount("1234");
+    await CreatePinScreen.waitUntilCreateAccountButtonIsEnabled();
+    await CreatePinScreen.clickOnCreateAccount();
   });
 
   it("Enter Recovery Seed - Validate Screen Contents", async () => {
     // Validate Create or Import Account is displayed
-    await createOrImport.waitForIsShown(true);
+    await CreateOrImportScreen.waitForIsShown(true);
 
     // Click on Import Account
-    await createOrImport.clickOnImportAccount();
+    await CreateOrImportScreen.clickOnImportAccount();
 
     // Validate contents of Enter Recovery Seed Screen
-    await enterRecoverySeed.waitForIsShown(true);
-    const helperText = await enterRecoverySeed.recoverySeedHelperText;
-    const screenTitle = await enterRecoverySeed.recoverySeedTitleText;
+    await EnterRecoverySeedScreen.waitForIsShown(true);
+    const helperText = await EnterRecoverySeedScreen.recoverySeedHelperText;
+    const screenTitle = await EnterRecoverySeedScreen.recoverySeedTitleText;
     await expect(helperText).toHaveText(
       "Type your recovery seed here. Each phrase should go into their respective box. Alternatively you can simply copy past your recovery seed in here.",
     );
@@ -39,17 +35,17 @@ export default async function importAccountTests() {
   });
 
   it("Save Recovery Seed Screen - Attempt to enter invalid recovery seed", async () => {
-    await enterRecoverySeed.enterSingleSeedWord("invalid", 1);
-    await enterRecoverySeed.clickOnRecoverAccountButton();
-    await enterRecoverySeed.inputError.waitForExist();
-    const inputErrorText = await enterRecoverySeed.inputErrorText;
+    await EnterRecoverySeedScreen.enterSingleSeedWord("invalid", 1);
+    await EnterRecoverySeedScreen.clickOnRecoverAccountButton();
+    await EnterRecoverySeedScreen.inputError.waitForExist();
+    const inputErrorText = await EnterRecoverySeedScreen.inputErrorText;
     await expect(inputErrorText).toHaveText("Hmm, that seed didn't work.");
   });
 
   it("Save Recovery Seed Screen - Enter valid recovery seed and continue", async () => {
     const recoverySeed = await getUserRecoverySeed("Test123");
-    await enterRecoverySeed.enterSeedWords(recoverySeed);
-    await enterRecoverySeed.clickOnRecoverAccountButton();
-    await welcomeScreen.waitForIsShown(true);
+    await EnterRecoverySeedScreen.enterSeedWords(recoverySeed);
+    await EnterRecoverySeedScreen.clickOnRecoverAccountButton();
+    await WelcomeScreen.waitForIsShown(true);
   });
 }

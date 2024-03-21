@@ -1,9 +1,5 @@
 require("module-alias/register");
-import {
-  getClipboardMacOS,
-  keyboardShortcutPaste,
-  setClipboardValue,
-} from "@helpers/commands";
+import { keyboardShortcutPaste, setClipboardValue } from "@helpers/commands";
 import { faker } from "@faker-js/faker";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
@@ -61,86 +57,86 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class CreateGroupChat extends UplinkMainScreen {
+class CreateGroupChat extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.CREATE_GROUP_CHAT_SECTION);
   }
 
-  get createGroupChatButton() {
+  public get createGroupChatButton() {
     return this.createGroupChatSection.$(SELECTORS.CREATE_GROUP_CHAT_BUTTON);
   }
 
-  get createGroupChatSection() {
+  public get createGroupChatSection() {
     return $(SELECTORS.CREATE_GROUP_CHAT_SECTION);
   }
 
-  get createGroupInputError() {
+  public get createGroupInputError() {
     return $(SELECTORS.CREATE_GROUP_NAME).$(SELECTORS.CREATE_GROUP_INPUT_ERROR);
   }
 
-  get createGroupInputErrorText() {
+  public get createGroupInputErrorText() {
     return $(SELECTORS.CREATE_GROUP_NAME)
       .$(SELECTORS.CREATE_GROUP_INPUT_ERROR)
       .$(SELECTORS.CREATE_GROUP_INPUT_ERROR_TEXT);
   }
 
-  get createGroupName() {
+  public get createGroupName() {
     return this.createGroupChatSection.$(SELECTORS.CREATE_GROUP_NAME);
   }
 
-  get createGroupNameLabel() {
+  public get createGroupNameLabel() {
     return this.createGroupName.$(SELECTORS.CREATE_GROUP_NAME_LABEL);
   }
 
-  get createGroupUsersLabel() {
+  public get createGroupUsersLabel() {
     return this.createGroupChatSection.$(SELECTORS.CREATE_GROUP_USERS_LABEL);
   }
 
-  get friendContainer() {
+  public get friendContainer() {
     return this.friendsList.$$(SELECTORS.FRIEND_CONTAINER);
   }
 
-  get friendUserImage() {
+  public get friendUserImage() {
     return this.friendContainer.$(SELECTORS.FRIEND_USER_IMAGE);
   }
 
-  get friendUserImageProfile() {
+  public get friendUserImageProfile() {
     return this.friendContainer.$(SELECTORS.FRIEND_USER_IMAGE_PROFILE);
   }
 
-  get friendUserImageWrap() {
+  public get friendUserImageWrap() {
     return this.friendContainer.$(SELECTORS.FRIEND_USER_IMAGE_WRAP);
   }
 
-  get friendIndicator() {
+  public get friendIndicator() {
     return this.friendContainer.$(SELECTORS.FRIEND_INDICATOR);
   }
 
-  get friendIndicatorOffline() {
+  public get friendIndicatorOffline() {
     return this.friendContainer.$(SELECTORS.FRIEND_INDICATOR_OFFLINE);
   }
 
-  get friendIndicatorOnline() {
+  public get friendIndicatorOnline() {
     return this.friendContainer.$(SELECTORS.FRIEND_INDICATOR_ONLINE);
   }
 
-  get friendUserName() {
+  public get friendUserName() {
     return this.friendContainer.$(SELECTORS.FRIEND_USER_NAME);
   }
 
-  get friendUserNameText() {
+  public get friendUserNameText() {
     return this.friendUserName.$(SELECTORS.FRIEND_USER_NAME_TEXT);
   }
 
-  get friendsList() {
+  public get friendsList() {
     return this.createGroupChatSection.$(SELECTORS.FRIENDS_LIST);
   }
 
-  get groupNameInput() {
+  public get groupNameInput() {
     return $(SELECTORS.CREATE_GROUP_NAME).$(SELECTORS.GROUP_NAME_INPUT);
   }
 
-  get userSearchInput() {
+  public get userSearchInput() {
     return $(SELECTORS.CREATE_GROUP_CHAT_SECTION).$(
       SELECTORS.USER_SEARCH_INPUT,
     );
@@ -233,7 +229,7 @@ export default class CreateGroupChat extends UplinkMainScreen {
   async typeLongerTextInGroupName() {
     // Assuming that user already clicked on Copy ID button
     const groupNameInput = await this.groupNameInput;
-    // Get a random word of 8 chars
+    // public get a random word of 8 chars
     const wordToRepeat = faker.lorem.word(8);
     // Then repeat the same word for 8 times (64 chars)
     let longText = wordToRepeat.repeat(8);
@@ -321,3 +317,5 @@ export default class CreateGroupChat extends UplinkMainScreen {
     await userSearchInput.waitForExist();
   }
 }
+
+export default new CreateGroupChat();

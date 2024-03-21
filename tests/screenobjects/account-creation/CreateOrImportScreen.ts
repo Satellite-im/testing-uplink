@@ -2,8 +2,6 @@ require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
 
-let SELECTORS = {};
-
 const SELECTORS_COMMON = {};
 
 const SELECTORS_WINDOWS = {
@@ -26,40 +24,50 @@ const SELECTORS_MACOS = {
   RECOVERY_PARAGRAPH_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
+let SELECTORS = {
+  CREATE_NEW_ACCOUNT_BUTTON: "",
+  CREATE_OR_RECOVER_LABEL: "",
+  CREATE_OR_RECOVER_LABEL_TEXT: "",
+  IMPORT_ACCOUNT_BUTTON: "",
+  RECOVERY_LAYOUT: "",
+  RECOVERY_PARAGRAPH: "",
+  RECOVERY_PARAGRAPH_TEXT: "",
+};
+
 process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class CreateOrImportScreen extends UplinkMainScreen {
+class CreateOrImportScreen extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.RECOVERY_LAYOUT);
   }
 
-  get createNewAccountButton() {
+  public get createNewAccountButton() {
     return this.recoveryLayout.$(SELECTORS.CREATE_NEW_ACCOUNT_BUTTON);
   }
 
-  get createOrRecoverLabel() {
+  public get createOrRecoverLabel() {
     return this.recoveryLayout.$(SELECTORS.CREATE_OR_RECOVER_LABEL);
   }
 
-  get createOrRecoverLabelText() {
+  public get createOrRecoverLabelText() {
     return this.createOrRecoverLabel.$(SELECTORS.CREATE_OR_RECOVER_LABEL_TEXT);
   }
 
-  get importAccountButton() {
+  public get importAccountButton() {
     return this.recoveryLayout.$(SELECTORS.IMPORT_ACCOUNT_BUTTON);
   }
 
-  get recoveryLayout() {
+  public get recoveryLayout() {
     return $(SELECTORS.RECOVERY_LAYOUT);
   }
 
-  get recoveryParagraph() {
+  public get recoveryParagraph() {
     return this.recoveryLayout.$(SELECTORS.RECOVERY_PARAGRAPH);
   }
 
-  get recoveryParagraphText() {
+  public get recoveryParagraphText() {
     return this.recoveryParagraph.$(SELECTORS.RECOVERY_PARAGRAPH_TEXT);
   }
 
@@ -74,3 +82,5 @@ export default class CreateOrImportScreen extends UplinkMainScreen {
     await importAccountButton.click();
   }
 }
+
+export default new CreateOrImportScreen();

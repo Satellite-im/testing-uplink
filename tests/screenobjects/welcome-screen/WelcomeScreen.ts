@@ -24,24 +24,24 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class WelcomeScreen extends UplinkMainScreen {
+class WelcomeScreen extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.WELCOME_LAYOUT);
   }
 
-  get addFriendsButton() {
-    return $(SELECTORS.ADD_FRIENDS_BUTTON);
+  public get addFriendsButton() {
+    return this.welcomeLayout.$(SELECTORS.ADD_FRIENDS_BUTTON);
   }
 
-  get addSomeoneText() {
-    return $(SELECTORS.WELCOME_LAYOUT).$(SELECTORS.ADD_SOMEONE_TEXT);
+  public get addSomeoneText() {
+    return this.welcomeLayout.$(SELECTORS.ADD_SOMEONE_TEXT);
   }
 
-  get welcomeImage() {
-    return $(SELECTORS.WELCOME_LAYOUT).$(SELECTORS.WELCOME_IMAGE);
+  public get welcomeImage() {
+    return this.welcomeLayout.$(SELECTORS.WELCOME_IMAGE);
   }
 
-  get welcomeLayout() {
+  public get welcomeLayout() {
     return $(SELECTORS.WELCOME_LAYOUT);
   }
 
@@ -54,3 +54,5 @@ export default class WelcomeScreen extends UplinkMainScreen {
     await this.welcomeLayout.waitForExist({ timeout: timeout });
   }
 }
+
+export default new WelcomeScreen();

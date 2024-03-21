@@ -29,32 +29,32 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class ContextMenuSidebar extends UplinkMainScreen {
+class ContextMenuSidebar extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.CONTEXT_MENU);
   }
 
-  get contextMenu() {
+  public get contextMenu() {
     return $(SELECTORS.CONTEXT_MENU);
   }
 
-  get sidebarChatsContextClearUnreads() {
+  public get sidebarChatsContextClearUnreads() {
     return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_CLEAR);
   }
 
-  get sidebarChatsContextHideChat() {
+  public get sidebarChatsContextHideChat() {
     return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_HIDE);
   }
 
-  get sidebarChatsContextDeleteConversation() {
+  public get sidebarChatsContextDeleteConversation() {
     return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_DELETE_CONVERSATION);
   }
 
-  get sidebarChatsContextDeleteGroup() {
+  public get sidebarChatsContextDeleteGroup() {
     return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_DELETE_GROUP);
   }
 
-  get sidebarChatsContextLeaveGroup() {
+  public get sidebarChatsContextLeaveGroup() {
     return $(SELECTORS.SIDEBAR_CHATS_CONTEXT_LEAVE);
   }
 
@@ -88,3 +88,5 @@ export default class ContextMenuSidebar extends UplinkMainScreen {
     await contextMenu.waitForExist();
   }
 }
+
+export default new ContextMenuSidebar();

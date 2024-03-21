@@ -36,56 +36,56 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SettingsMessagesScreen extends SettingsBaseScreen {
+class SettingsMessagesScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.SETTINGS_MESSAGES);
   }
 
-  get convertEmojiCheckbox() {
+  public get convertEmojiCheckbox() {
     return $(SELECTORS.EMOJI_CONVERSION_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get convertEmojiControllerValue() {
+  public get convertEmojiControllerValue() {
     return $(SELECTORS.EMOJI_CONVERSION_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get convertEmojiDescription() {
+  public get convertEmojiDescription() {
     return $(SELECTORS.EMOJI_CONVERSION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get convertEmojiHeader() {
+  public get convertEmojiHeader() {
     return $(SELECTORS.EMOJI_CONVERSION_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get markdownSupportCheckbox() {
+  public get markdownSupportCheckbox() {
     return $(SELECTORS.MARKDOWN_SUPPORT_SECTION).$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get markdownSupportControllerValue() {
+  public get markdownSupportControllerValue() {
     return $(SELECTORS.MARKDOWN_SUPPORT_SECTION).$(
       SELECTORS.SETTINGS_CONTROL_CHECKBOX,
     );
   }
 
-  get markdownSupportDescription() {
+  public get markdownSupportDescription() {
     return $(SELECTORS.MARKDOWN_SUPPORT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get markdownSupportHeader() {
+  public get markdownSupportHeader() {
     return $(SELECTORS.MARKDOWN_SUPPORT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get settingsMessages() {
+  public get settingsMessages() {
     return $(SELECTORS.SETTINGS_MESSAGES);
   }
 
@@ -138,3 +138,5 @@ export default class SettingsMessagesScreen extends SettingsBaseScreen {
     await this.validateToggleIsDisabled(markdownSupportToggle);
   }
 }
+
+export default new SettingsMessagesScreen();

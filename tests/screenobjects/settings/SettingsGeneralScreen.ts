@@ -70,191 +70,191 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class SettingsGeneralScreen extends SettingsBaseScreen {
+class SettingsGeneralScreen extends SettingsBaseScreen {
   constructor() {
     super(SELECTORS.SETTINGS_GENERAL);
   }
 
-  get accentColorButtonBlue() {
+  public get accentColorButtonBlue() {
     return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[4];
   }
 
-  get accentColorButtonGreen() {
+  public get accentColorButtonGreen() {
     return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[3];
   }
 
-  get accentColorButtonGrey() {
+  public get accentColorButtonGrey() {
     return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[7];
   }
 
-  get accentColorButtonOrange() {
+  public get accentColorButtonOrange() {
     return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[1];
   }
 
-  get accentColorButtonPink() {
+  public get accentColorButtonPink() {
     return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[6];
   }
 
-  get accentColorButtonRed() {
+  public get accentColorButtonRed() {
     return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[0];
   }
 
-  get accentColorButtonViolet() {
+  public get accentColorButtonViolet() {
     return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[5];
   }
 
-  get accentColorButtonYellow() {
+  public get accentColorButtonYellow() {
     return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$$(SELECTORS.ACCENT_COLOR_BUTTON)[2];
   }
 
-  get appLanguageDescription() {
+  public get appLanguageDescription() {
     return $(SELECTORS.APP_LANGUAGE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get appLanguageHeader() {
+  public get appLanguageHeader() {
     return $(SELECTORS.APP_LANGUAGE_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get appLanguageDropdown() {
+  public get appLanguageDropdown() {
     return $(SELECTORS.APP_LANGUAGE_SECTION).$(SELECTORS.DROPDOWN_MENU);
   }
 
-  get clearAccentColorButton() {
+  public get clearAccentColorButton() {
     return $(SELECTORS.COLOR_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.CLEAR_ACCENT_COLOR_BUTTON);
   }
 
-  get darkLightThemeToggle() {
+  public get darkLightThemeToggle() {
     return $(SELECTORS.THEME_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.DARK_LIGHT_THEME_TOGGLE);
   }
 
-  get fontDescription() {
+  public get fontDescription() {
     return $(SELECTORS.FONT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get fontHeader() {
+  public get fontHeader() {
     return $(SELECTORS.FONT_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get fontDropdown() {
+  public get fontDropdown() {
     return $(SELECTORS.FONT_SECTION).$(SELECTORS.DROPDOWN_MENU);
   }
 
-  get fontScalingDescription() {
+  public get fontScalingDescription() {
     return $(SELECTORS.FONT_SCALING_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get fontScalingHeader() {
+  public get fontScalingHeader() {
     return $(SELECTORS.FONT_SCALING_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get fontScalingButtonMinus() {
+  public get fontScalingButtonMinus() {
     return $(SELECTORS.FONT_SCALING_SECTION)
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
   }
 
-  get fontScalingButtonPlus() {
+  public get fontScalingButtonPlus() {
     return $(SELECTORS.FONT_SCALING_SECTION)
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
   }
 
-  get fontScalingValue() {
+  public get fontScalingValue() {
     return $(SELECTORS.FONT_SCALING_SECTION)
       .$(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE_TEXT);
   }
 
-  get openFontsFolderButton() {
+  public get openFontsFolderButton() {
     return $(SELECTORS.FONT_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.OPEN_FONTS_FOLDER_BUTTON);
   }
 
-  get openThemesFolderButton() {
+  public get openThemesFolderButton() {
     return $(SELECTORS.THEME_SECTION)
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.OPEN_THEMES_FOLDER_BUTTON);
   }
 
-  get settingsGeneral() {
+  public get settingsGeneral() {
     return $(SELECTORS.SETTINGS_GENERAL);
   }
 
-  get settingsGeneralElementTooltip() {
+  public get settingsGeneralElementTooltip() {
     return $(SELECTORS.SETTINGS_GENERAL).$(SELECTORS.TOOLTIP);
   }
 
-  get settingsGeneralElementTooltipText() {
+  public get settingsGeneralElementTooltipText() {
     return $(SELECTORS.SETTINGS_GENERAL)
       .$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
   }
 
-  get slideSelector() {
+  public get slideSelector() {
     return $(SELECTORS.SLIDE_SELECTOR);
   }
 
-  get slideSelectorButtonMinus() {
+  public get slideSelectorButtonMinus() {
     return $(SELECTORS.SLIDE_SELECTOR).$(SELECTORS.SLIDE_SELECTOR_BUTTON_MINUS);
   }
 
-  get slideSelectorButtonPlus() {
+  public get slideSelectorButtonPlus() {
     return $(SELECTORS.SLIDE_SELECTOR).$(SELECTORS.SLIDE_SELECTOR_BUTTON_PLUS);
   }
 
-  get slideSelectorValue() {
+  public get slideSelectorValue() {
     return $(SELECTORS.SLIDE_SELECTOR)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE)
       .$(SELECTORS.SLIDE_SELECTOR_VALUE_TEXT);
   }
 
-  get themeDescription() {
+  public get themeDescription() {
     return $(SELECTORS.THEME_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_DESCRIPTION);
   }
 
-  get themeHeader() {
+  public get themeHeader() {
     return $(SELECTORS.THEME_SECTION)
       .$(SELECTORS.SETTINGS_INFO)
       .$(SELECTORS.SETTINGS_INFO_HEADER);
   }
 
-  get themeDropdown() {
+  public get themeDropdown() {
     return $(SELECTORS.THEME_SECTION).$(SELECTORS.DROPDOWN_MENU);
   }
 
@@ -398,3 +398,5 @@ export default class SettingsGeneralScreen extends SettingsBaseScreen {
     await this.settingsGeneral.waitForDisplayed({ reverse: true });
   }
 }
+
+export default new SettingsGeneralScreen();

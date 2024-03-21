@@ -37,66 +37,66 @@ process.env.DRIVER === WINDOWS_DRIVER
   ? (SELECTORS = { ...SELECTORS_WINDOWS, ...SELECTORS_COMMON })
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
-export default class GroupSettings extends UplinkMainScreen {
+class GroupSettings extends UplinkMainScreen {
   constructor() {
     super(SELECTORS.GROUP_SETTINGS_MODAL);
   }
 
-  get allowMembersToAddEditName() {
+  public get allowMembersToAddEditName() {
     return this.groupSettingsModalContents.$(
       SELECTORS.ALLOW_MEMBERS_TO_ADD_EDIT_NAME,
     );
   }
 
-  get allowMembersToAddEditNameText() {
+  public get allowMembersToAddEditNameText() {
     return this.allowMembersToAddEditName
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.SETTINGS_CONTROL_TEXT);
   }
 
-  get allowMembersToAddEditNameSwitch() {
+  public get allowMembersToAddEditNameSwitch() {
     return this.allowMembersToAddEditName
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get allowMembersToAddEditNameSwitchValue() {
+  public get allowMembersToAddEditNameSwitchValue() {
     return this.allowMembersToAddEditNameSwitch.$(
       SELECTORS.SWITCH_SLIDER_VALUE,
     );
   }
 
-  get allowMembersToAddOthers() {
+  public get allowMembersToAddOthers() {
     return this.groupSettingsModalContents.$(
       SELECTORS.ALLOW_MEMBERS_TO_ADD_OTHERS,
     );
   }
 
-  get allowMembersToAddOthersText() {
+  public get allowMembersToAddOthersText() {
     return this.allowMembersToAddOthers
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.SETTINGS_CONTROL_TEXT);
   }
 
-  get allowMembersToAddOthersSwitch() {
+  public get allowMembersToAddOthersSwitch() {
     return this.allowMembersToAddOthers
       .$(SELECTORS.SETTINGS_CONTROL)
       .$(SELECTORS.SWITCH_SLIDER);
   }
 
-  get allowMembersToAddOthersSwitchValue() {
+  public get allowMembersToAddOthersSwitchValue() {
     return this.allowMembersToAddOthersSwitch.$(SELECTORS.SWITCH_SLIDER_VALUE);
   }
 
-  get groupSettingsModal() {
+  public get groupSettingsModal() {
     return $(SELECTORS.GROUP_SETTINGS_MODAL);
   }
 
-  get groupSettingsModalContents() {
+  public get groupSettingsModalContents() {
     return this.groupSettingsModal.$(SELECTORS.GROUP_SETTINGS_MODAL_CONTENTS);
   }
 
-  get groupSettingsModalHeader() {
+  public get groupSettingsModalHeader() {
     return this.groupSettingsModal.$(SELECTORS.GROUP_SETTINGS_MODAL_HEADER);
   }
 
@@ -127,3 +127,5 @@ export default class GroupSettings extends UplinkMainScreen {
     await groupSettingsModal.waitForExist();
   }
 }
+
+export default new GroupSettings();
