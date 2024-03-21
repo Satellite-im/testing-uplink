@@ -2,10 +2,12 @@ require("module-alias/register");
 import { createNewUser } from "@helpers/commandsNewUser";
 import {
   getUserKey,
-  grabCacheFolder,
   resetApp,
-  resetAndLoginWithCache,
   saveTestKeys,
+  closeApplication,
+  launchSecondApplication,
+  launchApplication,
+  closeSecondApplication,
 } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
@@ -46,17 +48,13 @@ export default async function offlineRequestsTests() {
 
     // Grab cache folder and restart
     await saveTestKeys(userA, didkey);
-
-    // Update profile picture from user A
-
-    // Update banner picture from user A
-    await grabCacheFolder(userA);
+    await closeApplication();
   });
 
   // Wait until toast notification is closed
   it("Offline Friend Requests - Create account user #2", async () => {
     // Create New User and go to Settings Profile Screen
-    await resetApp();
+    await launchSecondApplication();
     await createNewUser(userB, true);
     await WelcomeScreen.goToFriends();
   });
@@ -87,12 +85,13 @@ export default async function offlineRequestsTests() {
 
     // Grab cache folder and restart
     await saveTestKeys(userB, didkey);
-    await grabCacheFolder(userB);
+    await closeApplication();
   });
 
   it("Offline Friend Requests - User #1 accepts offline friend request received", async () => {
     // Clear cache and reset app
-    await resetAndLoginWithCache("UserA");
+    await launchApplication();
+    await CreatePinScreen.loginWithTestUser();
 
     // Go to Friends Screen
     await CreatePinScreen.loginWithTestUser();
@@ -110,18 +109,15 @@ export default async function offlineRequestsTests() {
     await FriendsScreen.goToAllFriendsList();
     await FriendsScreen.validateAllFriendsListIsShown();
     await FriendsScreen.validateAllFriendsListIsNotEmpty();
-
-    // Go to Chat with User #2
-    await FriendsScreen.chatWithFriendButton.click();
-    await FriendsScreen.validateSpinnerIsNotShown();
+    await closeApplication();
   });
 
   it("Offline Friend Requests - Validate offline friend request was accepted", async () => {
-    // Clear cache and reset app
-    await resetAndLoginWithCache(userB);
+    // Launch second app
+    await launchSecondApplication();
+    await CreatePinScreen.loginWithTestUser();
 
     // Go to Friends Screen
-    await CreatePinScreen.loginWithTestUser();
     await WelcomeScreen.goToFriends();
     await FriendsScreen.waitForIsShown(true);
 
@@ -183,15 +179,17 @@ export default async function offlineRequestsTests() {
     await Topbar.validateTopbarUserImage();
     await Topbar.validateTopbarUserName("UserA");
 
-    // Grab Cache Folder UserB
-    await grabCacheFolder(userB);
+    // Terminate Second Application
+    await closeSecondApplication();
   });
 
   it("Offline Messages - Assert user can receive messages while being offline", async () => {
-    // Switch control to User A
-    await resetAndLoginWithCache(userA);
+    // Open first application
+    await launchApplication();
+    await CreatePinScreen.loginWithTestUser();
 
     // Go to the current list of All friends and then open a Chat conversation with UserB
+    await FriendsScreen.waitForIsShown(true);
     await FriendsScreen.chatWithFriendButton.waitForExist();
     await FriendsScreen.hoverOnChatWithFriendButton("UserB");
     await FriendsScreen.chatWithFriendButton.click();
@@ -224,6 +222,6 @@ export default async function offlineRequestsTests() {
     await expect(timeAgo).toHaveTextContaining("UserB");
 
     // Grab cache folder
-    await grabCacheFolder(userA);
+    await closeApplication();
   });
 }

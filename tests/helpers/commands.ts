@@ -152,12 +152,13 @@ export async function launchFirstApplication() {
 }
 
 export async function launchSecondApplication() {
+  const customPath = ".uplinkUserB";
   if (process.env.DRIVER === WINDOWS_DRIVER) {
-    await launchAppWindows(WINDOWS_APP);
+    await launchAppWindows(WINDOWS_APP, customPath);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
     await launchAppMacOS(
       MACOS_USER_B_BUNDLE_ID,
-      "/.uplinkUserB",
+      "/" + customPath,
       "/Applications/Uplink2.app",
     );
   }
@@ -229,19 +230,15 @@ export async function closeFirstApplication() {
 }
 
 export async function closeSecondApplication() {
-  await driver.executeScript("macos: terminateApp", [
-    {
-      bundleId: MACOS_USER_B_BUNDLE_ID,
-    },
-  ]);
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
+    await closeAppWindows(WINDOWS_APP);
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
+    await closeAppMacOS(MACOS_USER_B_BUNDLE_ID);
+  }
 }
 
 export async function closeThirdApplication() {
-  await driver.executeScript("macos: terminateApp", [
-    {
-      bundleId: MACOS_USER_C_BUNDLE_ID,
-    },
-  ]);
+  await closeAppMacOS(MACOS_USER_C_BUNDLE_ID);
 }
 
 export async function maximizeWindow() {
