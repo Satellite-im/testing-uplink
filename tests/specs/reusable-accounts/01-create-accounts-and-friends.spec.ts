@@ -105,8 +105,10 @@ export default async function createChatAccountsTests() {
 
     // Create a new account and go to Settings Profile
     await CreatePinScreen.waitForIsShown(true);
-    const username = "ChatUserB";
-    await createNewUser(username);
+    await createNewUser("ChatUserB");
+  });
+
+  it("Chat User B - Save Did Key from User", async () => {
     await WelcomeScreen.goToSettings();
     await SettingsProfileScreen.validateSettingsProfileIsShown();
 
@@ -125,7 +127,7 @@ export default async function createChatAccountsTests() {
 
     // Grab cache folder and restart
     const didkey = await SettingsProfileScreen.getCopiedDidFromStatusInput();
-    await saveTestKeys(username, didkey);
+    await saveTestKeys("ChatUserB", didkey);
     await SettingsProfileScreen.deleteStatus();
   });
 
