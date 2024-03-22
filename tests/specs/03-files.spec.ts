@@ -10,10 +10,10 @@ export default async function filesTests() {
     await FilesScreen.waitForIsShown(true);
 
     // Validate Pre Release Indicator
-    await FilesScreen.prereleaseIndicator.waitForExist();
-    const prereleaseIndicatorText = await FilesScreen.prereleaseIndicatorText;
-    await expect(prereleaseIndicatorText).toHaveTextContaining(
-      "Pre-release | Issues/Feedback",
+    await FilesScreen.releaseIndicator.waitForExist();
+    const releaseIndicatorText = await FilesScreen.releaseIndicatorText;
+    await expect(releaseIndicatorText).toHaveTextContaining(
+      "Alpha | Issues/Feedback",
     );
   });
 

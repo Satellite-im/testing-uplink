@@ -6,7 +6,7 @@ This document provides a test coverage matrix of the Uplink features already aut
 
 ### **Overall functionalities**
 
-- [x] Validate pre-release indicator is displayed along the application
+- [x] Validate Alpha indicator is displayed along the application
 - [x] Validate Nav bar menu is displayed on the screen with access to the main functionalities of the application
 
 ### **Registration / Login**
