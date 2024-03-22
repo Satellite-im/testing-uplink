@@ -7,7 +7,7 @@
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     "removeComments": true,
-    "resolveJsonModule" : true,
+    "resolveJsonModule": true,
     "noImplicitAny": true,
     "strictPropertyInitialization": true,
     "strictNullChecks": true,
@@ -16,6 +16,8 @@
       "@wdio/mocha-framework",
       "expect-webdriverio",
       "@wdio/globals/types",
+      "@nut-tree/types",
+      "@wdio/visual-service"
     ],
     "baseUrl": "./",
     "paths": {
@@ -23,8 +25,8 @@
       "@fixtures/*": ["./tests/fixtures/*"],
       "@helpers/*": ["./tests/helpers/*"],
       "@screenobjects/*": ["./tests/screenobjects/*"],
-      "@specs/*": ["./tests/specs/*"],
+      "@specs/*": ["./tests/specs/*"]
     }
   },
-  "include": ["./config/**/*.ts", "./tests/**/*.ts"],
+  "include": ["./config/**/*.ts", "./tests/**/*.ts"]
 }

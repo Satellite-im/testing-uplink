@@ -25,37 +25,6 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  delete-this:
-    runs-on: macos-14
-
-    steps:
-      - name: Checkout testing directory 🔖
-        uses: actions/checkout@v4
-
-      - name: Install Dependencies
-        continue-on-error: true
-        run: |
-          brew update
-          brew install cairo pango
-
-      - name: Setup Node.js 🔨
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          cache: "npm"
-
-      - name: Cache NPM dependencies 🔨
-        uses: actions/cache@v3
-        id: cache-mac-to-delete
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-
-      - name: Install NPM dependencies 📦
-        if: steps.cache-mac-to-delete.outputs.cache-hit != 'true'
-        run: |
-          npm ci
-
   create-node:
     runs-on: ubuntu-latest
     steps:
@@ -253,6 +222,12 @@ jobs:
           ref: 7381a8f759df2973604848d68f4d01353d4f925e
           path: "./warp"
 
+      - name: Install Dependencies
+        continue-on-error: true
+        run: |
+          brew update
+          brew install cairo pango
+
       - name: Download Key file 🗳️
         uses: actions/download-artifact@v3
         with:
@@ -383,6 +358,12 @@ jobs:
           repository: Satellite-im/Warp
           ref: 7381a8f759df2973604848d68f4d01353d4f925e
           path: "./warp"
+
+      - name: Install Dependencies
+        continue-on-error: true
+        run: |
+          brew update
+          brew install cairo pango
 
       - name: Download Key file 🗳️
         uses: actions/download-artifact@v3

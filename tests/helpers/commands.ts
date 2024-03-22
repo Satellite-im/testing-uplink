@@ -10,6 +10,7 @@ import {
   WINDOWS_APP,
   WINDOWS_DRIVER,
 } from "./constants";
+import { Key } from "@nut-tree/nut-js";
 const { readFileSync, rmSync, writeFileSync } = require("fs");
 const { execSync } = require("child_process");
 const fsp = require("fs").promises;
@@ -529,27 +530,27 @@ export async function getUplinkWindowHandle() {
 
 export async function keyboardShortcutPaste() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
-    await keyboard.type(4, 66);
+    await keyboard.type(Key.LeftCmd, Key.V);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    await keyboard.type(129, 66);
+    await keyboard.type(Key.LeftControl, Key.V);
   }
 }
 
 export async function keyboardShiftEnter() {
-  await keyboard.pressKey(7);
-  await keyboard.type(101);
-  await keyboard.releaseKey(7);
+  await keyboard.pressKey(Key.LeftShift);
+  await keyboard.type(Key.Enter);
+  await keyboard.releaseKey(Key.LeftShift);
 }
 
 export async function pressEnterKey() {
-  await keyboard.type(101);
+  await keyboard.type(Key.Enter);
 }
 
 export async function pressEscKey() {
-  await keyboard.type(1);
+  await keyboard.type(Key.Escape);
 }
 
-export async function sendCustomKeybinds(...keys: number[]) {
+export async function sendCustomKeybinds(...keys: Key[]) {
   // To find the number associated for each key to send on keybind, refer to node_modules/@nut-tree/nut-js/dist/lib/key.enum.d.ts
   for (let i = 0; i < keys.length - 1; i++) {
     await keyboard.pressKey(keys[i]);
