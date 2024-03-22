@@ -47,7 +47,9 @@ jobs:
 
       - name: Install NPM dependencies 📦
         if: steps.cache-mac-to-delete.outputs.cache-hit != 'true'
-        run: npm ci
+        run: |
+          npm install -g node-gyp
+          npm ci
 
   create-node:
     runs-on: ubuntu-latest
