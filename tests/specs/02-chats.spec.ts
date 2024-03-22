@@ -8,10 +8,10 @@ import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 
 export default async function chatsTests() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
-    await WelcomeScreen.prereleaseIndicator.waitForExist();
-    const prereleaseIndicatorText = await WelcomeScreen.prereleaseIndicatorText;
-    await expect(prereleaseIndicatorText).toHaveTextContaining(
-      "Pre-release | Issues/Feedback",
+    await WelcomeScreen.releaseIndicator.waitForExist();
+    const releaseIndicatorText = await WelcomeScreen.releaseIndicatorText;
+    await expect(releaseIndicatorText).toHaveTextContaining(
+      "Alpha | Issues/Feedback",
     );
   });
 

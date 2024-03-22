@@ -153,11 +153,16 @@ export async function launchFirstApplication() {
 }
 
 export async function launchSecondApplication() {
-  await launchAppMacOS(
-    MACOS_USER_B_BUNDLE_ID,
-    "/.uplinkUserB",
-    "/Applications/Uplink2.app",
-  );
+  const customPath = ".uplinkUserB";
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
+    await launchAppWindows(WINDOWS_APP, customPath);
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
+    await launchAppMacOS(
+      MACOS_USER_B_BUNDLE_ID,
+      "/" + customPath,
+      "/Applications/Uplink2.app",
+    );
+  }
   await browser.pause(5000);
 }
 
@@ -226,19 +231,15 @@ export async function closeFirstApplication() {
 }
 
 export async function closeSecondApplication() {
-  await driver.executeScript("macos: terminateApp", [
-    {
-      bundleId: MACOS_USER_B_BUNDLE_ID,
-    },
-  ]);
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
+    await closeAppWindows(WINDOWS_APP);
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
+    await closeAppMacOS(MACOS_USER_B_BUNDLE_ID);
+  }
 }
 
 export async function closeThirdApplication() {
-  await driver.executeScript("macos: terminateApp", [
-    {
-      bundleId: MACOS_USER_C_BUNDLE_ID,
-    },
-  ]);
+  await closeAppMacOS(MACOS_USER_C_BUNDLE_ID);
 }
 
 export async function maximizeWindow() {
@@ -295,12 +296,21 @@ export async function launchAppMacOS(
   ]);
 }
 
-export async function launchAppWindows(appLocation: string) {
-  await driver.executeScript("windows: launchApp", [
-    {
-      app: join(process.cwd(), appLocation),
-    },
-  ]);
+export async function launchAppWindows(appLocation: string, path: string = "") {
+  if (path === "") {
+    await driver.executeScript("windows: launchApp", [
+      {
+        app: join(process.cwd(), appLocation),
+      },
+    ]);
+  } else {
+    await driver.executeScript("windows: launchApp", [
+      {
+        app: join(process.cwd(), appLocation),
+        "appium:appArguments": "--path " + join(process.cwd(), path),
+      },
+    ]);
+  }
 }
 
 export async function queryAppStateMacOS(bundle: string) {

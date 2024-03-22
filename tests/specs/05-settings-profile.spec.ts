@@ -12,11 +12,11 @@ export default async function settingsProfileTests() {
     await SettingsProfileScreen.waitForIsShown(true);
 
     // Start validations
-    await SettingsProfileScreen.prereleaseIndicator.waitForExist();
-    const prereleaseIndicatorText =
-      await SettingsProfileScreen.prereleaseIndicatorText;
-    await expect(prereleaseIndicatorText).toHaveTextContaining(
-      "Pre-release | Issues/Feedback",
+    await SettingsProfileScreen.releaseIndicator.waitForExist();
+    const releaseIndicatorText =
+      await SettingsProfileScreen.releaseIndicatorText;
+    await expect(releaseIndicatorText).toHaveTextContaining(
+      "Alpha | Issues/Feedback",
     );
   });
 
