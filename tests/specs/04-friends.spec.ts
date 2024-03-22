@@ -23,10 +23,10 @@ export default async function friendsTests() {
     await WelcomeScreen.goToFriends();
 
     // Validate Pre Release Indicator is displayed
-    await FriendsScreen.prereleaseIndicator.waitForExist();
-    const prereleaseIndicatorText = await FriendsScreen.prereleaseIndicatorText;
-    await expect(prereleaseIndicatorText).toHaveTextContaining(
-      "Pre-release | Issues/Feedback",
+    await FriendsScreen.releaseIndicator.waitForExist();
+    const releaseIndicatorText = await FriendsScreen.releaseIndicatorText;
+    await expect(releaseIndicatorText).toHaveTextContaining(
+      "Alpha | Issues/Feedback",
     );
   });
 

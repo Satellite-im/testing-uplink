@@ -9,7 +9,7 @@ import {
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 
 const SELECTORS_COMMON = {
-  PRE_RELEASE_INDICATOR: "~pre-release",
+  RELEASE_INDICATOR: "~alpha",
 };
 
 const SELECTORS_WINDOWS = {
@@ -27,7 +27,7 @@ const SELECTORS_WINDOWS = {
   HAMBURGER_BUTTON: '[name="hamburger-button"]',
   LOADING_SPINNER: '[name="loader"]',
   MODAL: '[name="modal"]',
-  PRE_RELEASE_INDICATOR_TEXT: "<Text>",
+  RELEASE_INDICATOR_TEXT: "<Text>",
   SETTINGS_BUTTON: '[name="settings-button"]',
   TOAST_NOTIFICATION: '[name="Toast Notification"]',
   TOAST_NOTIFICATION_CLOSE: '[name="close-toast"]',
@@ -57,7 +57,7 @@ const SELECTORS_MACOS = {
   HAMBURGER_BUTTON: "~hamburger-button",
   LOADING_SPINNER: "~loader",
   MODAL: "~modal",
-  PRE_RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
+  RELEASE_INDICATOR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   SETTINGS_BUTTON: "~settings-button",
   TOAST_NOTIFICATION: "~Toast Notification",
   TOAST_NOTIFICATION_CLOSE: "~close-toast",
@@ -87,8 +87,8 @@ let SELECTORS = {
   HAMBURGER_BUTTON: "",
   LOADING_SPINNER: "",
   MODAL: "",
-  PRE_RELEASE_INDICATOR: "",
-  PRE_RELEASE_INDICATOR_TEXT: "",
+  RELEASE_INDICATOR: "",
+  RELEASE_INDICATOR_TEXT: "",
   SETTINGS_BUTTON: "",
   TOAST_NOTIFICATION: "",
   TOAST_NOTIFICATION_CLOSE: "",
@@ -183,12 +183,12 @@ export default class UplinkMainScreen extends AppScreen {
     return $(SELECTORS.MODAL);
   }
 
-  public get prereleaseIndicator() {
-    return $(SELECTORS.PRE_RELEASE_INDICATOR);
+  public get releaseIndicator() {
+    return $(SELECTORS.RELEASE_INDICATOR);
   }
 
-  public get prereleaseIndicatorText() {
-    return this.prereleaseIndicator.$(SELECTORS.PRE_RELEASE_INDICATOR_TEXT);
+  public get releaseIndicatorText() {
+    return this.releaseIndicator.$(SELECTORS.RELEASE_INDICATOR_TEXT);
   }
 
   public get settingsButton() {
@@ -270,9 +270,9 @@ export default class UplinkMainScreen extends AppScreen {
     await button.click();
   }
 
-  async clickOnPreReleaseIndicator() {
-    const prerelease = await this.prereleaseIndicator;
-    await prerelease.click();
+  async clickOnReleaseIndicator() {
+    const release = await this.releaseIndicator;
+    await release.click();
   }
 
   async clickOnUpdateAvailable() {
