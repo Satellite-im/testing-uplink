@@ -25,6 +25,30 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
+  delete-this:
+    runs-on: macos-14
+
+    steps:
+      - name: Checkout testing directory 🔖
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 🔨
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Cache NPM dependencies 🔨
+        uses: actions/cache@v3
+        id: cache-mac-to-delete
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+
+      - name: Install NPM dependencies 📦
+        if: steps.cache-mac-to-delete.outputs.cache-hit != 'true'
+        run: npm ci
+
   create-node:
     runs-on: ubuntu-latest
     steps:
@@ -254,6 +278,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
+          node-version: 20
           cache: "npm"
 
       - name: Cache NPM dependencies 🔨
@@ -393,6 +418,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
+          node-version: 20
           cache: "npm"
 
       - name: Cache NPM dependencies 🔨
@@ -539,6 +565,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
+          node-version: 20
           cache: "npm"
 
       - name: Cache NPM dependencies 🔨
