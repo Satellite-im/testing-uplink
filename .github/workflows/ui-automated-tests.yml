@@ -32,6 +32,12 @@ jobs:
       - name: Checkout testing directory 🔖
         uses: actions/checkout@v4
 
+      - name: Install Dependencies
+        continue-on-error: true
+        run: |
+          brew update
+          brew install cairo pango
+
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
@@ -48,7 +54,6 @@ jobs:
       - name: Install NPM dependencies 📦
         if: steps.cache-mac-to-delete.outputs.cache-hit != 'true'
         run: |
-          npm install -g node-gyp
           npm ci
 
   create-node:
