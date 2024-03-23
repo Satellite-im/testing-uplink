@@ -1,12 +1,13 @@
 require("module-alias/register");
 import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   PINNED_MESSAGE_ATTACHMENTS: '[name="pinned-attachments"]',
   PINNED_MESSAGE_ATTACHMENTS_FILE_EMBED: '[name="file-embed-remote"]',
   PINNED_MESSAGE_ATTACHMENTS_FILE_ICON: '[name="file-icon"]',
@@ -37,7 +38,7 @@ const SELECTORS_WINDOWS = {
   PIN_MODAL_MAIN: '[name="modal"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   PINNED_MESSAGE_ATTACHMENTS: "~pinned-attachments",
   PINNED_MESSAGE_ATTACHMENTS_FILE_EMBED: "~file-embed-remote",
   PINNED_MESSAGE_ATTACHMENTS_FILE_ICON: "~file-icon",
@@ -84,7 +85,7 @@ class PinnedMessages extends UplinkMainScreen {
   }
 
   public get pinnedMessageAttachments() {
-    return $$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS);
+    return $(SELECTORS.PINNED_MESSAGE_ATTACHMENTS);
   }
 
   public get pinnedMessageAttachmentsFileEmbed() {
@@ -262,7 +263,7 @@ class PinnedMessages extends UplinkMainScreen {
       orderPinned,
       attachmentNumber,
     );
-    const attachmentFileEmbed = await attachmentOnPinnedMessage.$(
+    const attachmentFileEmbed = await attachmentOnPinnedMessage?.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_EMBED,
     );
     return attachmentFileEmbed;
@@ -277,7 +278,7 @@ class PinnedMessages extends UplinkMainScreen {
         orderPinned,
         attachmentNumber,
       );
-    const attachmentFileIcon = await attachmentOnPinnedFileEmbed.$(
+    const attachmentFileIcon = await attachmentOnPinnedFileEmbed?.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON,
     );
     return attachmentFileIcon;
@@ -291,7 +292,7 @@ class PinnedMessages extends UplinkMainScreen {
       orderPinned,
       attachmentNumber,
     );
-    const attachmentFileIconExtension = await attachmentFileIcon.$(
+    const attachmentFileIconExtension = await attachmentFileIcon?.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_ICON_EXTENSION,
     );
     return attachmentFileIconExtension;
@@ -305,7 +306,7 @@ class PinnedMessages extends UplinkMainScreen {
       orderPinned,
       attachmentNumber,
     );
-    const attachmentFileInfo = await attachmentFileEmbed.$(
+    const attachmentFileInfo = await attachmentFileEmbed?.$(
       SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_INFO,
     );
     return attachmentFileInfo;
@@ -320,7 +321,7 @@ class PinnedMessages extends UplinkMainScreen {
       attachmentNumber,
     );
     const fileMetaText = await attachmentFileInfo
-      .$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META)
+      ?.$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META)
       .$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_META_TEXT);
     return fileMetaText;
   }
@@ -334,7 +335,7 @@ class PinnedMessages extends UplinkMainScreen {
       attachmentNumber,
     );
     const fileNameText = await attachmentFileInfo
-      .$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME)
+      ?.$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME)
       .$(SELECTORS.PINNED_MESSAGE_ATTACHMENTS_FILE_NAME_TEXT);
     return fileNameText;
   }
@@ -414,7 +415,7 @@ class PinnedMessages extends UplinkMainScreen {
 
   async validateFirstPinnedMessageAttachmentFileIcon() {
     const attachmentIcon = await this.getPinnedMessageAttachmentFileIcon(0, 0);
-    await attachmentIcon.waitForExist();
+    await attachmentIcon?.waitForExist();
   }
 
   async validateFirstPinnedMessageAttachmentFileIconExtension(

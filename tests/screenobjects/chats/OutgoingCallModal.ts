@@ -1,12 +1,13 @@
 require("module-alias/register");
 import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CALL_CONTROLS: '[name="call-controls"]',
   CALL_HANGUP_BUTTON: '[name="call-hangup-button"]',
   CALL_INFO: '[name="call-info"]',
@@ -26,7 +27,7 @@ const SELECTORS_WINDOWS = {
   USER_IMAGE_WRAP: '[name="user-image-wrap"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CALL_CONTROLS: "~call-controls",
   CALL_HANGUP_BUTTON: "~call-hangup-button",
   CALL_INFO: "~call-info",

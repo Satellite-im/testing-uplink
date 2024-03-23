@@ -1,12 +1,13 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   COMPOSE_ATTACHMENTS: '[name="compose-attachments"]',
   COMPOSE_ATTACHMENTS_BUTTON: '[name="attachment-button"]',
   COMPOSE_ATTACHMENTS_FILE_EMBED: '[name="file-embed"]',
@@ -24,7 +25,7 @@ const SELECTORS_WINDOWS = {
     '[name="message-image-container"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   COMPOSE_ATTACHMENTS: "~compose-attachments",
   COMPOSE_ATTACHMENTS_BUTTON: "~attachment-button",
   COMPOSE_ATTACHMENTS_FILE_EMBED: "~file-embed",
@@ -135,10 +136,10 @@ class ComposeAttachments extends UplinkMainScreen {
       SELECTORS.COMPOSE_ATTACHMENTS_FILE_EMBED,
     )[attachment];
     await this.hoverOnElement(attachmentToDelete);
-    const deleteAttachmentButton = await attachmentToDelete.$(
+    const deleteAttachmentButton = await attachmentToDelete?.$(
       SELECTORS.COMPOSE_ATTACHMENTS_BUTTON,
     );
-    await deleteAttachmentButton.click();
+    await deleteAttachmentButton?.click();
   }
 
   async deleteFileOnComposeAttachment() {

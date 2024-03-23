@@ -2,12 +2,13 @@ require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   OPEN_DYSLEXIC_SECTION: '[name="open-dyslexic-section"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_CONTROL_CHECKBOX: '[name="switch-slider-value"]',
@@ -17,7 +18,7 @@ const SELECTORS_WINDOWS = {
   SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   OPEN_DYSLEXIC_SECTION: "~open-dyslexic-section",
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_CONTROL_CHECKBOX: "~switch-slider-value",

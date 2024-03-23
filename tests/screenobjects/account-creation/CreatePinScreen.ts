@@ -2,14 +2,15 @@ require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   UNLOCK_LAYOUT: "~unlock-layout",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ACCOUNT_RESET_BUTTON: '[name="account-reset"]',
   CREATE_ACCOUNT_BUTTON: '[name="create-account-button"]',
   HELP_BUTTON: '[name="help-button"]',
@@ -23,7 +24,7 @@ const SELECTORS_WINDOWS = {
   UNLOCK_WARNING_PARAGRAPH: "<Text>[2]",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ACCOUNT_RESET_BUTTON: "~account-reset",
   CREATE_ACCOUNT_BUTTON: "~create-account-button",
   HELP_BUTTON: "~help-button",

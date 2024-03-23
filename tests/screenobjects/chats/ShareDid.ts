@@ -1,14 +1,15 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   CHAT_LAYOUT: "~chat-layout",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   SHARE_DID_MODAL: '[name="modal"]',
   SHARE_DID_MODAL_BUTTON: '[name="share_to_chat"]',
   SHARE_DID_MODAL_HEADER: '//Text[@Name="SELECT CHAT"]',
@@ -24,7 +25,7 @@ const SELECTORS_WINDOWS = {
   SHARE_DID_USER_STATUS_TEXT: "<Text>",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   SHARE_DID_MODAL: "~modal",
   SHARE_DID_MODAL_BUTTON: "~share_to_chat",
   SHARE_DID_MODAL_HEADER:

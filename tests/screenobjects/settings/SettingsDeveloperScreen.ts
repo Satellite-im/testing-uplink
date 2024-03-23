@@ -6,14 +6,15 @@ import {
   MACOS_DRIVER,
   WINDOWS_DRIVER,
 } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   SETTINGS_DEVELOPER: "~settings-developer",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CLEAR_CACHE_SECTION: '[name="clear-cache-section"]',
   CLEAR_CACHE_BUTTON: '[name="clear-button"]',
   COMPRESS_BUTTON: '[name="compress-button"]',
@@ -35,7 +36,7 @@ const SELECTORS_WINDOWS = {
   TEST_NOTIFICATION_SECTION: '[name="test-notification-section"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CLEAR_CACHE_BUTTON: "~clear-button",
   CLEAR_CACHE_SECTION: "~clear-cache-section",
   COMPRESS_BUTTON: "~compress-button",

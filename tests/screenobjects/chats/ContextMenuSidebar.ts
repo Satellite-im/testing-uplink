@@ -1,12 +1,13 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CONTEXT_MENU: '[name="Context Menu"]',
   SIDEBAR_CHATS_CONTEXT_CLEAR: '[name="chats-clear-unreads"]',
   SIDEBAR_CHATS_CONTEXT_DELETE_CONVERSATION:
@@ -16,7 +17,7 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_CHATS_CONTEXT_LEAVE: '[name="chats-leave-group"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CONTEXT_MENU: "~Context Menu",
   SIDEBAR_CHATS_CONTEXT_CLEAR: "~chats-clear-unreads",
   SIDEBAR_CHATS_CONTEXT_DELETE_CONVERSATION: "~chats-delete-conversation",

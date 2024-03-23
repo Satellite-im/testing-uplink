@@ -1,14 +1,15 @@
 require("module-alias/register");
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   SETTINGS_GENERAL: "~settings-general",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ACCENT_COLOR_BUTTON: "<Group>",
   APP_LANGUAGE_SECTION: '[name="app-language-section"]',
   CLEAR_ACCENT_COLOR_BUTTON: "<Button>",
@@ -36,7 +37,7 @@ const SELECTORS_WINDOWS = {
   TOOLTIP_TEXT: "//Group/Text",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ACCENT_COLOR_BUTTON: "-ios class chain:**/XCUIElementTypeGroup",
   APP_LANGUAGE_SECTION: "~app-language-section",
   CLEAR_ACCENT_COLOR_BUTTON: "-ios class chain:**/XCUIElementTypeButton",

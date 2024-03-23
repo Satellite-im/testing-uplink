@@ -1,8 +1,9 @@
 require("module-alias/register");
 import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {
+let SELECTORS: selectorContainer = {
   REMOVE_SEED_PHRASE_CANCEL_BUTTON: "",
   REMOVE_SEED_PHRASE_HELPER_TEXT: "",
   REMOVE_SEED_PHRASE_LABEL: "",
@@ -11,9 +12,9 @@ let SELECTORS = {
   REMOVE_SEED_PHRASE_OK_BUTTON: "",
 };
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   REMOVE_SEED_PHRASE_CANCEL_BUTTON: '[name="cancel-remove-seed-phrase-btn"]',
   REMOVE_SEED_PHRASE_HELPER_TEXT:
     '//Group/Text[contains(@Name, "Removing the seed phrase")]',
@@ -23,7 +24,7 @@ const SELECTORS_WINDOWS = {
   REMOVE_SEED_PHRASE_OK_BUTTON: '[name="remove-seed-phrase-btn"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   REMOVE_SEED_PHRASE_CANCEL_BUTTON: "~cancel-remove-seed-phrase-btn",
   REMOVE_SEED_PHRASE_HELPER_TEXT:
     '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[`value CONTAINS[cd] "Removing the seed phrase"`]',

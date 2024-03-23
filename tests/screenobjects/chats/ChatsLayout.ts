@@ -1,14 +1,15 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   CHAT_LAYOUT: "~chat-layout",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CHATBAR_INPUT_ERROR: '[name="chatbar-input-error"]',
   CHATBAR_INPUT_ERROR_TEXT: "<Text>",
   ENCRYPTED_MESSAGES: '[name="messages-secured-alert"]',
@@ -19,7 +20,7 @@ const SELECTORS_WINDOWS = {
   TYPING_INDICATOR_TEXT_VALUE: "<Text>",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CHATBAR_INPUT_ERROR: "~chatbar-input-error",
   CHATBAR_INPUT_ERROR_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   ENCRYPTED_MESSAGES: "~messages-secured-alert",

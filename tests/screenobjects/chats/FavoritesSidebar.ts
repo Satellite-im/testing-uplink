@@ -2,12 +2,13 @@ require("module-alias/register");
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   FAVORITES: '[name="Favorites"]',
   FAVORITES_CONTEXT_CHAT: '[name="favorites-chat"]',
   FAVORITES_CONTEXT_REMOVE: '[name="favorites-remove"]',
@@ -29,7 +30,7 @@ const SELECTORS_WINDOWS = {
   TOOLTIP_TEXT: "//Group/Text",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   FAVORITES: "~Favorites",
   FAVORITES_CONTEXT_CHAT: "~favorites-chat",
   FAVORITES_CONTEXT_REMOVE: "~favorites-remove",

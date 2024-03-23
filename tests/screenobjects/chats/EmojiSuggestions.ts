@@ -1,11 +1,12 @@
 require("module-alias/register");
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   EMOJI_SUGGESTIONS_CLOSE_BUTTON: '[name="chatbar-suggestions-close-button"]',
   EMOJI_SUGGESTIONS_CONTAINER: '[name="chatbar-suggestions-container"]',
   EMOJI_SUGGESTIONS_HEADER: "<Text>",
@@ -13,7 +14,7 @@ const SELECTORS_WINDOWS = {
   EMOJI_SUGGESTED_VALUE: "<Text>",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   EMOJI_SUGGESTIONS_CLOSE_BUTTON: "~chatbar-suggestion-close-button",
   EMOJI_SUGGESTIONS_CONTAINER: "~chatbar-suggestions-container",
   EMOJI_SUGGESTIONS_HEADER:
@@ -68,7 +69,7 @@ class EmojiSuggestions extends UplinkMainScreen {
       emojiElement = await $(emojiLocator);
     }
     await this.hoverOnElement(emojiElement);
-    await emojiElement.click();
+    await emojiElement?.click();
   }
 
   async clickOnCloseButton() {

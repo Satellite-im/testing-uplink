@@ -3,12 +3,13 @@ import { keyboardShortcutPaste, setClipboardValue } from "@helpers/commands";
 import { faker } from "@faker-js/faker";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CREATE_GROUP_CHAT_BUTTON: '[name="create-dm-button"]',
   CREATE_GROUP_CHAT_SECTION: '[name="Create Group"]',
   CREATE_GROUP_INPUT_ERROR: '[name="input-error"]',
@@ -30,7 +31,7 @@ const SELECTORS_WINDOWS = {
   USER_SEARCH_INPUT: '[name="friend-search-input"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CREATE_GROUP_CHAT_BUTTON: "~create-dm-button",
   CREATE_GROUP_CHAT_SECTION: "~Create Group",
   CREATE_GROUP_INPUT_ERROR: "~input-error",
@@ -93,7 +94,7 @@ class CreateGroupChat extends UplinkMainScreen {
   }
 
   public get friendContainer() {
-    return this.friendsList.$$(SELECTORS.FRIEND_CONTAINER);
+    return this.friendsList.$(SELECTORS.FRIEND_CONTAINER);
   }
 
   public get friendUserImage() {
@@ -190,8 +191,8 @@ class CreateGroupChat extends UplinkMainScreen {
 
   async getFriendFromListUserImage(username: string) {
     const friendLocator = await this.getFriendFromListLocator(username);
-    const userImage = await friendLocator.$(SELECTORS.FRIEND_USER_IMAGE);
-    await userImage.waitForExist();
+    const userImage = await friendLocator?.$(SELECTORS.FRIEND_USER_IMAGE);
+    await userImage?.waitForExist();
     return userImage;
   }
 
@@ -209,9 +210,9 @@ class CreateGroupChat extends UplinkMainScreen {
   async getFriendFromListUsername(username: string) {
     const friendLocator = await this.getFriendFromListLocator(username);
     const usernameLocator = await friendLocator
-      .$(SELECTORS.FRIEND_USER_NAME)
+      ?.$(SELECTORS.FRIEND_USER_NAME)
       .$(SELECTORS.FRIEND_USER_NAME_TEXT);
-    await usernameLocator.waitForExist();
+    await usernameLocator?.waitForExist();
     return usernameLocator;
   }
 
@@ -222,7 +223,7 @@ class CreateGroupChat extends UplinkMainScreen {
       await userLocator.click();
     } else {
       const userLocator = await this.getFriendFromListUserImage(username);
-      await userLocator.click();
+      await userLocator?.click();
     }
   }
 
@@ -264,6 +265,7 @@ class CreateGroupChat extends UplinkMainScreen {
 
   async getNumberOfUsersInListFromCreateGroup() {
     const friendContainer = await this.friendContainer;
+    // @ts-ignore
     const numberOfUsersInList = await friendContainer.length;
     return numberOfUsersInList;
   }
@@ -273,6 +275,7 @@ class CreateGroupChat extends UplinkMainScreen {
     let users = [];
     for (let user in usersInList) {
       const username = await user
+        // @ts-ignore
         .$(SELECTORS.FRIEND_USER_NAME)
         .$(SELECTORS.FRIEND_USER_NAME_TEXT);
       const usernameText = await username.getText();

@@ -9,12 +9,13 @@ import {
   saveFileOnWindows,
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CHAT_MESSAGE_CODE_COPY_BUTTON: '[name="Copy"]',
   CHAT_MESSAGE_CODE_LANGUAGE_GROUP: "//Group[2]/Group",
   CHAT_MESSAGE_CODE_LANGUAGE: "<Text>",
@@ -44,7 +45,7 @@ const SELECTORS_WINDOWS = {
   CHAT_MESSAGE_TEXT_VALUE: "<Text>",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CHAT_MESSAGE_CODE_COPY_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
   CHAT_MESSAGE_CODE_LANGUAGE: "-ios class chain:**/XCUIElementTypeStaticText",
   CHAT_MESSAGE_CODE_LANGUAGE_GROUP:
@@ -209,12 +210,6 @@ class MessageLocal extends UplinkMainScreen {
 
   public get chatMessageReplyText() {
     return $(SELECTORS.CHAT_MESSAGE_REPLY).$(SELECTORS.CHAT_MESSAGE_REPLY_TEXT);
-  }
-
-  public get chatMessageTextValue() {
-    return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
-      SELECTORS.CHAT_MESSAGE_TEXT_VALUE,
-    );
   }
 
   public get chatMessageTextGroup() {
@@ -516,7 +511,7 @@ class MessageLocal extends UplinkMainScreen {
       await downloadButton.click();
       await saveFileOnMacOS(filename);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await getUplinkWindowHandle();
+      const uplinkContext = await getUplinkWindowHandle().toString();
       await downloadButton.click();
       await saveFileOnWindows(filename, uplinkContext);
     }

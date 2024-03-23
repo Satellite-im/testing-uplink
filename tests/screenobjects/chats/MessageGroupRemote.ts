@@ -1,12 +1,13 @@
 require("module-alias/register");
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CHAT_MESSAGE_REMOTE: '[name="message-remote"]',
   CHAT_MESSAGE_TEXT_GROUP: '//Group[starts-with(@Name, "message-text")]',
   CHAT_MESSAGE_TEXT_VALUE: "<Text>",
@@ -30,7 +31,7 @@ const SELECTORS_WINDOWS = {
   PIN_INDICATOR: '[name="pin-indicator"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CHAT_MESSAGE_REMOTE: "~message-remote",
   CHAT_MESSAGE_TEXT_GROUP:
     '//XCUIElementTypeGroup[starts-with(@label, "message-text")]',
@@ -68,37 +69,31 @@ class MessageGroupRemote extends UplinkMainScreen {
     return $(SELECTORS.CHAT_MESSAGE_REMOTE);
   }
 
-  public get chatMessageTextValue() {
-    return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP).$(
-      SELECTORS.CHAT_MESSAGE_TEXT_VALUE,
-    );
-  }
-
   public get chatMessageTextGroup() {
     return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
   }
 
   public get emojiReactionRemote() {
-    return $$(SELECTORS.MESSAGE_REACTION_CONTAINER).$$(
+    return $(SELECTORS.MESSAGE_REACTION_CONTAINER).$$(
       SELECTORS.EMOJI_REACTION_REMOTE,
     );
   }
 
   public get emojiReactionRemoteValue() {
-    return $$(SELECTORS.MESSAGE_REACTION_CONTAINER)
-      .$$(SELECTORS.EMOJI_REACTION_REMOTE)
+    return $(SELECTORS.MESSAGE_REACTION_CONTAINER)
+      .$(SELECTORS.EMOJI_REACTION_REMOTE)
       .$(SELECTORS.EMOJI_REACTION_VALUE);
   }
 
   public get emojiReactionSelf() {
-    return $$(SELECTORS.MESSAGE_REACTION_CONTAINER).$$(
+    return $(SELECTORS.MESSAGE_REACTION_CONTAINER).$$(
       SELECTORS.EMOJI_REACTION_SELF,
     );
   }
 
   public get emojiReactionSelfValue() {
-    return $$(SELECTORS.MESSAGE_REACTION_CONTAINER)
-      .$$(SELECTORS.EMOJI_REACTION_SELF)
+    return $(SELECTORS.MESSAGE_REACTION_CONTAINER)
+      .$(SELECTORS.EMOJI_REACTION_SELF)
       .$(SELECTORS.EMOJI_REACTION_VALUE);
   }
 
@@ -115,61 +110,61 @@ class MessageGroupRemote extends UplinkMainScreen {
   }
 
   public get messageGroupTimeAgo() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE).$(
+    return $(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE).$(
       SELECTORS.MESSAGE_GROUP_TIME_AGO,
     );
   }
 
   public get messageGroupTimeAgoValue() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
+    return $(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO)
       .$(SELECTORS.MESSAGE_GROUP_TIME_AGO_TEXT);
   }
 
   public get messageGroupUserImage() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
+    return $(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE);
   }
 
   public get messageGroupUserImageProfile() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE).$(
+    return $(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE).$(
       SELECTORS.MESSAGE_GROUP_USER_IMAGE_PROFILE,
     );
   }
 
   public get messageGroupUserImageWrap() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE).$(
+    return $(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE).$(
       SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP,
     );
   }
 
   public get messageGroupUserIndicator() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
-      .$$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
+    return $(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
+      .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR);
   }
 
   public get messageGroupUserIndicatorDoNotDisturb() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
+    return $(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_DO_NOT_DISTURB);
   }
 
   public get messageGroupUserIndicatorIdle() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
+    return $(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_IDLE);
   }
 
   public get messageGroupUserIndicatorOffline() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
+    return $(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_OFFLINE);
   }
 
   public get messageGroupUserIndicatorOnline() {
-    return $$(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
+    return $(SELECTORS.MESSAGE_GROUP_WRAP_REMOTE)
       .$(SELECTORS.MESSAGE_GROUP_USER_IMAGE_WRAP)
       .$(SELECTORS.MESSAGE_GROUP_USER_INDICATOR_ONLINE);
   }

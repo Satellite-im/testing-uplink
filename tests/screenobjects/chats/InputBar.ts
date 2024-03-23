@@ -10,13 +10,15 @@ import {
   selectFileOnWindows,
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
-let SELECTORS = {};
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-const SELECTORS_COMMON = {
+let SELECTORS: selectorContainer = {};
+
+const SELECTORS_COMMON: selectorContainer = {
   CHAT_LAYOUT: "~chat-layout",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   EDIT_MESSAGE_INPUT: '[name="edit-message-input"]',
   EMOJI_BUTTON: '[name="send-emoji-button"]',
   INPUT_CHAR_COUNTER: '[name="input-char-counter"]',
@@ -32,7 +34,7 @@ const SELECTORS_WINDOWS = {
   UPLOAD_BUTTON_STORAGE: '[name="attach-files-from-storage-into-chat"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   EDIT_MESSAGE_INPUT: "~edit-message-input",
   EMOJI_BUTTON: "~send-emoji-button",
   INPUT_CHAR_COUNTER: "~input-char-counter",
@@ -56,7 +58,7 @@ process.env.DRIVER === WINDOWS_DRIVER
 
 class InputBar extends UplinkMainScreen {
   constructor() {
-    super(SELECTORS.INPUT_GROUP);
+    super(SELECTORS.CHAT_LAYOUT);
   }
 
   public get editMessageInput() {
@@ -244,7 +246,7 @@ class InputBar extends UplinkMainScreen {
       await this.selectUploadFromLocalDisk();
       await selectFileOnMacos(relativePath);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await getUplinkWindowHandle();
+      const uplinkContext = await getUplinkWindowHandle().toString();
       await this.clickOnUploadFile();
       await this.selectUploadFromLocalDisk();
       await selectFileOnWindows(relativePath, uplinkContext);

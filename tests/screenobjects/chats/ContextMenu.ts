@@ -1,12 +1,13 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MESSAGES_CANCEL_EDIT: '[name="messages-cancel-edit"]',
   CONTEXT_MESSAGES_COPY: '[name="messages-copy"]',
@@ -19,7 +20,7 @@ const SELECTORS_WINDOWS = {
   OPEN_EMOJI_PICKER: '[name="open-emoji-picker"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MESSAGES_CANCEL_EDIT: "~messages-cancel-edit",
   CONTEXT_MESSAGES_COPY: "~messages-copy",
@@ -104,22 +105,22 @@ class ContextMenu extends UplinkMainScreen {
 
   async clickOnFirstReaction() {
     const emojiRecentFirst = await this.emojiRecentFirst;
-    await emojiRecentFirst.click();
+    await emojiRecentFirst?.click();
   }
 
   async clickOnSecondReaction() {
     const emojiRecentSecond = await this.emojiRecentSecond;
-    await emojiRecentSecond.click();
+    await emojiRecentSecond?.click();
   }
 
   async clickOnThirdReaction() {
     const emojiRecentThird = await this.emojiRecentThird;
-    await emojiRecentThird.click();
+    await emojiRecentThird?.click();
   }
 
   async clickOnFourthReaction() {
     const emojiRecentFourth = await this.emojiRecentFourth;
-    await emojiRecentFourth.click();
+    await emojiRecentFourth?.click();
   }
 
   async clickOnRecentReactionButton(reaction: string) {
@@ -136,18 +137,7 @@ class ContextMenu extends UplinkMainScreen {
         '//Group[@Name="Context Menu"]/Button[@Name="' + reaction + '"]',
       );
     }
-    await locator.click();
-  }
-
-  async getRecentReactionsList() {
-    const recentReactionButtons = await this.emojiButton;
-    let results = [];
-    for (let i = 0; i < 4; i++) {
-      const reactionValue = await recentReactionButtons[i].getText();
-      results.push(reactionValue);
-    }
-
-    return results;
+    await locator?.click();
   }
 
   async selectContextOptionCancelEdit() {

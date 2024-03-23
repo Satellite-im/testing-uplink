@@ -1,12 +1,13 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ENTER_SEEDS_WORD_LAYOUT: '[name="enter-seed-words-layout"]',
   GO_BACK_BUTTON: '[name="back-button"]',
   INPUT_ERROR: '[name="input-error"]',
@@ -19,7 +20,7 @@ const SELECTORS_WINDOWS = {
   RECOVERY_SEED_TITLE_TEXT: '//Text[@Name="RECOVERY SEED"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ENTER_SEEDS_WORD_LAYOUT: "~enter-seed-words-layout",
   GO_BACK_BUTTON: "~back-button",
   INPUT_ERROR: "~input-error",

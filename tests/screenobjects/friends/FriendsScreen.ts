@@ -8,14 +8,15 @@ import {
   rightClickOnMacOS,
   rightClickOnWindows,
 } from "@helpers/commands";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   FRIENDS_LAYOUT: "~friends-layout",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ACCEPT_FRIEND_REQUEST_BUTTON: '[name="Accept Friend"]',
   ADD_SOMEONE_BUTTON: '[name="Add Someone Button"]',
   ADD_SOMEONE_INPUT: '[name="Add Someone Input"]',
@@ -76,7 +77,7 @@ const SELECTORS_WINDOWS = {
   TOPBAR: '[name="Topbar"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ACCEPT_FRIEND_REQUEST_BUTTON: "~Accept Friend",
   ADD_SOMEONE_BUTTON: "~Add Someone Button",
   ADD_SOMEONE_INPUT: "~Add Someone Input",
@@ -176,14 +177,14 @@ class FriendsScreen extends UplinkMainScreen {
 
   public get allFriendsFriendsImages() {
     return $(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.FRIEND)
-      .$$(SELECTORS.FRIEND_USER_IMAGE);
+      .$(SELECTORS.FRIEND)
+      .$(SELECTORS.FRIEND_USER_IMAGE);
   }
 
   public get allFriendsFriendsInfo() {
     return $(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.FRIEND)
-      .$$(SELECTORS.FRIEND_INFO);
+      .$(SELECTORS.FRIEND)
+      .$(SELECTORS.FRIEND_INFO);
   }
 
   public get allFriendsListImage() {
@@ -275,11 +276,11 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   public get friendInfoCurrentStatus() {
-    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_CURRENT_STATUS);
+    return $(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_CURRENT_STATUS);
   }
 
   public get friendInfoStatusMessage() {
-    return $$(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_STATUS_MESSAGE);
+    return $(SELECTORS.FRIEND_INFO).$(SELECTORS.FRIEND_INFO_STATUS_MESSAGE);
   }
 
   public get friendInfoUsername() {
@@ -287,13 +288,13 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   public get friendInfoUsernameCode() {
-    return $$(SELECTORS.FRIEND_INFO_USERNAME).$(
+    return $(SELECTORS.FRIEND_INFO_USERNAME).$(
       SELECTORS.FRIEND_INFO_USERNAME_CODE,
     );
   }
 
   public get friendInfoUsernameName() {
-    return $$(SELECTORS.FRIEND_INFO_USERNAME).$(
+    return $(SELECTORS.FRIEND_INFO_USERNAME).$(
       SELECTORS.FRIEND_INFO_USERNAME_NAME,
     );
   }
@@ -378,24 +379,26 @@ class FriendsScreen extends UplinkMainScreen {
 
   async acceptIncomingRequest(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
-    const acceptButton = await friendToClick.$(
+    const acceptButton = await friendToClick?.$(
       SELECTORS.ACCEPT_FRIEND_REQUEST_BUTTON,
     );
-    await acceptButton.click();
+    await acceptButton?.click();
     await this.validateSpinnerIsNotShown();
   }
 
   async blockUser(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
-    const blockButton = await friendToClick.$(SELECTORS.BLOCK_FRIEND_BUTTON);
-    await blockButton.click();
+    const blockButton = await friendToClick?.$(SELECTORS.BLOCK_FRIEND_BUTTON);
+    await blockButton?.click();
     await this.validateSpinnerIsNotShown();
   }
 
   async chatWithFriend(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
-    const chatButton = await friendToClick.$(SELECTORS.CHAT_WITH_FRIEND_BUTTON);
-    await chatButton.click();
+    const chatButton = await friendToClick?.$(
+      SELECTORS.CHAT_WITH_FRIEND_BUTTON,
+    );
+    await chatButton?.click();
     await this.validateSpinnerIsNotShown();
   }
 
@@ -499,7 +502,7 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getNonExistingFriendByAriaLabel(username: string) {
     const currentDriver = await this.getCurrentDriver();
-    let locator;
+    let locator: string | undefined;
     if (currentDriver === MACOS_DRIVER) {
       locator = "~" + username;
     } else if (currentDriver === WINDOWS_DRIVER) {
@@ -600,40 +603,42 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getUserImage(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
-    const userImage = await userLocator.$(SELECTORS.FRIEND_USER_IMAGE);
-    await userImage.waitForExist();
+    const userImage = await userLocator?.$(SELECTORS.FRIEND_USER_IMAGE);
+    await userImage?.waitForExist();
     return userImage;
   }
 
   async getUserImageProfile(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
-    const userImageProfile = await userLocator.$(
+    const userImageProfile = await userLocator?.$(
       SELECTORS.FRIEND_USER_IMAGE_PROFILE,
     );
-    await userImageProfile.waitForExist();
+    await userImageProfile?.waitForExist();
     return userImageProfile;
   }
 
   async getUserImageWrap(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
-    const userImageWrap = await userLocator.$(SELECTORS.FRIEND_USER_IMAGE_WRAP);
-    await userImageWrap.waitForExist();
+    const userImageWrap = await userLocator?.$(
+      SELECTORS.FRIEND_USER_IMAGE_WRAP,
+    );
+    await userImageWrap?.waitForExist();
     return userImageWrap;
   }
 
   async getUserIndicator(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
-    const indicator = await userLocator.$(SELECTORS.FRIEND_USER_INDICATOR);
-    await indicator.waitForExist();
+    const indicator = await userLocator?.$(SELECTORS.FRIEND_USER_INDICATOR);
+    await indicator?.waitForExist();
     return indicator;
   }
 
   async getUserIndicatorOffline(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
-    const indicatorOffline = await userLocator.$(
+    const indicatorOffline = await userLocator?.$(
       SELECTORS.FRIEND_USER_INDICATOR_OFFLINE,
     );
-    await indicatorOffline.waitForExist();
+    await indicatorOffline?.waitForExist();
     return indicatorOffline;
   }
 
@@ -650,16 +655,16 @@ class FriendsScreen extends UplinkMainScreen {
 
   async getUserTooltip(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
-    const userTooltip = await userLocator.$(SELECTORS.TOOLTIP);
+    const userTooltip = await userLocator?.$(SELECTORS.TOOLTIP);
     return userTooltip;
   }
 
   async getUserTooltipText(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
     const userTooltipText = await userLocator
-      .$(SELECTORS.TOOLTIP)
+      ?.$(SELECTORS.TOOLTIP)
       .$(SELECTORS.TOOLTIP_TEXT);
-    await userTooltipText.waitForExist();
+    await userTooltipText?.waitForExist();
     return userTooltipText;
   }
 
@@ -700,7 +705,7 @@ class FriendsScreen extends UplinkMainScreen {
 
   async hoverOnBlockButton(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
-    const secondButtonLocator = await userLocator.$(
+    const secondButtonLocator = await userLocator?.$(
       SELECTORS.BLOCK_FRIEND_BUTTON,
     );
     await this.hoverOnElement(secondButtonLocator);
@@ -713,7 +718,7 @@ class FriendsScreen extends UplinkMainScreen {
 
   async hoverOnChatWithFriendButton(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
-    const buttonLocator = await userLocator.$(
+    const buttonLocator = await userLocator?.$(
       SELECTORS.CHAT_WITH_FRIEND_BUTTON,
     );
     await this.hoverOnElement(buttonLocator);
@@ -727,7 +732,7 @@ class FriendsScreen extends UplinkMainScreen {
 
   async hoverOnUnfriendDenyUnblockButton(username: string) {
     const userLocator = await this.getExistingFriendByAriaLabel(username);
-    const firstButtonLocator = await userLocator.$(
+    const firstButtonLocator = await userLocator?.$(
       SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON,
     );
     await this.hoverOnElement(firstButtonLocator);
@@ -772,10 +777,10 @@ class FriendsScreen extends UplinkMainScreen {
 
   async removeOrCancelUser(name: string) {
     const friendToClick = await this.getExistingFriendByAriaLabel(name);
-    const removeOrDenyButton = await friendToClick.$(
+    const removeOrDenyButton = await friendToClick?.$(
       SELECTORS.REMOVE_OR_DENY_FRIEND_BUTTON,
     );
-    await removeOrDenyButton.click();
+    await removeOrDenyButton?.click();
     await this.validateSpinnerIsNotShown();
   }
 
@@ -864,6 +869,7 @@ class FriendsScreen extends UplinkMainScreen {
     const nonExistingFriend =
       await this.getNonExistingFriendByAriaLabel(username);
     await $(SELECTORS.FRIENDS_BODY)
+      //@ts-ignore
       .$(nonExistingFriend)
       .waitForExist({ timeout: timeoutUser, reverse: true });
   }

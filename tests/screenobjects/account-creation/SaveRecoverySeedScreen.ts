@@ -1,12 +1,13 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   COPY_SEED_BUTTON: '[name="copy-seed-button"]',
   COPY_SEED_HELPER_TEXT:
     '//Group/Text[contains(@Name, "Write these words down")]',
@@ -18,7 +19,7 @@ const SELECTORS_WINDOWS = {
   SEED_WORD_VALUE_TEXT: "<Text>",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   COPY_SEED_BUTTON: "~copy-seed-button",
   COPY_SEED_HELPER_TEXT:
     '-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText[`value CONTAINS[cd] "Write these words down"`]',

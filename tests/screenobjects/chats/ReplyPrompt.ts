@@ -1,12 +1,13 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   REPLY_POPUP: '[name="inline-reply"]',
   REPLY_POPUP_CLOSE_BUTTON: '[name="close-reply"]',
   REPLY_POPUP_CONTENT: '[name="content"]',
@@ -23,7 +24,7 @@ const SELECTORS_WINDOWS = {
   REPLY_POPUP_USER_IMAGE_WRAP: '[name="user-image-wrap"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   REPLY_POPUP: "~inline-reply",
   REPLY_POPUP_CLOSE_BUTTON: "~close-reply",
   REPLY_POPUP_CONTENT: "~content",

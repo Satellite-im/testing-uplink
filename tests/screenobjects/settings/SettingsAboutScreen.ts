@@ -1,12 +1,13 @@
 require("module-alias/register");
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ABOUT_SECTION: '[name="about-info-section"]',
   CHECK_FOR_UPDATES_BUTTON: '[name="check-for-updates-button"]',
   MADE_IN_SECTION: '[name="made-in-section"]',
@@ -23,7 +24,7 @@ const SELECTORS_WINDOWS = {
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ABOUT_SECTION: "~about-info-section",
   CHECK_FOR_UPDATES_BUTTON: "~check-for-updates-button",
   MADE_IN_SECTION: "~made-in-section",

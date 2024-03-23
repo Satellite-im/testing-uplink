@@ -1,12 +1,13 @@
 require("module-alias/register");
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ADD_MEMBERS: '[name="edit-group-add-members"]',
   ADD_PARTICIPANT_BUTTON: '[name="Add"]',
   CURRENT_MEMBERS: '[name="edit-group-remove-members"]',
@@ -31,7 +32,7 @@ const SELECTORS_WINDOWS = {
   USER_INPUT: '[name="friend-search-input"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ADD_MEMBERS: "~edit-group-add-members",
   ADD_MEMBERS_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
   ADD_PARTICIPANT_BUTTON: "~Add",
@@ -120,69 +121,69 @@ class ManageMembers extends UplinkMainScreen {
   public get participantUserCreatorBadgeImage() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_IMAGE);
   }
   public get participantUserCreatorBadgeText() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_CREATOR_BADGE_TEXT);
   }
 
   public get participantUserImage() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE);
   }
 
   public get participantUserImageProfile() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE_PROFILE);
   }
 
   public get participantUserImageWrap() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_IMAGE_WRAP);
   }
 
   public get participantUserIndicator() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR);
   }
 
   public get participantUserIndicatorOffline() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR_OFFLINE);
   }
 
   public get participantUserIndicatorOnline() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_INDICATOR_ONLINE);
   }
 
   public get participantUserName() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_NAME);
   }
 
   public get participantUserNameText() {
     return this.manageMembersSection
       .$(SELECTORS.FRIENDS_LIST)
-      .$$(SELECTORS.PARTICIPANT_USER_CONTAINER)
+      .$(SELECTORS.PARTICIPANT_USER_CONTAINER)
       .$(SELECTORS.PARTICIPANT_USER_NAME)
       .$(SELECTORS.PARTICIPANT_USER_NAME_TEXT);
   }

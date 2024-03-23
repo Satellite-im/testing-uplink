@@ -1,12 +1,13 @@
 require("module-alias/register");
 import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   DEBUG_LEVEL_BUTTON: '[name="debug-level-button"]',
   DEBUG_LOGGER: '[name="debug-logger"]',
   DEBUG_LOGGER_HEADER: '[name="debug-logger-header"]',
@@ -25,7 +26,7 @@ const SELECTORS_WINDOWS = {
   WEB_INSPECTOR_BUTTON: '[name="web-inspector-button"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   DEBUG_LEVEL_BUTTON: "~debug-level-button",
   DEBUG_LOGGER: "~debug-logger",
   DEBUG_LOGGER_HEADER: "~debug-logger-header",
