@@ -546,28 +546,28 @@ export async function getUplinkWindowHandle() {
 
 export async function keyboardShortcutPaste() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
-    await keyboard.type(106, 90);
+    await keyboard.type(4, 66);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    await keyboard.type(103, 90);
+    await keyboard.type(129, 66);
   }
 }
 
 export async function keyboardShiftEnter() {
-  await keyboard.pressKey(86);
-  await keyboard.type(102);
-  await keyboard.releaseKey(86);
+  await keyboard.pressKey(7);
+  await keyboard.type(101);
+  await keyboard.releaseKey(7);
 }
 
 export async function pressEnterKey() {
-  await keyboard.type(102);
+  await keyboard.type(101);
 }
 
 export async function pressEscKey() {
-  await keyboard.type(0);
+  await keyboard.type(1);
 }
 
 export async function sendCustomKeybinds(...keys: number[]) {
-  // To find the number associated for each key to send on keybind, refer to node_modules/@nut-tree/shared/dist/lib/enums/key.enum.d.ts
+  // To find the number associated for each key to send on keybind, refer to node_modules/@nut-tree/nut-js/dist/lib/key.enum.d.ts
   for (let i = 0; i < keys.length - 1; i++) {
     await keyboard.pressKey(keys[i]);
   }

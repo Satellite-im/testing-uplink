@@ -128,10 +128,10 @@ export default async function settingsKeybindsTests() {
 
   it("Settings Keyboards Shortcuts - Change Increase Font Size Keybind", async () => {
     // Type Ctrl + Shift + =
-    await sendCustomKeybinds(103, 86, 40);
+    await sendCustomKeybinds(4, 7, 73);
     await SettingsKeybindsScreen.editKeybind("increase-font-size");
     // Type Ctrl + A
-    await sendCustomKeybinds(103, 71);
+    await sendCustomKeybinds(4, 45);
 
     const increaseFontSizeKeybind =
       await SettingsKeybindsScreen.getKeybinds("increase-font-size");
@@ -144,7 +144,7 @@ export default async function settingsKeybindsTests() {
     await SettingsGeneralScreen.waitForIsShown(true);
 
     // Press Ctrl + A to increase font size from 0.75 to 1.0
-    await sendCustomKeybinds(103, 71);
+    await sendCustomKeybinds(4, 45);
     const valueAfterIncreasing = await SettingsGeneralScreen.fontScalingValue;
     await expect(valueAfterIncreasing).toHaveText("1");
   });
@@ -163,10 +163,10 @@ export default async function settingsKeybindsTests() {
 
   it("Settings Keyboards Shortcuts - User can update more than one keybind", async () => {
     // Change at least two different keybinds. First, change Decrease Font Size Keybind, by typing Ctrl + Shift + -
-    await sendCustomKeybinds(103, 86, 39);
+    await sendCustomKeybinds(4, 7, 72);
     // Edit Decrease Font Size Keybind to Ctrl + B
     await SettingsKeybindsScreen.editKeybind("decrease-font-size");
-    await sendCustomKeybinds(103, 91);
+    await sendCustomKeybinds(4, 46);
 
     // Validate change was applied correctly to Decrease Font Size Keybind
     const decreaseFontSizeKeybind =
@@ -174,10 +174,10 @@ export default async function settingsKeybindsTests() {
     await expect(decreaseFontSizeKeybind).toEqual(["CONTROL", "B"]);
 
     // Now, change Hide/Focus Uplink Keybind by typing Ctrl + Shift + U
-    await sendCustomKeybinds(103, 86, 56);
+    await sendCustomKeybinds(4, 7, 65);
     await SettingsKeybindsScreen.editKeybind("hide-focus-uplink");
     // Type Ctrl + Shift + Alt + P
-    await sendCustomKeybinds(103, 86, 107, 59);
+    await sendCustomKeybinds(4, 7, 3, 60);
 
     // Validate change was applied correctly to Hide/Focus Uplink Keybind
     const hideFocusUplinkKeybind =
@@ -229,12 +229,12 @@ export default async function settingsKeybindsTests() {
     await SettingsGeneralScreen.waitForIsShown(true);
 
     // Press Ctrl + Shift + = to increase font size from 1.0 to 1.25
-    await sendCustomKeybinds(103, 86, 40);
+    await sendCustomKeybinds(4, 7, 73);
     const valueAfterIncreasing = await SettingsGeneralScreen.fontScalingValue;
     await expect(valueAfterIncreasing).toHaveText("1.25");
 
     // Press Ctrl + Shift + Minus to decrease font size from 1.25 to 1.0
-    await sendCustomKeybinds(103, 86, 39);
+    await sendCustomKeybinds(4, 7, 72);
     const valueAfterDecreasing = await SettingsGeneralScreen.fontScalingValue;
     await expect(valueAfterDecreasing).toHaveText("1");
   });
@@ -243,13 +243,13 @@ export default async function settingsKeybindsTests() {
     const currentDriver = await SettingsGeneralScreen.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       // Press Ctrl + Shift + I to Open Web Inspector
-      await sendCustomKeybinds(103, 86, 57);
+      await sendCustomKeybinds(4, 7, 53);
 
       // Validate Web Inspector is displayed
       await WebInspector.validateWebInspectorIsShown();
 
       // Press Ctrl + Shift + I to Close Web Inspector
-      await sendCustomKeybinds(103, 86, 57);
+      await sendCustomKeybinds(4, 7, 53);
 
       // Validate Web Inspector is not displayed
       await WebInspector.validateWebInspectorIsNotShown();
@@ -258,13 +258,13 @@ export default async function settingsKeybindsTests() {
 
   it("Keybind Shortcuts - Validate default keybind for Developer Mode is working", async () => {
     // Press Ctrl + Shift + D to Open Developer Mode
-    await sendCustomKeybinds(103, 86, 73);
+    await sendCustomKeybinds(4, 7, 48);
 
     // Validate Debug Logger is Displayed
     await DebugLogger.validateDebugLoggerIsDisplayed();
 
     // Press Ctrl + Shift + D to Close Developer Mode
-    await sendCustomKeybinds(103, 86, 73);
+    await sendCustomKeybinds(4, 7, 48);
 
     // Validate Debug Logger is Not Shown
     await DebugLogger.validateDebugLoggerIsNotDisplayed();
@@ -272,10 +272,10 @@ export default async function settingsKeybindsTests() {
 
   it("Keybind Shortcuts - Validate default keybind for Hide/Focus Uplink is working", async () => {
     // Press Ctrl + Shift + U to Hide Uplink
-    await sendCustomKeybinds(103, 86, 56);
+    await sendCustomKeybinds(4, 7, 65);
 
     // Press Ctrl + Shift + U to Focus Uplink
-    await sendCustomKeybinds(103, 86, 56);
+    await sendCustomKeybinds(4, 7, 65);
 
     // Validate Uplink is displayed
     await SettingsGeneralScreen.waitForIsShown(true);

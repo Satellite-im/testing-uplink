@@ -166,7 +166,7 @@ export default async function settingsDeveloperTests() {
       await WebInspector.validateWebInspectorIsShown();
 
       // Press Ctrl + Shift + I to Close Web Inspector
-      await sendCustomKeybinds(103, 86, 57);
+      await sendCustomKeybinds(4, 7, 53);
 
       // Validate Web Inspector is not displayed
       await WebInspector.validateWebInspectorIsNotShown();

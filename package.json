@@ -25,7 +25,7 @@
   ],
   "devDependencies": {
     "@faker-js/faker": "^8.4.1",
-    "@nut-tree/nut-js": "^4.0.0",
+    "@nut-tree/nut-js": "^3.1.2",
     "@typescript-eslint/eslint-plugin": "^7.3.1",
     "@typescript-eslint/parser": "^7.3.1",
     "@wdio/allure-reporter": "^8.34.0",
