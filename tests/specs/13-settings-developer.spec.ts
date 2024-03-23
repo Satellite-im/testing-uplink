@@ -6,7 +6,6 @@ import SettingsDeveloperScreen from "@screenobjects/settings/SettingsDeveloperSc
 import SettingsLicensesScreen from "@screenobjects/settings/SettingsLicenses";
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WebInspector from "@screenobjects/developer/WebInspector";
-import { Key } from "@nut-tree/nut-js";
 
 export default async function settingsDeveloperTests() {
   it("Settings Developer - Validate headers and descriptions from Settings Sections", async () => {
@@ -167,7 +166,7 @@ export default async function settingsDeveloperTests() {
       await WebInspector.validateWebInspectorIsShown();
 
       // Press Ctrl + Shift + I to Close Web Inspector
-      await sendCustomKeybinds(Key.LeftControl, Key.LeftShift, Key.I);
+      await sendCustomKeybinds(103, 86, 57);
 
       // Validate Web Inspector is not displayed
       await WebInspector.validateWebInspectorIsNotShown();
