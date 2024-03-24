@@ -39,7 +39,7 @@ const SELECTORS_WINDOWS: selectorContainer = {
   FILES_INFO_MAX_SIZE: '[name="free-space-max-size"]',
   FILES_INFO_MAX_SIZE_HEADER: "<Text>[1]",
   FILES_INFO_MAX_SIZE_VALUE: "<Text>[2]",
-  FILES_LAYOUT: '[name=files-layout"]',
+  FILES_LAYOUT: '[name="files-layout"]',
   FILES_LIST: '[name="files-list"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "<Text>",

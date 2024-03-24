@@ -267,7 +267,11 @@ class CreateGroupChat extends UplinkMainScreen {
     const friendContainer = await this.friendContainer;
     // @ts-ignore
     const numberOfUsersInList = await friendContainer.length;
-    return numberOfUsersInList;
+    if (numberOfUsersInList > 0) {
+      return numberOfUsersInList;
+    } else {
+      return 0;
+    }
   }
 
   async getListOfUsersInCreateGroup() {

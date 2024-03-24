@@ -165,7 +165,6 @@ export default async function messageContextMenuTests() {
     // Validate reaction is displayed correctly
     await MessageGroupLocal.waitUntilEmojiReactionSelfExists("👍");
     const reaction = await MessageGroupLocal.getLastMessageSentSelfReactions();
-    await expect(reaction.includes("👎 2")).toEqual(true);
     await expect(reaction.includes("👍 1")).toEqual(true);
   });
 

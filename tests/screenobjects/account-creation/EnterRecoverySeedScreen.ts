@@ -108,7 +108,8 @@ class EnterRecoverySeedScreen extends UplinkMainScreen {
     return seedWords;
   }
 
-  async enterSeedWords(seedWords: string[]) {
+  async enterSeedWords(seedWords: string) {
+    const seedWordsArray: string[] = seedWords.split(" ");
     const currentDriver = await this.getCurrentDriver();
     for (let i = 1; i <= 12; i++) {
       let locatorOfWord: string = "";
@@ -118,7 +119,7 @@ class EnterRecoverySeedScreen extends UplinkMainScreen {
         locatorOfWord = "~recovery-seed-input-" + i;
       }
       const seedWord = await $(locatorOfWord);
-      await seedWord.setValue(seedWords[i - 1]);
+      await seedWord.setValue(seedWordsArray[i - 1]);
     }
   }
 
