@@ -48,12 +48,8 @@ export default async function groupChatSidebarTests() {
 
   it("Group Chats Testing - Go to another chat conversation", async () => {
     // Go to another chat conversation
-    await Topbar.goToFriends();
-    await FriendsScreen.validateFriendsScreenIsShown();
-    await FriendsScreen.validateChatWithFriendButtonIsShown();
-    await FriendsScreen.hoverOnChatWithFriendButton("ChatUserB");
-    await FriendsScreen.clickOnChatWithFriend();
-    await Topbar.validateTopbarExists();
+    await ChatsSidebar.goToSidebarChat("ChatUserB");
+    await Topbar.validateTopbarUserName("ChatUserB");
   });
 
   it("Group Chat - Send message to the group with User B", async () => {
@@ -70,24 +66,23 @@ export default async function groupChatSidebarTests() {
     await activateFirstApplication();
 
     // Validate Sidebar shows Group Name
-    await ChatsSidebar.goToSidebarGroupChat("renamed");
-    await ChatsSidebar.validateUsernameDisplayed("renamed");
+    await ChatsSidebar.validateUsernameIsDisplayed("renamed");
 
     // Validate last message content from group is displayed on sidebar
-    await ChatsSidebar.validateLastMessageDisplayed("HelloGroup");
+    await ChatsSidebar.validateLastMessageDisplayed("HelloGroup", "renamed");
 
     // Validate number of unread messages from the group is displayed on sidebar
-    await ChatsSidebar.validateNumberOfUnreadMessages("1");
+    await ChatsSidebar.validateNumberOfUnreadMessages("1", "renamed");
 
     // Validate time ago is displayed on sidebar for group chat
-    await ChatsSidebar.validateLastMessageTimeAgo();
+    await ChatsSidebar.validateLastMessageTimeAgo("renamed");
   });
 
   it("Group Chat - Sidebar - Context Menu - Clear Unreads", async () => {
     // Open context menu on group chat and select Clear Unreads
     await ChatsSidebar.openContextMenuOnGroupChat("renamed");
     await ContextMenuSidebar.selectChatsClearUnreads();
-    await ChatsSidebar.validateNoUnreadMessages();
+    await ChatsSidebar.validateNoUnreadMessages("renamed");
   });
 
   it("Group Chat - Sidebar - Context Menu - Hide chat", async () => {

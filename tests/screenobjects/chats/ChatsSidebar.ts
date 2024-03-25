@@ -282,9 +282,13 @@ class ChatsSidebar extends UplinkMainScreen {
 
   // Validations or assertions
 
-  async validateLastMessageDisplayed(message: string) {
-    const sidebarStatusValue = await this.sidebarChatsUserStatusValue;
-    await sidebarStatusValue.waitUntil(
+  async validateLastMessageDisplayed(message: string, username: string) {
+    const sidebarUserLocator =
+      await this.getExistingElementByAriaLabel(username);
+    const sidebarStatusValue = await sidebarUserLocator
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
+    await sidebarStatusValue?.waitUntil(
       async () => {
         return (await sidebarStatusValue.getText()) === message;
       },
@@ -296,20 +300,28 @@ class ChatsSidebar extends UplinkMainScreen {
     );
   }
 
-  async validateLastMessageTimeAgo() {
-    const timeAgo = await this.sidebarChatsUserBadgeTimeAgoValue;
+  async validateLastMessageTimeAgo(username: string) {
+    const sidebarUserLocator =
+      await this.getExistingElementByAriaLabel(username);
+    const timeAgo = await sidebarUserLocator
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO_VALUE);
     await expect(timeAgo).toHaveTextContaining(
       /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
     );
   }
 
-  async validateNoUnreadMessages() {
-    await this.sidebarChatsUserBadge.waitForExist({
-      reverse: true,
-      timeout: 15000,
-      timeoutMsg:
-        "Expected badge number of unread messages is still displayed after 15 seconds",
-    });
+  async validateNoUnreadMessages(username: string) {
+    const sidebarUserLocator =
+      await this.getExistingElementByAriaLabel(username);
+    await sidebarUserLocator
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_BADGE)
+      .waitForExist({
+        reverse: true,
+        timeout: 15000,
+        timeoutMsg:
+          "Expected badge number of unread messages is still displayed after 15 seconds",
+      });
   }
 
   async validateNoSidebarChatsAreDisplayed() {
@@ -348,14 +360,22 @@ class ChatsSidebar extends UplinkMainScreen {
     );
   }
 
-  async validateNumberOfUnreadMessages(badgeNumber: string) {
-    const unreadMessages = await this.sidebarChatsUserBadgeNumberValue;
-    await expect(unreadMessages).toHaveTextContaining(badgeNumber);
+  async validateNumberOfUnreadMessages(badgeNumber: string, username: string) {
+    const sidebarUserLocator =
+      await this.getExistingElementByAriaLabel(username);
+    const badgeNumberDisplayed = await sidebarUserLocator
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_NUMBER)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_NUMBER_VALUE);
+    await expect(badgeNumberDisplayed).toHaveTextContaining(badgeNumber);
   }
 
-  async validateUsernameDisplayed(username: string) {
-    const usernameDisplayed = await this.sidebarChatsUserNameValue;
-    await expect(usernameDisplayed).toHaveTextContaining(username);
+  async validateUsernameIsDisplayed(username: string) {
+    const sidebarUserLocator =
+      await this.getExistingElementByAriaLabel(username);
+    const usernameDisplayed = await sidebarUserLocator
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_NAME)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_NAME_VALUE);
+    await expect(usernameDisplayed).toHaveText(username);
   }
 
   async validateSidebarChatsIsShown() {
