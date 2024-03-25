@@ -21,7 +21,6 @@ export async function deleteCache() {
   const target = homedir() + "/.uplink/.user";
   try {
     await rmSync(target, { recursive: true, force: true });
-    console.log("Deleted user cache successfully");
   } catch (error) {
     console.error(
       `Got an error trying to delete the user cache files: ${error.message}`,
@@ -36,7 +35,6 @@ export async function grabCacheFolder(username: string) {
   await fsp.mkdir(target, { recursive: true });
   try {
     await fsp.cp(source, target, { recursive: true });
-    console.log("Copied user cache successfully");
   } catch (error) {
     console.error(
       `Got an error trying to copy the user cache files: ${error.message}`,
@@ -53,7 +51,6 @@ export async function loadTestUserData(user: string) {
   await deleteCache();
   try {
     await fsp.cp(source, target, { recursive: true }, { force: true });
-    console.log("Copied user cache successfully");
   } catch (error) {
     console.error(
       `Got an error trying to copy the user cache files: ${error.message}`,
@@ -83,7 +80,6 @@ export async function saveTestKeys(username: string, didkey: string) {
   const userData = { username: username, key: didkey };
   try {
     await writeFileSync(filepath, JSON.stringify(userData, null, 2), "utf8");
-    console.log("Data successfully saved");
   } catch (error) {
     console.log("An error has occurred ", error);
   }
@@ -117,7 +113,6 @@ export async function saveUserRecoverySeed(username: string, data: string[]) {
   recoverySeedWords = recoverySeedWords.slice(0, -1);
   try {
     await writeFileSync(filepath, recoverySeedWords, "utf8");
-    console.log("Recovery Seed successfully saved");
   } catch (error) {
     console.log("An error has occurred while saving recovery seed", error);
   }

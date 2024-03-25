@@ -77,6 +77,18 @@ class EnterRecoverySeedScreen extends UplinkMainScreen {
     return this.recoverySeedTitle.$(SELECTORS.RECOVERY_SEED_TITLE_TEXT);
   }
 
+  async clearFirstRecoverySeedWord() {
+    const currentDriver = await this.getCurrentDriver();
+    let locatorOfWord: string = "";
+    if (currentDriver === WINDOWS_DRIVER) {
+      locatorOfWord = '[name="recovery-seed-input-1"]';
+    } else {
+      locatorOfWord = "~recovery-seed-input-1";
+    }
+    const seedWord = await $(locatorOfWord);
+    await seedWord.clearValue();
+  }
+
   async clickOnBackButton() {
     const goBackButton = await this.goBackButton;
     await goBackButton.click();

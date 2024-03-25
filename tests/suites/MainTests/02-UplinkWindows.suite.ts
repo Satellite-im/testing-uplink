@@ -39,5 +39,5 @@ describe("MacOS Tests", function () {
   describe("Settings About Tests", settingsAboutTests.bind(this));
   describe("Settings Licenses Tests", settingsLicensesTests.bind(this));
   describe("Settings Developer Tests", settingsDeveloperTests.bind(this));
-  xdescribe("Import Account Tests", importAccountTests.bind(this));
+  describe("Import Account Tests", importAccountTests.bind(this));
 });
