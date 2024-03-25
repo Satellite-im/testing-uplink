@@ -1,15 +1,16 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   UNLOCK_LAYOUT: "~unlock-layout",
   USERNAME_INPUT: "~username-input",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CREATE_ACCOUNT_BUTTON: '[name="create-account-button"]',
   CREATE_USER_HELPER: '[name="instructions"]',
   CREATE_USER_HELPER_TEXT: "<Text>",
@@ -18,7 +19,7 @@ const SELECTORS_WINDOWS = {
   INPUT_ERROR_TEXT: "<Text>",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CREATE_ACCOUNT_BUTTON: "~create-account-button",
   CREATE_USER_HELPER: "~instructions",
   CREATE_USER_HELPER_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",

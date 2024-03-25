@@ -2,14 +2,15 @@ require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   SETTINGS_AUDIO: "~settings-audio",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   BUTTON: "<Button>",
   CALL_TIMER_SECTION: '[name="call-timer-section"]',
   DROPDOWN_MENU: "<ComboBox>",
@@ -34,7 +35,7 @@ const SELECTORS_WINDOWS = {
   TEST_DEVICE_OUTPUT_SECTION: "~test-device-output-section",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   BUTTON: "-ios class chain:**/XCUIElementTypeButton",
   CALL_TIMER_SECTION: "~call-timer-section",
   DROPDOWN_MENU: "~Selector",

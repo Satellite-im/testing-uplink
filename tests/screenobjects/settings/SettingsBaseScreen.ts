@@ -1,14 +1,15 @@
 require("module-alias/register");
-import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
+import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   SETTINGS_LAYOUT: "~settings-layout",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ABOUT_BUTTON: '[name="about-button"]',
   ACCESSIBILITY_BUTTON: '[name="accessibility-button"]',
   AUDIO_BUTTON: '//Button[@HelpText="Sounds & Audio"]',
@@ -23,7 +24,7 @@ const SELECTORS_WINDOWS = {
   SETTINGS_SEARCH_INPUT: '[name="settings-search-input"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ABOUT_BUTTON: "~about-button",
   ACCESSIBILITY_BUTTON: "~accessibility-button",
   AUDIO_BUTTON: "~sounds & audio-button",
@@ -43,8 +44,8 @@ process.env.DRIVER === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class SettingsBaseScreen extends UplinkMainScreen {
-  constructor() {
-    super(SELECTORS.SETTINGS_LAYOUT);
+  constructor(locator: string = SELECTORS.SETTINGS_LAYOUT) {
+    super(locator);
   }
 
   async getCurrentDriver() {

@@ -1,14 +1,15 @@
 require("module-alias/register");
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   SETTINGS_GENERAL: "~settings-general",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   DECREASE_FONT_SIZE_SECTION: '[name="decrease-font-size-section"]',
   HIDE_FOCUS_UPLINK_SECTION: '[name="hide-focus-uplink-section"]',
   INCREASE_FONT_SIZE_SECTION: '[name="increase-font-size-section"]',
@@ -36,7 +37,7 @@ const SELECTORS_WINDOWS = {
   TOGGLE_MUTE_SECTION: '[name="toggle-mute-section"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   DECREASE_FONT_SIZE_SECTION: "~decrease-font-size-section",
   HIDE_FOCUS_UPLINK_SECTION: "~hide-focus-uplink-section",
   INCREASE_FONT_SIZE_SECTION: "~increase-font-size-section",
@@ -424,14 +425,15 @@ class SettingsKeybindsScreen extends SettingsBaseScreen {
         SELECTORS.KEYBIND_SECTION_KEYS,
       );
     }
-    const separators = await sectionToValidate.$$(SELECTORS.KEYBIND_SEPARATOR);
+    const separators = await sectionToValidate?.$$(SELECTORS.KEYBIND_SEPARATOR);
+    //@ts-ignore
     const numberOfKeys = separators.length + 1;
     for (let i = 0; i < numberOfKeys; i++) {
-      const key = await sectionToValidate.$$(SELECTORS.KEYBIND_KEY)[i];
+      const key = await sectionToValidate?.$$(SELECTORS.KEYBIND_KEY)[i];
       const keyInner = await key
-        .$(SELECTORS.KEYBIND_KEY_INNER)
+        ?.$(SELECTORS.KEYBIND_KEY_INNER)
         .$(SELECTORS.KEYBIND_KEY_INNER_TEXT);
-      const keyInnerText = await keyInner.getText();
+      const keyInnerText = await keyInner?.getText();
       keybinds.push(keyInnerText);
     }
     return keybinds;

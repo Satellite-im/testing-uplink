@@ -1,19 +1,20 @@
 require("module-alias/register");
 import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   PREVIEW_MODAL: '[name="modal"]',
   PREVIEW_MODAL_CLOSE_BUTTON: '[name="close-modal-button"]',
   PREVIEW_MODAL_IMAGE_CHATS: '[name="image-preview-modal-file-embed"]',
   PREVIEW_MODAL_IMAGE_FILES: '[name="file-preview-image"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   PREVIEW_MODAL: "~modal",
   PREVIEW_MODAL_CLOSE_BUTTON: "~close-modal-button",
   PREVIEW_MODAL_IMAGE_CHATS: "~image-preview-modal-file-embed",

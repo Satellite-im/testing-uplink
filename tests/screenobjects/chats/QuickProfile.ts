@@ -1,14 +1,15 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   CHAT_LAYOUT: "~chat-layout",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   QUICK_PROFILE: '[name="Context Menu"]',
   QUICK_PROFILE_BANNER_IMAGE: '[name="banner-image"]',
   QUICK_PROFILE_BLOCK: '[name="quick-profile-block"]',
@@ -31,7 +32,7 @@ const SELECTORS_WINDOWS = {
   QUICK_PROFILE_USER_VOLUME_RANGE_INPUT: '[name="range-input"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   QUICK_PROFILE: "~Context Menu",
   QUICK_PROFILE_BANNER_IMAGE: "~banner-image",
   QUICK_PROFILE_BLOCK: "~quick-profile-block",

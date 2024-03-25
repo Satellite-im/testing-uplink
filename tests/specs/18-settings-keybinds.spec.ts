@@ -257,13 +257,13 @@ export default async function settingsKeybindsTests() {
   });
 
   it("Keybind Shortcuts - Validate default keybind for Developer Mode is working", async () => {
-    // Press Ctrl + Shift + I to Open Developer Mode
+    // Press Ctrl + Shift + D to Open Developer Mode
     await sendCustomKeybinds(4, 7, 48);
 
     // Validate Debug Logger is Displayed
     await DebugLogger.validateDebugLoggerIsDisplayed();
 
-    // Press Ctrl + Shift + I to Close Developer Mode
+    // Press Ctrl + Shift + D to Close Developer Mode
     await sendCustomKeybinds(4, 7, 48);
 
     // Validate Debug Logger is Not Shown

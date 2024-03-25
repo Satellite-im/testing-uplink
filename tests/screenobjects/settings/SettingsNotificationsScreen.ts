@@ -2,14 +2,15 @@ require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   SETTINGS_NOTIFICATIONS: "~settings-notifications",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ENABLED_NOTIFICATIONS_SECTION: '[name="enabled-notifications-section"]',
   FRIENDS_NOTIFICATIONS_SECTION: '[name="friends-notifications-section"]',
   MESSAGES_NOTIFICATIONS_SECTION: '[name="messages-notifications-section"]',
@@ -22,7 +23,7 @@ const SELECTORS_WINDOWS = {
   SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ENABLED_NOTIFICATIONS_SECTION: "~enabled-notifications-section",
   FRIENDS_NOTIFICATIONS_SECTION: "~friends-notifications-section",
   MESSAGES_NOTIFICATIONS_SECTION: "~messages-notifications-section",

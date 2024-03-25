@@ -1,8 +1,9 @@
 require("module-alias/register");
 import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {
+let SELECTORS: selectorContainer = {
   CROP_IMAGE_MODAL: "",
   CROP_IMAGE_PREVIEW: "",
   CROP_IMAGE_RANGE: "",
@@ -18,9 +19,9 @@ let SELECTORS = {
   CROP_IMAGE_TOPBAR_LABEL_TEXT: "",
 };
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CROP_IMAGE_MODAL: '[name="modal"]',
   CROP_IMAGE_PREVIEW: '[name="image-preview-modal-file-embed"]',
   CROP_IMAGE_RANGE: '[name="range-crop-image"]',
@@ -36,7 +37,7 @@ const SELECTORS_WINDOWS = {
   CROP_IMAGE_TOPBAR_LABEL_TEXT: "<Text>",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CROP_IMAGE_MODAL: "~modal",
   CROP_IMAGE_PREVIEW: "~image-preview-modal-file-embed",
   CROP_IMAGE_RANGE: "~range-crop-image",

@@ -216,7 +216,7 @@ cx.render(rsx!(
 Windows Selectors:
 
 ```js
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   COMPOSE_ATTACHMENTS_BUTTON: "to-be-assigned",
 };
 ```
@@ -224,7 +224,7 @@ const SELECTORS_WINDOWS = {
 MacOS Selectors:
 
 ```js
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   COMPOSE_ATTACHMENTS_BUTTON: "to-be-assigned",
 };
 ```
@@ -234,7 +234,7 @@ const SELECTORS_MACOS = {
 For Windows selectors:
 
 ```js
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   COMPOSE_ATTACHMENTS_BUTTON: '[name="attachment-button"]',
 };
 ```
@@ -242,7 +242,7 @@ const SELECTORS_WINDOWS = {
 For MacOS selectors:
 
 ```js
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   COMPOSE_ATTACHMENTS_BUTTON: "~attachment-button",
 };
 ```

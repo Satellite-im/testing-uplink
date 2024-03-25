@@ -1,10 +1,11 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CREATE_NEW_ACCOUNT_BUTTON: '[name="create-button"]',
   CREATE_OR_RECOVER_LABEL: '[name="create-or-recover"]',
   CREATE_OR_RECOVER_LABEL_TEXT: '//Text[@Name="ACCOUNT CREATION"]',
@@ -14,7 +15,7 @@ const SELECTORS_WINDOWS = {
   RECOVERY_PARAGRAPH_TEXT: "<Text>",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CREATE_NEW_ACCOUNT_BUTTON: "~create-button",
   CREATE_OR_RECOVER_LABEL: "~create-or-recover",
   CREATE_OR_RECOVER_LABEL_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
@@ -24,7 +25,7 @@ const SELECTORS_MACOS = {
   RECOVERY_PARAGRAPH_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
-let SELECTORS = {
+let SELECTORS: selectorContainer = {
   CREATE_NEW_ACCOUNT_BUTTON: "",
   CREATE_OR_RECOVER_LABEL: "",
   CREATE_OR_RECOVER_LABEL_TEXT: "",

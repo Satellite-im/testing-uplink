@@ -1,12 +1,13 @@
 require("module-alias/register");
 import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   SIDEBAR_RESULT_DROPDOWN_NAME: '[name="search-friends-dropdown-name"]',
   SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS: '[name="highlight-search-typed-chars"]',
   SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT: "<Text>",
@@ -32,7 +33,7 @@ const SELECTORS_WINDOWS = {
   SIDEBAR_SEARCH_USER_RESULT: '[name="search-result-user"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   SIDEBAR_RESULT_DROPDOWN_NAME: "~search-friends-dropdown-name",
   SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS: "~highlight-search-typed-chars",
   SIDEBAR_RESULT_HIGHLIGHT_TYPED_CHARS_TEXT:
@@ -110,7 +111,7 @@ class SidebarSearch extends UplinkMainScreen {
   }
 
   public get sidebarSearchGroupIndicator() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
@@ -119,7 +120,7 @@ class SidebarSearch extends UplinkMainScreen {
   }
 
   public get sidebarSearchGroupIndicatorOffline() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
@@ -128,7 +129,7 @@ class SidebarSearch extends UplinkMainScreen {
   }
 
   public get sidebarSearchGroupIndicatorOnline() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
@@ -137,14 +138,14 @@ class SidebarSearch extends UplinkMainScreen {
   }
 
   public get sidebarSearchGroupPlusSome() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_GROUP_CHAT_PLUS_SOME);
   }
 
   public get sidebarSearchGroupUserImage() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
@@ -152,13 +153,13 @@ class SidebarSearch extends UplinkMainScreen {
   }
 
   public get sidebarSearchGroupUserImageGroupWrap() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP);
   }
 
   public get sidebarSearchGroupUserImageProfile() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
@@ -167,7 +168,7 @@ class SidebarSearch extends UplinkMainScreen {
   }
 
   public get sidebarSearchGroupUserImageWrap() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_GROUP_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_GROUP_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP);
@@ -178,7 +179,7 @@ class SidebarSearch extends UplinkMainScreen {
   }
 
   public get sidebarSearchHeaderText() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_HEADER).$(
+    return $(SELECTORS.SIDEBAR_SEARCH_HEADER).$(
       SELECTORS.SIDEBAR_SEARCH_HEADER_TEXT,
     );
   }
@@ -187,7 +188,7 @@ class SidebarSearch extends UplinkMainScreen {
     return $$(SELECTORS.SIDEBAR_SEARCH_MEMBERS_LABEL);
   }
   public get sidebarSearchMembersLabelText() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_MEMBERS_LABEL).$(
+    return $(SELECTORS.SIDEBAR_SEARCH_MEMBERS_LABEL).$(
       SELECTORS.SIDEBAR_SEARCH_MEMBERS_LABEL_TEXT,
     );
   }
@@ -241,41 +242,41 @@ class SidebarSearch extends UplinkMainScreen {
   }
 
   public get sidebarSearchUserResultIndicator() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR);
   }
 
   public get sidebarSearchUserResultIndicatorOffline() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR_OFFLINE);
   }
 
   public get sidebarSearchUserResultIndicatorOnline() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_INDICATOR_ONLINE);
   }
 
   public get sidebarSearchUserResultUserImage() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE);
   }
 
   public get sidebarSearchUserResultUserImageProfile() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
+    return $(SELECTORS.SIDEBAR_SEARCH_USER_RESULT)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_RESULT_USER_IMAGE_PROFILE);
   }
 
   public get sidebarSearchUserResultUserImageWrap() {
-    return $$(SELECTORS.SIDEBAR_SEARCH_USER_RESULT).$(
+    return $(SELECTORS.SIDEBAR_SEARCH_USER_RESULT).$(
       SELECTORS.SIDEBAR_RESULT_USER_IMAGE_WRAP,
     );
   }
@@ -285,18 +286,18 @@ class SidebarSearch extends UplinkMainScreen {
   async clickOnGroupResultFromSidebarSearch(result: number) {
     const elementToClick =
       await this.getSidebarSearchGroupResultLocator(result);
-    await elementToClick.click();
+    await elementToClick?.click();
   }
 
   async clickOnParticipantResultFromSidebarSearch(result: number) {
     const elementToClick =
       await this.getSidebarSearchParticipantInGroupResultLocator(result);
-    await elementToClick.click();
+    await elementToClick?.click();
   }
 
   async clickOnUserResultFromSidebarSearch(result: number) {
     const elementToClick = await this.getSidebarSearchUserResultLocator(result);
-    await elementToClick.click();
+    await elementToClick?.click();
   }
 
   async getSidebarSearchResultsGroupsNotMatchingName() {

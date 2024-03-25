@@ -1,14 +1,15 @@
 require("module-alias/register");
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   SETTINGS_LICENSES: "~settings-licenses",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   SETTINGS_CONTROL: '[name="settings-control"]',
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
@@ -17,7 +18,7 @@ const SELECTORS_WINDOWS = {
   LICENSES_SECTION: '[name="licenses-section"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   SETTINGS_CONTROL: "~settings-control",
   SETTINGS_INFO: "~settings-info",
   SETTINGS_INFO_DESCRIPTION:

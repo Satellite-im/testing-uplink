@@ -2,12 +2,13 @@ require("module-alias/register");
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CHAT_SEARCH_INPUT: '[name="chat-search-input"]',
   SIDEBAR: '[name="sidebar"]',
   SIDEBAR_CHATS_HEADER: "~chats-label",
@@ -43,7 +44,7 @@ const SELECTORS_WINDOWS = {
   TOOLTIP_TEXT: "<Text>",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CHAT_SEARCH_INPUT: "~chat-search-input",
   SIDEBAR: "~sidebar",
   SIDEBAR_CHATS_HEADER: "~chats-label",
@@ -175,37 +176,37 @@ class ChatsSidebar extends UplinkMainScreen {
   }
 
   public get sidebarChatsUserIndicator() {
-    return $$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_INDICATOR);
   }
 
   public get sidebarChatsUserDoNotDisturbIndicator() {
-    return $$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_DO_NOT_DISTURB_INDICATOR);
   }
 
   public get sidebarChatsUserIdleIndicator() {
-    return $$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IDLE_INDICATOR);
   }
 
   public get sidebarChatsUserOfflineIndicator() {
-    return $$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
   }
 
   public get sidebarChatsUserOnlineIndicator() {
-    return $$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
   }
 
   public get sidebarChatsUserProfileTyping() {
-    return $$(SELECTORS.SIDEBAR_CHATS_SECTION)
+    return $(SELECTORS.SIDEBAR_CHATS_SECTION)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_PROFILE_TYPING);
   }
@@ -247,7 +248,7 @@ class ChatsSidebar extends UplinkMainScreen {
 
   public get sidebarGroupChatUserImages() {
     return this.sidebarGroupChatImage
-      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
   }
 
@@ -259,19 +260,19 @@ class ChatsSidebar extends UplinkMainScreen {
 
   public get sidebarGroupChatUserIndicator() {
     return this.sidebarGroupChatImage
-      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_INDICATOR);
   }
 
   public get sidebarGroupChatUserIndicatorOffline() {
     return this.sidebarGroupChatImage
-      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
   }
 
   public get sidebarGroupChatsUserIndicatorOnline() {
     return this.sidebarGroupChatImage
-      .$$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
   }
 
@@ -324,6 +325,7 @@ class ChatsSidebar extends UplinkMainScreen {
     await driver.waitUntil(
       async () => {
         return await $(SELECTORS.SIDEBAR)
+          // @ts-ignore
           .$(locator)
           .waitForExist({ reverse: true });
       },
@@ -396,29 +398,31 @@ class ChatsSidebar extends UplinkMainScreen {
 
   async waitForGroupToBeCreated(groupname: string) {
     const element = await this.getExistingElementByAriaLabel(groupname);
+    // @ts-ignore
     await $(SELECTORS.SIDEBAR).$(element).waitForExist();
   }
 
   async waitForGroupToBeDeleted(groupname: string) {
     const element = await this.getNonExistingElementByAriaLabel(groupname);
+    // @ts-ignore
     await $(SELECTORS.SIDEBAR).$(element).waitForExist({ reverse: true });
   }
 
   async getSidebarGroupPlusSome(groupname: string) {
     const groupLocator = await this.getExistingElementByAriaLabel(groupname);
-    const plusSomeLocator = await groupLocator.$(
+    const plusSomeLocator = await groupLocator?.$(
       SELECTORS.SIDEBAR_GROUP_CHAT_PLUS_SOME,
     );
-    await plusSomeLocator.waitForExist();
+    await plusSomeLocator?.waitForExist();
     return plusSomeLocator;
   }
 
   async getSidebarGroupStatus(groupname: string) {
     const groupLocator = await this.getExistingElementByAriaLabel(groupname);
     const statusLocator = await groupLocator
-      .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
-    await statusLocator.waitForExist();
+    await statusLocator?.waitForExist();
     return statusLocator;
   }
 
@@ -427,69 +431,69 @@ class ChatsSidebar extends UplinkMainScreen {
   async getSidebarUserImage(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const imageLocator = await userLocator
-      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE);
-    await imageLocator.waitForExist();
+    await imageLocator?.waitForExist();
     return imageLocator;
   }
 
   async getSidebarUserStatus(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const statusLocator = await userLocator
-      .$(SELECTORS.SIDEBAR_CHATS_USER_INFO)
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_INFO)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
       .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
-    await statusLocator.waitForExist();
+    await statusLocator?.waitForExist();
     return statusLocator;
   }
 
   async getSidebarUserIndicator(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const indicatorLocator = await userLocator
-      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_INDICATOR);
-    await indicatorLocator.waitForExist();
+    await indicatorLocator?.waitForExist();
     return indicatorLocator;
   }
 
   async getSidebarUserIndicatorDoNotDisturb(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const doNotDisturbLocator = await userLocator
-      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_DO_NOT_DISTURB_INDICATOR);
-    await doNotDisturbLocator.waitForExist();
+    await doNotDisturbLocator?.waitForExist();
     return doNotDisturbLocator;
   }
 
   async getSidebarUserIndicatorIdle(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const idleLocator = await userLocator
-      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IDLE_INDICATOR);
-    await idleLocator.waitForExist();
+    await idleLocator?.waitForExist();
     return idleLocator;
   }
 
   async getSidebarUserIndicatorOffline(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const offlineLocator = await userLocator
-      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_OFFLINE_INDICATOR);
-    await offlineLocator.waitForExist();
+    await offlineLocator?.waitForExist();
     return offlineLocator;
   }
 
   async getSidebarUserIndicatorOnline(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const onlineIndicator = await userLocator
-      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_ONLINE_INDICATOR);
-    await onlineIndicator.waitForExist();
+    await onlineIndicator?.waitForExist();
     return onlineIndicator;
   }
 
@@ -497,23 +501,23 @@ class ChatsSidebar extends UplinkMainScreen {
     const currentDriver = await this.getCurrentDriver();
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const userIndicator = await userLocator
-      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_INDICATOR);
     if (currentDriver === MACOS_DRIVER) {
-      return await userIndicator.getAttribute("label");
+      return await userIndicator?.getAttribute("label");
     } else if (currentDriver === WINDOWS_DRIVER) {
-      return await userIndicator.getAttribute("name");
+      return await userIndicator?.getAttribute("name");
     }
   }
 
   async getSidebarUserProfileTyping(username: string) {
     const userLocator = await this.getExistingElementByAriaLabel(username);
     const profileTyping = await userLocator
-      .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE_WRAP)
       .$(SELECTORS.SIDEBAR_CHATS_USER_IMAGE)
       .$(SELECTORS.SIDEBAR_CHATS_USER_PROFILE_TYPING);
-    await profileTyping.waitForExist();
+    await profileTyping?.waitForExist();
     return profileTyping;
   }
 
@@ -556,12 +560,12 @@ class ChatsSidebar extends UplinkMainScreen {
   // Go to sidebar conversation
   async goToSidebarChat(username: string) {
     const imageToClick = await this.getSidebarUserImage(username);
-    await imageToClick.click();
+    await imageToClick?.click();
   }
 
   async goToSidebarGroupChat(groupname: string) {
     const elementToClick = await this.getSidebarGroupStatus(groupname);
-    await elementToClick.click();
+    await elementToClick?.click();
   }
 
   async goToSidebarFirstChat() {

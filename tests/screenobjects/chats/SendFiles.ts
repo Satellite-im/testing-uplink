@@ -2,12 +2,13 @@ require("module-alias/register");
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import { rightClickOnMacOS, rightClickOnWindows } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CLOSE_BUTTON: "<Button>",
   CLOSE_BUTTON_MODAL: '[name="modal"]',
   CONTEXT_MENU: '[name="Context Menu"]',
@@ -33,7 +34,7 @@ const SELECTORS_WINDOWS = {
   SEND_FILES_MODAL_SEND_BUTTON: '[name="send_files_modal_send_button"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CLOSE_BUTTON: "-ios class chain:**/XCUIElementTypeButton",
   CLOSE_BUTTON_MODAL: "~modal",
   CONTEXT_MENU: "~Context Menu",
@@ -108,7 +109,7 @@ class SendFiles extends UplinkMainScreen {
   }
 
   public get filesCrumb() {
-    return this.filesBreadcrumbs.$$(SELECTORS.FILES_CRUMB);
+    return this.filesBreadcrumbs.$(SELECTORS.FILES_CRUMB);
   }
 
   public get filesCrumbText() {
@@ -170,22 +171,27 @@ class SendFiles extends UplinkMainScreen {
 
   async clickOnFile(locator: string) {
     const fileLocator = await this.getLocatorOfFolderFile(locator);
+    // @ts-ignore
     const fileElement = await $(fileLocator).$(SELECTORS.FILE_THUMBNAIL);
     await fileElement.click();
   }
 
   async clickOnFolder(locator: string) {
     const folderLocator = await this.getLocatorOfFolderFile(locator);
+    // @ts-ignore
     const folderElement = await $(folderLocator);
     await folderElement.click();
   }
 
   async clickOnFolderCrumb(folderName: string) {
     const crumbs = await this.filesCrumb;
+    // @ts-ignore
     for (let i = 0; i < crumbs.length; i++) {
+      // @ts-ignore
       const crumbTextElement = await crumbs[i].$(SELECTORS.FILES_CRUMB_TEXT);
       const crumbTextValue = await crumbTextElement.getText();
       if (crumbTextValue === folderName) {
+        // @ts-ignore
         await crumbs[i].click();
       }
     }
@@ -213,7 +219,7 @@ class SendFiles extends UplinkMainScreen {
     if (currentDriver === WINDOWS_DRIVER) {
       result = await sendFilesModalSendButton.getAttribute("HelpText");
     }
-    return result.toString();
+    return result?.toString();
   }
 
   async typeOnFileNameInput(name: string) {
@@ -240,7 +246,9 @@ class SendFiles extends UplinkMainScreen {
 
   async getCurrentFolder() {
     const folders = await this.filesCrumb;
+    // @ts-ignore
     const treeLength = folders.length - 1;
+    // @ts-ignore
     const currentFolderName = await folders[treeLength].$(
       SELECTORS.FILES_CRUMB_TEXT,
     );
@@ -288,6 +296,7 @@ class SendFiles extends UplinkMainScreen {
       await this.updateNameFile(newName, extension);
     } else {
       const newFile = await this.getLocatorOfFolderFile(newName + extension);
+      // @ts-ignore
       const newFileElement = await $(newFile);
       await newFileElement.waitForExist();
     }
@@ -303,6 +312,7 @@ class SendFiles extends UplinkMainScreen {
       await this.updateNameFolder(newName);
     } else {
       const newFolder = await this.getLocatorOfFolderFile(newName);
+      // @ts-ignore
       const newFolderElement = await $(newFolder);
       await newFolderElement.waitForExist();
     }
@@ -310,12 +320,14 @@ class SendFiles extends UplinkMainScreen {
 
   async validateFileOrFolderExist(locator: string) {
     const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
+    // @ts-ignore
     const fileFolderElement = await $(fileFolderElementLocator);
     await fileFolderElement.waitForExist();
   }
 
   async validateFileOrFolderNotExist(locator: string) {
     const fileFolderLocator = await this.getLocatorOfDeletedElement(locator);
+    // @ts-ignore
     await $(fileFolderLocator).waitForExist({ reverse: true });
   }
 
@@ -341,6 +353,7 @@ class SendFiles extends UplinkMainScreen {
 
   async validateThumbnailIsShown(name: string) {
     const fileElementLocator = await this.getLocatorOfFolderFile(name);
+    // @ts-ignore
     const fileElement = await $(fileElementLocator);
     const fileThumbnail = await fileElement.$(SELECTORS.FILE_THUMBNAIL);
     await fileThumbnail.waitForExist();
@@ -350,6 +363,7 @@ class SendFiles extends UplinkMainScreen {
 
   async openFilesContextMenu(name: string) {
     const elementLocator = await this.getLocatorOfFolderFile(name);
+    // @ts-ignore
     const fileFolderToRightClick = await $(elementLocator).$(
       SELECTORS.FILE_FOLDER_NAME_TEXT,
     );

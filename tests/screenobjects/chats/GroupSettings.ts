@@ -2,12 +2,13 @@ require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ALLOW_MEMBERS_TO_ADD_EDIT_NAME: '[name="allow-members-to-add-edit-name"]',
   ALLOW_MEMBERS_TO_ADD_OTHERS: '[name="allow-members-to-add-others"]',
   GROUP_SETTINGS_MODAL: '[name="modal"]',
@@ -19,7 +20,7 @@ const SELECTORS_WINDOWS = {
   SWITCH_SLIDER_VALUE: '[name="switch-slider-value"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ALLOW_MEMBERS_TO_ADD_EDIT_NAME: "~allow-members-to-add-edit-name",
   ALLOW_MEMBERS_TO_ADD_OTHERS: "~allow-members-to-add-others",
   GROUP_SETTINGS_MODAL: "~modal",

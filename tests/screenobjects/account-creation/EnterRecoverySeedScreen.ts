@@ -1,12 +1,13 @@
 require("module-alias/register");
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ENTER_SEEDS_WORD_LAYOUT: '[name="enter-seed-words-layout"]',
   GO_BACK_BUTTON: '[name="back-button"]',
   INPUT_ERROR: '[name="input-error"]',
@@ -19,7 +20,7 @@ const SELECTORS_WINDOWS = {
   RECOVERY_SEED_TITLE_TEXT: '//Text[@Name="RECOVERY SEED"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ENTER_SEEDS_WORD_LAYOUT: "~enter-seed-words-layout",
   GO_BACK_BUTTON: "~back-button",
   INPUT_ERROR: "~input-error",
@@ -107,7 +108,8 @@ class EnterRecoverySeedScreen extends UplinkMainScreen {
     return seedWords;
   }
 
-  async enterSeedWords(seedWords: string[]) {
+  async enterSeedWords(seedWords: string) {
+    const seedWordsArray: string[] = seedWords.split(" ");
     const currentDriver = await this.getCurrentDriver();
     for (let i = 1; i <= 12; i++) {
       let locatorOfWord: string = "";
@@ -117,7 +119,7 @@ class EnterRecoverySeedScreen extends UplinkMainScreen {
         locatorOfWord = "~recovery-seed-input-" + i;
       }
       const seedWord = await $(locatorOfWord);
-      await seedWord.setValue(seedWords[i - 1]);
+      await seedWord.setValue(seedWordsArray[i - 1]);
     }
   }
 

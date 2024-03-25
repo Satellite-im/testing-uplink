@@ -7,12 +7,13 @@ import {
   leftClickOnWindows,
 } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   RELEASE_INDICATOR: "~alpha",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   BACK_BUTTON: '[name="back-button"]',
   BUTTON_BADGE: '[name="Button Badge"]',
   BUTTON_BADGE_TEXT: "<Text>",
@@ -41,7 +42,7 @@ const SELECTORS_WINDOWS = {
   WINDOW: "~main",
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   BACK_BUTTON: "~back-button",
   BUTTON_BADGE: "~Button Badge",
   BUTTON_BADGE_TEXT: "-ios class chain:**/XCUIElementTypeStaticText",
@@ -72,7 +73,7 @@ const SELECTORS_MACOS = {
   WINDOW: "-ios class chain:**/XCUIElementTypeWindow",
 };
 
-let SELECTORS = {
+let SELECTORS: selectorContainer = {
   BACK_BUTTON: "",
   BUTTON_BADGE: "",
   BUTTON_BADGE_TEXT: "",
@@ -107,8 +108,8 @@ process.env.DRIVER === WINDOWS_DRIVER
   : (SELECTORS = { ...SELECTORS_MACOS, ...SELECTORS_COMMON });
 
 export default class UplinkMainScreen extends AppScreen {
-  constructor() {
-    super(SELECTORS.WINDOW);
+  constructor(locator: string = SELECTORS.WINDOW) {
+    super(locator);
   }
 
   public get backButton() {
@@ -315,7 +316,7 @@ export default class UplinkMainScreen extends AppScreen {
 
   // Hovering methods
 
-  async hoverOnElement(element: WebdriverIO.Element) {
+  async hoverOnElement(element: WebdriverIO.Element | undefined) {
     const currentDriver = await this.getCurrentDriver();
     if (currentDriver === MACOS_DRIVER) {
       await hoverOnMacOS(element);

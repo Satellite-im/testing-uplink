@@ -18,3 +18,7 @@ export default class AppScreen {
     });
   }
 }
+
+export type selectorContainer = {
+  [key: string]: string;
+};

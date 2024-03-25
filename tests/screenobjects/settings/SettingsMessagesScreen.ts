@@ -2,14 +2,15 @@ require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   SETTINGS_MESSAGES: "~settings-messages",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   EMOJI_CONVERSION_SECTION: '[name="emoji-conversion-section"]',
   MARKDOWN_SUPPORT_SECTION: '[name="markdown-support-section"]',
   SETTINGS_CONTROL: '[name="settings-control"]',
@@ -20,7 +21,7 @@ const SELECTORS_WINDOWS = {
   SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   EMOJI_CONVERSION_SECTION: "~emoji-conversion-section",
   MARKDOWN_SUPPORT_SECTION: "~markdown-support-section",
   SETTINGS_CONTROL: "~settings-control",

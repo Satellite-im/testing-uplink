@@ -1,12 +1,13 @@
 require("module-alias/register");
 import { WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   CLOSE_BUTTON: '[name="Close"]',
   DOCK_TO_LEFT_BUTTON: '[name="Dock to left of window"]',
   DOCK_TO_RIGHT_BUTTON: '[name="Dock to right of window"]',
@@ -15,7 +16,7 @@ const SELECTORS_WINDOWS = {
   WEB_INSPECTOR: '//Document/Button[@Name="Close"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CLOSE_BUTTON: "~Close",
   DOCK_TO_LEFT_BUTTON: "~Dock to left of window",
   DOCK_TO_RIGHT_BUTTON: "~Dock to right of window",

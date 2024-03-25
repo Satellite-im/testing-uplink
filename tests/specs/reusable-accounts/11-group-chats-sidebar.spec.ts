@@ -17,6 +17,7 @@ import {
   launchSecondApplication,
 } from "@helpers/commands";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
+import chatsTests from "@specs/02-chats.spec";
 
 export default async function groupChatSidebarTests() {
   before(async () => {
@@ -69,6 +70,7 @@ export default async function groupChatSidebarTests() {
     await activateFirstApplication();
 
     // Validate Sidebar shows Group Name
+    await ChatsSidebar.goToSidebarGroupChat("renamed");
     await ChatsSidebar.validateUsernameDisplayed("renamed");
 
     // Validate last message content from group is displayed on sidebar

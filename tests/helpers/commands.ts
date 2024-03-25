@@ -323,12 +323,14 @@ export async function queryAppStateMacOS(bundle: string) {
 
 // MacOS driver helper functions
 
-export async function clickOnSwitchMacOS(element: WebdriverIO.Element) {
-  const elementLocator = await $(element);
+export async function clickOnSwitchMacOS(
+  element: WebdriverIO.Element | undefined,
+) {
+  const elementLocator = await element;
 
   // Get X and Y coordinates to hover on from element
-  const elementX = await elementLocator.getLocation("x");
-  const elementY = await elementLocator.getLocation("y");
+  const elementX = await elementLocator?.getLocation("x");
+  const elementY = await elementLocator?.getLocation("y");
 
   // Hover on X and Y coordinates previously retrieved
   await driver.executeScript("macos: click", [
@@ -349,8 +351,8 @@ export async function getClipboardValue() {
   return clipboardValue;
 }
 
-export async function hoverOnMacOS(locator: WebdriverIO.Element) {
-  const elementId = await locator.elementId;
+export async function hoverOnMacOS(locator: WebdriverIO.Element | undefined) {
+  const elementId = await locator?.elementId;
   await driver.executeScript("macos: hover", [
     {
       elementId: elementId,
@@ -439,8 +441,10 @@ export async function leftClickOnMacOS(locator: WebdriverIO.Element) {
   await mouse.click(Button.LEFT);
 }
 
-export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
-  const elementId = await locator.elementId;
+export async function rightClickOnMacOS(
+  locator: WebdriverIO.Element | undefined,
+) {
+  const elementId = await locator?.elementId;
   await driver.executeScript("macos: hover", [
     {
       elementId: elementId,
@@ -451,8 +455,8 @@ export async function rightClickOnMacOS(locator: WebdriverIO.Element) {
 
 // Windows driver helper functions
 
-export async function hoverOnWindows(locator: WebdriverIO.Element) {
-  await driver.moveToElement(locator.elementId);
+export async function hoverOnWindows(locator: WebdriverIO.Element | undefined) {
+  await driver.moveToElement(locator?.elementId);
 }
 
 export async function leftClickOnWindows(locator: WebdriverIO.Element) {
@@ -460,8 +464,10 @@ export async function leftClickOnWindows(locator: WebdriverIO.Element) {
   await mouse.click(Button.LEFT);
 }
 
-export async function rightClickOnWindows(locator: WebdriverIO.Element) {
-  await driver.moveToElement(locator.elementId);
+export async function rightClickOnWindows(
+  locator: WebdriverIO.Element | undefined,
+) {
+  await driver.moveToElement(locator?.elementId);
   await mouse.click(Button.RIGHT);
 }
 
@@ -531,6 +537,7 @@ export async function getUplinkWindowHandle() {
       }
     } catch (error) {
       console.log("Error trying to get current Window Handle: ", error);
+      return undefined;
     }
   }
 }

@@ -2,14 +2,15 @@ require("module-alias/register");
 import { clickOnSwitchMacOS } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   SETTINGS_EXTENSIONS: "~settings-extensions",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   AUTO_ENABLE_SECTION: '[name="auto-enable-section"]',
   EMOJI_SELECTOR_DEVELOPER: '//Text[starts-with(@Name, "SATELLITE")]',
   EMOJI_SELECTOR_DESCRIPTION:
@@ -37,7 +38,7 @@ const SELECTORS_WINDOWS = {
   SWITCH_SLIDER_VALUE: '[name="switch-slider-value"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   AUTO_ENABLE_SECTION: "~auto-enable-section",
   EMOJI_SELECTOR_DEVELOPER:
     '//XCUIElementTypeStaticText[starts-with(@value, "SATELLITE")][1]',

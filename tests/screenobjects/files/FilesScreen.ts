@@ -11,12 +11,13 @@ import {
   selectFileOnWindows,
 } from "@helpers/commands";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ADD_FOLDER_BUTTON: '[name="add-folder"]',
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_FILES_DELETE: '[name="files-delete"]',
@@ -38,7 +39,7 @@ const SELECTORS_WINDOWS = {
   FILES_INFO_MAX_SIZE: '[name="free-space-max-size"]',
   FILES_INFO_MAX_SIZE_HEADER: "<Text>[1]",
   FILES_INFO_MAX_SIZE_VALUE: "<Text>[2]",
-  FILES_LAYOUT: '[name=files-layout"]',
+  FILES_LAYOUT: '[name="files-layout"]',
   FILES_LIST: '[name="files-list"]',
   INPUT_ERROR: '[name="input-error"]',
   INPUT_ERROR_TEXT: "<Text>",
@@ -71,7 +72,7 @@ const SELECTORS_WINDOWS = {
     '[name="progress-percentage-description-container"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ADD_FOLDER_BUTTON: "~add-folder",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_FILES_DELETE: "~files-delete",
@@ -193,7 +194,7 @@ class FilesScreen extends UplinkMainScreen {
   }
 
   public get crumbText() {
-    return $$(SELECTORS.CRUMB).$(SELECTORS.CRUMB_TEXT);
+    return $(SELECTORS.CRUMB).$(SELECTORS.CRUMB_TEXT);
   }
 
   public get fileFolderNameText() {
@@ -398,6 +399,7 @@ class FilesScreen extends UplinkMainScreen {
 
   async clickOnFileOrFolder(locator: string) {
     const fileOrFolderLocator = await this.getLocatorOfFolderFile(locator);
+    // @ts-ignore
     const fileOrFolderElement = await $(fileOrFolderLocator);
     await fileOrFolderElement.click();
   }
@@ -453,6 +455,7 @@ class FilesScreen extends UplinkMainScreen {
     // If name was typed correctly, continue with method execution
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(name);
+    // @ts-ignore
     const newFolderElement = await $(newFolder);
     await newFolderElement.waitForExist();
   }
@@ -502,6 +505,7 @@ class FilesScreen extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       const uplinkContext = await getUplinkWindowHandle();
       await this.clickOnFilesDownload();
+      //@ts-ignore
       await saveFileOnWindows(filename, uplinkContext);
     }
   }
@@ -563,6 +567,7 @@ class FilesScreen extends UplinkMainScreen {
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
     const newFile = await this.getLocatorOfFolderFile(newName + extension);
+    // @ts-ignore
     const newFileElement = await $(newFile);
     await newFileElement.waitForExist();
   }
@@ -574,6 +579,7 @@ class FilesScreen extends UplinkMainScreen {
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(newName);
+    // @ts-ignore
     const newFolderElement = await $(newFolder);
     await newFolderElement.waitForExist();
   }
@@ -586,18 +592,21 @@ class FilesScreen extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       const uplinkContext = await getUplinkWindowHandle();
       await this.clickOnUploadFile();
+      //@ts-ignore
       await selectFileOnWindows(relativePath, uplinkContext);
     }
   }
 
   async validateFileOrFolderExist(locator: string, timeout: number = 30000) {
     const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
+    // @ts-ignore
     const fileFolderElement = await $(fileFolderElementLocator);
     await fileFolderElement.waitForExist({ timeout: timeout });
   }
 
   async validateFileOrFolderNotExist(locator: string) {
     const fileFolderLocator = await this.getLocatorOfDeletedElement(locator);
+    // @ts-ignore
     await $(fileFolderLocator).waitForExist({ reverse: true });
   }
 
@@ -629,6 +638,7 @@ class FilesScreen extends UplinkMainScreen {
 
   async openFilesContextMenu(name: string) {
     const elementLocator = await this.getLocatorOfFolderFile(name);
+    // @ts-ignore
     const fileFolderToRightClick = await $(elementLocator).$(
       SELECTORS.FILE_FOLDER_NAME_TEXT,
     );

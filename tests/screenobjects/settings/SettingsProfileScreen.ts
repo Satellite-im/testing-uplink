@@ -12,14 +12,15 @@ import {
 } from "@helpers/commands";
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import SettingsBaseScreen from "@screenobjects/settings/SettingsBaseScreen";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {
+const SELECTORS_COMMON: selectorContainer = {
   SETTINGS_PROFILE: "~settings-profile",
 };
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   ADD_PICTURE_BUTTON: '[name="add-picture-button"]',
   CLEAR_AVATAR_BUTTON: "[name='clear-avatar']",
   CLEAR_BANNER_BUTTON: "[name='clear-banner']",
@@ -69,7 +70,7 @@ const SELECTORS_WINDOWS = {
   YOUR_NEW_PROFILE_HEADER_TEXT_VALUE: '//Text[@Name="YOUR NEW PROFILE!"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   ADD_PICTURE_BUTTON: "~add-picture-button",
   CLEAR_AVATAR_BUTTON: "clear-avatar",
   CLEAR_BANNER_BUTTON: "clear-banner",
@@ -526,6 +527,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
       const uplinkContext = await getUplinkWindowHandle();
       const profileBannerWindows = await this.profileBanner;
       await profileBannerWindows.click();
+      //@ts-ignore
       await selectFileOnWindows(relativePath, uplinkContext);
     }
   }
@@ -542,6 +544,7 @@ class SettingsProfileScreen extends SettingsBaseScreen {
       const uplinkContext = await getUplinkWindowHandle();
       const profilePictureImage = await this.profilePicture;
       await profilePictureImage.click();
+      //@ts-ignore
       await selectFileOnWindows(relativePath, uplinkContext);
     }
   }

@@ -2,19 +2,20 @@ require("module-alias/register");
 import { MACOS_DRIVER, WINDOWS_DRIVER } from "@helpers/constants";
 import UplinkMainScreen from "@screenobjects/UplinkMainScreen";
 import { clickOnSwitchMacOS } from "@helpers/commands";
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-let SELECTORS = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_COMMON = {};
+const SELECTORS_COMMON: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_WINDOWS: selectorContainer = {
   EMOJI: '[name="emoji"]',
   EMOJI_VALUE: "<Text>",
   EMOJI_SELECTOR: "~emoji_selector",
   EMOJIS_CONTAINER: '[name="emojis-container"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   EMOJI: "~emoji",
   EMOJI_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
   EMOJI_SELECTOR: "~emoji-selector",
@@ -36,8 +37,8 @@ class EmojiSelector extends UplinkMainScreen {
 
   public get emojiValue() {
     return $(SELECTORS.EMOJI_SELECTOR)
-      .$$(SELECTORS.EMOJI)
-      .$$(SELECTORS.EMOJI_VALUE);
+      .$(SELECTORS.EMOJI)
+      .$(SELECTORS.EMOJI_VALUE);
   }
 
   public get emojiSelector() {
@@ -64,7 +65,7 @@ class EmojiSelector extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await clickOnSwitchMacOS(emojiElement);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      await emojiElement.click();
+      await emojiElement?.click();
     }
   }
 }

@@ -222,6 +222,12 @@ jobs:
           ref: b574da4ab10cfd7bf38ec0e2b499232a2e8f8eff
           path: "./warp"
 
+      - name: Install Dependencies
+        continue-on-error: true
+        run: |
+          brew update
+          brew install cairo pango
+
       - name: Download Key file 🗳️
         uses: actions/download-artifact@v3
         with:
@@ -258,7 +264,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version: 18.17.1
+          node-version: 20
           cache: "npm"
 
       - name: Cache NPM dependencies 🔨
@@ -357,6 +363,12 @@ jobs:
           ref: b574da4ab10cfd7bf38ec0e2b499232a2e8f8eff
           path: "./warp"
 
+      - name: Install Dependencies
+        continue-on-error: true
+        run: |
+          brew update
+          brew install cairo pango
+
       - name: Download Key file 🗳️
         uses: actions/download-artifact@v3
         with:
@@ -398,7 +410,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version: 18.17.1
+          node-version: 20
           cache: "npm"
 
       - name: Cache NPM dependencies 🔨
@@ -545,7 +557,7 @@ jobs:
       - name: Setup Node.js 🔨
         uses: actions/setup-node@v3
         with:
-          node-version: 18.17.1
+          node-version: 20
           cache: "npm"
 
       - name: Cache NPM dependencies 🔨

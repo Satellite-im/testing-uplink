@@ -7,11 +7,13 @@ import {
   rightClickOnMacOS,
   rightClickOnWindows,
 } from "@helpers/commands";
-let SELECTORS = {};
+import { selectorContainer } from "@screenobjects/AppScreen";
 
-const SELECTORS_COMMON = {};
+let SELECTORS: selectorContainer = {};
 
-const SELECTORS_WINDOWS = {
+const SELECTORS_COMMON: selectorContainer = {};
+
+const SELECTORS_WINDOWS: selectorContainer = {
   CLOSE_RENAME_GROUP_BUTTON: '[name="close-rename-group"]',
   CONTEXT_MENU: '[name="Context Menu"]',
   CONTEXT_MENU_CLOSE_CHAT: '[name="close-chat-context-option"]',
@@ -46,7 +48,7 @@ const SELECTORS_WINDOWS = {
   TOPBAR_VIDEOCALL: '[name="Videocall"]',
 };
 
-const SELECTORS_MACOS = {
+const SELECTORS_MACOS: selectorContainer = {
   CLOSE_RENAME_GROUP_BUTTON: "~close-rename-group",
   CONTEXT_MENU: "~Context Menu",
   CONTEXT_MENU_CLOSE_CHAT: "~close-chat-context-option",
