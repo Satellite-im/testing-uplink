@@ -524,10 +524,9 @@ class SettingsProfileScreen extends SettingsBaseScreen {
       await profileBannerMac.click();
       await selectFileOnMacos(relativePath);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await getUplinkWindowHandle();
+      const uplinkContext = await getUplinkWindowHandle().toString();
       const profileBannerWindows = await this.profileBanner;
       await profileBannerWindows.click();
-      //@ts-ignore
       await selectFileOnWindows(relativePath, uplinkContext);
     }
   }
@@ -541,10 +540,9 @@ class SettingsProfileScreen extends SettingsBaseScreen {
       await this.clickOnAddPictureButton();
       await selectFileOnMacos(relativePath);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await getUplinkWindowHandle();
+      const uplinkContext = await getUplinkWindowHandle().toString();
       const profilePictureImage = await this.profilePicture;
       await profilePictureImage.click();
-      //@ts-ignore
       await selectFileOnWindows(relativePath, uplinkContext);
     }
   }

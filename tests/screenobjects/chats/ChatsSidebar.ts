@@ -333,13 +333,11 @@ class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateSidebarChatIsNotDisplayed(username: string) {
-    const locator = await this.getNonExistingElementByAriaLabel(username);
+    const locator: string =
+      await this.getNonExistingElementByAriaLabel(username);
     await driver.waitUntil(
       async () => {
-        return await $(SELECTORS.SIDEBAR)
-          // @ts-ignore
-          .$(locator)
-          .waitForExist({ reverse: true });
+        return await this.sidebar.$(locator).waitForExist({ reverse: true });
       },
       {
         timeout: 15000,
@@ -396,35 +394,44 @@ class ChatsSidebar extends UplinkMainScreen {
 
   async getExistingElementByAriaLabel(username: string) {
     const currentDriver = await this.getCurrentDriver();
-    let locator;
+    let locator: string;
     if (currentDriver === MACOS_DRIVER) {
-      locator = await $(SELECTORS.SIDEBAR).$("~" + username);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = await $(SELECTORS.SIDEBAR).$('[name="' + username + '"]');
+      let element: WebdriverIO.Element;
+      locator = "~" + username;
+      element = await this.sidebar.$(locator);
+      return element;
+    } else {
+      let element: WebdriverIO.Element;
+      locator = '[name="' + username + '"]';
+      element = await this.sidebar.$(locator);
+      return element;
     }
-    return locator;
   }
 
   async getNonExistingElementByAriaLabel(username: string) {
     const currentDriver = await this.getCurrentDriver();
-    let locator;
+    let locator: string;
     if (currentDriver === MACOS_DRIVER) {
       locator = "~" + username;
+      return locator;
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = '[name="' + username + '"]';
+      return locator;
+    } else {
+      locator = "";
+      return locator;
     }
-    return locator;
   }
 
   async waitForGroupToBeCreated(groupname: string) {
-    const element = await this.getExistingElementByAriaLabel(groupname);
-    // @ts-ignore
-    await $(SELECTORS.SIDEBAR).$(element).waitForExist();
+    const element: WebdriverIO.Element =
+      await this.getExistingElementByAriaLabel(groupname);
+    await element.waitForExist();
   }
 
   async waitForGroupToBeDeleted(groupname: string) {
-    const element = await this.getNonExistingElementByAriaLabel(groupname);
-    // @ts-ignore
+    const element: string =
+      await this.getNonExistingElementByAriaLabel(groupname);
     await $(SELECTORS.SIDEBAR).$(element).waitForExist({ reverse: true });
   }
 

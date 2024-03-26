@@ -537,7 +537,7 @@ export async function getUplinkWindowHandle() {
       }
     } catch (error) {
       console.log("Error trying to get current Window Handle: ", error);
-      return undefined;
+      return "";
     }
   }
 }
