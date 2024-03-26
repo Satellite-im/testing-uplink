@@ -43,7 +43,7 @@ export default async function messageContextMenuTests() {
 
     // Validate clipboard text contains Username#
     const clipboardText = await getClipboardValue();
-    await expect(clipboardText).toHaveText("Three...");
+    await expect(clipboardText).toEqual("Three...");
   });
 
   it("Chat User B - Receive two messages from Chat User B", async () => {
@@ -60,7 +60,7 @@ export default async function messageContextMenuTests() {
 
     // Validate clipboard text contains Username#
     const clipboardText = await getClipboardValue();
-    await expect(clipboardText).toHaveText("Three...");
+    await expect(clipboardText).toEqual("Three...");
   });
 
   it("Chat User A - Context Menu - Delete Message", async () => {
