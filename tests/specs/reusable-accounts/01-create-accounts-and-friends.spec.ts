@@ -281,9 +281,9 @@ export default async function createChatAccountsTests() {
     //Timestamp from last message sent should be displayed
     const timeAgo = await MessageGroupLocal.getLastMessageSentTimeAgo();
     await expect(timeAgo).toHaveText(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+      expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
-    await expect(timeAgo).toHaveText("ChatUserA");
+    await expect(timeAgo).toHaveText(expect.stringContaining("ChatUserA"));
   });
 
   it("Chat User A - Validate Chat Message sent contents", async () => {
@@ -353,7 +353,7 @@ export default async function createChatAccountsTests() {
     await expect(timeAgo).toHaveText(
       expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
-    await expect(timeAgo).toHaveText("ChatUserA");
+    await expect(timeAgo).toHaveText(expect.stringContaining("ChatUserA"));
   });
 
   it("Chat User A - Change user status to Idle", async () => {

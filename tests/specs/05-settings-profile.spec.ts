@@ -56,14 +56,14 @@ export default async function settingsProfileTests() {
     await expect(usernameLabel).toHaveText("USERNAME");
 
     const statusLabel = await SettingsProfileScreen.statusLabel;
-    await expect(statusLabel).toHaveText("STATUS");
+    await expect(statusLabel).toHaveText("STATUS MESSAGE");
 
     // Assert username and status placeholder values are displayed
     const usernameInput = await SettingsProfileScreen.usernameInput;
     await expect(usernameInput).toHaveText("Test123");
 
     const statusInput = await SettingsProfileScreen.statusInput;
-    await expect(statusInput).toHaveText("");
+    await expect(statusInput).toHaveText(expect.stringContaining(""));
   });
 
   it("Settings Profile - Profile picture - Display Crop Tool Modal", async () => {

@@ -66,7 +66,7 @@ export default async function repliesTests() {
     await expect(timeAgo).toHaveText(
       expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
-    await expect(timeAgo).toHaveText("ChatUserB");
+    await expect(timeAgo).toHaveText(expect.stringContaining("ChatUserB"));
 
     //Your user image should be displayed next to the message
     const userImage = await MessageGroupLocal.getLastGroupWrapSentImage();
@@ -105,7 +105,7 @@ export default async function repliesTests() {
     await expect(timeAgo).toHaveText(
       expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
-    await expect(timeAgo).toHaveText("ChatUserB");
+    await expect(timeAgo).toHaveText(expect.stringContaining("ChatUserB"));
   });
 
   it("Chat User A - Validate reply message group contains user image", async () => {

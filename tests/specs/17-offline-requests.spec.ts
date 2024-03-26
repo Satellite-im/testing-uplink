@@ -157,7 +157,7 @@ export default async function offlineRequestsTests() {
     await expect(timeAgo).toHaveText(
       expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
-    await expect(timeAgo).toHaveText("UserB");
+    await expect(timeAgo).toHaveText(expect.stringContaining("UserB"));
   });
 
   it("Offline Messages - Validate Chat Message sent contents", async () => {
@@ -219,7 +219,7 @@ export default async function offlineRequestsTests() {
     await expect(timeAgo).toHaveText(
       expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
-    await expect(timeAgo).toHaveText("UserB");
+    await expect(timeAgo).toHaveText(expect.stringContaining("UserB"));
 
     // Grab cache folder
     await closeApplication();
