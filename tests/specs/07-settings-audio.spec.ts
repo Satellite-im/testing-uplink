@@ -86,6 +86,7 @@ export default async function settingsAudioTests() {
     await SettingsAudioScreen.clickOnEchoCancellation();
     await SettingsAudioScreen.clickOnMediaSounds();
     await SettingsAudioScreen.clickOnMessageSounds();
+    await SettingsAudioScreen.clickOnCallTimer();
   });
 
   it("Settings Audio - Click on slider switches to enable the options", async () => {
