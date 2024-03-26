@@ -423,17 +423,17 @@ class PinnedMessages extends UplinkMainScreen {
   ) {
     const attachmentExtension =
       await this.getPinnedMessageAttachmentFileIconExtension(0, 0);
-    await expect(attachmentExtension).toHaveTextContaining(extension);
+    await expect(attachmentExtension).toHaveText(extension);
   }
 
   async validateFirstPinnedMessageAttachmentFileMeta(meta: string) {
     const metaText = await this.getPinnedMessageAttachmentFileMetaText(0, 0);
-    await expect(metaText).toHaveTextContaining(meta);
+    await expect(metaText).toHaveText(meta);
   }
 
   async validateFirstPinnedMessageAttachmentFileName(expectedName: string) {
     const currentName = await this.getPinnedMessageAttachmentFileNameText(0, 0);
-    await expect(currentName).toHaveTextContaining(expectedName);
+    await expect(currentName).toHaveText(expectedName);
   }
 
   async validateFirstPinnedMessageImageProfileIsShown() {
@@ -443,17 +443,17 @@ class PinnedMessages extends UplinkMainScreen {
 
   async validateFirstPinnedMessageSender(username: string) {
     const sender = await this.getPinnedMessageSenderText(0);
-    await expect(sender).toHaveTextContaining(username);
+    await expect(sender).toHaveText(username);
   }
 
   async validateFirstPinnedMessageText(messageText: string) {
     const message = await this.getPinnedMessageValueText(0);
-    await expect(message).toHaveTextContaining(messageText);
+    await expect(message).toHaveText(messageText);
   }
 
   async validateFirstPinnedMessageTimestampIsShown() {
     const timestamp = await this.getPinnedMessageTimestampText(0);
-    await expect(timestamp).toHaveTextContaining(
+    await expect(timestamp).toContain(
       /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}\s+(0[1-9]|1[0-2]):([0-5][0-9])\s+(AM|PM)$/,
     );
   }

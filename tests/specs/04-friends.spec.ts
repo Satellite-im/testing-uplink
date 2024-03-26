@@ -25,9 +25,7 @@ export default async function friendsTests() {
     // Validate Pre Release Indicator is displayed
     await FriendsScreen.releaseIndicator.waitForExist();
     const releaseIndicatorText = await FriendsScreen.releaseIndicatorText;
-    await expect(releaseIndicatorText).toHaveTextContaining(
-      "Alpha | Issues/Feedback",
-    );
+    await expect(releaseIndicatorText).toHaveText("Alpha | Issues/Feedback");
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
@@ -51,27 +49,25 @@ export default async function friendsTests() {
   it("Friends Screen - Displays a badge showing 4 pending requests on Navigation Bar ", async () => {
     await FriendsScreen.buttonNavBarButtonBadge.waitForExist();
     const buttonBadgeText = await FriendsScreen.buttonNavBarButtonBadgeText;
-    await expect(buttonBadgeText).toHaveTextContaining("4");
+    await expect(buttonBadgeText).toHaveText("4");
   });
 
   it("Friends Screen - Displays a badge showing 4 pending requests on Pending Friends Button", async () => {
     await FriendsScreen.friendsButtonBadge.waitForExist();
     const buttonBadgeText = await FriendsScreen.friendsButtonBadgeText;
-    await expect(buttonBadgeText).toHaveTextContaining("4");
+    await expect(buttonBadgeText).toHaveText("4");
   });
 
   it("User can type on user search input bar", async () => {
     await FriendsScreen.enterFriendDidKey("Hello");
 
     const addSomeoneInput = await FriendsScreen.addSomeoneInput;
-    await expect(addSomeoneInput).toHaveTextContaining("Hello");
+    await expect(addSomeoneInput).toHaveText("Hello");
   });
 
   it("Add Friend Input - Error is displayed when number of chars provided is less than expected", async () => {
     const inputError = await FriendsScreen.inputErrorText;
-    await expect(inputError).toHaveTextContaining(
-      "Please enter at least 9 characters.",
-    );
+    await expect(inputError).toHaveText("Please enter at least 9 characters.");
     await FriendsScreen.deleteAddFriendInput();
   });
 
@@ -79,9 +75,7 @@ export default async function friendsTests() {
     await FriendsScreen.enterFriendDidKey("%%%%%%%%%%");
 
     const inputError = await FriendsScreen.inputErrorText;
-    await expect(inputError).toHaveTextContaining(
-      "Not allowed character(s): %",
-    );
+    await expect(inputError).toHaveText("Not allowed character(s): %");
     await FriendsScreen.deleteAddFriendInput();
   });
 
@@ -89,7 +83,7 @@ export default async function friendsTests() {
     await FriendsScreen.enterFriendDidKey("123456789             ");
 
     const inputError = await FriendsScreen.inputErrorText;
-    await expect(inputError).toHaveTextContaining("Spaces are not allowed.");
+    await expect(inputError).toHaveText("Spaces are not allowed.");
     await FriendsScreen.deleteAddFriendInput();
   });
 
@@ -155,9 +149,7 @@ export default async function friendsTests() {
     );
 
     const inputError = await FriendsScreen.inputErrorText;
-    await expect(inputError).toHaveTextContaining(
-      "Maximum of 56 characters exceeded.",
-    );
+    await expect(inputError).toHaveText("Maximum of 56 characters exceeded.");
     await FriendsScreen.deleteAddFriendInput();
   });
 
@@ -322,12 +314,12 @@ export default async function friendsTests() {
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(friendName);
     const unfriendTooltipText =
       await FriendsScreen.getUserTooltipText(friendName);
-    await expect(unfriendTooltipText).toHaveTextContaining("Unfriend");
+    await expect(unfriendTooltipText).toHaveText("Unfriend");
 
     // Validate Block button tooltip
     await FriendsScreen.hoverOnBlockButton(friendName);
     const blockTooltipText = await FriendsScreen.getUserTooltipText(friendName);
-    await expect(blockTooltipText).toHaveTextContaining("Block");
+    await expect(blockTooltipText).toHaveText("Block");
   });
 
   it("Unfriend someone from Friends List", async () => {
@@ -383,7 +375,7 @@ export default async function friendsTests() {
     const friendName = await FriendsScreen.getUserFromIncomingList();
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(friendName);
     const denyTooltipText = await FriendsScreen.getUserTooltipText(friendName);
-    await expect(denyTooltipText).toHaveTextContaining("Deny Request");
+    await expect(denyTooltipText).toHaveText("Deny Request");
   });
 
   it("Validate tooltip for Unfriend button is displayed", async () => {
@@ -392,7 +384,7 @@ export default async function friendsTests() {
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(outgoingFriendName);
     const unfriendTooltipText =
       await FriendsScreen.getUserTooltipText(outgoingFriendName);
-    await expect(unfriendTooltipText).toHaveTextContaining("Unfriend");
+    await expect(unfriendTooltipText).toHaveText("Unfriend");
   });
 
   it("Accept incoming friend request", async () => {
@@ -463,7 +455,7 @@ export default async function friendsTests() {
     await FriendsScreen.hoverOnUnfriendDenyUnblockButton(friendName);
     const unblockTooltipText =
       await FriendsScreen.getUserTooltipText(friendName);
-    await expect(unblockTooltipText).toHaveTextContaining("Unblock");
+    await expect(unblockTooltipText).toHaveText("Unblock");
   });
 
   it("Unblock someone from blocked friends list", async () => {

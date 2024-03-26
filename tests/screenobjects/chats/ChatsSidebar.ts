@@ -306,7 +306,7 @@ class ChatsSidebar extends UplinkMainScreen {
     const timeAgo = await sidebarUserLocator
       ?.$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO_VALUE);
-    await expect(timeAgo).toHaveTextContaining(
+    await expect(timeAgo).toContain(
       /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
     );
   }
@@ -364,7 +364,7 @@ class ChatsSidebar extends UplinkMainScreen {
     const badgeNumberDisplayed = await sidebarUserLocator
       ?.$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_NUMBER)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_NUMBER_VALUE);
-    await expect(badgeNumberDisplayed).toHaveTextContaining(badgeNumber);
+    await expect(badgeNumberDisplayed).toHaveText(badgeNumber);
   }
 
   async validateUsernameIsDisplayed(username: string) {

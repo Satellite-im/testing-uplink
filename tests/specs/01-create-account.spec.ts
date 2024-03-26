@@ -11,14 +11,11 @@ export default async function createAccountTests() {
   it("Enter Pin Screen - Validate warning texts are displayed on screen", async () => {
     const unlockWarningHeader = await CreatePinScreen.unlockWarningHeader;
     await unlockWarningHeader.waitForExist();
-    await expect(unlockWarningHeader).toHaveTextContaining([
-      "LET'S CHOOSE YOUR PASSWORD",
-      "WELCOME BACK,",
-    ]);
+    await expect(unlockWarningHeader).toHaveText("LET'S CHOOSE YOUR PASSWORD");
 
     const unlockWarningParagraph = await CreatePinScreen.unlockWarningParagraph;
     await unlockWarningParagraph.waitForExist();
-    await expect(unlockWarningParagraph).toHaveTextContaining(
+    await expect(unlockWarningParagraph).toHaveText(
       "(this is used to encrypt all of the data Uplink stores on your computer when you're not using it so nobody can read your data.)",
     );
   });
@@ -38,9 +35,7 @@ export default async function createAccountTests() {
     await CreatePinScreen.hoverOnHelpButton();
 
     const helpButtonTooltipText = await CreatePinScreen.helpButtonTooltipText;
-    await expect(helpButtonTooltipText).toHaveTextContaining(
-      "Help (right-click)",
-    );
+    await expect(helpButtonTooltipText).toHaveText("Help (right-click)");
   });
 
   it("Enter Pin Screen - Reset Account is shown after right clicking on Help Button", async () => {
@@ -127,10 +122,10 @@ export default async function createAccountTests() {
       await CreateOrImportScreen.recoveryParagraphText;
     const createOrImportHeader =
       await CreateOrImportScreen.createOrRecoverLabelText;
-    await expect(instructionsParagraph).toHaveTextContaining(
+    await expect(instructionsParagraph).toHaveText(
       "We're going to create an account for you. On the next screen, you'll see a set of words. Screenshot this or write it down. This is the only way to backup your account.",
     );
-    await expect(createOrImportHeader).toHaveTextContaining("ACCOUNT CREATION");
+    await expect(createOrImportHeader).toHaveText("ACCOUNT CREATION");
     await CreateOrImportScreen.clickOnCreateAccount();
   });
 
@@ -139,10 +134,10 @@ export default async function createAccountTests() {
     await SaveRecoverySeedScreen.waitForIsShown(true);
     const helperText = await SaveRecoverySeedScreen.copySeedHelperText;
     const copySeedTitle = await SaveRecoverySeedScreen.copySeedWordsLabelText;
-    await expect(helperText).toHaveTextContaining(
+    await expect(helperText).toHaveText(
       "Write these words down in the order that they appear. Having the correct order is crucial when you are recovering your account.",
     );
-    await expect(copySeedTitle).toHaveTextContaining("RECOVERY SEED");
+    await expect(copySeedTitle).toHaveText("RECOVERY SEED");
 
     // Validate 12 recovery seed words are displayed on screen
     const seedWords = await SaveRecoverySeedScreen.getSeedWords();
@@ -171,10 +166,10 @@ export default async function createAccountTests() {
   it("Enter Username Screen - Cannot continue with empty value", async () => {
     const helperText = await CreateUserScreen.createUserHelperText;
     const headerText = await CreateUserScreen.createUserLabelText;
-    await expect(helperText).toHaveTextContaining(
+    await expect(helperText).toHaveText(
       "Time to pick your username, you can change this later at any time in settings.",
     );
-    await expect(headerText).toHaveTextContaining("ENTER USERNAME");
+    await expect(headerText).toHaveText("ENTER USERNAME");
 
     await CreateUserScreen.enterUsername("1");
     await CreateUserScreen.enterUsername("");
@@ -236,9 +231,7 @@ export default async function createAccountTests() {
 
     await CreateUserScreen.inputError.waitForExist();
     const inputErrorText = await CreateUserScreen.inputErrorText;
-    await expect(inputErrorText).toHaveTextContaining(
-      "Not allowed character(s): .%@",
-    );
+    await expect(inputErrorText).toHaveText("Not allowed character(s): .%@");
   });
 
   it("Enter Username Screen - Enter valid username to continue", async () => {

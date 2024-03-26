@@ -12,8 +12,8 @@ export default async function settingsAudioTests() {
     const inputDeviceHeader = await SettingsAudioScreen.inputDeviceHeader;
     const inputDeviceDescription =
       await SettingsAudioScreen.inputDeviceDescription;
-    await expect(inputDeviceHeader).toHaveTextContaining("INPUT DEVICE");
-    await expect(inputDeviceDescription).toHaveTextContaining(
+    await expect(inputDeviceHeader).toHaveText("INPUT DEVICE");
+    await expect(inputDeviceDescription).toHaveText(
       "Select your input device (microphone, usually).",
     );
 
@@ -21,8 +21,8 @@ export default async function settingsAudioTests() {
     const outputDeviceHeader = await SettingsAudioScreen.outputDeviceHeader;
     const outputDeviceDescription =
       await SettingsAudioScreen.outputDeviceDescription;
-    await expect(outputDeviceHeader).toHaveTextContaining("OUTPUT DEVICE");
-    await expect(outputDeviceDescription).toHaveTextContaining(
+    await expect(outputDeviceHeader).toHaveText("OUTPUT DEVICE");
+    await expect(outputDeviceDescription).toHaveText(
       "This is where all sounds will be played. (Usually your headphones).",
     );
   });
@@ -33,10 +33,8 @@ export default async function settingsAudioTests() {
       await SettingsAudioScreen.echoCancellationHeader;
     const echoCancellationDescription =
       await SettingsAudioScreen.echoCancellationDescription;
-    await expect(echoCancellationHeader).toHaveTextContaining(
-      "ECHO CANCELLATION",
-    );
-    await expect(echoCancellationDescription).toHaveTextContaining(
+    await expect(echoCancellationHeader).toHaveText("ECHO CANCELLATION");
+    await expect(echoCancellationDescription).toHaveText(
       "Helps to minimize feedback from speakers into your microphone.",
     );
 
@@ -45,10 +43,8 @@ export default async function settingsAudioTests() {
       await SettingsAudioScreen.interfaceSoundsHeader;
     const interfaceSoundsDescription =
       await SettingsAudioScreen.interfaceSoundsDescription;
-    await expect(interfaceSoundsHeader).toHaveTextContaining(
-      "INTERFACE SOUNDS",
-    );
-    await expect(interfaceSoundsDescription).toHaveTextContaining(
+    await expect(interfaceSoundsHeader).toHaveText("INTERFACE SOUNDS");
+    await expect(interfaceSoundsDescription).toHaveText(
       "When enabled, some additional sounds will play when you interact with the app.",
     );
   });
@@ -58,8 +54,8 @@ export default async function settingsAudioTests() {
     const mediaSoundsHeader = await SettingsAudioScreen.mediaSoundsHeader;
     const mediaSoundsDescription =
       await SettingsAudioScreen.mediaSoundsDescription;
-    await expect(mediaSoundsHeader).toHaveTextContaining("MEDIA SOUNDS");
-    await expect(mediaSoundsDescription).toHaveTextContaining(
+    await expect(mediaSoundsHeader).toHaveText("MEDIA SOUNDS");
+    await expect(mediaSoundsDescription).toHaveText(
       "When enabled, media related events such as toggling microphone or headphones and other real time events, will play sounds.",
     );
 
@@ -67,16 +63,16 @@ export default async function settingsAudioTests() {
     const messageSoundsHeader = await SettingsAudioScreen.messageSoundsHeader;
     const messageSoundsDescription =
       await SettingsAudioScreen.messageSoundsDescription;
-    await expect(messageSoundsHeader).toHaveTextContaining("MESSAGE SOUNDS");
-    await expect(messageSoundsDescription).toHaveTextContaining(
+    await expect(messageSoundsHeader).toHaveText("MESSAGE SOUNDS");
+    await expect(messageSoundsDescription).toHaveText(
       "When enabled you will hear a notification when a new message is received.",
     );
 
     // Validate texts for Call Timer Settings Section
     const callTimerHeader = await SettingsAudioScreen.callTimerHeader;
     const callTimerDescription = await SettingsAudioScreen.callTimerDescription;
-    await expect(callTimerHeader).toHaveTextContaining("CALL TIMER");
-    await expect(callTimerDescription).toHaveTextContaining(
+    await expect(callTimerHeader).toHaveText("CALL TIMER");
+    await expect(callTimerDescription).toHaveText(
       "When enabled a timer will display when you're in a call showing it's duration.",
     );
   });

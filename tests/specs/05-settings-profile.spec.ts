@@ -15,9 +15,7 @@ export default async function settingsProfileTests() {
     await SettingsProfileScreen.releaseIndicator.waitForExist();
     const releaseIndicatorText =
       await SettingsProfileScreen.releaseIndicatorText;
-    await expect(releaseIndicatorText).toHaveTextContaining(
-      "Alpha | Issues/Feedback",
-    );
+    await expect(releaseIndicatorText).toHaveText("Alpha | Issues/Feedback");
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
@@ -31,18 +29,16 @@ export default async function settingsProfileTests() {
     await SettingsProfileScreen.yourNewProfile.waitForExist();
     const yourNewProfileHeaderText =
       await SettingsProfileScreen.yourNewProfileHeaderTextValue;
-    await expect(yourNewProfileHeaderText).toHaveTextContaining(
-      "YOUR NEW PROFILE!",
-    );
+    await expect(yourNewProfileHeaderText).toHaveText("YOUR NEW PROFILE!");
     const yourNewProfileDescriptionOne =
       await SettingsProfileScreen.yourNewProfileDescriptionTextOneValue;
-    await expect(yourNewProfileDescriptionOne).toHaveTextContaining(
+    await expect(yourNewProfileDescriptionOne).toHaveText(
       "Tell the world all about yourself, well.. tell them as much as you can while we're still under construction, at least.",
     );
 
     const yourNewProfileDescriptionTwo =
       await SettingsProfileScreen.yourNewProfileDescriptionTextTwoValue;
-    await expect(yourNewProfileDescriptionTwo).toHaveTextContaining(
+    await expect(yourNewProfileDescriptionTwo).toHaveText(
       "First step, pick out a profile picture and maybe even a banner too!",
     );
   });
@@ -57,17 +53,17 @@ export default async function settingsProfileTests() {
   it("Settings Profile - Assert screen and placeholder texts", async () => {
     // Assert username and status labels are displayed on screen
     const usernameLabel = await SettingsProfileScreen.usernameLabel;
-    await expect(usernameLabel).toHaveTextContaining("USERNAME");
+    await expect(usernameLabel).toHaveText("USERNAME");
 
     const statusLabel = await SettingsProfileScreen.statusLabel;
-    await expect(statusLabel).toHaveTextContaining("STATUS");
+    await expect(statusLabel).toHaveText("STATUS");
 
     // Assert username and status placeholder values are displayed
     const usernameInput = await SettingsProfileScreen.usernameInput;
-    await expect(usernameInput).toHaveTextContaining("Test123");
+    await expect(usernameInput).toHaveText("Test123");
 
     const statusInput = await SettingsProfileScreen.statusInput;
-    await expect(statusInput).toHaveTextContaining("");
+    await expect(statusInput).toHaveText("");
   });
 
   it("Settings Profile - Profile picture - Display Crop Tool Modal", async () => {
@@ -100,7 +96,7 @@ export default async function settingsProfileTests() {
 
     // Validate default value shown for zoom slider is 1
     const rangeValueText = await CropImageProfileModal.cropImageRangeValueText;
-    await expect(rangeValueText).toHaveTextContaining("1");
+    await expect(rangeValueText).toHaveText("1");
   });
 
   it("Settings Profile - Profile Picture - Close Crop Tool Modal", async () => {
@@ -124,7 +120,7 @@ export default async function settingsProfileTests() {
 
     // Validate final value shown for zoom slider is 1
     const rangeValueText = await CropImageProfileModal.cropImageRangeValueText;
-    await expect(rangeValueText).toHaveTextContaining("1.2");
+    await expect(rangeValueText).toHaveText("1.2");
 
     // Click on confirm button to save
     await CropImageProfileModal.clickOnConfirmButton();
@@ -143,7 +139,7 @@ export default async function settingsProfileTests() {
     // Validate that change banner tooltip is displayed
     const profileBannerTooltip =
       await SettingsProfileScreen.profileBannerTooltip;
-    await expect(profileBannerTooltip).toHaveTextContaining("Change banner");
+    await expect(profileBannerTooltip).toHaveText("Change banner");
   });
 
   // Needs visual validation steps to ensure that picture was actually loaded matches with expected image
@@ -215,7 +211,7 @@ export default async function settingsProfileTests() {
     await SettingsProfileScreen.hoverOnCopyID();
 
     const copyIDTooltipText = await SettingsProfileScreen.copyIDTooltipText;
-    await expect(copyIDTooltipText).toHaveTextContaining("Copy ID");
+    await expect(copyIDTooltipText).toHaveText("Copy ID");
   });
 
   it("Settings Profile - Click On Copy ID Button", async () => {
@@ -290,7 +286,7 @@ export default async function settingsProfileTests() {
     await browser.pause(1000);
     await SettingsProfileScreen.inputError.waitForExist();
     const inputErrorText = await SettingsProfileScreen.inputErrorMessage;
-    await expect(inputErrorText).toHaveTextContaining(
+    await expect(inputErrorText).toHaveText(
       "Maximum of 128 characters exceeded.",
     );
 
@@ -307,7 +303,7 @@ export default async function settingsProfileTests() {
     // Validate that error message is displayed
     await SettingsProfileScreen.inputError.waitForExist();
     const inputErrorText = await SettingsProfileScreen.inputErrorMessage;
-    await expect(inputErrorText).toHaveTextContaining(
+    await expect(inputErrorText).toHaveText(
       "Please enter at least 4 characters.",
     );
 
@@ -324,9 +320,7 @@ export default async function settingsProfileTests() {
     // Validate that error message is displayed
     await SettingsProfileScreen.inputError.waitForExist();
     const inputErrorText = await SettingsProfileScreen.inputErrorMessage;
-    await expect(inputErrorText).toHaveTextContaining(
-      "Spaces are not allowed.",
-    );
+    await expect(inputErrorText).toHaveText("Spaces are not allowed.");
 
     // Clear value from username input, then enter a valid value again
     await SettingsProfileScreen.enterUsername("Test123");
@@ -342,9 +336,7 @@ export default async function settingsProfileTests() {
 
     await SettingsProfileScreen.inputError.waitForExist();
     const inputErrorText = await SettingsProfileScreen.inputErrorMessage;
-    await expect(inputErrorText).toHaveTextContaining(
-      "Not allowed character(s): &^%*#$",
-    );
+    await expect(inputErrorText).toHaveText("Not allowed character(s): &^%*#$");
 
     // Clear value from username input, then enter a valid value again
     await SettingsProfileScreen.enterUsername("Test123");
@@ -361,7 +353,7 @@ export default async function settingsProfileTests() {
     // Validate that error message is displayed
     await SettingsProfileScreen.inputError.waitForExist();
     const inputErrorText = await SettingsProfileScreen.inputErrorMessage;
-    await expect(inputErrorText).toHaveTextContaining(
+    await expect(inputErrorText).toHaveText(
       "Maximum of 32 characters exceeded.",
     );
 
