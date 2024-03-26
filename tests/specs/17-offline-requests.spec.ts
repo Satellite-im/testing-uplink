@@ -154,8 +154,8 @@ export default async function offlineRequestsTests() {
   it("Offline Messages - Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await MessageGroupLocal.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toContain(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    await expect(timeAgo).toHaveText(
+      expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
     await expect(timeAgo).toHaveText("UserB");
   });
@@ -216,8 +216,8 @@ export default async function offlineRequestsTests() {
   it("Offline Messages - Validate Chat Message received displays timestamp and user who sent it", async () => {
     //Timestamp should be displayed when you send a message
     const timeAgo = await MessageGroupRemote.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toContain(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    await expect(timeAgo).toHaveText(
+      expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
     await expect(timeAgo).toHaveText("UserB");
 

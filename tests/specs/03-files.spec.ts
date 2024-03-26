@@ -92,7 +92,9 @@ export default async function filesTests() {
   xit("Upload file - Validate progress indicator", async () => {
     // Validate progress % and filename displayed correctly
     const progressText = await FilesScreen.getProgressUploadPercentage();
-    await expect(progressText).toContain("% Uploaded");
+    await expect(progressText).toHaveText(
+      expect.stringContaining("% Uploaded"),
+    );
 
     const fileNameProgress = await FilesScreen.getProgressUploadFilename();
     await expect(fileNameProgress).toHaveText("logo.jpg");
@@ -158,10 +160,18 @@ export default async function filesTests() {
     const filesInfoCurrentSizeValue =
       await FilesScreen.filesInfoCurrentSizeValue;
 
-    await expect(filesInfoMaxSizeLabel).toContain("Max Size:");
-    await expect(filesInfoMaxSizeValue).toContain("GB");
-    await expect(filesInfoCurrentSizeLabel).toContain("Used Space:");
-    await expect(filesInfoCurrentSizeValue).toContain("0 bytes");
+    await expect(filesInfoMaxSizeLabel).toHaveText(
+      expect.stringContaining("Max Size:"),
+    );
+    await expect(filesInfoMaxSizeValue).toHaveText(
+      expect.stringContaining("GB"),
+    );
+    await expect(filesInfoCurrentSizeLabel).toHaveText(
+      expect.stringContaining("Used Space:"),
+    );
+    await expect(filesInfoCurrentSizeValue).toHaveText(
+      expect.stringContaining("0 bytes"),
+    );
   });
 
   it("Files - File Size Indicators after uploading a file are updated", async () => {
@@ -181,10 +191,18 @@ export default async function filesTests() {
       await FilesScreen.filesInfoCurrentSizeLabel;
     const filesInfoCurrentSizeValue =
       await FilesScreen.filesInfoCurrentSizeValue;
-    await expect(filesInfoMaxSizeLabel).toContain("Max Size:");
-    await expect(filesInfoMaxSizeValue).toContain("GB");
-    await expect(filesInfoCurrentSizeLabel).toContain("Used Space:");
-    await expect(filesInfoCurrentSizeValue).toContain("13.2 MB");
+    await expect(filesInfoMaxSizeLabel).toHaveText(
+      expect.stringContaining("Max Size:"),
+    );
+    await expect(filesInfoMaxSizeValue).toHaveText(
+      expect.stringContaining("GB"),
+    );
+    await expect(filesInfoCurrentSizeLabel).toHaveText(
+      expect.stringContaining("Used Space:"),
+    );
+    await expect(filesInfoCurrentSizeValue).toHaveText(
+      expect.stringContaining("13.2 MB"),
+    );
   });
 
   it("Files - File is renamed when uploading a file with existing file name", async () => {

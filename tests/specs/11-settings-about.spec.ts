@@ -18,7 +18,9 @@ export default async function settingsAboutTests() {
     const versionHeader = await SettingsAboutScreen.versionHeader;
     const versionDescription = await SettingsAboutScreen.versionDescription;
     await expect(versionHeader).toHaveText("VERSION");
-    await expect(versionDescription).toContain(/^[0-9].[0-9].[0-9]$/);
+    await expect(versionDescription).toHaveText(
+      expect.stringMatching(/^[0-9].[0-9].[0-9]$/),
+    );
 
     // Validate the header and description texts from Settings Section - About - Open Website
     const openWebsiteHeader = await SettingsAboutScreen.openWebsiteHeader;

@@ -97,7 +97,9 @@ export default async function friendsTests() {
     // Validate value copied from Copy ID is correct
     await FriendsScreen.pasteUserKeyInAddSomeone();
     const clipboardText = await FriendsScreen.getValueFromAddSomeoneInput();
-    await expect(clipboardText).toContain("ChatUserA#");
+    await expect(clipboardText).toHaveText(
+      expect.stringContaining("ChatUserA#"),
+    );
   });
 
   it("User can copy its own DID key using the context menu from Copy Button", async () => {
@@ -111,7 +113,7 @@ export default async function friendsTests() {
     // Validate value copied from Copy DID is correct
     await FriendsScreen.pasteUserKeyInAddSomeone();
     const clipboardText = await FriendsScreen.getValueFromAddSomeoneInput();
-    await expect(clipboardText).toContain("did:key");
+    await expect(clipboardText).toHaveText(expect.stringContaining("did:key"));
   });
 
   it("User can copy its own username using the context menu from Copy Button", async () => {
@@ -125,7 +127,9 @@ export default async function friendsTests() {
     // Validate value copied from Copy ID is correct
     await FriendsScreen.pasteUserKeyInAddSomeone();
     const clipboardText = await FriendsScreen.getValueFromAddSomeoneInput();
-    await expect(clipboardText).toContain("ChatUserA#");
+    await expect(clipboardText).toHaveText(
+      expect.stringContaining("ChatUserA#"),
+    );
   });
 
   it("Add Friend Input - Error is displayed when the user tries to add themselves", async () => {

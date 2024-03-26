@@ -63,8 +63,8 @@ export default async function repliesTests() {
   it("Chat User B - Validate reply message group contains timestamp and user image", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await MessageGroupLocal.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toContain(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    await expect(timeAgo).toHaveText(
+      expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
     await expect(timeAgo).toHaveText("ChatUserB");
 
@@ -102,8 +102,8 @@ export default async function repliesTests() {
   it("Chat User A - Validate reply message group contains timestamp", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await MessageGroupRemote.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toContain(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    await expect(timeAgo).toHaveText(
+      expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
     await expect(timeAgo).toHaveText("ChatUserB");
   });

@@ -306,8 +306,8 @@ class ChatsSidebar extends UplinkMainScreen {
     const timeAgo = await sidebarUserLocator
       ?.$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO)
       .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO_VALUE);
-    await expect(timeAgo).toContain(
-      /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    await expect(timeAgo).toHaveText(
+      expect.stringMatching(/(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
   }
 

@@ -350,8 +350,8 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Validate Chat Message received displays timestamp and user who sent it", async () => {
     //Timestamp should be displayed when you send a message
     const timeAgo = await MessageGroupRemote.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toContain(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    await expect(timeAgo).toHaveText(
+      expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
     await expect(timeAgo).toHaveText("ChatUserA");
   });

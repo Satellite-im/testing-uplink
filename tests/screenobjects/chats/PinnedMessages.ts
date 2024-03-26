@@ -453,8 +453,10 @@ class PinnedMessages extends UplinkMainScreen {
 
   async validateFirstPinnedMessageTimestampIsShown() {
     const timestamp = await this.getPinnedMessageTimestampText(0);
-    await expect(timestamp).toContain(
-      /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}\s+(0[1-9]|1[0-2]):([0-5][0-9])\s+(AM|PM)$/,
+    await expect(timestamp).toHaveText(
+      expect.stringMatching(
+        /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}\s+(0[1-9]|1[0-2]):([0-5][0-9])\s+(AM|PM)$/,
+      ),
     );
   }
 }
