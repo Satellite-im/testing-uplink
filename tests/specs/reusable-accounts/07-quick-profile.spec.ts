@@ -115,6 +115,11 @@ export default async function quickProfileTests() {
     // Send friend request to Chat User B
     await FriendsScreen.sendFriendRequest(friendDidKey, "ChatUserB");
 
+    // Go to Pending Friends List
+    await FriendsScreen.hoverOnPendingListButton();
+    await FriendsScreen.goToPendingFriendsList();
+    await FriendsScreen.validateOutgoingListIsShown();
+
     // Go to All Friends List
     await FriendsScreen.goToAllFriendsList();
     await FriendsScreen.validateAllFriendsListIsShown();

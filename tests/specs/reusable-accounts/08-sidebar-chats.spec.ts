@@ -46,7 +46,7 @@ export default async function sidebarChatsTests() {
     await MessageLocal.waitForMessageSentToExist("__hello__");
 
     // Validate last message on Sidebar is not formatted with markdown
-    await ChatsSidebar.validateLastMessageDisplayed("__hello__");
+    await ChatsSidebar.validateLastMessageDisplayed("__hello__", "ChatUserA");
   });
 
   it("Chat User A - Wait until Chat User B accepts friend request and sends a message", async () => {
@@ -68,25 +68,25 @@ export default async function sidebarChatsTests() {
 
   it("Chat User A - Sidebar - Any active chats user has created should appear in Sidebar", async () => {
     // Validate Sidebar shows Username
-    await ChatsSidebar.validateUsernameDisplayed("ChatUserB");
+    await ChatsSidebar.validateUsernameIsDisplayed("ChatUserB");
 
     // Validate number of unread messages is displayed on sidebar
-    await ChatsSidebar.validateNumberOfUnreadMessages("1");
+    await ChatsSidebar.validateNumberOfUnreadMessages("1", "ChatUserB");
 
     // Validate time ago displayed on sidebar
-    await ChatsSidebar.validateLastMessageTimeAgo();
+    await ChatsSidebar.validateLastMessageTimeAgo("ChatUserB");
   });
 
   it("Sidebar - Message preview on Sidebar should not display the message with markdown", async () => {
     // Validate last message contents on Sidebar displays hello __hello__ without applying the markdown
-    await ChatsSidebar.validateLastMessageDisplayed("__hello__");
+    await ChatsSidebar.validateLastMessageDisplayed("__hello__", "ChatUserB");
   });
 
   it("Chat User A - Sidebar - Context Menu - Clear Unreads", async () => {
     // Open context menu and right click on Clear Unreads
     await ChatsSidebar.openContextMenuOnSidebar("ChatUserB");
     await ContextMenuSidebar.selectChatsClearUnreads();
-    await ChatsSidebar.validateNoUnreadMessages();
+    await ChatsSidebar.validateNoUnreadMessages("ChatUserB");
   });
 
   it("Chat User A - Sidebar - Context Menu - Hide chat", async () => {
