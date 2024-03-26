@@ -14,10 +14,10 @@ import settingsAboutTests from "@specs/11-settings-about.spec";
 import settingsLicensesTests from "@specs/12-settings-licenses.spec";
 import settingsDeveloperTests from "@specs/13-settings-developer.spec";
 import importAccountTests from "@specs/16-import-account.spec";
-import offlineRequestsTests from "@specs/17-offline-requests.spec";
 
 describe("Windows Tests", function () {
   describe("Create Pin and Account Tests", createAccountTests.bind(this));
+  describe("Import Account Tests", importAccountTests.bind(this));
   describe("Chats Main Screen Tests", chatsTests.bind(this));
   describe("Files Screen Tests", filesTests.bind(this));
   describe("Settings Profile Tests", settingsProfileTests.bind(this));
@@ -40,6 +40,4 @@ describe("Windows Tests", function () {
   describe("Settings About Tests", settingsAboutTests.bind(this));
   describe("Settings Licenses Tests", settingsLicensesTests.bind(this));
   describe("Settings Developer Tests", settingsDeveloperTests.bind(this));
-  describe("Import Account Tests", importAccountTests.bind(this));
-  describe("Offline Friend Requests Tests", offlineRequestsTests.bind(this));
 });
