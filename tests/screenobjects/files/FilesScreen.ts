@@ -500,8 +500,8 @@ class FilesScreen extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.clickOnFilesDownload();
       await saveFileOnMacOS(filename);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await getUplinkWindowHandle().toString();
+    } else {
+      const uplinkContext = await getUplinkWindowHandle();
       await this.clickOnFilesDownload();
       await saveFileOnWindows(filename, uplinkContext);
     }
@@ -584,8 +584,8 @@ class FilesScreen extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.clickOnUploadFile();
       await selectFileOnMacos(relativePath);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await getUplinkWindowHandle().toString();
+    } else {
+      const uplinkContext = await getUplinkWindowHandle();
       await this.clickOnUploadFile();
       await selectFileOnWindows(relativePath, uplinkContext);
     }

@@ -511,7 +511,7 @@ class MessageLocal extends UplinkMainScreen {
       await downloadButton.click();
       await saveFileOnMacOS(filename);
     } else if (currentDriver === WINDOWS_DRIVER) {
-      const uplinkContext = await getUplinkWindowHandle().toString();
+      const uplinkContext = await getUplinkWindowHandle();
       await downloadButton.click();
       await saveFileOnWindows(filename, uplinkContext);
     }
