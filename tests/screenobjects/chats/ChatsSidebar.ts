@@ -282,9 +282,13 @@ class ChatsSidebar extends UplinkMainScreen {
 
   // Validations or assertions
 
-  async validateLastMessageDisplayed(message: string) {
-    const sidebarStatusValue = await this.sidebarChatsUserStatusValue;
-    await sidebarStatusValue.waitUntil(
+  async validateLastMessageDisplayed(message: string, username: string) {
+    const sidebarUserLocator =
+      await this.getExistingElementByAriaLabel(username);
+    const sidebarStatusValue = await sidebarUserLocator
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_STATUS)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_STATUS_VALUE);
+    await sidebarStatusValue?.waitUntil(
       async () => {
         return (await sidebarStatusValue.getText()) === message;
       },
@@ -296,20 +300,28 @@ class ChatsSidebar extends UplinkMainScreen {
     );
   }
 
-  async validateLastMessageTimeAgo() {
-    const timeAgo = await this.sidebarChatsUserBadgeTimeAgoValue;
+  async validateLastMessageTimeAgo(username: string) {
+    const sidebarUserLocator =
+      await this.getExistingElementByAriaLabel(username);
+    const timeAgo = await sidebarUserLocator
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_TIME_AGO_VALUE);
     await expect(timeAgo).toHaveTextContaining(
       /(?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
     );
   }
 
-  async validateNoUnreadMessages() {
-    await this.sidebarChatsUserBadge.waitForExist({
-      reverse: true,
-      timeout: 15000,
-      timeoutMsg:
-        "Expected badge number of unread messages is still displayed after 15 seconds",
-    });
+  async validateNoUnreadMessages(username: string) {
+    const sidebarUserLocator =
+      await this.getExistingElementByAriaLabel(username);
+    await sidebarUserLocator
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_BADGE)
+      .waitForExist({
+        reverse: true,
+        timeout: 15000,
+        timeoutMsg:
+          "Expected badge number of unread messages is still displayed after 15 seconds",
+      });
   }
 
   async validateNoSidebarChatsAreDisplayed() {
@@ -321,13 +333,11 @@ class ChatsSidebar extends UplinkMainScreen {
   }
 
   async validateSidebarChatIsNotDisplayed(username: string) {
-    const locator = await this.getNonExistingElementByAriaLabel(username);
+    const locator: string =
+      await this.getNonExistingElementByAriaLabel(username);
     await driver.waitUntil(
       async () => {
-        return await $(SELECTORS.SIDEBAR)
-          // @ts-ignore
-          .$(locator)
-          .waitForExist({ reverse: true });
+        return await this.sidebar.$(locator).waitForExist({ reverse: true });
       },
       {
         timeout: 15000,
@@ -348,14 +358,22 @@ class ChatsSidebar extends UplinkMainScreen {
     );
   }
 
-  async validateNumberOfUnreadMessages(badgeNumber: string) {
-    const unreadMessages = await this.sidebarChatsUserBadgeNumberValue;
-    await expect(unreadMessages).toHaveTextContaining(badgeNumber);
+  async validateNumberOfUnreadMessages(badgeNumber: string, username: string) {
+    const sidebarUserLocator =
+      await this.getExistingElementByAriaLabel(username);
+    const badgeNumberDisplayed = await sidebarUserLocator
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_NUMBER)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_BADGE_NUMBER_VALUE);
+    await expect(badgeNumberDisplayed).toHaveTextContaining(badgeNumber);
   }
 
-  async validateUsernameDisplayed(username: string) {
-    const usernameDisplayed = await this.sidebarChatsUserNameValue;
-    await expect(usernameDisplayed).toHaveTextContaining(username);
+  async validateUsernameIsDisplayed(username: string) {
+    const sidebarUserLocator =
+      await this.getExistingElementByAriaLabel(username);
+    const usernameDisplayed = await sidebarUserLocator
+      ?.$(SELECTORS.SIDEBAR_CHATS_USER_NAME)
+      .$(SELECTORS.SIDEBAR_CHATS_USER_NAME_VALUE);
+    await expect(usernameDisplayed).toHaveText(username);
   }
 
   async validateSidebarChatsIsShown() {
@@ -376,35 +394,44 @@ class ChatsSidebar extends UplinkMainScreen {
 
   async getExistingElementByAriaLabel(username: string) {
     const currentDriver = await this.getCurrentDriver();
-    let locator;
+    let locator: string;
     if (currentDriver === MACOS_DRIVER) {
-      locator = await $(SELECTORS.SIDEBAR).$("~" + username);
-    } else if (currentDriver === WINDOWS_DRIVER) {
-      locator = await $(SELECTORS.SIDEBAR).$('[name="' + username + '"]');
+      let element: WebdriverIO.Element;
+      locator = "~" + username;
+      element = await this.sidebar.$(locator);
+      return element;
+    } else {
+      let element: WebdriverIO.Element;
+      locator = '[name="' + username + '"]';
+      element = await this.sidebar.$(locator);
+      return element;
     }
-    return locator;
   }
 
   async getNonExistingElementByAriaLabel(username: string) {
     const currentDriver = await this.getCurrentDriver();
-    let locator;
+    let locator: string;
     if (currentDriver === MACOS_DRIVER) {
       locator = "~" + username;
+      return locator;
     } else if (currentDriver === WINDOWS_DRIVER) {
       locator = '[name="' + username + '"]';
+      return locator;
+    } else {
+      locator = "";
+      return locator;
     }
-    return locator;
   }
 
   async waitForGroupToBeCreated(groupname: string) {
-    const element = await this.getExistingElementByAriaLabel(groupname);
-    // @ts-ignore
-    await $(SELECTORS.SIDEBAR).$(element).waitForExist();
+    const element: WebdriverIO.Element =
+      await this.getExistingElementByAriaLabel(groupname);
+    await element.waitForExist();
   }
 
   async waitForGroupToBeDeleted(groupname: string) {
-    const element = await this.getNonExistingElementByAriaLabel(groupname);
-    // @ts-ignore
+    const element: string =
+      await this.getNonExistingElementByAriaLabel(groupname);
     await $(SELECTORS.SIDEBAR).$(element).waitForExist({ reverse: true });
   }
 

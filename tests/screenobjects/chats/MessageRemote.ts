@@ -512,7 +512,6 @@ class MessageRemote extends UplinkMainScreen {
     } else if (currentDriver === WINDOWS_DRIVER) {
       const uplinkContext = await getUplinkWindowHandle();
       await downloadButton.click();
-      //@ts-ignore
       await saveFileOnWindows(filename, uplinkContext);
     }
   }

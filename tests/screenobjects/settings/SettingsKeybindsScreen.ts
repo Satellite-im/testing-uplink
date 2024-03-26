@@ -420,13 +420,12 @@ class SettingsKeybindsScreen extends SettingsBaseScreen {
       sectionToValidate = await $(`~${section}-section`).$(
         SELECTORS.KEYBIND_SECTION_KEYS,
       );
-    } else if (currentDriver === WINDOWS_DRIVER) {
+    } else {
       sectionToValidate = await $(`[name="${section}-section"]`).$(
         SELECTORS.KEYBIND_SECTION_KEYS,
       );
     }
-    const separators = await sectionToValidate?.$$(SELECTORS.KEYBIND_SEPARATOR);
-    //@ts-ignore
+    const separators = await sectionToValidate.$$(SELECTORS.KEYBIND_SEPARATOR);
     const numberOfKeys = separators.length + 1;
     for (let i = 0; i < numberOfKeys; i++) {
       const key = await sectionToValidate?.$$(SELECTORS.KEYBIND_KEY)[i];

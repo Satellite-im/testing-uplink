@@ -527,7 +527,6 @@ class SettingsProfileScreen extends SettingsBaseScreen {
       const uplinkContext = await getUplinkWindowHandle();
       const profileBannerWindows = await this.profileBanner;
       await profileBannerWindows.click();
-      //@ts-ignore
       await selectFileOnWindows(relativePath, uplinkContext);
     }
   }
@@ -544,7 +543,6 @@ class SettingsProfileScreen extends SettingsBaseScreen {
       const uplinkContext = await getUplinkWindowHandle();
       const profilePictureImage = await this.profilePicture;
       await profilePictureImage.click();
-      //@ts-ignore
       await selectFileOnWindows(relativePath, uplinkContext);
     }
   }

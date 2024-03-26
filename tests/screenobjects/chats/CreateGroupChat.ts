@@ -264,22 +264,24 @@ class CreateGroupChat extends UplinkMainScreen {
   // Validations
 
   async getNumberOfUsersInListFromCreateGroup() {
-    const friendContainer = await this.friendContainer;
-    // @ts-ignore
-    const numberOfUsersInList = await friendContainer.length;
-    if (numberOfUsersInList > 0) {
-      return numberOfUsersInList;
-    } else {
+    const friendContainer: WebdriverIO.ElementArray = await $$(
+      SELECTORS.FRIEND_CONTAINER,
+    );
+    if (friendContainer === undefined) {
       return 0;
+    } else {
+      const numberOfUsersInList = await friendContainer.length;
+      return numberOfUsersInList;
     }
   }
 
   async getListOfUsersInCreateGroup() {
-    const usersInList = await this.friendContainer;
-    let users = [];
-    for (let user in usersInList) {
-      const username = await user
-        // @ts-ignore
+    const usersInList: WebdriverIO.ElementArray = await $$(
+      SELECTORS.FRIEND_CONTAINER,
+    );
+    let users: Array<string> = [];
+    for (let user of usersInList) {
+      const username: WebdriverIO.Element = await user
         .$(SELECTORS.FRIEND_USER_NAME)
         .$(SELECTORS.FRIEND_USER_NAME_TEXT);
       const usernameText = await username.getText();

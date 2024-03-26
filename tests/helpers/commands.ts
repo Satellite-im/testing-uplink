@@ -468,7 +468,7 @@ export async function rightClickOnWindows(
 
 export async function saveFileOnWindows(
   filename: string,
-  uplinkContext: string,
+  uplinkContext: string | undefined,
 ) {
   // Pause for 5 seconds until explorer window is displayed and switch to it
   await browser.pause(5000);
@@ -491,12 +491,14 @@ export async function saveFileOnWindows(
   // Wait for Save Panel not to be displayed
   await titleBar.waitForExist({ reverse: true });
 
-  await driver.switchToWindow(uplinkContext);
+  if (typeof uplinkContext === "string") {
+    await driver.switchToWindow(uplinkContext);
+  }
 }
 
 export async function selectFileOnWindows(
   relativePath: string,
-  uplinkContext: string,
+  uplinkContext: string | undefined,
 ) {
   // Get the filepath to select on browser
   const filepath = join(process.cwd(), relativePath);
@@ -519,7 +521,9 @@ export async function selectFileOnWindows(
 
   // Wait for Save Panel not to be displayed
   await listView.waitForExist({ reverse: true });
-  await driver.switchToWindow(uplinkContext);
+  if (typeof uplinkContext === "string") {
+    await driver.switchToWindow(uplinkContext);
+  }
 }
 
 export async function getUplinkWindowHandle() {
@@ -528,12 +532,13 @@ export async function getUplinkWindowHandle() {
     try {
       const uplinkContext = await driver.getWindowHandle();
       if (typeof uplinkContext !== "undefined") {
-        return uplinkContext.toString();
+        return uplinkContext;
       }
     } catch (error) {
       console.log("Error trying to get current Window Handle: ", error);
-      return undefined;
     }
+    const uplinkContext: string = "";
+    return uplinkContext;
   }
 }
 

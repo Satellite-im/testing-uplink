@@ -399,7 +399,6 @@ class FilesScreen extends UplinkMainScreen {
 
   async clickOnFileOrFolder(locator: string) {
     const fileOrFolderLocator = await this.getLocatorOfFolderFile(locator);
-    // @ts-ignore
     const fileOrFolderElement = await $(fileOrFolderLocator);
     await fileOrFolderElement.click();
   }
@@ -455,7 +454,6 @@ class FilesScreen extends UplinkMainScreen {
     // If name was typed correctly, continue with method execution
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(name);
-    // @ts-ignore
     const newFolderElement = await $(newFolder);
     await newFolderElement.waitForExist();
   }
@@ -502,10 +500,9 @@ class FilesScreen extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.clickOnFilesDownload();
       await saveFileOnMacOS(filename);
-    } else if (currentDriver === WINDOWS_DRIVER) {
+    } else {
       const uplinkContext = await getUplinkWindowHandle();
       await this.clickOnFilesDownload();
-      //@ts-ignore
       await saveFileOnWindows(filename, uplinkContext);
     }
   }
@@ -530,7 +527,7 @@ class FilesScreen extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       locator =
         '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]';
-    } else if (currentDriver === WINDOWS_DRIVER) {
+    } else {
       locator = '//Group[name="' + name + '"]';
     }
     return locator;
@@ -542,7 +539,7 @@ class FilesScreen extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       locator =
         '-ios class chain:**/XCUIElementTypeGroup[`label == "' + name + '"`]';
-    } else if (currentDriver === WINDOWS_DRIVER) {
+    } else {
       locator = '//Group[@Name="' + name + '"]';
     }
     return locator;
@@ -567,7 +564,6 @@ class FilesScreen extends UplinkMainScreen {
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
     const newFile = await this.getLocatorOfFolderFile(newName + extension);
-    // @ts-ignore
     const newFileElement = await $(newFile);
     await newFileElement.waitForExist();
   }
@@ -579,7 +575,6 @@ class FilesScreen extends UplinkMainScreen {
     const filesInfoCurrentSizeLabel = await this.filesInfoCurrentSizeLabel;
     await filesInfoCurrentSizeLabel.click();
     const newFolder = await this.getLocatorOfFolderFile(newName);
-    // @ts-ignore
     const newFolderElement = await $(newFolder);
     await newFolderElement.waitForExist();
   }
@@ -589,24 +584,21 @@ class FilesScreen extends UplinkMainScreen {
     if (currentDriver === MACOS_DRIVER) {
       await this.clickOnUploadFile();
       await selectFileOnMacos(relativePath);
-    } else if (currentDriver === WINDOWS_DRIVER) {
+    } else {
       const uplinkContext = await getUplinkWindowHandle();
       await this.clickOnUploadFile();
-      //@ts-ignore
       await selectFileOnWindows(relativePath, uplinkContext);
     }
   }
 
   async validateFileOrFolderExist(locator: string, timeout: number = 30000) {
     const fileFolderElementLocator = await this.getLocatorOfFolderFile(locator);
-    // @ts-ignore
     const fileFolderElement = await $(fileFolderElementLocator);
     await fileFolderElement.waitForExist({ timeout: timeout });
   }
 
   async validateFileOrFolderNotExist(locator: string) {
     const fileFolderLocator = await this.getLocatorOfDeletedElement(locator);
-    // @ts-ignore
     await $(fileFolderLocator).waitForExist({ reverse: true });
   }
 
@@ -638,7 +630,6 @@ class FilesScreen extends UplinkMainScreen {
 
   async openFilesContextMenu(name: string) {
     const elementLocator = await this.getLocatorOfFolderFile(name);
-    // @ts-ignore
     const fileFolderToRightClick = await $(elementLocator).$(
       SELECTORS.FILE_FOLDER_NAME_TEXT,
     );

@@ -22,11 +22,11 @@ describe("Quick Profile Tests", quickProfileTests.bind(this));
 describe("Sidebar Chats Tests", sidebarChatsTests.bind(this));
 describe("Group Chats Tests", groupChatTests.bind(this));
 describe("Group Chats Edit Tests", groupChatEditTests.bind(this));
-xdescribe(
+describe(
   "Group Chats Favorites and Sidebar Tests",
   groupChatSidebarTests.bind(this),
 );
-xdescribe(
+describe(
   "Group Chats Multiple Users Tests",
   groupChatMultipleUsersTests.bind(this),
 );

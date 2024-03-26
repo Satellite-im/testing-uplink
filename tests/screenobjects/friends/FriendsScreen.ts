@@ -505,7 +505,7 @@ class FriendsScreen extends UplinkMainScreen {
     let locator: string | undefined;
     if (currentDriver === MACOS_DRIVER) {
       locator = "~" + username;
-    } else if (currentDriver === WINDOWS_DRIVER) {
+    } else {
       locator = '[name="' + username + '"]';
     }
     return locator;
@@ -869,7 +869,6 @@ class FriendsScreen extends UplinkMainScreen {
     const nonExistingFriend =
       await this.getNonExistingFriendByAriaLabel(username);
     await $(SELECTORS.FRIENDS_BODY)
-      //@ts-ignore
       .$(nonExistingFriend)
       .waitForExist({ timeout: timeoutUser, reverse: true });
   }
