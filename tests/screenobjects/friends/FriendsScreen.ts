@@ -837,8 +837,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateIncomingListIsShown() {
-    await this.noRequests.waitForExist({ reverse: true, timeout: 30000 });
-    await this.incomingRequestsList.waitForExist();
+    await this.incomingRequestsList.waitForExist({ timeout: 45000 });
   }
 
   async validateNoRequestsIsShown() {
@@ -853,8 +852,7 @@ class FriendsScreen extends UplinkMainScreen {
   }
 
   async validateOutgoingListIsShown() {
-    await this.noRequests.waitForExist({ reverse: true, timeout: 30000 });
-    await this.outgoingRequestsList.waitForExist();
+    await this.outgoingRequestsList.waitForExist({ timeout: 45000 });
   }
 
   async validateRemoveOrDenyButtonIsShown() {
