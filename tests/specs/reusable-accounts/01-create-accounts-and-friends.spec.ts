@@ -225,7 +225,7 @@ export default async function createChatAccountsTests() {
     // Validate E2E message is displayed on top of chat
     const encryptedMessagesText = await ChatsLayout.encryptedMessagesText;
     await encryptedMessagesText.waitForExist();
-    await expect(encryptedMessagesText).toHaveTextContaining(
+    await expect(encryptedMessagesText).toHaveText(
       "Messages are secured by end-to-end encryption and sent over a peer-to-peer network.",
     );
   });
@@ -234,8 +234,8 @@ export default async function createChatAccountsTests() {
     // Validate Char counter is displayed on Input Bar and it displays 0/1024
     const inputCharCounter = await InputBar.inputCharCounterText;
     const inputCharMaxText = await InputBar.inputCharMaxText;
-    await expect(inputCharCounter).toHaveTextContaining("0");
-    await expect(inputCharMaxText).toHaveTextContaining("/1024");
+    await expect(inputCharCounter).toHaveText("0");
+    await expect(inputCharMaxText).toHaveText("/1024");
   });
 
   it("Input Bar - Chars Counter on Input Bar displays the number of chars of text entered", async () => {
@@ -243,8 +243,8 @@ export default async function createChatAccountsTests() {
     const inputCharCounter = await InputBar.inputCharCounterText;
     const inputCharMaxText = await InputBar.inputCharMaxText;
     await InputBar.typeMessageOnInput("Testing...");
-    await expect(inputCharCounter).toHaveTextContaining("10");
-    await expect(inputCharMaxText).toHaveTextContaining("/1024");
+    await expect(inputCharCounter).toHaveText("10");
+    await expect(inputCharMaxText).toHaveText("/1024");
   });
 
   it("Input Bar - Add emoji to the message to be sent", async () => {
@@ -255,8 +255,8 @@ export default async function createChatAccountsTests() {
     // Validate Char counter increases after adding an emoji to input bar
     const inputCharCounter = await InputBar.inputCharCounterText;
     const inputCharMaxText = await InputBar.inputCharMaxText;
-    await expect(inputCharCounter).toHaveTextContaining("11");
-    await expect(inputCharMaxText).toHaveTextContaining("/1024");
+    await expect(inputCharCounter).toHaveText("11");
+    await expect(inputCharMaxText).toHaveText("/1024");
   });
 
   it("Input Bar - Click on send button will send the message to the other user", async () => {
@@ -273,17 +273,17 @@ export default async function createChatAccountsTests() {
     // Validate Char counter is displayed on Input Bar and it displays 0/1024
     const inputCharCounter = await InputBar.inputCharCounterText;
     const inputCharMaxText = await InputBar.inputCharMaxText;
-    await expect(inputCharCounter).toHaveTextContaining("0");
-    await expect(inputCharMaxText).toHaveTextContaining("/1024");
+    await expect(inputCharCounter).toHaveText("0");
+    await expect(inputCharMaxText).toHaveText("/1024");
   });
 
   it("Chat User A - Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await MessageGroupLocal.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toHaveTextContaining(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    await expect(timeAgo).toHaveText(
+      expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
-    await expect(timeAgo).toHaveTextContaining("ChatUserA");
+    await expect(timeAgo).toHaveText(expect.stringContaining("ChatUserA"));
   });
 
   it("Chat User A - Validate Chat Message sent contents", async () => {
@@ -350,10 +350,10 @@ export default async function createChatAccountsTests() {
   it("Chat User B - Validate Chat Message received displays timestamp and user who sent it", async () => {
     //Timestamp should be displayed when you send a message
     const timeAgo = await MessageGroupRemote.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toHaveTextContaining(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    await expect(timeAgo).toHaveText(
+      expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
-    await expect(timeAgo).toHaveTextContaining("ChatUserA");
+    await expect(timeAgo).toHaveText(expect.stringContaining("ChatUserA"));
   });
 
   it("Chat User A - Change user status to Idle", async () => {

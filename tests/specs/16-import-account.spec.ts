@@ -40,6 +40,7 @@ export default async function importAccountTests() {
     await EnterRecoverySeedScreen.inputError.waitForExist();
     const inputErrorText = await EnterRecoverySeedScreen.inputErrorText;
     await expect(inputErrorText).toHaveText("Hmm, that seed didn't work.");
+    await EnterRecoverySeedScreen.clearFirstRecoverySeedWord();
   });
 
   it("Save Recovery Seed Screen - Enter valid recovery seed and continue", async () => {

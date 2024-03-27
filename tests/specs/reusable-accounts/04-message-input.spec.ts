@@ -280,7 +280,9 @@ export default async function messageInputTests() {
       );
 
     await linkEmbedSent.waitForExist();
-    await expect(linkEmbedSentDetailsText).toHaveTextContaining("Apple");
+    await expect(linkEmbedSentDetailsText).toHaveText(
+      expect.stringContaining("Apple"),
+    );
     await linkEmbedSentIcon.waitForExist();
     await linkEmbedSentIconTitle.waitForExist();
   });
@@ -313,7 +315,9 @@ export default async function messageInputTests() {
       );
 
     await linkEmbedReceived.waitForExist();
-    await expect(linkEmbedReceivedDetailsText).toHaveTextContaining("Apple");
+    await expect(linkEmbedReceivedDetailsText).toHaveText(
+      expect.stringContaining("Apple"),
+    );
     await linkEmbedReceivedIcon.waitForExist();
     await linkEmbedReceivedIconTitle.waitForExist();
   });

@@ -105,7 +105,6 @@ export const config: WebdriverIO.Config = {
         await rmSync(allureResultsFolder, { recursive: true, force: true });
         await rmSync(testReportFolder, { recursive: true, force: true });
         await rmSync(testResultsFolder, { recursive: true, force: true });
-        console.log("Deleted Artifacts Folders Successfully!");
       } catch (error) {
         console.error(
           `Got an error trying to delete artifacts folders: ${error.message}`,
@@ -114,7 +113,6 @@ export const config: WebdriverIO.Config = {
       // Execute the actions to clean up folders and copy required data
       try {
         await rmSync(cacheFolder, { recursive: true, force: true });
-        console.log("Deleted Cache Folder Successfully!");
       } catch (error) {
         console.error(
           `Got an error trying to delete Cache Folder: ${error.message}`,
@@ -126,7 +124,6 @@ export const config: WebdriverIO.Config = {
           recursive: true,
           force: true,
         });
-        console.log("Copied Friends Test User Data successfully!");
       } catch (error) {
         console.error(
           `Got an error trying to copy Friends Test Folder: ${error.message}`,

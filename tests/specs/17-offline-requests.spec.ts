@@ -135,7 +135,7 @@ export default async function offlineRequestsTests() {
     // Validate E2E message is displayed on top of chat
     const encryptedMessagesText = await ChatsLayout.encryptedMessagesText;
     await encryptedMessagesText.waitForExist();
-    await expect(encryptedMessagesText).toHaveTextContaining(
+    await expect(encryptedMessagesText).toHaveText(
       "Messages are secured by end-to-end encryption and sent over a peer-to-peer network.",
     );
   });
@@ -154,10 +154,10 @@ export default async function offlineRequestsTests() {
   it("Offline Messages - Validate Chat Message displays timestamp and user who sent it", async () => {
     //Timestamp from last message sent should be displayed
     const timeAgo = await MessageGroupLocal.getLastMessageSentTimeAgo();
-    await expect(timeAgo).toHaveTextContaining(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    await expect(timeAgo).toHaveText(
+      expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
-    await expect(timeAgo).toHaveTextContaining("UserB");
+    await expect(timeAgo).toHaveText(expect.stringContaining("UserB"));
   });
 
   it("Offline Messages - Validate Chat Message sent contents", async () => {
@@ -216,10 +216,10 @@ export default async function offlineRequestsTests() {
   it("Offline Messages - Validate Chat Message received displays timestamp and user who sent it", async () => {
     //Timestamp should be displayed when you send a message
     const timeAgo = await MessageGroupRemote.getLastMessageReceivedTimeAgo();
-    await expect(timeAgo).toHaveTextContaining(
-      /- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/,
+    await expect(timeAgo).toHaveText(
+      expect.stringMatching(/- (?:\d{1,2}\s+(?:second|minute)s?\s+ago|now)$/),
     );
-    await expect(timeAgo).toHaveTextContaining("UserB");
+    await expect(timeAgo).toHaveText(expect.stringContaining("UserB"));
 
     // Grab cache folder
     await closeApplication();
