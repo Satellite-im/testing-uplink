@@ -12,18 +12,19 @@ import { createNewUser } from "@helpers/commandsNewUser";
 import {
   activateFirstApplication,
   activateThirdApplication,
-  closeFirstApplication,
-  closeThirdApplication,
   getUserKey,
   saveTestKeys,
   scrollDown,
-  launchFirstApplication,
   launchThirdApplication,
+  grabCacheFolder,
+  resetAndLoginWithCacheFirstApp,
 } from "@helpers/commands";
 
-export default async function groupChatMultipleUsersTests() {
+describe("MacOS Chats - Group Chats Multiple Users Tests", function () {
+  this.retries(2);
+
   before(async () => {
-    await launchFirstApplication();
+    await resetAndLoginWithCacheFirstApp("ChatUserA");
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -151,7 +152,7 @@ export default async function groupChatMultipleUsersTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeThirdApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserC", "/.uplinkUserC");
   });
-}
+});

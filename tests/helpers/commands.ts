@@ -17,8 +17,8 @@ const { clipboard, keyboard, mouse, Button } = require("@nut-tree/nut-js");
 
 // Users cache helper functions
 
-export async function deleteCache() {
-  const target = homedir() + "/.uplink/.user";
+export async function deleteCache(userPath: string = "/.uplink/.user") {
+  const target = homedir() + userPath;
   try {
     await rmSync(target, { recursive: true, force: true });
   } catch (error) {
@@ -28,8 +28,11 @@ export async function deleteCache() {
   }
 }
 
-export async function grabCacheFolder(username: string) {
-  const source = homedir() + "/.uplink";
+export async function grabCacheFolder(
+  username: string,
+  userPath: string = "/.uplink",
+) {
+  const source = homedir() + userPath;
   const currentDriver = process.env.DRIVER;
   const target = "./tests/fixtures/users/" + currentDriver + "/" + username;
   await fsp.mkdir(target, { recursive: true });
@@ -42,12 +45,15 @@ export async function grabCacheFolder(username: string) {
   }
 }
 
-export async function loadTestUserData(user: string) {
+export async function loadTestUserData(
+  user: string,
+  userPath: string = "/.uplink",
+) {
   // Move files
   const currentDriver = process.env.DRIVER;
   let source, target;
   source = "./tests/fixtures/users/" + currentDriver + "/" + user;
-  target = homedir() + "/.uplink";
+  target = homedir() + userPath;
   await deleteCache();
   try {
     await fsp.cp(source, target, { recursive: true }, { force: true });
@@ -100,6 +106,25 @@ export async function resetAndLoginWithCache(user: string) {
   await launchApplication(MACOS_BUNDLE_ID, WINDOWS_APP);
 }
 
+export async function resetAndLoginWithCacheFirstApp(user: string) {
+  await closeFirstApplication();
+  await deleteCache();
+  await loadTestUserData(user);
+  await launchFirstApplication();
+}
+
+export async function resetAndLoginWithCacheSecondApp(user: string) {
+  await deleteCache("/.uplinkUserB/.user");
+  await loadTestUserData(user, "/.uplinkUserB");
+  await launchSecondApplication();
+}
+
+export async function resetAndLoginWithCacheThirdApp(user: string) {
+  await deleteCache("/.uplinkUserC/.user");
+  await loadTestUserData(user, "/.uplinkUserC");
+  await launchThirdApplication();
+}
+
 export async function saveUserRecoverySeed(username: string, data: string[]) {
   // Save JSON file with keys
   const currentDriver = process.env.DRIVER;
@@ -142,30 +167,39 @@ export async function launchApplication(
 }
 
 export async function launchFirstApplication() {
-  await launchAppMacOS(MACOS_USER_A_BUNDLE_ID);
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
+    await launchAppWindows(WINDOWS_APP);
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
+    await launchAppMacOS(MACOS_USER_A_BUNDLE_ID);
+  }
   await browser.pause(5000);
 }
 
 export async function launchSecondApplication() {
-  const customPath = ".uplinkUserB";
+  const customPath = "/.uplinkUserB";
   if (process.env.DRIVER === WINDOWS_DRIVER) {
     await launchAppWindows(WINDOWS_APP, customPath);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
     await launchAppMacOS(
       MACOS_USER_B_BUNDLE_ID,
-      "/" + customPath,
       "/Applications/Uplink2.app",
+      customPath,
     );
   }
   await browser.pause(5000);
 }
 
 export async function launchThirdApplication() {
-  await launchAppMacOS(
-    MACOS_USER_C_BUNDLE_ID,
-    "/.uplinkUserC",
-    "/Applications/Uplink3.app",
-  );
+  const customPath = "/.uplinkUserC";
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
+    await launchAppWindows(WINDOWS_APP, customPath);
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
+    await launchAppMacOS(
+      MACOS_USER_C_BUNDLE_ID,
+      "/Applications/Uplink3.app",
+      customPath,
+    );
+  }
   await browser.pause(5000);
 }
 
@@ -173,12 +207,7 @@ export async function activateFirstApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
     await activateAppWindows(WINDOWS_APP);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    const appState = await queryAppStateMacOS(MACOS_USER_A_BUNDLE_ID);
-    if (appState === 1) {
-      await launchFirstApplication();
-    } else {
-      await activateAppMacOS(MACOS_USER_A_BUNDLE_ID);
-    }
+    await activateAppMacOS(MACOS_USER_A_BUNDLE_ID);
   }
 }
 
@@ -186,12 +215,7 @@ export async function activateSecondApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
     await activateAppWindows(WINDOWS_APP);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    const appState = await queryAppStateMacOS(MACOS_USER_B_BUNDLE_ID);
-    if (appState === 1) {
-      await launchSecondApplication();
-    } else {
-      await activateAppMacOS(MACOS_USER_B_BUNDLE_ID);
-    }
+    await activateAppMacOS(MACOS_USER_B_BUNDLE_ID);
   }
 }
 
@@ -199,12 +223,7 @@ export async function activateThirdApplication() {
   if (process.env.DRIVER === WINDOWS_DRIVER) {
     await activateAppWindows(WINDOWS_APP);
   } else if (process.env.DRIVER === MACOS_DRIVER) {
-    const appState = await queryAppStateMacOS(MACOS_USER_C_BUNDLE_ID);
-    if (appState === 1) {
-      await launchThirdApplication();
-    } else {
-      await activateAppMacOS(MACOS_USER_C_BUNDLE_ID);
-    }
+    await activateAppMacOS(MACOS_USER_C_BUNDLE_ID);
   }
 }
 
@@ -217,11 +236,11 @@ export async function closeApplication() {
 }
 
 export async function closeFirstApplication() {
-  await driver.executeScript("macos: terminateApp", [
-    {
-      bundleId: MACOS_USER_A_BUNDLE_ID,
-    },
-  ]);
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
+    await closeAppWindows(WINDOWS_APP);
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
+    await closeAppMacOS(MACOS_USER_A_BUNDLE_ID);
+  }
 }
 
 export async function closeSecondApplication() {
@@ -233,7 +252,11 @@ export async function closeSecondApplication() {
 }
 
 export async function closeThirdApplication() {
-  await closeAppMacOS(MACOS_USER_C_BUNDLE_ID);
+  if (process.env.DRIVER === WINDOWS_DRIVER) {
+    await closeAppWindows(WINDOWS_APP);
+  } else if (process.env.DRIVER === MACOS_DRIVER) {
+    await closeAppMacOS(MACOS_USER_C_BUNDLE_ID);
+  }
 }
 
 export async function maximizeWindow() {
@@ -278,8 +301,8 @@ export async function closeAppMacOS(bundle: string) {
 
 export async function launchAppMacOS(
   bundle: string,
-  relativePathUserData: string = "/.uplink",
   appPath: string = "/Applications/Uplink.app",
+  relativePathUserData: string = "/.uplink",
 ) {
   await driver.executeScript("macos: launchApp", [
     {
@@ -290,21 +313,16 @@ export async function launchAppMacOS(
   ]);
 }
 
-export async function launchAppWindows(appLocation: string, path: string = "") {
-  if (path === "") {
-    await driver.executeScript("windows: launchApp", [
-      {
-        app: join(process.cwd(), appLocation),
-      },
-    ]);
-  } else {
-    await driver.executeScript("windows: launchApp", [
-      {
-        app: join(process.cwd(), appLocation),
-        "appium:appArguments": "--path " + join(process.cwd(), path),
-      },
-    ]);
-  }
+export async function launchAppWindows(
+  appLocation: string,
+  userPath: string = "/.uplink",
+) {
+  await driver.executeScript("windows: launchApp", [
+    {
+      app: join(process.cwd(), appLocation),
+      "appium:appArguments": "--path " + homedir() + userPath,
+    },
+  ]);
 }
 
 export async function queryAppStateMacOS(bundle: string) {

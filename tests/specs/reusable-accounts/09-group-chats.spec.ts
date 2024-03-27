@@ -10,18 +10,19 @@ import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
-  launchFirstApplication,
-  launchSecondApplication,
+  grabCacheFolder,
+  resetAndLoginWithCacheFirstApp,
+  resetAndLoginWithCacheSecondApp,
 } from "@helpers/commands";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-export default async function groupChatTests() {
+describe("MacOS Chats - Group Chats Tests", function () {
+  this.retries(2);
+
   before(async () => {
-    await launchSecondApplication();
+    await resetAndLoginWithCacheSecondApp("ChatUserB");
     await CreatePinScreen.loginWithTestUser();
-    await launchFirstApplication();
+    await resetAndLoginWithCacheFirstApp("ChatUserA");
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -191,7 +192,7 @@ export default async function groupChatTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB", "/.uplinkUserB");
   });
-}
+});

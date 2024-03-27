@@ -8,21 +8,22 @@ import MessageRemote from "@screenobjects/chats/MessageRemote";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
+  grabCacheFolder,
   keyboardShortcutPaste,
-  launchFirstApplication,
-  launchSecondApplication,
   pressEnterKey,
+  resetAndLoginWithCacheFirstApp,
+  resetAndLoginWithCacheSecondApp,
   setClipboardValue,
 } from "@helpers/commands";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-export default async function messageInputTests() {
+describe("MacOS Chats - Message Input Tests", function () {
+  this.retries(2);
+
   before(async () => {
-    await launchFirstApplication();
+    await resetAndLoginWithCacheFirstApp("ChatUserA");
     await CreatePinScreen.loginWithTestUser();
-    await launchSecondApplication();
+    await resetAndLoginWithCacheSecondApp("ChatUserB");
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -345,7 +346,7 @@ export default async function messageInputTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB", "/.uplinkUserB");
   });
-}
+});

@@ -32,7 +32,7 @@ export const config: WebdriverIO.Config = {
     // then the current working directory is where your `package.json` resides, so `wdio`
     // will be called from there.
     //
-    specs: [join(process.cwd(), "./tests/suites/Chats/01-Chats.suite.ts")],
+    specs: [join(process.cwd(), "./tests/specs/reusable-accounts/*.spec.ts")],
     // Patterns to exclude.
     exclude: [
       // 'path/to/excluded/files'
@@ -58,6 +58,10 @@ export const config: WebdriverIO.Config = {
         "appium:arguments": ["--path", homedir() + "/.uplink"],
         "appium:systemPort": 4725,
         "appium:prerun": {
+          command:
+            'do shell script "rm -rf ~/.uplink && rm -rf ~/.uplinkUserB && rm -rf ~/.uplinkUserC"',
+        },
+        "appium:postrun": {
           command:
             'do shell script "rm -rf ~/.uplink && rm -rf ~/.uplinkUserB && rm -rf ~/.uplinkUserC"',
         },
@@ -92,6 +96,8 @@ export const config: WebdriverIO.Config = {
       ],
     ],
     maxInstances: 1,
+    // The number of times to retry the entire specfile when it fails as a whole
+    specFileRetries: 0,
     //
     // =====
     // Hooks

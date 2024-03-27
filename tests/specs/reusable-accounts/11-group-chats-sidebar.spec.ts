@@ -1,29 +1,28 @@
 require("module-alias/register");
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
 import ContextMenuSidebar from "@screenobjects/chats/ContextMenuSidebar";
+import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import ManageMembers from "@screenobjects/chats/ManageMembers";
 import FavoritesSidebar from "@screenobjects/chats/FavoritesSidebar";
 import FilesScreen from "@screenobjects/files/FilesScreen";
-import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
 import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
-  launchFirstApplication,
-  launchSecondApplication,
+  grabCacheFolder,
+  resetAndLoginWithCacheFirstApp,
+  resetAndLoginWithCacheSecondApp,
 } from "@helpers/commands";
-import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
-import chatsTests from "@specs/02-chats.spec";
 
-export default async function groupChatSidebarTests() {
+describe("MacOS Chats - Group Chats Favorites and Sidebar Tests", function () {
+  this.retries(2);
+
   before(async () => {
-    await launchSecondApplication();
+    await resetAndLoginWithCacheSecondApp("ChatUserB");
     await CreatePinScreen.loginWithTestUser();
-    await launchFirstApplication();
+    await resetAndLoginWithCacheFirstApp("ChatUserA");
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -186,7 +185,7 @@ export default async function groupChatSidebarTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB", "/.uplinkUserB");
   });
-}
+});

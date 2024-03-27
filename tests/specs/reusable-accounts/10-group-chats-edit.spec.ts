@@ -8,18 +8,19 @@ import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
-  launchFirstApplication,
-  launchSecondApplication,
+  grabCacheFolder,
+  resetAndLoginWithCacheFirstApp,
+  resetAndLoginWithCacheSecondApp,
 } from "@helpers/commands";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-export default async function groupChatEditTests() {
+describe("MacOS Chats - Group Chats Edit Tests", function () {
+  this.retries(2);
+
   before(async () => {
-    await launchSecondApplication();
+    await resetAndLoginWithCacheSecondApp("ChatUserB");
     await CreatePinScreen.loginWithTestUser();
-    await launchFirstApplication();
+    await resetAndLoginWithCacheFirstApp("ChatUserA");
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -243,7 +244,7 @@ export default async function groupChatEditTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB", "/.uplinkUserB");
   });
-}
+});

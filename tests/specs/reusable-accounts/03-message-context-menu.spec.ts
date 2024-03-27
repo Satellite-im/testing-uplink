@@ -3,10 +3,9 @@ import {
   getClipboardValue,
   activateFirstApplication,
   activateSecondApplication,
-  launchSecondApplication,
-  launchFirstApplication,
-  closeFirstApplication,
-  closeSecondApplication,
+  grabCacheFolder,
+  resetAndLoginWithCacheFirstApp,
+  resetAndLoginWithCacheSecondApp,
 } from "@helpers/commands";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 import ContextMenu from "@screenobjects/chats/ContextMenu";
@@ -16,11 +15,13 @@ import MessageGroupRemote from "@screenobjects/chats/MessageGroupRemote";
 import MessageLocal from "@screenobjects/chats/MessageLocal";
 import MessageRemote from "@screenobjects/chats/MessageRemote";
 
-export default async function messageContextMenuTests() {
+describe("MacOS Chats - Message Context Menu Tests", function () {
+  this.retries(2);
+
   before(async () => {
-    await launchSecondApplication();
+    await resetAndLoginWithCacheSecondApp("ChatUserB");
     await CreatePinScreen.loginWithTestUser();
-    await launchFirstApplication();
+    await resetAndLoginWithCacheFirstApp("ChatUserA");
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -169,7 +170,7 @@ export default async function messageContextMenuTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB", "/.uplinkUserB");
   });
-}
+});

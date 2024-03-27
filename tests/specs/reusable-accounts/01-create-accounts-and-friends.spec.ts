@@ -3,9 +3,8 @@ import { createNewUser } from "@helpers/commandsNewUser";
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
   getUserKey,
+  grabCacheFolder,
   launchSecondApplication,
   saveTestKeys,
   scrollDown,
@@ -28,7 +27,9 @@ import SettingsNotificationsScreen from "@screenobjects/settings/SettingsNotific
 import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen";
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 
-export default async function createChatAccountsTests() {
+describe("MacOS Chats Tests - Create Accounts and Chat Tests", function () {
+  this.retries(2);
+
   it("Chat User A - Create Account", async () => {
     // Create a new account and go to Settings Profile
     await CreatePinScreen.waitForIsShown(true);
@@ -383,7 +384,7 @@ export default async function createChatAccountsTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB", "/.uplinkUserB");
   });
-}
+});
