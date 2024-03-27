@@ -41,6 +41,7 @@ const SELECTORS_WINDOWS: selectorContainer = {
   CONTEXT_MENU_INCOMING_DENY: '[name="friends-deny"]',
   CONTEXT_MENU_OUTGOING_CANCEL: '[name="friends-cancel"]',
   CONTEXT_MENU_REMOVE: '[name="friends-remove"]',
+  CONTEXT_MENU_SHARE_DID: '[name="friends-share"]',
   CONTEXT_MENU_UNBLOCK: '[name="friends-unblock"]',
   COPY_ID_BUTTON: '[name="Copy ID"]',
   FRIEND_INFO: '[name="Friend Info"]',
@@ -104,6 +105,7 @@ const SELECTORS_MACOS: selectorContainer = {
   CONTEXT_MENU_INCOMING_DENY: "~friends-deny",
   CONTEXT_MENU_OUTGOING_CANCEL: "~friends-cancel",
   CONTEXT_MENU_REMOVE: "~friends-remove",
+  CONTEXT_MENU_SHARE_DID: "~friends-share",
   CONTEXT_MENU_UNBLOCK: "~friends-unblock",
   COPY_ID_BUTTON: "~Copy ID",
   FRIEND_INFO: "~Friend Info",
@@ -261,6 +263,10 @@ class FriendsScreen extends UplinkMainScreen {
 
   public get contextMenuRemove() {
     return $(SELECTORS.CONTEXT_MENU_REMOVE);
+  }
+
+  public get contextMenuShareDID() {
+    return $(SELECTORS.CONTEXT_MENU_SHARE_DID);
   }
 
   public get contextMenuUnblock() {
@@ -948,6 +954,11 @@ class FriendsScreen extends UplinkMainScreen {
   async clickOnContextMenuRemove() {
     const contextMenuRemove = await this.contextMenuRemove;
     await contextMenuRemove.click();
+  }
+
+  async clickOnContextMenuShareDID() {
+    const contextMenuShareDID = await this.contextMenuShareDID;
+    await contextMenuShareDID.click();
   }
 
   async clickOnContextMenuUnblock() {
