@@ -15,7 +15,7 @@ const SELECTORS_WINDOWS: selectorContainer = {
   SETTINGS_INFO: '[name="settings-info"]',
   SETTINGS_INFO_DESCRIPTION: "<Text>[2]",
   SETTINGS_INFO_HEADER: "//Text[1]/Text",
-  SETTINGS_LAYOUT: '[name="settings-layout"]',
+  SETTINGS_ACCESSIBILITY: '[name="settings-accessibility"]',
   SWITCH_SLIDER: '[name="Switch Slider"]',
 };
 
@@ -27,7 +27,7 @@ const SELECTORS_MACOS: selectorContainer = {
   SETTINGS_INFO_DESCRIPTION:
     "-ios class chain:**/XCUIElementTypeGroup/XCUIElementTypeStaticText",
   SETTINGS_INFO_HEADER: "-ios class chain:**/XCUIElementTypeStaticText[1]",
-  SETTINGS_LAYOUT: "~settings-layout",
+  SETTINGS_ACCESSIBILITY: "~settings-accessibility",
   SWITCH_SLIDER: "~Switch Slider",
 };
 
@@ -37,7 +37,7 @@ process.env.DRIVER === WINDOWS_DRIVER
 
 class SettingsAccessibilityScreen extends SettingsBaseScreen {
   constructor() {
-    super(SELECTORS.SETTINGS_LAYOUT);
+    super(SELECTORS.SETTINGS_ACCESSIBILITY);
   }
 
   public get openDyslexicCheckbox() {
@@ -65,11 +65,11 @@ class SettingsAccessibilityScreen extends SettingsBaseScreen {
   }
 
   public get openDyslexicSection() {
-    return this.settingsLayout.$(SELECTORS.OPEN_DYSLEXIC_SECTION);
+    return this.settingsAccessibility.$(SELECTORS.OPEN_DYSLEXIC_SECTION);
   }
 
-  public get settingsLayout() {
-    return $(SELECTORS.SETTINGS_LAYOUT);
+  public get settingsAccessibility() {
+    return $(SELECTORS.SETTINGS_ACCESSIBILITY);
   }
 
   async clickOnOpenDyslexic() {
