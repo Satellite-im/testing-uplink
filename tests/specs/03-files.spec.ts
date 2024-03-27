@@ -12,9 +12,7 @@ export default async function filesTests() {
     // Validate Pre Release Indicator
     await FilesScreen.releaseIndicator.waitForExist();
     const releaseIndicatorText = await FilesScreen.releaseIndicatorText;
-    await expect(releaseIndicatorText).toHaveTextContaining(
-      "Alpha | Issues/Feedback",
-    );
+    await expect(releaseIndicatorText).toHaveText("Alpha | Issues/Feedback");
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
@@ -53,12 +51,12 @@ export default async function filesTests() {
     await FilesScreen.hoverOnNewFolderButton();
 
     const addFolderTooltipText = await FilesScreen.addFolderTooltipText;
-    await expect(addFolderTooltipText).toHaveTextContaining("New Folder");
+    await expect(addFolderTooltipText).toHaveText("New Folder");
 
     // Validate Upload button tooltip
     await FilesScreen.hoverOnUploadButton();
     const uploadFileTooltipText = await FilesScreen.uploadFileTooltipText;
-    await expect(uploadFileTooltipText).toHaveTextContaining("Upload");
+    await expect(uploadFileTooltipText).toHaveText("Upload");
   });
 
   it("Create a new folder and enter to it", async () => {
@@ -94,10 +92,12 @@ export default async function filesTests() {
   xit("Upload file - Validate progress indicator", async () => {
     // Validate progress % and filename displayed correctly
     const progressText = await FilesScreen.getProgressUploadPercentage();
-    await expect(progressText).toHaveTextContaining("% Uploaded");
+    await expect(progressText).toHaveText(
+      expect.stringContaining("% Uploaded"),
+    );
 
     const fileNameProgress = await FilesScreen.getProgressUploadFilename();
-    await expect(fileNameProgress).toHaveTextContaining("logo.jpg");
+    await expect(fileNameProgress).toHaveText("logo.jpg");
   });
 
   it("Upload file - Progress indicator is closed and file appears on files list", async () => {
@@ -160,10 +160,18 @@ export default async function filesTests() {
     const filesInfoCurrentSizeValue =
       await FilesScreen.filesInfoCurrentSizeValue;
 
-    await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
-    await expect(filesInfoMaxSizeValue).toHaveTextContaining("GB");
-    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining("Used Space:");
-    await expect(filesInfoCurrentSizeValue).toHaveTextContaining("0 bytes");
+    await expect(filesInfoMaxSizeLabel).toHaveText(
+      expect.stringContaining("Max Size:"),
+    );
+    await expect(filesInfoMaxSizeValue).toHaveText(
+      expect.stringContaining("GB"),
+    );
+    await expect(filesInfoCurrentSizeLabel).toHaveText(
+      expect.stringContaining("Used Space:"),
+    );
+    await expect(filesInfoCurrentSizeValue).toHaveText(
+      expect.stringContaining("0 bytes"),
+    );
   });
 
   it("Files - File Size Indicators after uploading a file are updated", async () => {
@@ -183,10 +191,18 @@ export default async function filesTests() {
       await FilesScreen.filesInfoCurrentSizeLabel;
     const filesInfoCurrentSizeValue =
       await FilesScreen.filesInfoCurrentSizeValue;
-    await expect(filesInfoMaxSizeLabel).toHaveTextContaining("Max Size:");
-    await expect(filesInfoMaxSizeValue).toHaveTextContaining("GB");
-    await expect(filesInfoCurrentSizeLabel).toHaveTextContaining("Used Space:");
-    await expect(filesInfoCurrentSizeValue).toHaveTextContaining("13.2 MB");
+    await expect(filesInfoMaxSizeLabel).toHaveText(
+      expect.stringContaining("Max Size:"),
+    );
+    await expect(filesInfoMaxSizeValue).toHaveText(
+      expect.stringContaining("GB"),
+    );
+    await expect(filesInfoCurrentSizeLabel).toHaveText(
+      expect.stringContaining("Used Space:"),
+    );
+    await expect(filesInfoCurrentSizeValue).toHaveText(
+      expect.stringContaining("13.2 MB"),
+    );
   });
 
   it("Files - File is renamed when uploading a file with existing file name", async () => {
@@ -221,7 +237,7 @@ export default async function filesTests() {
     // Validate that error message is displayed
     await FilesScreen.inputError.waitForExist();
     const inputErrorText = await FilesScreen.inputErrorText;
-    await expect(inputErrorText).toHaveTextContaining(
+    await expect(inputErrorText).toHaveText(
       "Please enter at least 1 character.",
     );
 

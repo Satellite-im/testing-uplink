@@ -13,9 +13,8 @@ import settingsAccessibilityTests from "@specs/10-settings-accessibility.spec";
 import settingsAboutTests from "@specs/11-settings-about.spec";
 import settingsLicensesTests from "@specs/12-settings-licenses.spec";
 import settingsDeveloperTests from "@specs/13-settings-developer.spec";
-import importAccountTests from "@specs/16-import-account.spec";
 
-describe("MacOS Tests", function () {
+describe("Windows Tests", function () {
   describe("Create Pin and Account Tests", createAccountTests.bind(this));
   describe("Chats Main Screen Tests", chatsTests.bind(this));
   describe("Files Screen Tests", filesTests.bind(this));
@@ -39,5 +38,4 @@ describe("MacOS Tests", function () {
   describe("Settings About Tests", settingsAboutTests.bind(this));
   describe("Settings Licenses Tests", settingsLicensesTests.bind(this));
   describe("Settings Developer Tests", settingsDeveloperTests.bind(this));
-  xdescribe("Import Account Tests", importAccountTests.bind(this));
 });

@@ -15,8 +15,8 @@ export default async function settingsNotificationsTests() {
       await SettingsNotificationsScreen.enabledNotificationsHeader;
     const enabledDescription =
       await SettingsNotificationsScreen.enabledNotificationsDescription;
-    await expect(enabledHeader).toHaveTextContaining("ENABLED");
-    await expect(enabledDescription).toHaveTextContaining(
+    await expect(enabledHeader).toHaveText("ENABLED");
+    await expect(enabledDescription).toHaveText(
       "Enable notifications for incoming calls, messages, and more.",
     );
 
@@ -24,8 +24,8 @@ export default async function settingsNotificationsTests() {
       await SettingsNotificationsScreen.friendsNotificationsHeader;
     const friendsDescription =
       await SettingsNotificationsScreen.friendsNotificationsDescription;
-    await expect(friendsHeader).toHaveTextContaining("FRIENDS");
-    await expect(friendsDescription).toHaveTextContaining(
+    await expect(friendsHeader).toHaveText("FRIENDS");
+    await expect(friendsDescription).toHaveText(
       "Enable notifications for friend requests.",
     );
 
@@ -33,8 +33,8 @@ export default async function settingsNotificationsTests() {
       await SettingsNotificationsScreen.messagesNotificationsHeader;
     const messagesDescription =
       await SettingsNotificationsScreen.messagesNotificationsDescription;
-    await expect(messagesHeader).toHaveTextContaining("MESSAGES");
-    await expect(messagesDescription).toHaveTextContaining(
+    await expect(messagesHeader).toHaveText("MESSAGES");
+    await expect(messagesDescription).toHaveText(
       "Enable notifications for new messages.",
     );
 
@@ -42,7 +42,7 @@ export default async function settingsNotificationsTests() {
       await SettingsNotificationsScreen.settingsNotificationsHeader;
     const settingsDescription =
       await SettingsNotificationsScreen.settingsNotificationsDescription;
-    await expect(settingsHeader).toHaveTextContaining("SETTINGS");
+    await expect(settingsHeader).toHaveText("SETTINGS");
     await expect(settingsDescription).toHaveText(
       "Enable notifications for updates and important alerts.",
     );

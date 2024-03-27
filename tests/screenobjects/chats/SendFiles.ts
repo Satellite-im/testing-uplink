@@ -326,7 +326,7 @@ class SendFiles extends UplinkMainScreen {
   async validateNoFilesAvailableIsShown() {
     const noFilesAvailable = await this.noFilesAvailable;
     await noFilesAvailable.waitForExist();
-    await expect(noFilesAvailable).toHaveTextContaining("NO FILES ADDED YET");
+    await expect(noFilesAvailable).toHaveText("NO FILES ADDED YET");
   }
 
   async validateSendFilesButtonText(expectedText: string) {

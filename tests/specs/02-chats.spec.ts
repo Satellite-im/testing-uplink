@@ -10,9 +10,7 @@ export default async function chatsTests() {
   it("Validate Pre Release Indicator is displayed and has correct text", async () => {
     await WelcomeScreen.releaseIndicator.waitForExist();
     const releaseIndicatorText = await WelcomeScreen.releaseIndicatorText;
-    await expect(releaseIndicatorText).toHaveTextContaining(
-      "Alpha | Issues/Feedback",
-    );
+    await expect(releaseIndicatorText).toHaveText("Alpha | Issues/Feedback");
   });
 
   it("Validate Nav Bar and buttons are displayed", async () => {
@@ -33,9 +31,7 @@ export default async function chatsTests() {
     await WelcomeScreen.validateWelcomeScreenIsShown();
     await WelcomeScreen.addFriendsButton.waitForExist();
     const addSomeoneText = await WelcomeScreen.addSomeoneText;
-    await expect(addSomeoneText).toHaveTextContaining(
-      "Things are better with friends.",
-    );
+    await expect(addSomeoneText).toHaveText("Things are better with friends.");
   });
 
   // Skipping test failing on CI
@@ -44,25 +40,25 @@ export default async function chatsTests() {
     await WelcomeScreen.hoverOnChatsButton();
 
     const chatsTooltipText = await WelcomeScreen.chatsButtonTooltipText;
-    await expect(chatsTooltipText).toHaveTextContaining("Chats");
+    await expect(chatsTooltipText).toHaveText("Chats");
 
     // Validate Files button tooltip
     await WelcomeScreen.hoverOnFilesButton();
 
     const filesTooltipText = await WelcomeScreen.filesButtonTooltipText;
-    await expect(filesTooltipText).toHaveTextContaining("Files");
+    await expect(filesTooltipText).toHaveText("Files");
 
     // Validate Friends button tooltip
     await WelcomeScreen.hoverOnFriendsButton();
 
     const friendsTooltipText = await WelcomeScreen.friendsButtonTooltipText;
-    await expect(friendsTooltipText).toHaveTextContaining("Friends");
+    await expect(friendsTooltipText).toHaveText("Friends");
 
     // Validate Settings button tooltip
     await WelcomeScreen.hoverOnSettingsButton();
 
     const settingsTooltipText = await WelcomeScreen.settingsButtonTooltipText;
-    await expect(settingsTooltipText).toHaveTextContaining("Settings");
+    await expect(settingsTooltipText).toHaveText("Settings");
   });
 
   it("Welcome Screen - Welcome Image is displayed when no conversations are available", async () => {
@@ -97,28 +93,28 @@ export default async function chatsTests() {
 
     const chatsButtonTooltipText =
       await FavoritesSidebar.chatsButtonTooltipText;
-    await expect(chatsButtonTooltipText).toHaveTextContaining("Chats");
+    await expect(chatsButtonTooltipText).toHaveText("Chats");
 
     // Validate Files button tooltip from Slimbar button
     await FavoritesSidebar.hoverOnSlimbarFilesButton();
 
     const filesButtonTooltipText =
       await FavoritesSidebar.filesButtonTooltipText;
-    await expect(filesButtonTooltipText).toHaveTextContaining("Files");
+    await expect(filesButtonTooltipText).toHaveText("Files");
 
     // Validate Friends button tooltip from Slimbar button
     await FavoritesSidebar.hoverOnSlimbarFriendsButton();
 
     const friendsButtonTooltipText =
       await FavoritesSidebar.friendsButtonTooltipText;
-    await expect(friendsButtonTooltipText).toHaveTextContaining("Friends");
+    await expect(friendsButtonTooltipText).toHaveText("Friends");
 
     // Validate Settings button tooltip from Slimbar button
     await FavoritesSidebar.hoverOnSlimbarSettingsButton();
 
     const settingsButtonTooltipText =
       await FavoritesSidebar.settingsButtonTooltipText;
-    await expect(settingsButtonTooltipText).toHaveTextContaining("Settings");
+    await expect(settingsButtonTooltipText).toHaveText("Settings");
   });
 
   it("Slimbar - User can click on buttons from main navigation on slimbar", async () => {

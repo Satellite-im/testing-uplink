@@ -11,8 +11,8 @@ export default async function settingsLicensesTests() {
     // Validate the header and description texts from MIT license
     const licenseHeader = await SettingsLicensesScreen.licenseHeader;
     const licenseDescription = await SettingsLicensesScreen.licenseDescription;
-    await expect(licenseHeader).toHaveTextContaining("UPLINK");
-    await expect(licenseDescription).toHaveTextContaining(
+    await expect(licenseHeader).toHaveText("UPLINK");
+    await expect(licenseDescription).toHaveText(
       "Both code and icons are under the MIT license.",
     );
 

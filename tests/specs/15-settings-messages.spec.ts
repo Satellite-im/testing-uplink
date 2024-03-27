@@ -14,8 +14,8 @@ export default async function settingsMessagesTests() {
     const convertEmojiHeader = await SettingsMessagesScreen.convertEmojiHeader;
     const convertEmojiDescription =
       await SettingsMessagesScreen.convertEmojiDescription;
-    await expect(convertEmojiHeader).toHaveTextContaining("CONVERT EMOJI");
-    await expect(convertEmojiDescription).toHaveTextContaining(
+    await expect(convertEmojiHeader).toHaveText("CONVERT EMOJI");
+    await expect(convertEmojiDescription).toHaveText(
       "Convert Emoji text like ':)' into an emoji symbol like '😊'.",
     );
 
@@ -24,10 +24,8 @@ export default async function settingsMessagesTests() {
       await SettingsMessagesScreen.markdownSupportHeader;
     const markdownSupportDescription =
       await SettingsMessagesScreen.markdownSupportDescription;
-    await expect(markdownSupportHeader).toHaveTextContaining(
-      "MARKDOWN SUPPORT",
-    );
-    await expect(markdownSupportDescription).toHaveTextContaining(
+    await expect(markdownSupportHeader).toHaveText("MARKDOWN SUPPORT");
+    await expect(markdownSupportDescription).toHaveText(
       "Enables the support of the Markdown markup language in messaging.",
     );
   });

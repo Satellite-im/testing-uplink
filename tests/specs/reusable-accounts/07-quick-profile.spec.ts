@@ -36,7 +36,7 @@ export default async function quickProfileTests() {
     await QuickProfile.quickProfileEditProfile.waitForExist();
     const quickProfileUsername =
       await QuickProfile.quickProfileUserNameValueText;
-    await expect(quickProfileUsername).toHaveTextContaining("ChatUserA");
+    await expect(quickProfileUsername).toHaveText("ChatUserA");
   });
 
   it("Chat User A - Click on Edit Profile", async () => {
@@ -67,7 +67,7 @@ export default async function quickProfileTests() {
     // Validate username from quick profile
     const quickProfileUsername =
       await QuickProfile.quickProfileUserNameValueText;
-    await expect(quickProfileUsername).toHaveTextContaining("ChatUserA");
+    await expect(quickProfileUsername).toHaveText("ChatUserA");
 
     // Click outside to close quick profile
     await InputBar.clickOnInputBar();

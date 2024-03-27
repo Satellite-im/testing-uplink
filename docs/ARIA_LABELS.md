@@ -289,7 +289,7 @@ Find more information about the WebdriverIO API methods in the following [`link`
 
 ```js
 it("Validate Welcome Screen is displayed", async () => {
-  await expect(welcomeScreen.addSomeoneText).toHaveTextContaining(
+  await expect(welcomeScreen.addSomeoneText).toHaveText(
     "Things are better with friends.",
   );
 });
@@ -299,7 +299,7 @@ it("Validate Welcome Screen is displayed", async () => {
 
 ```js
 it("Validate Welcome Screen is displayed", async () => {
-  await expect(welcomeScreen.addSomeoneText).toHaveTextContaining(
+  await expect(welcomeScreen.addSomeoneText).toHaveText(
     "No friends added yet!",
   );
 });

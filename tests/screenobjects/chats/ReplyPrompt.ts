@@ -132,10 +132,8 @@ class ReplyPrompt extends UplinkMainScreen {
     await replyPopUpCloseButton.waitForExist();
     await replyPopUpUserImage.waitForExist();
     await replyPopUpIndicator.waitForExist();
-    await expect(this.replyPopUpHeader).toHaveTextContaining("REPLYING TO:");
-    await expect(this.replyPopUpRemoteTextToReplyValue).toHaveTextContaining(
-      message,
-    );
+    await expect(this.replyPopUpHeader).toHaveText("REPLYING TO:");
+    await expect(this.replyPopUpRemoteTextToReplyValue).toHaveText(message);
   }
 
   async waitForReplyModalToNotExist() {

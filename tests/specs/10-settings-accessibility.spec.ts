@@ -21,8 +21,8 @@ export default async function settingsAccessibilityTests() {
       await SettingsAccessibilityScreen.openDyslexicHeader;
     const openDyslexicDescription =
       await SettingsAccessibilityScreen.openDyslexicDescription;
-    await expect(openDyslexicHeader).toHaveTextContaining("OPEN DYSLEXIC");
-    await expect(openDyslexicDescription).toHaveTextContaining(
+    await expect(openDyslexicHeader).toHaveText("OPEN DYSLEXIC");
+    await expect(openDyslexicDescription).toHaveText(
       "Open Dyslexic may help some users who suffer from dyslexia, it's a custom font you can enable.",
     );
   });

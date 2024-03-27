@@ -91,7 +91,7 @@ export default async function chatTopbarTests() {
     // Validate attachment elements are shown in pinned message
     await PinnedMessages.validateFirstPinnedMessageAttachmentFileIcon();
     await PinnedMessages.validateFirstPinnedMessageAttachmentFileIconExtension(
-      "txt",
+      ".txt",
     );
     await PinnedMessages.validateFirstPinnedMessageAttachmentFileMeta("47 B");
     await PinnedMessages.validateFirstPinnedMessageAttachmentFileName(
