@@ -98,9 +98,17 @@ class CreatePinScreen extends UplinkMainScreen {
   }
 
   async enterPinOnLogin(pin: string) {
+    await this.pinInput.waitForExist();
     const pinInput = await this.pinInput;
-    await pinInput.click();
+    await pinInput.clearValue();
     await pinInput.setValue(pin);
+
+    const pinToEnterLength = pin.length;
+    const expectedMaskedPin = "•".repeat(pinToEnterLength);
+    const maskedPin = await pinInput.getText();
+    if (maskedPin !== expectedMaskedPin) {
+      await this.enterPinOnCreateAccount(pin);
+    }
   }
 
   async enterPinOnCreateAccount(pin: string) {
