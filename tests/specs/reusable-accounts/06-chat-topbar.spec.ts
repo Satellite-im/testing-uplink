@@ -7,14 +7,16 @@ import PinnedMessages from "@screenobjects/chats/PinnedMessages";
 import Topbar from "@screenobjects/chats/Topbar";
 import {
   activateFirstApplication,
-  closeFirstApplication,
-  launchFirstApplication,
+  grabCacheFolder,
+  resetAndLoginWithCacheFirstApp,
 } from "@helpers/commands";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-export default async function chatTopbarTests() {
+describe("MacOS Chats - Chat Topbar Tests", function () {
+  this.retries(2);
+
   before(async () => {
-    await launchFirstApplication();
+    await resetAndLoginWithCacheFirstApp("ChatUserA");
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -119,6 +121,6 @@ export default async function chatTopbarTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
+    await grabCacheFolder("ChatUserA");
   });
-}
+});

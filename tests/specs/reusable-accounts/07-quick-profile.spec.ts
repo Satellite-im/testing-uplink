@@ -1,12 +1,11 @@
 require("module-alias/register");
 import {
   getUserKey,
-  closeFirstApplication,
-  closeSecondApplication,
   activateFirstApplication,
   activateSecondApplication,
-  launchSecondApplication,
-  launchFirstApplication,
+  grabCacheFolder,
+  resetAndLoginWithCacheSecondApp,
+  resetAndLoginWithCacheFirstApp,
 } from "@helpers/commands";
 import FriendsScreen from "@screenobjects/friends/FriendsScreen";
 import InputBar from "@screenobjects/chats/InputBar";
@@ -17,11 +16,13 @@ import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-export default async function quickProfileTests() {
+describe("MacOS Chats - Quick Profile Tests", function () {
+  this.retries(2);
+
   before(async () => {
-    await launchSecondApplication();
+    await resetAndLoginWithCacheSecondApp("ChatUserB");
     await CreatePinScreen.loginWithTestUser();
-    await launchFirstApplication();
+    await resetAndLoginWithCacheFirstApp("ChatUserA");
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -167,7 +168,7 @@ export default async function quickProfileTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB", "/.uplinkUserB");
   });
-}
+});

@@ -2,10 +2,9 @@ require("module-alias/register");
 import {
   activateFirstApplication,
   activateSecondApplication,
-  closeFirstApplication,
-  closeSecondApplication,
-  launchFirstApplication,
-  launchSecondApplication,
+  grabCacheFolder,
+  resetAndLoginWithCacheFirstApp,
+  resetAndLoginWithCacheSecondApp,
 } from "@helpers/commands";
 import ChatsLayout from "@screenobjects/chats/ChatsLayout";
 import ChatsSidebar from "@screenobjects/chats/ChatsSidebar";
@@ -21,11 +20,13 @@ import SettingsProfileScreen from "@screenobjects/settings/SettingsProfileScreen
 import WelcomeScreen from "@screenobjects/welcome-screen/WelcomeScreen";
 import CreatePinScreen from "@screenobjects/account-creation/CreatePinScreen";
 
-export default async function sidebarChatsTests() {
+describe("MacOS Chats - Sidebar Chats Tests", function () {
+  this.retries(2);
+
   before(async () => {
-    await launchFirstApplication();
+    await resetAndLoginWithCacheFirstApp("ChatUserA");
     await CreatePinScreen.loginWithTestUser();
-    await launchSecondApplication();
+    await resetAndLoginWithCacheSecondApp("ChatUserB");
     await CreatePinScreen.loginWithTestUser();
   });
 
@@ -233,7 +234,7 @@ export default async function sidebarChatsTests() {
   });
 
   after(async () => {
-    await closeFirstApplication();
-    await closeSecondApplication();
+    await grabCacheFolder("ChatUserA");
+    await grabCacheFolder("ChatUserB", "/.uplinkUserB");
   });
-}
+});
