@@ -69,7 +69,7 @@ class ShareDidModal extends UplinkMainScreen {
   }
 
   public get shareDidUserIndicatorOnline() {
-    return this.shareDidModal.$$(SELECTORS.SHARE_DID_USER_INDICATOR_ONLINE);
+    return $$(SELECTORS.SHARE_DID_USER_INDICATOR_ONLINE);
   }
 
   public get shareDidUserImage() {
@@ -94,7 +94,7 @@ class ShareDidModal extends UplinkMainScreen {
 
   public get shareDidUserNameText() {
     return this.shareDidModal
-      .$$(SELECTORS.SHARE_DID_USER_NAME)
+      .$(SELECTORS.SHARE_DID_USER_NAME)
       .$(SELECTORS.SHARE_DID_USER_NAME_TEXT);
   }
 
@@ -104,7 +104,7 @@ class ShareDidModal extends UplinkMainScreen {
 
   public get shareDidUserStatusText() {
     return this.shareDidModal
-      .$$(SELECTORS.SHARE_DID_USER_STATUS)
+      .$(SELECTORS.SHARE_DID_USER_STATUS)
       .$(SELECTORS.SHARE_DID_USER_STATUS_TEXT);
   }
 }
