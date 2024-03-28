@@ -306,7 +306,8 @@ jobs:
 
       - name: Launch CI instance of Warp 🚀
         working-directory: ./warp
-        run: RUST_LOG=shuttle ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > ./shuttle.log
+        run: |
+          nohup sh -c "RUST_LOG=shuttle ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > ./shuttle.log 2>&1 &"
 
       - name: Run Tests on MacOS 🧪
         run: npm run mac.ci
@@ -453,7 +454,8 @@ jobs:
 
       - name: Launch CI instance of Warp 🚀
         working-directory: ./warp
-        run: RUST_LOG=shuttle ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > ./shuttle.log
+        run: |
+          nohup sh -c "RUST_LOG=shuttle ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > ./shuttle.log 2>&1 &"
 
       - name: Run Tests on MacOS 🧪
         run: npm run mac.multiremote
@@ -607,7 +609,7 @@ jobs:
         working-directory: ./warp
         run: |
           $env:RUST_LOG="shuttle"
-          ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > ./shuttle.log
+          Start-Process -FilePath "./target/release/shuttle" -ArgumentList "--keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444" -NoNewWindow -RedirectStandardOutput ./shuttle.log -RedirectStandardError ./shuttle.log
 
       - name: Delete Cache Folder if exists - Windows
         run: If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }
