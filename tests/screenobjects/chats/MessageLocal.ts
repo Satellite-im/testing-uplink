@@ -43,6 +43,13 @@ const SELECTORS_WINDOWS: selectorContainer = {
   CHAT_MESSAGE_REPLY_TEXT: "<Text>",
   CHAT_MESSAGE_TEXT_GROUP: '//Group[starts-with(@Name, "message-text")]',
   CHAT_MESSAGE_TEXT_VALUE: "<Text>",
+  SHARED_DID_IDENTITY_BANNER_IMAGE: "[name='banner-image']",
+  SHARED_DID_IDENTITY_EMBED_IDENTITY_BUTTON: "[name='embed-identity-button']",
+  SHARED_DID_IDENTITY_HEADER: "[name='identity-header']",
+  SHARED_DID_IDENTITY_PROFILE_IMAGE: "[name='profile-image']",
+  SHARED_DID_IDENTITY_PROFILE_NAME: "[name='profile-name']",
+  SHARED_DID_IDENTITY_PROFILE_NAME_VALUE: "[name='profile-name-value']",
+  SHARED_DID_IDENTITY_PROFILE_NAME_VALUE_TEXT: "<Text>",
 };
 
 const SELECTORS_MACOS: selectorContainer = {
@@ -77,6 +84,14 @@ const SELECTORS_MACOS: selectorContainer = {
   CHAT_MESSAGE_TEXT_GROUP:
     '//XCUIElementTypeGroup[starts-with(@label, "message-text")]',
   CHAT_MESSAGE_TEXT_VALUE: "-ios class chain:**/XCUIElementTypeStaticText",
+  SHARED_DID_IDENTITY_BANNER_IMAGE: "~banner-image",
+  SHARED_DID_IDENTITY_EMBED_IDENTITY_BUTTON: "~embed-identity-button",
+  SHARED_DID_IDENTITY_HEADER: "~identity-header",
+  SHARED_DID_IDENTITY_PROFILE_IMAGE: "~profile-image",
+  SHARED_DID_IDENTITY_PROFILE_NAME: "~profile-name",
+  SHARED_DID_IDENTITY_PROFILE_NAME_VALUE: "~profile-name-value",
+  SHARED_DID_IDENTITY_PROFILE_NAME_VALUE_TEXT:
+    "-ios class chain:**/XCUIElementTypeStaticText",
 };
 
 process.env.DRIVER === WINDOWS_DRIVER
@@ -214,6 +229,42 @@ class MessageLocal extends UplinkMainScreen {
 
   public get chatMessageTextGroup() {
     return $$(SELECTORS.CHAT_MESSAGE_TEXT_GROUP);
+  }
+
+  public get sharedDidIdentityBannerImage() {
+    return this.sharedDidIdentityHeader.$(
+      SELECTORS.SHARED_DID_IDENTITY_BANNER_IMAGE,
+    );
+  }
+
+  public get sharedDidIdentityEmbedButton() {
+    return $(SELECTORS.SHARED_DID_IDENTITY_EMBED_IDENTITY_BUTTON);
+  }
+
+  public get sharedDidIdentityHeader() {
+    return $(SELECTORS.SHARED_DID_IDENTITY_HEADER);
+  }
+
+  public get sharedDidIdentityProfileImage() {
+    return this.sharedDidIdentityBannerImage.$(
+      SELECTORS.SHARED_DID_IDENTITY_PROFILE_IMAGE,
+    );
+  }
+
+  public get sharedDidIdentityProfileName() {
+    return $(SELECTORS.SHARED_DID_IDENTITY_PROFILE_NAME);
+  }
+
+  public get sharedDidIdentityProfileNameValue() {
+    return this.sharedDidIdentityProfileName.$(
+      SELECTORS.SHARED_DID_IDENTITY_PROFILE_NAME_VALUE,
+    );
+  }
+
+  public get sharedDidIdentityProfileNameValueText() {
+    return this.sharedDidIdentityProfileNameValue.$(
+      SELECTORS.SHARED_DID_IDENTITY_PROFILE_NAME_VALUE_TEXT,
+    );
   }
 
   // Message Local Methods
@@ -475,6 +526,62 @@ class MessageLocal extends UplinkMainScreen {
     );
     await iconTitle.waitForExist();
     return iconTitle;
+  }
+
+  // Share DID Methods
+
+  async getLastMessageSent() {
+    const messagesSent = await this.chatMessageLocal;
+    const lastMessageSentIndex = (await messagesSent.length) - 1;
+    const lastMessageSent = await messagesSent[lastMessageSentIndex];
+    return lastMessageSent;
+  }
+
+  async getLastSharedDIDBannerImage() {
+    const messageSent = await this.getLastMessageSent();
+    const messageSentSharedDidBannerImage = await messageSent
+      .$(SELECTORS.SHARED_DID_IDENTITY_HEADER)
+      .$(SELECTORS.SHARED_DID_IDENTITY_BANNER_IMAGE);
+    await messageSentSharedDidBannerImage.waitForExist();
+    return messageSentSharedDidBannerImage;
+  }
+
+  async getLastSharedDIDEmbedButton() {
+    const messageSent = await this.getLastMessageSent();
+    const messageSentSharedDidEmbedButton = await messageSent.$(
+      SELECTORS.SHARED_DID_IDENTITY_EMBED_IDENTITY_BUTTON,
+    );
+    await messageSentSharedDidEmbedButton.waitForExist();
+    return messageSentSharedDidEmbedButton;
+  }
+
+  async getLastSharedDIDHeader() {
+    const messageSent = await this.getLastMessageSent();
+    const messageSentSharedDidIdentityHeader = await messageSent.$(
+      SELECTORS.SHARED_DID_IDENTITY_HEADER,
+    );
+    await messageSentSharedDidIdentityHeader.waitForExist();
+    return messageSentSharedDidIdentityHeader;
+  }
+
+  async getLastSharedDIDProfileImage() {
+    const messageSent = await this.getLastMessageSent();
+    const messageSentSharedDidProfileImage = await messageSent
+      .$(SELECTORS.SHARED_DID_IDENTITY_HEADER)
+      .$(SELECTORS.SHARED_DID_IDENTITY_BANNER_IMAGE)
+      .$(SELECTORS.SHARED_DID_IDENTITY_PROFILE_IMAGE);
+    await messageSentSharedDidProfileImage.waitForExist();
+    return messageSentSharedDidProfileImage;
+  }
+
+  async getLastSharedDIDProfileName() {
+    const messageSent = await this.getLastMessageSent();
+    const messageSentSharedDidProfileName = await messageSent
+      .$(SELECTORS.SHARED_DID_IDENTITY_PROFILE_NAME)
+      .$(SELECTORS.SHARED_DID_IDENTITY_PROFILE_NAME_VALUE)
+      .$(SELECTORS.SHARED_DID_IDENTITY_PROFILE_NAME_VALUE_TEXT);
+    await messageSentSharedDidProfileName.waitForExist();
+    return messageSentSharedDidProfileName;
   }
 
   // Replies Methods

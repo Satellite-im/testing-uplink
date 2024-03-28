@@ -67,54 +67,48 @@ class QuickProfile extends UplinkMainScreen {
     super(SELECTORS.QUICK_PROFILE);
   }
 
+  public get chatLayout() {
+    return $(SELECTORS.CHAT_LAYOUT);
+  }
+
   public get quickProfile() {
-    return $(SELECTORS.CHAT_LAYOUT).$(SELECTORS.QUICK_PROFILE);
+    return this.chatLayout.$(SELECTORS.QUICK_PROFILE);
   }
 
   public get quickProfileBannerImage() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_BANNER_IMAGE);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_BANNER_IMAGE);
   }
 
   public get quickProfileBlockUser() {
-    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_BLOCK);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_BLOCK);
   }
 
   public get quickProfileEditProfile() {
-    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_SELF_EDIT);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_SELF_EDIT);
   }
 
   public get quickProfileIdentityHeader() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_IDENTITY_HEADER);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_IDENTITY_HEADER);
   }
 
   public get quickProfileIndicator() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_INDICATOR);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_INDICATOR);
   }
 
   public get quickProfileIndicatorOffline() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_INDICATOR_OFFLINE);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_INDICATOR_OFFLINE);
   }
 
   public get quickProfileIndicatorOnline() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_INDICATOR_ONLINE);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_INDICATOR_ONLINE);
   }
 
   public get quickProfileMessage() {
-    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_MESSAGE);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_MESSAGE);
   }
 
   public get quickProfileRemoveFriend() {
-    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_FRIEND_REMOVE);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_FRIEND_REMOVE);
   }
 
   public get quickProfileShareDid() {
@@ -122,36 +116,29 @@ class QuickProfile extends UplinkMainScreen {
   }
 
   public get quickProfileUnblockUser() {
-    return $(SELECTORS.QUICK_PROFILE).$(SELECTORS.QUICK_PROFILE_UNBLOCK);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_UNBLOCK);
   }
 
   public get quickProfileUserImage() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_USER_IMAGE);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_USER_IMAGE);
   }
 
   public get quickProfileUserName() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_USER_NAME);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_USER_NAME);
   }
 
   public get quickProfileUserNameValue() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE);
   }
 
   public get quickProfileUserNameValueText() {
-    return $(SELECTORS.CHAT_LAYOUT)
-      .$(SELECTORS.QUICK_PROFILE)
-      .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE)
-      .$(SELECTORS.QUICK_PROFILE_USER_NAME_VALUE_TEXT);
+    return this.quickProfileUserNameValue.$(
+      SELECTORS.QUICK_PROFILE_USER_NAME_VALUE_TEXT,
+    );
   }
 
   public get quickProfileUserVolumeLabel() {
-    return $(SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_USER_VOLUME_LABEL);
   }
 
   public get quickProfileUserVolumeLabelText() {
@@ -161,7 +148,7 @@ class QuickProfile extends UplinkMainScreen {
   }
 
   public get quickProfileUserVolumeRange() {
-    return $(SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE);
+    return this.quickProfile.$(SELECTORS.QUICK_PROFILE_USER_VOLUME_RANGE);
   }
 
   public get quickProfileUserVolumeRangeInput() {
