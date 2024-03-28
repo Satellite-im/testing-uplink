@@ -306,7 +306,8 @@ jobs:
 
       - name: Launch CI instance of Warp 🚀
         working-directory: ./warp
-        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 &
+        run: |
+          nohup sh -c "RUST_LOG=shuttle ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > ./shuttle.log 2>&1 &"
 
       - name: Run Tests on MacOS 🧪
         run: npm run mac.ci
@@ -338,6 +339,13 @@ jobs:
         with:
           name: appium-log-macos
           path: ./appium.log
+
+      - name: Upload Shuttle Log for MacOS 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: shuttle-log-macos
+          path: ./warp/shuttle.log
 
       - name: Add label if any of test jobs failed
         if: failure()
@@ -446,7 +454,8 @@ jobs:
 
       - name: Launch CI instance of Warp 🚀
         working-directory: ./warp
-        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 &
+        run: |
+          nohup sh -c "RUST_LOG=shuttle ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 > ./shuttle.log 2>&1 &"
 
       - name: Run Tests on MacOS 🧪
         run: npm run mac.multiremote
@@ -488,6 +497,13 @@ jobs:
             ~/.uplink/.user/debug.log
             ~/.uplinkUserB/.user/debug.log
             ~/.uplinkUserC/.user/debug.log
+
+      - name: Upload Shuttle Log for MacOS Chats 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: shuttle-log-macos-chats
+          path: ./warp/shuttle.log
 
       - name: Add label if any of test jobs failed
         if: failure()
@@ -591,7 +607,9 @@ jobs:
 
       - name: Launch CI instance of Warp 🚀
         working-directory: ./warp
-        run: ./target/release/shuttle --keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444 &
+        run: |
+          $env:RUST_LOG="shuttle"
+          Start-Process -FilePath "./target/release/shuttle" -ArgumentList "--keyfile key.bin --listen-addr /ip4/127.0.0.1/tcp/4444" -NoNewWindow -RedirectStandardOutput ./shuttle.log -RedirectStandardError ./shuttle.log
 
       - name: Delete Cache Folder if exists - Windows
         run: If (Test-Path $home/.uplink/.user) {Remove-Item -Recurse -Force $home/.uplink/.user} Else { Break }
@@ -630,6 +648,13 @@ jobs:
         with:
           name: appium-log-windows
           path: ./appium.log
+
+      - name: Upload Shuttle Log for Windows Chats 📷
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: shuttle-log-windows
+          path: ./warp/shuttle.log
 
       - name: Add label if any of test jobs failed
         if: failure()
@@ -766,6 +791,9 @@ jobs:
             keyfile
             Uplink-windows-latest
             Uplink-macos-latest
+            shuttle-log-macos
+            shuttle-log-macos-chats
+            shuttle-log-windows
             test-report-macos-ci
             test-report-macos-chats
             test-report-windows-ci
